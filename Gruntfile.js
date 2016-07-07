@@ -33,6 +33,7 @@ module.exports = function (grunt) {
 
                     'src/js/app/performance/app.performance.js',
                     'src/js/app/performance/app.performance.booking.js',
+                    'src/js/app/performance/app.performance.order.js',
                 ]
             },
             cssFiles: {

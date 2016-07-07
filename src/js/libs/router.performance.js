@@ -24,12 +24,36 @@ $(function () {
             return $('#tpl_booking_order_detail').html();
         },
         bind: function () {
-            app.performance.booking.loadBookingDetail();
+            app.performance.booking.detail();
         }
     }
 
+    var tpl_performance_order_list = {
+        url: '/order-list',
+        className: 'order-list',
+        render: function () {
+            return $('#tpl_order_list').html();
+        },
+        bind: function () {
+            app.performance.order.list();
+        }
+    }
 
-    router.push(tpl_performance_booking_order_list).push(tpl_performance_booking_order_detail).init();
+    var tpl_performance_order_detail = {
+        url: '/order-detail',
+        className: 'order-detail',
+        render: function () {
+            return $('#tpl_order_detail').html();
+        },
+        bind: function () {
+            app.performance.order.detail();
+        }
+    }
+
+    router.push(tpl_performance_booking_order_list)
+        .push(tpl_performance_booking_order_detail)
+        .push(tpl_performance_order_list)
+        .push(tpl_performance_order_detail).init();
 
 
     // .container 设置了 overflow 属性, 导致 Android 手机下输入框获取焦点时, 输入法挡住输入框的 bug
