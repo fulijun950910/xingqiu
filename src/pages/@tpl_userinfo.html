@@ -1,0 +1,59 @@
+<!-- 账号绑定 -->
+<script type="text/html" id="tpl_user_home">
+<div class="bd spacing">
+	<!-- //隐藏标题 -->
+	<div class="hiddenTitle">个人信息</div>
+	
+	<div class="headPic">
+		<div class="autoImg">
+			<img src="images/pic_article_1.jpg">
+			<i class="icon-uniF3F6"></i>
+		</div>
+	</div>
+
+	<div class="userfrom">
+		<!-- 姓名 -->
+		<div class="mei_cell">
+			<label for="" class="mei_label"><i class="icon icon-user-female2"></i></label>
+			<input name="user_name" type="text" class="mei_input" placeholder="请输入姓名">
+		</div>
+		<!-- 性别 -->
+		<div class="mei_cell">
+			<label for="" class="mei_label"><i class="icon icon-id2"></i></label>
+			<input class="weui_sex" type="text" readonly="readonly" type="text" value="女">
+            <input class="weui_switch" type="checkbox" placeholder="请选择性别" />
+		</div>
+		<!-- 年龄段 -->
+		<div class="mei_cell">
+			<label for="select_age" class="mei_label"><i class="icon icon-graph23"></i></label>
+			<select class="weui_select" name="select_age">
+				<option value="0">请选择年龄段</option>
+				<option value="1">1~20</option>
+				<option value="2">20~30</option>
+				<option value="3">30~40</option>
+				<option value="4">40~50</option>
+				<option value="5">50~60</option>
+				<option value="5">60~100</option>
+			</select>
+		</div>
+		<!-- 生日 -->
+		<div class="mei_cell">
+			<label for="user_birthday" class="mei_label"><i class="icon icon-date2"></i></label>
+			<input name="user_birthday" type="date" class="mei_input" >
+		</div>
+		<!-- 地址 -->
+		<div class="mei_cell">
+			<label for="user_addr" class="mei_label"><i class="icon icon-diamond2"></i></label>
+			<input name="user_addr" type="text" class="mei_input" value="上海" >
+		</div>
+		
+		<!-- 个性签名 -->
+		<div class="mei_cell">
+			<label for="user_signature" class="mei_label"><i class="icon icon-note2"></i></label>
+			<input name="user_signature" type="text" class="mei_input" value="热爱生活" >
+		</div>
+
+    </div>
+	
+</div>
+</script>

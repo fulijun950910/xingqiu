@@ -1,0 +1,97 @@
+//user_bind css
+
+input{
+	border: none;
+}
+
+//标题隐藏
+.hiddenTitle{
+	display: none;
+}
+
+//头像顶部高度
+@headPic-heig:10em;
+@headimg-heig:2em;
+//头像部分
+.headPic{
+	width: 100%;
+	height: @headPic-heig;
+	// background-color: red;
+	text-align: center;
+	.autoImg{
+		display: inline;
+		position: relative;
+		margin: auto;
+		top: @headimg-heig;
+		img{
+			width: 7em;
+			height: 7em;
+			border-radius: 50%;
+		}
+	}
+}
+
+//个人信息列表-常规字体颜色定义
+@usericon-lft-size:0.45em;
+@usericon-color:#9a9898;
+@userinfo-font-color: #464646;
+
+.userfrom{
+	position: relative;
+	width: 90%;
+	// height: 16em;
+	margin: auto;
+	margin-top: 0px;
+	border: 0.1em solid #EEE;
+	border-radius: 0.15em;
+	// background-color: blue;
+	.mei_cell{
+		position: relative;
+		width: 95%;
+		height: 3em;
+		margin: auto;
+		border-bottom: 1px solid #EEE;
+		i{
+			font-size: 2em;
+			margin-left: @usericon-lft-size;
+			line-height: 1.75em;
+			color: @usericon-color;
+		}
+		input{
+			margin-left: 1.7em;
+			color: @userinfo-font-color;
+			outline:none;
+		}
+		input,select{
+			color: @userinfo-font-color;
+		}
+		.mei_input{
+			height: 2.5em;
+			width: 65%;
+			line-height: 1.75em;
+			font-size: 1em;
+		}
+		.mei_input:focus{
+			border: none;
+		}
+		.weui_switch{
+			position: relative;
+			float: right;
+			top: 0.75em;
+		}
+		.weui_sex{
+			width: 15%;
+			font-size: 1em;
+		}
+		.weui_select{
+			width: 65%;
+			margin-left: 1.7em;
+			padding-left: 0em;
+		}
+	}
+	
+	.mei_cell:last-child{
+		border-bottom: none;
+		padding-bottom: 1.25em;
+	}
+}
