@@ -12,5 +12,8 @@ app.performance.order = {
     chooseOrderId: function (orderId) {
         app.performance.order.orderId = orderId;
         location.href="#/order-detail";
+    },
+    comment: function (orderId) {
+        
     }
 }
