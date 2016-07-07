@@ -1,7 +1,7 @@
 $(function () {
 
     var router = new Router({
-        container: '#container',
+        container: '#container',    
         enterTimeout: 250,
         leaveTimeout: 250
     });
@@ -9,9 +9,9 @@ $(function () {
     // grid
     var home = {
         url: '/',
-        className: 'home',
+        className: 'user_home',
         render: function () {
-            return $('#tpl_home').html();
+            return $('#tpl_user_home').html();
         }
     };
 
