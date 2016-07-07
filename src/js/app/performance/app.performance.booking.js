@@ -6,8 +6,8 @@ app.performance.booking = {
     list: function () {
 
     },
-    loadBookingDetail: function () {
-        alert(app.performance.booking.orderId);
+    detail: function () {
+        
     },
     chooseBookingOrderId: function (orderId) {
         app.performance.booking.orderId = orderId;
