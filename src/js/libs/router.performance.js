@@ -6,15 +6,6 @@ $(function () {
         leaveTimeout: 250
     });
 
-    // grid
-    var home = {
-        url: '/',
-        className: 'home',
-        render: function () {
-            return $('#tpl_home').html();
-        }
-    };
-    
     var tpl_performance_booking_order_list = {
         url: '/booking-order-list',
         className: 'booking-order-list',
@@ -30,7 +21,7 @@ $(function () {
         url: '/booking-order-detail',
         className: 'booking-order-detail',
         render: function () {
-            return $('#tpl_booking_order_list').html();
+            return $('#tpl_booking_order_detail').html();
         },
         bind: function () {
             app.performance.booking.loadBookingDetail();
@@ -38,7 +29,7 @@ $(function () {
     }
 
 
-    router.push(home).push(tpl_performance_booking_order_list).push(tpl_performance_booking_order_detail).init();
+    router.push(tpl_performance_booking_order_list).push(tpl_performance_booking_order_detail).init();
 
 
     // .container 设置了 overflow 属性, 导致 Android 手机下输入框获取焦点时, 输入法挡住输入框的 bug

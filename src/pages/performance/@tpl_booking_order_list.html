@@ -1,8 +1,8 @@
 <script type="text/html" id="tpl_booking_order_list">
-    <div class="hd">
-        <h1 class="page_title">Cell</h1>
-    </div>
-    <div class="bd">
+    <!--<div class="hd">-->
+        <!--<h1 class="page_title"></h1>-->
+    <!--</div>-->
+    <div class="bd booking_order">
         <div class="weui_cells weui_cells_access">
             <a class="weui_cell" onclick="app.performance.booking.chooseBookingOrderId(1)" href="#/booking-order-detail">
                 <div class="weui_cell_bd weui_cell_primary">
@@ -13,9 +13,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="weui_cell_ft">
-                    <i class="icon"></i>
-                    未处理
+                <div class="weui_cell_ft" style="font-size: 10px;">
+                    <i class="weui_icon_info" style="padding-right: 10px;"></i>未处理
                 </div>
             </a>
             <div class="weui_cell">
@@ -35,7 +34,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="weui_cell_ft">说明文字</div>
+                <div class="weui_cell_ft" style="font-size: 10px;">
+                    <i class="weui_icon_success_circle" style="padding-right: 10px;"></i>已确认
+                </div>
             </a>
             <div class="weui_cell">
                 <div class="booking_list">
