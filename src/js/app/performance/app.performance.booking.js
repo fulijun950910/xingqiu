@@ -1,0 +1,15 @@
+/**
+ * Created by wzc on 16/8/3.
+ */
+app.performance.booking = {
+    orderId: null,
+    list: function () {
+
+    },
+    loadBookingDetail: function () {
+        alert(app.performance.booking.orderId);
+    },
+    chooseBookingOrderId: function (orderId) {
+        app.performance.booking.orderId = orderId;
+    }
+}

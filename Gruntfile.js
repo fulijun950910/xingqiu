@@ -29,7 +29,10 @@ module.exports = function (grunt) {
                     'config/' + env + '/app.config.js',
                     'src/js/app/api/app.api.js',
                     'src/js/app/api/app.api.*.js',
-                    'src/js/app/app.home.js'
+                    'src/js/app/app.home.js',
+
+                    'src/js/app/performance/app.performance.js',
+                    'src/js/app/performance/app.performance.booking.js',
                 ]
             },
             cssFiles: {
