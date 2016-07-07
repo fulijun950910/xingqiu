@@ -1,18 +1,24 @@
 //user_bind css
 
+body{
+	height: 100%;
+}
+
 input{
 	border: none;
 }
 
-//鏍囬闅愯棌
+//标题隐藏
 .hiddenTitle{
 	display: none;
 }
 
-//澶村儚椤堕儴楂樺害
+//头像顶部高度
 @headPic-heig:10em;
-@headimg-heig:2em;
-//澶村儚閮ㄥ垎
+@headimg-heig:1.75em;
+@user-save-btn-color:#DB6FED;
+
+//头像部分
 .headPic{
 	width: 100%;
 	height: @headPic-heig;
@@ -31,45 +37,69 @@ input{
 	}
 }
 
-//涓汉淇℃伅鍒楄〃-甯歌瀛椾綋棰滆壊瀹氫箟
-@usericon-lft-size:0.45em;
+//个人信息列表-常规字体颜色定义
+@usericon-lft-size:0.35em;
 @usericon-color:#9a9898;
 @userinfo-font-color: #464646;
+@userinfo-lr-width:90%;
 
-.userfrom{
+.cmn_cell{
 	position: relative;
-	width: 90%;
-	// height: 16em;
+	width: @userinfo-lr-width;
 	margin: auto;
-	margin-top: 0px;
 	border: 0.1em solid #EEE;
 	border-radius: 0.15em;
+}
+
+//行内元素icon样式
+.mei_cmn_icon{
+	font-size: 2em;
+	margin-left: @usericon-lft-size;
+	line-height: 1.75em;
+	color: @usericon-color;
+}
+//行内元素input元素
+.cmn_input{
+	margin-left: 1.3em;
+	color: @userinfo-font-color;
+	outline:none;
+}
+.cmn_color{
+	color: @userinfo-font-color;
+}
+//行内元素通用样式
+.mei_cmn_cell{
+	position: relative;
+	width: 95%;
+	height: 3em;
+	margin: auto;
+	border-bottom: 1px solid #EEE;
+}
+.mei_cmn_input{
+	height: 2.5em;
+	width: 65%;
+	line-height: 1.75em;
+	font-size: 1em;
+}
+
+.userfrom{
+	// height: 16em;
+	.cmn_cell;
+	margin-top: 0px;
 	// background-color: blue;
 	.mei_cell{
-		position: relative;
-		width: 95%;
-		height: 3em;
-		margin: auto;
-		border-bottom: 1px solid #EEE;
+		.mei_cmn_cell;
 		i{
-			font-size: 2em;
-			margin-left: @usericon-lft-size;
-			line-height: 1.75em;
-			color: @usericon-color;
+			.mei_cmn_icon;
 		}
 		input{
-			margin-left: 1.7em;
-			color: @userinfo-font-color;
-			outline:none;
+			.cmn_input;
 		}
 		input,select{
-			color: @userinfo-font-color;
+			.cmn_color;
 		}
 		.mei_input{
-			height: 2.5em;
-			width: 65%;
-			line-height: 1.75em;
-			font-size: 1em;
+			.mei_cmn_input;
 		}
 		.mei_input:focus{
 			border: none;
@@ -95,3 +125,113 @@ input{
 		padding-bottom: 1.25em;
 	}
 }
+
+.userinfo_save{
+	width: @userinfo-lr-width;
+	position: relative;
+	margin: auto;
+	top: 1.5em;
+	.weui_btn{
+		background-color: @user-save-btn-color;
+	}
+	.userinfo_btm{
+		position: relative;
+		width: 100%;
+		top: 0.7em;
+		.unbind{
+			float: left;
+		}
+		.forgetpwd{
+			float: right;
+		}
+	}
+}
+
+//账号绑定
+.user_account{
+	.cmn_cell;
+	top: 30%;
+	.mei_cell{
+		.mei_cmn_cell;
+		i{
+			.mei_cmn_icon;
+		}
+		input{
+			.cmn_input;
+		}
+		input,select{
+			.cmn_color;
+		}
+		.mei_input{
+			.mei_cmn_input;
+		}
+		.mei_send{
+			.mei_cmn_input;
+			width: 42%;
+		}
+		.mei_send2{
+			.mei_cmn_input;
+			border-radius: 0.2em;
+			background-color: #FFF;
+			border: 1px solid #EEE;
+			color: #65C4B7;
+		}
+	}
+	.mei_cell:last-child{
+		border-bottom: none;
+		padding-bottom: 0.1em;
+	}	
+}
+
+.userinfo_bind{
+	.userinfo_save;
+	top: 35%;
+	.userinfo_btm{
+		.clause{
+			font-size: 0.8em;
+			float: right;
+			color: #58A2E8;
+		}
+	}
+}
+//屏幕小于430
+@media screen and (max-width: 420px) {
+    .meiapp{
+		width: 100%;
+		height: 41em;
+	}
+	.user_account .mei_cell .mei_send2{
+		margin-left:5%;
+		width: 32%;
+	}
+}
+//屏幕小于381
+@media screen and (max-width: 381px) {
+    .meiapp{
+		width: 100%;
+		height: 37em;
+	}
+	.user_account .mei_cell .mei_send2{
+		margin-left:3%;
+		width: 28%;
+	}
+}
+//屏幕小于321
+@media screen and (max-width: 321px) {
+    .meiapp{
+		width: 100%;
+		height: 32em;
+	}
+	.user_account .mei_cell .mei_send2{
+		margin-left:3%;
+		width: 25%;
+	}
+}
+.loginbox{
+	text-align: center;
+	margin-bottom: 5%;
+	.loginbtn{
+		color: #67AA09;
+	}
+}
+

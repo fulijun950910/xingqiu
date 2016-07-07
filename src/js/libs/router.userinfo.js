@@ -6,16 +6,46 @@ $(function () {
         leaveTimeout: 250
     });
 
-    // grid
-    var home = {
+    //个人信息
+    var userinfo = {
         url: '/',
         className: 'user_home',
         render: function () {
             return $('#tpl_user_home').html();
+        },
+        bind: function(){
+
         }
     };
 
-    router.push(home).init();
+    //账号绑定
+    var account={
+        url: '/account_bind',
+        className: 'account_bind',
+        render: function () {
+            return $('#tpl_account_bind').html();
+        },
+        bind: function(){
+
+        }
+    }
+
+    //修改密码
+    var updatepwd={
+        url:'/update_pwd',
+        className:'update_pwd',
+        render: function () {
+            return $('#tpl_update_pwd').html();
+        },
+        bind: function(){
+
+        }
+    }
+
+    router.push(userinfo)
+    .push(account)
+    .push(updatepwd)
+    .setDefault('/').init();
 
 
     // .container 设置了 overflow 属性, 导致 Android 手机下输入框获取焦点时, 输入法挡住输入框的 bug
