@@ -18,18 +18,6 @@ $(function () {
         }
     };
 
-    //账号绑定
-    var account={
-        url: '/account_bind',
-        className: 'account_bind',
-        render: function () {
-            return $('#tpl_account_bind').html();
-        },
-        bind: function(){
-
-        }
-    }
-
     //修改密码
     var updatepwd={
         url:'/update_pwd',
@@ -42,9 +30,21 @@ $(function () {
         }
     }
 
+    //登陆
+    var login={
+        url:'/user_login',
+        className:'user_login',
+        render: function () {
+            return $('#tpl_user_login').html();
+        },
+        bind: function(){
+
+        }
+    }
+
     router.push(userinfo)
-    .push(account)
     .push(updatepwd)
+    .push(login)
     .setDefault('/').init();
 
 

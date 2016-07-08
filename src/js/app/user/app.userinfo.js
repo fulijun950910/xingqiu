@@ -1,4 +1,4 @@
-app.userbind={
+app.userinfo={
 	init:function(){
 		
 	}
@@ -20,7 +20,7 @@ $(function(){
             return $('#tpl_user_home').html();
         },
         bind:function(){
-        	app.userbind.init();
+        	app.userinfo.init();
         }
     };
 

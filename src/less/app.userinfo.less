@@ -14,10 +14,10 @@ input{
 }
 
 //头像顶部高度
-@headPic-heig:10em;
-@headimg-heig:1.75em;
+@headPic-heig:9em;
+@headimg-heig:1.1em;
 @user-save-btn-color:#DB6FED;
-
+@user-save-btn-active-color:#aa46bb;
 //头像部分
 .headPic{
 	width: 100%;
@@ -134,10 +134,18 @@ input{
 	.weui_btn{
 		background-color: @user-save-btn-color;
 	}
+	.weui_btn:active{
+		background-color: @user-save-btn-active-color;
+	}
 	.userinfo_btm{
 		position: relative;
 		width: 100%;
+		margin-bottom: 2em;
 		top: 0.7em;
+		.unbind,.forgetpwd{
+			font-size: 1em;
+			color: #58A2E8;
+		}
 		.unbind{
 			float: left;
 		}
@@ -147,10 +155,10 @@ input{
 	}
 }
 
-//账号绑定
+//账号绑定-修改
 .user_account{
 	.cmn_cell;
-	top: 30%;
+	top: 25%;
 	.mei_cell{
 		.mei_cmn_cell;
 		i{
@@ -176,6 +184,9 @@ input{
 			border: 1px solid #EEE;
 			color: #65C4B7;
 		}
+		.mei_send2:active{
+			background-color: #EEE;
+		}
 	}
 	.mei_cell:last-child{
 		border-bottom: none;
@@ -189,11 +200,24 @@ input{
 	.userinfo_btm{
 		.clause{
 			font-size: 0.8em;
-			float: right;
 			color: #58A2E8;
+			float: right;
 		}
 	}
 }
+
+//美问logo
+.meilogo{
+	text-align: center;
+	height: 10%;
+	position: relative;
+	top: 15%;
+	i{
+		font-size: 3em;
+		color: @user-save-btn-color;
+	}
+}
+
 //屏幕小于430
 @media screen and (max-width: 420px) {
     .meiapp{

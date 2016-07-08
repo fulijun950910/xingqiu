@@ -6,19 +6,19 @@ $(function () {
         leaveTimeout: 250
     });
 
-    // grid
-    var home = {
+        //账号绑定
+    var account={
         url: '/',
-        className: 'home',
+        className: 'account_bind',
         render: function () {
-            return $('#tpl_bind').html();
+            return $('#tpl_account_bind').html();
         },
-        bind: function () {
+        bind: function(){
 
         }
-    };
+    }
 
-    router.push(home).init();
+    router.push(account).setDefault('/').init();
 
 
     // .container 设置了 overflow 属性, 导致 Android 手机下输入框获取焦点时, 输入法挡住输入框的 bug
