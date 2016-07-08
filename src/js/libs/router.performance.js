@@ -50,10 +50,23 @@ $(function () {
         }
     }
 
+    var tpl_performance_order_comment = {
+        url: '/order-comment',
+        className: 'order-comment',
+        render: function () {
+            return $('#tpl_order_comment').html();
+        },
+        bind: function () {
+            app.performance.order.searchOrderComment();
+        }
+    }
+
     router.push(tpl_performance_booking_order_list)
         .push(tpl_performance_booking_order_detail)
         .push(tpl_performance_order_list)
-        .push(tpl_performance_order_detail).init();
+        .push(tpl_performance_order_detail)
+        .push(tpl_performance_order_comment)
+        .init();
 
 
     // .container 设置了 overflow 属性, 导致 Android 手机下输入框获取焦点时, 输入法挡住输入框的 bug
