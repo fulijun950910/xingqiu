@@ -1,4 +1,4 @@
-<script type="text/html" id="tpl_account_bind">
+<script type="text/html" id="tpl_user_login">
 <div class="bd">
 	<!-- //隐藏标题 -->
 	<div class="hiddenTitle">账号登陆</div>
@@ -13,7 +13,7 @@
 		<!-- 请输入手机号 -->
 		<div class="mei_cell">
 			<label for="user_mobileTel" class="mei_label"><i class="icon icon-user-female2"></i></label>
-			<input name="user_mobileTel" type="number" class="mei_input" placeholder="请输入手机号">
+			<input name="user_mobileTel" type="number" class="mei_input" placeholder="请输入用户名">
 		</div>
 		
 		<div class="mei_cell">
@@ -32,8 +32,49 @@
 			<a class="clause" href="">忘记密码?</a>
 		</div>
 	</div>
-
-	</div>
-	
 </div>
+
+<!-- 弹出选择店列表 -->
+<div class="select_shade" id="select_shade">
+	<div class="parent_panel">
+			<div class="select_panel">
+				<ul>
+					<li>
+						<a href="javascript:;">
+							<div class="left_sel">诗泥江阳路店</div>
+							<div class="right_sel"><i storeId="123345" class="icon icon-ios-checkmark-outline"></i></div>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;">
+							<div class="left_sel">诗泥江淞虹路店</div>
+							<div class="right_sel"><i storeId="220000" class=""></i></div>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;">
+							<div class="left_sel">诗泥江淞虹路店</div>
+							<div class="right_sel"><i storeId="230000" class=""></i></div>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;">
+							<div class="left_sel">诗泥江淞虹路店</div>
+							<div class="right_sel"><i storeId="250000" class=""></i></div>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;">
+							<div class="left_sel">诗泥江淞虹路店</div>
+							<div class="right_sel"><i storeId="240000" class=""></i></div>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="selbtn_box">
+				<button id="role_sel_btn" class="role_sel_btn">确认</button>
+			</div>
+	</div>
+</div>
+
 </script>

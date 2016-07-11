@@ -82,7 +82,10 @@ $(function () {
             return $('#tpl_performance_rank').html();
         },
         bind: function () {
-            
+
+        }
+    }
+          
     var tpl_performance_order_comment = {
         url: '/order-comment',
         className: 'order-comment',

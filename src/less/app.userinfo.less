@@ -1,5 +1,10 @@
 //user_bind css
 
+//路由动画效果
+
+
+
+
 body{
 	height: 100%;
 }
@@ -259,3 +264,80 @@ input{
 	}
 }
 
+//选择角色-门店弹出层样式
+.select_shade{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0em;
+	left: 0em;
+	z-index: 999;
+	background-color: rgba(0, 0, 0, 0.3);
+	display: none;
+	.parent_panel{
+		position: relative;
+		width: 70%;
+		left: 15%;
+		top: 25%;
+		border-radius: .3em;
+		background-color: #FFF;
+		.select_panel{
+			width: 100%;
+			height: 100%;
+			ul{
+				li{
+					border-bottom: 1px solid #eee;
+					width: 95%;
+					height: 2.5em;
+					color: #747474;
+					line-height: 2.5em;
+					margin-left: 5%;
+					a{
+						display: block;
+						height: 2.5em;
+						color: #747474;
+						.left_sel{
+							float: left;
+							display: inline;
+							width: 75%;
+							padding-left: 2%;
+							text-overflow:ellipsis;
+							white-space:nowrap;
+							overflow:hidden;
+						}
+						.right_sel{
+							float: right;
+							display: inline;
+							width: 15%;
+							margin: auto;
+							i{
+								margin: auto;
+								font-size: 1.8em;
+								color: #DB6FED !important;
+							}
+						}
+					}
+				}
+
+				li:last-child{
+					border: none;
+				}
+			}
+		}
+		.selbtn_box{
+			position: relative;
+			.role_sel_btn{
+				width: 100%;
+				height: 2.5em;
+				border: none;
+				border-top: 1px solid #eee;
+				border-bottom-left-radius: .3em;
+				border-bottom-right-radius:.3em;
+				background-color: #FFF;
+				color: @user-save-btn-color;
+				font-size: 1em;
+			}
+		}
+
+	}
+}

@@ -1,6 +1,6 @@
 $(function () {
 
-    var router = new Router({
+    var routerUser = new Router({
         container: '#container',    
         enterTimeout: 250,
         leaveTimeout: 250
@@ -38,11 +38,13 @@ $(function () {
             return $('#tpl_user_login').html();
         },
         bind: function(){
-
+            app.userinfo.selRoleBox(function(storeid){
+                console.info('门店ID：'+storeid);
+            });
         }
     }
 
-    router.push(userinfo)
+    routerUser.push(userinfo)
     .push(updatepwd)
     .push(login)
     .setDefault('/').init();
