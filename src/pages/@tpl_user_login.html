@@ -13,12 +13,12 @@
         <!-- 请输入手机号 -->         
         <div class="mei_cell">             
         <label for="user_mobileTel" class="mei_label"><i class="ic icon-ren2"></i></label>
-		<input name="user_mobileTel" type="number" class="mei_input" placeholder="请输入用户名">
+		<input name="username" type="text" class="mei_input" placeholder="请输入用户名">
 		</div>
 		
 		<div class="mei_cell">
 			<label for="user_pwd" class="mei_label"><i class="ic icon-mima"></i></label>
-			<input name="user_pwd" type="password" class="mei_input" placeholder="请输入密码">
+			<input name="password" type="password" class="mei_input" placeholder="请输入密码">
 		</div>
 
 	</div>
@@ -26,7 +26,7 @@
 	<!-- 绑定信息 -->
 	<div class="userinfo_bind">
 		<div class="mei_bind">
-			<a href="javascript:;" class="weui_btn weui_btn_warn">登录</a>
+			<a href="javascript:;" onclick="app.userinfo.login()" class="weui_btn weui_btn_warn">登录</a>
 		</div>
 		<div class="userinfo_btm">
 			<a class="clause" href="userinfo.html#/update_pwd">忘记密码?</a>
