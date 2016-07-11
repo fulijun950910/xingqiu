@@ -11,9 +11,26 @@ app.performance.order = {
     },
     chooseOrderId: function (orderId) {
         app.performance.order.orderId = orderId;
-        location.href="#/order-detail";
+        location.href = "#/order-detail";
     },
     comment: function (orderId) {
-        
+        app.performance.order.orderId = orderId;
+        location.href = "#/order-comment";
+        app.performance.order.stop();
+    },
+    searchOrderComment: function () {
+
+    },
+    stop: function () {
+        var e = document;
+        if (e && e.preventDefault)
+            e.preventDefault();
+        else
+            window.event.returnValue = false;
+        if (e && e.stopPropagation)
+            e.stopPropagation();
+        else
+            window.event.cancelBubble = true;
+        return false;
     }
 }

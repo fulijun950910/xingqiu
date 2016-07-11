@@ -83,6 +83,14 @@ $(function () {
         },
         bind: function () {
             
+    var tpl_performance_order_comment = {
+        url: '/order-comment',
+        className: 'order-comment',
+        render: function () {
+            return $('#tpl_order_comment').html();
+        },
+        bind: function () {
+            app.performance.order.searchOrderComment();
         }
     }
 
@@ -93,6 +101,7 @@ $(function () {
         .push(performance_report)
         .push(performance_emp)
         .push(performance_rank)
+        .push(tpl_performance_order_comment)
         .init();
 
 
