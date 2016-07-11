@@ -26,7 +26,7 @@ $(function () {
             return $('#tpl_update_pwd').html();
         },
         bind: function(){
-
+            app.userinfo.updatepwdInit();
         }
     }
 

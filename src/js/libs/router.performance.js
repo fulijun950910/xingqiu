@@ -58,7 +58,30 @@ $(function () {
             return $('#tpl_performance_report').html();
         },
         bind: function () {
-            
+            $('#container').on('click', '#showActionSheet_store', function () {
+                var mask = $('#mask_store');
+                var weuiActionsheet = $('#weui_actionsheet_store');
+                weuiActionsheet.addClass('weui_actionsheet_toggle');
+                mask.show()
+                    .focus()//加focus是为了触发一次页面的重排(reflow or layout thrashing),使mask的transition动画得以正常触发
+                    .addClass('weui_fade_toggle').one('click', function () {
+                    hideActionSheet(weuiActionsheet, mask);
+                });
+                $('#actionsheet_cancel_store').one('click', function () {
+                    hideActionSheet(weuiActionsheet, mask);
+                });
+                mask.unbind('transitionend').unbind('webkitTransitionEnd');
+
+                function hideActionSheet(weuiActionsheet, mask) {
+                    weuiActionsheet.removeClass('weui_actionsheet_toggle');
+                    mask.removeClass('weui_fade_toggle');
+                    mask.on('transitionend', function () {
+                        mask.hide();
+                    }).on('webkitTransitionEnd', function () {
+                        mask.hide();
+                    })
+                }
+            });
         }
     }
 
@@ -70,7 +93,7 @@ $(function () {
             return $('#tpl_performance_emp').html();
         },
         bind: function () {
-            
+           
         }
     }
 
@@ -82,7 +105,32 @@ $(function () {
             return $('#tpl_performance_rank').html();
         },
         bind: function () {
+             $('#container').on('click', '#showActionSheet_rank', function () {
+                var mask = $('#mask_rank');
+                var weuiActionsheet = $('#weui_actionsheet_rank');
+                weuiActionsheet.addClass('weui_actionsheet_toggle');
+                mask.show()
+                    .addClass('weui_fade_toggle').one('click', function () {
+                        hideActionSheet(weuiActionsheet, mask);
+                });
+                $('#actionsheet_cancel_rank').one('click', function () {
+                    hideActionSheet(weuiActionsheet, mask);
+                });
+                mask.unbind('transitionend').unbind('webkitTransitionEnd');
 
+                function hideActionSheet(weuiActionsheet, mask) {
+                    console.info(weuiActionsheet);
+
+                    console.info(mask);
+                    weuiActionsheet.removeClass('weui_actionsheet_toggle');
+                    mask.removeClass('weui_fade_toggle');
+                    mask.on('transitionend', function () {
+                        mask.hide();
+                    }).on('webkitTransitionEnd', function () {
+                        mask.hide();
+                    })
+                }
+            });
         }
     }
           
