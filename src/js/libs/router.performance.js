@@ -50,10 +50,50 @@ $(function () {
         }
     }
 
+    //业绩报告
+    var performance_report={
+        url: '/performance_report',
+        className: 'performance_report',
+        render: function () {
+            return $('#tpl_performance_report').html();
+        },
+        bind: function () {
+            
+        }
+    }
+
+    //员工业绩
+    var performance_emp={
+        url: '/performance_emp',
+        className: 'performance_emp',
+        render: function () {
+            return $('#tpl_performance_emp').html();
+        },
+        bind: function () {
+            
+        }
+    }
+
+    //员工排名
+    var performance_rank={
+        url: '/performance_rank',
+        className: 'performance_rank',
+        render: function () {
+            return $('#tpl_performance_rank').html();
+        },
+        bind: function () {
+            
+        }
+    }
+
     router.push(tpl_performance_booking_order_list)
         .push(tpl_performance_booking_order_detail)
         .push(tpl_performance_order_list)
-        .push(tpl_performance_order_detail).init();
+        .push(tpl_performance_order_detail)
+        .push(performance_report)
+        .push(performance_emp)
+        .push(performance_rank)
+        .init();
 
 
     // .container 设置了 overflow 属性, 导致 Android 手机下输入框获取焦点时, 输入法挡住输入框的 bug
