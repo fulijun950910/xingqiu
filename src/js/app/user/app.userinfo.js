@@ -1,20 +1,7 @@
 app.userinfo={
-	init:function(){
-		
-        
-	},
     selRoleBox:function(cb){
         //弹出选择角色门店信息列表
-        $('#select_shade').show();
-        $('.select_panel li a').on('click',function(){
-            $('i[class="icon icon-ios-checkmark-outline"]').removeClass('icon icon-ios-checkmark-outline');
-            $(this).find('i').addClass('icon icon-ios-checkmark-outline');
-        });
-
-        $('#role_sel_btn').on('click',function(){
-            $('#select_shade').hide();
-             return cb($('i[class="icon icon-ios-checkmark-outline"]').attr('storeId'));
-        });
+        $('#select_shade').hide();
     },
     updatepwdInit:function(){
         
@@ -47,14 +34,19 @@ app.userinfo={
         app.api.userinfo.auth({
             data: param,
             success: function (resultUser) {
-                debugger;
                 var accountParam = {
                     userId: resultUser.data
                 }
                 app.api.userinfo.listEmployee({
                     data: accountParam,
                     success: function (resultEmployeeList) {
-                        debugger;
+                        var data = {
+                            datas: resultEmployeeList.data
+                        };
+                        var template = $('#tmpl-employee-list').html();
+                        var result = tmpl(template,data);
+                        $('#show_employe_list').html(result);
+                        $('#select_shade').show();
                     },
                     error: function (a, b, c) {
                         debugger;

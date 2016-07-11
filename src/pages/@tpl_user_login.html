@@ -1,80 +1,61 @@
 <script type="text/html" id="tpl_user_login">
-<div class="bd">
-	<!-- //隐藏标题 -->
-	<div class="hiddenTitle">账号登陆</div>
-	<div class="meiapp">
+    <div class="bd">
+        <!-- //隐藏标题 -->
+        <div class="hiddenTitle">账号登陆</div>
+        <div class="meiapp">
 
-		<div class="meilogo">
-			<i class="icon icon-meiwen"></i>
-		</div>
+            <div class="meilogo">
+                <i class="icon icon-meiwen"></i>
+            </div>
 
-		<div class="user_account">
-		
-        <!-- 请输入手机号 -->         
-        <div class="mei_cell">             
-        <label for="user_mobileTel" class="mei_label"><i class="ic icon-ren2"></i></label>
-		<input name="username" type="text" class="mei_input" placeholder="请输入用户名">
-		</div>
-		
-		<div class="mei_cell">
-			<label for="user_pwd" class="mei_label"><i class="ic icon-mima"></i></label>
-			<input name="password" type="password" class="mei_input" placeholder="请输入密码">
-		</div>
+            <div class="user_account">
 
-	</div>
+                <!-- 请输入手机号 -->
+                <div class="mei_cell">
+                    <label for="user_mobileTel" class="mei_label"><i class="ic icon-ren2"></i></label>
+                    <input name="username" type="text" class="mei_input" placeholder="请输入用户名">
+                </div>
 
-	<!-- 绑定信息 -->
-	<div class="userinfo_bind">
-		<div class="mei_bind">
-			<a href="javascript:;" onclick="app.userinfo.login()" class="weui_btn weui_btn_warn">登录</a>
-		</div>
-		<div class="userinfo_btm">
-			<a class="clause" href="userinfo.html#/update_pwd">忘记密码?</a>
-		</div>
-	</div>
-</div>
+                <div class="mei_cell">
+                    <label for="user_pwd" class="mei_label"><i class="ic icon-mima"></i></label>
+                    <input name="password" type="password" class="mei_input" placeholder="请输入密码">
+                </div>
 
+            </div>
+
+            <!-- 绑定信息 -->
+            <div class="userinfo_bind">
+                <div class="mei_bind">
+                    <a href="javascript:;" onclick="app.userinfo.login()" class="weui_btn weui_btn_warn">登录</a>
+                </div>
+                <div class="userinfo_btm">
+                    <a class="clause" href="userinfo.html#/update_pwd">忘记密码?</a>
+                </div>
+            </div>
+        </div>
+        <script type="text/html" id="tmpl-employee-list">
+            <!--% for (var i=0; i <o.datas.length; i++) { %-->
+            <label class="weui_cell weui_check_label" for="{%=o.datas[i].id %}">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p>{%=o.datas[i].store.name %} - {%=o.datas[i].name %}</p>
+                </div>
+                <div class="weui_cell_ft">
+                    <input type="radio" class="weui_check" name="radio1" id="{%=o.datas[i].id %}">
+                    <span class="weui_icon_checked"></span>
+                </div>
+            </label>
+            <!--% } %-->
+        </script>
 <!-- 弹出选择店列表 -->
 <div class="select_shade" id="select_shade">
-	<div class="parent_panel">
-			<div class="select_panel">
-				<ul>
-					<li>
-						<a href="javascript:;">
-							<div class="left_sel">诗泥江阳路店</div>
-							<div class="right_sel"><i storeId="123345" class="icon icon-ios-checkmark-outline"></i></div>
-						</a>
-					</li>
-					<li>
-						<a href="javascript:;">
-							<div class="left_sel">诗泥江淞虹路店</div>
-							<div class="right_sel"><i storeId="220000" class=""></i></div>
-						</a>
-					</li>
-					<li>
-						<a href="javascript:;">
-							<div class="left_sel">诗泥江淞虹路店</div>
-							<div class="right_sel"><i storeId="230000" class=""></i></div>
-						</a>
-					</li>
-					<li>
-						<a href="javascript:;">
-							<div class="left_sel">诗泥江淞虹路店</div>
-							<div class="right_sel"><i storeId="250000" class=""></i></div>
-						</a>
-					</li>
-					<li>
-						<a href="javascript:;">
-							<div class="left_sel">诗泥江淞虹路店</div>
-							<div class="right_sel"><i storeId="240000" class=""></i></div>
-						</a>
-					</li>
-				</ul>
-			</div>
-			<div class="selbtn_box">
-				<button id="role_sel_btn" class="role_sel_btn">确认</button>
-			</div>
-	</div>
+    <div class="parent_panel">
+        <div id="show_employe_list" class="weui_cells weui_cells_radio">
+
+        </div>
+        <div class="selbtn_box">
+            <button id="role_sel_btn" class="role_sel_btn">确认</button>
+        </div>
+    </div>
 </div>
 
 </script>
