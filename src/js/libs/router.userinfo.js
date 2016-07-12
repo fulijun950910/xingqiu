@@ -38,9 +38,7 @@ $(function () {
             return $('#tpl_user_login').html();
         },
         bind: function(){
-            app.userinfo.selRoleBox(function(storeid){
-                console.info('门店ID：'+storeid);
-            });
+            
         }
     }
 

@@ -6,7 +6,7 @@ module.exports = function (grunt) {
     var version = pkg.version;
 
     // dev, integ, qa, prod
-    var env = grunt.option('env') || 'dev';http://localhost:5000/index.html#/cell
+    var env = grunt.option('env') || 'dev';
 
     var paths = {
         root: './',
@@ -38,6 +38,7 @@ module.exports = function (grunt) {
                     'src/js/app/performance/app.performance.order.js',
                     'src/js/app/user/app.userinfo.js',
                     'src/js/app/sign/app.sign.js',
+                    'src/js/app/app.constant.js'
                 ]
             },
             cssFiles: {
@@ -241,12 +242,43 @@ module.exports = function (grunt) {
                     base: paths.web.root,
                     port: 5000,
                     livereload: 5001,
-                    open: 'http://localhost:5000/index.html'
-                }
+                    open: 'http://localhost:5000/index.html',
+                    // keepalive: false,
+                    // middleware: function (connect, options, middlewares) {
+                    //     var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
+                    //     var fs = require('fs');
+                    //     var path = require('path');
+                    //     var support = ['POST', 'PUT', 'DELETE'];
+                    //     middlewares.unshift(function (req, res, next) {
+                    //         // 单独处理POST请求 请求的地址必须是文件 这里没有进行rewrite处理
+                    //         if (support.indexOf(req.method.toUpperCase()) != -1) {
+                    //             console.log(req.url);
+                    //             var filepath = path.join(options.base[0], req.url);
+                    //             if (fs.existsSync(filepath) && fs.statSync(filepath).isFile()) {
+                    //                 return res.end(fs.readFileSync(filepath));
+                    //             }
+                    //         }
+                    //         return next();
+                    //     });
+                    //     return [proxy].concat(middlewares);
+                    // }
+                },
+                // proxies: [{
+                //     context: '/auth/form',
+                //     host: 'localhost',
+                //     port: 8090,
+                //     https: false,
+                //     xforward: false,
+                //     headers: {
+                //         "x-custom-added-header": "sda"
+                //     },
+                //     hideHeaders: ['x-removed-header']
+                // }]
             }
         }
     });
-    
+
+    // grunt.loadNpmTasks('grunt-connect-proxy');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
@@ -277,5 +309,6 @@ module.exports = function (grunt) {
     grunt.registerTask('release', ['www', 'replace:version', 'compress:www']);
     grunt.registerTask('lint', ['csslint', 'jshint']);
     grunt.registerTask('test', ['qunit']);
+    //grunt.registerTask('default', ['configureProxies:server','web-dev', 'connect', 'watch']);
     grunt.registerTask('default', ['web-dev', 'connect', 'watch']);
 };

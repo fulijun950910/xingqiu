@@ -1,30 +1,28 @@
 app.api = {
 
-	url : app.url + '/api',
-	ajax : function(options) {
+    url: app.url + '/api',
+    ajax: function (options) {
+        var url = app.api.url + options.url;
+        var settings = {
+            url: url,
+            type: options.type,
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'application/json'
+            },
+            dataType: 'json',
+            success: options.success,
+            error: options.error
+        };
 
-		var settings = {
-			url : url,
-			type : options.type,
-			contentType : 'application/json',
-			dataType : 'json',
-			timeout : 150000,
-			success : options.success,
-			async : options.async||false,
-			error : options.error,
-			xhrFields : {
-				withCredentials : true
-			}
-		};
+        if (options.data) {
+            if (options.type.toUpperCase() === 'GET') {
 
-		if (options.data) {
-			if (options.type.toUpperCase() === 'GET') {
-				settings.data = $.serializeObject(options.data);
-			} else {
-				settings.data = JSON.stringify(options.data);
-			}
-		}
-		$.ajax(settings);
-	}
+            } else {
+                settings.data = JSON.stringify(options.data);
+            }
+        }
+        $.ajax(settings);
+    }
 };
 
