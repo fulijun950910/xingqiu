@@ -22,6 +22,7 @@ module.exports = function (grunt) {
                     'src/js/libs/router.userinfo.js',
                     'src/js/libs/router.sign.js',
                     'src/js/libs/router.performance.js',
+                    'src/js/libs/tmpl.js',
                 ],
                 libs: [
                     'src/js/libs/tmpl.js'],
@@ -30,7 +31,9 @@ module.exports = function (grunt) {
                     'src/js/app/api/app.api.js',
                     'src/js/app/api/app.api.*.js',
                     'src/js/app/app.home.js',
+                    'src/js/app/app.tools.js',
                     'src/js/app/performance/app.performance.js',
+                    'src/js/app/performance/app.performance.emp.js',
                     'src/js/app/performance/app.performance.booking.js',
                     'src/js/app/performance/app.performance.order.js',
                     'src/js/app/user/app.userinfo.js',

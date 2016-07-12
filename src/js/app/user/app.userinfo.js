@@ -16,7 +16,7 @@ app.userinfo={
              return cb($('i[class="icon icon-ios-checkmark-outline"]').attr('storeId'));
         });
     },
-    updatepwdInit:function(){
+    updatepwd_init:function(){
         
     }
 }

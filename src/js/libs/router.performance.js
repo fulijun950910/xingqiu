@@ -5,7 +5,7 @@ $(function () {
         enterTimeout: 250,
         leaveTimeout: 250
     });
-
+    //预约列表
     var tpl_performance_booking_order_list = {
         url: '/booking-order-list',
         className: 'booking-order-list',
@@ -16,7 +16,7 @@ $(function () {
             app.performance.booking.list();
         }
     }
-
+    //预约详情
     var tpl_performance_booking_order_detail = {
         url: '/booking-order-detail',
         className: 'booking-order-detail',
@@ -27,7 +27,7 @@ $(function () {
             app.performance.booking.detail();
         }
     }
-
+    //订单列表
     var tpl_performance_order_list = {
         url: '/order-list',
         className: 'order-list',
@@ -38,7 +38,7 @@ $(function () {
             app.performance.order.list();
         }
     }
-
+    //订单详情
     var tpl_performance_order_detail = {
         url: '/order-detail',
         className: 'order-detail',
@@ -63,7 +63,6 @@ $(function () {
                 var weuiActionsheet = $('#weui_actionsheet_store');
                 weuiActionsheet.addClass('weui_actionsheet_toggle');
                 mask.show()
-                    .focus()//加focus是为了触发一次页面的重排(reflow or layout thrashing),使mask的transition动画得以正常触发
                     .addClass('weui_fade_toggle').one('click', function () {
                     hideActionSheet(weuiActionsheet, mask);
                 });
@@ -93,7 +92,7 @@ $(function () {
             return $('#tpl_performance_emp').html();
         },
         bind: function () {
-           
+           app.performance.emp.init();
         }
     }
 

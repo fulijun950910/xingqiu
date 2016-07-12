@@ -1,16 +1,16 @@
 <script type="text/html" id="tpl_performance_emp">
-<div class="hd">
-
+<div class="hd" id="emp_per">
+	<script type="text/html" id="tmpl-emp-performance">
 	<div class="report">
 		
 	</div>
-	
 	<!-- 业绩数据图 -->
 	
-	<div class="roundCell">
+	<div class="roundCell" >
 		
-		<div class="leftbox">
-			<a href="" class="leftDay"><i class="icon icon-uniF3D2"></i>  卡耗</a>
+		<div class="leftbox" id="emp_cardConsume">
+			<a  href="javascript:;" class="leftDay">
+			<i class="icon icon-uniF3D2"></i>  卡耗</a>
 		</div>
 
 		<div class="roundParent">
@@ -23,9 +23,9 @@
 				</div>
 			</div>
 
-			<div class="user_data">
+			<div class="user_data" id="emp_data">
 				<p>今日收入</p>
-				<h3>1,192,647.00</h3>
+				<h3 id="emp_performance"> {%=o.performance%} </h3>
 				<div class="weui_progress_bar">
 		            <div class="weui_progress_inner_bar js_progress schedule-mw-pink" style="width: 87%;"></div>
 		        </div>
@@ -34,8 +34,10 @@
 
 		</div>
 		
-		<div class="rightbox">
-			
+		<div class="rightbox" id="emp_today_performance">
+			<a href="javascript:;" class="thisMonth" style="display: none;">
+				业绩  <i class="icon icon-uniF3D3"></i>
+			</a>
 		</div>
 		
 	</div>
@@ -45,15 +47,15 @@
 	<!-- 到店客人，新增会员，当日总消耗 -->
 	<ul class="data_cell">
 		<li>
-			<p>23<span> 人</span></p>
+			<p>{%=o.todyAppointmentNum%}<span> 人</span></p>
 			<a href="">今日预约</a>
 		</li>
 		<li>
-			<p>23<span> 位</span></p>
+			<p>{%=o.todyOrderNum%}<span> 位</span></p>
 			<a href="">今日订单</a>
 		</li>
 		<li>
-			<p>1234567.00<span> 元</span></p>
+			<p>{%=o.currentMonthCommission%}<span> 元</span></p>
 			<a href="">当月累积提成</a>
 		</li>
 	</ul>
@@ -64,18 +66,13 @@
 			<li>
 				<a href="performance-index.html#/performance_rank">
 					<div class="leftDetail">业绩排名</div>
-					<div class="rightDetail"><span>6</span><i class="icon icon-uniF3D3"></i></div>
-				</a>
-			</li>
-			<li>
-				<a href="">
-					<div class="leftDetail">客户列表</div>
-					<div class="rightDetail"><span>16</span><i class="icon icon-uniF3D3"></i></div>
+					<div class="rightDetail">
+						<span>{%=o.performanceRanking%}</span><i class="icon icon-uniF3D3"></i>
+					</div>
 				</a>
 			</li>
 		</ul>
 	</div>
-
-	
+	</script>
 </div>
 </script>
