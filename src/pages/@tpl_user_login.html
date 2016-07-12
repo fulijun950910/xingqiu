@@ -40,7 +40,7 @@
                     <p>{%=o.datas[i].store.name %} - {%=o.datas[i].name %}</p>
                 </div>
                 <div class="weui_cell_ft">
-                    <input type="radio" class="weui_check" name="radio1" id="{%=o.datas[i].id %}">
+                    <input type="radio" class="weui_check" data-employee="{%=o.datas[i].jsonData %}" name="emp_data" id="{%=o.datas[i].id %}">
                     <span class="weui_icon_checked"></span>
                 </div>
             </label>
@@ -53,7 +53,7 @@
 
         </div>
         <div class="selbtn_box">
-            <button id="role_sel_btn" class="role_sel_btn">确认</button>
+            <button onclick="app.userinfo.loginEmployee()" class="role_sel_btn">确认</button>
         </div>
     </div>
 </div>

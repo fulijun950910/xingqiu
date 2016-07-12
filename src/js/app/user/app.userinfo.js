@@ -1,10 +1,14 @@
-app.userinfo={
-    selRoleBox:function(cb){
+app.userinfo = {
+    getEmployee: function () {
+        if (localStorage.employee)
+            return JSON.parse(localStorage.employee);
+    },
+    selRoleBox: function (cb) {
         //弹出选择角色门店信息列表
         $('#select_shade').hide();
     },
-    updatepwdInit:function(){
-        
+    updatepwdInit: function () {
+
     },
     login: function () {
         var error_login = false, msg = '';
@@ -40,11 +44,14 @@ app.userinfo={
                 app.api.userinfo.listEmployee({
                     data: accountParam,
                     success: function (resultEmployeeList) {
+                        for (var i in resultEmployeeList.data) {
+                            resultEmployeeList.data[i].jsonData = JSON.stringify(resultEmployeeList.data[i]);
+                        }
                         var data = {
                             datas: resultEmployeeList.data
                         };
                         var template = $('#tmpl-employee-list').html();
-                        var result = tmpl(template,data);
+                        var result = tmpl(template, data);
                         $('#show_employe_list').html(result);
                         $('#select_shade').show();
                     },
@@ -88,5 +95,11 @@ app.userinfo={
             out += base64EncodeChars.charAt(c3 & 0x3F);
         }
         return out;
+    },
+    loginEmployee: function () {
+        window.localStorage.employee = JSON.stringify($('input[name="emp_data"]:checked').data('employee'));
+        $('#select_shade').hide();
+        if (window.localStorage.employee)
+            location.href="/performance-index.html#/performance_report";
     }
 }

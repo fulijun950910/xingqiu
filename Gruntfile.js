@@ -35,6 +35,7 @@ module.exports = function (grunt) {
                     'src/js/app/performance/app.performance.order.js',
                     'src/js/app/user/app.userinfo.js',
                     'src/js/app/sign/app.sign.js',
+                    'src/js/app/app.constant.js'
                 ]
             },
             cssFiles: {
