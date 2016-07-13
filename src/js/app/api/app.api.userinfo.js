@@ -4,7 +4,7 @@
 app.api.userinfo = {
     auth: function (settings) {
         app.api.ajax({
-            url: '/wechatbusinessassists/validateusernamepassword',
+            url: '/auth/form',
             type: 'POST',
             success: settings.success,
             error: settings.error,

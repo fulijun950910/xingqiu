@@ -214,11 +214,13 @@ app.userinfo = {
                             employeeId: app.userinfo.getEmployee().id,
                             merchantId: app.userinfo.getEmployee().merchantId
                         }
+                        var openId = result.success;
                         app.api.userinfo.listEmployeeStoreList({
                             data: listEmployeeStoreListData,
                             success: function (result) {
                                 var employee = app.userinfo.getEmployee();
                                 employee.storeList = result.data;
+                                employee.openId = openId;
                                 var storeIds = [];
                                 for (var o in employee.storeList) {
                                     storeIds.push(employee.storeList[o].id);
@@ -264,7 +266,8 @@ app.userinfo = {
     logout: function () {
         var data = {
             userId: app.userinfo.getEmployee().userId,
-            employeeId: app.userinfo.getEmployee().id
+            employeeId: app.userinfo.getEmployee().id,
+            openId: app.userinfo.getEmployee().openId,
         }
         app.api.userinfo.unbind({
             data: data,
