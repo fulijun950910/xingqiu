@@ -165,6 +165,14 @@ app.userinfo = {
                 var resultHtml = tmpl(template, result.data);
                 $('#userinfo-detail').html(resultHtml);
                 $('select[name="gender"]').val(result.data.gender);
+                if (result.data.avatarFileId)
+                    $('#headarticle').prop('src', app.filePath + result.data.avatarFileId);
+                $('#headarticle').on('click', function() {
+                    $('#headerfile').click();
+                    $('#headerfile').change(function(dom){
+                        app.userinfo.changeImg(dom);
+                    })
+                })
             },
             error: function (a, b, c) {
 
@@ -178,6 +186,7 @@ app.userinfo = {
         employee.birthday = $('input[name="birthday"]').val();
         employee.address = $('input[name="address"]').val();
         employee.description = $('input[name="description"]').val();
+        employee.avatarFileId = app.userinfo.fileId;
         app.api.userinfo.updateEmployee({
             data: employee,
             success: function (result) {
@@ -268,15 +277,40 @@ app.userinfo = {
         }
         app.api.userinfo.updatePassword({
             data: data,
-            success: function(result) {
+            success: function (result) {
                 if (result.success && result.data) {
-                    app.alert('修改成功','密码修改成功');
+                    app.alert('修改成功', '密码修改成功');
                     app.userinfo.init();
                 }
             },
-            error: function(a, b, c){
-                app.alert('验证码错误','修改密码异常');
+            error: function (a, b, c) {
+                app.alert('验证码错误', '修改密码异常');
             }
         })
+    },
+    changeImg: function (dom) {
+        var file = dom.files[0];
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (evt) {
+            var myImage = {
+                content: app.userinfo.base64Encode(evt.target.result),
+                contentType: file.type,
+                originalName: file.name
+            };
+            app.api.userinfo.uploadFile({
+                data: myImage,
+                success: function (result) {
+                    if (result.success && result.data) {
+                        app.userinfo.fileId = result.data;
+                        var url = app.filePath + app.userinfo.fileId;
+                        $('#headarticle').attr('src', url);
+                    }
+                },
+                error: function (a, b, c) {
+                    debugger;
+                }
+            });
+        };
     }
 }

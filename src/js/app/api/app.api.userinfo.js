@@ -87,5 +87,14 @@ app.api.userinfo = {
             error: settings.error,
             data: settings.data
         })
+    },
+    uploadFile: function(settings){
+        app.api.ajax({
+            url: '/file',
+            type: 'POST',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
+        })
     }
 }
