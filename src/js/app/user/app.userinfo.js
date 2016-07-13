@@ -289,6 +289,9 @@ app.userinfo = {
         })
     },
     changeImg: function (dom) {
+        if (!dom || !dom.files || dom.files.length <= 0)
+            return;
+        
         var file = dom.files[0];
         var reader = new FileReader();
         reader.readAsDataURL(file);
