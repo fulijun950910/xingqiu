@@ -14,7 +14,7 @@ $(function () {
             return $('#tpl_user_home').html();
         },
         bind: function(){
-
+            app.userinfo.find();
         }
     };
 
@@ -38,7 +38,7 @@ $(function () {
             return $('#tpl_user_login').html();
         },
         bind: function(){
-            
+            app.userinfo.init();
         }
     }
 
