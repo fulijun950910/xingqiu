@@ -37,7 +37,11 @@
             <!--% for (var i=0; i <o.datas.length; i++) { %-->
             <label class="weui_cell weui_check_label" for="{%=o.datas[i].id %}">
                 <div class="weui_cell_bd weui_cell_primary">
-                    <p>{%=o.datas[i].store.name %} - {%=o.datas[i].name %}</p>
+                    <p>
+                        <!--% if(o.datas[i].store){ %-->
+                        {%=o.datas[i].store.name %}-
+                        <!--% } %-->
+                        {%=o.datas[i].name %}</p>
                 </div>
                 <div class="weui_cell_ft">
                     <input type="radio" class="weui_check" data-employee="{%=o.datas[i].jsonData %}" name="emp_data" id="{%=o.datas[i].id %}">

@@ -12,33 +12,27 @@
 		
 		<!-- 请输入手机号 -->
 		<div class="mei_cell">
-			<label for="user_mobileTel" class="mei_label"><i class="ic icon-shouji"></i></label>
-			<input name="user_mobileTel" type="number" class="mei_input" placeholder="请输入手机号">
+			<label for="phone" class="mei_label"><i class="ic icon-shouji"></i></label>
+			<input name="phone" type="number" class="mei_input" placeholder="请输入手机号">
 		</div>
 		
 		<div class="mei_cell">
-			<label for="user_" class="mei_label"><i class="ic icon-yanzhengma-copy"></i></label>
-			<input name="user_verify" type="text" class="mei_send" placeholder="验证码(4位数字)">
-			<input name="user_verify" type="button" class="mei_send2" value="获取">
+			<label for="verifycode" class="mei_label"><i class="ic icon-yanzhengma-copy"></i></label>
+			<input name="verifycode" type="text" class="mei_send" placeholder="验证码(4位数字)">
+			<a href="javascript:;" id="auth-user-validate" onclick="app.userinfo.authUserValidate(this)" class="weui_btn weui_btn_mini weui_btn_default" style="float: right;line-height: 2.5em;margin-top: 0.35rem;">获取验证码</a>
 		</div>
 
 		<div class="mei_cell">
-			<label for="user_pwd" class="mei_label"><i class="ic icon-mima2"></i></label>
-			<input name="user_pwd" type="password" class="mei_input" placeholder="请输入密码">
-		</div>
-
-		<div class="mei_cell">
-			<label for="user_again_pwd" class="mei_label"><i class="ic icon-mima2"></i></label>
-			<input name="user_again_pwd" type="password" class="mei_input" placeholder="请再次输入">
+			<label for="password" class="mei_label"><i class="ic icon-mima2"></i></label>
+			<input name="password" type="password" class="mei_input" placeholder="请输入密码">
 		</div>
 
 
 	</div>
 
-	<!-- 绑定信息 -->
 	<div class="userinfo_bind">
 		<div class="mei_bind">
-			<a href="javascript:;" class="weui_btn weui_btn_warn">修改</a>
+			<a href="javascript:;" onclick="app.userinfo.updatePassword()" class="weui_btn weui_btn_warn">修改</a>
 		</div>
 	</div>
 

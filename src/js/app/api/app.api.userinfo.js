@@ -18,8 +18,25 @@ app.api.userinfo = {
             success: settings.success,
             error: settings.error,
         })
-    }
-    ,listEmployee: function (settings) {
+    },
+    authUserValidate: function (settings) {
+        app.api.ajax({
+            url: '/authUser/validate/' + settings.data.authUserId,
+            type: 'GET',
+            success: settings.success,
+            error: settings.error,
+        })
+    },
+    updatePassword: function (settings) {
+        app.api.ajax({
+            url: '/authUser/password',
+            type: 'PUT',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
+        })
+    },
+    listEmployee: function (settings) {
         app.api.ajax({
             url: '/employee/list/account/' + settings.data.userId,
             type: 'GET',

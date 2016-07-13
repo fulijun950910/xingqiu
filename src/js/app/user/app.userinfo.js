@@ -55,6 +55,10 @@ app.userinfo = {
                 var accountParam = {
                     userId: resultUser.data
                 }
+                if (!accountParam.userId) {
+                    app.alert('用户名或密码错误', '登录异常');
+                    return;
+                }
                 app.api.userinfo.listEmployee({
                     data: accountParam,
                     success: function (resultEmployeeList) {
@@ -70,12 +74,12 @@ app.userinfo = {
                         $('#select_shade').show();
                     },
                     error: function (a, b, c) {
-                        debugger;
+
                     }
                 })
             },
             error: function (a, b, c, d) {
-                debugger;
+
             }
         })
 
@@ -157,7 +161,6 @@ app.userinfo = {
         app.api.userinfo.find({
             data: data,
             success: function (result) {
-                debugger;
                 var template = $('#tmpl-userinfo').html();
                 var resultHtml = tmpl(template, result.data);
                 $('#userinfo-detail').html(resultHtml);
@@ -175,26 +178,105 @@ app.userinfo = {
         employee.birthday = $('input[name="birthday"]').val();
         employee.address = $('input[name="address"]').val();
         employee.description = $('input[name="description"]').val();
-        app.api.userinfo.authUser({
-            data: {username: employee.phone},
+        app.api.userinfo.updateEmployee({
+            data: employee,
             success: function (result) {
-                if (result.success) {
-                    //用户认证
-                    employee.authUserId = result.data;
-                    app.api.userinfo.updateEmployee({
-                        data: employee,
-                        success: function (result) {
-                            if (result.success) {
-                                app.alert('个人信息修改成功', '修改成功');
-                            }
-                        },
-                        error: function (a, b, c) {
-                            debugger;
-                        }
-                    })
-                }
+                if (result.success)
+                    app.alert('个人信息修改成功', '修改成功');
+            },
+            error: function (a, b, c) {
+                app.alert('个人信息修改异常,请稍后尝试', '修改异常');
             }
         })
+    },
+    authUserValidate: function (dom) {
+        var $dom = $(dom);
+        if ($dom.hasClass('disabled'))
+            return;
 
+        var phone = $('input[name="phone"]').val();
+        if (!phone) {
+            app.alert('请输入手机号', '获取验证码异常');
+            return;
+        }
+        var param = {
+            username: phone
+        }
+        app.api.userinfo.authUser({
+            data: param,
+            success: function (resultUser) {
+                var accountParam = {
+                    authUserId: resultUser.data
+                }
+                if (!accountParam.authUserId) {
+                    app.alert('未找到当前用户', '获取验证码异常');
+                    return;
+                }
+                app.userinfo.authUserId = accountParam.authUserId;
+                app.api.userinfo.authUserValidate({
+                    data: accountParam,
+                    success: function (resultValidate) {
+                        if (resultValidate.success && resultValidate.data) {
+                            $('#auth-user-validate').addClass('disabled');
+                            $('#auth-user-validate').html('<span id="second">60</span>秒后重新获取获取');
+                            var secondInterval = setInterval(function () {
+                                var second = parseInt($('#second').html()) - 1
+                                $('#second').text(second);
+                                if (second == 0) {
+                                    $('#auth-user-validate').removeClass('disabled');
+                                    $('#auth-user-validate').html('获取验证码');
+                                    clearInterval(secondInterval);
+                                }
+                            }, 1000)
+                        }
+                    },
+                    error: function (a, b, c) {
+
+                    }
+                })
+            },
+            error: function (a, b, c) {
+
+            }
+        })
+    },
+    updatePassword: function () {
+        var phone = $('input[name="phone"]').val();
+        if (!phone) {
+            app.alert('请输入手机号', '获取验证码异常');
+            return;
+        }
+        var verifycode = $('input[name="verifycode"]').val();
+        if (!verifycode) {
+            app.alert('请输入验证码', '修改密码异常');
+            return;
+        }
+        var password = $('input[name="password"]').val();
+        if (!password) {
+            app.alert('请输入密码', '修改密码异常');
+            return;
+        }
+
+        if (!app.userinfo.authUserId) {
+            app.alert('请点击获取验证码', '修改密码异常');
+            return;
+        }
+        var data = {
+            authUserId: app.userinfo.authUserId,
+            password: password,
+            validateCode: verifycode
+        }
+        app.api.userinfo.updatePassword({
+            data: data,
+            success: function(result) {
+                if (result.success && result.data) {
+                    app.alert('修改成功','密码修改成功');
+                    app.userinfo.init();
+                }
+            },
+            error: function(a, b, c){
+                app.alert('验证码错误','修改密码异常');
+            }
+        })
     }
 }
