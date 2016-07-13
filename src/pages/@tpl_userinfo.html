@@ -1,15 +1,9 @@
 <!-- 个人信息 -->
 <script type="text/html" id="tpl_user_home">
-<div class="bd spacing">
-	<!-- //隐藏标题 -->
-	<div class="hiddenTitle">个人信息</div>
-	
-	<div class="headPic">
-		<div class="autoImg">
-			<img src="images/pic_article_1.jpg">
-			<i class="icon-uniF3F6"></i>
-		</div>
-	</div>
+    <div class="bd spacing">
+        <!-- //隐藏标题 -->
+        <div class="hiddenTitle">个人信息</div>
+
 
 	<div class="userfrom">
 		<!-- 姓名 -->
@@ -53,20 +47,56 @@
 			<input name="user_signature" type="text" class="mei_input" placeholder="您的个性签名..."  value="" >
 		</div>
 
-    </div>
-	
-	<!-- 保存信息 -->
-	<div class="userinfo_save">
-		<div class="mei_save">
-		<a href="javascript:;" class="weui_btn weui_btn_warn">保存</a>
-		</div>
-	
-		<div class="userinfo_btm">
-			<a class="unbind" href="userinfo.html#/account_bind">退出登陆</a>
-			<a class="forgetpwd" href="userinfo.html#/update_pwd">忘记密码？</a>
-		</div>
-	</div>
+        <div class="headPic">
+            <div class="autoImg">
+                <img src="images/pic_article_1.jpg">
+                <i class="icon-uniF3F6"></i>
+            </div>
+        </div>
 
 
+        <div id="userinfo-detail" class="userfrom"></div>
+        <!-- 保存信息 -->
+        <div class="userinfo_save">
+            <div class="mei_save">
+                <a href="javascript:;" onclick="app.userinfo.updateEmployee()" class="weui_btn weui_btn_warn">保存</a>
+            </div>
+            <div class="userinfo_btm">
+                <a class="unbind" onclick="app.userinfo.logout()">退出登陆</a>
+                <a class="forgetpwd" href="userinfo.html#/update_pwd">忘记密码？</a>
+            </div>
+        </div>
 </div>
+    <script type="text/html" id="tmpl-userinfo">
+        <div class="mei_cell">
+            <label for="" class="mei_label"><i class="ic icon-ren2"></i></label>
+            <input name="name" type="text" value="{%=o.name %}" class="mei_input" placeholder="请输入姓名">
+        </div>
+        <!-- 性别 -->
+        <div class="mei_cell">
+            <label for="" class="mei_label"><i class="ic icon-xingbie1"></i></label>
+            <select class="weui_select" name="gender">
+                <option value="1">男</option>
+                <option value="2">女</option>
+            </select>
+            <div class="weui_cell_ft"></div>
+        </div>
+
+        <!-- 生日 -->
+        <div class="mei_cell">
+            <label for="user_birthday" class="mei_label"><i class="ic icon-shengri1"></i></label>
+            <input name="birthday" value="{%=o.birthday %}" type="date" class="mei_input">
+        </div>
+        <!-- 地址 -->
+        <div class="mei_cell">
+            <label for="user_addr" class="mei_label"><i class="ic icon-weizhi"></i></label>
+            <input name="address" type="text" class="mei_input" value="{%=o.address %}" placeholder="您的地址">
+        </div>
+
+        <!-- 个性签名 -->
+        <div class="mei_cell">
+            <label for="user_signature" class="mei_label"><i class="ic icon-icon2"></i></label>
+            <input name="description" type="text" class="mei_input" placeholder="您的个性签名..." value="{%=o.description %}">
+        </div>
+    </script>
 </script>

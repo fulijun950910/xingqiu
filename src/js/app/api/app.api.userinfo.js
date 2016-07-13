@@ -6,44 +6,69 @@ app.api.userinfo = {
         app.api.ajax({
             url: '/wechatbusinessassists/validateusernamepassword',
             type: 'POST',
-            success : settings.success,
-            error : settings.error,
-            data : settings.data
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
         })
     },
-    listEmployee: function (settings) {
+    authUser: function (settings) {
+        app.api.ajax({
+            url: '/authUser/exist/' + settings.data.username,
+            type: 'GET',
+            success: settings.success,
+            error: settings.error,
+        })
+    }
+    ,listEmployee: function (settings) {
         app.api.ajax({
             url: '/employee/list/account/' + settings.data.userId,
             type: 'GET',
-            success : settings.success,
-            error : settings.error,
+            success: settings.success,
+            error: settings.error,
         })
     },
     login: function (settings) {
         app.api.ajax({
             url: '/employee/login/' + settings.data.employeeId,
             type: 'PUT',
-            success : settings.success,
-            error : settings.error,
-            data : settings.data
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
         })
     },
     bind: function (settings) {
         app.api.ajax({
             url: '/wechatbusinessassists/bind',
             type: 'POST',
-            success : settings.success,
-            error : settings.error,
-            data : settings.data
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
         })
     },
     unbind: function (settings) {
         app.api.ajax({
             url: '/wechatbusinessassists/unbind',
             type: 'POST',
-            success : settings.success,
-            error : settings.error,
-            data : settings.data
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
+        })
+    },
+    find: function (settings) {
+        app.api.ajax({
+            url: '/employee/' + settings.data.employeeId,
+            type: 'GET',
+            success: settings.success,
+            error: settings.error,
+        })
+    },
+    updateEmployee: function (settings) {
+        app.api.ajax({
+            url: '/employee',
+            type: 'PUT',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
         })
     }
 }
