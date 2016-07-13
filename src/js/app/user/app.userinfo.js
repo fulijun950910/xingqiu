@@ -296,8 +296,11 @@ app.userinfo = {
         var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function (evt) {
+            var content = evt.target.result;
+            var tempAry = content.split(",");
+            var base64Str = (tempAry.length == 2) ? tempAry[1] : "";
             var myImage = {
-                content: app.userinfo.base64Encode(evt.target.result),
+                content: base64Str,
                 contentType: file.type,
                 originalName: file.name
             };
