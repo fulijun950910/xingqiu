@@ -7,6 +7,38 @@ app.home = {
     }
 }
 
+//微信ajax加载窗
+app.startLoading=function(){
+	if(!($('#loadingToast').length>0)){
+		var loadingHtml = '';
+			loadingHtml+= '<div id="loadingToast" class="weui_loading_toast" style="display:none;">';
+			loadingHtml+= '<div class="weui_mask_transparent"></div>';
+			loadingHtml+= '<div class="weui_toast">';
+			loadingHtml+= '<div class="weui_loading">';
+			loadingHtml+= '<div class="weui_loading_leaf weui_loading_leaf_0"></div>';
+			loadingHtml+= '<div class="weui_loading_leaf weui_loading_leaf_1"></div>';
+			loadingHtml+= '<div class="weui_loading_leaf weui_loading_leaf_2"></div>';
+			loadingHtml+= '<div class="weui_loading_leaf weui_loading_leaf_3"></div>';
+			loadingHtml+= '<div class="weui_loading_leaf weui_loading_leaf_4"></div>';
+	    	loadingHtml+= '<div class="weui_loading_leaf weui_loading_leaf_5"></div>';
+	    	loadingHtml+= '<div class="weui_loading_leaf weui_loading_leaf_6"></div>';
+	    	loadingHtml+= '<div class="weui_loading_leaf weui_loading_leaf_7"></div>';
+	    	loadingHtml+= '<div class="weui_loading_leaf weui_loading_leaf_8"></div>';
+	    	loadingHtml+= '<div class="weui_loading_leaf weui_loading_leaf_9"></div>';
+	    	loadingHtml+= '<div class="weui_loading_leaf weui_loading_leaf_10"></div>';
+	    	loadingHtml+= '<div class="weui_loading_leaf weui_loading_leaf_11"></div>';
+			loadingHtml+= '</div>';
+	        loadingHtml+= '<p class="weui_toast_content">数据加载中</p>';
+	        loadingHtml+= '</div></div>';
+        $('body').append(loadingHtml);
+	}
+	$('#loadingToast').show();
+}
+//关闭ajax加载窗
+app.endLoading=function(){
+	$('#loadingToast').hide();
+}
+
 //微信alert弹窗
 app.alert=function(msg,title){
 	var msg = msg || '';
@@ -27,6 +59,26 @@ app.alert=function(msg,title){
         $('#dialog2').off('click').hide();
         return true;
     });
+}
+
+//微信操作完成透明提示窗口
+app.toast=function(msg){
+	var msg = msg || '已完成';
+	if(!($('#toast').length>0)){
+		var toastHtml = '';
+			toastHtml+= '<div id="toast" style="display: none;">';
+			toastHtml+= '<div class="weui_mask_transparent"></div>';
+			toastHtml+= '<div class="weui_toast">';
+			toastHtml+= '<i class="weui_icon_toast"></i>';
+			toastHtml+= '<p class="weui_toast_content">'+msg+'</p>';
+	    	toastHtml+= '</div>';
+	    	toastHtml+= '</div>';
+    	$('body').append(toastHtml);
+	}
+	$('#toast').show();
+	setTimeout(function () {
+        $('#toast').hide();
+    }, 2000);
 }
 
 //微信confirm问询窗
@@ -51,4 +103,5 @@ app.confirm=function(msg,title){
         return true;
     });
 }
+
 
