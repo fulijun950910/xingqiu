@@ -34,11 +34,11 @@ module.exports = function (grunt) {
                     'src/js/app/app.tools.js',
                     'src/js/app/performance/app.performance.js',
                     'src/js/app/performance/app.performance.emp.js',
-                    'src/js/app/performance/app.performance.booking.js',
+                    'src/js/app/performance/app.performance.appointment.js',
                     'src/js/app/performance/app.performance.order.js',
                     'src/js/app/user/app.userinfo.js',
                     'src/js/app/sign/app.sign.js',
-                    'src/js/app/app.constant.js'
+                    'src/js/app/app.constant.js',
                 ]
             },
             cssFiles: {

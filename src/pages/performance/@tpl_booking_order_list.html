@@ -2,47 +2,37 @@
     <!--<div class="hd">-->
         <!--<h1 class="page_title"></h1>-->
     <!--</div>-->
-    <div class="bd booking_order">
-        <div class="weui_cells weui_cells_access">
-            <a class="weui_cell" onclick="app.performance.booking.chooseBookingOrderId(1)" href="#/booking-order-detail">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <div class="weui_panel_bd">
-                        <div class="weui_media_box weui_media_text">
-                            <h4 class="weui_media_title">10:35</h4>
-                            <p class="weui_media_desc">继海波 18833452093</p>
+    <div id="appointment_list" class="bd booking_order"></div>
+    <script type="text/html" id="tmpl-appointment-list">
+        <!--% for(var i=0;i<o.datas.length;i++) { %-->
+            <div class="weui_cells weui_cells_access">
+                <a class="weui_cell" onclick="app.performance.appointment.chooseBookingAppointmentId({%=o.datas[i].appointmentId %})" href="#/booking-order-detail">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <div class="weui_panel_bd">
+                            <div class="weui_media_box weui_media_text">
+                                <h4 class="weui_media_title">{%=o.datas[i].startTime %}</h4>
+                                <p class="weui_media_desc">{%=o.datas[i].appointmentName %} 133495820045</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="weui_cell_ft" style="font-size: 10px;">
-                    <i class="weui_icon_info" style="padding-right: 10px;"></i>未处理
-                </div>
-            </a>
-            <div class="weui_cell">
-                <div class="booking_list">
-                    <p>备注:这个客户的要求很严格, 务必仔细信息</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="weui_cells weui_cells_access">
-            <a class="weui_cell" onclick="app.performance.booking.chooseBookingOrderId(2)" href="#/booking-order-detail">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <div class="weui_panel_bd">
-                        <div class="weui_media_box weui_media_text">
-                            <h4 class="weui_media_title">11:30</h4>
-                            <p class="weui_media_desc">李倩 133495820045</p>
-                        </div>
+                    <div class="weui_cell_ft" style="font-size: 10px;">
+                        <!--% if(o.datas[i].status==1){ %-->
+                            <i class="weui_icon_info" style="padding-right: 10px;"></i>未处理
+                        <!--% } else if (o.datas[i].status==2) { %-->
+                            <i class="weui_icon_success_circle" style="padding-right: 10px;"></i>已确认
+                        <!--% } else if (o.datas[i].status==3) { %-->
+                            <i class="weui_icon_success_circle" style="padding-right: 10px;"></i>已成功
+                        <!--% } else if (o.datas[i].status==4) { %-->
+                            <i class="weui_icon_success_circle" style="padding-right: 10px;"></i>已取消
+                        <!--% } %-->
+                    </div>
+                </a>
+                <div class="weui_cell">
+                    <div class="booking_list">
+                        <p>备注: {%=o.datas[i].information %}</p>
                     </div>
                 </div>
-                <div class="weui_cell_ft" style="font-size: 10px;">
-                    <i class="weui_icon_success_circle" style="padding-right: 10px;"></i>已确认
-                </div>
-            </a>
-            <div class="weui_cell">
-                <div class="booking_list">
-                    <p>客户怕冷、注意冷气开低</p>
-                </div>
             </div>
-        </div>
-    </div>
+        <!--% } %-->
+    </script>
 </script>

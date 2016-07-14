@@ -1,32 +1,42 @@
 <script type="text/html" id="tpl_booking_order_detail">
-    <!--<div class="hd">-->
-    <!--<h1 class="page_title"><a href="#/booking-order-list">返回</a></h1>-->
-    <!--</div>-->
     <div class="bd booking_order">
-        <div class="weui_cells weui_cells_access">
-            <div class="weui_cell">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <div class="weui_panel_bd">
-                        <div class="weui_media_box weui_media_text tubiao" style="width:60%;float: left;">
-                            <h4 class="weui_media_title"><i class="icon icon-time"></i>2016-07-15 10:35</h4>
-                            <p class="weui_media_desc"><i class="icon icon-man"></i>继海波 18833452093</p>
-                            <p class="weui_media_desc"><i class="icon icon-item-list"></i>项目1</p>
-                            <p class="weui_media_desc"><i style="padding-right:18px"></i>项目2</p>
-                            <p class="weui_media_desc"><i style="padding-right:18px"></i>项目3</p>
-                        </div>
-                        <div style="width:20%;padding:15px;float:left">
-                            <div style="font-size: 10px;">
-                                <i class="weui_icon_info" style="padding-right: 2px;"></i>未处理
-                            </div>
+        <div id="appointment_detail" class="weui_cells weui_cells_access"></div>
+    </div>
+    <script type="text/html" id="tmpl-appointment-detail">
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <div class="weui_panel_bd">
+                    <div class="weui_media_box weui_media_text tubiao" style="width:60%;float: left;">
+                        <h4 class="weui_media_title"><i class="icon icon-time"></i>{%=o.startTime %}</h4>
+                        <p class="weui_media_desc"><i class="icon icon-man"></i>{%=o.appointmentName %} {%=o.mobile %}</p>
+                        <!--% for(var i=0;i<o.itemVoList.length; i++ ){ %-->
+                            <!--% if(i==0){ %-->
+                                <p class="weui_media_desc"><i class="icon icon-item-list"></i>{%=o.itemVoList[i].name %}</p>
+                            <!--% } else { %-->
+                                <p class="weui_media_desc"><i style="padding-right:18px"></i>{%=o.itemVoList[i].name %}</p>
+                            <!--% } %-->
+                        <!--% } %-->
+                    </div>
+                    <div style="width:20%;padding:15px;float:left">
+                        <div style="font-size: 10px;">
+                            <!--% if(o.status==1){ %-->
+                            <i class="weui_icon_info" style="padding-right: 2px;"></i>未处理
+                            <!--% } else if (o.status==2) { %-->
+                            <i class="weui_icon_success_circle" style="padding-right: 2px;"></i>已确认
+                            <!--% } else if (o.status==3) { %-->
+                            <i class="weui_icon_success_circle" style="padding-right: 2px;"></i>已成功
+                            <!--% } else if (o.status==4) { %-->
+                            <i class="weui_icon_success_circle" style="padding-right: 2px;"></i>已取消
+                            <!--% } %-->
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="weui_cell">
-                <div class="booking_list">
-                    <p>备注:这个客户的要求很严格, 务必仔细信息</p>
-                </div>
+        </div>
+        <div class="weui_cell">
+            <div class="booking_list">
+                <p>备注:{%=o.information %}</p>
             </div>
         </div>
-    </div>
+    </script>
 </script>
