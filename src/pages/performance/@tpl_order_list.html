@@ -1,61 +1,109 @@
 <script type="text/html" id="tpl_order_list">
-    <!--<div class="hd">-->
-        <!--<h1 class="weui_cells_title">-->
-            <!--业绩: ¥1698.00 提成: ¥169.00-->
-        <!--</h1>-->
-    <!--</div>-->
+    <div class="booking_order" style="background-color:#fff">
+        <div class="row">
+            <div class="col-33">
+                <a href="javascript:;" class="weui_btn weui_btn_plain_default">昨天</a>
+            </div>
+            <div class="col-33" style="width:33%">
+                <span style="line-height: 2.8;" id="order-query-date"></span>
+            </div>
+            <div class="col-33">
+                <a href="javascript:;" class="weui_btn weui_btn_plain_default">明天</a>
+            </div>
+        </div>
+        <div class="weui_cell">
+            <h1 class="weui_cells_title">
+                业绩: ¥1698.00 提成: ¥169.00
+            </h1>
+        </div>
+
+    </div>
     <div id="order-list" class="bd booking_order">
 
     </div>
     <script type="text/html" id="tmpl-order-list">
         <!--% for(var i=0;i<o.datas.length;i++){ %-->
-            <div class="weui_cells weui_cells_access">
-                <div class="weui_cell" onclick="app.performance.order.chooseOrderId({%=o.datas[i].orderId %})">
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <div class="weui_panel_bd">
-                            <div class="weui_media_box weui_media_text">
-                                <h4 class="weui_media_title">{%=o.datas[i].orderDate %}</h4>
-                                <p class="weui_media_desc">{%=o.datas[i].memberName %} {%=o.datas[i].mobile %}</p>
-                                <p class="weui_media_desc">业绩: ¥{%=app.performance.order.fenToYuan(o.datas[i].performance) %} 提成: ¥{%=app.performance.order.fenToYuan(o.datas[i].commission) %}</p>
-                            </div>
-                        </div>
+        <div class="row card" onclick="app.performance.order.chooseOrderId({%=o.datas[i].orderId %})">
+            <div class="col-100">
+                <div class="row">
+                    <div class="col-30">
+                        <span>客户姓名:</span>
+                        <span style="color:lightskyblue">{%=o.datas[i].memberName %}</span>
                     </div>
-                    <div>
-                        <div class="weui_cell_ft" style="font-size: 10px;text-align: left;">
-                            <div style="color:red">¥{%=app.performance.order.fenToYuan(o.datas[i].realReceivableMoney) %}</div>
-                            <!--% if(o.datas[i].status=='01'){ %-->
-                                <i class="icon icon-chulizhong" style="padding-right: 3px;font-size: 20px;"></i>处理中
-                            <!--% } else if (o.datas[i].status==11) { %-->
-                                <i class="icon icon-yiqueren" style="padding-right: 3px;font-size: 20px;"></i>待付款
-                            <!--% } else if (o.datas[i].status==12) { %-->
-                                <i class="icon icon-yiwancheng" style="padding-right: 3px;font-size: 20px;"></i>待付款
-                            <!--% } else if (o.datas[i].status==13) { %-->
-                                <i class="icon icon-yiquxiao" style="padding-right: 3px;font-size: 20px;"></i>待付款
-                            <!--% } else if (o.datas[i].status==20) { %-->
-                                <i class="icon icon-yiquxiao" style="padding-right: 3px;font-size: 20px;"></i>已付款
-                            <!--% } else if (o.datas[i].status==30) { %-->
-                                <i class="icon icon-yiquxiao" style="padding-right: 3px;font-size: 20px;"></i>挂帐
-                            <!--% } else if (o.datas[i].status==40) { %-->
-                                <i class="icon icon-yiquxiao" style="padding-right: 3px;font-size: 20px;"></i>尾款
-                            <!--% } else if (o.datas[i].status==50) { %-->
-                                <i class="icon icon-yiquxiao" style="padding-right: 3px;font-size: 20px;"></i>已取消
-                            <!--% } else if (o.datas[i].status==61) { %-->
-                                <i class="icon icon-yiquxiao" style="padding-right: 3px;font-size: 20px;"></i>退单
-                            <!--% } %-->
-                        </div>
-                        <a href="javascript:;" onclick="app.performance.order.comment(1)"
-                           class="weui_btn weui_btn_plain_default">+评价</a>
+                    <div class="col-40 right">
+                        <h6 style="color:lightgray">
+                            预约单详情
+                            <i class="icon icon-uniF3D3" style="font-size: 17px;margin-left: 4px;"></i>
+                        </h6>
                     </div>
                 </div>
-                <div class="weui_cell">
-                    <div class="booking_list" style="width: 85%;">
-                        <p>备注:{%=o.datas[i].remark %}</p>
+                <div class="row">
+                    <div class="col-30">
+                        <span>订单时间:</span>
+                        <span style="color:lightskyblue">{%=o.datas[i].orderDate %}</span>
                     </div>
-                    <div class="booking_list" style="font-size: 18px;color: #000;">
-                        <i class="icon icon-bookmarks">0</i>
+                </div>
+                <div class="row">
+                    <div class="col-60" style="width:auto">
+                        <div style="text-align: left;">
+                            <span>订单内容:</span>
+                        </div>
+                    </div>
+                    <div style="color: red;font-size: 12px;" class="col-0 right">
+                        <div>订单金额: ¥{%=app.performance.order.fenToYuan(o.datas[i].receivableMoney) %}
+                            <!--% if(o.datas[i].status==01){ %-->
+                            <i class="icon icon-chulizhong" style="padding-right: 2px;font-size: 25px;"></i>处理中
+                            <!--% } else if (o.datas[i].status==11) { %-->
+                            <i class="icon icon-daifukuan" style="padding-right: 2px;font-size: 25px;"></i>待付款
+                            <!--% } else if (o.datas[i].status==12) { %-->
+                            <i class="icon icon-daifukuan" style="padding-right: 2px;font-size: 25px;"></i>待付款
+                            <!--% } else if (o.datas[i].status==13) { %-->
+                            <i class="icon icon-daifukuan" style="padding-right: 2px;font-size: 25px;"></i>待付款
+                            <!--% } else if (o.datas[i].status==20) { %-->
+                            <i class="icon icon-yifukuan" style="padding-right: 2px;font-size: 25px;"></i>已付款
+                            <!--% } else if (o.datas[i].status==30) { %-->
+                            <i class="icon icon-guazhang" style="padding-right: 2px;font-size: 25px;"></i>挂帐
+                            <!--% } else if (o.datas[i].status==40) { %-->
+                            <i class="icon icon-weikuan" style="padding-right: 2px;font-size: 25px;"></i>尾款
+                            <!--% } else if (o.datas[i].status==50) { %-->
+                            <i class="icon icon-yiquxiao" style="padding-right: 2px;font-size: 25px;"></i>已取消
+                            <!--% } else if (o.datas[i].status==61) { %-->
+                            <i class="icon icon-tuidan" style="padding-right: 2px;font-size: 25px;"></i>退单
+                            <!--% } %-->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-100" style="text-align: left;margin-left: 20px;word-wrap: break-word;color:lightskyblue">
+                        <p>阿萨德发说的发生的</p>
+                        <p>阿萨德发说的发生的</p>
+                        <p>阿萨德发说的发生的</p>
+                        <p>阿萨德发说的发生的</p>
+                        <!--% if(o.datas[i].itemVoList){ %-->
+                        <!--% for(var j=0;j<o.datas[i].itemVoList.length;j++ ){ %-->
+                        <p>{%=o.datas[i].itemVoList[j].name %}</p>
+                        <!--% } %-->
+                        <!--% } %-->
+                    </div>
+                </div>
+                <div class="row">
+                    <h4>
+                        业绩:
+                        <span style="color:lightskyblue">¥{%=app.performance.order.fenToYuan(o.datas[i].performance)%}</span>
+                        提成:
+                        <span style="color:lightskyblue">¥{%=app.performance.order.fenToYuan(o.datas[i].commission)%}</span>
+                    </h4>
+                </div>
+                <div class="weui_cell row">
+                    <div class="col-60" style="text-align: left;word-break: break-all;">
+                        <h5 style="color:lightgray;">小记: {%=o.datas[i].information %}</h5>
+                    </div>
+                    <div class="col-0" style="width:auto">
+                        <a href="javascript:;" style="float: right;font-size: 14px;" onclick="app.performance.order.comment({%=o.datas[i].orderId %})" class="weui_btn weui_btn_plain_default">服务小记</a>
                     </div>
                 </div>
             </div>
+        </div>
         <!--% } %-->
-    </script>
+</script>
 </script>

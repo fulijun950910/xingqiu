@@ -35,9 +35,11 @@
                             <span>订单内容:</span>
                         </div>
                         <div class="col-40 left">
-                            <!--% for(var j=0;j<o.datas[i].itemVoList;j++ ){ %-->
-                                <span>{%=o.datas[i].itemVoList[j].name %}</span>
-                            <!--% } %-->
+                            <!--% if(o.datas[i].itemVoList){ %-->
+                                <!--% for(var j=0;j<o.datas[i].itemVoList.length;j++ ){ %-->
+                                    <span>{%=o.datas[i].itemVoList[j].name %}</span>
+                                <!--% } %-->
+                            <!--%  } %-->
                         </div>
                         <div class="col-40 right">
                             <!--% if(o.datas[i].status==1){ %-->

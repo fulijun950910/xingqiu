@@ -8,6 +8,9 @@ app.performance.order = {
     },
     orderId: null,
     list: function () {
+        var date = new Date();
+        date = date.format('yyyy-MM-dd');
+        $('#order-query-date').html(date);
         var data = {
             type: 2,
             ids: app.userinfo.getEmployee().id,
@@ -17,16 +20,16 @@ app.performance.order = {
         app.api.order.list({
             data: data,
             success: function (result) {
-                if (result.success && !result.data) {
+                if (result.success && !result.data && !result.data.orderListVo) {
                     app.tools.show('order-list');
                     return;
                 }
                 var data = {
-                    datas: result.data
+                    datas: result.data.orderListVo
                 }
-                var template = $('#tmpl-order-list').html();
-                var result = tmpl(template, data);
-                $('#order-list').html(result);
+                var html = $('#tmpl-order-list').html();
+                var template = tmpl(html, data);
+                $('#order-list').html(template);
             }
         })
     },
