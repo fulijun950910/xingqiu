@@ -19,6 +19,11 @@ app.tools={
 			fmtNum = fmtNum + '.' + narray[1];
 		}
     	return fmtNum;
+	},
+	//显示未查到数据
+	show: function (domId) {
+		var html = '<div style="width: 100%;text-align: center;line-height: 10;"><i class="weui_icon_msg weui_icon_warn"></i><span>未查到数据</span></div>';
+		$('#' + domId).html(html);
 	}
 
 }

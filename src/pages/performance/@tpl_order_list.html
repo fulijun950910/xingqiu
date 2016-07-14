@@ -1,66 +1,61 @@
 <script type="text/html" id="tpl_order_list">
-    <div class="hd">
-        <h1 class="weui_cells_title">
-            业绩: ¥1698.00 提成: ¥169.00
-        </h1>
-    </div>
-    <div class="bd booking_order">
-        <div class="weui_cells weui_cells_access">
-            <div class="weui_cell" onclick="app.performance.order.chooseOrderId(1)">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <div class="weui_panel_bd">
-                        <div class="weui_media_box weui_media_text">
-                            <h4 class="weui_media_title">2016-07-13 10:35</h4>
-                            <p class="weui_media_desc">继海波 18833452093</p>
-                            <p class="weui_media_desc">业绩: ¥1600.00 提成: ¥168.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="weui_cell_ft" style="font-size: 10px;text-align: left;">
-                        <div style="color:red">¥1688.00</div>
-                        <i class="weui_icon_info" style="padding-right: 3px;"></i>待付款
-                    </div>
-                    <a href="javascript:;" onclick="app.performance.order.comment(1)" class="weui_btn weui_btn_plain_default">+评价</a>
-                </div>
-            </div>
-            <div class="weui_cell">
-                <div class="booking_list" style="width: 85%;">
-                    <p>备注:这个客户的要求很严格, 务必仔细信息</p>
-                </div>
-                <div class="booking_list" style="font-size: 18px;color: #000;">
-                    <i class="icon icon-bookmarks">0</i>
-                </div>
-            </div>
-        </div>
+    <!--<div class="hd">-->
+        <!--<h1 class="weui_cells_title">-->
+            <!--业绩: ¥1698.00 提成: ¥169.00-->
+        <!--</h1>-->
+    <!--</div>-->
+    <div id="order-list" class="bd booking_order">
 
-        <div class="weui_cells weui_cells_access">
-            <div class="weui_cell" onclick="app.performance.order.chooseOrderId(2)">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <div class="weui_panel_bd">
-                        <div class="weui_media_box weui_media_text">
-                            <h4 class="weui_media_title">2016-04-23 11:30</h4>
-                            <p class="weui_media_desc">李倩 133495820045</p>
-                            <p class="weui_media_desc">业绩: ¥98.00 提成: ¥1.00</p>
+    </div>
+    <script type="text/html" id="tmpl-order-list">
+        <!--% for(var i=0;i<o.datas.length;i++){ %-->
+            <div class="weui_cells weui_cells_access">
+                <div class="weui_cell" onclick="app.performance.order.chooseOrderId({%=o.datas[i].orderId %})">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <div class="weui_panel_bd">
+                            <div class="weui_media_box weui_media_text">
+                                <h4 class="weui_media_title">{%=o.datas[i].orderDate %}</h4>
+                                <p class="weui_media_desc">{%=o.datas[i].memberName %} {%=o.datas[i].mobile %}</p>
+                                <p class="weui_media_desc">业绩: ¥{%=app.performance.order.fenToYuan(o.datas[i].performance) %} 提成: ¥{%=app.performance.order.fenToYuan(o.datas[i].commission) %}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div>
-                    <div class="weui_cell_ft" style="font-size: 10px;text-align: left;">
-                        <div style="color:red">¥298.00</div>
-                        <i class="weui_icon_success_circle" style="padding-right: 3px;"></i>已付款
+                    <div>
+                        <div class="weui_cell_ft" style="font-size: 10px;text-align: left;">
+                            <div style="color:red">¥{%=app.performance.order.fenToYuan(o.datas[i].realReceivableMoney) %}</div>
+                            <!--% if(o.datas[i].status=='01'){ %-->
+                                <i class="icon icon-chulizhong" style="padding-right: 3px;font-size: 20px;"></i>处理中
+                            <!--% } else if (o.datas[i].status==11) { %-->
+                                <i class="icon icon-yiqueren" style="padding-right: 3px;font-size: 20px;"></i>待付款
+                            <!--% } else if (o.datas[i].status==12) { %-->
+                                <i class="icon icon-yiwancheng" style="padding-right: 3px;font-size: 20px;"></i>待付款
+                            <!--% } else if (o.datas[i].status==13) { %-->
+                                <i class="icon icon-yiquxiao" style="padding-right: 3px;font-size: 20px;"></i>待付款
+                            <!--% } else if (o.datas[i].status==20) { %-->
+                                <i class="icon icon-yiquxiao" style="padding-right: 3px;font-size: 20px;"></i>已付款
+                            <!--% } else if (o.datas[i].status==30) { %-->
+                                <i class="icon icon-yiquxiao" style="padding-right: 3px;font-size: 20px;"></i>挂帐
+                            <!--% } else if (o.datas[i].status==40) { %-->
+                                <i class="icon icon-yiquxiao" style="padding-right: 3px;font-size: 20px;"></i>尾款
+                            <!--% } else if (o.datas[i].status==50) { %-->
+                                <i class="icon icon-yiquxiao" style="padding-right: 3px;font-size: 20px;"></i>已取消
+                            <!--% } else if (o.datas[i].status==61) { %-->
+                                <i class="icon icon-yiquxiao" style="padding-right: 3px;font-size: 20px;"></i>退单
+                            <!--% } %-->
+                        </div>
+                        <a href="javascript:;" onclick="app.performance.order.comment(1)"
+                           class="weui_btn weui_btn_plain_default">+评价</a>
                     </div>
-                    <a href="javascript:;" onclick="app.performance.order.comment(2)" class="weui_btn weui_btn_plain_default">+评价</a>
+                </div>
+                <div class="weui_cell">
+                    <div class="booking_list" style="width: 85%;">
+                        <p>备注:{%=o.datas[i].remark %}</p>
+                    </div>
+                    <div class="booking_list" style="font-size: 18px;color: #000;">
+                        <i class="icon icon-bookmarks">0</i>
+                    </div>
                 </div>
             </div>
-            <div class="weui_cell">
-                <div class="booking_list" style="width: 85%;">
-                    <p>客户怕冷、注意冷气开低</p>
-                </div>
-                <div class="booking_list" style="font-size: 18px;color: #000;">
-                    <i class="icon icon-bookmarks">0</i>
-                </div>
-            </div>
-        </div>
-    </div>
+        <!--% } %-->
+    </script>
 </script>
