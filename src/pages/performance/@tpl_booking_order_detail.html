@@ -8,13 +8,14 @@
                 <div class="weui_panel_bd">
                     <div class="weui_media_box weui_media_text tubiao" style="width:60%;float: left;">
                         <h4 class="weui_media_title"><i class="icon icon-time"></i>{%=o.startTime %}</h4>
-                        <p class="weui_media_desc"><i class="icon icon-man"></i>{%=o.appointmentName %} {%=o.mobile %}</p>
+                        <p class="weui_media_desc"><i class="icon icon-man"></i>{%=o.appointmentName %} {%=o.mobile %}
+                        </p>
                         <!--% for(var i=0;i<o.itemVoList.length; i++ ){ %-->
-                            <!--% if(i==0){ %-->
-                                <p class="weui_media_desc"><i class="icon icon-item-list"></i>{%=o.itemVoList[i].name %}</p>
-                            <!--% } else { %-->
-                                <p class="weui_media_desc"><i style="padding-right:18px"></i>{%=o.itemVoList[i].name %}</p>
-                            <!--% } %-->
+                        <!--% if(i==0){ %-->
+                        <p class="weui_media_desc"><i class="icon icon-item-list"></i>{%=o.itemVoList[i].name %}</p>
+                        <!--% } else { %-->
+                        <p class="weui_media_desc"><i style="padding-right:18px"></i>{%=o.itemVoList[i].name %}</p>
+                        <!--% } %-->
                         <!--% } %-->
                     </div>
                     <div style="width:25%;padding:15px;float:left">
@@ -38,5 +39,5 @@
                 <p>备注:{%=o.information %}</p>
             </div>
         </div>
-    </script>
+</script>
 </script>
