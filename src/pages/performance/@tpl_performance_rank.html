@@ -1,42 +1,29 @@
 <script type="text/html" id="tpl_performance_rank">
-<div class="hd">	
-	<div class="report">
-		<p class="report_look">数据查看<a id="showActionSheet_rank"  href="javascript:;">剑涛美发&gt;</a></p>
+<div class="hd" id="performance_rank">
+	<script type="text/html" id="tmpl-emp-rank">
+	<div class="report" >
+		<p class="report_look">数据查看<a id="showActionSheet_rank" style="display: none;" href="javascript:;">全部门店&gt;</a></p>
 	</div>
 
 	<!-- 员工排名 -->
 	<div class="emp_list">
 		<ul class="emp">
-			<li>
-				<a>
-					<div class="leftDetail">张晓</div>
-					<div class="rightDetail"><span>123456.00</span></div>
-				</a>
-			</li>
-			<li>
-				<a>
-					<div class="leftDetail">张三</div>
-					<div class="rightDetail"><span>12345.00</span></div>
-				</a>
-			</li>
-			<li>
-				<a>
-					<div class="leftDetail">李四</div>
-					<div class="rightDetail"><span>1234.00</span></div>
-				</a>
-			</li>
-			<li>
-				<a>
-					<div class="leftDetail">宋晓美</div>
-					<div class="rightDetail"><span>888.00</span></div>
-				</a>
-			</li>
-			<li>
-				<a>
-					<div class="leftDetail">我</div>
-					<div class="rightDetail"><span>123.00</span></div>
-				</a>
-			</li>
+			<!--% for (var i=0; i <o.data.length; i++) { %-->
+				<!--% if (o.userid==o.data[i].userid) { %-->
+					<li>
+						<a>
+							<div class="leftDetail">我</div>
+							<div class="rightDetail"><span>{%=o.data[i].performance%}</span></div>
+						</a>
+					</li>
+				<!--% }else{ %-->
+					<li>
+						<a>
+							<div class="leftDetail">{%=o.data[i].employeeName%}</div>
+							<div class="rightDetail"><span>{%=o.data[i].performance%}</span></div>
+						</a>
+					</li>
+			<!--% } } %-->
 		</ul>
 	</div>
 
@@ -52,12 +39,15 @@
             <div class="weui_actionsheet_cell">示例菜单</div>
             <div class="weui_actionsheet_cell">示例菜单</div>
             <div class="weui_actionsheet_cell">示例菜单</div>
+            <div class="weui_actionsheet_cell">示例菜单</div>
+            <div class="weui_actionsheet_cell">示例菜单</div>
+            <div class="weui_actionsheet_cell">示例菜单</div>
         </div>
         <div class="weui_actionsheet_action">
             <div class="weui_actionsheet_cell" id="actionsheet_cancel_rank">取消</div>
         </div>
     </div>
 </div>
-
+</script>
 </div>
 </script>

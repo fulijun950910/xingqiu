@@ -1,6 +1,6 @@
 <script type="text/html" id="tpl_performance_report">
-<div class="hd">
-	
+<div class="hd" id="tmpl-performance-manage">
+	<script type="text/html" id="tmpl-performance">
 	<div class="report">
 		<p class="report_look">数据查看<a id="showActionSheet_store" href="javascript:;">全部门店&gt;</a></p>
 	</div>
@@ -9,8 +9,8 @@
 	
 	<div class="roundCell">
 		
-		<div class="leftbox">
-			<a href="" class="leftDay"><i class="icon icon-uniF3D2"></i>  看昨天</a>
+		<div class="leftbox" id="leftData">
+			<a href="javascript:;" class="leftDay"><i class="icon icon-uniF3D2"></i>  看昨天</a>
 		</div>
 
 		<div class="roundParent">
@@ -23,38 +23,36 @@
 				</div>
 			</div>
 
-			<div class="user_data">
-				<p>今日收入</p>
-				<h3>1,192,647.00</h3>
+			<div class="user_data" id="">
+				<p id="title_name">今日收入</p>
+				<h3 id="all_performance"> {%=o.income%} </h3>
 				<div class="weui_progress_bar">
-		            <div class="weui_progress_inner_bar js_progress schedule-mw-pink" style="width: 87%;"></div>
+		            <div class="weui_progress_inner_bar js_progress schedule-mw-pink" style="width: 100%;"></div>
 		        </div>
-		        <span classs="finish">完成87%</span>
+		        <span classs="finish">完成100%</span>
 			</div>
 
 		</div>
 		
-		<div class="rightbox">
-			<a href="" class="thisMonth">看本月  <i class="icon icon-uniF3D3"></i></a>
+		<div class="rightbox" id="rightData">
+			<a href="javascript:;" class="thisMonth">看本月  <i class="icon icon-uniF3D3"></i></a>
 		</div>
 		
 	</div>
 
-
-
 	<!-- 到店客人，新增会员，当日总消耗 -->
 	<ul class="data_cell">
 		<li>
-			<p>23<span> 人</span></p>
-			<a href="">到店客人</a>
+			<p id="persons"> {%=o.customerNum%} <span> 人</span></p>
+			<a>到店客人</a>
 		</li>
 		<li>
-			<p>23<span> 位</span></p>
-			<a href="">新增会员</a>
+			<p id="members"> {%=o.newMemberNum%} <span> 位</span></p>
+			<a>新增会员</a>
 		</li>
 		<li>
-			<p>1234567.00<span> 元</span></p>
-			<a href="">当日总消耗</a>
+			<p id="count_consume"> {%=o.cardConsume%} <span> 元</span></p>
+			<a>当日总消耗</a>
 		</li>
 	</ul>
 
@@ -66,28 +64,65 @@
 			</li>
 			<li>
 				<div class="leftDetail">现金收入</div>
-				<div class="rightDetail"><i class="ic icon-renminbi1"></i><span>7846.00</span><i class="ic icon-xiangshang"></i></div>
+				<div class="rightDetail">
+				<i class="ic icon-renminbi1"></i><span>{%=o.detailList.cash.val%}</span>
+				<!--% if (o.detailList.cash.floating > 0) { %-->
+					<i class="ic icon-xiangshang"></i>
+				<!--% }else if(o.detailList.cash.floating < 0){ %-->
+					<i class="ic icon-xiangxia"></i>
+				<!--% }else if(o.detailList.cash.floating == 0){ %-->
+					<i class="ic">—</i>
+				<!--% } %-->	
+				</div>
 			</li>
 			<li>
 				<div class="leftDetail">POS收入</div>
-				<div class="rightDetail"><i class="ic icon-renminbi1"></i><span>7846.00</span><i class="ic icon-xiangxia"></i></div>
+				<div class="rightDetail">
+				<i class="ic icon-renminbi1"></i><span>{%=o.detailList.pos.val%}</span>
+				<!--% if (o.detailList.pos.floating > 0) { %-->
+					<i class="ic icon-xiangshang"></i>
+				<!--% }else if(o.detailList.pos.floating < 0){ %-->
+					<i class="ic icon-xiangxia"></i>
+				<!--% }else if(o.detailList.pos.floating == 0){ %-->
+					<i class="ic icon-xiangxia"></i>
+				<!--% } %-->
+				</div>
 			</li>
 			<li>
 				<div class="leftDetail">微信收入</div>
-				<div class="rightDetail"><i class="ic icon-renminbi1"></i><span>7846.00</span><i class="ic icon-xiangshang"></i></div>
+				<div class="rightDetail">
+				<i class="ic icon-renminbi1"></i><span>{%=o.detailList.wxpay.val%}</span>
+				<i class="ic icon-xiangshang"></i>
+				</div>
 			</li>
 			<li>
 				<div class="leftDetail">支付宝</div>
-				<div class="rightDetail"><i class="ic icon-renminbi1"></i><span>7846.00</span><i class="ic icon-xiangshang"></i></div>
+				<div class="rightDetail">
+				<i class="ic icon-renminbi1"></i><span>{%=o.detailList.alipay.val%}</span>
+				<i class="ic icon-xiangshang"></i>
+				</div>
+			</li>
+			<li>
+				<div class="leftDetail">团购</div>
+				<div class="rightDetail">
+				<i class="ic icon-renminbi1"></i><span>{%=o.detailList.groupbuy.val%}</span>
+				<i class="ic icon-xiangshang"></i>
+				</div>
 			</li>
 			<li>
 				
 				<div class="leftDetail ft-color-jm">减免</div>
-				<div class="rightDetail ft-color-jm"><i class="ic icon-renminbi1"></i><span>7846.00</span><i class="ic icon-xiangxia"></i></div>
+				<div class="rightDetail ft-color-jm">
+				<i class="ic icon-renminbi1"></i><span>{%=o.detailList.annul.val%}</span>
+				<i class="ic icon-xiangxia"></i>
+				</div>
 			</li>
 			<li>
 				<div class="leftDetail ft-color-qk">欠款</div>
-				<div class="rightDetail ft-color-qk"><i class="ic icon-renminbi1"></i><span>7846.00</span><i class="ic icon-xiangxia"></i></div>
+				<div class="rightDetail ft-color-qk">
+				<i class="ic icon-renminbi1"></i><span>{%=o.detailList.debt.val%}</span>
+				<i class="ic icon-xiangxia"></i>
+				</div>
 			</li>
 		</ul>
 	</div>
@@ -104,6 +139,6 @@
         </div>
     </div>
 </div>
-
+</script>
 </div>
 </script>
