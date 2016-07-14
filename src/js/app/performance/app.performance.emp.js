@@ -1,7 +1,6 @@
 //员工业绩
 app.performance.emp = {
 	init: function() {
-
 		//请求完毕之后，继续处理
 		app.performance.emp.getEmpPerformance().then(
 			function(data){ //success
@@ -67,22 +66,23 @@ app.performance.emp = {
 		return new Promise(function(resolve,reject){
 			//拼接请求URL
 			var uinfo = app.performance.emp.userinfo();
-			var url = app.api.url+'/wechatbusinessassists/employeePerformance/'+uinfo.merchantId+'/'+uinfo.storeId+'/'+uinfo.userid;
-			$.ajax({
-				url: url,
-				type:'GET',
-				dataType:'json',
-				success:function(results){
+			app.api.performance.empPerformance({
+				data:{
+					merchantId: uinfo.merchantId,
+					storeId: uinfo.storeId,
+					userid: uinfo.userid
+				},
+				success: function(results){
 					if(results.success){
 						resolve(results.data);
 					}else{
 						reject(results.message);
 					}
 				},
-				error:function(error){
+				error: function(error){
 					reject('请求异常啦~');
 				}
-			});
+			})
 		});
 	},
 	//员工业绩排名初始化
@@ -141,20 +141,20 @@ app.performance.emp = {
 		return new Promise(function(resolve,reject){
 			//拼接请求URL
 			var uinfo = app.performance.emp.userinfo();
-			var url = app.api.url+'/wechatbusinessassists/employeePerformanceRankingByMonth/'+uinfo.merchantId+'/'+uinfo.storeId;
-			$.ajax({
-				url: url,
-				type: 'GET',
-				dataType: 'json',
-				success:function(results){
+			app.api.performance.empPerformanceRank({
+				data:{
+					merchantId: uinfo.merchantId,
+					storeId: uinfo.storeId
+				},
+				success: function(results){
 					if(results.success){
 						resolve(results);
 					}else{
 						reject(results.message);
 					}
 				},
-				error:function(error){
-					reject('获取数据失败');
+				error: function(error){
+					reject('查询错误');
 				}
 			});
 		});

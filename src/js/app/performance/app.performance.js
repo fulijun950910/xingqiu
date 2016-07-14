@@ -4,7 +4,7 @@
 app.performance = {
 	//BOSS-管理人员接口联调
 	manageReport_init: function(){
-		//接口数据
+		
 		app.performance.getpPerformanceReport(2).then(function(data){
 			var pb=app.performance.processReport(data,2);//默认查询当天
 			//今日业绩
@@ -110,22 +110,24 @@ app.performance = {
 	getpPerformanceReport:function(type){
 		return new Promise(function(resolve,reject){
 			var type = type || 2;
-			//获取请求url
 			var uinfo = app.performance.emp.userinfo();
-			var url = app.api.url+'/wechatbusinessassists/performanceReport/'+uinfo.merchantId+'/'+uinfo.storeId+'/'+uinfo.userid+'/'+type;
-			$.ajax({
-				url:url,
-				type:'GET',
-				dataType:'json',
-				success:function(results){
+			//接口数据
+			app.api.performance.performanceReport({
+				data:{
+					merchantId: uinfo.merchantId,
+					storeId: uinfo.storeId,
+					userid: uinfo.userid,
+					type: type
+				},
+				success: function(results){
 					if (results.success) {
 						resolve(results.data);
 					}else{
 						reject(results.message);
 					}
 				},
-				error:function(error){
-					reject(results.message);
+				error: function(error){
+					reject('请求失败');
 				}
 			});
 		});
