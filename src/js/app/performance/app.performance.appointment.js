@@ -39,5 +39,6 @@ app.performance.appointment = {
     },
     chooseBookingAppointmentId: function (appointmentId) {
         app.performance.appointment.appointmentId = appointmentId;
+        location.href="#/booking-order-detail";
     }
 }

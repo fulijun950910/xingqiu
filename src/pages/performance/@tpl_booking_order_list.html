@@ -5,31 +5,56 @@
     <div id="appointment_list" class="bd booking_order"></div>
     <script type="text/html" id="tmpl-appointment-list">
         <!--% for(var i=0;i<o.datas.length;i++) { %-->
-            <div class="weui_cells weui_cells_access">
-                <a class="weui_cell" onclick="app.performance.appointment.chooseBookingAppointmentId({%=o.datas[i].appointmentId %})" href="#/booking-order-detail">
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <div class="weui_panel_bd">
-                            <div class="weui_media_box weui_media_text">
-                                <h4 class="weui_media_title">{%=o.datas[i].startTime %}</h4>
-                                <p class="weui_media_desc">{%=o.datas[i].appointmentName %} 133495820045</p>
-                            </div>
+            <div class="row card" onclick="app.performance.appointment.chooseBookingAppointmentId({%=o.datas[i].appointmentId %})">
+                <div class="col-100">
+                    <div class="row">
+                        <div class="col-30">
+                            <span>客户姓名:</span>
+                        </div>
+                        <div class="col-40 left">
+                            <span style="color:lightskyblue">{%=o.datas[i].appointmentName %}</span>
+                        </div>
+                        <div class="col-40 right">
+                            <h6 style="color:lightgray">
+                                预约单详情
+                                <i class="icon icon-uniF3D3" style="font-size: 17px;margin-left: 4px;"></i>
+                            </h6>
                         </div>
                     </div>
-                    <div class="weui_cell_ft" style="font-size: 10px;">
-                        <!--% if(o.datas[i].status==1){ %-->
-                            <i class="icon icon-chulizhong" style="padding-right: 10px;font-size: 45px;"></i>待确认
-                        <!--% } else if (o.datas[i].status==2) { %-->
-                            <i class="icon icon-yiqueren" style="padding-right: 10px;font-size: 45px;"></i>已确认
-                        <!--% } else if (o.datas[i].status==3) { %-->
-                            <i class="icon icon-yiwancheng" style="padding-right: 10px;font-size: 45px;"></i>已成功
-                        <!--% } else if (o.datas[i].status==4) { %-->
-                            <i class="icon icon-yiquxiao" style="padding-right: 10px;font-size: 45px;"></i>已取消
-                        <!--% } %-->
+                    <div class="row">
+                        <div class="col-30">
+                            <span>订单时间:</span>
+                        </div>
+                        <div class="col-40 left">
+                            <span style="color:lightskyblue">{%=o.datas[i].startTime %}</span>
+                        </div>
+                        <div class="col-40 right"></div>
                     </div>
-                </a>
-                <div class="weui_cell">
-                    <div class="booking_list">
-                        <p>备注: {%=o.datas[i].information %}</p>
+                    <div class="row">
+                        <div class="col-30">
+                            <span>订单内容:</span>
+                        </div>
+                        <div class="col-40 left">
+                            <!--% for(var j=0;j<o.datas[i].itemVoList;j++ ){ %-->
+                                <span>{%=o.datas[i].itemVoList[j].name %}</span>
+                            <!--% } %-->
+                        </div>
+                        <div class="col-40 right">
+                            <!--% if(o.datas[i].status==1){ %-->
+                            <i class="icon icon-chulizhong" style="color:yellow ;padding-right: 2px;font-size: 40px;"></i>待确认
+                            <!--% } else if (o.datas[i].status==2) { %-->
+                            <i class="icon icon-yiqueren" style="color:lightgreen;padding-right: 2px;font-size: 40px;"></i>已确认
+                            <!--% } else if (o.datas[i].status==3) { %-->
+                            <i class="icon icon-yiwancheng" style="padding-right: 2px;font-size: 40px;"></i>已成功
+                            <!--% } else if (o.datas[i].status==4) { %-->
+                            <i class="icon icon-yiquxiao" style="padding-right: 2px;font-size: 40px;"></i>已取消
+                            <!--% } %-->
+                        </div>
+                    </div>
+                    <div class="weui_cell">
+                        <div class="booking_list">
+                            <h5 style="color:lightgray">备注: {%=o.datas[i].information %}</h5>
+                        </div>
                     </div>
                 </div>
             </div>
