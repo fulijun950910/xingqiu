@@ -20,7 +20,6 @@ app.userinfo = {
                     if (!result.success || !result.data) {
                         location.href = "/userinfo.html#/user_login";
                         throw new Error();
-                        return;
                     }
                     var accountParam = {
                         userId: result.data.userId
