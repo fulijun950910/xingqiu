@@ -21,7 +21,7 @@ app.performance.order = {
         app.api.order.list({
             data: data,
             success: function (result) {
-                if (result.success && !result.data && !result.data.orderListVo) {
+                if (!result.success || !result.data || !result.data.orderListVo) {
                     app.tools.show('order-list');
                     return;
                 }

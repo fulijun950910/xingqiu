@@ -8,10 +8,76 @@ app.userinfo = {
         }
     },
     getEmployee: function () {
-        if (localStorage.employee)
+        if (localStorage.employee) {
             return JSON.parse(localStorage.employee);
-        else
-            location.href = "/userinfo.html#/user_login";
+        } else {
+            app.api.userinfo.findByOpenId({
+                success: function(result){
+                    if (!result.success || !result.data) {
+                        location.href = "/userinfo.html#/user_login";
+                        return;
+                    }
+                    var accountParam = {
+                        userId: result.data.userId
+                    }
+                    app.api.userinfo.listEmployee({
+                        data: accountParam,
+                        success: function (resultEmployeeList) {
+                            var employee = {};
+                            for (var i in resultEmployeeList.data) {
+                                resultEmployeeList.data[i].jsonData = JSON.stringify(resultEmployeeList.data[i]);
+                                if (resultEmployeeList.data[i].id == result.data.employeeId) {
+                                    employee = resultEmployeeList.data[i];
+                                }
+                                for (var j in resultEmployeeList.data[i].merchantRole.permissionPackage.permissions) {
+                                    var permission = resultEmployeeList.data[i].merchantRole.permissionPackage.permissions[j];
+                                    if (permission == app.constant.WECHAT_BUSINESS[1].code) {
+                                        employee.role = app.constant.WECHAT_BUSINESS[1].code;
+                                        break;
+                                    } else if (permission == app.constant.WECHAT_BUSINESS[2].code) {
+                                        employee.role = app.constant.WECHAT_BUSINESS[2].code;
+                                        break;
+                                    } else {
+                                        employee.role = null;
+                                    }
+                                }
+                            }
+                            if (!employee) {
+                                location.href = "/userinfo.html#/user_login";
+                                app.alert('未查到您的身份,请登录美问saas平台设置您的员工身份!!','操作失败');
+                                return;
+                            }
+                            if (!employee.role) {
+                                location.href = "/userinfo.html#/user_login";
+                                app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!','操作失败');
+                                return;
+                            }
+                            var listEmployeeStoreListData = {
+                                employeeId: employee.id,
+                                merchantId: employee.merchantId
+                            }
+                            app.api.userinfo.listEmployeeStoreList({
+                                data: listEmployeeStoreListData,
+                                success: function (result) {
+                                    employee.storeList = result.data;
+                                    window.localStorage.employee = JSON.stringify(employee);
+                                    return JSON.parse(localStorage.employee);
+                                },
+                                error: function (a, b, c) {
+                                    location.href = "/userinfo.html#/user_login";
+                                }
+                            })
+                        },
+                        error: function (a, b, c) {
+                            location.href = "/userinfo.html#/user_login";
+                        }
+                    })
+                },
+                error : function(){
+                    location.href = "/userinfo.html#/user_login";
+                }
+            })
+        }
     },
     selRoleBox: function (cb) {
         //弹出选择角色门店信息列表
@@ -136,21 +202,37 @@ app.userinfo = {
                             success: function (result) {
                                 var employee = app.userinfo.getEmployee();
                                 employee.storeList = result.data;
+                                for (var j in employee.merchantRole.permissionPackage.permissions) {
+                                    var permission = employee.merchantRole.permissionPackage.permissions[j];
+                                    if (permission == app.constant.WECHAT_BUSINESS[1].code) {
+                                        employee.role = app.constant.WECHAT_BUSINESS[1].code;
+                                        break;
+                                    } else if (permission == app.constant.WECHAT_BUSINESS[2].code) {
+                                        employee.role = app.constant.WECHAT_BUSINESS[2].code;
+                                        break;
+                                    } else {
+                                        employee.role = null;
+                                    }
+                                }
                                 window.localStorage.employee = JSON.stringify(employee);
 
-                                if (app.userinfo.getEmployee().organization.level == 1)
+                                if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
                                     location.href = "/performance-index.html#/performance_report";
-                                else
+                                } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                                     location.href = "/performance-index.html#/performance_emp";
+                                } else {
+                                    location.href = "/userinfo.html#/user_login";
+                                    app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!','操作失败');
+                                }
                             },
                             error: function (a, b, c) {
-                                debugger;
+
                             }
                         })
                     }
                 },
                 error: function (a, b, c) {
-                    debugger;
+
                 }
             })
         }
@@ -331,7 +413,6 @@ app.userinfo = {
                     }
                 },
                 error: function (a, b, c) {
-                    debugger;
                 }
             });
         };

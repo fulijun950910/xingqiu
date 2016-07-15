@@ -11,7 +11,7 @@ app.performance.appointment = {
         app.api.appointment.list({
             data: data,
             success: function (result) {
-                if (result.success && !result.data) {
+                if (!result.success || !result.data) {
                     app.tools.show('appointment_list');
                     return;
                 }

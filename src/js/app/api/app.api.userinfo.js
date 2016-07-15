@@ -104,5 +104,21 @@ app.api.userinfo = {
             success: settings.success,
             error: settings.error,
         })
+    },
+    findByOpenId: function(settings){
+        app.api.ajax({
+            url: '/wechat/find',
+            type: 'GET',
+            success: settings.success,
+            error: settings.error,
+        })
+    },
+    setSession: function(settings){
+        app.api.ajax({
+            url: '/wechat/session',
+            type: 'GET',
+            success: settings.success,
+            error: settings.error,
+        })
     }
 }
