@@ -5,6 +5,7 @@ app.api = {
         var url = app.api.url + options.url;
         var settings = {
             url: url,
+            async: options.async||true,
             type: options.type,
             headers: {
                 'Accept': '*/*',

@@ -113,12 +113,4 @@ app.api.userinfo = {
             error: settings.error,
         })
     },
-    setSession: function(settings){
-        app.api.ajax({
-            url: '/wechat/session',
-            type: 'GET',
-            success: settings.success,
-            error: settings.error,
-        })
-    }
 }

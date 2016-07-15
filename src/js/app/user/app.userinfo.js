@@ -1,10 +1,14 @@
 app.userinfo = {
     init: function () {
         if (app.userinfo.getEmployee()) {
-            if (app.userinfo.getEmployee().organization.level == 1)
+            if (app.userinfo.getEmployee().role == app.constant.WECHAT_BUSINESS[1].code) {
                 location.href = "/performance-index.html#/performance_report";
-            else
+            } else if (app.userinfo.getEmployee().role == app.constant.WECHAT_BUSINESS[2].code) {
                 location.href = "/performance-index.html#/performance_emp";
+            } else {
+                location.href = "/userinfo.html#/user_login";
+                app.alert('未查到您的身份,请登录美问saas平台设置您的员工身份!!', '操作失败');
+            }
         }
     },
     getEmployee: function () {
@@ -12,9 +16,10 @@ app.userinfo = {
             return JSON.parse(localStorage.employee);
         } else {
             app.api.userinfo.findByOpenId({
-                success: function(result){
+                success: function (result) {
                     if (!result.success || !result.data) {
                         location.href = "/userinfo.html#/user_login";
+                        throw new Error();
                         return;
                     }
                     var accountParam = {
@@ -44,13 +49,13 @@ app.userinfo = {
                             }
                             if (!employee) {
                                 location.href = "/userinfo.html#/user_login";
-                                app.alert('未查到您的身份,请登录美问saas平台设置您的员工身份!!','操作失败');
-                                return;
+                                app.alert('未查到您的身份,请登录美问saas平台设置您的员工身份!!', '操作失败');
+                                throw new Error();
                             }
                             if (!employee.role) {
                                 location.href = "/userinfo.html#/user_login";
-                                app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!','操作失败');
-                                return;
+                                app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
+                                throw new Error();
                             }
                             var listEmployeeStoreListData = {
                                 employeeId: employee.id,
@@ -60,6 +65,11 @@ app.userinfo = {
                                 data: listEmployeeStoreListData,
                                 success: function (result) {
                                     employee.storeList = result.data;
+                                    var storeIds = [];
+                                    for (var o in employee.storeList) {
+                                        storeIds.push(employee.storeList[o].id);
+                                    }
+                                    employee.storeIds = storeIds.join(',');
                                     window.localStorage.employee = JSON.stringify(employee);
                                     return JSON.parse(localStorage.employee);
                                 },
@@ -73,7 +83,7 @@ app.userinfo = {
                         }
                     })
                 },
-                error : function(){
+                error: function () {
                     location.href = "/userinfo.html#/user_login";
                 }
             })
@@ -202,6 +212,11 @@ app.userinfo = {
                             success: function (result) {
                                 var employee = app.userinfo.getEmployee();
                                 employee.storeList = result.data;
+                                var storeIds = [];
+                                for (var o in employee.storeList) {
+                                    storeIds.push(employee.storeList[o].id);
+                                }
+                                employee.storeIds = storeIds.join(',');
                                 for (var j in employee.merchantRole.permissionPackage.permissions) {
                                     var permission = employee.merchantRole.permissionPackage.permissions[j];
                                     if (permission == app.constant.WECHAT_BUSINESS[1].code) {
@@ -221,8 +236,10 @@ app.userinfo = {
                                 } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                                     location.href = "/performance-index.html#/performance_emp";
                                 } else {
+                                    localStorage.clear();
                                     location.href = "/userinfo.html#/user_login";
-                                    app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!','操作失败');
+                                    app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
+                                    return;
                                 }
                             },
                             error: function (a, b, c) {

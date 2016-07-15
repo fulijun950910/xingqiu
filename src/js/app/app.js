@@ -6,6 +6,12 @@ var app = {};
 app.init = function() {
 };
 
+window.onerror = function () {
+    if ($('#container').children().length > 1)
+        $('#container').find('div:first').remove();
+    return true;
+}
+
 Date.prototype.format = function(format){
     var o = {
         "M+" : this.getMonth()+1, //month
