@@ -127,13 +127,30 @@ app.userinfo = {
                 data: data,
                 success: function (result) {
                     if (result.success) {
-                        if (app.userinfo.getEmployee().organization.level == 1)
-                            location.href = "/performance-index.html#/performance_report";
-                        else
-                            location.href = "/performance-index.html#/performance_emp";
+                        var listEmployeeStoreListData = {
+                            employeeId: app.userinfo.getEmployee().id,
+                            merchantId: app.userinfo.getEmployee().merchantId
+                        }
+                        app.api.userinfo.listEmployeeStoreList({
+                            data: listEmployeeStoreListData,
+                            success: function (result) {
+                                var employee = app.userinfo.getEmployee();
+                                employee.storeList = result.data;
+                                window.localStorage.employee = JSON.stringify(employee);
+
+                                if (app.userinfo.getEmployee().organization.level == 1)
+                                    location.href = "/performance-index.html#/performance_report";
+                                else
+                                    location.href = "/performance-index.html#/performance_emp";
+                            },
+                            error: function (a, b, c) {
+                                debugger;
+                            }
+                        })
                     }
                 },
                 error: function (a, b, c) {
+                    debugger;
                 }
             })
         }
@@ -167,9 +184,9 @@ app.userinfo = {
                 $('select[name="gender"]').val(result.data.gender);
                 if (result.data.avatarFileId)
                     $('#headarticle').prop('src', app.filePath + result.data.avatarFileId);
-                $('#headarticle').on('click', function() {
+                $('#headarticle').on('click', function () {
                     $('#headerfile').click();
-                    $('#headerfile').change(function(dom){
+                    $('#headerfile').change(function (dom) {
                         app.userinfo.changeImg(dom);
                     })
                 })
@@ -291,7 +308,7 @@ app.userinfo = {
     changeImg: function (dom) {
         if (!dom || !dom.files || dom.files.length <= 0)
             return;
-        
+
         var file = dom.files[0];
         var reader = new FileReader();
         reader.readAsDataURL(file);

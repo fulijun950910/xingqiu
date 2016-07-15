@@ -15,7 +15,8 @@ app.performance.order = {
             type: 2,
             ids: app.userinfo.getEmployee().id,
             page: app.performance.order.page.page,
-            size: app.performance.order.page.size
+            size: app.performance.order.page.size,
+            date: date
         }
         app.api.order.list({
             data: data,

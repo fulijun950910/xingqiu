@@ -96,5 +96,13 @@ app.api.userinfo = {
             error: settings.error,
             data: settings.data
         })
+    },
+    listEmployeeStoreList: function(settings){
+        app.api.ajax({
+            url: '/store/list/' + settings.data.merchantId + '/employee/' + settings.data.employeeId,
+            type: 'GET',
+            success: settings.success,
+            error: settings.error,
+        })
     }
 }
