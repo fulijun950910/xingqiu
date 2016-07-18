@@ -4,6 +4,7 @@
 app.api.order = {
     list: function(settings){
         app.api.ajax({
+            async: true,
             url: '/wechatbusinessassists/orderList',
             type: 'POST',
             success: settings.success,
