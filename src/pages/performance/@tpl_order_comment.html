@@ -1,59 +1,41 @@
+<!-- 服务小记 -->
 <script type="text/html" id="tpl_order_comment">
-    <div class="headPic">
-        <div class="autoImg">
-            <img src="images/pic_article_1.jpg">
-        </div>
-        <div class="bd">
-            <div class="weui_cells_title">冯媛媛</div>
-        </div>
-    </div>
-    <div class="weui_cells">
-        <div class="weui_cell">
-            <div class="weui_cell_bd weui_cell_primary">
-                <p>消费</p>
-            </div>
-            <div class="weui_cell_ft">美白基础护理</div>
-        </div>
-    </div>
-    <div class="weui_cells_form">
-        <div class="weui_cell">
-            <div class="weui_cell_bd weui_cell_primary">
-                <textarea class="weui_textarea" placeholder="评价(选填)" rows="3"></textarea>
-                <div class="weui_textarea_counter"><span>0</span>/200</div>
-            </div>
-        </div>
-    </div>
-    <div class="weui_cells weui_cells_form">
-        <div class="weui_cell">
-            <div class="weui_cell_bd weui_cell_primary">
-                <div class="weui_uploader">
-                    <div class="weui_uploader_hd weui_cell">
-                        <div class="weui_cell_bd weui_cell_primary">最多传4张图片</div>
-                        <div class="weui_cell_ft">0/4</div>
-                    </div>
-                    <div class="weui_uploader_bd">
-                        <ul class="weui_uploader_files">
-                            <li class="weui_uploader_file" style="background-image:url(http://shp.qpic.cn/weixinsrc_pic/pScBR7sbqjOBJomcuvVJ6iacVrbMJaoJZkFUIq4nzQZUIqzTKziam7ibg/)"></li>
-                            <li class="weui_uploader_file" style="background-image:url(http://shp.qpic.cn/weixinsrc_pic/pScBR7sbqjOBJomcuvVJ6iacVrbMJaoJZkFUIq4nzQZUIqzTKziam7ibg/)"></li>
-                            <li class="weui_uploader_file" style="background-image:url(http://shp.qpic.cn/weixinsrc_pic/pScBR7sbqjOBJomcuvVJ6iacVrbMJaoJZkFUIq4nzQZUIqzTKziam7ibg/)"></li>
-                            <li class="weui_uploader_file weui_uploader_status" style="background-image:url(http://shp.qpic.cn/weixinsrc_pic/pScBR7sbqjOBJomcuvVJ6iacVrbMJaoJZkFUIq4nzQZUIqzTKziam7ibg/)">
-                                <div class="weui_uploader_status_content">
-                                    <i class="weui_icon_warn"></i>
-                                </div>
-                            </li>
-                            <li class="weui_uploader_file weui_uploader_status" style="background-image:url(http://shp.qpic.cn/weixinsrc_pic/pScBR7sbqjOBJomcuvVJ6iacVrbMJaoJZkFUIq4nzQZUIqzTKziam7ibg/)">
-                                <div class="weui_uploader_status_content">50%</div>
-                            </li>
-                        </ul>
-                        <div class="weui_uploader_input_wrp">
-                            <input class="weui_uploader_input" type="file" accept="image/*" multiple="">
-                        </div>
-                    </div>
+<div class="bd">
+    
+    <div class="comment_form">
+
+        <div class="inward_box">
+            <ul>
+                <li><div class="label_content">客户姓名:</div><span>朱坤</span></li>
+                <li><div class="label_content">订单内容:</div><span>全身美白SPA套餐</span></li>
+                <li><div class="label_content"></div><span>面部去皱抗衰处理</span></li>
+            </ul>
+            <div class="solidWire"></div>
+            <div class="comment">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <textarea class="weui_textarea" placeholder="请输入评论" rows="3"></textarea>
+                    <div class="weui_textarea_counter">你还可以输入150字</div>
                 </div>
             </div>
         </div>
+
     </div>
-    <div class="weui_btn_area">
-        <a class="weui_btn weui_btn_primary" href="javascript:" id="showTooltips">确定</a>
+
+    <!-- 上传本次服务照片 -->
+    <div class="servicepic">
+        <div class="uploadImg">
+            <img src="images/upimg.png">
+        </div>
+
+        <span>上传本次服务照片</span>
+
     </div>
+
+
+    <div class="submit_comment">
+        <a href="javascript:;" class="weui_btn comment_save_btn">完成</a>
+    </div>
+
+
+</div>
 </script>

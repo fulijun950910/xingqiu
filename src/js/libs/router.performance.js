@@ -13,7 +13,7 @@ $(function () {
             return $('#tpl_booking_order_list').html();
         },
         bind: function () {
-            app.performance.booking.list();
+            app.performance.appointment.list();
         }
     }
     //预约详情
@@ -24,7 +24,7 @@ $(function () {
             return $('#tpl_booking_order_detail').html();
         },
         bind: function () {
-            app.performance.booking.detail();
+            app.performance.appointment.detail();
         }
     }
     //订单列表

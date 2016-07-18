@@ -33,29 +33,32 @@
                 </div>
             </div>
         </div>
+        <!-- 弹出选择店列表 -->
+        <div class="select_shade" id="select_shade">
+            <div class="parent_panel">
+                <div id="show_employe_list" class="weui_cells weui_cells_radio"></div>
+                <div class="selbtn_box">
+                    <button onclick="app.userinfo.loginEmployee()" class="role_sel_btn">确认</button>
+                </div>
+            </div>
+        </div>
+
         <script type="text/html" id="tmpl-employee-list">
             <!--% for (var i=0; i <o.datas.length; i++) { %-->
             <label class="weui_cell weui_check_label" for="{%=o.datas[i].id %}">
                 <div class="weui_cell_bd weui_cell_primary">
-                    <p>{%=o.datas[i].store.name %} - {%=o.datas[i].name %}</p>
+                    <p>
+                        <!--% if(o.datas[i].store){ %-->
+                        {%=o.datas[i].store.name %}-
+                        <!--% } %-->
+                        {%=o.datas[i].name %}</p>
                 </div>
                 <div class="weui_cell_ft">
-                    <input type="radio" class="weui_check" data-employee="{%=o.datas[i].jsonData %}" name="emp_data" id="{%=o.datas[i].id %}">
+                    <input type="radio" class="weui_check" data-employee="{%=o.datas[i].jsonData %}" name="emp_data"
+                           id="{%=o.datas[i].id %}">
                     <span class="weui_icon_checked"></span>
                 </div>
             </label>
             <!--% } %-->
         </script>
-<!-- 弹出选择店列表 -->
-<div class="select_shade" id="select_shade">
-    <div class="parent_panel">
-        <div id="show_employe_list" class="weui_cells weui_cells_radio">
-
-        </div>
-        <div class="selbtn_box">
-            <button onclick="app.userinfo.loginEmployee()" class="role_sel_btn">确认</button>
-        </div>
-    </div>
-</div>
-
 </script>
