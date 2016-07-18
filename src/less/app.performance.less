@@ -365,7 +365,7 @@ ul{
 }
 
 
-//屏幕小于421
+//屏幕小于521
 @media screen and (max-width: 521px) {
 	//看昨天-看本月
 	.roundCell{
@@ -531,4 +531,429 @@ ul{
 }
 .comment_save_btn{
 	background-color: #3DD4E0;
+}
+
+/*订单详情页面*/
+.orderDetail{
+	position: relative;
+	width: 100%;
+	height: 100%;
+	background-color: #FFF;
+	margin-top: 1em;
+	.orderdetail9{
+		position: relative;
+		width: 90%;
+		height: 100%;
+		margin: auto;
+		.order_num{
+			height: 2.5em;
+			line-height: 2.5em;
+			border-bottom: 1px solid #ECECEC;
+			font-family: "微软雅黑";
+		}
+
+		.clientName{
+			position: relative;
+			height: 1.5em;
+			line-height: 1.5em;
+			margin-top: 0.5em;
+			color: #6F6F6F;
+			span{
+				color: #45D6E1;
+			}
+		}
+		.ordertime{
+			position: relative;
+			height: 1.5em;
+			line-height: 1.5em;
+			color: #6F6F6F;
+		}
+		
+		//项目内容
+		.order-item{
+			position: relative;
+			width: 100%;
+			li{
+				color: #666666;
+				.leftorder{
+					display: inline-block;
+					width: 5em;
+				}
+				span{
+					color: #3DD5E0;
+				}
+				strong{
+					display: block;
+					float: right;
+					color: #FF7181;
+				}
+			}
+		}
+		
+		//业绩
+		.performance-num{
+			position: relative;
+			width: 100%;
+			color:#676767;
+			.performance{
+				display: inline;
+				span{
+					color: #3ED5E0;
+					margin-left: .5em;
+				}
+			}
+			.push{
+				display: inline;
+				margin-left: .5em;
+				span{
+					color: #3ED5E0;
+					margin-left: .5em;
+				}
+			}
+
+			strong{
+				display: inline-block;
+				float: right;
+				color: #FF7181;
+				i{
+					line-height: -1px;
+				}
+			}
+		}
+
+		//图片
+		.orderimg{
+			position: relative;
+			width: 100%;
+			margin-top: .5em;
+			img{
+				width: 100%;
+			}
+		}
+
+		//评价内容
+		.evaluatebox{
+			position: relative;
+			width: 100%;
+			height: 3em;
+			line-height: 3em;
+			.evaluate{
+				display: inline;
+				width: 100%;
+				color: #C2C2C2;
+				font-size: .9em;
+			}
+			button{
+				display: inline;
+				float: right;
+				width: 6em;
+				height: 2em;
+				margin-top: 1em;
+				background-color: #FFF;
+				border-radius: .3em;
+				border: 1px solid #3DD5E0;
+				color: #3DD5E0;
+			}
+		}
+	}
+}
+
+/*波浪卷边*/
+.rollside{
+	position: relative;
+	width: 100%;
+	img{
+		width: 100%;		
+	}
+}
+
+/*预约单列表样式start*/
+.headerFence{
+	position: relative;
+	width: 100%;
+	height: 3em;
+	background-color: #FFF;
+	line-height: 3em;
+	text-align: center;
+	color: #C8C8C8;
+	border-bottom: 1px solid #D8D8D8;
+	box-shadow: 0px 1px 3px #D8D8D8;
+	.headerFence9{
+		position: relative;
+		width: 90%;
+		margin: auto;
+		a{
+			position: relative;
+			display: inline-block;
+			border: 1px solid #C7C7C7;
+			height: 1.7em;
+			width: 5em;
+			border-radius: .2em;
+			line-height: 1.7em;
+			font-size: .8em;
+		}
+		input{
+			text-align: center;
+			border: none;
+			font-size: 1em;
+			color: #646464;
+		}
+	}
+}
+
+//预约列表
+.bookingList{
+	position: relative;
+	width: 100%;
+	background-color: #FFF;
+	margin-top: .8em;
+	border-top: 1px solid #D8D8D8;
+	border-bottom: 1px solid #D8D8D8;
+	box-shadow: 0px 1px 3px #D8D8D8;
+	color: #686868;
+	.bookinglist9{
+		position: relative;
+		width: 90%;
+		margin: auto;
+		.bookingClientName{
+			position: relative;
+			height: 1.6em;
+			line-height: 1.6em;
+			margin-top: 1em;
+			color: #6F6F6F;
+			span{
+				color: #45D6E1;
+			}
+			a{
+				float: right;
+				display: block;
+				color: #C3C3C3;
+			}
+		}
+		.bookingordertime{
+			position: relative;
+			height: 1.6em;
+			line-height: 1.6em;
+			color: #6F6F6F;
+		}
+		.booking-order-item{
+			position: relative;
+			width: 100%;
+			li{
+				color: #666666;
+				.leftorder{
+					display: inline-block;
+					width: 5em;
+				}
+				span{
+					color: #3DD5E0;
+				}
+				strong{
+					display: block;
+					float: right;
+				}
+				.bkorder-affirm{
+					color: #70E3A4;
+				}
+				.bkorder-unaffirm{
+					color: #FFCF4D;
+				}
+			}
+		}
+		.bookingborder{
+			width: 100%;
+			height: 1px;
+			background-color: #EEE;
+			margin-top: 1em;
+		}
+
+		.evaluatebox{
+			position: relative;
+			width: 100%;
+			height: 3em;
+			line-height: 3em;
+			.evaluate{
+				display: inline;
+				width: 100%;
+				color: #C2C2C2;
+				font-size: .9em;
+			}
+		}
+	}
+}
+/*预约单列表样式end*/
+
+/*订单列表样式 start*/
+.orderlist-headerFence{
+	position: relative;
+	width: 100%;
+	height: 5.8em;
+	background-color: #FFF;
+	line-height: 3em;
+	color: #C8C8C8;
+	border-bottom: 1px solid #D1D1D1;
+	box-shadow: 0px 1px 3px #D1D1D1;
+	.headerFence9{
+		position: relative;
+		text-align: center;
+		width: 90%;
+		margin: auto;
+		border-bottom: 1px solid #EEE;
+		a{
+			position: relative;
+			display: inline-block;
+			border: 1px solid #C7C7C7;
+			height: 1.7em;
+			width: 5em;
+			border-radius: .2em;
+			line-height: 1.7em;
+			font-size: .8em;
+		}
+		input{
+			text-align: center;
+			border: none;
+			font-size: 1em;
+			color: #646464;
+		}
+	}
+	.headerPerformance9{
+		position: relative;
+		width: 90%;
+		height: 2.8em;
+		line-height: 2.8em;
+		color: #666666;
+		margin: auto;
+		.performance{
+			display: inline;
+			strong{
+				color: #40D5E0;
+			}
+		}
+		.push{
+			display: inline;
+			margin-left: 1em;
+			strong{
+				color: #40D5E0;
+			}
+		}
+	}
+}
+.orderList{
+	position: relative;
+	width: 100%;
+	background-color: #FFF;
+	margin-top: .8em;
+	border-top: 1px solid #EEE;
+	border-bottom: 1px solid #D1D1D1;
+	box-shadow: 0px 1px 3px #D1D1D1;
+	color: #686868;
+	.orderList9{
+		position: relative;
+		width: 90%;
+		margin: auto;
+		.orderClientName{
+			position: relative;
+			height: 1.6em;
+			line-height: 1.6em;
+			margin-top: 1em;
+			color: #6F6F6F;
+			span{
+				color: #45D6E1;
+			}
+			a{
+				float: right;
+				display: block;
+				color: #C3C3C3;
+			}
+		}
+		.ordertime{
+			position: relative;
+			height: 1.6em;
+			line-height: 1.6em;
+			color: #6F6F6F;
+		}
+		.order-item{
+			position: relative;
+			width: 100%;
+			li{
+				color: #666666;
+				.leftorder{
+					display: inline-block;
+					width: 5em;
+				}
+				span{
+					color: #3DD5E0;
+				}
+				strong{
+					display: block;
+					float: right;
+					color: #FF7383;
+				}
+			}
+		}
+
+		.orderlist-performance{
+			width: 100%;
+			margin-top: .2em;
+			color:#676767;
+			.performance{
+				display: inline;
+				span{
+					color: #3ED5E0;
+					margin-left: .5em;
+				}
+			}
+			.push{
+				display: inline;
+				margin-left: .5em;
+				span{
+					color: #3ED5E0;
+					margin-left: .5em;
+				}
+			}
+			strong{
+				display: inline-block;
+				float: right;
+			}
+			.payment{
+				color: #FF7181;
+			}
+			.unpayment{
+				color: #FFCF4D;
+			}
+		}
+
+		.orderborder{
+			width: 100%;
+			height: 1px;
+			background-color: #EEE;
+			margin-top: .5em;
+		}
+
+		.evaluatebox{
+			position: relative;
+			width: 100%;
+			height: 3em;
+			line-height: 3em;
+			.evaluate{
+				display: inline;
+				width: 100%;
+				color: #C2C2C2;
+				font-size: .9em;
+			}
+			button{
+				display: inline;
+				float: right;
+				width: 6.2em;
+				height: 2.2em;
+				margin-top: .5em;
+				background-color: #FFF;
+				border-radius: .3em;
+				border: 1px solid #3DD5E0;
+				color: #3DD5E0;
+				font-size: 1em;
+			}
+		}
+
+	}
 }

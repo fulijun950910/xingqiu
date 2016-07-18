@@ -1,65 +1,56 @@
 <script type="text/html" id="tpl_order_detail">
-    <!--<div class="hd">-->
-    <!--<h1 class="page_title"><a href="#/booking-order-list">返回</a></h1>-->
-    <!--</div>-->
-    <div class="bd booking_order">
-        <div id="order-detail" class="weui_cells weui_cells_access"></div>
-    </div>
-    <script type="text/html" id="tmpl-order-detail">
-        <div class="weui_cell">
-            <div class="weui_cell_bd weui_cell_primary">
-                <div class="weui_panel_bd">
-                    <div class="weui_media_box weui_media_text tubiao" style="float: left;">
-                        <h4 class="weui_media_title"><i class="icon icon-time"></i>{%=o.orderDate %}</h4>
-                        <p class="weui_media_desc"><i class="icon icon-man"></i>{%=o.memberName %} {%=o.mobile %}</p>
-                        <!--% for(var i=0;i<o.itemVoList.length; i++ ){ %-->
-                            <!--% if(i==0){ %-->
-                                <p class="weui_media_desc"><i class="icon icon-item-list"></i>{%=o.itemVoList[i].name %}</p>
-                            <!--% } else { %-->
-                                <p class="weui_media_desc"><i style="padding-right:18px"></i>{%=o.itemVoList[i].name %}</p>
-                            <!--% } %-->
-                        <!--% } %-->
-                    </div>
-                    <div style="padding:19px;float:right;font-size: 10px;">
-                        <div>
-                            <!--% if(o.status=='01'){ %-->
-                            <i class="icon icon-chulizhong" style="padding-right: 2px;font-size: 45px;"></i>处理中
-                            <!--% } else if (o.status==11) { %-->
-                            <i class="icon icon-yiqueren" style="padding-right: 2px;font-size: 45px;"></i>待付款
-                            <!--% } else if (o.status==12) { %-->
-                            <i class="icon icon-yiwancheng" style="padding-right: 2px;font-size: 45px;"></i>待付款
-                            <!--% } else if (o.status==13) { %-->
-                            <i class="icon icon-yiquxiao" style="padding-right: 2px;font-size: 45px;"></i>待付款
-                            <!--% } else if (o.status==20) { %-->
-                            <i class="icon icon-yiquxiao" style="padding-right: 2px;font-size: 45px;"></i>已付款
-                            <!--% } else if (o.status==30) { %-->
-                            <i class="icon icon-yiquxiao" style="padding-right: 2px;font-size: 45px;"></i>挂帐
-                            <!--% } else if (o.status==40) { %-->
-                            <i class="icon icon-yiquxiao" style="padding-right: 2px;font-size: 45px;"></i>尾款
-                            <!--% } else if (o.status==50) { %-->
-                            <i class="icon icon-yiquxiao" style="padding-right: 2px;font-size: 45px;"></i>已取消
-                            <!--% } else if (o.status==61) { %-->
-                            <i class="icon icon-yiquxiao" style="padding-right: 2px;font-size: 45px;"></i>退单
-                            <!--% } %-->
-                        </div>
-                        <div style="color:red;padding-top: 10px;font-weight: bold;">应收金额:<span>¥{%=app.performance.order.fenToYuan(o.receivableMoney) %}</span></div>
-                    </div>
+    
+    <!-- 订单详情 -->
+    <div class="bd">
+        
+        <div class="orderDetail">
+            <div class="orderdetail9">
+                
+                <!-- 订单号 -->
+                <div class="order_num">
+                    订单号：46567816541200
                 </div>
-            </div>
+                
+                <div class="clientName">
+                    客户姓名：<span>朱坤</span>
+                </div>
+                
+                <div class="ordertime">
+                    订单时间：08/21 13:30
+                </div>
+                
+                <!-- 订单内容 -->
+                <ul class="order-item">
+                    <li><div class="leftorder">订单内容：</div><span>全身美白SPA套餐</span></li>
+                    <li><div class="leftorder"></div><span>面部去皱抗衰护理</span></li>
+                    <li><div class="leftorder"></div><span>全身美白SPA套餐</span><strong>￥1200.00</strong></li>
+                </ul>
+
+                <!-- 业绩 -->
+                <div class="performance-num">
+                    <div class="performance">业绩:<span>￥1680.00</span></div>
+                    <div class="push">提成:<span>￥168.00</span></div>
+                    <strong><i class="ic icon-duihao"></i>  已付款</strong>
+                </div>
+                
+                <!-- 服务图片 -->
+                <div class="orderimg"> 
+                    <img src="images/pingjia.png">
+                </div>
+
+                <!-- 服务评价内容 -->
+                <div class="evaluatebox">
+                    <div class="evaluate">评价:<span>客户怕冷，勿开空调。喝热水。</span></div>
+                    <button>服务小计</button>
+                </div>
+                   
+            </div>            
         </div>
-        <div class="weui_media_box weui_media_text order_detail_info">
-            <p class="weui_media_desc">订单编号:{%=o.orderNo %}</p>
-            <p class="weui_media_desc">支付时间:{%=o.payDate %}</p>
-        </div>
-        <div class="weui_cell">
-            <div class="booking_list" style="color:#000">
-                <p>业绩: ¥{%=app.performance.order.fenToYuan(o.datas[i].performance) %} 提成: ¥{%=app.performance.order.fenToYuan(o.datas[i].commission) %}</p>
-            </div>
-        </div>
-        <div class="weui_cell">
-            <div class="booking_list" style="color:#000">
-                <p>评价:{%=o.datas[i].remark %}</p>
-            </div>
-        </div>
-    </script>
+    </div>  
+    <!-- 波浪卷边 --> 
+    <div class="rollside">
+        <img src="images/lang.png">
+    </div>
+
+
 </script>
