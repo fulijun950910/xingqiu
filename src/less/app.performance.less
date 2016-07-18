@@ -11,13 +11,15 @@ ul{
 	height: 2em;
 	line-height: 2em;
 	text-align: center;
+	background: -moz-linear-gradient(top, #000000 0%, #ffffff 100%);
+    background: -webkit-gradient(linear, 0 100%, 100% 100%, from(#6C2FAA), to(#7159EA));
 	.report_look{
 		align:center;
-		color:#3F4A57;
+		color:#EDEDEE;
 		font-size: 0.9em;
 		a{
 			margin-left: 0.9em;
-			color: #58A2E8;
+			color: #4ED9CF;
 		}
 	}
 }
@@ -32,6 +34,9 @@ ul{
 	height: 100%;
 	margin: auto;
 	text-align: center;
+	// background-color: #FFF;
+	background: -moz-linear-gradient(top, #000000 0%, #ffffff 100%);
+    background: -webkit-gradient(linear, 0 100%, 100% 100%, from(#6C2FAA), to(#7159EA));
 	.leftbox{
 		position: relative;
 		display: inline-block;
@@ -41,7 +46,7 @@ ul{
 		.leftDay{
 			position: relative;
 			width: 20%;
-			color: #AFAEAF;
+			color: #DED9F9;
 			i{
 				font-size: 1.6em;
 			}
@@ -57,7 +62,7 @@ ul{
 		.thisMonth{
 			position: relative;
 			width: 20%;
-			color: #AFAEAF;
+			color: #DED9F9;
 			i{
 				font-size: 1.6em;
 			}
@@ -76,7 +81,7 @@ ul{
 			width: 8em;
 			height: 8em;
 			margin: auto;
-			border: 0.5em solid #eee;
+			border: 0.5em solid #FFF;
 			border-radius: 50%;	
 			z-index: 1;
 			.leftRound{
@@ -142,11 +147,11 @@ ul{
 			left: 0.5em;
 			p{
 				font-size: 0.9em;
-				color: #90979E;
+				color: #5BEBC0;
 				margin-top: 2em;
 			}
 			h3{
-				color: #323B46;
+				color: #EEEEEE;
 			}
 			.weui_progress_bar{
 				position: relative;
@@ -156,18 +161,18 @@ ul{
 			}
 			button{
 				position: relative;
-				background-color: #fff;
+				background-color: #6F45CC;
 				top: 1em;
-				color: #DB5A5A;
+				color: #E0DCEA;
 				border-radius: 1em;
 				width: 4.5em;
 				height: 1.8em;
-				border: 1px solid #CD4646;
+				border: 1px solid #E0DCEA;
 			}
 			span{
 				display: block;
 				margin-top: 1.5em;
-				color: #6D7B8A;
+				color: #E2DFEA;
 				font-size: .1em;
 			}
 		}
@@ -186,23 +191,18 @@ ul{
 	li{
 		float: left;
 		height: 3em;
-		weight: 3em;
+		weight: 30%;
 		padding-left: 0.8em;
 		padding-right: 0.8em;
 		border-right: 1px solid #B9B9B9;
 		p{
 			font-size: 1.2em;
-			color: #3F4A57;
-			span{
-				position: relative;
-				top: -0.8em;
-				font-size: 0.6em;
-				color: #000;
-			}
+			color: #FAF7FF;
+			text-align: center;
 		}
 		a{
 			font-size: 0.9em;
-			color: #7E8D9C;
+			color: #C2B7DB;
 		}
 	}
 	& li:first-child{
@@ -221,12 +221,14 @@ ul{
 	width: 100%;
 	height: 100%;
 	top: -5em;
+	background-color: #FFF;
 	ul{
 		li{
 			height: 3em;
 			border-bottom: 1px solid #E2E5E8;
 			line-height: 3em;
 			padding-left: 1.5em;
+			background-color: #FFF;
 			.leftDetail{
 				float: left;
 				font-size: 0.9em;
@@ -264,6 +266,7 @@ ul{
 	width: 100%;
 	height: 100%;
 	top: -5em;
+	background-color: #FFF;
 	.emp{
 		margin-top: 1em;
 		height: 3em;
@@ -299,6 +302,19 @@ ul{
 }
 
 //员工排名列表
+.emp_report{
+	position: relative;
+	height: 2em;
+	line-height: 2em;
+	text-align: center;
+	background-color: #FFF;
+	.report_look{
+		align: center;
+		color: #7b7b7d;
+		font-size: 0.9em;
+	}
+}
+
 .emp_list{
 	position: relative;
 	width: 100%;
@@ -312,6 +328,7 @@ ul{
 		li{
 			height: 3em;
 			border-bottom: 1px solid #E2E5E8;
+			background-color: #FFF;
 			a{
 				display: block;
 				width: 100%;
@@ -361,7 +378,7 @@ ul{
 }
 //进度条颜色库
 .schedule-mw-pink{
-	background-color: #E17072 !important;
+	background-color: #F9F7FD !important;
 }
 
 

@@ -1,8 +1,9 @@
 <script type="text/html" id="tpl_performance_report">
 <div class="hd" id="tmpl-performance-manage">
-	<script type="text/html" id="tmpl-performance">
 	<div class="report">
-		<p class="report_look">数据查看<a id="showActionSheet_store" href="javascript:;">全部门店&gt;</a></p>
+		<p class="report_look">
+		数据查看
+		<a id="showActionSheet_store" href="javascript:;">全部门店&gt;</a></p>
 	</div>
 	
 	<!-- 业绩数据图 -->
@@ -25,7 +26,7 @@
 
 			<div class="user_data" id="">
 				<p id="title_name">今日收入</p>
-				<h3 id="all_performance"> {%=o.income%} </h3>
+				<h3 id="all_performance">0.00</h3>
 				<div class="weui_progress_bar">
 		            <div class="weui_progress_inner_bar js_progress schedule-mw-pink" style="width: 100%;"></div>
 		        </div>
@@ -43,15 +44,15 @@
 	<!-- 到店客人，新增会员，当日总消耗 -->
 	<ul class="data_cell">
 		<li>
-			<p id="persons"> {%=o.customerNum%} <span> 人</span></p>
+			<p id="persons">0</p>
 			<a>到店客人</a>
 		</li>
 		<li>
-			<p id="members"> {%=o.newMemberNum%} <span> 位</span></p>
+			<p id="members">0</p>
 			<a>新增会员</a>
 		</li>
 		<li>
-			<p id="count_consume"> {%=o.cardConsume%} <span> 元</span></p>
+			<p id="count_consume">0.00</p>
 			<a>当日总消耗</a>
 		</li>
 	</ul>
@@ -65,80 +66,73 @@
 			<li>
 				<div class="leftDetail">现金收入</div>
 				<div class="rightDetail">
-				<i class="ic icon-renminbi1"></i><span>{%=o.detailList.cash.val%}</span>
-				<!--% if (o.detailList.cash.floating > 0) { %-->
-					<i class="ic icon-xiangshang"></i>
-				<!--% }else if(o.detailList.cash.floating < 0){ %-->
-					<i class="ic icon-xiangxia"></i>
-				<!--% }else if(o.detailList.cash.floating == 0){ %-->
-					<i class="ic">—</i>
-				<!--% } %-->	
+					<i class="ic icon-renminbi1"></i>
+					<span id="cash">0.00</span>
+					<i class="ic"></i>
 				</div>
 			</li>
 			<li>
 				<div class="leftDetail">POS收入</div>
 				<div class="rightDetail">
-				<i class="ic icon-renminbi1"></i><span>{%=o.detailList.pos.val%}</span>
-				<!--% if (o.detailList.pos.floating > 0) { %-->
-					<i class="ic icon-xiangshang"></i>
-				<!--% }else if(o.detailList.pos.floating < 0){ %-->
-					<i class="ic icon-xiangxia"></i>
-				<!--% }else if(o.detailList.pos.floating == 0){ %-->
-					<i class="ic icon-xiangxia"></i>
-				<!--% } %-->
+					<i class="ic icon-renminbi1"></i>
+					<span id="pos">0.00</span>
+					<i class="ic"></i>
 				</div>
 			</li>
 			<li>
 				<div class="leftDetail">微信收入</div>
 				<div class="rightDetail">
-				<i class="ic icon-renminbi1"></i><span>{%=o.detailList.wxpay.val%}</span>
-				<i class="ic icon-xiangshang"></i>
+					<i class="ic icon-renminbi1"></i>
+					<span id="wxpay">0.00</span>
+					<i class="ic"></i>
 				</div>
 			</li>
 			<li>
 				<div class="leftDetail">支付宝</div>
 				<div class="rightDetail">
-				<i class="ic icon-renminbi1"></i><span>{%=o.detailList.alipay.val%}</span>
-				<i class="ic icon-xiangshang"></i>
+					<i class="ic icon-renminbi1"></i>
+					<span id="alipay">0.00</span>
+					<i class="ic"></i>
 				</div>
 			</li>
 			<li>
 				<div class="leftDetail">团购</div>
 				<div class="rightDetail">
-				<i class="ic icon-renminbi1"></i><span>{%=o.detailList.groupbuy.val%}</span>
-				<i class="ic icon-xiangshang"></i>
+					<i class="ic icon-renminbi1"></i>
+					<span id="groupbuy">0.00</span>
+					<i class="ic"></i>
 				</div>
 			</li>
 			<li>
 				
 				<div class="leftDetail ft-color-jm">减免</div>
 				<div class="rightDetail ft-color-jm">
-				<i class="ic icon-renminbi1"></i><span>{%=o.detailList.annul.val%}</span>
-				<i class="ic icon-xiangxia"></i>
+					<i class="ic icon-renminbi1"></i>
+					<span id="annul">0.00</span>
+					<i class="ic icon-xiangxia"></i>
 				</div>
 			</li>
 			<li>
 				<div class="leftDetail ft-color-qk">欠款</div>
 				<div class="rightDetail ft-color-qk">
-				<i class="ic icon-renminbi1"></i><span>{%=o.detailList.debt.val%}</span>
-				<i class="ic icon-xiangxia"></i>
+					<i class="ic icon-renminbi1"></i>
+					<span id="debt">0.00</span>
+					<i class="ic icon-xiangxia"></i>
 				</div>
 			</li>
 		</ul>
 	</div>
 
-<div id="actionSheet_wrap">
-    <div class="weui_mask_transition" id="mask_store"></div>
-    <div class="weui_actionsheet" id="weui_actionsheet_store">
-        <div class="weui_actionsheet_menu">
-            <div class="weui_actionsheet_cell">示例菜单</div>
-            <div class="weui_actionsheet_cell">示例菜单</div>
-        </div>
-        <div class="weui_actionsheet_action">
-            <div class="weui_actionsheet_cell" id="actionsheet_cancel_store">取消</div>
-        </div>
-    </div>
-</div>
-</script>
+	<div id="actionSheet_wrap">
+	    <div class="weui_mask_transition" id="mask_store"></div>
+	    <div class="weui_actionsheet" id="weui_actionsheet_store">
+	        <div id="storeList" class="weui_actionsheet_menu">
+	        	<div name="" class="weui_actionsheet_cell">全部门店</div>
+	        </div>
+	        <div class="weui_actionsheet_action">
+	            <div class="weui_actionsheet_cell" id="actionsheet_cancel_store">取消</div>
+	        </div>
+	    </div>
+	</div>
 </div>
 </script>

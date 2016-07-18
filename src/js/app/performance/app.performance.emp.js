@@ -1,4 +1,4 @@
-//员工业绩
+﻿//员工业绩
 app.performance.emp = {
 	init: function() {
 		//请求完毕之后，继续处理

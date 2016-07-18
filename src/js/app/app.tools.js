@@ -4,6 +4,7 @@ app.tools={
 		if(!num){
 			return '';
 		}
+		var num = (num/100).toFixed(2);
 		//数字千分位格式化
 		var numstr = '';
 		if (typeof num == 'number') {
