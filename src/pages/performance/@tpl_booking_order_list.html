@@ -5,71 +5,63 @@
     <!-- 预约单顶栏 -->
     <div class="headerFence">
         <div class="headerFence9">
-            <a class="leftday"><i class="icon icon-uniF3D2"></i> 前一天</a>
-            <input type="text" readonly="readonly" value ="2016-07-17">            
-            <a class="nextday">后一天 <i class="icon icon-uniF3D3"></i></a>
+            <a onclick="app.performance.appointment.leftDay(this)" class="leftday"><i class="icon icon-uniF3D2"></i> 前一天</a>
+            <input id="appointment-query-date" type="text" readonly="readonly">
+            <a onclick="app.performance.appointment.nextDay(this)" class="nextday">后一天 <i class="icon icon-uniF3D3"></i></a>
         </div>
     </div>
     
     <!-- 预约单列表 -->
-    <div class="bookingList">
-        
-        <div class="bookinglist9">
-                
-                <div class="bookingClientName">
-                    客户姓名：<span>朱坤</span>
-                    <!--<a href="javascript:;">预约单详情<i class="icon icon-uniF3D3"></i></a>-->
-                </div>
-                
-                <div class="bookingordertime">
-                    订单时间：08/21 13:30
-                </div>
-                
-                <!-- 订单内容 -->
-                <ul class="booking-order-item">
-                    <li><div class="leftorder">订单内容：</div><span>全身美白SPA套餐</span></li>
-                    <li><div class="leftorder"></div><span>全身美白SPA套餐</span><strong class="bkorder-affirm"><i class="ic icon-duihao"></i> 已确认</strong></li>
-                </ul>
-                
-                <!-- 下边框线 -->
-                <div class="bookingborder"></div>
-
-                <!-- 服务评价内容 -->
-                <div class="evaluatebox">
-                    <div class="evaluate">小计:<span>客户怕冷，勿开空调。喝热水。</span></div>
-                </div>
-
-        </div>
-    </div>
-
-    <div class="bookingList">
-        <div class="bookinglist9">
-                
-                <div class="bookingClientName">
-                    客户姓名：<span>朱坤</span>
-                    <!--<a href="javascript:;">预约单详情<i class="icon icon-uniF3D3"></i></a>-->
-                </div>
-                
-                <div class="bookingordertime">
-                    订单时间：08/21 13:30
-                </div>
-                
-                <!-- 订单内容 -->
-                <ul class="booking-order-item">
-                    <li><div class="leftorder">订单内容：</div><span>全身美白SPA套餐</span></li>
-                    <li><div class="leftorder"></div><span>全身美白SPA套餐</span><strong class="bkorder-unaffirm"><i class="ic icon-shijian"></i> 未确认</strong></li>
-                </ul>
-                
-                <!-- 下边框线 -->
-                <div class="bookingborder"></div>
-
-                <!-- 服务评价内容 -->
-                <div class="evaluatebox">
-                    <div class="evaluate">小计:<span>客户怕冷，勿开空调。喝热水。</span></div>
-                </div>
-        </div>
-    </div>
-    
+    <div id="appointment-list"></div>
 </div>
+    <script type="text/html" id="tmpl-appointment-list">
+        <!--% for(var i=0;i<o.datas.length;i++) { %-->
+            <div class="bookingList">
+                <div class="bookinglist9">
+                    <div class="bookingClientName">
+                        客户姓名：<span>{%=o.datas[i].appointmentName %}</span>
+                        <!--<a href="javascript:;">预约单详情<i class="icon icon-uniF3D3"></i></a>-->
+                    </div>
+                    <div class="bookingordertime">
+                        订单时间：{%=o.datas[i].startTime %}
+                    </div>
 
+                    <!-- 订单内容 -->
+                    <ul class="booking-order-item">
+                        <!--% if(o.datas[i].itemVoList){ %-->
+                            <!--% for(var j=0;j<o.datas[i].itemVoList.length;j++ ){ %-->
+                                <!--% if(j==0){ %-->
+                                    <li><div class="leftorder">订单内容：</div><span>{%=o.datas[i].itemVoList[j].itemName %}</span></li>
+                                <!--% }else if(j==(o.datas[i].itemVoList.length-1)){ %-->
+                                    <li><div class="leftorder"></div><span>{%=o.datas[i].itemVoList[j].itemName %}</span><strong class="bkorder-affirm">
+                                        <!--% if(o.datas[i].status==1){ %-->
+                                        <i class="icon icon-chulizhong" style="color:yellow ;padding-right: 2px;font-size: 40px;"></i>待确认
+                                        <!--% } else if (o.datas[i].status==2) { %-->
+                                        <i class="icon icon-yiqueren" style="color:lightgreen;padding-right: 2px;font-size: 40px;"></i>已确认
+                                        <!--% } else if (o.datas[i].status==3) { %-->
+                                        <i class="icon icon-yiwancheng" style="padding-right: 2px;font-size: 40px;"></i>已成功
+                                        <!--% } else if (o.datas[i].status==4) { %-->
+                                        <i class="icon icon-yiquxiao" style="padding-right: 2px;font-size: 40px;"></i>已取消
+                                        <!--% } %-->
+                                        </strong>
+                                    </li>
+                                <!--% }else{ %-->
+                                    <li><span>{%=o.datas[i].itemVoList[j].itemName %}</span></li>
+                                <!--% { %-->
+                            <!--% } %-->
+                        <!--%  } %-->
+                    </ul>
+
+                    <!-- 下边框线 -->
+                    <div class="bookingborder"></div>
+
+                    <!-- 服务评价内容 -->
+                    <div class="evaluatebox">
+                        <div class="evaluate">备注:<span>{%=o.datas[i].information %}</span></div>
+                    </div>
+
+                </div>
+            </div>
+        <!--% } %-->
+    </script>
 </script>

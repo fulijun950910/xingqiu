@@ -1,41 +1,52 @@
 <!-- 服务小记 -->
 <script type="text/html" id="tpl_order_comment">
-<div class="bd">
-    
-    <div class="comment_form">
-
-        <div class="inward_box">
-            <ul>
-                <li><div class="label_content">客户姓名:</div><span>朱坤</span></li>
-                <li><div class="label_content">订单内容:</div><span>全身美白SPA套餐</span></li>
-                <li><div class="label_content"></div><span>面部去皱抗衰处理</span></li>
-            </ul>
-            <div class="solidWire"></div>
-            <div class="comment">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <textarea class="weui_textarea" placeholder="请输入评论" rows="3"></textarea>
-                    <div class="weui_textarea_counter">你还可以输入150字</div>
+    <div id="order-comment" class="bd"></div>
+    <script type="text/html" id="tmpl-order-comment">
+        <div class="comment_form">
+            <div class="inward_box">
+                <ul>
+                    <li>
+                        <div class="label_content">客户姓名:</div>
+                        <span>{%=o.memberName %}</span>
+                    </li>
+                    <!--% if(o.itemVoList){ %-->
+                        <!--% for(var i=0;i<o.itemVoList.length;i++ ){ %-->
+                            <!--% if (i==0){ %-->
+                                <li>
+                                    <div class="label_content">订单内容:</div>
+                                    <span>{%=o.itemVoList[i].itemName%}</span>
+                                </li>
+                            <!--% }else{ %-->
+                                <li>
+                                    <div class="label_content"></div>
+                                    <span>{%=o.itemVoList[i].itemName%}</span>
+                                </li>
+                            <!--% } %-->
+                        <!--% } %-->
+                    <!--% } %-->
+                </ul>
+                <div class="solidWire"></div>
+                <div class="comment">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <textarea class="weui_textarea" placeholder="请输入评论" rows="3"></textarea>
+                        <div class="weui_textarea_counter">你还可以输入150字</div>
+                    </div>
                 </div>
             </div>
+
+        </div>
+        <!-- 上传本次服务照片 -->
+        <div class="servicepic">
+            <div class="uploadImg">
+                <img id="comment-pic" this.src="images/upimg.png">
+                <input id="comment-file" style="width:1px;height:1px" type="file" accept="image/*" onchange="app.performance.order.changeImg(this)">
+            </div>
+
+            <span>上传本次服务照片</span>
         </div>
 
-    </div>
-
-    <!-- 上传本次服务照片 -->
-    <div class="servicepic">
-        <div class="uploadImg">
-            <img src="images/upimg.png">
+        <div class="submit_comment">
+            <a href="javascript:;" onclick="" class="weui_btn comment_save_btn">完成</a>
         </div>
-
-        <span>上传本次服务照片</span>
-
-    </div>
-
-
-    <div class="submit_comment">
-        <a href="javascript:;" class="weui_btn comment_save_btn">完成</a>
-    </div>
-
-
-</div>
+    </script>
 </script>

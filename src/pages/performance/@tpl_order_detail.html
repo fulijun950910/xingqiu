@@ -1,56 +1,85 @@
 <script type="text/html" id="tpl_order_detail">
-    
-    <!-- 订单详情 -->
-    <div class="bd">
-        
-        <div class="orderDetail">
-            <div class="orderdetail9">
-                
-                <!-- 订单号 -->
-                <div class="order_num">
-                    订单号：46567816541200
-                </div>
-                
-                <div class="clientName">
-                    客户姓名：<span>朱坤</span>
-                </div>
-                
-                <div class="ordertime">
-                    订单时间：08/21 13:30
-                </div>
-                
-                <!-- 订单内容 -->
-                <ul class="order-item">
-                    <li><div class="leftorder">订单内容：</div><span>全身美白SPA套餐</span></li>
-                    <li><div class="leftorder"></div><span>面部去皱抗衰护理</span></li>
-                    <li><div class="leftorder"></div><span>全身美白SPA套餐</span><strong>￥1200.00</strong></li>
-                </ul>
 
-                <!-- 业绩 -->
-                <div class="performance-num">
-                    <div class="performance">业绩:<span>￥1680.00</span></div>
-                    <div class="push">提成:<span>￥168.00</span></div>
-                    <strong><i class="ic icon-duihao"></i>  已付款</strong>
-                </div>
-                
-                <!-- 服务图片 -->
-                <div class="orderimg"> 
-                    <img src="images/pingjia.png">
-                </div>
+    <div id="order-detail"></div>
+    <script type="text/html" id="tmpl-order-detail">
+        <!-- 订单详情 -->
+        <div class="bd">
+            <div class="orderDetail">
+                <div class="orderdetail9">
+                    <!-- 订单号 -->
+                    <div class="order_num">
+                        订单号：{%=o.orderNo %}
+                    </div>
 
-                <!-- 服务评价内容 -->
-                <div class="evaluatebox">
-                    <div class="evaluate">评价:<span>客户怕冷，勿开空调。喝热水。</span></div>
-                    <button>服务小计</button>
+                    <div class="clientName">
+                        客户姓名：<span>{%=o.memberName%}</span>
+                    </div>
+
+                    <div class="ordertime">
+                        订单时间：{%=o.orderDate%}
+                    </div>
+
+                    <!-- 订单内容 -->
+                    <ul class="order-item">
+                        <!--% if(o.itemVoList){ %-->
+                            <!--% for(var i=0;i<o.itemVoList.length;i++){ %-->
+                                <!--% if (i==0) { %-->
+                                    <li><div class="leftorder">订单内容：</div><span>{%=o.itemVoList[i].itemName %}</span></li>
+                                <!--% } else if (i==(o.itemVoList.length-1)){ %-->
+                                    <li><div class="leftorder"></div><span>{%=o.itemVoList[i].itemName %}</span></li>
+                                <!--% }else{ %-->
+                                    <li><div class="leftorder"></div><span>{%=o.itemVoList[i].itemName %}</span><strong>￥{%=app.performance.order.fenToYuan(o.receivableMoney) %}</strong></li>
+                                <!--% } %-->
+                            <!--% } %-->
+                        <!--% } %-->
+                    </ul>
+
+                    <!-- 业绩 -->
+                    <div class="performance-num">
+                        <div class="performance">业绩:<span>￥{%=app.performance.order.fenToYuan(o.performance) %}</span></div>
+                        <div class="push">提成:<span>￥{%=app.performance.order.fenToYuan(o.commission) %}</span></div>
+                        <strong>
+                            <!--% if(o.status==1){ %-->
+                            <i class="icon icon-chulizhong"></i>处理中
+                            <!--% } else if (o.status==11) { %-->
+                            <i class="icon icon-daifukuan"></i>待付款
+                            <!--% } else if (o.status==12) { %-->
+                            <i class="icon icon-daifukuan"></i>待付款
+                            <!--% } else if (o.status==13) { %-->
+                            <i class="icon icon-daifukuan"></i>待付款
+                            <!--% } else if (o.status==20) { %-->
+                            <i class="icon icon-yifukuan"></i>已付款
+                            <!--% } else if (o.status==30) { %-->
+                            <i class="icon icon-guazhang"></i>挂帐
+                            <!--% } else if (o.status==40) { %-->
+                            <i class="icon icon-weikuan"></i>尾款
+                            <!--% } else if (o.status==50) { %-->
+                            <i class="icon icon-yiquxiao"></i>已取消
+                            <!--% } else if (o.status==61) { %-->
+                            <i class="icon icon-tuidan"></i>退单
+                            <!--% } %-->
+                        </strong>
+                    </div>
+
+                    <!-- 服务图片 -->
+                    <div class="orderimg">
+                        <!--% if(o.fileId){ %-->
+                        <img src="{%=app.filePath + o.fileId %}" onerror="this.src='images/pingjia.png'">
+                        <!--% } %-->
+                    </div>
+
+                    <!-- 服务评价内容 -->
+                    <div class="evaluatebox">
+                        <div class="evaluate">评价:<span>{%=o.comment %}</span></div>
+                        <button onclick="app.performance.order.comment({%=o %})">服务小计</button>
+                    </div>
+
                 </div>
-                   
-            </div>            
+            </div>
         </div>
-    </div>  
-    <!-- 波浪卷边 --> 
-    <div class="rollside">
-        <img src="images/lang.png">
-    </div>
-
-
+        <!-- 波浪卷边 -->
+        <div class="rollside">
+            <img src="images/lang.png">
+        </div>
+    </script>
 </script>

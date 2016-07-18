@@ -93,7 +93,7 @@ $(function () {
             return $('#tpl_order_comment').html();
         },
         bind: function () {
-            app.performance.order.searchOrderComment();
+            app.performance.order.orderComment();
         }
     }
 
