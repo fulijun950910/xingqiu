@@ -62,13 +62,32 @@ app.performance.order = {
         var html = $('#tmpl-order-comment').html();
         var tmplate = tmpl(html, app.performance.order.order);
         $('#order-comment').html(tmplate);
-        $('#comment-pic').on('click', function(){
+        $('#comment-pic').on('click', function () {
             $('#comment-file').click();
             $('#comment-file').change(function (dom) {
                 app.performance.order.changeImg(dom);
             })
         });
 
+    },
+    submitComment: function () {
+        var data = {
+            fileId: app.performance.order.commentFileId,
+            memberId: app.performance.order.order.memberId,
+            merchantId: app.userinfo.getEmployee().merchantId,
+            employeeId: app.userinfo.getEmployee().id,
+            comment: $('#comment-content').val(),
+            orderId: app.performance.order.order.orderId
+        }
+        app.api.order.comment({
+            data: data,
+            success: function (result) {
+                app.alert('订单评价生成','操作成功');
+            },
+            error: function (a,b,c,d) {
+
+            }
+        })
     },
     stop: function () {
         var e = document;
