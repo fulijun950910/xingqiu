@@ -129,6 +129,9 @@ app.performance.rank={
 				},
 				success: function(results){
 					if(results.success){
+						if (results.data && results.data.length<=0) {
+							app.tools.show('performance_rank');
+						};
 						resolve(results);
 					}else{
 						reject(results.message);
