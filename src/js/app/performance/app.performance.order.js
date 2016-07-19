@@ -6,9 +6,16 @@ app.performance.order = {
         page: 1,
         size: 10
     },
+    performance: 0, //业绩
+    commission: 0, //提成
     orderId: null,
+    destory: function(){
+        app.performance.order.page.page = 1;
+        app.performance.order.performance = 0;
+        app.performance.order.commission = 0;
+    },
     list: function () {
-        $('#scroll').css('height',window.screen.height);
+        $('#scroll').css('height', window.screen.height);
         var date = new Date();
         date = $('#order-query-date').val() || date.format('yyyy-MM-dd');
         if (!$('#order-query-date').val())
@@ -30,6 +37,11 @@ app.performance.order = {
                 app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
                 var data = {
                     datas: result.data.orderListVo
+                }
+                for (var i in result.data.orderListVo) {
+                    var orderVo = result.data.orderListVo[i];
+                    app.performance.order.performance = parseInt(app.performance.order.performance) + orderVo.performance;
+                    app.performance.order.commission = parseInt(app.performance.order.commission) + orderVo.commission;
                 }
                 var html = $('#tmpl-order-list').html();
                 var template = tmpl(html, data);
@@ -110,7 +122,7 @@ app.performance.order = {
         return m;
     },
     leftDay: function (dom) {
-        app.performance.order.page.page = 1;
+        app.performance.order.destory();
         var $this = $(dom).parent().find('input');
         var nowDate = new Date($this.val());
         nowDate = new Date(nowDate.valueOf() - 1 * 24 * 60 * 60 * 1000);
@@ -119,7 +131,7 @@ app.performance.order = {
         app.performance.order.list();
     },
     nextDay: function (dom) {
-        app.performance.order.page.page = 1;
+        app.performance.order.destory();
         var $this = $(dom).parent().find('input');
         var nowDate = new Date($this.val());
         nowDate = new Date(nowDate.valueOf() + 1 * 24 * 60 * 60 * 1000);
@@ -160,7 +172,7 @@ app.performance.order = {
     scrollInit: function () {
         myScroll = new IScroll('#scroll', {probeType: 3, mouseWheel: true});
         myScroll.on('scrollEnd', function () {
-            if ( this.y >= 0 ) {
+            if (this.y >= 0) {
                 // app.performance.order.page = {
                 //     page: 1,
                 //     size: 4
