@@ -23,6 +23,7 @@ module.exports = function (grunt) {
                     'src/js/libs/router.sign.js',
                     'src/js/libs/router.performance.js',
                     'src/js/libs/tmpl.js',
+                    'src/js/libs/iscroll-probe.js'
                 ],
                 libs: [
                     'src/js/libs/tmpl.js'],

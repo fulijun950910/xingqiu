@@ -20,10 +20,13 @@
 @@include('pages/performance/@tpl_order_list.html')
 @@include('pages/performance/@tpl_order_detail.html')
 @@include('pages/performance/@tpl_order_comment.html')
-
 <script src="js/jquery.min.js"></script>
 <script src="js/router.min.js"></script>
 <script src="js/libs.js"></script>
 <script src="js/router.performance.js"></script>
+<script src="js/iscroll-probe.js"></script>
+<script>
+    document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+</script>
 </body>
 </html>

@@ -4,15 +4,15 @@
 app.performance.order = {
     page: {
         page: 1,
-        size: 10
+        size: 4
     },
     orderId: null,
     list: function () {
+        $('#scroll').css('height',window.screen.height);
         var date = new Date();
         date = $('#order-query-date').val() || date.format('yyyy-MM-dd');
         if (!$('#order-query-date').val())
             $('#order-query-date').val(date);
-        console.info(date);
         var data = {
             type: 2,
             ids: app.userinfo.getEmployee().id,
@@ -27,12 +27,14 @@ app.performance.order = {
                     app.tools.show('order-list');
                     return;
                 }
+                app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
                 var data = {
                     datas: result.data.orderListVo
                 }
                 var html = $('#tmpl-order-list').html();
                 var template = tmpl(html, data);
                 $('#order-list').html(template);
+                myScroll.refresh();
             }
         })
     },
@@ -82,9 +84,9 @@ app.performance.order = {
         app.api.order.comment({
             data: data,
             success: function (result) {
-                app.alert('订单评价生成','操作成功');
+                app.alert('订单评价生成', '操作成功');
             },
-            error: function (a,b,c,d) {
+            error: function (a, b, c, d) {
 
             }
         })
@@ -152,5 +154,46 @@ app.performance.order = {
                 }
             });
         };
+    },
+    scrollInit: function () {
+        myScroll = new IScroll('#scroll', {probeType: 3, mouseWheel: true});
+        myScroll.on('scrollEnd', function () {
+            if ( this.y >= 0 ) {
+                // app.performance.order.page = {
+                //     page: 1,
+                //     size: 4
+                // }
+                // app.performance.order.list();
+            } else if (this.y < -40) {
+                app.performance.order.loadList();
+            }
+        });
+    },
+    loadList: function () {
+        if (app.performance.order.page.page >= $('.orderList').length)
+            return;
+
+        var data = {
+            type: 2,
+            ids: app.userinfo.getEmployee().id,
+            page: app.performance.order.page.page,
+            size: app.performance.order.page.size,
+            date: $('#order-query-date').val()
+        }
+        app.api.order.list({
+            data: data,
+            success: function (result) {
+                if (!result.success || !result.data)
+                    return;
+                app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
+                var data = {
+                    datas: result.data.orderListVo
+                }
+                var html = $('#tmpl-order-list').html();
+                var template = tmpl(html, data);
+                $('#order-list').append(template);
+                myScroll.refresh();
+            }
+        })
     }
 }
