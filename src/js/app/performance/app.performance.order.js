@@ -4,15 +4,25 @@
 app.performance.order = {
     page: {
         page: 1,
-        size: 10
+        size: 3,
+        total: 0
     },
+    performance: 0, //业绩
+    commission: 0, //提成
     orderId: null,
+    destory: function () {
+        app.performance.order.page.page = 1;
+        app.performance.order.performance = 0;
+        app.performance.order.commission = 0;
+        $('#total-performance').text('￥0.00');
+        $('#total-push').text('￥0.00');
+    },
     list: function () {
+        $('#scroll').css('height', window.screen.height);
         var date = new Date();
         date = $('#order-query-date').val() || date.format('yyyy-MM-dd');
         if (!$('#order-query-date').val())
             $('#order-query-date').val(date);
-        console.info(date);
         var data = {
             type: 2,
             ids: app.userinfo.getEmployee().id,
@@ -27,12 +37,17 @@ app.performance.order = {
                     app.tools.show('order-list');
                     return;
                 }
+                app.performance.order.page.total = result.data.total;
+                app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
                 var data = {
                     datas: result.data.orderListVo
                 }
+
+                app.performance.order.countPerformance(result.data.orderListVo);
                 var html = $('#tmpl-order-list').html();
                 var template = tmpl(html, data);
                 $('#order-list').html(template);
+                myScroll.refresh();
             }
         })
     },
@@ -82,9 +97,9 @@ app.performance.order = {
         app.api.order.comment({
             data: data,
             success: function (result) {
-                app.alert('订单评价生成','操作成功');
+                app.alert('订单评价生成', '操作成功');
             },
-            error: function (a,b,c,d) {
+            error: function (a, b, c, d) {
 
             }
         })
@@ -108,6 +123,7 @@ app.performance.order = {
         return m;
     },
     leftDay: function (dom) {
+        app.performance.order.destory();
         var $this = $(dom).parent().find('input');
         var nowDate = new Date($this.val());
         nowDate = new Date(nowDate.valueOf() - 1 * 24 * 60 * 60 * 1000);
@@ -116,6 +132,7 @@ app.performance.order = {
         app.performance.order.list();
     },
     nextDay: function (dom) {
+        app.performance.order.destory();
         var $this = $(dom).parent().find('input');
         var nowDate = new Date($this.val());
         nowDate = new Date(nowDate.valueOf() + 1 * 24 * 60 * 60 * 1000);
@@ -152,5 +169,50 @@ app.performance.order = {
                 }
             });
         };
+    },
+    scrollInit: function () {
+        myScroll = new IScroll('#scroll', {probeType: 3, mouseWheel: true, tap: true, click: true});
+        myScroll.on('scrollEnd', function () {
+            var s = this.y;
+            app.performance.order.loadList();
+        });
+    },
+    loadList: function () {
+        if (app.performance.order.page.total <= $('.orderList').length)
+            return;
+
+        var data = {
+            type: 2,
+            ids: app.userinfo.getEmployee().id,
+            page: app.performance.order.page.page,
+            size: app.performance.order.page.size,
+            date: $('#order-query-date').val()
+        }
+        app.api.order.list({
+            data: data,
+            success: function (result) {
+                if (!result.success || !result.data)
+                    return;
+                app.performance.order.page.total = result.data.total;
+                app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
+                var data = {
+                    datas: result.data.orderListVo
+                }
+                app.performance.order.countPerformance(result.data.orderListVo);
+                var html = $('#tmpl-order-list').html();
+                var template = tmpl(html, data);
+                $('#order-list').append(template);
+                myScroll.refresh();
+            }
+        })
+    },
+    countPerformance: function (data) {
+        for (var i in data) {
+            var orderVo = data[i];
+            app.performance.order.performance = parseInt(app.performance.order.performance) + parseInt(orderVo.performance);
+            app.performance.order.commission = parseInt(app.performance.order.commission) + parseInt(orderVo.commission);
+        }
+        $('#total-performance').text('￥' + app.performance.order.fenToYuan(app.performance.order.performance));
+        $('#total-push').text('￥' + app.performance.order.fenToYuan(app.performance.order.commission));
     }
 }
