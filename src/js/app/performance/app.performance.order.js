@@ -4,7 +4,7 @@
 app.performance.order = {
     page: {
         page: 1,
-        size: 3,
+        size: 10,
         total: 0
     },
     performance: 0, //业绩
@@ -178,7 +178,8 @@ app.performance.order = {
         myScroll = new IScroll('#scroll', {probeType: 3, mouseWheel: true, tap: true, click: true});
         myScroll.on('scrollEnd', function () {
             var s = this.y;
-            app.performance.order.loadList();
+            if (s < 0)
+                app.performance.order.loadList();
         });
     },
     loadList: function () {
