@@ -4,7 +4,7 @@
 app.performance.order = {
     page: {
         page: 1,
-        size: 4
+        size: 10
     },
     orderId: null,
     list: function () {
@@ -110,6 +110,7 @@ app.performance.order = {
         return m;
     },
     leftDay: function (dom) {
+        app.performance.order.page.page = 1;
         var $this = $(dom).parent().find('input');
         var nowDate = new Date($this.val());
         nowDate = new Date(nowDate.valueOf() - 1 * 24 * 60 * 60 * 1000);
@@ -118,6 +119,7 @@ app.performance.order = {
         app.performance.order.list();
     },
     nextDay: function (dom) {
+        app.performance.order.page.page = 1;
         var $this = $(dom).parent().find('input');
         var nowDate = new Date($this.val());
         nowDate = new Date(nowDate.valueOf() + 1 * 24 * 60 * 60 * 1000);
