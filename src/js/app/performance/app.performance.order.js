@@ -30,6 +30,10 @@ app.performance.order = {
             size: app.performance.order.page.size,
             date: date
         }
+        if (app.userinfo.getEmployee().role == app.constant.WECHAT_BUSINESS[1].code) {
+            data.type = 1;
+            data.ids = app.userinfo.getEmployee().storeIds
+        }
         app.api.order.list({
             data: data,
             success: function (result) {
@@ -187,6 +191,10 @@ app.performance.order = {
             page: app.performance.order.page.page,
             size: app.performance.order.page.size,
             date: $('#order-query-date').val()
+        }
+        if (app.userinfo.getEmployee().role == app.constant.WECHAT_BUSINESS[1].code) {
+            data.type = 1;
+            data.ids = app.userinfo.getEmployee().storeIds
         }
         app.api.order.list({
             data: data,
