@@ -1,8 +1,14 @@
 <script type="text/html" id="tpl_performance_rank">
 <div class="hd" id="performance_rank">
-	<script type="text/html" id="tmpl-emp-rank">
+	
+</div>
+<script type="text/html" id="tmpl-emp-rank">
 	<div class="emp_report" >
-		<p class="report_look">数据查看</p>
+		<p class="report_look">
+		数据查看
+		<a id="showActionSheet_rank" style="display:none;" href="javascript:;">
+		{%= o.storeName %}&gt;</a>
+		</p>
 	</div>
 
 	<!-- 员工排名 -->
@@ -35,8 +41,11 @@
 	<div id="actionSheet_wrap">
     <div class="weui_mask_transition" id="mask_rank"></div>
     <div class="weui_actionsheet" id="weui_actionsheet_rank">
-        <div class="weui_actionsheet_menu">
-            <div class="weui_actionsheet_cell">示例菜单</div>
+        <div id="storeRankSheet" class="weui_actionsheet_menu">
+        	<!--% for (var i=0; i <o.storelist.length; i++) { %-->
+            <div name="{%= o.storelist[i].id %}" class="weui_actionsheet_cell">
+            {%= o.storelist[i].name %}</div>
+            <!--% } %-->
         </div>
         <div class="weui_actionsheet_action">
             <div class="weui_actionsheet_cell" id="actionsheet_cancel_rank">取消</div>
@@ -44,5 +53,4 @@
     </div>
 </div>
 </script>
-</div>
 </script>

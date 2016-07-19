@@ -53,13 +53,12 @@ app.performance.emp = {
 	//获取用户信息
 	userinfo: function(){
 		var u_info=app.userinfo.getEmployee();
-		//员工ID，商户ID, 门店ID
+		//商户ID,门店ID,员工ID
 		return {merchantId: u_info.merchantId,storeId: u_info.storeId, userid : u_info.id};
 	},
-	//获取用户门店列表
+	//获取员工门店ID
 	getUserStoreList: function(){
-		
-		return [];
+		return app.performance.emp.userinfo().storeId;
 	},
 	//查询员工业绩
 	getEmpPerformance:function(){
@@ -83,80 +82,6 @@ app.performance.emp = {
 					reject('网络异常啦~');
 				}
 			})
-		});
-	},
-	//员工业绩排名初始化
-	rank_init: function(){
-		app.performance.emp.getEmpRank().then(function(results){
-			var emp_rank = {
-				userid: app.performance.emp.userinfo().userid
-			}
-			//处理业绩数据
-			var rankdata=[];
-			for (var u in results.data) {
-				rankdata.push({
-					userid:results.data[u].employeeId,
-					employeeName:results.data[u].employeeName,
-					performance:app.tools.toThousands(results.data[u].performance.toFixed(2))
-				});
-			};
-			emp_rank.data = rankdata;
-			//今日业绩
-			var tmplhtml = $('#tmpl-emp-rank').html();
-			var resultTmpl = tmpl(tmplhtml, emp_rank);
-			$('#performance_rank').html(resultTmpl);
-
-			//初始化页面选择门店事件
-			$('#container').on('click', '#showActionSheet_rank', function () {
-	                var mask = $('#mask_rank');
-	                var weuiActionsheet = $('#weui_actionsheet_rank');
-	                weuiActionsheet.addClass('weui_actionsheet_toggle');
-	                mask.show()
-	                    .addClass('weui_fade_toggle').one('click', function () {
-	                        hideActionSheet(weuiActionsheet, mask);
-	                });
-	                $('#actionsheet_cancel_rank').one('click', function () {
-	                    hideActionSheet(weuiActionsheet, mask);
-	                });
-	                mask.unbind('transitionend').unbind('webkitTransitionEnd');
-
-	                function hideActionSheet(weuiActionsheet, mask) {
-	                    weuiActionsheet.removeClass('weui_actionsheet_toggle');
-	                    mask.removeClass('weui_fade_toggle');
-	                    mask.on('transitionend', function () {
-	                        mask.hide();
-	                    }).on('webkitTransitionEnd', function () {
-	                        mask.hide();
-	                    })
-	                }
-	        });
-
-		},function(error){
-			app.alert(error);
-		});
-
-	},
-	//获取员工业绩排名
-	getEmpRank:function(){
-		return new Promise(function(resolve,reject){
-			//拼接请求URL
-			var uinfo = app.performance.emp.userinfo();
-			app.api.performance.empPerformanceRank({
-				data:{
-					merchantId: uinfo.merchantId,
-					storeId: uinfo.storeId
-				},
-				success: function(results){
-					if(results.success){
-						resolve(results);
-					}else{
-						reject(results.message);
-					}
-				},
-				error: function(error){
-					reject('查询错误');
-				}
-			});
 		});
 	}
 };

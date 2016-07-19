@@ -82,7 +82,7 @@ $(function () {
             return $('#tpl_performance_rank').html();
         },
         bind: function () {
-            app.performance.emp.rank_init();
+            app.performance.rank.init();
         }
     }
     //订单评价  

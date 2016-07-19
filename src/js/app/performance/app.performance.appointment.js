@@ -9,29 +9,60 @@ app.performance.appointment = {
         date = $('#appointment-query-date').val()||date.format('yyyy-MM-dd');
         if (!$('#appointment-query-date').val())
             $('#appointment-query-date').val(date);
+        //获取数据
+        app.performance.appointment.queryAppointmentForDate(date);   
+    },
+    queryAppointmentForDate:function(date){
         var data = {
             date: date,
-            type: '2',
+            type: 2,//1.门店，2.员工
+            storeIds: '',//门店ids,分隔
             employeeId: app.userinfo.getEmployee().id,
         }
-
-        
-
-        app.api.appointment.list({
-            data: data,
-            success: function (result) {
-                if (!result.success || !result.data || result.data.length<=0) {
-                    app.tools.show('appointment-list');
-                    return;
-                }
-                var data = {
-                    datas: result.data,
-                }
+        //获取当前身份
+        var urole = app.performance.userrole_init();
+        if(urole == 2){
+            //员工,查询当前门店预约订单
+            data.type = 2;
+            app.performance.appointment.queryAppointmentList(data)
+            .then(function(result){
                 var html = $('#tmpl-appointment-list').html();
-                var template = tmpl(html, data);
+                var template = tmpl(html, result);
                 $('#appointment-list').html(template);
-            }
-        })
+            },function(error){
+                //异常
+            });
+        }else if(urole == 1){
+            //管理者,查询选择门店预约订单
+            data.type=1;
+            data.storeIds = app.performance.currentStoreid;
+            app.performance.appointment.queryAppointmentList(data)
+            .then(function(result){
+                var html = $('#tmpl-appointment-list').html();
+                var template = tmpl(html, result);
+                $('#appointment-list').html(template);
+            },function(error){
+                //异常
+            });
+        }
+    },
+    queryAppointmentList:function(data){
+        return new Promise(function(resolve,reject){
+            app.api.appointment.list({
+                data: data,
+                success: function (result) {
+                    if (!result.success || !result.data || result.data.length<=0) {
+                        app.tools.show('appointment-list');
+                        return false;
+                    }else{
+                        resolve(result);
+                    }
+                },
+                error:function(){
+                    reject('服务器开小差啦~');
+                }
+            });
+        });
     },
     detail: function () {
         var data = {

@@ -2,9 +2,15 @@
  * Created by wzc on 16/8/3.
  */
 app.performance = {
-	//BOSS-管理人员接口联调
-	manageReport_init: function(){
-		
+	//当前数据时间点：昨天,今天,本月
+	currentDate: 2,
+	//商户列表
+	getStoreList: [],
+	//门店ID
+	storelistStr: '',
+	//当前门店ID
+	currentStoreid: '',
+	userrole_init:function(){
 		var storeList;
 		var storelistStr='';
 		//验证角色权限
@@ -14,9 +20,7 @@ app.performance = {
 			//获取门店信息列表
 			storeList=userinfo.storeList;
 			if(storeList.length==0){
-				window.location.href='/performance-index.html#/performance_emp';
-				app.alert('您的门店列表为空');
-				return;
+				return 0;
 			}else{
 				for (var i=0; i<storeList.length;i++) {
 					storelistStr+=storeList[i].id + ',';
@@ -29,12 +33,24 @@ app.performance = {
 				//当前选择门店
 				app.performance.currentStoreid = storelistStr;
 				app.performance.currentDate = 2;
+				return 1;
 			}
 		}else{
+			return 2;
+		}
+	},
+	//BOSS-管理人员接口联调
+	manageReport_init: function(){
+		
+		var flagRole=app.performance.userrole_init();
+		if(flagRole==0){
 			window.location.href='/performance-index.html#/performance_emp';
+			app.alert('没有找到您的门店信息');
+			return;
+		}else if(flagRole==2){
+			window.location.href='/performance-index.html#/performance_emp';//不是管理员身份
 			return;
 		}
-
 		//默认查询当天
 		app.performance.getpPerformanceReport().then(function(data){
 			var pb=app.performance.processReport(data);
@@ -195,6 +211,10 @@ app.performance = {
 			newMemberNum: data.newMemberNum,
 			//当日总消耗
 			cardConsume: app.tools.toThousands(data.cardConsume.toFixed(2)),
+			//当日订单量
+			orderNum: data.orderNum,
+			//当日预约量
+			appointmentNum: data.appointmentNum,
 			//明细
 			detailList:{
 				//现金//pos支付//微信支付//支付宝支付//团购//减免//欠款
@@ -277,6 +297,10 @@ app.performance = {
 		$('#members').html(pb_report.newMemberNum);
 		//当日总消耗
 		$('#count_consume').html(pb_report.cardConsume);
+		//当日订单量
+		$('#todayOrder').html(pb_report.orderNum);
+		//当日预约量
+		$('#todayBookingOrder').html(pb_report.appointmentNum);
 		//现金
 		$('#cash').html(pb_report.detailList.cash.val);
 		app.performance.getFloating($('#cash'),pb_report.detailList.cash.floating);
@@ -316,13 +340,5 @@ app.performance = {
 		}else{
 			dom.next().css('class','ic').html('—');
 		}
-	},
-	//商户列表
-	getStoreList: [],
-	//门店ID
-	storelistStr: '',
-	//当前门店ID
-	currentStoreid: '',
-	//当前数据时间点：昨天,今天,本月
-	currentDate: 2
+	}
 }
