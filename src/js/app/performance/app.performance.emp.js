@@ -10,9 +10,9 @@ app.performance.emp = {
 					//卡耗
 					cardConsume : app.tools.toThousands(data.cardConsume.toFixed(2)),
 					//今日预约单数
-					todyAppointmentNum : data.todyAppointmentNum,
+					todyAppointmentNum : data.appointmentNum,
 					//今日订单数
-					todyOrderNum : data.todyOrderNum,
+					todyOrderNum : data.orderNum,
 					//当月提成
 					currentMonthCommission : app.tools.toThousands(data.currentMonthCommission.toFixed(2)),
 					//员工业绩排名
@@ -80,7 +80,7 @@ app.performance.emp = {
 					}
 				},
 				error: function(error){
-					reject('请求异常啦~');
+					reject('网络异常啦~');
 				}
 			})
 		});

@@ -4,6 +4,7 @@
 app.performance.appointment = {
     appointmentId: null,
     list: function () {
+        //日期处理
         var date = new Date();
         date = $('#appointment-query-date').val()||date.format('yyyy-MM-dd');
         if (!$('#appointment-query-date').val())
@@ -13,6 +14,9 @@ app.performance.appointment = {
             type: '2',
             employeeId: app.userinfo.getEmployee().id,
         }
+
+        
+
         app.api.appointment.list({
             data: data,
             success: function (result) {

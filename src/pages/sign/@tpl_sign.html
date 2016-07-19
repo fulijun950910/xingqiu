@@ -33,7 +33,7 @@
                     <ul>
                         <li>
                             <b class="redcolor"></b><span>上班打卡</span>
-                            <button class="signin">签到</button>
+                            <button id="signin" class="signin">签到</button>
                         </li>
                     </ul>
                 </div>
@@ -58,7 +58,7 @@
                     <ul>
                         <li>
                             <b class="redcolor"></b><span>下班打卡</span>
-                            <button class="signexit">签退</button>
+                            <button id="signexit" class="signexit">签退</button>
                         </li>
                     </ul>
                 </div>
@@ -80,15 +80,17 @@
     </div>   
 
     <!-- 签到，签退 -->
-    <div class="alertSign">
+    <div class="alertSign" id="alertSign">
 
         <div class="signMsg">
             <img src="images/qiandao.png">
         </div>
 
         <div class="msgcontent">
+            <!--
             <h4 class="msgtimes">您于08:30:00签到成功</h4>
             <h4 class="msghint">祝您今天工作顺利</h4>
+            -->
         </div>
     </div>
 
