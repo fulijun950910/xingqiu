@@ -4,7 +4,8 @@
 app.performance.order = {
     page: {
         page: 1,
-        size: 10
+        size: 3,
+        total: 0
     },
     performance: 0, //业绩
     commission: 0, //提成
@@ -13,6 +14,8 @@ app.performance.order = {
         app.performance.order.page.page = 1;
         app.performance.order.performance = 0;
         app.performance.order.commission = 0;
+        $('#total-performance').text('￥0.00');
+        $('#total-push').text('￥0.00');
     },
     list: function () {
         $('#scroll').css('height', window.screen.height);
@@ -34,15 +37,18 @@ app.performance.order = {
                     app.tools.show('order-list');
                     return;
                 }
+                app.performance.order.page.total = result.data.total;
                 app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
                 var data = {
                     datas: result.data.orderListVo
                 }
                 for (var i in result.data.orderListVo) {
                     var orderVo = result.data.orderListVo[i];
-                    app.performance.order.performance = parseInt(app.performance.order.performance) + orderVo.performance;
-                    app.performance.order.commission = parseInt(app.performance.order.commission) + orderVo.commission;
+                    app.performance.order.performance = parseInt(app.performance.order.performance) + parseInt(orderVo.performance);
+                    app.performance.order.commission = parseInt(app.performance.order.commission) + parseInt(orderVo.commission);
                 }
+                $('#total-performance').text('￥' + app.performance.order.fenToYuan(app.performance.order.performance));
+                $('#total-push').text('￥' + app.performance.order.fenToYuan(app.performance.order.commission));
                 var html = $('#tmpl-order-list').html();
                 var template = tmpl(html, data);
                 $('#order-list').html(template);
@@ -172,19 +178,12 @@ app.performance.order = {
     scrollInit: function () {
         myScroll = new IScroll('#scroll', {probeType: 3, mouseWheel: true});
         myScroll.on('scrollEnd', function () {
-            if (this.y >= 0) {
-                // app.performance.order.page = {
-                //     page: 1,
-                //     size: 4
-                // }
-                // app.performance.order.list();
-            } else if (this.y < -40) {
+            var s = this.y;
                 app.performance.order.loadList();
-            }
         });
     },
     loadList: function () {
-        if (app.performance.order.page.page >= $('.orderList').length)
+        if (app.performance.order.page.total <= $('.orderList').length)
             return;
 
         var data = {
@@ -199,10 +198,18 @@ app.performance.order = {
             success: function (result) {
                 if (!result.success || !result.data)
                     return;
+                app.performance.order.page.total = result.data.total;
                 app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
                 var data = {
                     datas: result.data.orderListVo
                 }
+                for (var i in result.data.orderListVo) {
+                    var orderVo = result.data.orderListVo[i];
+                    app.performance.order.performance = parseInt(app.performance.order.performance) + parseInt(orderVo.performance);
+                    app.performance.order.commission = parseInt(app.performance.order.commission) + parseInt(orderVo.commission);
+                }
+                $('#total-performance').text('￥' + app.performance.order.fenToYuan(app.performance.order.performance));
+                $('#total-push').text('￥' + app.performance.order.fenToYuan(app.performance.order.commission));
                 var html = $('#tmpl-order-list').html();
                 var template = tmpl(html, data);
                 $('#order-list').append(template);
