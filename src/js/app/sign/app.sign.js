@@ -2,20 +2,83 @@
  * Created by wzc on 16/7/8.
  */
 app.sign = {
+    udata:function(){
+        //初始化用户信息
+        var user = app.userinfo.getEmployee();
+        return {
+            userid: user.id,
+            username: user.name,
+            userRole: user.merchantRole.name,
+            userImg: app.filePath + user.avatarFileId
+        };
+    },
     init: function () {
+        //展示模板数据
+        var userdata = app.sign.udata();
+        userdata.date= app.tools.getDate();
+        userdata.week= app.tools.getWeek();
+        userdata.moment= app.tools.getMoment();
 
-        //签到，签退初始化操作
-        $('#signin').on('click',function(){
-        	app.sign.alertSign('08:30:00',1);
-        	//打卡信息
-        	
+        //初始化打开信息
+        app.sign.queryClockin(userdata.userid).then(function(data){
+
+            //打开信息
+            userdata.signIn=null;
+            userdata.signExit=null;
+            if(data && data.length>0){
+                for (var i in data) {
+                    if(data[i].type==1){
+                        userdata.signIn=data[i];
+                    }else if(data[i]==2){
+                        userdata.signExit=data[i];
+                    }
+                };
+            }
+            userdata.signData=data;
+
+            var tmplhtml=$('#tmpl-sign-model').html();
+            var resultTmpl = tmpl(tmplhtml, userdata);
+            $('#tmpl-sign').html(resultTmpl);
+            app.sign.dynamicClock();
+
+            //签到，签退初始化操作
+            $('#signin').on('click',function(){
+
+                //调用扫一扫    
+                
+                //签到成功
+                app.sign.alertSign(app.tools.getMoment(),1);
+            });
+
+            //签退
+            $('#signexit').on('click',function(){
+                app.sign.alertSign(app.tools.getMoment(),0);
+                //打卡信息
+            })
+
+        },function(error){
+            app.alert(error);
         });
 
-        //签退
-        $('#signexit').on('click',function(){
-        	app.sign.alertSign('18:30:00',0);
-        	//打卡信息
-        })
+    },
+    //查询打卡信息
+    queryClockin:function(employeeId){
+        return new Promise(function(resolve,reject){
+            app.api.sign.queryClockin({
+                data:{
+                    employeeId:employeeId,
+                    type:3
+                },
+                success:function(results){
+                    //console.info(results);
+                    if(results.success){
+                        resolve(results.data);
+                    }else{
+                        reject(results.message); 
+                    }
+                }
+            });
+        }); 
     },
     //签到=1，签退=0
     alertSign:function(time,type){
@@ -36,5 +99,43 @@ app.sign = {
     		$('#alertSign').hide();
     	});
 
+    },
+    //开启扫一扫功能
+    openWxsao1sao:function(){
+        //调用扫一扫
+        wx.scanQRCode({
+          needResult: 1,
+          desc: 'scanQRCode desc',
+          success: function (res) {
+            alert(JSON.stringify(res));
+          }
+        });
+    },
+    //动态时间效果
+    dynamicClock:function(){
+        setInterval(function(){
+            $('#nowMoment').html(app.tools.getMoment());
+        },1000);
     }
 }
+
+//初始化配置信息
+wx.config({
+    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    appId: 'wx46c138ff8b16aa10', // 必填，公众号的唯一标识
+    timestamp: '', // 必填，生成签名的时间戳
+    nonceStr: 'tKbjkWDUjKESXzbUI7FelUJCWBAmVwof5UzSEHEemIi', // 必填，生成签名的随机串
+    signature: 'mei1',// 必填，签名，见附录1
+    jsApiList: [ // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        'scanQRCode'
+    ] 
+});
+//初始化成功
+wx.ready(function(){
+    console.info('success');
+
+});
+//初始化失败
+wx.error(function(){
+    console.info('error');
+});

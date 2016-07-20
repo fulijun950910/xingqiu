@@ -1,99 +1,94 @@
 <script type="text/html" id="tpl_sign">
 <div class="bd background-sign" >
-    
-    <!-- 顶部 -->
-    <div class="sign_app">
-        <div class="header_module">
-            <h3><i class="ic icon-xinxi2"></i> 排班规则说明</h3>
-            <div class="week">04月10日 星期四</div>
-            <div class="head_time">17:05:00</div>
-        </div>
+    <div id="tmpl-sign" class="sign_app">
 
-        <!-- 头像部分 -->
-        <div class="card">
-            <div class="headerimg"><img src="images/pic_article_1.jpg"></div>
-            <div class="card_name">冯子轩</div>
-            <div class="card_role">发型设计总监</div>
-        </div>
-
-        <!-- 白色缓冲区 -->
-        <!--<div class="whitebackground"></div>-->
-
-        <!-- 签到 -->
-        <div class="sign_panel">
-
-            <div class="workTime">
-                <b></b><span>上班</span>
-            </div>
-
-            <!-- 上班签到 -->
-            <div class="sign_info">
-                
-                <div class="lefttime">
-                    <ul>
-                        <li>
-                            <b class="redcolor"></b><span>上班打卡</span>
-                            <button id="signin" class="signin">签到</button>
-                        </li>
-                    </ul>
-                </div>
-                 
-                <!--
-                <div class="sign_after">
-                    <ul>
-                        <li><b class="redcolor"></b><span>上班打卡</span></li>
-                        <li><b class="bluecolor"></b><span>上班打卡时间: 08:15:00</span></li>
-                        <li><b class="greencolor">
-                            </b><span class="signaddr">上海市徐汇区桂平路64号</span>
-                        </li>
-                    </ul>
-                </div>
-               -->
-            </div>
-
-            <!-- 下班签退 -->
-            <div class="sign_info">
-
-                <div class="lefttime">
-                    <ul>
-                        <li>
-                            <b class="redcolor"></b><span>下班打卡</span>
-                            <button id="signexit" class="signexit">签退</button>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!--
-                <div class="sign_after">
-                    <ul>
-                        <li><b class="redcolor"></b><span>下班打卡</span></li>
-                        <li><b class="bluecolor"></b><span>上班打卡时间: 08:15:00</span></li>
-                        <li><b class="greencolor">
-                            </b><span class="signaddr">上海市徐汇区桂平路64号</span>
-                        </li>
-                    </ul>
-                </div>
-                -->
-            </div>
-        </div>
-
-    </div>   
-
+    </div>
     <!-- 签到，签退 -->
     <div class="alertSign" id="alertSign">
-
         <div class="signMsg">
             <img src="images/qiandao.png">
         </div>
 
         <div class="msgcontent">
             <!--
-            <h4 class="msgtimes">您于08:30:00签到成功</h4>
-            <h4 class="msghint">祝您今天工作顺利</h4>
+            <h4 class="msgtimes">您于00:00:00签到成功</h4>
+            <h4 class="msghint">祝您今天工作愉快</h4>
             -->
         </div>
     </div>
-
 </div>
-  
+
+<script type="text/html" id="tmpl-sign-model">
+        <!-- 顶部 -->
+        <div class="header_module">
+           <h3><i class="ic icon-xinxi2"></i> 排班规则说明</h3>
+           <div class="week">{%=o.date %} {%=o.week %}</div>
+           <div id="nowMoment" class="head_time">{%=o.moment %}</div>
+        </div>
+       <!-- 头像部分 -->
+       <div class="card">
+           <div class="headerimg"><img src="{%=o.userImg %}"></div>
+           <div class="card_name">{%=o.username %}</div>
+           <div class="card_role">{%=o.userRole %}</div>
+       </div>
+
+       <!-- 签到 -->
+       <div class="sign_panel">
+           <div class="workTime">
+               <b></b><span>上班</span>
+           </div>
+           <!-- 上班签到 -->
+           <div class="sign_info">
+               <!--% if (!o.signIn) { %-->
+               <div class="lefttime">
+                   <ul>
+                       <li>
+                           <b class="redcolor"></b><span>上班打卡</span>
+                           <button id="signin" class="signin">签到</button>
+                       </li>
+                   </ul>
+               </div>
+              <!--% }else{ %-->
+               <div class="sign_after">
+                   <ul>
+                       <li><b class="redcolor"></b><span>上班打卡</span></li>
+                       <li>
+                        <b class="bluecolor"></b><span>上班打卡时间: {%=o.signIn.signInDate%}</span>
+                       </li>
+                       <li><b class="greencolor">
+                           </b><span class="signaddr">地址:...</span>
+                       </li>
+                   </ul>
+               </div>
+              <!--% } %-->
+           </div>
+       
+           <!-- 下班签退 -->
+           <div class="sign_info">
+           <!--% if (!o.signExit) { %-->
+               <div class="lefttime">
+                   <ul>
+                       <li>
+                           <b class="redcolor"></b><span>下班打卡</span>
+                           <button id="signexit" class="signexit">签退</button>
+                       </li>
+                   </ul>
+               </div>
+           <!--% }else{ %-->
+               <div class="sign_after">
+                   <ul>
+                       <li><b class="redcolor"></b><span>下班打卡</span></li>
+                       <li>
+                          <b class="bluecolor"></b>
+                          <span>上班打卡时间: {%=o.signIn.signExit%}</span>
+                       </li>
+                       <li><b class="greencolor">
+                           </b><span class="signaddr">地址:...</span>
+                       </li>
+                   </ul>
+               </div>
+           <!--% } %-->
+           </div>
+       </div>  
+  </script>
 </script>
