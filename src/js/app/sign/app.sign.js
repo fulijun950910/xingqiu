@@ -80,6 +80,23 @@ app.sign = {
             });
         }); 
     },
+    querySignature:function(){
+        return new Promise(function(resolve,reject){
+            app.api.sign.queryWxSignInfo({
+                data:{},
+                success:function(results){
+                    if(results.success){
+                        resolve(results.data);
+                    }else{
+                        reject(results.message); 
+                    }
+                }, 
+                error:function(error){
+                    reject('查询签名信息异常');
+                }
+            });
+        });
+    },
     //签到=1，签退=0
     alertSign:function(time,type){
     	var alertimg = '';
@@ -107,7 +124,8 @@ app.sign = {
           needResult: 1,
           desc: 'scanQRCode desc',
           success: function (res) {
-            alert(JSON.stringify(res));
+            console.info(res);
+            console.info(JSON.stringify(res));
           }
         });
     },
@@ -121,7 +139,7 @@ app.sign = {
 
 //初始化配置信息
 wx.config({
-    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    debug: true,
     appId: 'wx46c138ff8b16aa10', // 必填，公众号的唯一标识
     timestamp: '', // 必填，生成签名的时间戳
     nonceStr: 'tKbjkWDUjKESXzbUI7FelUJCWBAmVwof5UzSEHEemIi', // 必填，生成签名的随机串

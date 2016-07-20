@@ -13,10 +13,10 @@ app.api.sign = {
         });
     },
     //查询后台签名信息
-    queryWxSignInfo:function(){
+    queryWxSignInfo:function(settings){
         app.api.ajax({
             async: true,
-            url: '/wechatbusinessassists/wxSignInfo',
+            url: '/wechat/signature',
             type: 'POST',
             success: settings.success,
             error: settings.error,
