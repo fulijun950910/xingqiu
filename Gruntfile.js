@@ -23,16 +23,18 @@ module.exports = function (grunt) {
                     'src/js/libs/router.sign.js',
                     'src/js/libs/router.performance.js',
                     'src/js/libs/tmpl.js',
-                    'src/js/libs/iscroll-probe.js'
+                    'src/js/libs/iscroll-probe.js',
+                    'src/js/libs/jweixin-1.0.0.js'
                 ],
                 libs: [
                     'src/js/libs/tmpl.js'],
                 app: ['src/js/app/app.js',
+                    'src/js/app/app.constant.js',
+                    'src/js/app/app.tools.js',
                     'config/' + env + '/app.config.js',
                     'src/js/app/api/app.api.js',
                     'src/js/app/api/app.api.*.js',
                     'src/js/app/app.home.js',
-                    'src/js/app/app.tools.js',
                     'src/js/app/performance/app.performance.js',
                     'src/js/app/performance/app.performance.emp.js',
                     'src/js/app/performance/app.performance.appointment.js',
@@ -40,7 +42,6 @@ module.exports = function (grunt) {
                     'src/js/app/performance/app.performance.rank.js',
                     'src/js/app/user/app.userinfo.js',
                     'src/js/app/sign/app.sign.js',
-                    'src/js/app/app.constant.js',
                 ]
             },
             cssFiles: {
