@@ -1,18 +1,25 @@
 <script type="text/html" id="tpl_performance_report">
-<div class="hd" id="tmpl-performance-manage">
+<div class="hd" >
 	<div class="report">
 		<p class="report_look">
 			数据查看
 			<a id="showActionSheet_store" href="javascript:;">全部门店&gt;</a>
 		</p>
 	</div>
-	
+	<div id="tmpl-performance-manage">
+
+	</div>
+
+</div>
+
+<script type="text/html" id="tmpl_performance">
 	<!-- 业绩数据图 -->
-	
 	<div class="roundCell">
-		
 		<div class="leftbox" id="leftData">
-			<a href="javascript:;" class="leftDay"><i class="icon icon-uniF3D2"></i>  看昨天</a>
+			<!--% if(o.lrcText.leftText){ %-->
+			<a href="javascript:;" class="leftDay"><i class="icon icon-uniF3D2"></i>  
+			{%=o.lrcText.leftText %}</a>
+			<!--% } %-->
 		</div>
 
 		<div class="roundParent">
@@ -26,8 +33,8 @@
 			</div>
 
 			<div class="user_data" id="">
-				<p id="title_name">今日收入</p>
-				<h3 id="all_performance">0.00</h3>
+				<p id="title_name">{%=o.lrcText.centerText %}</p>
+				<h3 id="all_performance">{%=o.income %}</h3>
 				<div class="weui_progress_bar">
 		            <div class="weui_progress_inner_bar js_progress schedule-mw-pink" style="width: 100%;"></div>
 		        </div>
@@ -37,7 +44,10 @@
 		</div>
 		
 		<div class="rightbox" id="rightData">
-			<a href="javascript:;" class="thisMonth">看本月  <i class="icon icon-uniF3D3"></i></a>
+			<!--% if(o.lrcText.rightText){ %-->
+			<a href="javascript:;" class="thisMonth">{%=o.lrcText.rightText %}  
+			<i class="icon icon-uniF3D3"></i></a>
+			<!--% } %-->
 		</div>
 		
 	</div>
@@ -45,30 +55,30 @@
 	<!-- 到店客人，新增会员，当日总消耗 -->
 	<ul class="data_cell">
 		<li>
-			<p id="persons">0</p>
+			<p id="persons">{%=o.customerNum %}</p>
 			<a>到店客人</a>
 		</li>
 		<li>
-			<p id="members">0</p>
+			<p id="members">{%=o.newMemberNum %}</p>
 			<a>新增会员</a>
 		</li>
 		<li>
-			<p id="count_consume">0.00</p>
+			<p id="count_consume">{%=o.cardConsume %}</p>
 			<a>当日总消耗</a>
 		</li>
 	</ul>
 	<div class="reportpanel weui_cells weui_cells_access">
         <a class="weui_cell" href="performance-index.html#/order-list">
             <div class="weui_cell_bd weui_cell_primary">
-                <p>当日订单</p>
+                <p>{%=o.lrcText.orderTitle %}</p>
             </div>
-            <div id="todayOrder" class="weui_cell_ft">0</div>
+            <div id="todayOrder" class="weui_cell_ft">{%=o.orderNum %}</div>
         </a>
         <a class="weui_cell" href="performance-index.html#/booking-order-list">
             <div class="weui_cell_bd weui_cell_primary">
-                <p>当日预约</p>
+                <p>{%=o.lrcText.bookingTitle %}</p>
             </div>
-            <div id="todayBookingOrder" class="weui_cell_ft">0</div>
+            <div id="todayBookingOrder" class="weui_cell_ft">{%=o.appointmentNum %}</div>
         </a>
         <a class="weui_cell" href="performance-index.html#/performance_rank">
             <div class="weui_cell_bd weui_cell_primary">
@@ -88,40 +98,70 @@
 				<div class="leftDetail">现金收入</div>
 				<div class="rightDetail">
 					<i class="ic icon-renminbi1"></i>
-					<span id="cash">0.00</span>
-					<i class="ic"></i>
+					<span id="cash">{%=o.detailList.cash.val %}</span>
+					<!--% if(o.detailList.cash.floating > 0){ %-->
+						<i class="ic icon-jiantou-copy2"></i>
+					<!--% }else if(o.detailList.cash.floating < 0){ %-->
+						<i class="ic icon-jiantou4"></i>
+					<!--% }else{ %-->
+						<i class="ic">—</i>
+					<!--% } %-->
 				</div>
 			</li>
 			<li>
 				<div class="leftDetail">POS收入</div>
 				<div class="rightDetail">
 					<i class="ic icon-renminbi1"></i>
-					<span id="pos">0.00</span>
-					<i class="ic"></i>
+					<span id="pos">{%=o.detailList.pos.val %}</span>
+					<!--% if(o.detailList.pos.floating > 0){ %-->
+						<i class="ic icon-jiantou-copy2"></i>
+					<!--% }else if(o.detailList.pos.floating < 0){ %-->
+						<i class="ic icon-jiantou4"></i>
+					<!--% }else{ %-->
+						<i class="ic">—</i>
+					<!--% } %-->
 				</div>
 			</li>
 			<li>
 				<div class="leftDetail">微信收入</div>
 				<div class="rightDetail">
 					<i class="ic icon-renminbi1"></i>
-					<span id="wxpay">0.00</span>
-					<i class="ic"></i>
+					<span id="wxpay">{%=o.detailList.wxpay.val %}</span>
+					<!--% if(o.detailList.wxpay.floating > 0){ %-->
+						<i class="ic icon-jiantou-copy2"></i>
+					<!--% }else if(o.detailList.wxpay.floating < 0){ %-->
+						<i class="ic icon-jiantou4"></i>
+					<!--% }else{ %-->
+						<i class="ic">—</i>
+					<!--% } %-->
 				</div>
 			</li>
 			<li>
 				<div class="leftDetail">支付宝</div>
 				<div class="rightDetail">
 					<i class="ic icon-renminbi1"></i>
-					<span id="alipay">0.00</span>
-					<i class="ic"></i>
+					<span id="alipay">{%=o.detailList.alipay.val %}</span>
+					<!--% if(o.detailList.alipay.floating > 0){ %-->
+						<i class="ic icon-jiantou-copy2"></i>
+					<!--% }else if(o.detailList.alipay.floating < 0){ %-->
+						<i class="ic icon-jiantou4"></i>
+					<!--% }else{ %-->
+						<i class="ic">—</i>
+					<!--% }%-->
 				</div>
 			</li>
 			<li>
 				<div class="leftDetail">团购</div>
 				<div class="rightDetail">
 					<i class="ic icon-renminbi1"></i>
-					<span id="groupbuy">0.00</span>
-					<i class="ic"></i>
+					<span id="groupbuy">{%=o.detailList.groupbuy.val %}</span>
+					<!--% if(o.detailList.groupbuy.floating > 0){ %-->
+						<i class="ic icon-jiantou-copy2"></i>
+					<!--% }else if(o.detailList.groupbuy.floating < 0){ %-->
+						<i class="ic icon-jiantou4"></i>
+					<!--% }else{ %-->
+						<i class="ic">—</i>
+					<!--% } %-->
 				</div>
 			</li>
 			<li>
@@ -129,16 +169,28 @@
 				<div class="leftDetail">减免</div>
 				<div class="rightDetail">
 					<i class="ic icon-renminbi1"></i>
-					<span id="annul">0.00</span>
-					<i class="ic"></i>
+					<span id="annul">{%=o.detailList.annul.val %}</span>
+					<!--% if(o.detailList.annul.floating > 0){ %-->
+						<i class="ic icon-jiantou-copy2"></i>
+					<!--% }else if(o.detailList.annul.floating < 0){ %-->
+						<i class="ic icon-jiantou4"></i>
+					<!--% }else{ %-->
+						<i class="ic">—</i>
+					<!--% } %-->
 				</div>
 			</li>
 			<li>
 				<div class="leftDetail ft-color-qk">欠款</div>
 				<div class="rightDetail ft-color-qk">
 					<i class="ic icon-renminbi1"></i>
-					<span id="debt">0.00</span>
-					<i class="ic"></i>
+					<span id="debt">{%=o.detailList.debt.val %}</span>
+					<!--% if(o.detailList.debt.floating > 0){ %-->
+						<i class="ic icon-jiantou-copy2"></i>
+					<!--% }else if(o.detailList.debt.floating < 0){ %-->
+						<i class="ic icon-jiantou4"></i>
+					<!--% }else{ %-->
+						<i class="ic">—</i>
+					<!--% } %-->
 				</div>
 			</li>
 		</ul>
@@ -148,12 +200,20 @@
 	    <div class="weui_mask_transition" id="mask_store"></div>
 	    <div class="weui_actionsheet" id="weui_actionsheet_store">
 	        <div id="storeList" class="weui_actionsheet_menu">
-	        	<div name="" class="weui_actionsheet_cell">全部门店</div>
+	        	<div name="{%=o.storelistStr %}" class="weui_actionsheet_cell">
+	        		全部门店
+	        	</div>
+	        	<!--% for(var i=0;i<o.storeList.length;i++ ){ %-->
+	        	<div name="{%=o.storeList[i].id %}" class="weui_actionsheet_cell">
+	        		{%=o.storeList[i].name %}
+	        	</div>
+	        	<!--% } %-->
 	        </div>
 	        <div class="weui_actionsheet_action">
 	            <div class="weui_actionsheet_cell" id="actionsheet_cancel_store">取消</div>
 	        </div>
 	    </div>
 	</div>
-</div>
+
+</script>
 </script>
