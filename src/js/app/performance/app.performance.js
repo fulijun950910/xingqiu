@@ -244,7 +244,7 @@ app.performance = {
 				window.eval('pb_report.detailList.'+name+'.floating='+ (-operationDay(i)));
 			}else if (type == 2) {//今天
 				window.eval('pb_report.detailList.'+name+'.floating='+ operationDay(i));
-			}else if (type == 3) {
+			}else if (type == 3) {//本月
 				window.eval('pb_report.detailList.'+name+'.floating='+ operationMonth(i));
 			}
 		}
@@ -318,8 +318,10 @@ app.performance = {
 		app.performance.getFloating($('#groupbuy'),pb_report.detailList.groupbuy.floating);
 		//减免
 		$('#annul').html(pb_report.detailList.annul.val);
+		app.performance.getFloating($('#annul'),pb_report.detailList.annul.floating);
 		//欠款
 		$('#debt').html(pb_report.detailList.debt.val);
+		app.performance.getFloating($('#debt'),pb_report.detailList.debt.floating);
 
 		//门店列表
 		var storell  = '<div name="" class="weui_actionsheet_cell">全部门店</div>';
@@ -334,9 +336,9 @@ app.performance = {
 	//处理业绩浮动结果
 	getFloating:function(dom,floating){
 		if(floating > 0){
-			dom.next().css('class','ic icon-xiangshang');
+			dom.next().css('class','ic icon-jiantou-copy2');
 		}else if(floating < 0){
-			dom.next().css('class','ic icon-xiangxia');
+			dom.next().css('class','ic icon-jiantou4');
 		}else{
 			dom.next().css('class','ic').html('—');
 		}

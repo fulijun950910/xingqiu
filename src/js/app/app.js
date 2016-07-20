@@ -7,8 +7,9 @@ app.init = function() {
 };
 
 window.onerror = function () {
-    if ($('#container').children().length > 1)
+    if ($('#container').children().length > 1){
         $('#container').find('div:first').remove();
+    }   
     return true;
 }
 

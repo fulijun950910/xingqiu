@@ -92,10 +92,6 @@ app.userinfo = {
         //弹出选择角色门店信息列表
         $('#select_shade').hide();
     },
-    updatepwdInit: function () {
-
-    },
-
     updatepwd_init: function () {
 
     },
