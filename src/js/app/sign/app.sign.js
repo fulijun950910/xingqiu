@@ -29,7 +29,7 @@ app.sign = {
                 for (var i in data) {
                     if(data[i].type==1){
                         userdata.signIn=data[i];
-                    }else if(data[i]==2){
+                    }else if(data[i].type==2){
                         userdata.signExit=data[i];
                     }
                 };
