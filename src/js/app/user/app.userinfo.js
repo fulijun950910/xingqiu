@@ -133,6 +133,11 @@ app.userinfo = {
                 app.api.userinfo.listEmployee({
                     data: accountParam,
                     success: function (resultEmployeeList) {
+                        if (!resultEmployeeList || !resultEmployeeList.success || !resultEmployeeList.data || resultEmployeeList.data.length <=0) {
+                            app.alert('未查到您的可用身份,请于商户管理员联系并设置您的身份信息。' ,'登录异常');
+                            return;
+                        }
+
                         for (var i in resultEmployeeList.data) {
                             resultEmployeeList.data[i].jsonData = JSON.stringify(resultEmployeeList.data[i]);
                         }
