@@ -34,9 +34,11 @@ app.performance.order = {
             data.type = 1;
             data.ids = app.userinfo.getEmployee().storeIds
         }
+        app.startLoading();
         app.api.order.list({
             data: data,
             success: function (result) {
+                app.endLoading();
                 if (!result.success || !result.data) {
                     app.tools.show('order-list');
                     return;
@@ -50,8 +52,12 @@ app.performance.order = {
                 app.performance.order.countPerformance(result.data.orderListVo);
                 var html = $('#tmpl-order-list').html();
                 var template = tmpl(html, data);
-                $('#order-list').html(template);
+                $('#scroller').html(template);
+                app.performance.order.scrollInit();
                 myScroll.refresh();
+            },
+            error:function(error){
+                app.endLoading();
             }
         })
     },
@@ -160,9 +166,11 @@ app.performance.order = {
                 contentType: file.type,
                 originalName: file.name
             };
+            app.startLoading();
             app.api.userinfo.uploadFile({
                 data: myImage,
                 success: function (result) {
+                    app.endLoading();
                     if (result.success && result.data) {
                         app.performance.order.commentFileId = result.data;
                         var url = app.filePath + result.data;
@@ -170,12 +178,13 @@ app.performance.order = {
                     }
                 },
                 error: function (a, b, c) {
+                    app.endLoading();
                 }
             });
         };
     },
     scrollInit: function () {
-        myScroll = new IScroll('#scroll', {probeType: 3, mouseWheel: true, tap: true, click: true});
+        myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
         myScroll.on('scrollEnd', function () {
             var s = this.y;
             if (s < 0)
@@ -183,6 +192,7 @@ app.performance.order = {
         });
     },
     loadList: function () {
+        app.startLoading();
         if (app.performance.order.page.total <= $('.orderList').length)
             return;
 
@@ -200,6 +210,7 @@ app.performance.order = {
         app.api.order.list({
             data: data,
             success: function (result) {
+                app.endLoading();
                 if (!result.success || !result.data)
                     return;
                 app.performance.order.page.total = result.data.total;
@@ -211,7 +222,11 @@ app.performance.order = {
                 var html = $('#tmpl-order-list').html();
                 var template = tmpl(html, data);
                 $('#order-list').append(template);
+                app.performance.order.scrollInit();
                 myScroll.refresh();
+            },
+            error:function(error){
+                app.endLoading();
             }
         })
     },

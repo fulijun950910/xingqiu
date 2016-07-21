@@ -12,26 +12,29 @@
 	</div>
 
 	<!-- 员工排名 -->
-	<div class="emp_list">
-		<ul class="emp">
+	<div class="emp-rank-store" id="wrapper">
+		<div id="scroller">
 			<!--% for (var i=0; i <o.data.length; i++) { %-->
-				<!--% if (o.userid==o.data[i].userid) { %-->
-					<li>
-						<a>
-							<div class="leftDetail">我</div>
-							<div class="rightDetail"><span>{%=o.data[i].performance%}</span></div>
-						</a>
-					</li>
-				<!--% }else{ %-->
-					<li>
-						<a>
-							<div class="leftDetail">{%=o.data[i].employeeName%}</div>
-							<div class="rightDetail"><span>{%=o.data[i].performance%}</span></div>
-						</a>
-					</li>
+			<!--% if (o.userid==o.data[i].userid) { %-->
+				<div class="weui_cell">
+		            <div class="weui_cell_bd weui_cell_primary">
+		                <p>我</p>
+		            </div>
+		            <div class="weui_cell_ft">{%=o.data[i].performance %}</div>
+	        	</div>
+			<!--% }else{ %-->
+				<div class="weui_cell">
+		            <div class="weui_cell_bd weui_cell_primary">
+		                <p>{%=o.data[i].employeeName%}</p>
+		            </div>
+		            <div class="weui_cell_ft">{%=o.data[i].performance%}</div>
+	        	</div>
 			<!--% } } %-->
-		</ul>
-	</div>
+			</div>
+		</div>
+    </div>
+
+
 
 	<!-- 页脚 -->
 	<div class="pagfooter">
@@ -39,18 +42,19 @@
 	</div>
 
 	<div id="actionSheet_wrap">
-    <div class="weui_mask_transition" id="mask_rank"></div>
-    <div class="weui_actionsheet" id="weui_actionsheet_rank">
-        <div id="storeRankSheet" class="weui_actionsheet_menu">
-        	<!--% for (var i=0; i <o.storelist.length; i++) { %-->
-            <div name="{%= o.storelist[i].id %}" class="weui_actionsheet_cell">
-            {%= o.storelist[i].name %}</div>
-            <!--% } %-->
-        </div>
-        <div class="weui_actionsheet_action">
-            <div class="weui_actionsheet_cell" id="actionsheet_cancel_rank">取消</div>
-        </div>
-    </div>
+    	<div class="weui_mask_transition" id="mask_rank"></div>
+	    <div class="weui_actionsheet" id="weui_actionsheet_rank">
+	        <div id="storeRankSheet" class="weui_actionsheet_menu">
+	        	<!--% for (var i=0; i <o.storelist.length; i++) { %-->
+	            <div name="{%= o.storelist[i].id %}" class="weui_actionsheet_cell">
+	            {%= o.storelist[i].name %}</div>
+	            <!--% } %-->
+	        </div>
+	        <div class="weui_actionsheet_action">
+	            <div class="weui_actionsheet_cell" id="actionsheet_cancel_rank">取消</div>
+	        </div>
+	    </div>
+	</div>
 </div>
 </script>
 </script>

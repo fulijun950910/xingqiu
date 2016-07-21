@@ -6,10 +6,9 @@
 			<a id="showActionSheet_store" href="javascript:;">全部门店&gt;</a>
 		</p>
 	</div>
-	<div id="tmpl-performance-manage">
+	<div id="tmpl-performance-manage" class="round_report">
 
 	</div>
-
 </div>
 
 <script type="text/html" id="tmpl_performance">
@@ -67,7 +66,9 @@
 			<a>当日总消耗</a>
 		</li>
 	</ul>
-	<div class="reportpanel weui_cells weui_cells_access">
+	<div class="manage-report" id="wrapper">
+        <div id="scroller" >
+        <div class="reportpanel weui_cells weui_cells_access unmargin">
         <a class="weui_cell" href="performance-index.html#/order-list">
             <div class="weui_cell_bd weui_cell_primary">
                 <p>{%=o.lrcText.orderTitle %}</p>
@@ -100,11 +101,11 @@
 					<i class="ic icon-renminbi1"></i>
 					<span id="cash">{%=o.detailList.cash.val %}</span>
 					<!--% if(o.detailList.cash.floating > 0){ %-->
-						<i class="ic icon-jiantou-copy2"></i>
+						<i class="ic icon-jiantou-copy2 "></i>
 					<!--% }else if(o.detailList.cash.floating < 0){ %-->
 						<i class="ic icon-jiantou4"></i>
 					<!--% }else{ %-->
-						<i class="ic">—</i>
+						<i class="ic blueCor">—</i>
 					<!--% } %-->
 				</div>
 			</li>
@@ -118,7 +119,7 @@
 					<!--% }else if(o.detailList.pos.floating < 0){ %-->
 						<i class="ic icon-jiantou4"></i>
 					<!--% }else{ %-->
-						<i class="ic">—</i>
+						<i class="ic blueCor">—</i>
 					<!--% } %-->
 				</div>
 			</li>
@@ -132,7 +133,7 @@
 					<!--% }else if(o.detailList.wxpay.floating < 0){ %-->
 						<i class="ic icon-jiantou4"></i>
 					<!--% }else{ %-->
-						<i class="ic">—</i>
+						<i class="ic blueCor">—</i>
 					<!--% } %-->
 				</div>
 			</li>
@@ -146,7 +147,7 @@
 					<!--% }else if(o.detailList.alipay.floating < 0){ %-->
 						<i class="ic icon-jiantou4"></i>
 					<!--% }else{ %-->
-						<i class="ic">—</i>
+						<i class="ic blueCor">—</i>
 					<!--% }%-->
 				</div>
 			</li>
@@ -160,7 +161,7 @@
 					<!--% }else if(o.detailList.groupbuy.floating < 0){ %-->
 						<i class="ic icon-jiantou4"></i>
 					<!--% }else{ %-->
-						<i class="ic">—</i>
+						<i class="ic blueCor">—</i>
 					<!--% } %-->
 				</div>
 			</li>
@@ -175,13 +176,13 @@
 					<!--% }else if(o.detailList.annul.floating < 0){ %-->
 						<i class="ic icon-jiantou4"></i>
 					<!--% }else{ %-->
-						<i class="ic">—</i>
+						<i class="ic blueCor">—</i>
 					<!--% } %-->
 				</div>
 			</li>
 			<li>
-				<div class="leftDetail ft-color-qk">欠款</div>
-				<div class="rightDetail ft-color-qk">
+				<div class="leftDetail">欠款</div>
+				<div class="rightDetail">
 					<i class="ic icon-renminbi1"></i>
 					<span id="debt">{%=o.detailList.debt.val %}</span>
 					<!--% if(o.detailList.debt.floating > 0){ %-->
@@ -189,12 +190,15 @@
 					<!--% }else if(o.detailList.debt.floating < 0){ %-->
 						<i class="ic icon-jiantou4"></i>
 					<!--% }else{ %-->
-						<i class="ic">—</i>
+						<i class="ic blueCor">—</i>
 					<!--% } %-->
 				</div>
 			</li>
 		</ul>
 	</div>
+        </div>
+    </div>
+
 
 	<div id="actionSheet_wrap">
 	    <div class="weui_mask_transition" id="mask_store"></div>

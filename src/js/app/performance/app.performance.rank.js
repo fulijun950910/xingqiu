@@ -118,6 +118,8 @@ app.performance.rank={
 		var tmplhtml = $('#tmpl-emp-rank').html();
 		var resultTmpl = tmpl(tmplhtml, emp_rank);
 		$('#performance_rank').html(resultTmpl);
+		//加载滑动
+		myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
 	},
 	//获取员工业绩排名
 	getEmpRankList:function(merchantId,storeId){

@@ -26,9 +26,7 @@ app.performance.appointment = {
             data.type = 2;
             app.performance.appointment.queryAppointmentList(data)
             .then(function(result){
-                var html = $('#tmpl-appointment-list').html();
-                var template = tmpl(html, result);
-                $('#appointment-list').html(template);
+                console.info(result);
             },function(error){
                 //异常
             });
@@ -37,10 +35,8 @@ app.performance.appointment = {
             data.type=1;
             data.storeIds = app.performance.currentStoreid;
             app.performance.appointment.queryAppointmentList(data)
-            .then(function(result){
-                var html = $('#tmpl-appointment-list').html();
-                var template = tmpl(html, result);
-                $('#appointment-list').html(template);
+            .then(function(res){
+                console.info(res);
             },function(error){
                 //异常
             });
@@ -48,17 +44,26 @@ app.performance.appointment = {
     },
     queryAppointmentList:function(data){
         return new Promise(function(resolve,reject){
+            app.startLoading();
             app.api.appointment.list({
                 data: data,
                 success: function (result) {
+                    app.endLoading();
                     if (!result.success || !result.data || result.data.length<=0) {
                         app.tools.show('appointment-list');
                         return false;
                     }else{
-                        resolve(result);
+                        var html = $('#tmpl-appointment-list').html();
+                        var template = tmpl(html, result);
+                        $('#scroller').html(template);
+                        myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
+                        myScroll.refresh();
+                        resolve(true);
                     }
                 },
-                error:function(){
+                error:function(error){
+                    app.endLoading();
+                    console.info(error);
                     reject('服务器开小差啦~');
                 }
             });

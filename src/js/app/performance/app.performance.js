@@ -111,6 +111,7 @@ app.performance = {
 	//获取业绩报告数据
 	getpPerformanceReport:function(){
 		return new Promise(function(resolve,reject){
+			app.startLoading();
 			var type = app.performance.currentDate || 2;
 			var storeid = app.performance.currentStoreid;
 			var uinfo = app.performance.emp.userinfo();
@@ -123,6 +124,7 @@ app.performance = {
 					type: type
 				},
 				success: function(results){
+					app.endLoading();
 					if (results.success) {
 						resolve(results.data);
 					}else{
@@ -130,6 +132,7 @@ app.performance = {
 					}
 				},
 				error: function(error){
+					app.endLoading();
 					console.info(error);
 					reject('请求失败');
 				}
@@ -236,6 +239,8 @@ app.performance = {
 		var tmplhtml = $('#tmpl_performance').html();
 		var resultTmpl = tmpl(tmplhtml, pb_report);	
 		$('#tmpl-performance-manage').html(resultTmpl);
+		myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
+
 
 		//处理门店选择
 		$('#storeList').on('click','.weui_actionsheet_cell',function(){
