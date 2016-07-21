@@ -1,4 +1,6 @@
 <script type="text/html" id="tpl_performance_rank">
+<!-- //隐藏标题 -->
+<div id="hiddenTitle" class="hiddenTitle">业绩排名</div>
 <div class="hd" id="performance_rank">
 	
 </div>
@@ -14,22 +16,24 @@
 	<!-- 员工排名 -->
 	<div class="emp-rank-store" id="wrapper">
 		<div id="scroller">
-			<!--% for (var i=0; i <o.data.length; i++) { %-->
-			<!--% if (o.userid==o.data[i].userid) { %-->
-				<div class="weui_cell">
-		            <div class="weui_cell_bd weui_cell_primary">
-		                <p>我</p>
-		            </div>
-		            <div class="weui_cell_ft">{%=o.data[i].performance %}</div>
-	        	</div>
-			<!--% }else{ %-->
-				<div class="weui_cell">
-		            <div class="weui_cell_bd weui_cell_primary">
-		                <p>{%=o.data[i].employeeName%}</p>
-		            </div>
-		            <div class="weui_cell_ft">{%=o.data[i].performance%}</div>
-	        	</div>
-			<!--% } } %-->
+			<div class="weui_cells">
+				<!--% for (var i=0; i <o.data.length; i++) { %-->
+				<!--% if (o.userid==o.data[i].userid) { %-->
+					<div class="weui_cell">
+			            <div class="weui_cell_bd weui_cell_primary">
+			                <p>我</p>
+			            </div>
+			            <div class="weui_cell_ft">{%=o.data[i].performance %}</div>
+		        	</div>
+				<!--% }else{ %-->
+					<div class="weui_cell">
+			            <div class="weui_cell_bd weui_cell_primary">
+			                <p>{%=o.data[i].employeeName%}</p>
+			            </div>
+			            <div class="weui_cell_ft">{%=o.data[i].performance%}</div>
+		        	</div>
+				<!--% } } %-->
+				</div>
 			</div>
 		</div>
     </div>

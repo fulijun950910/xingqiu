@@ -1,5 +1,7 @@
 <script type="text/html" id="tpl_performance_report">
 <div class="hd" >
+    <!-- //隐藏标题 -->
+    <div id="hiddenTitle" class="hiddenTitle">业绩报告</div>
 	<div class="report">
 		<p class="report_look">
 			数据查看
@@ -7,7 +9,145 @@
 		</p>
 	</div>
 	<div id="tmpl-performance-manage" class="round_report">
+			<div class="roundCell">
+		<div class="leftbox" id="leftData">
+			<a href="javascript:;" class="leftDay"><i class="icon icon-uniF3D2"></i>  
+			看昨天</a>
+		</div>
 
+		<div class="roundParent">
+			<div class="round">
+				<div class="leftRound">
+					<div></div>
+				</div>
+				<div class="rightRound">
+					<div></div>
+				</div>
+			</div>
+
+			<div class="user_data" id="">
+				<p id="title_name">今日收入</p>
+				<h3 id="all_performance">0.00</h3>
+				<div class="weui_progress_bar">
+		            <div class="weui_progress_inner_bar js_progress schedule-mw-pink" style="width: 100%;"></div>
+		        </div>
+		        <span classs="finish">完成100%</span>
+			</div>
+
+		</div>
+		
+		<div class="rightbox" id="rightData">
+			<a href="javascript:;" class="thisMonth">看本月  
+			<i class="icon icon-uniF3D3"></i></a>
+		</div>
+		
+	</div>
+
+	<!-- 到店客人，新增会员，当日总消耗 -->
+	<ul class="data_cell">
+		<li>
+			<p id="persons">0</p>
+			<a>到店客人</a>
+		</li>
+		<li>
+			<p id="members">0</p>
+			<a>新增会员</a>
+		</li>
+		<li>
+			<p id="count_consume">0.00</p>
+			<a>当日总消耗</a>
+		</li>
+	</ul>
+	<div class="manage-report" id="wrapper">
+        <div id="scroller" >
+	        <div class="reportpanel weui_cells weui_cells_access unmargin">
+	        <a class="weui_cell" href="performance-index.html#/order-list">
+	            <div class="weui_cell_bd weui_cell_primary">
+	                <p>当日订单</p>
+	            </div>
+	            <div id="todayOrder" class="weui_cell_ft">0</div>
+	        </a>
+	        <a class="weui_cell" href="performance-index.html#/booking-order-list">
+	            <div class="weui_cell_bd weui_cell_primary">
+	                <p>当日预约</p>
+	            </div>
+	            <div id="todayBookingOrder" class="weui_cell_ft">0.00</div>
+	        </a>
+	        <a class="weui_cell" href="performance-index.html#/performance_rank">
+	            <div class="weui_cell_bd weui_cell_primary">
+	                <p>员工排名</p>
+	            </div>
+	            <div class="weui_cell_ft"></div>
+	        </a>
+	    </div>
+
+		<!-- 业绩明细 -->
+		<div class="details">
+			<ul>
+				<li>
+					<div class="leftDetail">业绩明细</div>
+				</li>
+				<li>
+					<div class="leftDetail">现金收入</div>
+					<div class="rightDetail">
+						<i class="ic icon-renminbi1"></i>
+						<span id="cash">0.00</span>
+						<i class="ic blueCor">—</i>
+					</div>
+				</li>
+				<li>
+					<div class="leftDetail">POS收入</div>
+					<div class="rightDetail">
+						<i class="ic icon-renminbi1"></i>
+						<span id="pos">0.00</span>
+						<i class="ic blueCor">—</i>
+					</div>
+				</li>
+				<li>
+					<div class="leftDetail">微信收入</div>
+					<div class="rightDetail">
+						<i class="ic icon-renminbi1"></i>
+						<span id="wxpay">0.00</span>
+							<i class="ic blueCor">—</i>
+					</div>
+				</li>
+				<li>
+					<div class="leftDetail">支付宝</div>
+					<div class="rightDetail">
+						<i class="ic icon-renminbi1"></i>
+						<span id="alipay">0.00</span>
+						<i class="ic blueCor">—</i>
+					</div>
+				</li>
+				<li>
+					<div class="leftDetail">团购</div>
+					<div class="rightDetail">
+						<i class="ic icon-renminbi1"></i>
+						<span id="groupbuy">0.00</span>
+						<i class="ic blueCor">—</i>
+					</div>
+				</li>
+				<li>
+					
+					<div class="leftDetail">减免</div>
+					<div class="rightDetail">
+						<i class="ic icon-renminbi1"></i>
+						<span id="annul">0.00</span>
+						<i class="ic blueCor">—</i>
+					</div>
+				</li>
+				<li>
+					<div class="leftDetail">欠款</div>
+					<div class="rightDetail">
+						<i class="ic icon-renminbi1"></i>
+						<span id="debt">0.00</span>
+						<i class="ic blueCor">—</i>
+					</div>
+				</li>
+			</ul>
+		</div>
+	        </div>
+	    </div>
 	</div>
 </div>
 

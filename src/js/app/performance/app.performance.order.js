@@ -193,7 +193,7 @@ app.performance.order = {
         });
     },
     loadList: function () {
-        app.startLoading();
+        
         if (app.performance.order.page.total <= $('.orderList').length)
             return;
 
@@ -208,6 +208,7 @@ app.performance.order = {
             data.type = 1;
             data.ids = app.userinfo.getEmployee().storeIds
         }
+        app.startLoading();
         app.api.order.list({
             data: data,
             success: function (result) {
