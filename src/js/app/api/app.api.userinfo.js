@@ -81,7 +81,7 @@ app.api.userinfo = {
     },
     updateEmployee: function (settings) {
         app.api.ajax({
-            url: '/employee',
+            url: '/employee/simple',
             type: 'PUT',
             success: settings.success,
             error: settings.error,
