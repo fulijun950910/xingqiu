@@ -338,7 +338,7 @@ app.userinfo = {
                     success: function (resultValidate) {
                         if (resultValidate.success && resultValidate.data) {
                             $('#auth-user-validate').addClass('disabled');
-                            $('#auth-user-validate').html('<span id="second">60</span>秒后重新获取获取');
+                            $('#auth-user-validate').html('<span id="second">60</span>秒后获取');
                             var secondInterval = setInterval(function () {
                                 var second = parseInt($('#second').html()) - 1
                                 $('#second').text(second);

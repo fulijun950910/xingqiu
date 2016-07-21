@@ -4,7 +4,7 @@
 app.performance.order = {
     page: {
         page: 1,
-        size: 10,
+        size: 10000,
         total: 0
     },
     performance: 0, //业绩
@@ -18,6 +18,7 @@ app.performance.order = {
         $('#total-push').text('￥0.00');
     },
     list: function () {
+        app.performance.order.destory();
         $('#scroll').css('height', window.screen.height);
         var date = new Date();
         date = $('#order-query-date').val() || date.format('yyyy-MM-dd');

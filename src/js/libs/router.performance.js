@@ -36,7 +36,7 @@ $(function () {
         },
         bind: function () {
             app.performance.order.list();
-            app.performance.order.scrollInit()
+            //app.performance.order.scrollInit()
         }
     }
     //订单详情
