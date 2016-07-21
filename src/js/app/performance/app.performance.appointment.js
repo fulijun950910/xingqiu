@@ -52,7 +52,7 @@ app.performance.appointment = {
                 success: function (result) {
                     app.endLoading();
                     if (!result.success || !result.data || result.data.length<=0) {
-                        app.tools.show('appointment-list');
+                        app.tools.show('scroller');
                         return false;
                     }else{
                         var html = $('#tmpl-appointment-list').html();
