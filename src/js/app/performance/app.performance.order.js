@@ -19,7 +19,6 @@ app.performance.order = {
     },
     list: function () {
         app.performance.order.destory();
-        $('#scroll').css('height', window.screen.height);
         var date = new Date();
         date = $('#order-query-date').val() || date.format('yyyy-MM-dd');
         if (!$('#order-query-date').val())
@@ -94,7 +93,6 @@ app.performance.order = {
                 app.performance.order.changeImg(dom);
             })
         });
-
     },
     submitComment: function () {
         var data = {
@@ -185,12 +183,15 @@ app.performance.order = {
         };
     },
     scrollInit: function () {
-        myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
-        myScroll.on('scrollEnd', function () {
-            var s = this.y;
-            if (s < 0)
-                app.performance.order.loadList();
-        });
+        if(!myScroll){
+            myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
+            myScroll.on('scrollEnd', function () {
+                var s = this.y;
+                if (s < 0)
+                    app.performance.order.loadList();
+            });
+        }
+        myScroll.refresh();
     },
     loadList: function () {
         
@@ -225,7 +226,6 @@ app.performance.order = {
                 var template = tmpl(html, data);
                 $('#order-list').append(template);
                 app.performance.order.scrollInit();
-                myScroll.refresh();
             },
             error:function(error){
                 app.endLoading();
