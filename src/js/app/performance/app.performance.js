@@ -284,6 +284,7 @@ app.performance = {
 
 		$('#rightData').on('click','a',function(){
 			if ($('#rightData a').html().indexOf('今天') > 0) {
+				app.performance.currentDate = 2;
 				app.performance.getpPerformanceReport().then(function(data){
 					app.performance.processReport(data,app.performance.lrcText('今天'));//默认查询当天
 				},function(error){

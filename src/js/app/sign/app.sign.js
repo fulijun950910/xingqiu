@@ -136,7 +136,7 @@ app.sign = {
     openWxsao1sao:function(data,type){
         //初始化配置信息
         wx.config({
-            debug: true,
+            debug: false,
             appId: data.appId, // 必填，公众号的唯一标识
             timestamp: data.timestamp, // 必填，生成签名的时间戳
             nonceStr: data.nonceStr, // 必填，生成签名的随机串
@@ -153,8 +153,6 @@ app.sign = {
               needResult: 1,
               desc: 'scanQRCode desc',
               success: function (res) {
-                console.info(res);
-                console.info(JSON.stringify(res));
                 //签到成功
                 app.sign.alertSign(app.tools.getMoment(),type);
               },

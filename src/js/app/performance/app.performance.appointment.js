@@ -57,7 +57,8 @@ app.performance.appointment = {
                     }else{
                         var html = $('#tmpl-appointment-list').html();
                         var template = tmpl(html, result);
-                        $('#scroller').html(template);
+                        //console.info($('#scroller'));
+                        $('#order-scroller').html(template);
                         myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
                         myScroll.refresh();
                         resolve(true);
