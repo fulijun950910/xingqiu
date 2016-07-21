@@ -143,6 +143,7 @@ app.userinfo = {
                         var result = tmpl(template, data);
                         $('#show_employe_list').html(result);
                         $('#select_shade').show();
+                        $('#show_employe_list label:first').click();
                     },
                     error: function (a, b, c) {
 
