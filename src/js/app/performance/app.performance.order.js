@@ -4,7 +4,7 @@
 app.performance.order = {
     page: {
         page: 1,
-        size: 10000,
+        size: 10,
         total: 0
     },
     performance: 0, //业绩
