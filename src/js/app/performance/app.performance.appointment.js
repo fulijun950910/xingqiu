@@ -4,6 +4,8 @@
 app.performance.appointment = {
     appointmentId: null,
     list: function () {
+        var screenHeight=window.screen.height;
+        $('body').css('height',screenHeight+'px');
         //日期处理
         var date = new Date();
         date = $('#appointment-query-date').val()||date.format('yyyy-MM-dd');

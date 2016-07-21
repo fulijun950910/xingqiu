@@ -146,21 +146,10 @@ app.sign = {
     }
 }
 
-//初始化配置信息
-wx.config({
-    debug: true,
-    appId: 'wx46c138ff8b16aa10', // 必填，公众号的唯一标识
-    timestamp: '', // 必填，生成签名的时间戳
-    nonceStr: '', // 必填，生成签名的随机串
-    signature: 'mei1',// 必填，签名，见附录1
-    jsApiList: [ // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-        'scanQRCode'
-    ] 
-});
 //初始化成功
 wx.ready(function(){
     console.info('success');
-
+    
 });
 //初始化失败
 wx.error(function(){

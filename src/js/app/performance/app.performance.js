@@ -66,7 +66,8 @@ app.performance = {
 	},
 	//BOSS-管理人员
 	manageReport_init: function(){
-		
+		var screenHeight=window.screen.height;
+		$('body').css('height',screenHeight+'px');
 		var flagRole=app.performance.userrole_init();
 		if(flagRole==0){
 			window.location.href='/performance-index.html#/performance_emp';

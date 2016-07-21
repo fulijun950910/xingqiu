@@ -1,6 +1,8 @@
 ﻿//员工业绩
 app.performance.emp = {
 	init: function() {
+		var screenHeight=window.screen.height;
+		$('body').css('height',screenHeight+'px');
 		//请求完毕之后，继续处理
 		app.performance.emp.getEmpPerformance().then(
 			function(data){ //success
