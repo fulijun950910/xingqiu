@@ -38,7 +38,7 @@ $(function () {
             return $('#tpl_user_login').html();
         },
         bind: function(){
-            app.userinfo.init();
+            //app.userinfo.init();
         }
     }
 
