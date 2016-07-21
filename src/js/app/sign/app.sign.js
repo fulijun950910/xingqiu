@@ -43,18 +43,27 @@ app.sign = {
 
             //签到，签退初始化操作
             $('#signin').on('click',function(){
-                //调用扫一扫    
-                app.sign.openWxsao1sao();
-                //签到成功
-                app.sign.alertSign(app.tools.getMoment(),1);
+                //调用扫一扫
+                app.sign.querySignature().then(function(data){
+                    app.sign.openWxsao1sao(data);
+                    //签到成功
+                    app.sign.alertSign(app.tools.getMoment(),1);
+                },function(error){
+                    console.info('获取认证失败~');
+                });
+
             });
 
             //签退
             $('#signexit').on('click',function(){
-                //调用扫一扫    
-                app.sign.openWxsao1sao();
-                app.sign.alertSign(app.tools.getMoment(),0);
-                //打卡信息
+                //调用扫一扫
+               app.sign.querySignature().then(function(data){
+                    app.sign.openWxsao1sao(data);
+                    //签到成功
+                    app.sign.alertSign(app.tools.getMoment(),0);
+                },function(error){
+                    console.info('获取认证失败~');
+                });
             })
 
         },function(error){
@@ -148,7 +157,7 @@ app.sign = {
               success: function (res) {
                 console.info(res);
                 console.info(JSON.stringify(res));
-                
+
               },
               error:function(error){
                 console.info(error);

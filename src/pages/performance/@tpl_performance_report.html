@@ -55,7 +55,7 @@
 		</li>
 		<li>
 			<p id="count_consume">0.00</p>
-			<a>当日总消耗</a>
+			<a>总消耗</a>
 		</li>
 	</ul>
 	<div class="manage-report" id="wrapper">
@@ -203,7 +203,7 @@
 		</li>
 		<li>
 			<p id="count_consume">{%=o.cardConsume %}</p>
-			<a>当日总消耗</a>
+			<a>总消耗</a>
 		</li>
 	</ul>
 	<div class="manage-report" id="wrapper">
@@ -213,13 +213,13 @@
             <div class="weui_cell_bd weui_cell_primary">
                 <p>{%=o.lrcText.orderTitle %}</p>
             </div>
-            <div id="todayOrder" class="weui_cell_ft">{%=o.appointmentNum %}</div>
+            <div id="todayOrder" class="weui_cell_ft">{%=o.orderNum %}</div>
         </a>
         <a class="weui_cell" href="performance-index.html#/booking-order-list">
             <div class="weui_cell_bd weui_cell_primary">
                 <p>{%=o.lrcText.bookingTitle %}</p>
             </div>
-            <div id="todayBookingOrder" class="weui_cell_ft">{%=o.orderNum %}</div>
+            <div id="todayBookingOrder" class="weui_cell_ft">{%=o.appointmentNum %}</div>
         </a>
         <a class="weui_cell" href="performance-index.html#/performance_rank">
             <div class="weui_cell_bd weui_cell_primary">
