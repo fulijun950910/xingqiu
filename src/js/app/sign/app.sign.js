@@ -126,16 +126,38 @@ app.sign = {
 
     },
     //开启扫一扫功能
-    openWxsao1sao:function(){
-        console.info('调用扫一扫');
-        //调用扫一扫
-        wx.scanQRCode({
-          needResult: 1,
-          desc: 'scanQRCode desc',
-          success: function (res) {
-            console.info(res);
-            console.info(JSON.stringify(res));
-          }
+    openWxsao1sao:function(timestamp,nonceStr,signature){
+        //初始化配置信息
+        wx.config({
+            debug: true,
+            appId: 'wx46c138ff8b16aa10', // 必填，公众号的唯一标识
+            timestamp: timestamp, // 必填，生成签名的时间戳
+            nonceStr: nonceStr, // 必填，生成签名的随机串
+            signature: signature,// 必填，签名，见附录1
+            jsApiList: [ // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                'scanQRCode'
+            ]
+        });
+        //初始化成功
+        wx.ready(function(){
+            console.info('success');
+            //调用扫一扫
+            wx.scanQRCode({
+              needResult: 1,
+              desc: 'scanQRCode desc',
+              success: function (res) {
+                console.info(res);
+                console.info(JSON.stringify(res));
+                
+              },
+              error:function(error){
+                console.info(error);
+              }
+            });
+        });
+        //初始化失败
+        wx.error(function(){
+            console.info('error');
         });
     },
     //动态时间效果
@@ -146,12 +168,3 @@ app.sign = {
     }
 }
 
-//初始化成功
-wx.ready(function(){
-    console.info('success');
-    
-});
-//初始化失败
-wx.error(function(){
-    console.info('error');
-});
