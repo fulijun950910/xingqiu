@@ -32,7 +32,7 @@ app.sign = {
                     }else if(data[i].type==2){
                         userdata.signExit=data[i];
                     }
-                };
+                }
             }
             userdata.signData=data;
 
@@ -43,15 +43,16 @@ app.sign = {
 
             //签到，签退初始化操作
             $('#signin').on('click',function(){
-
                 //调用扫一扫    
-                
+                app.sign.openWxsao1sao();
                 //签到成功
                 app.sign.alertSign(app.tools.getMoment(),1);
             });
 
             //签退
             $('#signexit').on('click',function(){
+                //调用扫一扫    
+                app.sign.openWxsao1sao();
                 app.sign.alertSign(app.tools.getMoment(),0);
                 //打卡信息
             })
@@ -64,18 +65,25 @@ app.sign = {
     //查询打卡信息
     queryClockin:function(employeeId){
         return new Promise(function(resolve,reject){
+            app.startLoading();
             app.api.sign.queryClockin({
                 data:{
                     employeeId:employeeId,
                     type:3
                 },
                 success:function(results){
+                    app.endLoading();
                     //console.info(results);
                     if(results.success){
                         resolve(results.data);
                     }else{
                         reject(results.message); 
                     }
+                },
+                error:function(error){
+                    app.endLoading();
+                    console.info(error);
+                    reject(error);
                 }
             });
         }); 
@@ -119,6 +127,7 @@ app.sign = {
     },
     //开启扫一扫功能
     openWxsao1sao:function(){
+        console.info('调用扫一扫');
         //调用扫一扫
         wx.scanQRCode({
           needResult: 1,
@@ -142,7 +151,7 @@ wx.config({
     debug: true,
     appId: 'wx46c138ff8b16aa10', // 必填，公众号的唯一标识
     timestamp: '', // 必填，生成签名的时间戳
-    nonceStr: 'tKbjkWDUjKESXzbUI7FelUJCWBAmVwof5UzSEHEemIi', // 必填，生成签名的随机串
+    nonceStr: '', // 必填，生成签名的随机串
     signature: 'mei1',// 必填，签名，见附录1
     jsApiList: [ // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
         'scanQRCode'
