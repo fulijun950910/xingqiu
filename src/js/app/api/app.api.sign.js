@@ -17,7 +17,7 @@ app.api.sign = {
         app.api.ajax({
             async: true,
             url: '/wechat/signature',
-            type: 'POST',
+            type: 'GET',
             success: settings.success,
             error: settings.error,
             data: settings.data

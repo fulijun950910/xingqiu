@@ -45,9 +45,7 @@ app.sign = {
             $('#signin').on('click',function(){
                 //调用扫一扫
                 app.sign.querySignature().then(function(data){
-                    app.sign.openWxsao1sao(data);
-                    //签到成功
-                    app.sign.alertSign(app.tools.getMoment(),1);
+                    app.sign.openWxsao1sao(data,1);
                 },function(error){
                     console.info('获取认证失败~');
                 });
@@ -58,9 +56,9 @@ app.sign = {
             $('#signexit').on('click',function(){
                 //调用扫一扫
                app.sign.querySignature().then(function(data){
-                    app.sign.openWxsao1sao(data);
-                    //签到成功
-                    app.sign.alertSign(app.tools.getMoment(),0);
+                    app.sign.openWxsao1sao(data,0);
+                     //签到成功
+                    //app.sign.alertSign(app.tools.getMoment(),0);
                 },function(error){
                     console.info('获取认证失败~');
                 });
@@ -135,21 +133,21 @@ app.sign = {
 
     },
     //开启扫一扫功能
-    openWxsao1sao:function(timestamp,nonceStr,signature){
+    openWxsao1sao:function(data,type){
         //初始化配置信息
         wx.config({
             debug: true,
-            appId: 'wx46c138ff8b16aa10', // 必填，公众号的唯一标识
-            timestamp: timestamp, // 必填，生成签名的时间戳
-            nonceStr: nonceStr, // 必填，生成签名的随机串
-            signature: signature,// 必填，签名，见附录1
+            appId: data.appId, // 必填，公众号的唯一标识
+            timestamp: data.timestamp, // 必填，生成签名的时间戳
+            nonceStr: data.nonceStr, // 必填，生成签名的随机串
+            signature: data.signature,// 必填，签名，见附录1
             jsApiList: [ // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
                 'scanQRCode'
             ]
         });
         //初始化成功
         wx.ready(function(){
-            console.info('success');
+            console.info('初始化success');
             //调用扫一扫
             wx.scanQRCode({
               needResult: 1,
@@ -157,7 +155,8 @@ app.sign = {
               success: function (res) {
                 console.info(res);
                 console.info(JSON.stringify(res));
-
+                //签到成功
+                app.sign.alertSign(app.tools.getMoment(),type);
               },
               error:function(error){
                 console.info(error);
