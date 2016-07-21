@@ -297,13 +297,15 @@ app.userinfo = {
         })
     },
     updateEmployee: function () {
-        var employee = app.userinfo.getEmployee();
-        employee.name = $('input[name="name"]').val();
-        employee.gender = $('select[name="gender"]').val();
-        employee.birthday = $('input[name="birthday"]').val();
-        employee.address = $('input[name="address"]').val();
-        employee.description = $('input[name="description"]').val();
-        employee.avatarFileId = app.userinfo.fileId;
+        var employee = {
+            id: app.userinfo.getEmployee().id,
+            name: $('input[name="name"]').val(),
+            gender: $('select[name="gender"]').val(),
+            birthday: $('input[name="birthday"]').val() + ' 00:00:00',
+            address: $('input[name="address"]').val(),
+            description: $('input[name="description"]').val(),
+            avatarFileId: app.userinfo.fileId
+        };
         app.api.userinfo.updateEmployee({
             data: employee,
             success: function (result) {
