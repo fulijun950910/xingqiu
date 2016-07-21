@@ -16,6 +16,8 @@ app.performance.order = {
         app.performance.order.commission = 0;
         $('#total-performance').text('￥0.00');
         $('#total-push').text('￥0.00');
+        if (typeof myScroll == 'undefined')
+        myScroll.refresh();
     },
     list: function () {
         app.performance.order.destory();
@@ -40,7 +42,7 @@ app.performance.order = {
             success: function (result) {
                 app.endLoading();
                 if (!result.success || !result.data) {
-                    app.tools.show('order-list');
+                    app.tools.show('scroller');
                     return;
                 }
                 app.performance.order.page.total = result.data.total;
@@ -48,7 +50,6 @@ app.performance.order = {
                 var data = {
                     datas: result.data.orderListVo
                 }
-
                 app.performance.order.countPerformance(result.data.orderListVo);
                 var html = $('#tmpl-order-list').html();
                 var template = tmpl(html, data);
