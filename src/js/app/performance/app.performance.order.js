@@ -183,15 +183,15 @@ app.performance.order = {
         };
     },
     scrollInit: function () {
-        if(!myScroll){
-            myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
-            myScroll.on('scrollEnd', function () {
-                var s = this.y;
-                if (s < 0)
-                    app.performance.order.loadList();
-            });
-        }
-        myScroll.refresh();
+
+        myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
+        myScroll.on('scrollEnd', function () {
+            var s = this.y;
+            if (s < 0)
+                app.performance.order.loadList();
+        });
+        
+        // myScroll.refresh();
     },
     loadList: function () {
         
