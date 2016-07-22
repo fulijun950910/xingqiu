@@ -34,7 +34,7 @@ app.performance.order = {
         }
         if (app.userinfo.getEmployee().role == app.constant.WECHAT_BUSINESS[1].code) {
             data.type = 1;
-            data.ids = app.userinfo.getEmployee().storeIds
+            data.ids = app.performance.currentStoreid;
         }
         app.startLoading();
         app.api.order.list({
