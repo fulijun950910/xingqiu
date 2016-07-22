@@ -13,7 +13,12 @@ app.userinfo = {
     },
     getEmployee: function () {
         if (localStorage.employee) {
-            return JSON.parse(localStorage.employee);
+            var employee =JSON.parse(localStorage.employee);
+            if (employee.status && employee.status != '1') {
+                app.alert('当前员工已离职,不可登录','登录失败');
+                return;
+            }
+            return employee;
         } else {
             app.api.userinfo.findByOpenId({
                 success: function (result) {
@@ -56,6 +61,12 @@ app.userinfo = {
                                 app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
                                 throw new Error();
                             }
+
+                            if (employee.status && employee.status != '1') {
+                                app.alert('当前员工已离职,不可登录','登录失败');
+                                return;
+                            }
+
                             var listEmployeeStoreListData = {
                                 employeeId: employee.id,
                                 merchantId: employee.merchantId
@@ -134,7 +145,7 @@ app.userinfo = {
                     data: accountParam,
                     success: function (resultEmployeeList) {
                         if (!resultEmployeeList || !resultEmployeeList.success || !resultEmployeeList.data || resultEmployeeList.data.length <=0) {
-                            app.alert('未查到您的可用身份,请于商户管理员联系并设置您的身份信息。' ,'登录异常');
+                            app.alert('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息。' ,'登录异常');
                             return;
                         }
 
@@ -200,11 +211,6 @@ app.userinfo = {
                 userId: app.userinfo.getEmployee().userId,
                 employeeId: app.userinfo.getEmployee().id
             }
-            if (app.userinfo.getEmployee().status && app.userinfo.getEmployee().status == '1') {
-                app.alert('当前员工已离职,不可登录','登录失败');
-                return;
-            }
-
             app.api.userinfo.bind({
                 data: data,
                 success: function (result) {
