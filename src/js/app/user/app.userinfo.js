@@ -200,6 +200,11 @@ app.userinfo = {
                 userId: app.userinfo.getEmployee().userId,
                 employeeId: app.userinfo.getEmployee().id
             }
+            if (app.userinfo.getEmployee().status && app.userinfo.getEmployee().status == '1') {
+                app.alert('当前员工已离职,不可登录','登录失败');
+                return;
+            }
+
             app.api.userinfo.bind({
                 data: data,
                 success: function (result) {
