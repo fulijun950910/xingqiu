@@ -13,6 +13,8 @@ $(function () {
             return $('#tpl_booking_order_list').html();
         },
         bind: function () {
+            //修复页面置顶效果
+            window.scrollTo(0,0);
             app.performance.appointment.list();
         }
     }
@@ -24,6 +26,8 @@ $(function () {
             return $('#tpl_booking_order_detail').html();
         },
         bind: function () {
+            //修复页面置顶效果
+            window.scrollTo(0,0);
             app.performance.appointment.detail();
         }
     }
@@ -35,6 +39,8 @@ $(function () {
             return $('#tpl_order_list').html();
         },
         bind: function () {
+            //修复页面置顶效果
+            window.scrollTo(0,0);
             app.performance.order.list();
             //app.performance.order.scrollInit()
         }
@@ -47,6 +53,8 @@ $(function () {
             return $('#tpl_order_detail').html();
         },
         bind: function () {
+            //修复页面置顶效果
+            window.scrollTo(0,0);
             app.performance.order.detail();
         }
     }
@@ -59,6 +67,8 @@ $(function () {
             return $('#tpl_performance_report').html();
         },
         bind: function () {
+            //修复页面置顶效果
+            window.scrollTo(0,0);
             app.performance.manageReport_init();
         }
     }
@@ -71,6 +81,8 @@ $(function () {
             return $('#tpl_performance_emp').html();
         },
         bind: function () {
+            //修复页面置顶效果
+            window.scrollTo(0,0);
            app.performance.emp.init();
         }
     }
@@ -83,6 +95,8 @@ $(function () {
             return $('#tpl_performance_rank').html();
         },
         bind: function () {
+            //修复页面置顶效果
+            window.scrollTo(0,0);
             app.performance.rank.init();
         }
     }
@@ -94,6 +108,8 @@ $(function () {
             return $('#tpl_order_comment').html();
         },
         bind: function () {
+            //修复页面置顶效果
+            window.scrollTo(0,0);
             app.performance.order.orderComment();
         }
     }
@@ -107,14 +123,7 @@ $(function () {
         .push(performance_rank)
         .push(tpl_performance_order_comment)
         .init();
-
-
-    // .container 设置了 overflow 属性, 导致 Android 手机下输入框获取焦点时, 输入法挡住输入框的 bug
-    // 相关 issue: https://github.com/weui/weui/issues/15
-    // 解决方法:
-    // 0. .container 去掉 overflow 属性, 但此 demo 下会引发别的问题
-    // 1. 参考 http://stackoverflow.com/questions/23757345/android-does-not-correctly-scroll-on-input-focus-if-not-body-element
-    //    Android 手机下, input 或 textarea 元素聚焦时, 主动滚一把
+    
     if (/Android/gi.test(navigator.userAgent)) {
         window.addEventListener('resize', function () {
             if (document.activeElement.tagName == 'INPUT' || document.activeElement.tagName == 'TEXTAREA') {

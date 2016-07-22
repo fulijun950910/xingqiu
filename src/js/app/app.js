@@ -35,9 +35,3 @@ Date.prototype.format = function(format){
     }
     return format;
 }
-
-//修复IOS顶栏不恢复问题
-$(function(){
-    //修复页面置顶效果
-    window.scrollTo(0,0);
-})
