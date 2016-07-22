@@ -13,6 +13,9 @@ app.sign = {
         };
     },
     init: function () {
+        var screenHeight=window.screen.height;
+        $('body').css('height',screenHeight+'px');
+        
         //展示模板数据
         var userdata = app.sign.udata();
         userdata.date= app.tools.getDate();

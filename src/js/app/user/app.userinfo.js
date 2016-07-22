@@ -317,6 +317,15 @@ app.userinfo = {
             success: function (result) {
                 if (result.success)
                     app.alert('个人信息修改成功', '修改成功');
+                //清空本地Session
+                var e1 = app.userinfo.getEmployee();
+                e1.name = employee.name;
+                e1.gender = employee.gender;
+                e1.birthday = employee.birthday;
+                e1.address = employee.address;
+                e1.description = employee.description;
+                e1.avatarFileId = employee.avatarFileId;
+                localStorage.employee = JSON.stringify(e1);
             },
             error: function (a, b, c) {
                 app.alert('个人信息修改异常,请稍后尝试', '修改异常');
