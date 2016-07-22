@@ -14,7 +14,7 @@ app.userinfo = {
     getEmployee: function () {
         if (localStorage.employee) {
             var employee =JSON.parse(localStorage.employee);
-            if (employee.status && employee.status != '1') {
+            if (employee.positionStatus && employee.positionStatus != '1') {
                 app.alert('当前员工已离职,不可登录','登录失败');
                 return;
             }
@@ -62,9 +62,9 @@ app.userinfo = {
                                 throw new Error();
                             }
 
-                            if (employee.status && employee.status != '1') {
+                            if (employee.positionStatus && employee.positionStatus != '1') {
                                 app.alert('当前员工已离职,不可登录','登录失败');
-                                return;
+                                throw new Error();
                             }
 
                             var listEmployeeStoreListData = {
