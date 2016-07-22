@@ -13,12 +13,7 @@ app.userinfo = {
     },
     getEmployee: function () {
         if (localStorage.employee) {
-            var employee =JSON.parse(localStorage.employee);
-            if (employee.positionStatus && employee.positionStatus != '1') {
-                app.alert('当前员工已离职,不可登录','登录失败');
-                return;
-            }
-            return employee;
+            return JSON.parse(localStorage.employee);
         } else {
             app.api.userinfo.findByOpenId({
                 success: function (result) {
