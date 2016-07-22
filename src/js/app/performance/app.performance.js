@@ -238,7 +238,8 @@ app.performance = {
 
 		//今日业绩
 		var tmplhtml = $('#tmpl_performance').html();
-		var resultTmpl = tmpl(tmplhtml, pb_report);	
+		var resultTmpl = tmpl(tmplhtml, pb_report);
+		$('#tmpl-performance-manage').html('');
 		$('#tmpl-performance-manage').html(resultTmpl);
 		myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
 

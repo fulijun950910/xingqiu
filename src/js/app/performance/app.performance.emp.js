@@ -10,7 +10,7 @@ app.performance.emp = {
 					//业绩
 					performance : app.tools.toThousands(data.performance.toFixed(2)),
 					//卡耗
-					cardConsume : app.tools.toThousands(data.cardConsume.toFixed(2)),
+					cardConsume : app.tools.toThousands(data.cardConsumeTotalAmount.toFixed(2)),
 					//今日预约单数
 					todyAppointmentNum : data.appointmentNum,
 					//今日订单数

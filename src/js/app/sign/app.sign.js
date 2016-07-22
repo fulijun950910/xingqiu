@@ -158,6 +158,7 @@ app.sign = {
               },
               error:function(error){
                 console.info(error);
+                app.alert('打卡失败~');
               }
             });
         });

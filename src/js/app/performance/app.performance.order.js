@@ -96,6 +96,8 @@ app.performance.order = {
         });
     },
     submitComment: function () {
+        //修复页面置顶效果
+        window.scrollTo(0,0);
         var data = {
             fileId: app.performance.order.commentFileId,
             memberId: app.performance.order.order.memberId,
