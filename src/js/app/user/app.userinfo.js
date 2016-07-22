@@ -56,6 +56,12 @@ app.userinfo = {
                                 app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
                                 throw new Error();
                             }
+
+                            if (employee.positionStatus && employee.positionStatus != '1') {
+                                app.alert('当前员工已离职,不可登录','登录失败');
+                                throw new Error();
+                            }
+
                             var listEmployeeStoreListData = {
                                 employeeId: employee.id,
                                 merchantId: employee.merchantId
@@ -134,7 +140,7 @@ app.userinfo = {
                     data: accountParam,
                     success: function (resultEmployeeList) {
                         if (!resultEmployeeList || !resultEmployeeList.success || !resultEmployeeList.data || resultEmployeeList.data.length <=0) {
-                            app.alert('未查到您的可用身份,请于商户管理员联系并设置您的身份信息。' ,'登录异常');
+                            app.alert('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息。' ,'登录异常');
                             return;
                         }
 
