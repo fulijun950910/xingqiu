@@ -20,13 +20,18 @@ app.performance = {
 			bookingTitle:'当日预约'
 		};
 		if (d=='今天') {
+			app.performance.order.currentDay = new Date();
 			return lrcText;
 		}else if(d=='昨天'){
+			var date=new Date();
+			date = date.setDate(date.getDate-1);
+			app.performance.order.currentDay = date;
 			lrcText.leftText=null;
 			lrcText.rightText='看今天';
 			lrcText.centerText='昨日收入';
 			return lrcText;
 		}else if(d=='本月'){
+			app.performance.order.currentDay = new Date();
 			lrcText.leftText='看今天';
 			lrcText.rightText=null;
 			lrcText.centerText='本月收入';

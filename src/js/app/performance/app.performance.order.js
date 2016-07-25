@@ -81,6 +81,8 @@ app.performance.order = {
                 var result = tmpl(html, result.data);
                 $('#order-detail').html(result);
                 app.tools.resetBodyWH();
+                //处理详细数据页面滑动问题
+                //myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
             }
         })
     },
