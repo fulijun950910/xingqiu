@@ -10,6 +10,7 @@ app.performance.order = {
     performance: 0, //业绩
     commission: 0, //提成
     orderId: null,
+    currentDay: null,
     destory: function () {
         app.performance.order.page.page = 1;
         app.performance.order.performance = 0;
@@ -21,7 +22,12 @@ app.performance.order = {
     },
     list: function () {
         app.performance.order.destory();
-        var date = new Date();
+        var date=null;
+        if(app.performance.order.currentDay){
+            date = app.performance.order.currentDay;
+        }else{
+            date = new Date();
+        }
         date = $('#order-query-date').val() || date.format('yyyy-MM-dd');
         if (!$('#order-query-date').val())
             $('#order-query-date').val(date);
@@ -80,6 +86,7 @@ app.performance.order = {
         location.href = "#/order-detail";
     },
     comment: function (order) {
+        app.performance.order.currentDay = new Date($('#order-query-date').val());
         app.performance.order.order = order;
         location.href = "#/order-comment";
         app.performance.order.stop();
@@ -110,6 +117,10 @@ app.performance.order = {
             data: data,
             success: function (result) {
                 app.alert('订单评价生成', '操作成功');
+                //跳转到订单列表
+                setTimeout(function(){
+                    window.location.href="performance-index.html#/order-list";
+                },1000);
             },
             error: function (a, b, c, d) {
 
