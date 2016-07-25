@@ -158,7 +158,7 @@ app.sign = {
               success: function (res) {
                 var sign=JSON.parse(res);
                 //alert(res.toString());
-                $.ajax{
+                $.ajax({
                     url:sign.url,
                     type:'GET',
                     dataType:'JSON',
@@ -173,7 +173,7 @@ app.sign = {
                     error:function(error){
                         app.alert('打卡失败~');
                     }
-                }
+                });
               },
               error:function(error){
                 console.info(error);
