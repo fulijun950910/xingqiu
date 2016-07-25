@@ -12,7 +12,7 @@ app.userinfo = {
         }
     },
     getEmployee: function () {
-        if (localStorage.employee) {
+        if (localStorage.employee && localStorage.employee != 'null') {
             return JSON.parse(localStorage.employee);
         } else {
             app.api.userinfo.findByOpenId({
@@ -269,11 +269,12 @@ app.userinfo = {
         app.api.userinfo.unbind({
             data: data,
             success: function () {
-                localStorage.clear();
+                window.localStorage.clear();
                 location.href = "/userinfo.html#/user_login";
             },
-            error: function () {
-
+            error: function (a,b,c) {
+                window.localStorage.clear();
+                location.href = "/userinfo.html#/user_login";
             }
         })
     },
