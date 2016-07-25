@@ -82,7 +82,7 @@ app.performance = {
 		app.performance.getpPerformanceReport(function(data){
 			var usedata=app.performance.lrcText('今天');
 			//处理滚动
-			myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
+			//myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
 			var pb=app.performance.processReport(data, usedata);
 			
 			//上拉选择门店菜单
@@ -240,7 +240,7 @@ app.performance = {
 		var resultTmpl = tmpl(tmplhtml, pb_report);
 		$('#tmpl-performance-manage').html('');
 		$('#tmpl-performance-manage').html(resultTmpl);
-		//myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
+		myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
 		myScroll.refresh();
 
 		//处理门店选择
