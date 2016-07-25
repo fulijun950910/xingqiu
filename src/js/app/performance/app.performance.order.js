@@ -48,7 +48,9 @@ app.performance.order = {
             success: function (result) {
                 app.endLoading();
                 if (!result.success || !result.data) {
-                    app.tools.show('scroller');
+                    setTimeout(function(){
+                        app.tools.show('scroller');
+                    },200);
                     return;
                 }
                 app.performance.order.page.total = result.data.total;

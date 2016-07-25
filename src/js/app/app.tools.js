@@ -23,7 +23,7 @@ app.tools={
 	},
 	//显示未查到数据
 	show: function (domId) {
-		var html = '<div style="width: 100%;text-align: center;line-height: 10;"><i class="weui_icon_msg weui_icon_warn"></i><span>未查到数据</span></div>';
+		var html = '<div style="width: 100%;text-align: center;color:#555555;"><img src="images/404.png"><h5>sorry,没有查到您的相关数据。</h5></div>';
 		$('#' + domId).html(html);
 	},
 	//返回，01月01日
