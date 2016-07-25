@@ -156,8 +156,24 @@ app.sign = {
               needResult: 1,
               desc: 'scanQRCode desc',
               success: function (res) {
-                //签到成功
-                app.sign.alertSign(app.tools.getMoment(),type);
+                var sign=JSON.parse(res);
+                //alert(res.toString());
+                $.ajax{
+                    url:sign.url,
+                    type:'GET',
+                    dataType:'JSON',
+                    success:function(results){
+                        if(results && results.success){
+                            //签到成功
+                            app.sign.alertSign(app.tools.getMoment(),type);
+                        }else{
+                            app.alert(results.message);
+                        }
+                    },
+                    error:function(error){
+                        app.alert('打卡失败~');
+                    }
+                }
               },
               error:function(error){
                 console.info(error);
