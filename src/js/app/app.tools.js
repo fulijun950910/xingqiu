@@ -23,7 +23,7 @@ app.tools={
 	},
 	//显示未查到数据
 	show: function (domId) {
-		var html = '<div style="width: 100%;text-align: center;color:#555555;"><img src="images/404.png"><h5>sorry,没有查到您的相关数据。</h5></div>';
+		var html = '<div style="width: 100%;text-align: center;color:#555555;"><img style="width:100%;" src="images/404.png"><h5>sorry,没有查到您的相关数据。</h5></div>';
 		$('#' + domId).html(html);
 	},
 	//返回，01月01日
@@ -65,5 +65,13 @@ app.tools={
 			seconds='0'+seconds;
 		}
 		return hours+':'+minutes+':'+seconds;
+	},
+	//处理部分IOS不能滑动问题
+	resetBodyWH:function(){
+		var screenHeight=window.screen.height;
+		$('body').css('height',screenHeight+'px');
+	},
+	resetBodyScroll:function(){
+		window.scrollTo(0,0);
 	}
 }

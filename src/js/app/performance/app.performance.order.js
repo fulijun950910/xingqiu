@@ -80,6 +80,7 @@ app.performance.order = {
                 var html = $('#tmpl-order-detail').html();
                 var result = tmpl(html, result.data);
                 $('#order-detail').html(result);
+                app.tools.resetBodyWH();
             }
         })
     },
