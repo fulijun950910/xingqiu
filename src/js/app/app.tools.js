@@ -30,6 +30,7 @@ app.tools={
 	getDate:function(){
 		var date = new Date();
 		var mounth=date.getMonth();
+		mounth = mounth + 1;
 		if(mounth > 9){
 			mounth = '0'+mounth;
 		}
@@ -42,7 +43,7 @@ app.tools={
 	//返回，星期
 	getWeek:function(){
 		var date = new Date();
-		var week=new Array('星期一','星期二','星期三','星期四','星期五','星期六','星期日');
+		var week=new Array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
 		return week[date.getDay()];
 	},
 	//返回，时分秒=12:00:00
