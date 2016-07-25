@@ -15,13 +15,14 @@ app.sign = {
     init: function () {
         var screenHeight=window.screen.height;
         $('body').css('height',screenHeight+'px');
-        
+        app.sign.queryClockInfo();//初始化打卡信息
+    },
+    queryClockInfo:function(){
         //展示模板数据
         var userdata = app.sign.udata();
         userdata.date= app.tools.getDate();
         userdata.week= app.tools.getWeek();
         userdata.moment= app.tools.getMoment();
-
         //初始化打开信息
         app.sign.queryClockin(userdata.userid).then(function(data){
 
@@ -70,7 +71,6 @@ app.sign = {
         },function(error){
             app.alert(error);
         });
-
     },
     //查询打卡信息
     queryClockin:function(employeeId){
@@ -156,16 +156,17 @@ app.sign = {
               needResult: 1,
               desc: 'scanQRCode desc',
               success: function (res) {
-                var sign=JSON.parse(res);
-                //alert(res.toString());
                 $.ajax({
-                    url:sign.url,
-                    type:'GET',
-                    dataType:'JSON',
+                    url: JSON.parse(res.resultStr).url,
+                    type: 'GET',
+                    dataType: 'JSON',
                     success:function(results){
                         if(results && results.success){
+                            //重新加载签到信息
+                            app.sign.queryClockInfo();
                             //签到成功
                             app.sign.alertSign(app.tools.getMoment(),type);
+                            
                         }else{
                             app.alert(results.message);
                         }
