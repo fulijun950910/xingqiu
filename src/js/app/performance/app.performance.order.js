@@ -152,6 +152,10 @@ app.performance.order = {
         $this.val(nowDate);
         app.performance.order.list();
     },
+    changeDay:function(){
+        app.performance.order.destory();
+        app.performance.order.list();
+    },
     changeImg: function (dom) {
         if (!dom || !dom.files || dom.files.length <= 0)
             return;

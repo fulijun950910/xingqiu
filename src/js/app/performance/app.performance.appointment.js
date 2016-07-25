@@ -104,5 +104,8 @@ app.performance.appointment = {
         nowDate = nowDate.format('yyyy-MM-dd');
         $this.val(nowDate);
         app.performance.appointment.list();
+    },
+    changeDay:function(){
+        app.performance.appointment.list();
     }
 }
