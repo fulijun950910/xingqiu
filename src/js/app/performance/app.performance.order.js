@@ -23,14 +23,24 @@ app.performance.order = {
     list: function () {
         app.performance.order.destory();
         var date=null;
-        if(app.performance.order.currentDay){
-            date = app.performance.order.currentDay;
+        if($('#order-query-date').val()){
+            date=$('#order-query-date').val();
         }else{
-            date = new Date();
-        }
-        date = $('#order-query-date').val() || date.format('yyyy-MM-dd');
-        if (!$('#order-query-date').val())
+            if(app.performance.currentDate==1){
+                date = new Date();
+                date=new Date(date.setDate(date.getDate()-1));
+            }else if(app.performance.order.currentDay){
+                date = app.performance.order.currentDay;
+            }else{
+                date = new Date();
+            }
+            date=date.format('yyyy-MM-dd');
             $('#order-query-date').val(date);
+        }
+
+        // date = $('#order-query-date').val() || date.format('yyyy-MM-dd');
+        // if (!$('#order-query-date').val())
+            
         var data = {
             type: 2,
             ids: app.userinfo.getEmployee().id,
@@ -72,7 +82,18 @@ app.performance.order = {
     },
     detail: function () {
         var data = {
-            orderId: app.performance.order.orderId
+            orderId: app.performance.order.orderId,
+            type: '',
+            id: app.userinfo.getEmployee().id
+        }
+        //获取当前身份
+        var urole = app.performance.userrole_init();
+        if(urole == 2){
+            //员工
+            data.type=2
+         }else if(urole == 1){
+            //门店级
+            data.type=1
         }
         app.api.order.detail({
             data: data,
@@ -80,13 +101,14 @@ app.performance.order = {
                 var html = $('#tmpl-order-detail').html();
                 var result = tmpl(html, result.data);
                 $('#order-detail').html(result);
-                app.tools.resetBodyWH();
+                //app.tools.resetBodyWH();
                 //处理详细数据页面滑动问题
                 //myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
             }
         })
     },
     chooseOrderId: function (orderId) {
+        app.performance.order.currentDay = new Date($('#order-query-date').val());
         app.performance.order.orderId = orderId;
         location.href = "#/order-detail";
     },

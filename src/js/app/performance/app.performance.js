@@ -20,18 +20,13 @@ app.performance = {
 			bookingTitle:'当日预约'
 		};
 		if (d=='今天') {
-			app.performance.order.currentDay = new Date();
 			return lrcText;
 		}else if(d=='昨天'){
-			var date=new Date();
-			date = date.setDate(date.getDate-1);
-			app.performance.order.currentDay = date;
 			lrcText.leftText=null;
 			lrcText.rightText='看今天';
 			lrcText.centerText='昨日收入';
 			return lrcText;
 		}else if(d=='本月'){
-			app.performance.order.currentDay = new Date();
 			lrcText.leftText='看今天';
 			lrcText.rightText=null;
 			lrcText.centerText='本月收入';
@@ -39,6 +34,7 @@ app.performance = {
 			lrcText.bookingTitle='预约';
 			return lrcText;
 		}
+		return '';
 	},
 	userrole_init:function(){
 		var storeList;
@@ -83,11 +79,12 @@ app.performance = {
 			return;
 		}
 		//默认查询当天
-		app.performance.getpPerformanceReport().then(function(data){
-			var pb=app.performance.processReport(data, app.performance.lrcText('今天'));
-		},function(error){
-			app.alert(error);
-		}).then(function(){
+		app.performance.getpPerformanceReport(function(data){
+			var usedata=app.performance.lrcText('今天');
+			//处理滚动
+			myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
+			var pb=app.performance.processReport(data, usedata);
+			
 			//上拉选择门店菜单
 		    $('#container').on('click', '#showActionSheet_store', function () {
 	            var mask = $('#mask_store');
@@ -112,37 +109,34 @@ app.performance = {
 	                })
 	            }
 	        });
-		});
+		})
 	},
 	//获取业绩报告数据
-	getpPerformanceReport:function(){
-		return new Promise(function(resolve,reject){
-			app.startLoading();
-			var type = app.performance.currentDate || 2;
-			var storeid = app.performance.currentStoreid;
-			var uinfo = app.performance.emp.userinfo();
-			//接口数据
-			app.api.performance.performanceReport({
-				data:{
-					merchantId: uinfo.merchantId,
-					storeId: storeid,
-					userid: uinfo.userid,
-					type: type
-				},
-				success: function(results){
-					app.endLoading();
-					if (results.success) {
-						resolve(results.data);
-					}else{
-						reject(results.message);
-					}
-				},
-				error: function(error){
-					app.endLoading();
-					console.info(error);
-					reject('请求失败');
+	getpPerformanceReport:function(fn){
+		app.startLoading();
+		var type = app.performance.currentDate || 2;
+		var storeid = app.performance.currentStoreid;
+		var uinfo = app.performance.emp.userinfo();
+		//接口数据
+		app.api.performance.performanceReport({
+			data:{
+				merchantId: uinfo.merchantId,
+				storeId: storeid,
+				userid: uinfo.userid,
+				type: type
+			},
+			success: function(results){
+				app.endLoading();
+				if (results.success) {
+					fn(results.data);
+				}else{
+					app.alert('查询数据失败~');
 				}
-			});
+			},
+			error: function(error){
+				app.endLoading();
+				console.info(error);
+			}
 		});
 	},
 	//根据查询类型处理业绩明细数据,返回模板数据
@@ -246,8 +240,8 @@ app.performance = {
 		var resultTmpl = tmpl(tmplhtml, pb_report);
 		$('#tmpl-performance-manage').html('');
 		$('#tmpl-performance-manage').html(resultTmpl);
-		myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
-
+		//myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
+		myScroll.refresh();
 
 		//处理门店选择
 		$('#storeList').on('click','.weui_actionsheet_cell',function(){
@@ -261,11 +255,9 @@ app.performance = {
 			app.performance.currentStoreid=storeid;
 
 			//获取数据
-			app.performance.getpPerformanceReport().then(function(data){
+			app.performance.getpPerformanceReport(function(data){
 				var pb=app.performance.processReport(data,app.performance.lrcText('今天'));
-			},function(error){
-				app.alert(error);
-			})
+			});
 		});
 
 		//选择看昨天及看本月数据处理
@@ -273,17 +265,15 @@ app.performance = {
 			if ($('#leftData a').html().indexOf('今天') > 0) {
 				app.performance.currentDate = 2;
 				//修改展示数据
-				app.performance.getpPerformanceReport().then(function(data){
-					var pb=app.performance.processReport(data,app.performance.lrcText('今天'));//默认查询当天
-				},function(error){
-					app.alert(error);
+				var userdata=app.performance.lrcText('今天');
+				app.performance.getpPerformanceReport(function(data){
+					var pb=app.performance.processReport(data,userdata);//默认查询当天
 				});
 			}else{
 				app.performance.currentDate = 1;
-				app.performance.getpPerformanceReport().then(function(data){
-					var pb=app.performance.processReport(data,app.performance.lrcText('昨天'));//默认查询当天
-				},function(error){
-					app.alert(error);
+				var userdata=app.performance.lrcText('昨天');
+				app.performance.getpPerformanceReport(function(data){
+					var pb=app.performance.processReport(data,userdata);//默认查询当天
 				});
 			}		
 		});
@@ -291,30 +281,18 @@ app.performance = {
 		$('#rightData').on('click','a',function(){
 			if ($('#rightData a').html().indexOf('今天') > 0) {
 				app.performance.currentDate = 2;
-				app.performance.getpPerformanceReport().then(function(data){
-					app.performance.processReport(data,app.performance.lrcText('今天'));//默认查询当天
-				},function(error){
-					app.alert(error);
+				var userdata=app.performance.lrcText('今天');
+				app.performance.getpPerformanceReport(function(data){
+					app.performance.processReport(data,userdata);//默认查询当天
 				});
 			}else{
 				app.performance.currentDate = 3;
-				app.performance.getpPerformanceReport().then(function(data){
-					app.performance.processReport(data,app.performance.lrcText('本月'));//默认查询当天
-				},function(error){
-					app.alert(error);
+				var userdata=app.performance.lrcText('本月');
+				app.performance.getpPerformanceReport(function(data){
+					app.performance.processReport(data,userdata);//默认查询当天
 				});
 			}
 		});
 		return 'success';
-	},
-	//处理业绩浮动结果
-	getFloating:function(dom,floating){
-		if(floating > 0){
-			dom.next().css('class','ic icon-jiantou-copy2');
-		}else if(floating < 0){
-			dom.next().css('class','ic icon-jiantou4');
-		}else{
-			dom.next().css('class','ic').html('—');
-		}
 	}
 }

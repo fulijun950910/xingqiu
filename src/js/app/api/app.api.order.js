@@ -14,7 +14,7 @@ app.api.order = {
     },
     detail: function (settings) {
         app.api.ajax({
-            url: '/wechatbusinessassists/orderInfo/' + settings.data.orderId,
+            url: '/wechatbusinessassists/orderInfo/'+settings.data.orderId+'/'+settings.data.type+'/'+settings.data.id,
             type: 'GET',
             success: settings.success,
             error: settings.error,
