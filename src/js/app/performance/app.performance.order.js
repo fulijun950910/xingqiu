@@ -27,7 +27,7 @@ app.performance.order = {
             date=$('#order-query-date').val();
         }else{
             if(app.performance.currentDate==1){
-                date = new Date();
+                date=new Date();
                 date=new Date(date.setDate(date.getDate()-1));
             }else if(app.performance.order.currentDay){
                 date = app.performance.order.currentDay;
@@ -145,9 +145,7 @@ app.performance.order = {
             success: function (result) {
                 app.alert('订单评价生成', '操作成功');
                 //跳转到订单列表
-                setTimeout(function(){
-                    window.location.href="performance-index.html#/order-list";
-                },1000);
+                window.location.href="performance-index.html#/order-list";
             },
             error: function (a, b, c, d) {
 

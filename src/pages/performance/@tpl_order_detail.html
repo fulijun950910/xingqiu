@@ -77,7 +77,9 @@
                 <!-- 服务评价内容 -->
                 <div class="evaluatebox">
                     <div class="evaluate">评价:<span>{%=o.comment %}</span></div>
+                    <!--% if(!o.comment){ %-->
                     <button onclick="app.performance.order.comment({%=JSON.stringify(o) %})">服务小计</button>
+                    <!--% } %-->
                 </div>
             </div>
         </div>

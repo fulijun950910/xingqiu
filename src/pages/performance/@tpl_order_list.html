@@ -98,7 +98,9 @@
                     <div class="evaluate" style="word-break: break-all;overflow: hidden;">小记:
                         <span>{%=o.datas[i].comment %}</span>
                     </div>
-                    <button onclick="app.performance.order.comment({%=JSON.stringify(o.datas[i]) %})">服务小记</button>
+                    <!--% if(!o.datas[i].comment){ %-->
+                        <button class="noclick" onclick="app.performance.order.comment({%=JSON.stringify(o.datas[i]) %})">服务小记</button>
+                    <!--% } %-->
                 </div>
             </div>
         </div>
