@@ -182,8 +182,10 @@ app.performance = {
 			var num = 0;
 			if (type==3) {
 				num = app.tools.toThousands(data.currentMonthPerformanceDetailList[i][1].toFixed(2));
-			}else{
+			}else if(type==2){
 				num = app.tools.toThousands(data.todayPerformanceDetailList[i][1].toFixed(2));
+			}else if(type==1){
+				num = app.tools.toThousands(data.yesterdayPerformanceDetailList[i][1].toFixed(2));
 			}
 			window.eval('pb_report.detailList.'+name+'.val="'+ num +'"');
 			if (type == 1) {//昨天
