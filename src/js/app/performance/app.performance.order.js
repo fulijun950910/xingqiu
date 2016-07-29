@@ -26,13 +26,11 @@ app.performance.order = {
         if($('#order-query-date').val()){
             date=$('#order-query-date').val();
         }else{
+            date=new Date();
             if(app.performance.currentDate==1){
-                date=new Date();
-                date=new Date(date.setDate(date.getDate()-1));
+                date.setDate(date.getDate()-1);
             }else if(app.performance.order.currentDay){
                 date = app.performance.order.currentDay;
-            }else{
-                date = new Date();
             }
             date=date.format('yyyy-MM-dd');
             $('#order-query-date').val(date);

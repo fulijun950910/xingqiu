@@ -57,7 +57,9 @@ app.performance = {
 				//门店ID串
 				app.performance.storelistStr = storelistStr;
 				//当前选择门店
-				app.performance.currentStoreid = storelistStr;
+				if(!app.performance.currentStoreid){
+					app.performance.currentStoreid = storelistStr;
+				}
 				app.performance.currentDate = 2;
 				return 1;
 			}

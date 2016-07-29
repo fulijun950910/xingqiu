@@ -7,10 +7,23 @@ app.performance.appointment = {
         var screenHeight=window.screen.height;
         $('body').css('height',screenHeight+'px');
         //日期处理
-        var date = new Date();
-        date = $('#appointment-query-date').val()||date.format('yyyy-MM-dd');
-        if (!$('#appointment-query-date').val())
+        var date=null;
+        if($('#appointment-query-date').val()){
+            date=$('#appointment-query-date').val();
+        }else{
+            date=new Date();
+            if(app.performance.currentDate==1){
+                date.setDate(date.getDate()-1);
+            }else if(app.performance.order.currentDay){
+                date = app.performance.order.currentDay;
+            }
+            date=date.format('yyyy-MM-dd');
             $('#appointment-query-date').val(date);
+        }
+        // var date = new Date();
+        // date = $('#appointment-query-date').val()||date.format('yyyy-MM-dd');
+        // if (!$('#appointment-query-date').val())
+        //     $('#appointment-query-date').val(date);
         //获取数据
         app.performance.appointment.queryAppointmentForDate(date);   
     },
@@ -59,8 +72,8 @@ app.performance.appointment = {
                         var template = tmpl(html, result);
                         //console.info($('#scroller'));
                         $('#order-scroller').html(template);
-                        myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
-                        myScroll.refresh();
+                        myScroll = new IScroll('#booking-wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
+                        //myScroll.refresh();
                         resolve(true);
                     }
                 },
