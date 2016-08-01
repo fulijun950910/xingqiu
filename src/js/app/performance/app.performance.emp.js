@@ -35,6 +35,7 @@ app.performance.emp = {
 					$('#emp_cardConsume a').hide();
 					//显示今日业绩
 					$('#emp_today_performance a').show();
+					$('#emp_data p').html('今日卡耗');
 				});
 
 				//查看今日业绩
@@ -45,6 +46,7 @@ app.performance.emp = {
 					$('#emp_today_performance a').hide();
 					//显示今日业绩
 					$('#emp_cardConsume a').show();
+					$('#emp_data p').html('今日收入');
 				});
 			},
 			function(error){
