@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JS Template Example</title>
+</head>
+<body>
+	<div id="content"></div>
+	<script src="../src/js/libs/tmpl.js"></script>
+
+	<script type="text/html" id="tmpl-demo">
+	<h3>{%=o.title%}</h3>
+	<p>
+		Released under the <a href="{%=o.license.url%}">{%=o.license.name%}</a>.
+	</p>
+	<h4>Features</h4>
+	<ul>
+		<!--% for (var i=0; i <o.features.length; i++) { %-->
+		<li>{%=i%}.{%=o.features[i]%}</li>
+			<!--% if (i===1) { %-->
+				<li>--------------</li>
+			<!--% } %-->
+		<!--% } %-->
+	</ul>
+	</script>
+
+	<script>
+		var data = {
+			"title" : "JavaScript Templates",
+			"license" : {
+				"name" : "MIT license",
+				"url" : "http://www.opensource.org/licenses/MIT"
+			},
+			"features" : [ "lightweight & fast", "powerful",
+					"zero dependencies" ]
+		};
+		var template = document.getElementById('tmpl-demo').innerHTML;
+		var result = tmpl(template, data);
+		document.getElementById('content').innerHTML = result;
+	</script>
+</body>
+</html>
