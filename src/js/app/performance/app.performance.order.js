@@ -17,7 +17,7 @@ app.performance.order = {
         app.performance.order.commission = 0;
         $('#total-performance').text('￥0.00');
         $('#total-push').text('￥0.00');
-        if (typeof myScroll == 'undefined')
+        if (typeof myScroll != 'undefined')
         myScroll.refresh();
     },
     list: function () {
