@@ -32,6 +32,9 @@ app.performance.order = {
             }else if(app.performance.order.currentDay){
                 date = app.performance.order.currentDay;
             }
+            if(typeof date == 'undefined'){
+                date = new Date();
+            }
             date=date.format('yyyy-MM-dd');
             $('#order-query-date').val(date);
         }
