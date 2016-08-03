@@ -30,9 +30,9 @@ module.exports = function (grunt) {
                     'src/js/app/api/app.api.js',
                     'src/js/app/api/app.api.*.js',
                     'src/js/app/app.home.js',
-                    
-                    'src/js/app/app.performance.js',
-                    'src/js/app/app.performance.booking.js',
+
+                    'src/js/app/performance/app.performance.js',
+                    'src/js/app/performance/app.performance.booking.js',
                 ]
             },
             cssFiles: {
