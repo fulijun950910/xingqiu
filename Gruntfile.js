@@ -6,7 +6,7 @@ module.exports = function (grunt) {
     var version = pkg.version;
 
     // dev, integ, qa, prod
-    var env = grunt.option('env') || 'dev';
+    var env = grunt.option('env') || 'dev';http://localhost:5000/index.html#/cell
 
     var paths = {
         root: './',
@@ -16,9 +16,14 @@ module.exports = function (grunt) {
                 weiui: [
                     'src/js/libs/router.min.js',
                     'src/js/libs/jquery.min.js',
-                    'src/js/libs/jquery.min.map'
+                    'src/js/libs/jquery.min.map',
+                    'src/js/libs/example.js',
+                    'src/js/libs/router.bind.js',
+                    'src/js/libs/router.userinfo.js',
+                    'src/js/libs/router.sign.js',
+                    'src/js/libs/router.performance.js',
                 ],
-                libs: ['src/js/libs/example.js',
+                libs: [
                     'src/js/libs/tmpl.js'],
                 app: ['src/js/app/app.js',
                     'config/' + env + '/app.config.js',
