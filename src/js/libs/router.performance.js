@@ -14,6 +14,17 @@ $(function () {
             return $('#tpl_home').html();
         }
     };
+    
+    var tpl_performance_booking_order = {
+        url: 'booking-order',
+        className: 'booking-order',
+        render: function () {
+            return $('#tpl_booking_order').html();
+        },
+        bind: function () {
+            
+        }
+    }
 
     router.push(home).init();
 
