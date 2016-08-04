@@ -17,6 +17,9 @@ app.performance.appointment = {
             }else if(app.performance.order.currentDay){
                 date = app.performance.order.currentDay;
             }
+            if(typeof date == undefined || typeof date == 'undefined'){
+                date = new Date();
+            }
             date=date.format('yyyy-MM-dd');
             $('#appointment-query-date').val(date);
         }
