@@ -53,6 +53,13 @@ app.performance.order = {
             data.type = 1;
             data.ids = app.performance.currentStoreid;
         }
+        if(data.type==1){
+            //百度事件统计
+            baiduStatistical.add({category:'管理员-订单列表',label:'当日订单',val:'',action:'click'});
+        }else{
+            //百度事件统计
+            baiduStatistical.add({category:'员工-订单列表',label:'当日订单',val:'',action:'click'});
+        }
         app.startLoading();
         app.api.order.list({
             data: data,
@@ -92,9 +99,13 @@ app.performance.order = {
         if(urole == 2){
             //员工
             data.type=2
+            //百度事件统计
+            baiduStatistical.add({category:'员工-订单详情',label:'当日订单',val:'',action:'click'});
          }else if(urole == 1){
             //门店级
             data.type=1
+            //百度事件统计
+            baiduStatistical.add({category:'管理员-订单详情',label:'当日订单',val:'',action:'click'});
         }
         app.api.order.detail({
             data: data,

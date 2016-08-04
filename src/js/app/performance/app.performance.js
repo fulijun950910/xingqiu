@@ -20,13 +20,19 @@ app.performance = {
 			bookingTitle:'当日预约'
 		};
 		if (d=='今天') {
+			//百度事件统计
+			baiduStatistical.add({category:'管理员-看今天',label:'看今天业绩报告',val:'',action:'click'});
 			return lrcText;
 		}else if(d=='昨天'){
+			//百度事件统计
+			baiduStatistical.add({category:'管理员-看昨天',label:'看昨天业绩',val:'',action:'click'});
 			lrcText.leftText=null;
 			lrcText.rightText='看今天';
 			lrcText.centerText='昨日收入';
 			return lrcText;
 		}else if(d=='本月'){
+			//百度事件统计
+			baiduStatistical.add({category:'管理员-看本月',label:'看本月业绩',val:'',action:'click'});
 			lrcText.leftText='看今天';
 			lrcText.rightText=null;
 			lrcText.centerText='本月收入';
@@ -80,6 +86,9 @@ app.performance = {
 			window.location.href='/performance-index.html#/performance_emp';//不是管理员身份
 			return;
 		}
+		//百度事件统计
+		baiduStatistical.add({category:'管理员-业绩报告',label:'业绩报告查询',val:'',action:'select'});
+
 		//默认查询当天
 		app.performance.getpPerformanceReport(function(data){
 			var usedata=app.performance.lrcText('今天');
@@ -249,6 +258,10 @@ app.performance = {
 
 		//处理门店选择
 		$('#storeList').on('click','.weui_actionsheet_cell',function(){
+
+			//百度事件统计
+			baiduStatistical.add({category:'管理员-门店切换',label:'切换门店',val:'',action:'click'});
+
 			//获取门店ID;
 			var storeid=$(this).attr('name');
 			//修改当前显示选项

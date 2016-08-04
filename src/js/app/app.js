@@ -35,3 +35,21 @@ Date.prototype.format = function(format){
     }
     return format;
 }
+
+//百度统计代码
+var baiduStatistical={
+    /**
+     * 百度统计 事件追踪
+     * category 必填 监控目标类型名称 ex:管理员，员工
+     * action   必填 用户目标交互行为 ex:click，update
+     * lable    非必填 事件额外信息   ex: 随意填写
+     * value    非必填 事件额外数据信息  ex:时间，权重
+     * 
+     * 百度统计 页面追踪
+     * parames={category:'管理员',label:'当日订单',val:'管理员-当日订单',action:'click'}
+     * baiduStatistical.add({category:'管理员',label:'当日订单',val:'',action:'click'});
+     * */
+    add:function(parames){
+        window._hmt && _hmt.push(['_trackEvent', parames.category, parames.action, parames.label||'', parames.val||'']);
+    }
+}

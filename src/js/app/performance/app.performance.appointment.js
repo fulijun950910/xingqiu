@@ -37,6 +37,8 @@ app.performance.appointment = {
         //获取当前身份
         var urole = app.performance.userrole_init();
         if(urole == 2){
+            //百度事件统计
+            baiduStatistical.add({category:'员工-预约单列表',label:'当日预约',val:'',action:'click'});
             //员工,查询当前门店预约订单
             data.type = 2;
             app.performance.appointment.queryAppointmentList(data)
@@ -46,6 +48,8 @@ app.performance.appointment = {
                 //异常
             });
         }else if(urole == 1){
+            //百度事件统计
+            baiduStatistical.add({category:'管理员-预约单详情',label:'当日预约',val:'',action:'click'});
             //管理者,查询选择门店预约订单
             data.type=1;
             data.storeIds = app.performance.currentStoreid;

@@ -119,12 +119,13 @@ app.userinfo = {
             }, 3000);
             return;
         }
+        //事件统计
+        baiduStatistical.add({category:'登陆',label:'用户登陆',val:'',action:'click'});
         var param = {
             username: $('input[name="username"]').val(),
             password: app.userinfo.base64Encode($('input[name="password"]').val()),
             rememberMe: true
         }
-
         //查询用户
         app.api.userinfo.auth({
             data: param,
@@ -199,6 +200,8 @@ app.userinfo = {
         return out;
     },
     loginEmployee: function () {
+        //事件统计
+        baiduStatistical.add({category:'选择身份',label:'选择身份登陆门店',val:'',action:'click'});
         window.localStorage.employee = JSON.stringify($('input[name="emp_data"]:checked').data('employee'));
         $('#select_shade').hide();
         if (app.userinfo.getEmployee()) {
@@ -264,6 +267,8 @@ app.userinfo = {
         }
     },
     logout: function () {
+        //事件统计
+        baiduStatistical.add({category:'退出登陆',label:'退出登陆',val:'',action:'click'});
         var data = {
             userId: app.userinfo.getEmployee().userId,
             employeeId: app.userinfo.getEmployee().id,
@@ -307,6 +312,8 @@ app.userinfo = {
         })
     },
     updateEmployee: function () {
+        //事件统计
+        baiduStatistical.add({category:'个人信息修改',label:'个人信息修改',val:'',action:'click'});
         var employee = {
             id: app.userinfo.getEmployee().id,
             name: $('input[name="name"]').val(),
@@ -337,6 +344,8 @@ app.userinfo = {
         })
     },
     authUserValidate: function (dom) {
+        //事件统计
+        baiduStatistical.add({category:'验证码',label:'获取验证码',val:'',action:'click'});
         var $dom = $(dom);
         if ($dom.hasClass('disabled'))
             return;
@@ -413,6 +422,8 @@ app.userinfo = {
             password: password,
             validateCode: verifycode
         }
+        //事件统计
+        baiduStatistical.add({category:'修改密码',label:'用户修改密码',val:'',action:'click'});
         app.api.userinfo.updatePassword({
             data: data,
             success: function (result) {

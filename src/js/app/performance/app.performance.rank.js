@@ -12,6 +12,8 @@ app.performance.rank={
         var urole=app.performance.userrole_init();
         var uinfo = app.performance.emp.userinfo();
         if(urole==2){
+        	//百度事件统计
+			baiduStatistical.add({category:'员工-员工排名',label:'查看业绩排名',val:'',action:'select'});
             //员工,查询当前门店业绩排名 
 			app.performance.rank.getEmpRankList(uinfo.merchantId,uinfo.storeId).then(function(results){
 				app.performance.rank.modelToView(results,uinfo.userid);
@@ -21,6 +23,8 @@ app.performance.rank={
 				app.alert(error);
 			});
         }else if(urole==1){
+        	//百度事件统计
+			baiduStatistical.add({category:'管理员-业绩排名',label:'查看业绩排名',val:'',action:'select'});
             //管理者,查询被中门店业绩排名
             app.performance.userrole_init();
             var storelist=app.performance.getStoreList;

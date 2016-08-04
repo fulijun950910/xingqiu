@@ -47,6 +47,8 @@ app.sign = {
 
             //签到，签退初始化操作
             $('#signin').on('click',function(){
+                //事件统计
+                baiduStatistical.add({category:'打卡',label:'用户签到',val:'',action:'click'});
                 //调用扫一扫
                 app.sign.querySignature().then(function(data){
                     app.sign.openWxsao1sao(data,1);
@@ -58,11 +60,11 @@ app.sign = {
 
             //签退
             $('#signexit').on('click',function(){
+                //事件统计
+                baiduStatistical.add({category:'打卡',label:'用户签退',val:'',action:'click'});
                 //调用扫一扫
                app.sign.querySignature().then(function(data){
                     app.sign.openWxsao1sao(data,0);
-                     //签到成功
-                    //app.sign.alertSign(app.tools.getMoment(),0);
                 },function(error){
                     console.info('获取认证失败~');
                 });
