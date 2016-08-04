@@ -101,16 +101,10 @@
 
                 <!-- 服务评价内容 -->
                 <div class="evaluatebox">
-                <!--% if(!o.datas[i].comment){ %-->
                     <div class="evaluate" style="word-break: break-all;overflow: hidden;">小记:
                         <span>{%=o.datas[i].comment %}</span>
                     </div>
                     <button class="noclick" onclick="app.performance.order.comment({%=JSON.stringify(o.datas[i]) %})">服务小记</button>
-                <!--% }else{ %-->
-                    <div class="evaluate xiaoji" style="word-break: break-all;overflow: hidden;">小记:
-                        <span>{%=o.datas[i].comment %}</span>
-                    </div>
-                <!--% } %-->
                 </div>
             </div>
         </div>
