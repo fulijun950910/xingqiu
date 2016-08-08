@@ -31,7 +31,7 @@ app.tools={
 		var date = new Date();
 		var mounth=date.getMonth();
 		mounth = mounth + 1;
-		if(mounth > 9){
+		if(mounth < 10){
 			mounth = '0'+mounth;
 		}
 		var day=date.getDate();
