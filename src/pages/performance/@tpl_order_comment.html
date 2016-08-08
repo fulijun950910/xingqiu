@@ -38,7 +38,7 @@
         <!-- 上传本次服务照片 -->
         <div class="servicepic">
             <div class="uploadImg">
-                <img id="comment-pic" src="" onerror="this.src='images/upimg.png'">
+                <img id="comment-pic" src="{%=app.filePath + o.fileId %}" onerror="this.src='images/upimg.png'">
                 <input id="comment-file" style="width:1px;height:1px" type="file" accept="image/*" onchange="app.performance.order.changeImg(this)">
             </div>
 
