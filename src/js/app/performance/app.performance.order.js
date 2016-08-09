@@ -239,7 +239,7 @@ app.performance.order = {
     },
     scrollInit: function () {
 
-        myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
+        myScroll = new IScroll('#order-wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
         myScroll.on('scrollEnd', function () {
             //var s = this.y;
             //if (s < 0)
