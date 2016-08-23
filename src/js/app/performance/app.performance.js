@@ -47,8 +47,7 @@ app.performance = {
 		var storelistStr='';
 		//验证角色权限
 		var userinfo=app.userinfo.getEmployee();
-		if(app.constant.WECHAT_BUSINESS[1].code==userinfo.role
-			&& app.constant.WECHAT_BUSINESS[1].code===userinfo.role){
+		if(app.constant.WECHAT_BUSINESS[1].code==userinfo.role){
 			//获取门店信息列表
 			storeList=userinfo.storeList;
 			if(storeList.length==0){
