@@ -52,7 +52,7 @@ app.performance.order = {
                     ids: employee.id,
                     page: app.performance.order.page.page,
                     size: app.performance.order.page.size,
-                    date: date
+                    date: date.format('yyyy-MM-dd')
                 }
                 if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
                     data.type = 1;

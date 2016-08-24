@@ -20,7 +20,7 @@ app.performance.appointment = {
             if(typeof date == undefined || typeof date == 'undefined'){
                 date = new Date();
             }
-            date=date.format('yyyy-MM-dd');
+            date=date.format('yyyy/MM/dd');
             $('#appointment-query-date').val(date);
             if(!$('#appointment-query-date').val()){
                 $('#appointment-query-date').val(date.format('yyyy-MM-dd'))
@@ -31,7 +31,7 @@ app.performance.appointment = {
         // if (!$('#appointment-query-date').val())
         //     $('#appointment-query-date').val(date);
         //获取数据
-        app.performance.appointment.queryAppointmentForDate(date);   
+        app.performance.appointment.queryAppointmentForDate(date.format('yyyy-MM-dd'));   
     },
     queryAppointmentForDate:function(date){
         app.userinfo.getEmployee().then(function(employee){
