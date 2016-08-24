@@ -58,9 +58,14 @@ app.performance.emp = {
 	},
 	//获取用户信息
 	userinfo: function(){
-		var u_info=app.userinfo.getEmployee();
-		//商户ID,门店ID,员工ID
-		return {merchantId: u_info.merchantId,storeId: u_info.storeId, userid : u_info.id};
+		app.userinfo.getEmployee().then(function(employee){
+			if(employee){
+				var u_info=employee;
+				//商户ID,门店ID,员工ID
+				return {merchantId: u_info.merchantId,storeId: u_info.storeId, userid : u_info.id};
+			}
+		},function(){});
+
 	},
 	//获取员工门店ID
 	getUserStoreList: function(){

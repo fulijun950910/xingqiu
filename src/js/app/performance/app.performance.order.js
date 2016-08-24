@@ -21,103 +21,113 @@ app.performance.order = {
         myScroll.refresh();
     },
     list: function () {
-        app.performance.order.destory();
-        var date=null;
-        if($('#order-query-date').val()){
-            date=$('#order-query-date').val();
-        }else{
-            date=new Date();
-            if(app.performance.currentDate==1){
-                date.setDate(date.getDate()-1);
-            }else if(app.performance.order.currentDay){
-                date = app.performance.order.currentDay;
-            }
-            if(typeof date == undefined || typeof date == 'undefined'){
-                date = new Date();
-            }
-            date=date.format('yyyy-MM-dd');
-            $('#order-query-date').val(date);
-        }
+        app.userinfo.getEmployee().then(function(employee){
+            if(employee){
+                app.performance.order.destory();
+                var date=null;
+                if($('#order-query-date').val()){
+                    date=$('#order-query-date').val();
+                }else{
+                    date=new Date();
+                    if(app.performance.currentDate==1){
+                        date.setDate(date.getDate()-1);
+                    }else if(app.performance.order.currentDay){
+                        date = app.performance.order.currentDay;
+                    }
+                    if(typeof date == undefined || typeof date == 'undefined'){
+                        date = new Date();
+                    }
+                    date=date.format('yyyy-MM-dd');
+                    $('#order-query-date').val(date);
+                }
 
-        // date = $('#order-query-date').val() || date.format('yyyy-MM-dd');
-        // if (!$('#order-query-date').val())
-            
-        var data = {
-            type: 2,
-            ids: app.userinfo.getEmployee().id,
-            page: app.performance.order.page.page,
-            size: app.performance.order.page.size,
-            date: date
-        }
-        if (app.userinfo.getEmployee().role == app.constant.WECHAT_BUSINESS[1].code) {
-            data.type = 1;
-            data.ids = app.performance.currentStoreid;
-        }
-        if(data.type==1){
-            //百度事件统计
-            baiduStatistical.add({category:'管理员-订单列表',label:'当日订单',val:'',action:'click'});
-        }else{
-            //百度事件统计
-            baiduStatistical.add({category:'员工-订单列表',label:'当日订单',val:'',action:'click'});
-        }
-        app.startLoading();
-        app.api.order.list({
-            data: data,
-            success: function (result) {
-                app.endLoading();
-                if (!result.success || !result.data) {
-                    setTimeout(function(){
-                        app.tools.show('scroller');
-                    },200);
-                    return;
-                }
-                app.performance.order.page.total = result.data.total;
-                app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
+                // date = $('#order-query-date').val() || date.format('yyyy-MM-dd');
+                // if (!$('#order-query-date').val())
+
                 var data = {
-                    datas: result.data.orderListVo
+                    type: 2,
+                    ids: employee.id,
+                    page: app.performance.order.page.page,
+                    size: app.performance.order.page.size,
+                    date: date
                 }
-                app.performance.order.countPerformance(result.data.orderListVo);
-                var html = $('#tmpl-order-list').html();
-                var template = tmpl(html, data);
-                $('#order-scroller').html(template);
-                app.performance.order.scrollInit();
-                myScroll.refresh();
-            },
-            error:function(error){
-                app.endLoading();
+                if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
+                    data.type = 1;
+                    data.ids = app.performance.currentStoreid;
+                }
+                if(data.type==1){
+                    //百度事件统计
+                    baiduStatistical.add({category:'管理员-订单列表',label:'当日订单',val:'',action:'click'});
+                }else{
+                    //百度事件统计
+                    baiduStatistical.add({category:'员工-订单列表',label:'当日订单',val:'',action:'click'});
+                }
+                app.startLoading();
+                app.api.order.list({
+                    data: data,
+                    success: function (result) {
+                        app.endLoading();
+                        if (!result.success || !result.data) {
+                            setTimeout(function(){
+                                app.tools.show('scroller');
+                            },200);
+                            return;
+                        }
+                        app.performance.order.page.total = result.data.total;
+                        app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
+                        var data = {
+                            datas: result.data.orderListVo
+                        }
+                        app.performance.order.countPerformance(result.data.orderListVo);
+                        var html = $('#tmpl-order-list').html();
+                        var template = tmpl(html, data);
+                        $('#order-scroller').html(template);
+                        app.performance.order.scrollInit();
+                        myScroll.refresh();
+                    },
+                    error:function(error){
+                        app.endLoading();
+                    }
+                })
             }
-        })
+        },function(){});
+
     },
     detail: function () {
-        var data = {
-            orderId: app.performance.order.orderId,
-            type: '',
-            id: app.userinfo.getEmployee().id
-        }
-        //获取当前身份
-        var urole = app.performance.userrole_init();
-        if(urole == 2){
-            //员工
-            data.type=2
-            //百度事件统计
-            baiduStatistical.add({category:'员工-订单详情',label:'当日订单',val:'',action:'click'});
-         }else if(urole == 1){
-            //门店级
-            data.type=1
-            //百度事件统计
-            baiduStatistical.add({category:'管理员-订单详情',label:'当日订单',val:'',action:'click'});
-        }
-        app.api.order.detail({
-            data: data,
-            success: function (result) {
-                var html = $('#tmpl-order-detail').html();
-                var result = tmpl(html, result.data);
-                $('#order-detail').html(result);
-                
-                //处理详细数据页面滑动问题
-                myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
+        app.userinfo.getEmployee().then(function(employee){
+            if(employee){
+                var data = {
+                    orderId: app.performance.order.orderId,
+                    type: '',
+                    id: employee.id
+                }
+                //获取当前身份
+                var urole = app.performance.userrole_init();
+                if(urole == 2){
+                    //员工
+                    data.type=2
+                    //百度事件统计
+                    baiduStatistical.add({category:'员工-订单详情',label:'当日订单',val:'',action:'click'});
+                }else if(urole == 1){
+                    //门店级
+                    data.type=1
+                    //百度事件统计
+                    baiduStatistical.add({category:'管理员-订单详情',label:'当日订单',val:'',action:'click'});
+                }
+                app.api.order.detail({
+                    data: data,
+                    success: function (result) {
+                        var html = $('#tmpl-order-detail').html();
+                        var result = tmpl(html, result.data);
+                        $('#order-detail').html(result);
+
+                        //处理详细数据页面滑动问题
+                        myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
+                    }
+                })
             }
-        })
+        },function(){});
+
     },
     chooseOrderId: function (orderId) {
         app.performance.order.currentDay = new Date($('#order-query-date').val());
@@ -142,27 +152,32 @@ app.performance.order = {
         });
     },
     submitComment: function () {
-        //修复页面置顶效果
-        window.scrollTo(0,0);
-        var data = {
-            fileId: app.performance.order.commentFileId,
-            memberId: app.performance.order.order.memberId,
-            merchantId: app.userinfo.getEmployee().merchantId,
-            employeeId: app.userinfo.getEmployee().id,
-            comment: $('#comment-content').val(),
-            orderId: app.performance.order.order.orderId
-        }
-        app.api.order.comment({
-            data: data,
-            success: function (result) {
-                app.alert('订单评价生成', '操作成功');
-                //跳转到订单列表
-                window.location.href="performance-index.html#/order-list";
-            },
-            error: function (a, b, c, d) {
+        app.userinfo.getEmployee().then(function(employee){
+            if(employee){
+                //修复页面置顶效果
+                window.scrollTo(0,0);
+                var data = {
+                    fileId: app.performance.order.commentFileId,
+                    memberId: app.performance.order.order.memberId,
+                    merchantId: employee.merchantId,
+                    employeeId: employee.id,
+                    comment: $('#comment-content').val(),
+                    orderId: app.performance.order.order.orderId
+                }
+                app.api.order.comment({
+                    data: data,
+                    success: function (result) {
+                        app.alert('订单评价生成', '操作成功');
+                        //跳转到订单列表
+                        window.location.href="performance-index.html#/order-list";
+                    },
+                    error: function (a, b, c, d) {
 
+                    }
+                })
             }
-        })
+        },function(){});
+
     },
     stop: function () {
         var e = document;
@@ -249,43 +264,47 @@ app.performance.order = {
         // myScroll.refresh();
     },
     loadList: function () {
-        
-        if (app.performance.order.page.total <= $('.orderList').length)
-            return;
-
-        var data = {
-            type: 2,
-            ids: app.userinfo.getEmployee().id,
-            page: app.performance.order.page.page,
-            size: app.performance.order.page.size,
-            date: $('#order-query-date').val()
-        }
-        if (app.userinfo.getEmployee().role == app.constant.WECHAT_BUSINESS[1].code) {
-            data.type = 1;
-            data.ids = app.userinfo.getEmployee().storeIds
-        }
-        app.startLoading();
-        app.api.order.list({
-            data: data,
-            success: function (result) {
-                app.endLoading();
-                if (!result.success || !result.data)
+        app.userinfo.getEmployee().then(function(employee){
+            if(employee){
+                if (app.performance.order.page.total <= $('.orderList').length)
                     return;
-                app.performance.order.page.total = result.data.total;
-                app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
+
                 var data = {
-                    datas: result.data.orderListVo
+                    type: 2,
+                    ids: employee.id,
+                    page: app.performance.order.page.page,
+                    size: app.performance.order.page.size,
+                    date: $('#order-query-date').val()
                 }
-                app.performance.order.countPerformance(result.data.orderListVo);
-                var html = $('#tmpl-order-list').html();
-                var template = tmpl(html, data);
-                $('#order-list').append(template);
-                app.performance.order.scrollInit();
-            },
-            error:function(error){
-                app.endLoading();
+                if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
+                    data.type = 1;
+                    data.ids = employee.storeIds
+                }
+                app.startLoading();
+                app.api.order.list({
+                    data: data,
+                    success: function (result) {
+                        app.endLoading();
+                        if (!result.success || !result.data)
+                            return;
+                        app.performance.order.page.total = result.data.total;
+                        app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
+                        var data = {
+                            datas: result.data.orderListVo
+                        }
+                        app.performance.order.countPerformance(result.data.orderListVo);
+                        var html = $('#tmpl-order-list').html();
+                        var template = tmpl(html, data);
+                        $('#order-list').append(template);
+                        app.performance.order.scrollInit();
+                    },
+                    error:function(error){
+                        app.endLoading();
+                    }
+                })
             }
-        })
+        },function(){});
+
     },
     countPerformance: function (data) {
         for (var i in data) {
