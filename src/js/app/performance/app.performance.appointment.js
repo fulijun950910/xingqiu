@@ -32,7 +32,6 @@ app.performance.appointment = {
     },
     queryAppointmentForDate:function(date){
         app.userinfo.getEmployee().then(function(employee){
-            console.info(employee);
             if(employee){
                 var data = {
                     date: date,
@@ -40,32 +39,34 @@ app.performance.appointment = {
                     storeIds: '',//门店ids,分隔
                     employeeId: employee.id
                 }
-                //获取当前身份
-                var urole = app.performance.userrole_init();
-                if(urole == 2){
-                    //百度事件统计
-                    baiduStatistical.add({category:'员工-预约单列表',label:'当日预约',val:'',action:'click'});
-                    //员工,查询当前门店预约订单
-                    data.type = 2;
-                    app.performance.appointment.queryAppointmentList(data)
-                        .then(function(result){
-                            console.info(result);
-                        },function(error){
-                            //异常
-                        });
-                }else if(urole == 1){
-                    //百度事件统计
-                    baiduStatistical.add({category:'管理员-预约单详情',label:'当日预约',val:'',action:'click'});
-                    //管理者,查询选择门店预约订单
-                    data.type=1;
-                    data.storeIds = app.performance.currentStoreid;
-                    app.performance.appointment.queryAppointmentList(data)
-                        .then(function(res){
-                            console.info(res);
-                        },function(error){
-                            //异常
-                        });
-                }
+                app.performance.userrole_init().then(function(urole){
+                    //获取当前身份
+                    //var urole = app.performance.userrole_init();
+                    if(urole == 2){
+                        //百度事件统计
+                        baiduStatistical.add({category:'员工-预约单列表',label:'当日预约',val:'',action:'click'});
+                        //员工,查询当前门店预约订单
+                        data.type = 2;
+                        app.performance.appointment.queryAppointmentList(data)
+                            .then(function(result){
+                                console.info(result);
+                            },function(error){
+                                //异常
+                            });
+                    }else if(urole == 1){
+                        //百度事件统计
+                        baiduStatistical.add({category:'管理员-预约单详情',label:'当日预约',val:'',action:'click'});
+                        //管理者,查询选择门店预约订单
+                        data.type=1;
+                        data.storeIds = app.performance.currentStoreid;
+                        app.performance.appointment.queryAppointmentList(data)
+                            .then(function(res){
+                                console.info(res);
+                            },function(error){
+                                //异常
+                            });
+                    }
+                })
             }
         },function(){});
 
