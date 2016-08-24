@@ -43,39 +43,40 @@ app.performance = {
 		return '';
 	},
 	userrole_init:function(){
-		app.userinfo.getEmployee().then(function(employee){
-			if(employee){
-				var storeList;
-				var storelistStr='';
-				//验证角色权限
-				var userinfo=employee;
-				if(app.constant.WECHAT_BUSINESS[1].code==userinfo.role){
-					//获取门店信息列表
-					storeList=userinfo.storeList;
-					if(storeList.length==0){
-						return 0;
+		return new Promise(function(resolve,reject){
+			app.userinfo.getEmployee().then(function(employee){
+				if(employee){
+					var storeList;
+					var storelistStr='';
+					//验证角色权限
+					var userinfo=employee;
+					if(app.constant.WECHAT_BUSINESS[1].code==userinfo.role){
+						//获取门店信息列表
+						storeList=userinfo.storeList;
+						if(storeList.length==0){
+							resolve(0);
+						}else{
+							for (var i=0; i<storeList.length;i++) {
+								storelistStr+=storeList[i].id + ',';
+							}
+							storelistStr=storelistStr.substring(0,storelistStr.length-1);
+							//门店信息列表
+							app.performance.getStoreList = storeList;
+							//门店ID串
+							app.performance.storelistStr = storelistStr;
+							//当前选择门店
+							if(!app.performance.currentStoreid){
+								app.performance.currentStoreid = storelistStr;
+							}
+							app.performance.currentDate = 2;
+							resolve(1);
+						}
 					}else{
-						for (var i=0; i<storeList.length;i++) {
-							storelistStr+=storeList[i].id + ',';
-						}
-						storelistStr=storelistStr.substring(0,storelistStr.length-1);
-						//门店信息列表
-						app.performance.getStoreList = storeList;
-						//门店ID串
-						app.performance.storelistStr = storelistStr;
-						//当前选择门店
-						if(!app.performance.currentStoreid){
-							app.performance.currentStoreid = storelistStr;
-						}
-						app.performance.currentDate = 2;
-						return 1;
+						resolve(2);
 					}
-				}else{
-					return 2;
 				}
-			}
-		},function(){});
-
+			},function(){});
+		});
 	},
 	//BOSS-管理人员
 	manageReport_init: function(){

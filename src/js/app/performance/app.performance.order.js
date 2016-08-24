@@ -37,7 +37,7 @@ app.performance.order = {
                     if(typeof date == undefined || typeof date == 'undefined'){
                         date = new Date();
                     }
-                    date=date.format('yyyy-MM-dd');
+                    date=date.format('yyyy/MM/dd');
                     $('#order-query-date').val(date);
                 }
 
@@ -102,29 +102,31 @@ app.performance.order = {
                     id: employee.id
                 }
                 //获取当前身份
-                var urole = app.performance.userrole_init();
-                if(urole == 2){
-                    //员工
-                    data.type=2
-                    //百度事件统计
-                    baiduStatistical.add({category:'员工-订单详情',label:'当日订单',val:'',action:'click'});
-                }else if(urole == 1){
-                    //门店级
-                    data.type=1
-                    //百度事件统计
-                    baiduStatistical.add({category:'管理员-订单详情',label:'当日订单',val:'',action:'click'});
-                }
-                app.api.order.detail({
-                    data: data,
-                    success: function (result) {
-                        var html = $('#tmpl-order-detail').html();
-                        var result = tmpl(html, result.data);
-                        $('#order-detail').html(result);
-
-                        //处理详细数据页面滑动问题
-                        myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
+                //var urole = app.performance.userrole_init();
+                app.performance.userrole_init().then(function(urole){
+                    if(urole == 2){
+                        //员工
+                        data.type=2
+                        //百度事件统计
+                        baiduStatistical.add({category:'员工-订单详情',label:'当日订单',val:'',action:'click'});
+                    }else if(urole == 1){
+                        //门店级
+                        data.type=1
+                        //百度事件统计
+                        baiduStatistical.add({category:'管理员-订单详情',label:'当日订单',val:'',action:'click'});
                     }
-                })
+                    app.api.order.detail({
+                        data: data,
+                        success: function (result) {
+                            var html = $('#tmpl-order-detail').html();
+                            var result = tmpl(html, result.data);
+                            $('#order-detail').html(result);
+
+                            //处理详细数据页面滑动问题
+                            myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
+                        }
+                    })
+                },function(){});
             }
         },function(){});
 

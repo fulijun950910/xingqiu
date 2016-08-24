@@ -32,6 +32,7 @@ app.performance.appointment = {
     },
     queryAppointmentForDate:function(date){
         app.userinfo.getEmployee().then(function(employee){
+            console.info(employee);
             if(employee){
                 var data = {
                     date: date,
