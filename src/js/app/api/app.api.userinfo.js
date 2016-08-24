@@ -40,6 +40,7 @@ app.api.userinfo = {
         app.api.ajax({
             url: '/employee/list/account/' + settings.data.userId,
             type: 'GET',
+            async: settings.async,
             success: settings.success,
             error: settings.error,
         })
@@ -101,6 +102,7 @@ app.api.userinfo = {
         app.api.ajax({
             url: '/store/list/' + settings.data.merchantId + '/employee/' + settings.data.employeeId,
             type: 'GET',
+            async: settings.async,
             success: settings.success,
             error: settings.error,
         })
@@ -109,6 +111,7 @@ app.api.userinfo = {
         app.api.ajax({
             url: '/wechat/find',
             type: 'GET',
+            async: settings.async,
             success: settings.success,
             error: settings.error,
         })

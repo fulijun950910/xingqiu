@@ -58,25 +58,30 @@ app.performance.emp = {
 	},
 	//获取用户信息
 	userinfo: function(){
-		app.userinfo.getEmployee().then(function(employee){
-			if(employee){
-				var u_info=employee;
-				//商户ID,门店ID,员工ID
-				return {merchantId: u_info.merchantId,storeId: u_info.storeId, userid : u_info.id};
-			}
-		},function(){});
-
+		return new Promise(function(resolve,reject){
+			app.userinfo.getEmployee().then(function(u_info){
+				if(u_info){
+					//商户ID,门店ID,员工ID
+					resolve({merchantId: u_info.merchantId,storeId: u_info.storeId, userid : u_info.id});
+				}
+			},function(){});
+		});
 	},
 	//获取员工门店ID
 	getUserStoreList: function(){
-		return app.performance.emp.userinfo().storeId;
+		return new Promise(function(resolve,reject){
+			app.performance.emp.userinfo().then(function(obj){
+				resolve(obj.storeId);
+			},function(){});
+		});
 	},
 	//查询员工业绩
 	getEmpPerformance:function(){
 		return new Promise(function(resolve,reject){
 			//拼接请求URL
-			var uinfo = app.performance.emp.userinfo();
-			app.api.performance.empPerformance({
+			//var uinfo = app.performance.emp.userinfo();
+			app.performance.emp.userinfo().then(function(uinfo){
+				app.api.performance.empPerformance({
 				data:{
 					merchantId: uinfo.merchantId,
 					storeId: uinfo.storeId,
@@ -92,7 +97,8 @@ app.performance.emp = {
 				error: function(error){
 					reject('网络异常啦~');
 				}
-			})
+				})
+			},function(){});
 		});
 	}
 };

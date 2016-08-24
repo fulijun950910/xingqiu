@@ -4,13 +4,18 @@
 app.sign = {
     udata:function(){
         //初始化用户信息
-        var user = app.userinfo.getEmployee();
-        return {
-            userid: user.id,
-            username: user.name,
-            userRole: user.merchantRole.name,
-            userImg: app.filePath + user.avatarFileId
-        };
+        return new Promise(function(resolve,reject){
+        //var user = app.userinfo.getEmployee();
+            app.userinfo.getEmployee().then(function(user){
+                resolve({
+                    userid: user.id,
+                    username: user.name,
+                    userRole: user.merchantRole.name,
+                    userImg: app.filePath + user.avatarFileId
+                });
+            },function(){});
+        });
+
     },
     init: function () {
         var screenHeight=window.screen.height;
@@ -19,59 +24,61 @@ app.sign = {
     },
     queryClockInfo:function(){
         //展示模板数据
-        var userdata = app.sign.udata();
-        userdata.date= app.tools.getDate();
-        userdata.week= app.tools.getWeek();
-        userdata.moment= app.tools.getMoment();
-        //初始化打开信息
-        app.sign.queryClockin(userdata.userid).then(function(data){
-
-            //打开信息
-            userdata.signIn=null;
-            userdata.signExit=null;
-            if(data && data.length>0){
-                for (var i in data) {
-                    if(data[i].type==1){
-                        userdata.signIn=data[i];
-                    }else if(data[i].type==2){
-                        userdata.signExit=data[i];
+        //var userdata = app.sign.udata();
+        app.sign.udata().then(function(userdata){
+            userdata.date= app.tools.getDate();
+            userdata.week= app.tools.getWeek();
+            userdata.moment= app.tools.getMoment();
+            //初始化打开信息
+            app.sign.queryClockin(userdata.userid).then(function(data){
+                //打开信息
+                userdata.signIn=null;
+                userdata.signExit=null;
+                if(data && data.length>0){
+                    for (var i in data) {
+                        if(data[i].type==1){
+                            userdata.signIn=data[i];
+                        }else if(data[i].type==2){
+                            userdata.signExit=data[i];
+                        }
                     }
                 }
-            }
-            userdata.signData=data;
+                userdata.signData=data;
 
-            var tmplhtml=$('#tmpl-sign-model').html();
-            var resultTmpl = tmpl(tmplhtml, userdata);
-            $('#tmpl-sign').html(resultTmpl);
-            app.sign.dynamicClock();
+                var tmplhtml=$('#tmpl-sign-model').html();
+                var resultTmpl = tmpl(tmplhtml, userdata);
+                $('#tmpl-sign').html(resultTmpl);
+                app.sign.dynamicClock();
 
-            //签到，签退初始化操作
-            $('#signin').on('click',function(){
-                //事件统计
-                baiduStatistical.add({category:'打卡',label:'用户签到',val:'',action:'click'});
-                //调用扫一扫
-                app.sign.querySignature().then(function(data){
-                    app.sign.openWxsao1sao(data,1);
-                },function(error){
-                    console.info('获取认证失败~');
+                //签到，签退初始化操作
+                $('#signin').on('click',function(){
+                    //事件统计
+                    baiduStatistical.add({category:'打卡',label:'用户签到',val:'',action:'click'});
+                    //调用扫一扫
+                    app.sign.querySignature().then(function(data){
+                        app.sign.openWxsao1sao(data,1);
+                    },function(error){
+                        console.info('获取认证失败~');
+                    });
+
                 });
 
+                //签退
+                $('#signexit').on('click',function(){
+                    //事件统计
+                    baiduStatistical.add({category:'打卡',label:'用户签退',val:'',action:'click'});
+                    //调用扫一扫
+                   app.sign.querySignature().then(function(data){
+                        app.sign.openWxsao1sao(data,0);
+                    },function(error){
+                        console.info('获取认证失败~');
+                    });
+                })
+
+            },function(error){
+                app.alert(error);
             });
 
-            //签退
-            $('#signexit').on('click',function(){
-                //事件统计
-                baiduStatistical.add({category:'打卡',label:'用户签退',val:'',action:'click'});
-                //调用扫一扫
-               app.sign.querySignature().then(function(data){
-                    app.sign.openWxsao1sao(data,0);
-                },function(error){
-                    console.info('获取认证失败~');
-                });
-            })
-
-        },function(error){
-            app.alert(error);
         });
     },
     //查询打卡信息
