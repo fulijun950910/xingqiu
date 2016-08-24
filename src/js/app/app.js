@@ -36,6 +36,11 @@ Date.prototype.format = function(format){
     return format;
 }
 
+String.prototype.format = function(format){
+    var de=new Date(this);
+    return de.format(format);
+}
+
 //百度统计代码
 var baiduStatistical={
     /**

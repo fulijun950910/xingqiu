@@ -39,6 +39,9 @@ app.performance.order = {
                     }
                     date=date.format('yyyy/MM/dd');
                     $('#order-query-date').val(date);
+                    if(!$('#order-query-date').val()){
+                        $('#order-query-date').val(date.format('yyyy-MM-dd'))
+                    }
                 }
 
                 // date = $('#order-query-date').val() || date.format('yyyy-MM-dd');

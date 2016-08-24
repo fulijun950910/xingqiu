@@ -22,6 +22,9 @@ app.performance.appointment = {
             }
             date=date.format('yyyy-MM-dd');
             $('#appointment-query-date').val(date);
+            if(!$('#appointment-query-date').val()){
+                $('#appointment-query-date').val(date.format('yyyy-MM-dd'))
+            }
         }
         // var date = new Date();
         // date = $('#appointment-query-date').val()||date.format('yyyy-MM-dd');
