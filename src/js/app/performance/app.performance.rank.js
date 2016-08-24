@@ -8,97 +8,106 @@ app.performance.rank={
 	currentStoreid:'',
 	//初始化排名数据
 	init : function () {
-		//鉴别身份
-        var urole=app.performance.userrole_init();
-        var uinfo = app.performance.emp.userinfo();
-        if(urole==2){
-        	//百度事件统计
-			baiduStatistical.add({category:'员工-员工排名',label:'查看业绩排名',val:'',action:'select'});
-            //员工,查询当前门店业绩排名 
-			app.performance.rank.getEmpRankList(uinfo.merchantId,uinfo.storeId).then(function(results){
-				app.performance.rank.modelToView(results,uinfo.userid);
-				//隐藏门店选择列表
-				$('#showActionSheet_rank').hide();
-			},function(error){
-				app.alert(error);
-			});
-        }else if(urole==1){
-        	//百度事件统计
-			baiduStatistical.add({category:'管理员-业绩排名',label:'查看业绩排名',val:'',action:'select'});
-            //管理者,查询被中门店业绩排名
-            app.performance.userrole_init();
-            var storelist=app.performance.getStoreList;
-			//获取查询店铺信息
-			var currentStoreid = app.performance.currentStoreid;
-			var storeidarray = currentStoreid.split(',');
-			app.performance.rank.currentStoreid = storeidarray[0];
-			//默认第一家店
-            app.performance.rank.getEmpRankList(uinfo.merchantId,storeidarray[0]).then(function(results){
-				var results = results;
-	    		for (var i = 0; i < storelist.length;i ++) {
-	    			if(storelist[i].id==storeidarray[0]){
-	    				results.storeName=storelist[i].name;
-	    				break;
-	    			}
+		app.performance.emp.userinfo().then(function(employee){
+			if(employee){
+				var urole=app.performance.userrole_init();
+				var uinfo = employee;
+				if(urole==2){
+					//百度事件统计
+					baiduStatistical.add({category:'员工-员工排名',label:'查看业绩排名',val:'',action:'select'});
+					//员工,查询当前门店业绩排名
+					app.performance.rank.getEmpRankList(uinfo.merchantId,uinfo.storeId).then(function(results){
+						app.performance.rank.modelToView(results,uinfo.userid);
+						//隐藏门店选择列表
+						$('#showActionSheet_rank').hide();
+					},function(error){
+						app.alert(error);
+					});
+				}else if(urole==1){
+					//百度事件统计
+					baiduStatistical.add({category:'管理员-业绩排名',label:'查看业绩排名',val:'',action:'select'});
+					//管理者,查询被中门店业绩排名
+					app.performance.userrole_init();
+					var storelist=app.performance.getStoreList;
+					//获取查询店铺信息
+					var currentStoreid = app.performance.currentStoreid;
+					var storeidarray = currentStoreid.split(',');
+					app.performance.rank.currentStoreid = storeidarray[0];
+					//默认第一家店
+					app.performance.rank.getEmpRankList(uinfo.merchantId,storeidarray[0]).then(function(results){
+						var results = results;
+						for (var i = 0; i < storelist.length;i ++) {
+							if(storelist[i].id==storeidarray[0]){
+								results.storeName=storelist[i].name;
+								break;
+							}
+						}
+						results.storelist = storelist;
+						app.performance.rank.modelToView(results,uinfo.userid);
+						//展示门店选择
+						$('#showActionSheet_rank').show();
+
+						//初始化选择门店事件
+						app.performance.rank.bindClickStoreList();
+					},function(error){
+						app.alert(error);
+					});
+
 				}
-				results.storelist = storelist;
-				app.performance.rank.modelToView(results,uinfo.userid);
-				//展示门店选择
-				$('#showActionSheet_rank').show();
+			}
+		},function(){});
+		//鉴别身份
 
-				//初始化选择门店事件
-				app.performance.rank.bindClickStoreList();
-			},function(error){
-				app.alert(error);
-			});
-
-        }
 	},
 	bindClickStoreList:function(){
-		//处理门店选择
-		$('#storeRankSheet').on('click','.weui_actionsheet_cell',function(){
-			//获取门店ID;
-			var storeid = $(this).attr('name');
-			var storeName = $(this).html();
-			$('#actionsheet_cancel_rank').click();
-			//当前门店ID
-			app.performance.rank.currentStoreid=storeid;
-			//获取数据
-			app.performance.rank.getEmpRankList(app.performance.emp.userinfo().merchantId,storeid)
-			.then(function(results){
-				results.storeName=storeName;
-				app.performance.rank.modelToView(results,app.performance.emp.userid);
-				//展示门店选择
-				$('#showActionSheet_rank').show();
-				app.performance.rank.bindClickStoreList();
-			},function(error){
-				app.alert(error);
-			});
-		});
-		//初始化页面选择门店事件
-		$('#container').on('click', '#showActionSheet_rank', function () {
-                var mask = $('#mask_rank');
-                var weuiActionsheet = $('#weui_actionsheet_rank');
-                weuiActionsheet.addClass('weui_actionsheet_toggle');
-                mask.show()
-                    .addClass('weui_fade_toggle').one('click', function () {
-                        hideActionSheet(weuiActionsheet, mask);
-                });
-                $('#actionsheet_cancel_rank').one('click', function () {
-                    hideActionSheet(weuiActionsheet, mask);
-                });
-                mask.unbind('transitionend').unbind('webkitTransitionEnd');
+		app.performance.emp.userinfo().then(function(employee){
+			if(employee){
+				//处理门店选择
+				$('#storeRankSheet').on('click','.weui_actionsheet_cell',function(){
+					//获取门店ID;
+					var storeid = $(this).attr('name');
+					var storeName = $(this).html();
+					$('#actionsheet_cancel_rank').click();
+					//当前门店ID
+					app.performance.rank.currentStoreid=storeid;
+					//获取数据
+					app.performance.rank.getEmpRankList(employee.merchantId,storeid)
+						.then(function(results){
+							results.storeName=storeName;
+							app.performance.rank.modelToView(results,app.performance.emp.userid);
+							//展示门店选择
+							$('#showActionSheet_rank').show();
+							app.performance.rank.bindClickStoreList();
+						},function(error){
+							app.alert(error);
+						});
+				});
+				//初始化页面选择门店事件
+				$('#container').on('click', '#showActionSheet_rank', function () {
+					var mask = $('#mask_rank');
+					var weuiActionsheet = $('#weui_actionsheet_rank');
+					weuiActionsheet.addClass('weui_actionsheet_toggle');
+					mask.show()
+						.addClass('weui_fade_toggle').one('click', function () {
+							hideActionSheet(weuiActionsheet, mask);
+						});
+					$('#actionsheet_cancel_rank').one('click', function () {
+						hideActionSheet(weuiActionsheet, mask);
+					});
+					mask.unbind('transitionend').unbind('webkitTransitionEnd');
 
-                function hideActionSheet(weuiActionsheet, mask) {
-                    weuiActionsheet.removeClass('weui_actionsheet_toggle');
-                    mask.removeClass('weui_fade_toggle');
-                    mask.on('transitionend', function () {
-                        mask.hide();
-                    }).on('webkitTransitionEnd', function () {
-                        mask.hide();
-                    })
-                }
-        });
+					function hideActionSheet(weuiActionsheet, mask) {
+						weuiActionsheet.removeClass('weui_actionsheet_toggle');
+						mask.removeClass('weui_fade_toggle');
+						mask.on('transitionend', function () {
+							mask.hide();
+						}).on('webkitTransitionEnd', function () {
+							mask.hide();
+						})
+					}
+				});
+			}
+		},function(){});
 	}
 	,
 	modelToView:function(results,userid){

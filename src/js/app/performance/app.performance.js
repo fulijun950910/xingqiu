@@ -128,31 +128,36 @@ app.performance = {
 	},
 	//获取业绩报告数据
 	getpPerformanceReport:function(fn){
-		app.startLoading();
-		var type = app.performance.currentDate || 2;
-		var storeid = app.performance.currentStoreid;
-		var uinfo = app.performance.emp.userinfo();
-		//接口数据
-		app.api.performance.performanceReport({
-			data:{
-				merchantId: uinfo.merchantId,
-				storeId: storeid,
-				userid: uinfo.userid,
-				type: type
-			},
-			success: function(results){
-				app.endLoading();
-				if (results.success) {
-					fn(results.data);
-				}else{
-					app.alert('查询数据失败~');
-				}
-			},
-			error: function(error){
-				app.endLoading();
-				console.info(error);
+		app.performance.emp.userinfo().then(function(employee){
+			if(employee){
+				app.startLoading();
+				var type = app.performance.currentDate || 2;
+				var storeid = app.performance.currentStoreid;
+				var uinfo = employee;
+				//接口数据
+				app.api.performance.performanceReport({
+					data:{
+						merchantId: uinfo.merchantId,
+						storeId: storeid,
+						userid: uinfo.userid,
+						type: type
+					},
+					success: function(results){
+						app.endLoading();
+						if (results.success) {
+							fn(results.data);
+						}else{
+							app.alert('查询数据失败~');
+						}
+					},
+					error: function(error){
+						app.endLoading();
+						console.info(error);
+					}
+				});
 			}
-		});
+		},function(){});
+
 	},
 	//根据查询类型处理业绩明细数据,返回模板数据
 	processReport:function(data,lrcText){
