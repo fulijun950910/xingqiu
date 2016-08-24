@@ -80,52 +80,55 @@ app.performance = {
 	},
 	//BOSS-管理人员
 	manageReport_init: function(){
-		var screenHeight=window.screen.height;
-		$('body').css('height',screenHeight+'px');
-		var flagRole=app.performance.userrole_init();
-		if(flagRole==0){
-			window.location.href='/performance-index.html#/performance_emp';
-			app.alert('没有找到您的门店信息');
-			return;
-		}else if(flagRole==2){
-			window.location.href='/performance-index.html#/performance_emp';//不是管理员身份
-			return;
-		}
-		//百度事件统计
-		baiduStatistical.add({category:'管理员-业绩报告',label:'业绩报告查询',val:'',action:'select'});
+		app.performance.userrole_init().then(function(urole){
+			var screenHeight=window.screen.height;
+			$('body').css('height',screenHeight+'px');
+			var flagRole=urole;
+			if(flagRole==0){
+				window.location.href='/performance-index.html#/performance_emp';
+				app.alert('没有找到您的门店信息');
+				return;
+			}else if(flagRole==2){
+				window.location.href='/performance-index.html#/performance_emp';//不是管理员身份
+				return;
+			}
+			//百度事件统计
+			baiduStatistical.add({category:'管理员-业绩报告',label:'业绩报告查询',val:'',action:'select'});
 
-		//默认查询当天
-		app.performance.getpPerformanceReport(function(data){
-			var usedata=app.performance.lrcText('今天');
-			//处理滚动
-			//myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
-			var pb=app.performance.processReport(data, usedata);
-			
-			//上拉选择门店菜单
-		    $('#container').on('click', '#showActionSheet_store', function () {
-	            var mask = $('#mask_store');
-	            var weuiActionsheet = $('#weui_actionsheet_store');
-	            weuiActionsheet.addClass('weui_actionsheet_toggle');
-	            mask.show()
-	                .addClass('weui_fade_toggle').one('click', function () {
-	                hideActionSheet(weuiActionsheet, mask);
-	            });
-	            $('#actionsheet_cancel_store').one('click', function () {
-	                hideActionSheet(weuiActionsheet, mask);
-	            });
-	            mask.unbind('transitionend').unbind('webkitTransitionEnd');
+			//默认查询当天
+			app.performance.getpPerformanceReport(function(data){
+				var usedata=app.performance.lrcText('今天');
+				//处理滚动
+				//myScroll = new IScroll('#wrapper', {probeType: 3, mouseWheel: true, tap: true, click: true});
+				var pb=app.performance.processReport(data, usedata);
 
-	            function hideActionSheet(weuiActionsheet, mask) {
-	                weuiActionsheet.removeClass('weui_actionsheet_toggle');
-	                mask.removeClass('weui_fade_toggle');
-	                mask.on('transitionend', function () {
-	                    mask.hide();
-	                }).on('webkitTransitionEnd', function () {
-	                    mask.hide();
-	                })
-	            }
-	        });
+				//上拉选择门店菜单
+				$('#container').on('click', '#showActionSheet_store', function () {
+					var mask = $('#mask_store');
+					var weuiActionsheet = $('#weui_actionsheet_store');
+					weuiActionsheet.addClass('weui_actionsheet_toggle');
+					mask.show()
+						.addClass('weui_fade_toggle').one('click', function () {
+							hideActionSheet(weuiActionsheet, mask);
+						});
+					$('#actionsheet_cancel_store').one('click', function () {
+						hideActionSheet(weuiActionsheet, mask);
+					});
+					mask.unbind('transitionend').unbind('webkitTransitionEnd');
+
+					function hideActionSheet(weuiActionsheet, mask) {
+						weuiActionsheet.removeClass('weui_actionsheet_toggle');
+						mask.removeClass('weui_fade_toggle');
+						mask.on('transitionend', function () {
+							mask.hide();
+						}).on('webkitTransitionEnd', function () {
+							mask.hide();
+						})
+					}
+				});
+			})
 		})
+
 	},
 	//获取业绩报告数据
 	getpPerformanceReport:function(fn){

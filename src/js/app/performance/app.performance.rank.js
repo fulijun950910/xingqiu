@@ -10,50 +10,53 @@ app.performance.rank={
 	init : function () {
 		app.performance.emp.userinfo().then(function(employee){
 			if(employee){
-				var urole=app.performance.userrole_init();
 				var uinfo = employee;
-				if(urole==2){
-					//百度事件统计
-					baiduStatistical.add({category:'员工-员工排名',label:'查看业绩排名',val:'',action:'select'});
-					//员工,查询当前门店业绩排名
-					app.performance.rank.getEmpRankList(uinfo.merchantId,uinfo.storeId).then(function(results){
-						app.performance.rank.modelToView(results,uinfo.userid);
-						//隐藏门店选择列表
-						$('#showActionSheet_rank').hide();
-					},function(error){
-						app.alert(error);
-					});
-				}else if(urole==1){
-					//百度事件统计
-					baiduStatistical.add({category:'管理员-业绩排名',label:'查看业绩排名',val:'',action:'select'});
-					//管理者,查询被中门店业绩排名
-					app.performance.userrole_init();
-					var storelist=app.performance.getStoreList;
-					//获取查询店铺信息
-					var currentStoreid = app.performance.currentStoreid;
-					var storeidarray = currentStoreid.split(',');
-					app.performance.rank.currentStoreid = storeidarray[0];
-					//默认第一家店
-					app.performance.rank.getEmpRankList(uinfo.merchantId,storeidarray[0]).then(function(results){
-						var results = results;
-						for (var i = 0; i < storelist.length;i ++) {
-							if(storelist[i].id==storeidarray[0]){
-								results.storeName=storelist[i].name;
-								break;
+				app.performance.userrole_init().then(function(urole){
+					var urole=urole;
+					if(urole==2){
+						//百度事件统计
+						baiduStatistical.add({category:'员工-员工排名',label:'查看业绩排名',val:'',action:'select'});
+						//员工,查询当前门店业绩排名
+						app.performance.rank.getEmpRankList(uinfo.merchantId,uinfo.storeId).then(function(results){
+							app.performance.rank.modelToView(results,uinfo.userid);
+							//隐藏门店选择列表
+							$('#showActionSheet_rank').hide();
+						},function(error){
+							app.alert(error);
+						});
+					}else if(urole==1){
+						//百度事件统计
+						baiduStatistical.add({category:'管理员-业绩排名',label:'查看业绩排名',val:'',action:'select'});
+						//管理者,查询被中门店业绩排名
+						app.performance.userrole_init();
+						var storelist=app.performance.getStoreList;
+						//获取查询店铺信息
+						var currentStoreid = app.performance.currentStoreid;
+						var storeidarray = currentStoreid.split(',');
+						app.performance.rank.currentStoreid = storeidarray[0];
+						//默认第一家店
+						app.performance.rank.getEmpRankList(uinfo.merchantId,storeidarray[0]).then(function(results){
+							var results = results;
+							for (var i = 0; i < storelist.length;i ++) {
+								if(storelist[i].id==storeidarray[0]){
+									results.storeName=storelist[i].name;
+									break;
+								}
 							}
-						}
-						results.storelist = storelist;
-						app.performance.rank.modelToView(results,uinfo.userid);
-						//展示门店选择
-						$('#showActionSheet_rank').show();
+							results.storelist = storelist;
+							app.performance.rank.modelToView(results,uinfo.userid);
+							//展示门店选择
+							$('#showActionSheet_rank').show();
 
-						//初始化选择门店事件
-						app.performance.rank.bindClickStoreList();
-					},function(error){
-						app.alert(error);
-					});
+							//初始化选择门店事件
+							app.performance.rank.bindClickStoreList();
+						},function(error){
+							app.alert(error);
+						});
 
-				}
+					}
+				})
+
 			}
 		},function(){});
 		//鉴别身份
