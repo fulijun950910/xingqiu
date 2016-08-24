@@ -44,12 +44,12 @@ app.performance = {
 	},
 	userrole_init:function(){
 		return new Promise(function(resolve,reject){
-			app.userinfo.getEmployee().then(function(employee){
-				if(employee){
+			app.userinfo.getEmployee().then(function(userinfo){
+				if(userinfo){
 					var storeList;
 					var storelistStr='';
 					//验证角色权限
-					var userinfo=employee;
+					//var userinfo=employee;
 					if(app.constant.WECHAT_BUSINESS[1].code==userinfo.role){
 						//获取门店信息列表
 						storeList=userinfo.storeList;
