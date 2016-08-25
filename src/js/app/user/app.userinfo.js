@@ -2,9 +2,9 @@ app.userinfo = {
     init: function () {
         app.userinfo.getEmployee().then(function(employee){
             if(employee){
-                if (app.userinfo.getEmployee().role == app.constant.WECHAT_BUSINESS[1].code) {
+                if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
                     location.href = "/performance-index.html#/performance_report";
-                } else if (app.userinfo.getEmployee().role == app.constant.WECHAT_BUSINESS[2].code) {
+                } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                     location.href = "/performance-index.html#/performance_emp";
                 } else {
                     location.href = "/userinfo.html#/user_login";
