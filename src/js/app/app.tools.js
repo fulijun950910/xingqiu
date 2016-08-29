@@ -73,5 +73,35 @@ app.tools={
 	},
 	resetBodyScroll:function(){
 		window.scrollTo(0,0);
+	},
+	getCookie:function(key){
+		var ckes=document.cookie;
+		ckes = $.trim(ckes);
+		if(!ckes){
+			return null;
+		}
+		ckes = ckes.split(';');
+		for (var i=0; i < ckes.length-1; i++) {
+			var ck = ckes[i].split('=');
+			if(key == $.trim(ck[0])){
+				return $.trim(ck[1]);
+			}
+		};
+		return null;
+	},
+	setCookie:function(key,val){
+		var de = new Date();
+		document.cookie = key + '=' + val +';expire='+de.toGMTString()+';path:/';
+	},
+	setAllCookie:function(){
+		//获取本地存储cookie信息
+		var jsession = localStorage.getItem('JSESSIONID');
+		var rememberMe = localStorage.getItem('rememberMe');
+		var remeberMeRunAsRole = localStorage.getItem('remeberMeRunAsRole');
+		if(jsession && rememberMe && remeberMeRunAsRole){
+			app.tools.setCookie('JSESSIONID',jsession);
+			app.tools.setCookie('rememberMe',rememberMe);
+			app.tools.setCookie('remeberMeRunAsRole',remeberMeRunAsRole);
+		}
 	}
 }

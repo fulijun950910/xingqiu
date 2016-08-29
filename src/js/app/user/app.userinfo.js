@@ -1,7 +1,7 @@
 app.userinfo = {
-    init: function () {
-        app.userinfo.getEmployee().then(function(employee){
-            if(employee){
+    init: function() {
+        app.userinfo.getEmployee().then(function(employee) {
+            if (employee) {
                 if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
                     location.href = "/performance-index.html#/performance_report";
                 } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
@@ -11,17 +11,18 @@ app.userinfo = {
                     app.alert('未查到您的身份,请登录美问saas平台设置您的员工身份!!', '操作失败');
                 }
             }
-        },function(){});
+        }, function() {});
         //if (app.userinfo.getEmployee())
     },
-    getEmployee: function () {
-        return new Promise(function(resolve,reject){
+    getEmployee: function() {
+        return new Promise(function(resolve, reject) {
             if (localStorage.employee && localStorage.employee != 'null') {
-                //return JSON.parse(localStorage.employee);
+                //设置cookie
+                app.tools.setAllCookie();
                 resolve(JSON.parse(localStorage.employee));
             } else {
                 app.api.userinfo.findByOpenId({
-                    success: function (result) {
+                    success: function(result) {
                         if (!result.success || !result.data) {
                             location.href = "/userinfo.html#/user_login";
                             throw new Error();
@@ -31,7 +32,7 @@ app.userinfo = {
                         }
                         app.api.userinfo.listEmployee({
                             data: accountParam,
-                            success: function (resultEmployeeList) {
+                            success: function(resultEmployeeList) {
                                 var employee = {};
                                 for (var i in resultEmployeeList.data) {
                                     resultEmployeeList.data[i].jsonData = JSON.stringify(resultEmployeeList.data[i]);
@@ -63,7 +64,7 @@ app.userinfo = {
                                 }
 
                                 if (employee.positionStatus && employee.positionStatus != '1') {
-                                    app.alert('当前员工已离职,不可登录','登录失败');
+                                    app.alert('当前员工已离职,不可登录', '登录失败');
                                     throw new Error();
                                 }
 
@@ -73,7 +74,7 @@ app.userinfo = {
                                 }
                                 app.api.userinfo.listEmployeeStoreList({
                                     data: listEmployeeStoreListData,
-                                    success: function (result) {
+                                    success: function(result) {
                                         employee.storeList = result.data;
                                         var storeIds = [];
                                         for (var o in employee.storeList) {
@@ -84,32 +85,33 @@ app.userinfo = {
                                         //return JSON.parse(localStorage.employee);
                                         resolve(JSON.parse(localStorage.employee));
                                     },
-                                    error: function (a, b, c) {
+                                    error: function(a, b, c) {
                                         location.href = "/userinfo.html#/user_login";
                                     }
                                 })
                             },
-                            error: function (a, b, c) {
+                            error: function(a, b, c) {
                                 location.href = "/userinfo.html#/user_login";
                             }
                         })
                     },
-                    error: function () {
+                    error: function() {
                         location.href = "/userinfo.html#/user_login";
                     }
                 })
             }
         });
     },
-    selRoleBox: function (cb) {
+    selRoleBox: function(cb) {
         //弹出选择角色门店信息列表
         $('#select_shade').hide();
     },
-    updatepwd_init: function () {
+    updatepwd_init: function() {
 
     },
-    login: function () {
-        var error_login = false, msg = '';
+    login: function() {
+        var error_login = false,
+            msg = '';
         if (!$('input[name="username"]').val()) {
             error_login = true;
             msg = '用户名不可为空';
@@ -121,13 +123,18 @@ app.userinfo = {
         if (error_login) {
             $('#error_msg').html(msg);
             $('#login_error').show();
-            setTimeout(function () {
+            setTimeout(function() {
                 $('#login_error').hide();
             }, 3000);
             return;
         }
         //事件统计
-        baiduStatistical.add({category:'登陆',label:'用户登陆',val:'',action:'click'});
+        baiduStatistical.add({
+            category: '登陆',
+            label: '用户登陆',
+            val: '',
+            action: 'click'
+        });
         var param = {
             username: $('input[name="username"]').val(),
             password: app.userinfo.base64Encode($('input[name="password"]').val()),
@@ -136,7 +143,7 @@ app.userinfo = {
         //查询用户
         app.api.userinfo.auth({
             data: param,
-            success: function (resultUser) {
+            success: function(resultUser) {
                 var accountParam = {
                     userId: resultUser.data
                 }
@@ -146,9 +153,9 @@ app.userinfo = {
                 }
                 app.api.userinfo.listEmployee({
                     data: accountParam,
-                    success: function (resultEmployeeList) {
-                        if (!resultEmployeeList || !resultEmployeeList.success || !resultEmployeeList.data || resultEmployeeList.data.length <=0) {
-                            app.alert('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息。' ,'登录异常');
+                    success: function(resultEmployeeList) {
+                        if (!resultEmployeeList || !resultEmployeeList.success || !resultEmployeeList.data || resultEmployeeList.data.length <= 0) {
+                            app.alert('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息。', '登录异常');
                             return;
                         }
 
@@ -164,18 +171,18 @@ app.userinfo = {
                         $('#select_shade').show();
                         $('#show_employe_list label:first').click();
                     },
-                    error: function (a, b, c) {
+                    error: function(a, b, c) {
 
                     }
                 })
             },
-            error: function (a, b, c, d) {
+            error: function(a, b, c, d) {
 
             }
         })
 
     },
-    base64Encode: function (str) {
+    base64Encode: function(str) {
         var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
         var out, i, len;
         var c1, c2, c3;
@@ -206,20 +213,26 @@ app.userinfo = {
         }
         return out;
     },
-    loginEmployee: function () {
+    loginEmployee: function() {
         //事件统计
-        baiduStatistical.add({category:'选择身份',label:'选择身份登陆门店',val:'',action:'click'});
+        baiduStatistical.add({
+            category: '选择身份',
+            label: '选择身份登陆门店',
+            val: '',
+            action: 'click'
+        });
         window.localStorage.employee = JSON.stringify($('input[name="emp_data"]:checked').data('employee'));
+
         $('#select_shade').hide();
-        app.userinfo.getEmployee().then(function(employee){
-            if(employee){
+        app.userinfo.getEmployee().then(function(employee) {
+            if (employee) {
                 var data = {
                     userId: employee.userId,
                     employeeId: employee.id
                 }
                 app.api.userinfo.bind({
                     data: data,
-                    success: function (result) {
+                    success: function(result) {
                         if (result.success) {
                             var listEmployeeStoreListData = {
                                 employeeId: employee.id,
@@ -228,8 +241,8 @@ app.userinfo = {
                             var openId = result.success;
                             app.api.userinfo.listEmployeeStoreList({
                                 data: listEmployeeStoreListData,
-                                success: function (result) {
-                                    app.userinfo.getEmployee().then(function(employee){
+                                success: function(result) {
+                                    app.userinfo.getEmployee().then(function(employee) {
                                         var employee = employee;
                                         employee.storeList = result.data;
                                         employee.openId = openId;
@@ -252,34 +265,59 @@ app.userinfo = {
                                         }
                                         window.localStorage.employee = JSON.stringify(employee);
 
-                                        if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
-                                            location.href = "/performance-index.html#/performance_report";
-                                        } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                                            location.href = "/performance-index.html#/performance_emp";
-                                        } else {
-                                            localStorage.clear();
-                                            location.href = "/userinfo.html#/user_login";
-                                            app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
-                                            return;
-                                        }
+                                        //员工登陆
+                                        app.api.userinfo.emplogin({
+                                            data: {
+                                                empid: employee.id
+                                            },
+                                            success: function(results) {
+                                                if (results && results.success) {
+                                                    //cookie保存
+                                                    localStorage.setItem('JSESSIONID', app.tools.getCookie('JSESSIONID'));
+                                                    localStorage.setItem('rememberMe', app.tools.getCookie('rememberMe'));
+                                                    localStorage.setItem('remeberMeRunAsRole', app.tools.getCookie('JSESSIONID'));
+                                                }
+                                                //
+                                                app.userinfo.getEmployee().then(function(employee) {
+                                                    if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
+                                                        location.href = "/performance-index.html#/performance_report";
+                                                    } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
+                                                        location.href = "/performance-index.html#/performance_emp";
+                                                    } else {
+                                                        localStorage.clear();
+                                                        location.href = "/userinfo.html#/user_login";
+                                                        app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
+                                                        return;
+                                                    }
+                                                });
+                                            },
+                                            error: function() {
+
+                                            }
+                                        });
                                     });
                                 },
-                                error: function (a, b, c) {
+                                error: function(a, b, c) {
 
                                 }
                             })
                         }
                     },
-                    error: function (a, b, c) {
+                    error: function(a, b, c) {
 
                     }
                 })
             }
-        },function(){});
+        }, function() {});
     },
-    logout: function () {
+    logout: function() {
         //事件统计
-        baiduStatistical.add({category:'退出登陆',label:'退出登陆',val:'',action:'click'});
+        baiduStatistical.add({
+            category: '退出登陆',
+            label: '退出登陆',
+            val: '',
+            action: 'click'
+        });
         var data = {
             userId: app.userinfo.getEmployee().userId,
             employeeId: app.userinfo.getEmployee().id,
@@ -287,44 +325,49 @@ app.userinfo = {
         }
         app.api.userinfo.unbind({
             data: data,
-            success: function () {
+            success: function() {
                 window.localStorage.clear();
                 location.href = "/userinfo.html#/user_login";
             },
-            error: function (a,b,c) {
+            error: function(a, b, c) {
                 window.localStorage.clear();
                 location.href = "/userinfo.html#/user_login";
             }
         })
     },
-    find: function () {
+    find: function() {
         var data = {
             employeeId: app.userinfo.getEmployee().id
         }
         app.api.userinfo.find({
             data: data,
-            success: function (result) {
+            success: function(result) {
                 var template = $('#tmpl-userinfo').html();
                 var resultHtml = tmpl(template, result.data);
                 $('#userinfo-detail').html(resultHtml);
                 $('select[name="gender"]').val(result.data.gender);
                 if (result.data.avatarFileId)
                     $('#headarticle').prop('src', app.filePath + result.data.avatarFileId);
-                $('#headarticle').on('click', function () {
+                $('#headarticle').on('click', function() {
                     $('#headerfile').click();
-                    $('#headerfile').change(function (dom) {
+                    $('#headerfile').change(function(dom) {
                         app.userinfo.changeImg(dom);
                     })
                 })
             },
-            error: function (a, b, c) {
+            error: function(a, b, c) {
 
             }
         })
     },
-    updateEmployee: function () {
+    updateEmployee: function() {
         //事件统计
-        baiduStatistical.add({category:'个人信息修改',label:'个人信息修改',val:'',action:'click'});
+        baiduStatistical.add({
+            category: '个人信息修改',
+            label: '个人信息修改',
+            val: '',
+            action: 'click'
+        });
         var employee = {
             id: app.userinfo.getEmployee().id,
             name: $('input[name="name"]').val(),
@@ -336,7 +379,7 @@ app.userinfo = {
         };
         app.api.userinfo.updateEmployee({
             data: employee,
-            success: function (result) {
+            success: function(result) {
                 if (result.success)
                     app.alert('个人信息修改成功', '修改成功');
                 //清空本地Session
@@ -349,14 +392,19 @@ app.userinfo = {
                 e1.avatarFileId = employee.avatarFileId;
                 localStorage.employee = JSON.stringify(e1);
             },
-            error: function (a, b, c) {
+            error: function(a, b, c) {
                 app.alert('个人信息修改异常,请稍后尝试', '修改异常');
             }
         })
     },
-    authUserValidate: function (dom) {
+    authUserValidate: function(dom) {
         //事件统计
-        baiduStatistical.add({category:'验证码',label:'获取验证码',val:'',action:'click'});
+        baiduStatistical.add({
+            category: '验证码',
+            label: '获取验证码',
+            val: '',
+            action: 'click'
+        });
         var $dom = $(dom);
         if ($dom.hasClass('disabled'))
             return;
@@ -371,7 +419,7 @@ app.userinfo = {
         }
         app.api.userinfo.authUser({
             data: param,
-            success: function (resultUser) {
+            success: function(resultUser) {
                 var accountParam = {
                     authUserId: resultUser.data
                 }
@@ -382,11 +430,11 @@ app.userinfo = {
                 app.userinfo.authUserId = accountParam.authUserId;
                 app.api.userinfo.authUserValidate({
                     data: accountParam,
-                    success: function (resultValidate) {
+                    success: function(resultValidate) {
                         if (resultValidate.success && resultValidate.data) {
                             $('#auth-user-validate').addClass('disabled');
                             $('#auth-user-validate').html('<span id="second">60</span>秒后获取');
-                            var secondInterval = setInterval(function () {
+                            var secondInterval = setInterval(function() {
                                 var second = parseInt($('#second').html()) - 1
                                 $('#second').text(second);
                                 if (second == 0) {
@@ -397,17 +445,17 @@ app.userinfo = {
                             }, 1000)
                         }
                     },
-                    error: function (a, b, c) {
+                    error: function(a, b, c) {
 
                     }
                 })
             },
-            error: function (a, b, c) {
+            error: function(a, b, c) {
 
             }
         })
     },
-    updatePassword: function () {
+    updatePassword: function() {
         var phone = $('input[name="phone"]').val();
         if (!phone) {
             app.alert('请输入手机号', '获取验证码异常');
@@ -434,28 +482,33 @@ app.userinfo = {
             validateCode: verifycode
         }
         //事件统计
-        baiduStatistical.add({category:'修改密码',label:'用户修改密码',val:'',action:'click'});
+        baiduStatistical.add({
+            category: '修改密码',
+            label: '用户修改密码',
+            val: '',
+            action: 'click'
+        });
         app.api.userinfo.updatePassword({
             data: data,
-            success: function (result) {
+            success: function(result) {
                 if (result.success && result.data) {
                     app.alert('修改成功', '密码修改成功');
                     app.userinfo.init();
                 }
             },
-            error: function (a, b, c) {
+            error: function(a, b, c) {
                 app.alert('验证码错误', '修改密码异常');
             }
         })
     },
-    changeImg: function (dom) {
+    changeImg: function(dom) {
         if (!dom || !dom.files || dom.files.length <= 0)
             return;
 
         var file = dom.files[0];
         var reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = function (evt) {
+        reader.onload = function(evt) {
             var content = evt.target.result;
             var tempAry = content.split(",");
             var base64Str = (tempAry.length == 2) ? tempAry[1] : "";
@@ -466,15 +519,14 @@ app.userinfo = {
             };
             app.api.userinfo.uploadFile({
                 data: myImage,
-                success: function (result) {
+                success: function(result) {
                     if (result.success && result.data) {
                         app.userinfo.fileId = result.data;
                         var url = app.filePath + app.userinfo.fileId;
                         $('#headarticle').attr('src', url);
                     }
                 },
-                error: function (a, b, c) {
-                }
+                error: function(a, b, c) {}
             });
         };
     }

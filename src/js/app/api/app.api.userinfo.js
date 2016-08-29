@@ -116,4 +116,12 @@ app.api.userinfo = {
             error: settings.error,
         })
     },
+    emplogin:function(settings){
+        app.api.ajax({
+            url: '/employee/login/' + settings.data.empid,
+            type: 'PUT',
+            success: settings.success,
+            error: settings.error
+        });
+    }
 }
