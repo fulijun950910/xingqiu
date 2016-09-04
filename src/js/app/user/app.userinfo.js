@@ -311,91 +311,101 @@ app.userinfo = {
         }, function() {});
     },
     logout: function() {
-        //事件统计
-        baiduStatistical.add({
-            category: '退出登陆',
-            label: '退出登陆',
-            val: '',
-            action: 'click'
-        });
-        var data = {
-            userId: app.userinfo.getEmployee().userId,
-            employeeId: app.userinfo.getEmployee().id,
-            openId: app.userinfo.getEmployee().openId,
-        }
-        app.api.userinfo.unbind({
-            data: data,
-            success: function() {
-                window.localStorage.clear();
-                location.href = "/userinfo.html#/user_login";
-            },
-            error: function(a, b, c) {
-                window.localStorage.clear();
-                location.href = "/userinfo.html#/user_login";
+        app.userinfo.getEmployee().then(function(employee){
+            //事件统计
+            baiduStatistical.add({
+                category: '退出登陆',
+                label: '退出登陆',
+                val: '',
+                action: 'click'
+            });
+            var data = {
+                userId: employee.userId,
+                employeeId: employee.id,
+                openId: employee.openId,
             }
-        })
+            app.api.userinfo.unbind({
+                data: data,
+                success: function() {
+                    window.localStorage.clear();
+                    location.href = "/userinfo.html#/user_login";
+                },
+                error: function(a, b, c) {
+                    window.localStorage.clear();
+                    location.href = "/userinfo.html#/user_login";
+                }
+            })
+
+        },function(){});
     },
     find: function() {
-        var data = {
-            employeeId: app.userinfo.getEmployee().id
-        }
-        app.api.userinfo.find({
-            data: data,
-            success: function(result) {
-                var template = $('#tmpl-userinfo').html();
-                var resultHtml = tmpl(template, result.data);
-                $('#userinfo-detail').html(resultHtml);
-                $('select[name="gender"]').val(result.data.gender);
-                if (result.data.avatarFileId)
-                    $('#headarticle').prop('src', app.filePath + result.data.avatarFileId);
-                $('#headarticle').on('click', function() {
-                    $('#headerfile').click();
-                    $('#headerfile').change(function(dom) {
-                        app.userinfo.changeImg(dom);
-                    })
-                })
-            },
-            error: function(a, b, c) {
-
+        app.userinfo.getEmployee().then(function(employee){
+            var data = {
+                employeeId: employee.id
             }
-        })
+            app.api.userinfo.find({
+                data: data,
+                success: function(result) {
+                    var template = $('#tmpl-userinfo').html();
+                    var resultHtml = tmpl(template, result.data);
+                    $('#userinfo-detail').html(resultHtml);
+                    $('select[name="gender"]').val(result.data.gender);
+                    if (result.data.avatarFileId)
+                        $('#headarticle').prop('src', app.filePath + result.data.avatarFileId);
+                    $('#headarticle').on('click', function() {
+                        $('#headerfile').click();
+                        $('#headerfile').change(function(dom) {
+                            app.userinfo.changeImg(dom);
+                        })
+                    })
+                },
+                error: function(a, b, c) {
+
+                }
+            })
+        },function(){})
     },
     updateEmployee: function() {
-        //事件统计
-        baiduStatistical.add({
-            category: '个人信息修改',
-            label: '个人信息修改',
-            val: '',
-            action: 'click'
-        });
-        var employee = {
-            id: app.userinfo.getEmployee().id,
-            name: $('input[name="name"]').val(),
-            gender: $('select[name="gender"]').val(),
-            birthday: $('input[name="birthday"]').val() + ' 00:00:00',
-            address: $('input[name="address"]').val(),
-            description: $('input[name="description"]').val(),
-            avatarFileId: app.userinfo.fileId
-        };
-        app.api.userinfo.updateEmployee({
-            data: employee,
-            success: function(result) {
-                if (result.success)
-                    app.alert('个人信息修改成功', '修改成功');
-                //清空本地Session
-                var e1 = app.userinfo.getEmployee();
-                e1.name = employee.name;
-                e1.gender = employee.gender;
-                e1.birthday = employee.birthday;
-                e1.address = employee.address;
-                e1.description = employee.description;
-                e1.avatarFileId = employee.avatarFileId;
-                localStorage.employee = JSON.stringify(e1);
-            },
-            error: function(a, b, c) {
-                app.alert('个人信息修改异常,请稍后尝试', '修改异常');
-            }
-        })
+         app.userinfo.getEmployee().then(function(employee){
+            //事件统计
+            baiduStatistical.add({
+                category: '个人信息修改',
+                label: '个人信息修改',
+                val: '',
+                action: 'click'
+            });
+
+            var employee = {
+                id: employee.id,
+                name: $('input[name="name"]').val(),
+                gender: $('select[name="gender"]').val(),
+                birthday: $('input[name="birthday"]').val() + ' 00:00:00',
+                address: $('input[name="address"]').val(),
+                description: $('input[name="description"]').val(),
+                avatarFileId: app.userinfo.fileId
+            };
+            app.api.userinfo.updateEmployee({
+                data: employee,
+                success: function(result) {
+                    if (result.success)
+                        app.alert('个人信息修改成功', '修改成功');
+                    //清空本地Session
+                    app.userinfo.getEmployee().then(function(employee){
+                        var e1 = employee;
+                        e1.name = employee.name;
+                        e1.gender = employee.gender;
+                        e1.birthday = employee.birthday;
+                        e1.address = employee.address;
+                        e1.description = employee.description;
+                        e1.avatarFileId = employee.avatarFileId;
+                        localStorage.employee = JSON.stringify(e1);
+                    },function(){})
+                },
+                error: function(a, b, c) {
+                    app.alert('个人信息修改异常,请稍后尝试', '修改异常');
+                }
+            })
+         },function(){})
     },
     authUserValidate: function(dom) {
         //事件统计
