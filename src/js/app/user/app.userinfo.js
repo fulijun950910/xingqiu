@@ -17,8 +17,13 @@ app.userinfo = {
     getEmployee: function() {
         return new Promise(function(resolve, reject) {
             if (localStorage.employee && localStorage.employee != 'null') {
-                //设置cookie
-                app.tools.setAllCookie();
+                var jsession = localStorage.getItem('JSESSIONID');
+                var rememberMe = localStorage.getItem('rememberMe');
+                var role = localStorage.getItem('remeberMeRunAsRole');
+                if(jsession && rememberMe && role){
+                    //设置cookie
+                    app.tools.setAllCookie();
+                }
                 resolve(JSON.parse(localStorage.employee));
             } else {
                 app.api.userinfo.findByOpenId({
@@ -272,6 +277,8 @@ app.userinfo = {
                                             },
                                             success: function(results) {
                                                 if (results && results.success) {
+                                                    //alert('获取rememberMe:'+app.tools.getCookie('rememberMe'))
+                                                    //alert(document.cookie);
                                                     //cookie保存
                                                     localStorage.setItem('JSESSIONID', app.tools.getCookie('JSESSIONID'));
                                                     localStorage.setItem('rememberMe', app.tools.getCookie('rememberMe'));
