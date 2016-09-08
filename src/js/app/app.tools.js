@@ -74,20 +74,20 @@ app.tools={
 	resetBodyScroll:function(){
 		window.scrollTo(0,0);
 	},
-	getCookie:function(key){
-		var ckes=document.cookie;
-		ckes = $.trim(ckes);
-		if(!ckes){
-			return null;
-		}
-		ckes = ckes.split(';');
-		for (var i=0; i < ckes.length-1; i++) {
-			var ck = ckes[i].split('=');
-			if(key == $.trim(ck[0])){
-				return $.trim(ck[1]);
+	getCookie:function(cookie_name){
+		var allcookies = document.cookie;
+		var cookie_pos = allcookies.indexOf(cookie_name);
+		if (cookie_pos != -1)
+		{
+			cookie_pos += cookie_name.length + 1;
+			var cookie_end = allcookies.indexOf(";", cookie_pos);
+			if (cookie_end == -1)
+			{
+				cookie_end = allcookies.length;
 			}
-		};
-		return null;
+			var value = unescape(allcookies.substring(cookie_pos, cookie_end));
+		}
+		return value;
 	},
 	setCookie:function(key,val){
 		var de = new Date();

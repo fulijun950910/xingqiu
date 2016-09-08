@@ -283,8 +283,6 @@ app.userinfo = {
                                             },
                                             success: function(results) {
                                                 if (results && results.success) {
-                                                    //alert('获取rememberMe:'+app.tools.getCookie('rememberMe'))
-                                                    //alert(document.cookie);
                                                     //cookie保存
                                                     localStorage.setItem('JSESSIONID', app.tools.getCookie('JSESSIONID'));
                                                     localStorage.setItem('rememberMe', app.tools.getCookie('rememberMe'));
