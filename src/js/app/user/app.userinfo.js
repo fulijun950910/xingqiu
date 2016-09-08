@@ -20,17 +20,17 @@ app.userinfo = {
                 var jsession = localStorage.getItem('JSESSIONID');
                 var rememberMe = localStorage.getItem('rememberMe');
                 var role = localStorage.getItem('remeberMeRunAsRole');
-                if(jsession && rememberMe && role){
-                    //设置cookie
-                    app.tools.setAllCookie();
-                }
-
                 if(jsession && role){
-                    if(!rememberMe || rememberMe==null || rememberMe=='null' || rememberMe==undefined){
-                        app.alert('登陆已超时，请重新登陆');
-                        location.href = "/userinfo.html#/user_login";
+                    if(rememberMe){
+                        //设置cookie
+                        app.tools.setAllCookie();
+                    }else{
+                        if(!rememberMe || rememberMe==null || rememberMe=='null' || rememberMe==undefined){
+                            app.alert('登陆已超时，请重新登陆');
+                            location.href = "/userinfo.html#/user_login";
+                            return;
+                        }
                     }
-                    return;
                 }
                 resolve(JSON.parse(localStorage.employee));
             } else {
