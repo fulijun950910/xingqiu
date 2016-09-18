@@ -178,7 +178,7 @@ app.sign = {
             desc: 'scanQRCode desc',
             success: function (res) {
                 app.userinfo.getEmployee().then(function(employee){
-                    var url = res.resultStr + "&latitude=" + app.sign.latitude + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId;
+                    var url = res.resultStr + "&latitude=" + app.sign.latitude + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId + "&type=" + type;
                     $.ajax({
                         url: url,
                         type: 'GET',
@@ -195,7 +195,7 @@ app.sign = {
                             }
                         },
                         error: function (error) {
-                            app.alert('打卡失败~');
+                            app.alert('打卡失败~请重新登录');
                         }
                     });
                 },function(){})
