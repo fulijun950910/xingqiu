@@ -38,7 +38,9 @@ $(function () {
             return $('#tpl_user_login').html();
         },
         bind: function(){
-            //app.userinfo.init();
+            //缓存及cookie清理
+            localStorage.clear();
+            sessionStorage.clear();
         }
     }
 
