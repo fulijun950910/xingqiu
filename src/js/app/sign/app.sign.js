@@ -178,7 +178,7 @@ app.sign = {
             desc: 'scanQRCode desc',
             success: function (res) {
                 app.userinfo.getEmployee().then(function(employee){
-                    var url = res.resultStr + "&latitude=" + app.sign.latitude + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId + "&type=" + type;
+                    var url = res.resultStr + "&latitude=" + app.sign.latitude + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId + "&type=" + type + "&attendanceWay=1";
                     $.ajax({
                         url: url,
                         type: 'GET',
