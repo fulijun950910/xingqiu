@@ -60,7 +60,6 @@ app.sign = {
                     },function(error){
                         console.info('获取认证失败~');
                     });
-
                 });
 
                 //签退
@@ -68,7 +67,7 @@ app.sign = {
                     //事件统计
                     baiduStatistical.add({category:'打卡',label:'用户签退',val:'',action:'click'});
                     //调用扫一扫
-                   app.sign.querySignature().then(function(data){
+                    app.sign.querySignature().then(function(data){
                         app.sign.openWxsao1sao(data,0);
                     },function(error){
                         console.info('获取认证失败~');
@@ -157,40 +156,52 @@ app.sign = {
                 'scanQRCode'
             ]
         });
-        //初始化成功
-        wx.ready(function(){
-            console.info('初始化success');
-            //调用扫一扫
-            wx.scanQRCode({
-              needResult: 1,
-              desc: 'scanQRCode desc',
-              success: function (res) {
-                $.ajax({
-                    url: JSON.parse(res.resultStr).url,
-                    type: 'GET',
-                    dataType: 'JSON',
-                    success:function(results){
-                        if(results && results.success){
-                            //重新加载签到信息
-                            app.sign.queryClockInfo();
-                            //签到成功
-                            app.sign.alertSign(app.tools.getMoment(),type);
-                            
-                        }else{
-                            app.alert(results.message);
+        wx.getLocation({
+            type: 'wgs84',
+            success: function (res) {
+                app.sign.latitude = res.latitude;
+                app.sign.longitude = res.longitude;
+                //初始化成功
+                wx.ready(function(){
+                    console.info('初始化success');
+                    //调用扫一扫
+                    wx.scanQRCode({
+                        needResult: 1,
+                        desc: 'scanQRCode desc',
+                        success: function (res) {
+                            app.userinfo.getEmployee().then(function(employee){
+                                var url = res.resultStr + "&latitude=" + app.sign.latitude + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId;
+                                $.ajax({
+                                    url: url,
+                                    type: 'GET',
+                                    dataType: 'JSON',
+                                    success: function (results) {
+                                        if (results && results.success) {
+                                            //重新加载签到信息
+                                            app.sign.queryClockInfo();
+                                            //签到成功
+                                            app.sign.alertSign(app.tools.getMoment(), type);
+
+                                        } else {
+                                            app.alert(results.message);
+                                        }
+                                    },
+                                    error: function (error) {
+                                        app.alert('打卡失败~');
+                                    }
+                                });
+                            },function(){})
+
+                        },
+                        error:function(error){
+                            console.info(error);
+                            app.alert('打卡失败~');
                         }
-                    },
-                    error:function(error){
-                        app.alert('打卡失败~');
-                    }
+                    });
                 });
-              },
-              error:function(error){
-                console.info(error);
-                app.alert('打卡失败~');
-              }
-            });
+            }
         });
+
         //初始化失败
         wx.error(function(){
             console.info('error');

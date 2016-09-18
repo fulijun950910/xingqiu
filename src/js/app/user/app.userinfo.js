@@ -251,7 +251,7 @@ app.userinfo = {
                                 employeeId: employee.id,
                                 merchantId: employee.merchantId
                             }
-                            var openId = result.success;
+                            var openId = result.data;
                             app.api.userinfo.listEmployeeStoreList({
                                 data: listEmployeeStoreListData,
                                 success: function(result) {
