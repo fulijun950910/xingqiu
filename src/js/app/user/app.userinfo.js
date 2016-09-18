@@ -8,7 +8,7 @@ app.userinfo = {
                     location.href = "/performance-index.html#/performance_emp";
                 } else {
                     location.href = "/userinfo.html#/user_login";
-                    app.alert('æœªæŸ¥åˆ°æ‚¨çš„èº«ä»½,è¯·ç™»å½•ç¾é—®saaså¹³å°è®¾ç½®æ‚¨çš„å‘˜å·¥èº«ä»½!!', 'æ“ä½œå¤±è´¥');
+                    app.alert('Î´²éµ½ÄúµÄÉí·İ,ÇëµÇÂ¼ÃÀÎÊsaasÆ½Ì¨ÉèÖÃÄúµÄÔ±¹¤Éí·İ!!', '²Ù×÷Ê§°Ü');
                 }
             }
         }, function() {});
@@ -22,11 +22,11 @@ app.userinfo = {
                 var role = localStorage.getItem('remeberMeRunAsRole');
                 if(jsession && role){
                     if(rememberMe){
-                        //è®¾ç½®cookie
+                        //ÉèÖÃcookie
                         app.tools.setAllCookie();
                     }else{
                         if(!rememberMe || rememberMe==null || rememberMe=='null' || rememberMe==undefined){
-                            app.alert('ç™»é™†å·²è¶…æ—¶ï¼Œè¯·é‡æ–°ç™»é™†');
+                            app.alert('µÇÂ½ÒÑ³¬Ê±£¬ÇëÖØĞÂµÇÂ½');
                             location.href = "/userinfo.html#/user_login";
                             return;
                         }
@@ -67,17 +67,17 @@ app.userinfo = {
                                 }
                                 if (!employee) {
                                     location.href = "/userinfo.html#/user_login";
-                                    app.alert('æœªæŸ¥åˆ°æ‚¨çš„èº«ä»½,è¯·ç™»å½•ç¾é—®saaså¹³å°è®¾ç½®æ‚¨çš„å‘˜å·¥èº«ä»½!!', 'æ“ä½œå¤±è´¥');
+                                    app.alert('Î´²éµ½ÄúµÄÉí·İ,ÇëµÇÂ¼ÃÀÎÊsaasÆ½Ì¨ÉèÖÃÄúµÄÔ±¹¤Éí·İ!!', '²Ù×÷Ê§°Ü');
                                     throw new Error();
                                 }
                                 if (!employee.role) {
                                     location.href = "/userinfo.html#/user_login";
-                                    app.alert('æ‚¨æ²¡æœ‰è®¿é—®åº—åŠ¡åŠ©æ‰‹æƒé™,è¯·ç™»å½•ç¾é—®saaså¹³å°è®¾ç½®åº—åŠ¡åŠ©æ‰‹æƒé™!!', 'æ“ä½œå¤±è´¥');
+                                    app.alert('ÄúÃ»ÓĞ·ÃÎÊµêÎñÖúÊÖÈ¨ÏŞ,ÇëµÇÂ¼ÃÀÎÊsaasÆ½Ì¨ÉèÖÃµêÎñÖúÊÖÈ¨ÏŞ!!', '²Ù×÷Ê§°Ü');
                                     throw new Error();
                                 }
 
                                 if (employee.positionStatus && employee.positionStatus != '1') {
-                                    app.alert('å½“å‰å‘˜å·¥å·²ç¦»èŒ,ä¸å¯ç™»å½•', 'ç™»å½•å¤±è´¥');
+                                    app.alert('µ±Ç°Ô±¹¤ÒÑÀëÖ°,²»¿ÉµÇÂ¼', 'µÇÂ¼Ê§°Ü');
                                     throw new Error();
                                 }
 
@@ -116,22 +116,25 @@ app.userinfo = {
         });
     },
     selRoleBox: function(cb) {
-        //å¼¹å‡ºé€‰æ‹©è§’è‰²é—¨åº—ä¿¡æ¯åˆ—è¡¨
+        //µ¯³öÑ¡Ôñ½ÇÉ«ÃÅµêĞÅÏ¢ÁĞ±í
         $('#select_shade').hide();
     },
     updatepwd_init: function() {
 
     },
     login: function() {
+        //»º´æ¼°cookieÇåÀí
+        localStorage.clear();
+        sessionStorage.clear();
         var error_login = false,
             msg = '';
         if (!$('input[name="username"]').val()) {
             error_login = true;
-            msg = 'ç”¨æˆ·åä¸å¯ä¸ºç©º';
+            msg = 'ÓÃ»§Ãû²»¿ÉÎª¿Õ';
         }
         if (!$('input[name="password"]').val()) {
             error_login = true;
-            msg = 'å¯†ç ä¸å¯ä¸ºç©º';
+            msg = 'ÃÜÂë²»¿ÉÎª¿Õ';
         }
         if (error_login) {
             $('#error_msg').html(msg);
@@ -141,10 +144,10 @@ app.userinfo = {
             }, 3000);
             return;
         }
-        //äº‹ä»¶ç»Ÿè®¡
+        //ÊÂ¼şÍ³¼Æ
         baiduStatistical.add({
-            category: 'ç™»é™†',
-            label: 'ç”¨æˆ·ç™»é™†',
+            category: 'µÇÂ½',
+            label: 'ÓÃ»§µÇÂ½',
             val: '',
             action: 'click'
         });
@@ -153,7 +156,7 @@ app.userinfo = {
             password: app.userinfo.base64Encode($('input[name="password"]').val()),
             rememberMe: true
         }
-        //æŸ¥è¯¢ç”¨æˆ·
+        //²éÑ¯ÓÃ»§
         app.api.userinfo.auth({
             data: param,
             success: function(resultUser) {
@@ -161,14 +164,14 @@ app.userinfo = {
                     userId: resultUser.data
                 }
                 if (!accountParam.userId) {
-                    app.alert('ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯', 'ç™»å½•å¼‚å¸¸');
+                    app.alert('ÓÃ»§Ãû»òÃÜÂë´íÎó', 'µÇÂ¼Òì³£');
                     return;
                 }
                 app.api.userinfo.listEmployee({
                     data: accountParam,
                     success: function(resultEmployeeList) {
                         if (!resultEmployeeList || !resultEmployeeList.success || !resultEmployeeList.data || resultEmployeeList.data.length <= 0) {
-                            app.alert('æœªæŸ¥åˆ°æ‚¨çš„å¯ç”¨èº«ä»½æˆ–æ‚¨å·²ç¦»èŒ,è¯·ä¸å•†æˆ·ç®¡ç†å‘˜è”ç³»å¹¶è®¾ç½®æ‚¨çš„èº«ä»½ä¿¡æ¯ã€‚', 'ç™»å½•å¼‚å¸¸');
+                            app.alert('Î´²éµ½ÄúµÄ¿ÉÓÃÉí·İ»òÄúÒÑÀëÖ°,ÇëÓëÉÌ»§¹ÜÀíÔ±ÁªÏµ²¢ÉèÖÃÄúµÄÉí·İĞÅÏ¢¡£', 'µÇÂ¼Òì³£');
                             return;
                         }
 
@@ -227,10 +230,10 @@ app.userinfo = {
         return out;
     },
     loginEmployee: function() {
-        //äº‹ä»¶ç»Ÿè®¡
+        //ÊÂ¼şÍ³¼Æ
         baiduStatistical.add({
-            category: 'é€‰æ‹©èº«ä»½',
-            label: 'é€‰æ‹©èº«ä»½ç™»é™†é—¨åº—',
+            category: 'Ñ¡ÔñÉí·İ',
+            label: 'Ñ¡ÔñÉí·İµÇÂ½ÃÅµê',
             val: '',
             action: 'click'
         });
@@ -278,14 +281,14 @@ app.userinfo = {
                                         }
                                         window.localStorage.employee = JSON.stringify(employee);
 
-                                        //å‘˜å·¥ç™»é™†
+                                        //Ô±¹¤µÇÂ½
                                         app.api.userinfo.emplogin({
                                             data: {
                                                 empid: employee.id
                                             },
                                             success: function(results) {
                                                 if (results && results.success) {
-                                                    //cookieä¿å­˜
+                                                    //cookie±£´æ
                                                     localStorage.setItem('JSESSIONID', app.tools.getCookie('JSESSIONID'));
                                                     localStorage.setItem('rememberMe', app.tools.getCookie('rememberMe'));
                                                     localStorage.setItem('remeberMeRunAsRole', app.tools.getCookie('JSESSIONID'));
@@ -299,7 +302,7 @@ app.userinfo = {
                                                     } else {
                                                         localStorage.clear();
                                                         location.href = "/userinfo.html#/user_login";
-                                                        app.alert('æ‚¨æ²¡æœ‰è®¿é—®åº—åŠ¡åŠ©æ‰‹æƒé™,è¯·ç™»å½•ç¾é—®saaså¹³å°è®¾ç½®åº—åŠ¡åŠ©æ‰‹æƒé™!!', 'æ“ä½œå¤±è´¥');
+                                                        app.alert('ÄúÃ»ÓĞ·ÃÎÊµêÎñÖúÊÖÈ¨ÏŞ,ÇëµÇÂ¼ÃÀÎÊsaasÆ½Ì¨ÉèÖÃµêÎñÖúÊÖÈ¨ÏŞ!!', '²Ù×÷Ê§°Ü');
                                                         return;
                                                     }
                                                 });
@@ -325,10 +328,10 @@ app.userinfo = {
     },
     logout: function() {
         app.userinfo.getEmployee().then(function(employee){
-            //äº‹ä»¶ç»Ÿè®¡
+            //ÊÂ¼şÍ³¼Æ
             baiduStatistical.add({
-                category: 'é€€å‡ºç™»é™†',
-                label: 'é€€å‡ºç™»é™†',
+                category: 'ÍË³öµÇÂ½',
+                label: 'ÍË³öµÇÂ½',
                 val: '',
                 action: 'click'
             });
@@ -380,10 +383,10 @@ app.userinfo = {
     },
     updateEmployee: function() {
          app.userinfo.getEmployee().then(function(employee){
-            //äº‹ä»¶ç»Ÿè®¡
+            //ÊÂ¼şÍ³¼Æ
             baiduStatistical.add({
-                category: 'ä¸ªäººä¿¡æ¯ä¿®æ”¹',
-                label: 'ä¸ªäººä¿¡æ¯ä¿®æ”¹',
+                category: '¸öÈËĞÅÏ¢ĞŞ¸Ä',
+                label: '¸öÈËĞÅÏ¢ĞŞ¸Ä',
                 val: '',
                 action: 'click'
             });
@@ -401,8 +404,8 @@ app.userinfo = {
                 data: employee,
                 success: function(result) {
                     if (result.success)
-                        app.alert('ä¸ªäººä¿¡æ¯ä¿®æ”¹æˆåŠŸ', 'ä¿®æ”¹æˆåŠŸ');
-                    //æ¸…ç©ºæœ¬åœ°Session
+                        app.alert('¸öÈËĞÅÏ¢ĞŞ¸Ä³É¹¦', 'ĞŞ¸Ä³É¹¦');
+                    //Çå¿Õ±¾µØSession
                     app.userinfo.getEmployee().then(function(employee){
                         var e1 = employee;
                         e1.name = employee.name;
@@ -415,16 +418,16 @@ app.userinfo = {
                     },function(){})
                 },
                 error: function(a, b, c) {
-                    app.alert('ä¸ªäººä¿¡æ¯ä¿®æ”¹å¼‚å¸¸,è¯·ç¨åå°è¯•', 'ä¿®æ”¹å¼‚å¸¸');
+                    app.alert('¸öÈËĞÅÏ¢ĞŞ¸ÄÒì³£,ÇëÉÔºó³¢ÊÔ', 'ĞŞ¸ÄÒì³£');
                 }
             })
          },function(){})
     },
     authUserValidate: function(dom) {
-        //äº‹ä»¶ç»Ÿè®¡
+        //ÊÂ¼şÍ³¼Æ
         baiduStatistical.add({
-            category: 'éªŒè¯ç ',
-            label: 'è·å–éªŒè¯ç ',
+            category: 'ÑéÖ¤Âë',
+            label: '»ñÈ¡ÑéÖ¤Âë',
             val: '',
             action: 'click'
         });
@@ -434,7 +437,7 @@ app.userinfo = {
 
         var phone = $('input[name="phone"]').val();
         if (!phone) {
-            app.alert('è¯·è¾“å…¥æ‰‹æœºå·', 'è·å–éªŒè¯ç å¼‚å¸¸');
+            app.alert('ÇëÊäÈëÊÖ»úºÅ', '»ñÈ¡ÑéÖ¤ÂëÒì³£');
             return;
         }
         var param = {
@@ -447,7 +450,7 @@ app.userinfo = {
                     authUserId: resultUser.data
                 }
                 if (!accountParam.authUserId) {
-                    app.alert('æœªæ‰¾åˆ°å½“å‰ç”¨æˆ·', 'è·å–éªŒè¯ç å¼‚å¸¸');
+                    app.alert('Î´ÕÒµ½µ±Ç°ÓÃ»§', '»ñÈ¡ÑéÖ¤ÂëÒì³£');
                     return;
                 }
                 app.userinfo.authUserId = accountParam.authUserId;
@@ -456,13 +459,13 @@ app.userinfo = {
                     success: function(resultValidate) {
                         if (resultValidate.success && resultValidate.data) {
                             $('#auth-user-validate').addClass('disabled');
-                            $('#auth-user-validate').html('<span id="second">60</span>ç§’åè·å–');
+                            $('#auth-user-validate').html('<span id="second">60</span>Ãëºó»ñÈ¡');
                             var secondInterval = setInterval(function() {
                                 var second = parseInt($('#second').html()) - 1
                                 $('#second').text(second);
                                 if (second == 0) {
                                     $('#auth-user-validate').removeClass('disabled');
-                                    $('#auth-user-validate').html('è·å–éªŒè¯ç ');
+                                    $('#auth-user-validate').html('»ñÈ¡ÑéÖ¤Âë');
                                     clearInterval(secondInterval);
                                 }
                             }, 1000)
@@ -481,22 +484,22 @@ app.userinfo = {
     updatePassword: function() {
         var phone = $('input[name="phone"]').val();
         if (!phone) {
-            app.alert('è¯·è¾“å…¥æ‰‹æœºå·', 'è·å–éªŒè¯ç å¼‚å¸¸');
+            app.alert('ÇëÊäÈëÊÖ»úºÅ', '»ñÈ¡ÑéÖ¤ÂëÒì³£');
             return;
         }
         var verifycode = $('input[name="verifycode"]').val();
         if (!verifycode) {
-            app.alert('è¯·è¾“å…¥éªŒè¯ç ', 'ä¿®æ”¹å¯†ç å¼‚å¸¸');
+            app.alert('ÇëÊäÈëÑéÖ¤Âë', 'ĞŞ¸ÄÃÜÂëÒì³£');
             return;
         }
         var password = $('input[name="password"]').val();
         if (!password) {
-            app.alert('è¯·è¾“å…¥å¯†ç ', 'ä¿®æ”¹å¯†ç å¼‚å¸¸');
+            app.alert('ÇëÊäÈëÃÜÂë', 'ĞŞ¸ÄÃÜÂëÒì³£');
             return;
         }
 
         if (!app.userinfo.authUserId) {
-            app.alert('è¯·ç‚¹å‡»è·å–éªŒè¯ç ', 'ä¿®æ”¹å¯†ç å¼‚å¸¸');
+            app.alert('Çëµã»÷»ñÈ¡ÑéÖ¤Âë', 'ĞŞ¸ÄÃÜÂëÒì³£');
             return;
         }
         var data = {
@@ -504,10 +507,10 @@ app.userinfo = {
             password: password,
             validateCode: verifycode
         }
-        //äº‹ä»¶ç»Ÿè®¡
+        //ÊÂ¼şÍ³¼Æ
         baiduStatistical.add({
-            category: 'ä¿®æ”¹å¯†ç ',
-            label: 'ç”¨æˆ·ä¿®æ”¹å¯†ç ',
+            category: 'ĞŞ¸ÄÃÜÂë',
+            label: 'ÓÃ»§ĞŞ¸ÄÃÜÂë',
             val: '',
             action: 'click'
         });
@@ -515,12 +518,12 @@ app.userinfo = {
             data: data,
             success: function(result) {
                 if (result.success && result.data) {
-                    app.alert('ä¿®æ”¹æˆåŠŸ', 'å¯†ç ä¿®æ”¹æˆåŠŸ');
+                    app.alert('ĞŞ¸Ä³É¹¦', 'ÃÜÂëĞŞ¸Ä³É¹¦');
                     app.userinfo.init();
                 }
             },
             error: function(a, b, c) {
-                app.alert('éªŒè¯ç é”™è¯¯', 'ä¿®æ”¹å¯†ç å¼‚å¸¸');
+                app.alert('ÑéÖ¤Âë´íÎó', 'ĞŞ¸ÄÃÜÂëÒì³£');
             }
         })
     },

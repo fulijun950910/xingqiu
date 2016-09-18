@@ -39,8 +39,8 @@ $(function () {
         },
         bind: function(){
             //缓存及cookie清理
-            localStorage.clear();
-            sessionStorage.clear();
+            //localStorage.clear();
+            //sessionStorage.clear();
         }
     }
 
