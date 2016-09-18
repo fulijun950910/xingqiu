@@ -140,7 +140,11 @@ app.performance.order = {
         location.href = "#/order-detail";
     },
     comment: function (order) {
-        app.performance.order.currentDay = new Date($('#order-query-date').val());
+        var selDate=$('#order-query-date').val();
+        if(!selDate || selDate==undefined){
+            selDate = app.performance.order.currentDay;
+        }
+        app.performance.order.currentDay = selDate;
         app.performance.order.order = order;
         location.href = "#/order-comment";
         app.performance.order.stop();
