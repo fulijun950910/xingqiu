@@ -20,7 +20,32 @@ app.sign = {
     init: function () {
         var screenHeight=window.screen.height;
         $('body').css('height',screenHeight+'px');
-        app.sign.queryClockInfo();//初始化打卡信息
+        app.sign.querySignature().then(function(data){
+            app.sign.queryClockInfo();//初始化打卡信息
+            //初始化配置信息
+            wx.config({
+                debug: false,
+                appId: data.appId, // 必填，公众号的唯一标识
+                timestamp: data.timestamp, // 必填，生成签名的时间戳
+                nonceStr: data.nonceStr, // 必填，生成签名的随机串
+                signature: data.signature,// 必填，签名，见附录1
+                jsApiList: [ // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                    'scanQRCode'
+                ]
+            });
+            wx.ready(function() {
+                wx.getLocation({
+                    type: 'wgs84',
+                    success: function (res) {
+                        app.sign.latitude = res.latitude;
+                        app.sign.longitude = res.longitude;
+
+                    }
+                });
+            })
+        },function(error){
+            console.info('获取认证失败~,请重新跳转');
+        });
     },
     queryClockInfo:function(){
         //展示模板数据
@@ -54,24 +79,25 @@ app.sign = {
                 $('#signin').on('click',function(){
                     //事件统计
                     baiduStatistical.add({category:'打卡',label:'用户签到',val:'',action:'click'});
-                    //调用扫一扫
-                    app.sign.querySignature().then(function(data){
-                        app.sign.openWxsao1sao(data,1);
-                    },function(error){
-                        console.info('获取认证失败~');
-                    });
+                    if (app.sign.latitude && app.sign.longitude) {
+                        //调用扫一扫
+                        app.sign.openWxsao1sao(1);
+                    } else {
+                        app.alert('为了签到成功,请允许我们获取您的位置信息!');
+                    }
+
                 });
 
                 //签退
                 $('#signexit').on('click',function(){
                     //事件统计
                     baiduStatistical.add({category:'打卡',label:'用户签退',val:'',action:'click'});
-                    //调用扫一扫
-                    app.sign.querySignature().then(function(data){
-                        app.sign.openWxsao1sao(data,0);
-                    },function(error){
-                        console.info('获取认证失败~');
-                    });
+                    if (app.sign.latitude && app.sign.longitude) {
+                        //调用扫一扫
+                        app.sign.openWxsao1sao(0);
+                    } else {
+                        app.alert('为了签到成功,请允许我们获取您的位置信息!');
+                    }
                 })
 
             },function(error){
@@ -144,67 +170,41 @@ app.sign = {
 
     },
     //开启扫一扫功能
-    openWxsao1sao:function(data,type){
-        //初始化配置信息
-        wx.config({
-            debug: false,
-            appId: data.appId, // 必填，公众号的唯一标识
-            timestamp: data.timestamp, // 必填，生成签名的时间戳
-            nonceStr: data.nonceStr, // 必填，生成签名的随机串
-            signature: data.signature,// 必填，签名，见附录1
-            jsApiList: [ // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-                'scanQRCode'
-            ]
-        });
-        wx.getLocation({
-            type: 'wgs84',
+    openWxsao1sao:function(type){
+        //初始化成功
+        //调用扫一扫
+        wx.scanQRCode({
+            needResult: 1,
+            desc: 'scanQRCode desc',
             success: function (res) {
-                app.sign.latitude = res.latitude;
-                app.sign.longitude = res.longitude;
-                //初始化成功
-                wx.ready(function(){
-                    console.info('初始化success');
-                    //调用扫一扫
-                    wx.scanQRCode({
-                        needResult: 1,
-                        desc: 'scanQRCode desc',
-                        success: function (res) {
-                            app.userinfo.getEmployee().then(function(employee){
-                                var url = res.resultStr + "&latitude=" + app.sign.latitude + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId;
-                                $.ajax({
-                                    url: url,
-                                    type: 'GET',
-                                    dataType: 'JSON',
-                                    success: function (results) {
-                                        if (results && results.success) {
-                                            //重新加载签到信息
-                                            app.sign.queryClockInfo();
-                                            //签到成功
-                                            app.sign.alertSign(app.tools.getMoment(), type);
+                app.userinfo.getEmployee().then(function(employee){
+                    var url = res.resultStr + "&latitude=" + app.sign.latitude + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId;
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        dataType: 'JSON',
+                        success: function (results) {
+                            if (results && results.success) {
+                                //重新加载签到信息
+                                app.sign.queryClockInfo();
+                                //签到成功
+                                app.sign.alertSign(app.tools.getMoment(), type);
 
-                                        } else {
-                                            app.alert(results.message);
-                                        }
-                                    },
-                                    error: function (error) {
-                                        app.alert('打卡失败~');
-                                    }
-                                });
-                            },function(){})
-
+                            } else {
+                                app.alert(results.message);
+                            }
                         },
-                        error:function(error){
-                            console.info(error);
+                        error: function (error) {
                             app.alert('打卡失败~');
                         }
                     });
-                });
-            }
-        });
+                },function(){})
 
-        //初始化失败
-        wx.error(function(){
-            console.info('error');
+            },
+            error:function(error){
+                console.info(error);
+                app.alert('打卡失败~');
+            }
         });
     },
     //动态时间效果
