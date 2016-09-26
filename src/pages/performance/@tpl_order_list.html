@@ -47,7 +47,7 @@
                         <div class="leftorder">订单内容：</div>
                         <span>{%=o.datas[i].itemVoList[j].itemName %}</span>
                     <!--% if (j==(o.datas[i].itemVoList.length-1)) { %-->
-                        <strong class="bkorder-affirm">¥{%=app.performance.order.fenToYuan(o.datas[i].receivableMoney)
+                        <strong class="bkorder-affirm">¥{%=app.performance.order.fenToYuan(o.datas[i].realReceivableMoney)
                             %}</strong>
                     <!--% } %-->
                         </li>
@@ -55,7 +55,7 @@
                         <li>
                         <div class="leftorder"></div>
                         <span>{%=o.datas[i].itemVoList[j].itemName %}</span>
-                        <strong class="bkorder-affirm">¥{%=app.performance.order.fenToYuan(o.datas[i].receivableMoney)
+                        <strong class="bkorder-affirm">¥{%=app.performance.order.fenToYuan(o.datas[i].realReceivableMoney)
                             %}</strong>
                         </li>
                     <!--% } else { %-->

@@ -32,11 +32,11 @@
                             <!--% if (i==0) { %-->
                                 <li><div class="leftorder">订单内容：</div><span>{%=o.itemVoList[i].itemName %}</span>
                                 <!--% if (i==(o.itemVoList.length-1)) { %-->
-                                    <strong>￥{%=app.performance.order.fenToYuan(o.receivableMoney) %}</strong>
+                                    <strong>￥{%=app.performance.order.fenToYuan(o.realReceivableMoney) %}</strong>
                                 <!--% } %-->
                                 </li>
                             <!--% } else if (i==(o.itemVoList.length-1)){ %-->
-                                <li><div class="leftorder"></div><span>{%=o.itemVoList[i].itemName %}</span><strong>￥{%=app.performance.order.fenToYuan(o.receivableMoney) %}</strong></li>
+                                <li><div class="leftorder"></div><span>{%=o.itemVoList[i].itemName %}</span><strong>￥{%=app.performance.order.fenToYuan(o.realReceivableMoney) %}</strong></li>
                             <!--% }else{ %-->
                                 <li><div class="leftorder"></div><span>{%=o.itemVoList[i].itemName %}</span></li>
                             <!--% } %-->
