@@ -24,7 +24,9 @@ module.exports = function (grunt) {
                     'src/js/libs/router.performance.js',
                     'src/js/libs/tmpl.js',
                     'src/js/libs/iscroll-probe.js',
-                    'src/js/libs/jweixin-1.0.0.js'
+                    'src/js/libs/jweixin-1.0.0.js',
+                    'src/js/libs/LocalResizeIMG.js',
+                    'src/js/libs/mobileBUGFix.mini.js'
                 ],
                 libs: [
                     'src/js/libs/tmpl.js'],
