@@ -72,7 +72,7 @@ app.performance.order = {
                         app.endLoading();
                         if (!result.success || !result.data || !result.data.orderListVo) {
                             setTimeout(function() {
-                                app.tools.show('scroller');
+                                app.tools.show('order-scroller');
                             }, 200);
                             return;
                         }
