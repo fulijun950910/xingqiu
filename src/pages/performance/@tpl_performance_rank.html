@@ -48,7 +48,7 @@
 	<div id="actionSheet_wrap">
     	<div class="weui_mask_transition" id="mask_rank"></div>
 	    <div class="weui_actionsheet" id="weui_actionsheet_rank">
-	        <div id="storeRankSheet" class="weui_actionsheet_menu">
+	        <div id="storeRankSheet" style="width: 100vw;max-height: 80vh;overflow-y: scroll;" class="weui_actionsheet_menu">
 	        	<!--% for (var i=0; i <o.storelist.length; i++) { %-->
 	            <div name="{%= o.storelist[i].id %}" class="weui_actionsheet_cell">
 	            {%= o.storelist[i].name %}</div>
