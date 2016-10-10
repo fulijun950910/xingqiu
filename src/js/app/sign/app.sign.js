@@ -179,6 +179,18 @@ app.sign = {
             success: function (res) {
                 app.userinfo.getEmployee().then(function(employee){
                     var url = res.resultStr + "&latitude=" + app.sign.latitude + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId + "&type=" + type + "&attendanceWay=1";
+                    var theRequest = new Object();
+                    if (url.indexOf("?") != -1) {
+                        var str = url.substr(1);
+                        strs = str.split("&");
+                        for(var i = 0; i < strs.length; i ++) {
+                            theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                        }
+                    }
+                    if (employee.storeIds.indexOf(theRequest['storeId'])<0) {
+                        app.alert('您在当前门店没有权限签到！请回您所属门店签到！！');
+                        return;
+                    }
                     $.ajax({
                         url: url,
                         type: 'GET',
