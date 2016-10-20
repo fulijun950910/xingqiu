@@ -67,6 +67,7 @@ app.sign = {
                             userdata.signExit=data[i];
                         }
                     }
+                    userdata.address=data.address||'系统级商户管理员无门店信息, 或当前门店无地址信息';
                 }
                 userdata.signData=data;
 
