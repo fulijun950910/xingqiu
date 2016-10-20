@@ -11,7 +11,8 @@ $(function () {
         url: '/',
         className: 'home',
         render: function () {
-            return $('#tpl_home').html();
+            //return $('#tpl_home').html();
+            return $('#tpl_cell').html();
         }
     };
 
@@ -258,20 +259,20 @@ $(function () {
     };
 
     router.push(home)
-        .push(button)
-        .push(cell)
-        .push(toast)
-        .push(dialog)
-        .push(progress)
-        .push(msg)
-        .push(article)
-        .push(actionsheet)
-        .push(icons)
-        .push(panel)
-        .push(tab)
-        .push(navbar)
-        .push(tabbar)
-        .push(searchbar)
+    // .push(button)
+    // .push(cell)
+    // .push(toast)
+    // .push(dialog)
+    // .push(progress)
+    // .push(msg)
+    // .push(article)
+    // .push(actionsheet)
+    // .push(icons)
+    // .push(panel)
+    // .push(tab)
+    // .push(navbar)
+    // .push(tabbar)
+    // .push(searchbar)
         .setDefault('/')
         .init();
 
