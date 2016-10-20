@@ -1,5 +1,5 @@
 ﻿/*global module:false*/
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
     var pkg = grunt.file.readJSON('package.json');
 
@@ -26,10 +26,12 @@ module.exports = function (grunt) {
                     'src/js/libs/iscroll-probe.js',
                     'src/js/libs/jweixin-1.0.0.js',
                     'src/js/libs/LocalResizeIMG.js',
-                    'src/js/libs/mobileBUGFix.mini.js'
+                    'src/js/libs/mobileBUGFix.mini.js',
+                    'src/js/libs/swiper.jquery.min.js',
                 ],
                 libs: [
-                    'src/js/libs/tmpl.js'],
+                    'src/js/libs/tmpl.js'
+                ],
                 app: ['src/js/app/app.js',
                     'src/js/app/app.constant.js',
                     'src/js/app/app.tools.js',
@@ -48,7 +50,9 @@ module.exports = function (grunt) {
             },
             cssFiles: {
                 weiui: ['src/css/weui.min.css',
-                    'src/css/example.css'],
+                    'src/css/example.css',
+                    'src/css/swiper.css'
+                ],
                 app: ['src/less/app.less']
             }
         },
@@ -119,7 +123,7 @@ module.exports = function (grunt) {
                     flatten: true,
                     src: paths.source.jsFiles.weiui,
                     dest: paths.dist.js
-                },]
+                }, ]
             },
             'css-weiui': {
                 files: [{
@@ -127,7 +131,7 @@ module.exports = function (grunt) {
                     flatten: true,
                     src: paths.source.cssFiles.weiui,
                     dest: paths.dist.css
-                },]
+                }, ]
             },
             'others': {
                 files: [{
@@ -135,7 +139,7 @@ module.exports = function (grunt) {
                     cwd: paths.source.root,
                     src: ['fonts/**', 'images/**', 'music/**', 'ueditor/**', 'robots.txt', 'css/others.min.css', 'weiui/**'],
                     dest: paths.dist.root
-                },]
+                }, ]
             },
             'web': {
                 files: [{
@@ -143,34 +147,34 @@ module.exports = function (grunt) {
                     cwd: paths.dist.root,
                     src: ['**'],
                     dest: paths.web.root
-                },]
+                }, ]
             },
             'www': {
-                files: [
-                    {
-                        expand: true,
-                        cwd: paths.dist.root,
-                        src: ['fonts/**', 'images/**', 'pages/**', 'music/**', 'template/**',
-                            //'umeditor/**',
-                            'index.html', 'robots.txt',
-                            'css/weiui.min.css',
-                            'css/app.min.css', 'js/weiui.min.js',
-                            'js/libs.min.js', 'js/app.min.js'],
-                        dest: paths.www.root
-                    },]
+                files: [{
+                    expand: true,
+                    cwd: paths.dist.root,
+                    src: ['fonts/**', 'images/**', 'pages/**', 'music/**', 'template/**',
+                        //'umeditor/**',
+                        'index.html', 'robots.txt',
+                        'css/weiui.min.css',
+                        'css/app.min.css', 'js/weiui.min.js',
+                        'js/libs.min.js', 'js/app.min.js'
+                    ],
+                    dest: paths.www.root
+                }, ]
             },
             'app': {
-                files: [
-                    {
-                        expand: true,
-                        cwd: paths.dist.root,
-                        src: ['fonts/**', 'images/**', 'pages/**', 'music/**',
-                            'index.html',
-                            'css/weiui.min.css',
-                            'css/app.min.css', 'js/weiui.min.js',
-                            'js/libs.min.js', 'js/app.min.js'],
-                        dest: '../mw-wechat-app/www'
-                    },]
+                files: [{
+                    expand: true,
+                    cwd: paths.dist.root,
+                    src: ['fonts/**', 'images/**', 'pages/**', 'music/**',
+                        'index.html',
+                        'css/weiui.min.css',
+                        'css/app.min.css', 'js/weiui.min.js',
+                        'js/libs.min.js', 'js/app.min.js'
+                    ],
+                    dest: '../mw-wechat-app/www'
+                }, ]
             }
         },
         includereplace: {

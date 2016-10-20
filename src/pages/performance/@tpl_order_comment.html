@@ -1,31 +1,54 @@
 <!-- 服务小记 -->
 <script type="text/html" id="tpl_order_comment">
-    <div id="order-comment" class="bd"></div>
+    <div id="order-comment" class="bd" style="height: 100vh;"></div>
     <script type="text/html" id="tmpl-order-comment">
         <div class="comment_form">
             <div class="inward_box">
                 <ul>
                     <li>
-                        <div class="label_content">客户姓名:</div>
-                        <span>{%=o.memberName %}</span>
+                        <div class="label_content">订单号:</div>
+                        <span>{%=o.orderId %}</span>
+                    </li>
+                    <li>
+                        <div class="label_content">客户:</div>
+                        <span>{%=o.memberName %} / {%=o.mobile %}</span>
                     </li>
                     <!--% if(o.itemVoList){ %-->
-                        <!--% for(var i=0;i<o.itemVoList.length;i++ ){ %-->
-                            <!--% if (i==0){ %-->
-                                <li>
-                                    <div class="label_content">订单内容:</div>
-                                    <span>{%=o.itemVoList[i].itemName%}</span>
-                                </li>
-                            <!--% }else{ %-->
-                                <li>
-                                    <div class="label_content"></div>
-                                    <span>{%=o.itemVoList[i].itemName%}</span>
-                                </li>
-                            <!--% } %-->
-                        <!--% } %-->
+                    <!--% for(var i=0;i<o.itemVoList.length;i++ ){ %-->
+                    <!--% if (i==0){ %-->
+                    <li>
+                        <div class="label_content">订单内容:</div>
+                        <span>{%=o.itemVoList[i].itemName%}</span>
+                    </li>
+                    <!--% }else{ %-->
+                    <li>
+                        <div class="label_content"></div>
+                        <span>{%=o.itemVoList[i].itemName%}</span>
+                    </li>
+                    <!--% } %-->
+                    <!--% } %-->
                     <!--% } %-->
                 </ul>
                 <div class="solidWire"></div>
+                <div class="addTags">
+                    <span style="">贴标签:</span>
+                    <ul class="memberTags">
+                        <li>气质美女<b></b></li>
+                        <li>邻家女孩<b></b></li>
+                        <li>邻家女孩<b></b></li>
+                    </ul>
+                    <div class="tags">
+                        <ul>
+                            <li>气质美女</li>
+                            <li>钻石王老五</li>
+                            <li>高富帅</li>
+                            <li>白富美</li>
+                            <li>土豪</li>
+                        </ul>
+                        <input type="text" name="" value="" placeholder="请输入自定义标签" class="addTagsInput">
+                        <input type="button" name="" value="贴上" class="addTagsBtn">
+                    </div>
+                </div>
                 <div class="comment">
                     <div class="weui_cell_bd weui_cell_primary">
                         <textarea id="comment-content" onblur="app.tools.resetBodyScroll()" maxlength="150" class="weui_textarea" placeholder="请输入评论" rows="3">{%=o.comment%}</textarea>
@@ -33,7 +56,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
         <!-- 上传本次服务照片 -->
         <div class="servicepic">
@@ -41,10 +63,8 @@
                 <img id="comment-pic" src="{%=app.filePath + o.fileId %}" onerror="this.src='images/upimg.png'">
                 <input id="comment-file" style="width:1px;height:1px" type="file" accept="image/*" onchange="app.performance.order.changeImg(this)">
             </div>
-
             <span>上传本次服务照片</span>
         </div>
-
         <div class="submit_comment">
             <a href="javascript:;" onclick="app.performance.order.submitComment()" class="weui_btn comment_save_btn">完成</a>
         </div>

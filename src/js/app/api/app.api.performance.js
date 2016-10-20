@@ -22,7 +22,7 @@ app.api.performance = {
     },
     empPerformanceRank:function(settings){
     	app.api.ajax({
-            url: '/wechatbusinessassists/employeePerformanceRankingByMonth/'+settings.data.merchantId+'/'+settings.data.storeId,
+            url: '/wechatbusinessassists/employeePerformanceRankingByMonth/'+settings.data.merchantId+'/'+settings.data.storeId ,
             type: 'GET',
             success: settings.success,
             error: settings.error,

@@ -1,64 +1,104 @@
 <script type="text/html" id="tpl_performance_rank">
-<!-- //隐藏标题 -->
-<div id="hiddenTitle" class="hiddenTitle">业绩排名</div>
-<div class="hd" id="performance_rank">
-	
-</div>
-<script type="text/html" id="tmpl-emp-rank">
-	<div class="emp_report" >
-		<p class="report_look">
-		数据查看
-		<a id="showActionSheet_rank" style="display:none;" href="javascript:;">
-		{%= o.storeName %}&gt;</a>
-		</p>
-	</div>
-
-	<!-- 员工排名 -->
-	<div class="emp-rank-store" id="wrapper">
-		<div id="scroller">
-			<div class="weui_cells">
-				<!--% for (var i=0; i <o.data.length; i++) { %-->
-				<!--% if (o.userid==o.data[i].userid) { %-->
-					<div class="weui_cell">
-			            <div class="weui_cell_bd weui_cell_primary">
-			                <p>我</p>
-			            </div>
-			            <div class="weui_cell_ft">{%=o.data[i].performance %}</div>
-		        	</div>
-				<!--% }else{ %-->
-					<div class="weui_cell">
-			            <div class="weui_cell_bd weui_cell_primary">
-			                <p>{%=o.data[i].employeeName%}</p>
-			            </div>
-			            <div class="weui_cell_ft">{%=o.data[i].performance%}</div>
-		        	</div>
-				<!--% } } %-->
-				</div>
-			</div>
-		</div>
+    <!-- //隐藏标题 -->
+    <div id="hiddenTitle" class="hiddenTitle">业绩排名</div>
+    <div class="hd" id="performance_rank">
     </div>
-
-
-
-	<!-- 页脚 -->
-	<div class="pagfooter">
-		<p>赚钱是痛苦的 / 花钱是快乐的 / 日子是无聊的</p>
-	</div>
-
-	<div id="actionSheet_wrap">
-    	<div class="weui_mask_transition" id="mask_rank"></div>
-	    <div class="weui_actionsheet" id="weui_actionsheet_rank">
-	        <div id="storeRankSheet" style="width: 100vw;max-height: 80vh;overflow-y: scroll;" class="weui_actionsheet_menu">
-	        	<!--% for (var i=0; i <o.storelist.length; i++) { %-->
-	            <div name="{%= o.storelist[i].id %}" class="weui_actionsheet_cell">
-	            {%= o.storelist[i].name %}</div>
-	            <!--% } %-->
-	        </div>
-	        <div class="weui_actionsheet_action">
-	            <div class="weui_actionsheet_cell" id="actionsheet_cancel_rank">取消</div>
-	        </div>
-	    </div>
-	</div>
-</div>
-</script>
+    <script type="text/html" id="tmpl-emp-rank">
+        <div class="emp_report">
+            <p class="report_look">
+                数据查看
+                <a id="showActionSheet_rank" style="display:none;" href="javascript:;">
+        {%= o.storeName %}&gt;</a>
+            </p>
+        </div>
+        <div class="tool-tab">
+            <ul>
+                <li class="active">业绩排名</li>
+                <li>卡耗排名</li>
+            </ul>
+            <span class="line"></span>
+        </div>
+        <div id="wrapper">
+            <div class="swiper-container ">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide tab-content-1">
+                        <div id="scroller">
+                            <div class="weui_cells" style="margin: 0;">
+                                <!--% for (var i=0; i <o.data[0].achievementList.length; i++) { %-->
+                                <!--  % if (o.userid==o.data.userid) { %
+                                <div class="weui_cell">
+                                    <div>
+                                        <img id="comment-pic" src="{%=app.filePath + o.data[0].achievementList[i].employeeAvatarId %}" onerror="this.src='images/404.png'">
+                                    </div>
+                                    <div class="weui_cell_bd weui_cell_primary">
+                                        <p>我</p>
+                                    </div>
+                                    <div class="weui_cell_ft">{%=o.data[0].achievementList[i].performance %}</div>
+                                </div>
+                                % }else{ % -->
+                                <div class="weui_cell">
+                                    <div>
+                                        <img id="comment-pic" src="{%=app.filePath + o.data[0].achievementList[i].employeeAvatarId %}" onerror="this.src='images/404.png'">
+                                    </div>
+                                    <div class="weui_cell_bd weui_cell_primary">
+                                        <p>{%=o.data[0].achievementList[i].employeeName%}</p>
+                                    </div>
+                                    <div class="weui_cell_ft">{%= app.tools.toThousands(o.data[0].achievementList[i].performance.toFixed(2))%}</div>
+                                </div>
+                                <!--%  } %-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide tab-content-2">
+                        <div id="scroller">
+                            <div class="weui_cells" style="margin: 0;">
+                                <!--% for (var i=0; i <o.data[0].cardConsumeList.length; i++) { %-->
+                                <!--                % if (o.userid==o.data.userid) { %
+                                <div class="weui_cell">
+                                    <div>
+                                        <img id="comment-pic" src="{%=app.filePath + o.data[0].cardConsumeList[i].employeeAvatarId %}" onerror="this.src='images/404.png'">
+                                    </div>
+                                    <div class="weui_cell_bd weui_cell_primary">
+                                        <p>我</p>
+                                    </div>
+                                    <div class="weui_cell_ft">{%=o.data[0].cardConsumeList[i].performance %}</div>
+                                </div>
+                                % }else{ % -->
+                                <div class="weui_cell">
+                                    <div>
+                                        <img id="comment-pic" src="{%=app.filePath + o.data[0].cardConsumeList[i].employeeAvatarId %}" onerror="this.src='images/404.png'">
+                                    </div>
+                                    <div class="weui_cell_bd weui_cell_primary">
+                                        <p>{%=o.data[0].cardConsumeList[i].employeeName%}</p>
+                                    </div>
+                                    <div class="weui_cell_ft">{%= app.tools.toThousands(o.data[0].cardConsumeList[i].performance.toFixed(2))%}</div>
+                                </div>
+                                <!--% } %-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+        <!-- 页脚 -->
+        <div class="pagfooter">
+            <p>赚钱是痛苦的 / 花钱是快乐的 / 日子是无聊的</p>
+        </div>
+        <div id="actionSheet_wrap">
+            <div class="weui_mask_transition" id="mask_rank"></div>
+            <div class="weui_actionsheet" id="weui_actionsheet_rank">
+                <div id="storeRankSheet" style="width: 100vw;max-height: 80vh;overflow-y: scroll;" class="weui_actionsheet_menu">
+                    <!--% for (var i=0; i <o.storelist.length; i++) { %-->
+                    <div name="{%= o.storelist[i].id %}" class="weui_actionsheet_cell">{%= o.storelist[i].name %}</div>
+                    <!--% } %-->
+                </div>
+                <div class="weui_actionsheet_action">
+                    <div class="weui_actionsheet_cell" id="actionsheet_cancel_rank">取消</div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </script>
 </script>

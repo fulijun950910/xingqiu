@@ -196,7 +196,7 @@ app.sign = {
                         type: 'GET',
                         dataType: 'JSON',
                         success: function (results) {
-                            if (results) {
+                            if (results && results.success) {
                                 //重新加载签到信息
                                 app.sign.queryClockInfo();
                                 //签到成功

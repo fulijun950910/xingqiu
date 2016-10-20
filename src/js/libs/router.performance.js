@@ -98,6 +98,7 @@ $(function () {
             //修复页面置顶效果
             window.scrollTo(0,0);
             app.performance.rank.init();
+            
         }
     }
     //订单评价  
