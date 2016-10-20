@@ -194,7 +194,6 @@ app.sign = {
                     $.ajax({
                         url: url,
                         type: 'GET',
-                        dataType: 'JSON',
                         success: function (results) {
                             if (results) {
                                 //重新加载签到信息
