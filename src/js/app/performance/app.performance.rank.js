@@ -165,7 +165,7 @@ app.performance.rank = {
           console.log(emp_rank);
         //加载滑动
         initSwiper();
-        myScroll = new IScroll('#wrapper', { probeType: 3, mouseWheel: true, tap: true, click: true });
+        // myScroll = new IScroll('#wrapper', { probeType: 3, mouseWheel: true, tap: true, click: true });
     },
     //获取员工业绩排名
     getEmpRankList: function(merchantId, storeId) {
