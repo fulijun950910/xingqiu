@@ -1,10 +1,11 @@
 app.api = {
+
     url: app.url + '/api',
-    ajax: function(options) {
-        var url = app.redirectUri.replace("APPID", app.appId).replace("REDIRECT_URI", escape(app.api.url + options.url));
+    ajax: function (options) {
+        var url = app.api.url + options.url;
         var settings = {
             url: url,
-            async: options.async || true,
+            async: options.async||true,
             type: options.type,
             headers: {
                 'Accept': '*/*',
@@ -25,3 +26,4 @@ app.api = {
         $.ajax(settings);
     }
 };
+
