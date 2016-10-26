@@ -75,33 +75,18 @@ app.tools={
 		window.scrollTo(0,0);
 	},
 	getCookie:function(cookie_name){
-		var allcookies = document.cookie;
-		var cookie_pos = allcookies.indexOf(cookie_name);
-		if (cookie_pos != -1)
-		{
-			cookie_pos += cookie_name.length + 1;
-			var cookie_end = allcookies.indexOf(";", cookie_pos);
-			if (cookie_end == -1)
-			{
-				cookie_end = allcookies.length;
-			}
-			var value = unescape(allcookies.substring(cookie_pos, cookie_end));
-		}
-		return value;
-	},
-	setCookie:function(key,val){
-		var de = new Date();
-		document.cookie = key + '=' + val +';expire='+de.toGMTString()+';path:/';
-	},
-	setAllCookie:function(){
-		//获取本地存储cookie信息
-		var jsession = localStorage.getItem('JSESSIONID');
-		var rememberMe = localStorage.getItem('rememberMe');
-		var remeberMeRunAsRole = localStorage.getItem('remeberMeRunAsRole');
-		if(jsession && rememberMe && remeberMeRunAsRole){
-			app.tools.setCookie('JSESSIONID',jsession);
-			app.tools.setCookie('rememberMe',rememberMe);
-			app.tools.setCookie('remeberMeRunAsRole',remeberMeRunAsRole);
-		}
+		// var allcookies = document.cookie;
+		// var cookie_pos = allcookies.indexOf(cookie_name);
+		// if (cookie_pos != -1)
+		// {
+		// 	cookie_pos += cookie_name.length + 1;
+		// 	var cookie_end = allcookies.indexOf(";", cookie_pos);
+		// 	if (cookie_end == -1)
+		// 	{
+		// 		cookie_end = allcookies.length;
+		// 	}
+		// 	var value = unescape(allcookies.substring(cookie_pos, cookie_end));
+		// }
+		// return value;
 	}
 }
