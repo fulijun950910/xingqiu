@@ -1,7 +1,7 @@
 <script type="text/html" id="tpl_performance_rank">
     <!-- //隐藏标题 -->
     <div id="hiddenTitle" class="hiddenTitle">业绩排名</div>
-    <div class="hd" id="performance_rank">
+    <div class="hd" id="performance_rank" style="min-height: 100vh;overflow: scroll;">
     </div>
     <script type="text/html" id="tmpl-emp-rank">
         <div class="emp_report">
@@ -23,7 +23,7 @@
                 <div class="swiper-wrapper">
                     <div class="swiper-slide tab-content-1">
                         <div id="scroller">
-                            <div class="weui_cells" style="margin: 0;">
+                            <div class="weui_cells" style="margin: 0; min-height: 100%;overflow: scroll;">
                                 <!--% for (var i=0; i <o.data[0].achievementList.length; i++) { %-->
                                 <!--  % if (o.userid==o.data.userid) { %
                                 <div class="weui_cell">
@@ -83,9 +83,9 @@
         </div>
         </div>
         <!-- 页脚 -->
-        <div class="pagfooter">
+        <!-- <div class="pagfooter">
             <p>赚钱是痛苦的 / 花钱是快乐的 / 日子是无聊的</p>
-        </div>
+        </div> -->
         <div id="actionSheet_wrap">
             <div class="weui_mask_transition" id="mask_rank"></div>
             <div class="weui_actionsheet" id="weui_actionsheet_rank">
