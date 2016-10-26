@@ -187,7 +187,7 @@ app.sign = {
                             theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
                         }
                     }
-                    if (employee.storeIds.indexOf(theRequest['storeId'])<0) {
+                    if (employee.storeId != theRequest['storeId']) {
                         app.alert('您在当前门店没有权限签到！请回您所属门店签到！！');
                         return;
                     }
