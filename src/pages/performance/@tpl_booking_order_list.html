@@ -26,6 +26,11 @@
                     <div class="bookingClientName">
                         客户姓名：<span>{%=o.data[i].appointmentName %}</span>
                     </div>
+                    <!--% if(o.data[i].employeeName){ %-->
+                    <div class="">
+                        服务技师：<span>{%=o.data[i].employeeName %}</span>
+                    </div>
+                    <!--% } %-->
                     <div class="bookingordertime">
                         预约时间：{%=o.data[i].startTime %}
                     </div>
@@ -38,35 +43,11 @@
                                     <li>
                                         <div class="leftorder">订单内容：</div>
                                         <span>{%=o.data[i].itemVoList[j].name %}</span>
-                                        <!--% if(o.data[i].itemVoList.length==1){ %-->
-                                        <strong class="bkorder-affirm">
-                                        <!--% if(o.data[i].status==1){ %-->
-                                        <i class="icon icon-chulizhong" style="color:yellow ;padding-right: 2px;font-size: 40px;"></i>待确认
-                                        <!--% } else if (o.data[i].status==2) { %-->
-                                        <i class="icon icon-yiqueren" style="color:lightgreen;padding-right: 2px;font-size: 40px;"></i>已确认
-                                        <!--% } else if (o.data[i].status==3) { %-->
-                                        <i class="icon icon-yiwancheng" style="padding-right: 2px;font-size: 40px;"></i>已成功
-                                        <!--% } else if (o.data[i].status==4) { %-->
-                                        <i class="icon icon-yiquxiao" style="padding-right: 2px;font-size: 40px;"></i>已取消
-                                        <!--% } %-->
-                                        </strong>
-                                        <!--% } %-->  
                                     </li>
                                 <!--% }else if(j==(o.data[i].itemVoList.length-1)){ %-->
                                     <li>
                                         <div class="leftorder"></div>
                                         <span>{%=o.data[i].itemVoList[j].name %}</span>
-                                        <strong class="bkorder-affirm">
-                                        <!--% if(o.data[i].status==1){ %-->
-                                        <i class="icon icon-chulizhong" style="color:yellow ;padding-right: 2px;font-size: 40px;"></i>待确认
-                                        <!--% } else if (o.data[i].status==2) { %-->
-                                        <i class="icon icon-yiqueren" style="color:lightgreen;padding-right: 2px;font-size: 40px;"></i>已确认
-                                        <!--% } else if (o.data[i].status==3) { %-->
-                                        <i class="icon icon-yiwancheng" style="padding-right: 2px;font-size: 40px;"></i>已成功
-                                        <!--% } else if (o.data[i].status==4) { %-->
-                                        <i class="icon icon-yiquxiao" style="padding-right: 2px;font-size: 40px;"></i>已取消
-                                        <!--% } %-->
-                                        </strong>
                                     </li>
                                 <!--% }else{ %-->
                                     <li><span>{%=o.data[i].itemVoList[j].itemName %}</span></li>
@@ -76,7 +57,19 @@
                     </ul>
 
                     <!-- 下边框线 -->
-                    <div class="bookingborder"></div>
+                    <div class="bookingborder">
+                        <strong class="bkorder-affirm">
+                            <!--% if(o.data[i].status==1){ %-->
+                            <i class="icon icon-chulizhong" style="color:yellow ;padding-right: 2px;font-size: 40px;"></i>待确认
+                            <!--% } else if (o.data[i].status==2) { %-->
+                            <i class="icon icon-yiqueren" style="color:lightgreen;padding-right: 2px;font-size: 40px;"></i>已确认
+                            <!--% } else if (o.data[i].status==3) { %-->
+                            <i class="icon icon-yiwancheng" style="padding-right: 2px;font-size: 40px;"></i>已成功
+                            <!--% } else if (o.data[i].status==4) { %-->
+                            <i class="icon icon-yiquxiao" style="padding-right: 2px;font-size: 40px;"></i>已取消
+                            <!--% } %-->
+                        </strong>
+                    </div>
 
                     <!-- 服务评价内容 -->
                     <div class="evaluatebox">
