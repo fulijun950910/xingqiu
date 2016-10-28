@@ -1,7 +1,7 @@
 <script type="text/html" id="tpl_performance_rank">
     <!-- //隐藏标题 -->
     <div id="hiddenTitle" class="hiddenTitle">业绩排名</div>
-    <div class="hd" id="performance_rank">
+    <div class="hd" id="performance_rank" style="min-height: 100vh;overflow: scroll;">
     </div>
     <script type="text/html" id="tmpl-emp-rank">
         <div class="emp_report">
@@ -18,17 +18,17 @@
             </ul>
             <span class="line"></span>
         </div>
-        <div id="wrapper">
+        <div style=" z-index: 1; width: 100%;overflow: scroll;">
             <div class="swiper-container ">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide tab-content-1">
                         <div id="scroller">
-                            <div class="weui_cells" style="margin: 0;">
+                            <div class="weui_cells" style="margin: 0; ">
                                 <!--% for (var i=0; i <o.data[0].achievementList.length; i++) { %-->
                                 <!--  % if (o.userid==o.data.userid) { %
                                 <div class="weui_cell">
                                     <div>
-                                        <img id="comment-pic" src="{%=app.filePath + o.data[0].achievementList[i].employeeAvatarId %}" onerror="this.src='images/404.png'">
+                                        <img id="comment-pic" src="{%=app.filePath + o.data[0].achievementList[i].employeeAvatarId %}" onerror="this.src='images/default_female.png'">
                                     </div>
                                     <div class="weui_cell_bd weui_cell_primary">
                                         <p>我</p>
@@ -38,7 +38,7 @@
                                 % }else{ % -->
                                 <div class="weui_cell">
                                     <div>
-                                        <img id="comment-pic" src="{%=app.filePath + o.data[0].achievementList[i].employeeAvatarId %}" onerror="this.src='images/404.png'">
+                                        <img id="comment-pic" src="{%=app.filePath + o.data[0].achievementList[i].employeeAvatarId %}" onerror="this.src='images/default_female.png'">
                                     </div>
                                     <div class="weui_cell_bd weui_cell_primary">
                                         <p>{%=o.data[0].achievementList[i].employeeName%}</p>
@@ -51,12 +51,12 @@
                     </div>
                     <div class="swiper-slide tab-content-2">
                         <div id="scroller">
-                            <div class="weui_cells" style="margin: 0;">
+                            <div class="weui_cells" style="margin: 0; ">
                                 <!--% for (var i=0; i <o.data[0].cardConsumeList.length; i++) { %-->
                                 <!--                % if (o.userid==o.data.userid) { %
                                 <div class="weui_cell">
                                     <div>
-                                        <img id="comment-pic" src="{%=app.filePath + o.data[0].cardConsumeList[i].employeeAvatarId %}" onerror="this.src='images/404.png'">
+                                        <img id="comment-pic" src="{%=app.filePath + o.data[0].cardConsumeList[i].employeeAvatarId %}" onerror="this.src='images/default_female.png'">
                                     </div>
                                     <div class="weui_cell_bd weui_cell_primary">
                                         <p>我</p>
@@ -66,7 +66,7 @@
                                 % }else{ % -->
                                 <div class="weui_cell">
                                     <div>
-                                        <img id="comment-pic" src="{%=app.filePath + o.data[0].cardConsumeList[i].employeeAvatarId %}" onerror="this.src='images/404.png'">
+                                        <img id="comment-pic" src="{%=app.filePath + o.data[0].cardConsumeList[i].employeeAvatarId %}" onerror="this.src='images/default_female.png'">
                                     </div>
                                     <div class="weui_cell_bd weui_cell_primary">
                                         <p>{%=o.data[0].cardConsumeList[i].employeeName%}</p>
@@ -83,9 +83,9 @@
         </div>
         </div>
         <!-- 页脚 -->
-        <div class="pagfooter">
+        <!-- <div class="pagfooter">
             <p>赚钱是痛苦的 / 花钱是快乐的 / 日子是无聊的</p>
-        </div>
+        </div> -->
         <div id="actionSheet_wrap">
             <div class="weui_mask_transition" id="mask_rank"></div>
             <div class="weui_actionsheet" id="weui_actionsheet_rank">

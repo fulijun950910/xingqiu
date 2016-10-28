@@ -1,15 +1,16 @@
 app.api = {
 
     url: app.url + '/api',
-    ajax: function (options) {
+    ajax: function(options) {
         var url = app.api.url + options.url;
         var settings = {
             url: url,
-            async: options.async||true,
+            async: options.async || true,
             type: options.type,
             headers: {
                 'Accept': '*/*',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'wechat': 'assistant'
             },
             dataType: 'json',
             success: options.success,
@@ -26,4 +27,3 @@ app.api = {
         $.ajax(settings);
     }
 };
-

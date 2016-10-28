@@ -17,21 +17,7 @@ app.userinfo = {
     getEmployee: function() {
         return new Promise(function(resolve, reject) {
             if (localStorage.employee && localStorage.employee != 'null') {
-                var jsession = localStorage.getItem('JSESSIONID');
-                var rememberMe = localStorage.getItem('rememberMe');
-                var role = localStorage.getItem('remeberMeRunAsRole');
-                if(jsession && role){
-                    if(rememberMe){
-                        //设置cookie
-                        app.tools.setAllCookie();
-                    }else{
-                        if(!rememberMe || rememberMe==null || rememberMe=='null' || rememberMe==undefined){
-                            app.alert('登陆已超时，请重新登陆');
-                            location.href = "/userinfo.html#/user_login";
-                            return;
-                        }
-                    }
-                }
+
                 resolve(JSON.parse(localStorage.employee));
             } else {
                 app.api.userinfo.findByOpenId({
@@ -95,7 +81,7 @@ app.userinfo = {
                                         }
                                         employee.storeIds = storeIds.join(',');
                                         window.localStorage.employee = JSON.stringify(employee);
-                                        //return JSON.parse(localStorage.employee);
+
                                         resolve(JSON.parse(localStorage.employee));
                                     },
                                     error: function(a, b, c) {
@@ -122,7 +108,7 @@ app.userinfo = {
     login: function() {
         //缓存及cookie清理
         localStorage.clear();
-        sessionStorage.clear();
+        // sessionStorage.clear();
         var error_login = false,
             msg = '';
         if (!$('input[name="username"]').val()) {
@@ -285,10 +271,6 @@ app.userinfo = {
                                             },
                                             success: function(results) {
                                                 if (results && results.success) {
-                                                    //cookie保存
-                                                    localStorage.setItem('JSESSIONID', app.tools.getCookie('JSESSIONID'));
-                                                    localStorage.setItem('rememberMe', app.tools.getCookie('rememberMe'));
-                                                    localStorage.setItem('remeberMeRunAsRole', app.tools.getCookie('JSESSIONID'));
                                                 }
                                                 //
                                                 app.userinfo.getEmployee().then(function(employee) {
