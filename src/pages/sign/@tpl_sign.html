@@ -1,95 +1,92 @@
 <script type="text/html" id="tpl_sign">
-<div class="bd background-sign" >
-    <!-- //隐藏标题 -->
-    <div id="hiddenTitle" class="hiddenTitle">考勤打卡</div>
-    <div id="tmpl-sign" class="sign_app">
-
-    </div>
-    <!-- 签到，签退 -->
-    <div class="alertSign" id="alertSign">
-        <div class="signMsg">
-            <img src="images/qiandao.png">
+    <div class="bd background-sign">
+        <!-- //隐藏标题 -->
+        <div id="hiddenTitle" class="hiddenTitle">考勤打卡</div>
+        <div id="tmpl-sign" class="sign_app">
         </div>
-
-        <div class="msgcontent">
-            <!--
+        <!-- 签到，签退 -->
+        <div class="alertSign" id="alertSign">
+            <div class="signMsg">
+                <img src="images/qiandao.png">
+            </div>
+            <div class="msgcontent">
+                <!--
             <h4 class="msgtimes">您于00:00:00签到成功</h4>
             <h4 class="msghint">祝您今天工作愉快</h4>
             -->
+            </div>
         </div>
     </div>
-</div>
-
-<script type="text/html" id="tmpl-sign-model">
+    <script type="text/html" id="tmpl-sign-model">
         <!-- 顶部 -->
         <div class="header_module">
-           <h3></h3>
-           <div class="week">{%=o.date %} {%=o.week %}</div>
-           <div id="nowMoment" class="head_time">{%=o.moment %}</div>
+            <!-- <h3></h3> -->
+            <div class="title">
+                <span>你的用心服务</span>
+                <br>
+                <span>客户赏心悦目</span>
+            </div>
+            <div class="date">
+                <div class="week">{%=o.date %} {%=o.week %}</div>
+                <div id="nowMoment" class="head_time">{%=o.moment %}</div>
+            </div>
+            <div class="user-info">
+                <div class="card_name">{%=o.userRole %}/{%=o.username %}</div>
+                <!--    <div class="card_role">{%=o.userRole %}</div> -->
+            </div>
         </div>
-       <!-- 头像部分 -->
-       <div class="card">
-           <div class="headerimg"><img src="{%=o.userImg %}"></div>
-           <div class="card_name">{%=o.username %}</div>
-           <div class="card_role">{%=o.userRole %}</div>
-       </div>
-
-       <!-- 签到 -->
-       <div class="sign_panel">
-           <div class="workTime">
-               <b></b><span>上班</span>
-           </div>
-           <!-- 上班签到 -->
-           <div class="sign_info">
-               <!--% if (!o.signIn) { %-->
-               <div class="lefttime">
-                   <ul>
-                       <li>
-                           <b class="redcolor"></b><span>上班打卡</span>
-                           <button id="signin" class="signin">签到</button>
-                       </li>
-                   </ul>
-               </div>
-              <!--% }else{ %-->
-               <div class="sign_after">
-                   <ul>
-                       <li><b class="redcolor"></b><span>上班打卡</span></li>
-                       <li>
-                        <b class="bluecolor"></b><span>打卡时间: {%=o.signIn.signInDate%}</span>
-                       </li>
-                       <li><b class="greencolor">
-                           </b><span class="signaddr">地址:{%=o.signIn.address%}</span>
-                       </li>
-                   </ul>
-               </div>
-              <!--% } %-->
-           </div>
-       
-           <!-- 下班签退 -->
-           <div class="sign_info">
-           <!--% if (!o.signExit) { %-->
-               <div class="lefttime">
-                   <ul>
-                       <li>
-                           <b class="redcolor"></b><span>下班打卡</span>
-                           <button id="signexit" class="signexit">签退</button>
-                       </li>
-                   </ul>
-               </div>
-           <!--% }else{ %-->
-               <div class="sign_after">
-                   <ul>
-                       <li><b class="redcolor"></b><span>下班打卡</span></li>
-                       <li>
-                          <b class="bluecolor"></b><span>打卡时间: {%=o.signExit.signInDate%}</span>
-                       </li>
-                       <li><b class="greencolor">
-                           </b><span class="signaddr">地址:{%=o.signExit.address%}</span>
-                       </li>
-                   </ul>
-               </div>
-           <!--% } %-->
-           </div>
-       </div>  
-  </script>
+        <!-- 头像部分 -->
+        <!--   <div class="card">
+             <div class="headerimg"><img src="{%=o.userImg %}"></div>
+            
+        </div> -->
+        <!-- 签到 -->
+        <div class="sign_panel">
+            <div class="sign_panel_line">
+                <span class="line_top" style=""></span>
+            </div>
+            <!-- 上班签到 -->
+            <div class="tag sign_in" id="signin">
+                <div>
+                    <i class="icon icon-scan"></i>
+                    <span>上班签到</span>
+                    <em id="sign_in_bubble"></em>
+                    <div class="sign_panel_line" style=" top: -10vw; left: 45.5vw;">
+                        <span class="line_top"></span>
+                    </div>
+                </div>
+            </div>
+            <!-- 上班签退 -->
+            <div class="tag sign_after" id="signexit">
+                <i class="icon icon-scan"></i>
+                <span>下班签退</span>
+                <em id="sign_after_bubble"></em>
+                <div class="sign_panel_line" style="left: -3vw;top: -17vw;">
+                    <span class="line_top"></span>
+                </div>
+            </div>
+            <div style="margin-top:14vw;"></div>
+            <!-- 上班签到信息 -->
+            <div class="sign_in_info1">
+                <div class="sign_info">
+                    <span class="line_top"></span>
+                    <i class="icon icon-time"></i>
+                    <span>10:03</span>
+                    <br>
+                    <span>打卡地址</span>
+                </div>
+            </div>
+            <!-- 下班签到信息 -->
+            <div class="sign_in_info2">
+                <div class="sign_info">
+                    <span class="line_top"></span>
+                    <i class="icon icon-time"></i>
+                    <span>10:03</span>
+                    <br>
+                    <span>打卡地址</span>
+                </div>
+            </div>
+          
+        </div>
+    </script>
 </script>
