@@ -29,82 +29,86 @@
         <!--% for(var i=0;i<o.datas.length;i++){ %-->
         <div class="orderList" onclick="app.performance.order.chooseOrderId({%=JSON.stringify(o.datas[i].orderId) %})">
             <div class="orderList9">
-                <div class="orderClientName">
-                    客户姓名：<span>{%=o.datas[i].memberName %}</span>
+                <div class="orderClientName" layout="row" layout-align="space-between center">
+                    <div class="lisetHead" layout="row" layout-align="start center">
+                        <img src="/images/upimg.png" alt=""/>
+                        <span>{%=o.datas[i].memberName %}</span>
+                        <!--% if(o.datas[i].mobile){ %-->
+                        <span>/{%=o.datas[i].mobile %}</span>
+                        <!--% } %-->
+                    </div>
                     <a href="javascript:;">订单详情 <i class="icon icon-uniF3D3"></i></a>
                 </div>
+                <div class="orderContent" layout="row" layout-align="space-between stretch">
+                    <div flex="25" layout="row" layout-align="start center">
+                        <div class="orderItemImage">
+                            <img style="" src="/images/upimg.png" alt=""/>
+                            <div class="itemStatus">
+                                <!--% if(o.datas[i].status==1){ %-->
+                                处理中
+                                <!--% } else if (o.datas[i].status==11) { %-->
+                                待付款
+                                <!--% } else if (o.datas[i].status==12) { %-->
+                                待付款
+                                <!--% } else if (o.datas[i].status==13) { %-->
+                                待付款
+                                <!--% } else if (o.datas[i].status==20) { %-->
+                                已付款
+                                <!--% } else if (o.datas[i].status==30) { %-->
+                                挂帐
+                                <!--% } else if (o.datas[i].status==40) { %-->
+                                尾款
+                                <!--% } else if (o.datas[i].status==50) { %-->
+                                已取消
+                                <!--% } else if (o.datas[i].status==61) { %-->
+                                退单
+                                <!--% } %-->
+                            </div>
+                        </div>
+                    </div>
+                    <div flex="75" style="padding:1vw 1vw 0vw 0;color:#FD6565"layout="column" layout-align="space-between stretch">
+                        <!-- 订单内容 -->
+                        <div>
+                            <ul class="order-item">
+                                <!--% if(o.datas[i].itemVoList){ %-->
+                                <!--% for(var j=0;j<o.datas[i].itemVoList.length;j++ ){ %-->
+                                <li>
+                                    <span>{%=o.datas[i].itemVoList[j].itemName %}</span>
+                                </li>
+                                <!--% } %-->
+                                <!--% } %-->
+                            </ul>
+                        </div>
 
-                <div class="ordertime">
-                    订单时间：{%=o.datas[i].orderDate %}
+                        <div>
+                            <div class="bkorder-affirm" style="text-align:right;">¥{%=app.performance.order.fenToYuan(o.datas[i].realReceivableMoney)%}</div>
+                            <div class="orderlist-performance">
+                                <div class="performance">业绩:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].performance)%}</span></div>
+                                <div class="push">卡耗:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].commission)%}</span></div>
+                                <div class="push">提成:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].commission)%}</span></div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <!--<strong class="payment"></strong>-->
 
-                <!-- 订单内容 -->
-                <ul class="order-item">
-                    <!--% if(o.datas[i].itemVoList){ %-->
-                    <!--% for(var j=0;j<o.datas[i].itemVoList.length;j++ ){ %-->
-                    <!--% if(j==0){ %-->
-                        <li>
-                        <div class="leftorder">订单内容：</div>
-                        <span>{%=o.datas[i].itemVoList[j].itemName %}</span>
-                    <!--% if (j==(o.datas[i].itemVoList.length-1)) { %-->
-                        <strong class="bkorder-affirm">¥{%=app.performance.order.fenToYuan(o.datas[i].realReceivableMoney)
-                            %}</strong>
-                    <!--% } %-->
-                        </li>
-                    <!--% }else if(j==(o.datas[i].itemVoList.length-1)){ %-->
-                        <li>
-                        <div class="leftorder"></div>
-                        <span>{%=o.datas[i].itemVoList[j].itemName %}</span>
-                        <strong class="bkorder-affirm">¥{%=app.performance.order.fenToYuan(o.datas[i].realReceivableMoney)
-                            %}</strong>
-                        </li>
-                    <!--% } else { %-->
-                        <li>
-                        <div class="leftorder"></div>
-                        <span>{%=o.datas[i].itemVoList[j].itemName %}</span>
-                        </li>
-                    <!--% } %-->
-                    <!--% } %-->
-                    <!--% } %-->
-                </ul>
+                <!--<div class="ordertime">-->
+                    <!--订单时间：{%=o.datas[i].orderDate %}-->
+                <!--</div>-->
 
-                <!-- 业绩 -->
-                <div class="orderlist-performance">
-                    <div class="performance">
-                        业绩:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].performance)%}</span></div>
-                    <div class="push">提成:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].commission)%}</span></div>
-                    <strong class="payment">
-                        <!--% if(o.datas[i].status==1){ %-->
-                        <i class="icon icon-chulizhong"></i>处理中
-                        <!--% } else if (o.datas[i].status==11) { %-->
-                        <i class="icon icon-daifukuan"></i>待付款
-                        <!--% } else if (o.datas[i].status==12) { %-->
-                        <i class="icon icon-daifukuan"></i>待付款
-                        <!--% } else if (o.datas[i].status==13) { %-->
-                        <i class="icon icon-daifukuan"></i>待付款
-                        <!--% } else if (o.datas[i].status==20) { %-->
-                        <i class="icon icon-yifukuan"></i>已付款
-                        <!--% } else if (o.datas[i].status==30) { %-->
-                        <i class="icon icon-guazhang"></i>挂帐
-                        <!--% } else if (o.datas[i].status==40) { %-->
-                        <i class="icon icon-weikuan"></i>尾款
-                        <!--% } else if (o.datas[i].status==50) { %-->
-                        <i class="icon icon-yiquxiao"></i>已取消
-                        <!--% } else if (o.datas[i].status==61) { %-->
-                        <i class="icon icon-tuidan"></i>退单
-                        <!--% } %-->
-                    </strong>
-                </div>
+
+
 
                 <!-- 下边框线 -->
-                <div class="orderborder"></div>
+                <!--<div class="orderborder"></div>-->
 
                 <!-- 服务评价内容 -->
                 <div class="evaluatebox">
                     <div class="evaluate" style="word-break: break-all;overflow: hidden;">小记:
                         <span>{%=o.datas[i].comment %}</span>
                     </div>
-                    <button class="noclick" onclick="app.performance.order.comment({%=JSON.stringify(o.datas[i]) %})">服务小记</button>
+                    <button class="noclick" onclick="app.performance.order.comment({%=JSON.stringify(o.datas[i]) %})"><i class="ic icon-tianxie" style="font-size: 6vw;color: #666;"></i>服务小记</button>
                 </div>
             </div>
         </div>
