@@ -27,22 +27,23 @@
     </div>
     <script type="text/html" id="tmpl-order-list">
         <!--% for(var i=0;i<o.datas.length;i++){ %-->
-        <div class="orderList" onclick="app.performance.order.chooseOrderId({%=JSON.stringify(o.datas[i].orderId) %})">
+        <div class="orderList" onclick="app.performance.order.chooseOrderId({%=JSON.stringify(o.datas[i]) %})">
             <div class="orderList9">
                 <div class="orderClientName" layout="row" layout-align="space-between center">
                     <div class="lisetHead" layout="row" layout-align="start center">
-                        <img src="/images/upimg.png" alt=""/>
+                        <img src="{%=app.filePath + o.datas[i].memberAvatarId %}" onerror="this.src='/images/upimg.png'" alt=""/>
                         <span>{%=o.datas[i].memberName %}</span>
                         <!--% if(o.datas[i].mobile){ %-->
                         <span>/{%=o.datas[i].mobile %}</span>
                         <!--% } %-->
+                        <span class="time">&emsp;{%=app.tools.toDetailDate(o.datas[i].orderDate,o.datas[i].nowDate) %}</span>
                     </div>
                     <a href="javascript:;">订单详情 <i class="icon icon-uniF3D3"></i></a>
                 </div>
                 <div class="orderContent" layout="row" layout-align="space-between stretch">
                     <div flex="25" layout="row" layout-align="start center">
                         <div class="orderItemImage">
-                            <img style="" src="/images/upimg.png" alt=""/>
+                            <img src="{%=app.filePath + o.datas[i].itemFileId %}" onerror="this.src='/images/upimg.png'" alt=""/>
                             <div class="itemStatus">
                                 <!--% if(o.datas[i].status==1){ %-->
                                 处理中
@@ -62,6 +63,12 @@
                                 已取消
                                 <!--% } else if (o.datas[i].status==61) { %-->
                                 退单
+                                <!--% } else if (o.datas[i].status==62) { %-->
+                                退卡
+                                <!--% } else if (o.datas[i].status==69) { %-->
+                                退款中
+                                <!--% } else if (o.datas[i].status==70) { %-->
+                                补卡
                                 <!--% } %-->
                             </div>
                         </div>
@@ -84,7 +91,7 @@
                             <div class="bkorder-affirm" style="text-align:right;">¥{%=app.performance.order.fenToYuan(o.datas[i].realReceivableMoney)%}</div>
                             <div class="orderlist-performance">
                                 <div class="performance">业绩:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].performance)%}</span></div>
-                                <div class="push">卡耗:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].commission)%}</span></div>
+                                <div class="push">卡耗:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].cardConsume)%}</span></div>
                                 <div class="push">提成:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].commission)%}</span></div>
 
                             </div>
@@ -92,12 +99,6 @@
                     </div>
                 </div>
                 <!--<strong class="payment"></strong>-->
-
-                <!--<div class="ordertime">-->
-                    <!--订单时间：{%=o.datas[i].orderDate %}-->
-                <!--</div>-->
-
-
 
 
                 <!-- 下边框线 -->

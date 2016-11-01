@@ -121,10 +121,41 @@ app.performance.order = {
                     app.api.order.detail({
                         data: data,
                         success: function(result) {
-                            var html = $('#tmpl-order-detail').html();
-                            var result = tmpl(html, result.data);
-                            $('#order-detail').html(result);
+                            if(false){
+                                var cardData={
+                                    cardInstanceIds:[result.data.orderCardItems[0].cardInstanceForm.cardInstanceId],
+                                    orderId:result.data.orderId
+                                }
+                                cardBalance().then(
+                                    cardData,
+                                    function(result){
+                                        console.log(result)
+                                        var html = $('#tmpl-order-detail').html();
+                                        var result = tmpl(html, result.data);
+                                        $('#order-detail').html(result);
+                                    }
+                                )
+                            }else{
+                                var html = $('#tmpl-order-detail').html();
+                                var result = tmpl(html, result.data);
+                                $('#order-detail').html(result);
+                            }
 
+
+                            function cardBalance(){
+                                return {
+                                    then:function(data,success,err){
+                                        app.api.order.cardBalance({
+                                            data:data,
+                                            success:function(res){
+                                                console.log(res)
+                                                result.data.cardBalance=res.data.balance
+                                                success(result)
+                                            }
+                                        })
+                                    }
+                                }
+                            }
                             //处理详细数据页面滑动问题
                             myScroll = new IScroll('#wrapper', { probeType: 3, mouseWheel: true, tap: true, click: true });
                         }
@@ -134,13 +165,13 @@ app.performance.order = {
         }, function() {});
 
     },
-    chooseOrderId: function(orderId) {
+    chooseOrderId: function(order) {
         app.performance.order.currentDay = new Date($('#order-query-date').val());
-        app.performance.order.orderId = orderId;
+        app.performance.order.orderId = order.orderId;
+        app.performance.order.order = order;
         location.href = "#/order-detail";
     },
     comment: function(order) {
-        console.log(order);
         var selDate = $('#order-query-date').val();
         if (!selDate || selDate == undefined) {
             selDate = app.performance.order.currentDay;
