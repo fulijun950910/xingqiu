@@ -6,7 +6,7 @@ app.api.sign = {
     queryClockin: function (settings) {
         app.api.ajax({
             async: true,
-            url: '/wechatbusinessassists/attendanceRecord/'+settings.data.employeeId,
+            url: '/wechatbusinessassists/attendanceRecord/'+settings.data.employeeId + "/" + settings.data.firstResult+"/" + settings.data.maxResult ,
             type: 'GET',
             success: settings.success,
             error: settings.error,

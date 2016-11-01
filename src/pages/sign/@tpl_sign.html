@@ -48,7 +48,7 @@
             <!-- 上班签到 -->
             <div class="tag sign_in" id="signin">
                 <div>
-                    <i class="icon icon-scan"></i>
+                    <i class="ic icon-scan"></i>
                     <span>上班签到</span>
                     <em id="sign_in_bubble"></em>
                     <div class="sign_panel_line" style=" top: -10vw; left: 45.5vw;">
@@ -58,7 +58,7 @@
             </div>
             <!-- 上班签退 -->
             <div class="tag sign_after" id="signexit">
-                <i class="icon icon-scan"></i>
+                <i class="ic icon-scan"></i>
                 <span>下班签退</span>
                 <em id="sign_after_bubble"></em>
                 <div class="sign_panel_line" style="left: -3vw;top: -17vw;">
@@ -66,27 +66,30 @@
                 </div>
             </div>
             <div style="margin-top:14vw;"></div>
+            <!--% for(var i=0;i<app.sign.addDate().length;i++){ %-->
+            <div class="sign_date">{%=app.sign.addDate()[i]%}</div>
+            <!--% for(var j=0;j<o.signInfo.length;j++){ %-->
+            <!--%if(app.sign.addDate()[i] == app.sign.formatDate(o.signInfo[j].signInDate)){ %-->
             <!-- 上班签到信息 -->
-            <div class="sign_in_info1">
+            <div class="sign_in_info-{%=j % 2%}">
                 <div class="sign_info">
                     <span class="line_top"></span>
-                    <i class="icon icon-time"></i>
-                    <span>10:03</span>
+                    <!--% if(o.signInfo[j].status == "fail"){ %-->
+                    <i class="icon icon-yanzhengma"></i>
+                    <!--% } else { %-->
+                    <i class="icon icon-pingjia1"></i>
+                    <!--% } %-->
+                    <span>{%=app.sign.formatTime(o.signInfo[j].signInDate)%}</span>
                     <br>
-                    <span>打卡地址</span>
+                    <span>{%=o.signInfo[j].address%}</span>
                 </div>
             </div>
-            <!-- 下班签到信息 -->
-            <div class="sign_in_info2">
-                <div class="sign_info">
-                    <span class="line_top"></span>
-                    <i class="icon icon-time"></i>
-                    <span>10:03</span>
-                    <br>
-                    <span>打卡地址</span>
-                </div>
+            <!--% } %-->
+            <!--% } %-->
+            <!--% } %-->
+            <div class="more">
+                更多考勤信息，请前往saas.mei1.com查看
             </div>
-          
         </div>
     </script>
 </script>
