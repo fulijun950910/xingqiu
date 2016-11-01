@@ -240,7 +240,7 @@
         <!--% } %-->
         <!--% if(o.serviceSubtota){ %-->
         <div class="box orderNo" layout="row" layout-align="start center">
-            <div><img src="{%=app.filePath + o.member.avatarId %}" onerror="this.src='/images/upimg.png'" style="width:20vw;height:20vw;margin-right:2vw;"  alt=""/></div>
+            <div><img src="{%=app.filePath + o.serviceSubtotaFileId%}" onerror="this.src='/images/upimg.png'" style="width:20vw;height:20vw;margin-right:2vw;"  alt=""/></div>
             <div>
                 <p style="color:#aaa">服务小计：</p>
                 {%=o.serviceSubtota %}
