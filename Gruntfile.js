@@ -28,6 +28,7 @@ module.exports = function(grunt) {
                     'src/js/libs/LocalResizeIMG.js',
                     'src/js/libs/mobileBUGFix.mini.js',
                     'src/js/libs/swiper.jquery.min.js',
+                    'src/js/libs/moment.min.js',
                 ],
                 libs: [
                     'src/js/libs/tmpl.js'
