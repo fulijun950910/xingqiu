@@ -81,7 +81,7 @@
                     <div class="itemEmployee">
                         <!--% if(o.orderItems[i].orderEmployees&&o.orderItems[i].orderEmployees.length>0){ %-->
                         <!--% for(var j=0;j<o.orderItems[i].orderEmployees.length;j++){ %-->
-                        <div>{%=o.orderItems[i].orderItemPays[j].employeeName %}
+                        <div>{%=o.orderItems[i].orderEmployees[j].employeeName %}
                             <span>业绩:￥{%=app.performance.order.fenToYuan(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].achievementTotalAmount) %}</span>
                             <span>|卡耗:￥{%=app.performance.order.fenToYuan(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].cardConsumeTotalAmount) %}</span>
                             <span>|提成:￥{%=app.performance.order.fenToYuan(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].commissionAmount) %}</span>
@@ -125,7 +125,7 @@
                     <div class="itemEmployee">
                         <!--% if(o.orderCardItems[i].orderEmployees&&o.orderCardItems[i].orderEmployees.length>0){ %-->
                         <!--% for(var j=0;j<o.orderCardItems[i].orderEmployees.length;j++){ %-->
-                        <div>{%=o.orderCardItems[i].orderItemPays[j].employeeName %}
+                        <div>{%=o.orderCardItems[i].orderEmployees[j].employeeName %}
                             <span>业绩:￥{%=app.performance.order.fenToYuan(o.orderCardItems[i].orderEmployees[j].orderEmployeePerformances[0].achievementTotalAmount) %}</span>
                             <span>|卡耗:￥{%=app.performance.order.fenToYuan(o.orderCardItems[i].orderEmployees[j].orderEmployeePerformances[0].cardConsumeTotalAmount) %}</span>
                             <span>|提成:￥{%=app.performance.order.fenToYuan(o.orderCardItems[i].orderEmployees[j].orderEmployeePerformances[0].commissionAmount) %}</span>
@@ -169,7 +169,7 @@
                     <div class="itemEmployee">
                         <!--% if(o.orderRechargeItems[i].orderEmployees&&o.orderRechargeItems[i].orderEmployees.length>0){ %-->
                         <!--% for(var j=0;j<o.orderRechargeItems[i].orderEmployees.length;j++){ %-->
-                        <div>{%=o.orderRechargeItems[i].orderItemPays[j].employeeName %}
+                        <div>{%=o.orderRechargeItems[i].orderEmployees[j].employeeName %}
                             <span>业绩:￥{%=app.performance.order.fenToYuan(o.orderRechargeItems[i].orderEmployees[j].orderEmployeePerformances[0].achievementTotalAmount) %}</span>
                             <span>|卡耗:￥{%=app.performance.order.fenToYuan(o.orderRechargeItems[i].orderEmployees[j].orderEmployeePerformances[0].cardConsumeTotalAmount) %}</span>
                             <span>|提成:￥{%=app.performance.order.fenToYuan(o.orderRechargeItems[i].orderEmployees[j].orderEmployeePerformances[0].commissionAmount) %}</span>
@@ -213,7 +213,7 @@
                     <div class="itemEmployee">
                         <!--% if(o.orderCardItems[i].orderEmployees&&o.orderCardItems[i].orderEmployees.length>0){ %-->
                         <!--% for(var j=0;j<o.orderCardItems[i].orderEmployees.length;j++){ %-->
-                        <div>{%=o.orderCardItems[i].orderItemPays[j].employeeName %}
+                        <div>{%=o.orderCardItems[i].orderEmployees[j].employeeName %}
                             <!--% if(o.orderCardItems[i].orderEmployees[j].orderEmployeePerformances.length>0){ %-->
                             <span>业绩:￥{%=app.performance.order.fenToYuan(o.orderCardItems[i].orderEmployees[j].orderEmployeePerformances[0].achievementTotalAmount) %}</span>
                             <span>|卡耗:￥{%=app.performance.order.fenToYuan(o.orderCardItems[i].orderEmployees[j].orderEmployeePerformances[0].cardConsumeTotalAmount) %}</span>

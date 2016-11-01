@@ -97,6 +97,7 @@ app.performance.order = {
 
     },
     detail: function() {
+        app.startLoading();
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
                 var data = {
@@ -121,6 +122,7 @@ app.performance.order = {
                     app.api.order.detail({
                         data: data,
                         success: function(result) {
+                            app.endLoading();
                             if(false){
                                 var cardData={
                                     cardInstanceIds:[result.data.orderCardItems[0].cardInstanceForm.cardInstanceId],
