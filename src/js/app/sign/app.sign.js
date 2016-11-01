@@ -55,7 +55,7 @@ app.sign = {
             userdata.week = app.tools.getWeek();
             userdata.moment = app.tools.getMoment();
             maxResult = 100; //查100条的数据.
-            firstResult = firstResult ? firstResult : 1;
+            firstResult = firstResult ? firstResult : 0;
             //初始化打开信息
             var data = {
                 employeeId: userdata.userid,
@@ -73,16 +73,6 @@ app.sign = {
                 //         } else if (data[i].type == 0) {
                 //             userdata.signExit = data[i];
                 //         }
-                //     }
-                // }
-                // var date1 = [];
-                // var date2 = [];
-                // var date3 = [];
-                // var date4 = [];
-                // var date5 = [];
-                // if (data && data.rows.length > 0) {
-                //     for (var j = data.rows.length - 1; j >= 0; j--) {
-
                 //     }
                 // }
                 userdata.signInfo = data.rows;
@@ -246,10 +236,11 @@ app.sign = {
         return moment(time).format('HH:mm:ss');
     },
 
-    //1个月数据
+    //7天数据
     addDate: function(firstResult) {
         var d = new Date();
-        var curMonthDays = new Date(d.getFullYear(), (d.getMonth() + 1), 0).getDate();
+        //var curMonthDays = new Date(d.getFullYear(), (d.getMonth() + 1), 0).getDate();
+        var curMonthDays = 6;
         var dateList = [];
         for (var i = curMonthDays; i >= 0; i--) {
             dateList.push(moment().subtract(curMonthDays - i, 'days').format('YYYY-MM-DD'));
