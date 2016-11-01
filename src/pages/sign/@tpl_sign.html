@@ -43,7 +43,7 @@
         <!-- 签到 -->
         <div class="sign_panel">
             <div class="sign_panel_line">
-                <span class="line_top" style=""></span>
+                <span class="line_top line_title" style=""></span>
             </div>
             <!-- 上班签到 -->
             <div class="tag sign_in" id="signin">
@@ -52,7 +52,7 @@
                     <span>上班签到</span>
                     <em id="sign_in_bubble"></em>
                     <div class="sign_panel_line" style=" top: -10vw; left: 45.5vw;">
-                        <span class="line_top"></span>
+                        <span class="line_top line_title"></span>
                     </div>
                 </div>
             </div>
@@ -61,11 +61,11 @@
                 <i class="ic icon-scan"></i>
                 <span>下班签退</span>
                 <em id="sign_after_bubble"></em>
-                <div class="sign_panel_line" style="left: -3vw;top: -17vw;">
-                    <span class="line_top"></span>
+                <div class="sign_panel_line" style="left: -2.5vw;;top: -17vw;">
+                    <span class="line_top line_title"></span>
                 </div>
             </div>
-            <div style="margin-top:14vw;"></div>
+            <div style="margin-top:8vw;"></div>
             <!--% for(var i=0;i<app.sign.addDate().length;i++){ %-->
             <div class="sign_date">{%=app.sign.addDate()[i]%}</div>
             <!--% for(var j=0;j<o.signInfo.length;j++){ %-->
