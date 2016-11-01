@@ -24,6 +24,9 @@ app.api = {
                 settings.data = JSON.stringify(options.data);
             }
         }
+        if (options.success && options.code == 302 && options.data) {
+            location.href = options.data.value;
+        }
         $.ajax(settings);
     }
 };

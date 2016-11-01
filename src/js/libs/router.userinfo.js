@@ -30,7 +30,7 @@ $(function () {
         }
     }
 
-    //登陆
+    //登录
     var login={
         url:'/user_login',
         className:'user_login',
