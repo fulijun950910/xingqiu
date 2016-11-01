@@ -14,10 +14,19 @@ app.api.order = {
     },
     detail: function (settings) {
         app.api.ajax({
-            url: '/wechatbusinessassists/orderInfo/'+settings.data.orderId+'/'+settings.data.type+'/'+settings.data.id,
+            url: '/order/'+settings.data.orderId,
             type: 'GET',
             success: settings.success,
             error: settings.error,
+        })
+    },
+    cardBalance: function (settings) {
+        app.api.ajax({
+            url: '/cardInstance/getCardBalances',
+            type: 'post',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
         })
     },
     comment: function (settings) {

@@ -606,7 +606,6 @@ ul {
 //上传图片模块
 .servicepic {
     position: relative;
-    width: 100%;
     height: 6em;
     top: 2em;
     background-color: #FFF;
@@ -614,6 +613,8 @@ ul {
     text-align: left;
     line-height: 6em;
     color: #7A7A7A;
+    width: 92%;
+    margin: 0 auto;
     .uploadImg {
         float: left;
         width: 4.5em;
@@ -1008,6 +1009,10 @@ ul {
                 border-radius: 5vw;
                 margin-right:1vw;
             }
+            .time{
+                font-size:3vw;
+                color:#c3c3c3;
+            }
         }
         .orderContent{
             background:#F2F2F2;
@@ -1023,11 +1028,11 @@ ul {
                     position:absolute;
                     left:-2vw;
                     bottom:2vw;
-                    font-size:2vw;
-
-                    padding: 0 1vw;
+                    font-size:3vw;
+                    padding: .5vw 1vw 0;
                     background:#53D76E;
                     color:#fff;
+                    line-height:4vw;
                 }
             }
 
@@ -1130,7 +1135,7 @@ ul {
                 border-radius: .8vw;
                 border: 1px dotted #6F6F6F;
                 color: #000;
-                font-size: 1em;
+                font-size: 4vw;
             }
         }
     }
@@ -1219,6 +1224,9 @@ ul {
         background:#fff;
         margin-top:2vw;padding:2vw;
         box-sizing:border-box;
+        .payfont{
+            color:#FD6565;
+        }
     }
     .detailUser{
 
@@ -1229,7 +1237,6 @@ ul {
         line-height:2em;
         .orderStatus{
             color:#698E67;
-            font-weight:bold;
         }
     }
     .orderInfo{
@@ -1261,6 +1268,7 @@ ul {
         }
     }
     .orderRemake,.orderNo{
+        word-wrap: break-word;
         i{
             font-size: 6vw;
             margin-top: -2vw;

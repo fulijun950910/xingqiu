@@ -129,8 +129,8 @@ app.userinfo = {
         }
         //事件统计
         baiduStatistical.add({
-            category: '登陆',
-            label: '用户登陆',
+            category: '登录',
+            label: '用户登录',
             val: '',
             action: 'click'
         });
@@ -167,8 +167,18 @@ app.userinfo = {
                         var template = $('#tmpl-employee-list').html();
                         var result = tmpl(template, data);
                         $('#show_employe_list').html(result);
-                        $('#select_shade').show();
-                        $('#show_employe_list label:first').click();
+
+                        // 如果只有一个员工，默认登录该员工并且绑定，否则显示员工列表让用户选择
+                        if (resultEmployeeList.data.length == 1) {
+                            $('#show_employe_list label:first').click();
+                            app.userinfo.loginEmployee();
+
+                        }
+                        else {
+                            $('#select_shade').show();
+                            $('#show_employe_list label:first').click();
+                        }
+
                     },
                     error: function(a, b, c) {
 
@@ -216,7 +226,7 @@ app.userinfo = {
         //事件统计
         baiduStatistical.add({
             category: '选择身份',
-            label: '选择身份登陆门店',
+            label: '选择身份登录门店',
             val: '',
             action: 'click'
         });
@@ -264,7 +274,7 @@ app.userinfo = {
                                         }
                                         window.localStorage.employee = JSON.stringify(employee);
 
-                                        //员工登陆
+                                        //员工登录
                                         app.api.userinfo.emplogin({
                                             data: {
                                                 empid: employee.id
@@ -309,8 +319,8 @@ app.userinfo = {
         app.userinfo.getEmployee().then(function(employee){
             //事件统计
             baiduStatistical.add({
-                category: '退出登陆',
-                label: '退出登陆',
+                category: '退出登录',
+                label: '退出登录',
                 val: '',
                 action: 'click'
             });
