@@ -384,7 +384,7 @@ app.userinfo = {
                 id: employee.id,
                 name: $('input[name="name"]').val(),
                 gender: $('select[name="gender"]').val(),
-                birthday: $('input[name="birthday"]').val() + ' 00:00:00',
+                birthday: $('input[name="birthday"]').val()?$('input[name="birthday"]').val()+ ' 00:00:00':"",
                 address: $('input[name="address"]').val(),
                 description: $('input[name="description"]').val(),
                 avatarFileId: app.userinfo.fileId
