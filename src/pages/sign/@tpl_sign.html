@@ -1,4 +1,10 @@
 <script type="text/html" id="tpl_sign">
+    <style type="text/css">
+    .container {
+        width: 100vw;
+        overflow-x: hidden;
+    }
+    </style>
     <div class="bd background-sign">
         <!-- //隐藏标题 -->
         <div id="hiddenTitle" class="hiddenTitle">考勤打卡</div>
@@ -18,75 +24,78 @@
         </div>
     </div>
     <script type="text/html" id="tmpl-sign-model">
-        <!-- 顶部 -->
-        <div class="header_module">
-            <!-- <h3></h3> -->
-            <div class="title">
-                <span>你的用心服务</span>
-                <br>
-                <span>客户赏心悦目</span>
+        <div style=" 
+        max-width: 100vw; overflow-x: hidden;">
+            <!-- 顶部 -->
+            <div class="header_module">
+                <!-- <h3></h3> -->
+                <div class="title">
+                    <span>你的用心服务</span>
+                    <br>
+                    <span>客户赏心悦目</span>
+                </div>
+                <div class="date">
+                    <div class="week">{%=o.date %} {%=o.week %}</div>
+                    <div id="nowMoment" class="head_time">{%=o.moment %}</div>
+                </div>
+                <div class="user-info">
+                    <div class="card_name">{%=o.userRole %}/{%=o.username %}</div>
+                    <!--    <div class="card_role">{%=o.userRole %}</div> -->
+                </div>
             </div>
-            <div class="date">
-                <div class="week">{%=o.date %} {%=o.week %}</div>
-                <div id="nowMoment" class="head_time">{%=o.moment %}</div>
-            </div>
-            <div class="user-info">
-                <div class="card_name">{%=o.userRole %}/{%=o.username %}</div>
-                <!--    <div class="card_role">{%=o.userRole %}</div> -->
-            </div>
-        </div>
-        <!-- 头像部分 -->
-        <!--   <div class="card">
+            <!-- 头像部分 -->
+            <!--   <div class="card">
              <div class="headerimg"><img src="{%=o.userImg %}"></div>
             
         </div> -->
-        <!-- 签到 -->
-        <div class="sign_panel">
-            <div class="sign_panel_line">
-                <span class="line_top" style=""></span>
-            </div>
-            <!-- 上班签到 -->
-            <div class="tag sign_in" id="signin">
-                <div>
-                    <i class="ic icon-scan"></i>
-                    <span>上班签到</span>
-                    <em id="sign_in_bubble"></em>
-                    <div class="sign_panel_line" style=" top: -10vw; left: 45.5vw;">
-                        <span class="line_top"></span>
+            <!-- 签到 -->
+            <div class="sign_panel">
+                <div class="sign_panel_line">
+                    <span class="line_top"></span>
+                </div>
+                <!-- 上班签到 -->
+                <div class="sign_in" id="signin">
+                    <div class="sign_in_info sign_info" style="width: 30vw;">
+                        <i class="ic icon-scan"></i>
+                        <span>上班签到</span>
+                        <em id="sign_in_bubble"></em>
+                        <span class="line_top" style="left: 36.9vw;"></span>
+                    </div>
+                </div>
+                <!-- 上班签退 -->
+                <div class="sign_after" id="signexit">
+                    <div class="sign_after_info sign_info">
+                        <i class="ic icon-scan"></i>
+                        <span>下班签退</span>
+                        <em id="sign_after_bubble"></em>
+                        <span class="line_top line_title" style=" left: -4.3vw; top: -7vw;"></span>
                     </div>
                 </div>
             </div>
-            <!-- 上班签退 -->
-            <div class="tag sign_after" id="signexit">
-                <i class="ic icon-scan"></i>
-                <span>下班签退</span>
-                <em id="sign_after_bubble"></em>
-                <div class="sign_panel_line" style="left: -3vw;top: -17vw;">
-                    <span class="line_top"></span>
+            <div style="margin-top:-25vw;"></div>
+            <div class="sign_info_list">
+                <!--% for(var i=0;i<app.sign.addDate().length;i++){ %-->
+                <div class="sign_date">{%=app.sign.addDate()[i]%}</div>
+                <!--% for(var j=0;j<o.signInfo.length;j++){ %-->
+                <!--%if(app.sign.addDate()[i] == app.sign.formatDate(o.signInfo[j].signInDate)){ %-->
+                <!-- 上班签到信息 -->
+                <div class="sign_in_info-{%=j % 2%}">
+                    <span class="line_top line_sign-{%=j % 2%}"></span>
+                    <div class="sign_info">
+                        <!--% if(o.signInfo[j].status == "fail"){ %-->
+                        <i class="ic icon-kulian" style="color:#ebeb7b;    font-size: 1.5em;"></i>
+                        <!--% } else { %-->
+                        <i class="ic icon-xiaolian" style="color: #bfd9d0;    font-size: 1.5em;"></i>
+                        <!--% } %-->
+                        <span>{%=app.sign.formatTime(o.signInfo[j].signInDate)%}</span>
+                        <br>
+                        <span>{%=o.signInfo[j].address%}</span>
+                    </div>
                 </div>
+                <!--% } %-->
+                <!--% } %-->
+                <!--% } %-->
             </div>
-            <div style="margin-top:14vw;"></div>
-            <!--% for(var i=0;i<app.sign.addDate().length;i++){ %-->
-            <div class="sign_date">{%=app.sign.addDate()[i]%}</div>
-            <!--% for(var j=0;j<o.signInfo.length;j++){ %-->
-            <!--%if(app.sign.addDate()[i] == app.sign.formatDate(o.signInfo[j].signInDate)){ %-->
-            <!-- 上班签到信息 -->
-            <div class="sign_in_info-{%=j % 2%}">
-                <div class="sign_info">
-                    <span class="line_top"></span>
-                    <!--% if(o.signInfo[j].status == "fail"){ %-->
-                    <i class="ic icon-kulian" style="color:#ebeb7b;    font-size: 1.5em;"></i>
-                    <!--% } else { %-->
-                    <i class="ic icon-xiaolian" style="color: #bfd9d0;    font-size: 1.5em;"></i>
-                    <!--% } %-->
-                    <span>{%=app.sign.formatTime(o.signInfo[j].signInDate)%}</span>
-                    <br>
-                    <span>{%=o.signInfo[j].address%}</span>
-                </div>
-            </div>
-            <!--% } %-->
-            <!--% } %-->
-            <!--% } %-->
             <div class="more">
                 更多考勤信息，请前往saas.mei1.com查看
             </div>
