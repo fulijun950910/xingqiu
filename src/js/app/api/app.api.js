@@ -16,6 +16,11 @@ app.api = {
             error: options.error
         };
 
+        if (options.success && options.code == 302 && options.data) {
+            alert("打开页面时间太长，需要重新验证您的身份。");
+            location.href = options.data;
+        }
+
         if (options.data) {
             if (options.type.toUpperCase() === 'GET') {
 
@@ -23,9 +28,7 @@ app.api = {
                 settings.data = JSON.stringify(options.data);
             }
         }
-        if (options.success && options.code == 302 && options.data) {
-            location.href = options.data.value;
-        }
+
         $.ajax(settings);
     }
 };
