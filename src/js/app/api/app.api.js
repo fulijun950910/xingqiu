@@ -9,8 +9,7 @@ app.api = {
             type: options.type,
             headers: {
                 'Accept': '*/*',
-                'Content-Type': 'application/json',
-                'wechat': 'assistant'
+                'Content-Type': 'application/json'
             },
             dataType: 'json',
             success: options.success,
