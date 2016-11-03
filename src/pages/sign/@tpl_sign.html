@@ -83,11 +83,18 @@
                     <span class="line_top line_sign-{%=j % 2%}"></span>
                     <div class="sign_info">
                         <!--% if(o.signInfo[j].status == "fail"){ %-->
-                        <i class="ic icon-kulian" style="color:#ebeb7b;    font-size: 1.5em;"></i>
+                        <i class="ic icon-kulian" style="color:#ebeb7b;    font-size: 1.2em;"></i>
                         <!--% } else { %-->
-                        <i class="ic icon-xiaolian" style="color: #bfd9d0;    font-size: 1.5em;"></i>
+                        <i class="ic icon-xiaolian" style="color: #bfd9d0;    font-size: 1.2em;"></i>
                         <!--% } %-->
-                        <span>{%=app.sign.formatTime(o.signInfo[j].signInDate)%}</span>
+                        <span>
+                                {%=app.sign.formatTime(o.signInfo[j].signInDate)%}
+                         <!--% if(o.signInfo[j].type == 1){ %-->
+                                  <span class="login_in">签到</span>
+                        <!--% } else { %-->
+                                <span class="login_out">签退</span>
+                          <!--% } %-->
+                        </span>
                         <br>
                         <span>{%=o.signInfo[j].address%}</span>
                     </div>
