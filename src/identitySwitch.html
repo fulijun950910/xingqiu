@@ -13,15 +13,6 @@
     <div class="select_shade" id="select_shade">
         <div class="parent_panel">
             <div id="show_employe_list" class="weui_cells weui_cells_radio">
-                <label class="weui_cell weui_check_label" for="1231312123">
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <p>老李的店铺</p>
-                    </div>
-                    <div class="weui_cell_ft">
-                        <input type="radio" class="weui_check" data-employee="老李的数据" name="emp_data" id="123456">
-                        <span class="weui_icon_checked"></span>
-                    </div>
-                </label>
             </div>
             <div class="selbtn_box">
                 <button onclick="app.userinfo.loginEmployee()" class="role_sel_btn">确认</button>
@@ -48,6 +39,7 @@
     </script>    
 <script src="./js/jquery.min.js"></script>
 <script src="./js/app.js"></script>
+<script src="js/libs.js"></script>
 <script type="text/javascript">
 $(function(){
     //切换身份
@@ -78,7 +70,6 @@ $(function(){
                         app.alert('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息。', '登录异常');
                         return;
                     }
-
                     for (var i in resultEmployeeList.data) {
                         resultEmployeeList.data[i].jsonData = JSON.stringify(resultEmployeeList.data[i]);
                     }
