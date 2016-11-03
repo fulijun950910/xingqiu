@@ -243,16 +243,16 @@
         </div>
         <!--% } %-->
         <!--% if(o.serviceSubtota){ %-->
-        <div class="box orderNo" layout="row" layout-align="start center">
-            <div><img src="{%=app.filePath + o.serviceSubtotaFileId%}" onerror="this.src='/images/upimg.png'" style="width:20vw;height:20vw;margin-right:2vw;"  alt=""/></div>
+        <div class="box orderNo" >
             <div>
                 <p style="color:#aaa">服务小计：</p>
                 {%=o.serviceSubtota %}
             </div>
+            <div><img src="{%=app.filePath + o.serviceSubtotaFileId%}" onerror="this.src='/images/upimg.png'" style="width:40vw;margin-right:2vw;"  alt=""/></div>
         </div>
         <!--% } %-->
         <div class="submit_comment">
-            <a href="javascript:;" onclick="app.performance.order.comment({%=JSON.stringify(app.performance.order.order) %})" class="weui_btn comment_save_btn">写小计</a>
+            <a href="javascript:;" ontouchstart="app.performance.order.comment({%=JSON.stringify(app.performance.order.order) %})" class="weui_btn comment_save_btn">写小计</a>
         </div>
     </div>
 </script>

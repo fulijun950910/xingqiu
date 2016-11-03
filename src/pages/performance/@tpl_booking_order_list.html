@@ -26,14 +26,14 @@
                     <div class="bookingClientName">
                         客户姓名：<span>{%=o.data[i].appointmentName %}</span>
                     </div>
+                    <div class="bookingordertime">
+                        预约时间：{%=o.data[i].startTime %}
+                    </div>
                     <!--% if(o.data[i].employeeName){ %-->
                     <div class="">
                         服务技师：<span>{%=o.data[i].employeeName %}</span>
                     </div>
                     <!--% } %-->
-                    <div class="bookingordertime">
-                        预约时间：{%=o.data[i].startTime %}
-                    </div>
 
                     <!-- 订单内容 -->
                     <ul class="booking-order-item">

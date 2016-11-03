@@ -7,7 +7,7 @@
                 <ul>
                     <li>
                         <div class="label_content">订单号:</div>
-                        <span>{%=o.orderId %}</span>
+                        <span style="color:#8D8D8D;">{%=o.orderId %}</span>
                     </li>
                     <li>
                         <div class="label_content">客户:</div>
@@ -18,12 +18,12 @@
                     <!--% if (i==0){ %-->
                     <li>
                         <div class="label_content">订单内容:</div>
-                        <span>{%=o.itemVoList[i].itemName%}</span>
+                        <span style="color:#8D8D8D;">{%=o.itemVoList[i].itemName%}</span>
                     </li>
                     <!--% }else{ %-->
                     <li>
                         <div class="label_content"></div>
-                        <span>{%=o.itemVoList[i].itemName%}</span>
+                        <span style="color:#8D8D8D;">{%=o.itemVoList[i].itemName%}</span>
                     </li>
                     <!--% } %-->
                     <!--% } %-->
@@ -50,9 +50,9 @@
                     </div>
                 </div> -->
                 <div class="comment">
-                    <div class="weui_cell_bd weui_cell_primary">
+                    <div class="weui_cell_bd weui_cell_primary" style="padding:2vw;">
                         <textarea id="comment-content" onblur="app.tools.resetBodyScroll()" maxlength="150" class="weui_textarea" placeholder="请输入评论" rows="3">{%=o.comment%}</textarea>
-                        <div class="weui_textarea_counter">可以输入150字</div>
+                        <div class="weui_textarea_counter" style="font-size:font-size: 3.2vw;">可以输入150字</div>
                     </div>
                 </div>
             </div>
