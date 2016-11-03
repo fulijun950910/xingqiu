@@ -23,7 +23,7 @@ app.tools={
 	},
 	//显示未查到数据
 	show: function (domId) {
-		var html = '<div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian"></i><h5>抱歉,暂时没有查到数据...</h5></div>';
+		var html = '<div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw;"> 抱歉,暂时没有查到数据...</span></div>';
 		$('#' + domId).html(html);
 	},
 	//返回，01月01日
