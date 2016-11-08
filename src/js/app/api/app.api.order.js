@@ -29,9 +29,45 @@ app.api.order = {
             data: settings.data
         })
     },
+    createTag: function (settings) {
+        app.api.ajax({
+            url: '/tag',
+            type: 'post',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
+        })
+    },
+    getTag: function (settings) {
+        app.api.ajax({
+            url: '/tag/getUniqueTags',
+            type: 'post',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
+        })
+    },
+    getMemberTag: function (settings) {
+        app.api.ajax({
+            url: '/tag/list/'+settings.data.merchantId+'/0/'+settings.data.memberId,
+            type: 'get',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
+        })
+    },
+    getOrderServer: function (settings) {
+        app.api.ajax({
+            url: '/tag/getTagAndPhotoByOrderId/'+settings.data.orderId,
+            type: 'get',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
+        })
+    },
     comment: function (settings) {
         app.api.ajax({
-            url: '/wechatbusinessassists/orderComment',
+            url: '/tag/saveTagAndPhoto',
             type: 'POST',
             success: settings.success,
             error: settings.error,

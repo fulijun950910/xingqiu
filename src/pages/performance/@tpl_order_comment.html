@@ -30,34 +30,61 @@
                     <!--% } %-->
                 </ul>
                 <div class="solidWire"></div>
-    <!--             <div class="addTags">
+                <!--% if(!o.isEditServer){ %-->
+                <div class="addTags">
                     <span style="">贴标签:</span>
                     <ul class="memberTags">
-                        <li>气质美女<b></b></li>
-                        <li>邻家女孩<b></b></li>
-                        <li>邻家女孩<b></b></li>
+                        <!--% if(o.membertags){ %-->
+                        <!--% for(var i=0;i<o.membertags.length;i++ ){ %-->
+
+                        <li>{%=o.membertags[i].name%}<i ontouchstart="app.performance.order.merberTagsChange({%=i%})"><b ></b></i></li>
+                        <!--% } %-->
+                        <!--% } %-->
                     </ul>
                     <div class="tags">
                         <ul>
-                            <li>气质美女</li>
-                            <li>钻石王老五</li>
-                            <li>高富帅</li>
-                            <li>白富美</li>
-                            <li>土豪</li>
+                            <!--% if(o.tags){ %-->
+                            <!--% for(var i=0;i<o.tags.length;i++ ){ %-->
+                            <li ontouchstart="app.performance.order.tagsChange({%=i%})">{%=o.tags[i].name%}</li>
+                            <!--% } %-->
+                            <!--% } %-->
                         </ul>
-                        <input type="text" name="" value="" placeholder="请输入自定义标签" class="addTagsInput">
-                        <input type="button" name="" value="贴上" class="addTagsBtn">
+                        <input id="createTagName" type="text" name="" value="" placeholder="请输入自定义标签" class="addTagsInput">
+                        <input ontouchend="app.performance.order.submitTag()" type="button" name="" value="贴上" class="addTagsBtn">
                     </div>
-                </div> -->
+                </div>
                 <div class="comment">
                     <div class="weui_cell_bd weui_cell_primary" style="padding:2vw;">
                         <textarea id="comment-content" onblur="app.tools.resetBodyScroll()" maxlength="150" class="weui_textarea" placeholder="请输入评论" rows="3">{%=o.comment%}</textarea>
                         <div class="weui_textarea_counter" style="font-size:3.2vw;">可以输入150字</div>
                     </div>
                 </div>
+                <!--% }else{ %-->
+                <!--//非编辑区-->
+                <div class="addTags">
+                    <span style="">贴标签:</span>
+                    <ul class="memberTags">
+                        <!--% if(o.membertags){ %-->
+                        <!--% for(var i=0;i<o.membertags.length;i++ ){ %-->
+
+                        <li>{%=o.membertags[i].name%}<i ><b ></b></i></li>
+                        <!--% } %-->
+                        <!--% } %-->
+                    </ul>
+                    <div class="tags">
+                    </div>
+                </div>
+                <div class="comment">
+                    <div class="weui_cell_bd weui_cell_primary" style="padding:2vw;">
+                        <textarea id="comment-content" readonly  maxlength="150" class="weui_textarea" placeholder="请输入评论" rows="3">{%=o.comment%}</textarea>
+                        <div class="weui_textarea_counter" style="font-size:3.2vw;">可以输入150字</div>
+                    </div>
+                </div>
+                <!--% } %-->
             </div>
         </div>
         <!-- 上传本次服务照片 -->
+        <!--% if(!o.isEditServer){ %-->
         <div class="servicepic">
             <div class="uploadImg">
                 <img id="comment-pic" src="{%=app.filePath + o.fileId %}" onerror="this.src='images/upimg.png'">
@@ -68,5 +95,15 @@
         <div class="submit_comment">
             <a href="javascript:;" ontouchstart="app.performance.order.submitComment()" class="weui_btn comment_save_btn">完成</a>
         </div>
+        <!--% }else{ %-->
+        <!--//非编辑区-->
+        <div class="servicepic">
+            <div class="uploadImg">
+                <img  src="{%=app.filePath + o.fileId %}" onerror="this.src='images/upimg.png'">
+                <input  style="width:1px;height:1px" type="file" accept="image/*" >
+            </div>
+            <span>上传本次服务照片</span>
+        </div>
+        <!--% } %-->
     </script>
 </script>
