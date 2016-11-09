@@ -1,14 +1,13 @@
 <script type="text/html" id="tpl_order_detail">
 <!-- //隐藏标题 -->
-<div id="hiddenTitle" class="hiddenTitle">订单明细</div>
-<div id="wrapper" class="order-detail-wrapper">
-    <div id="order-detail" class="scroller" >
+<div >
+    <div id="order-detail"  >
 
     </div>
 </div>
 
 <script type="text/html" id="tmpl-order-detail">
-    <div class="bd">
+    <div class="bd" style="padding-bottom: 5vw;">
         <div class="box detailUser">
             <div layout="row" layout-align="start center" style="margin-bottom:3vw;">
                 <img src="{%=app.filePath + o.member.avatarId %}" onerror="this.src='/images/upimg.png'" style="width:8vw;height:8vw;border-radius:4vw;margin-right:2vw;margin-top:-1vw;"  alt=""/>
