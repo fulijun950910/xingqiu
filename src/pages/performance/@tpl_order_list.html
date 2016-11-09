@@ -44,33 +44,31 @@
                     <div flex="25" layout="row" layout-align="start center">
                         <div class="orderItemImage">
                             <img src="{%=app.filePath + o.datas[i].itemFileId %}" onerror="this.src='/images/upimg.png'" alt=""/>
-                            <div class="itemStatus">
-                                <!--% if(o.datas[i].status==1){ %-->
-                                处理中
-                                <!--% } else if (o.datas[i].status==11) { %-->
-                                待付款
-                                <!--% } else if (o.datas[i].status==12) { %-->
-                                待付款
-                                <!--% } else if (o.datas[i].status==13) { %-->
-                                待付款
-                                <!--% } else if (o.datas[i].status==20) { %-->
-                                已付款
-                                <!--% } else if (o.datas[i].status==30) { %-->
-                                挂帐
-                                <!--% } else if (o.datas[i].status==40) { %-->
-                                尾款
-                                <!--% } else if (o.datas[i].status==50) { %-->
-                                已取消
-                                <!--% } else if (o.datas[i].status==61) { %-->
-                                退单
-                                <!--% } else if (o.datas[i].status==62) { %-->
-                                退卡
-                                <!--% } else if (o.datas[i].status==69) { %-->
-                                退款中
-                                <!--% } else if (o.datas[i].status==70) { %-->
-                                补卡
-                                <!--% } %-->
-                            </div>
+                            <!--% if(o.datas[i].status==1){ %-->
+                            <div class="itemStatus itemStatus-wait">处理中</div>
+                            <!--% } else if (o.datas[i].status==11) { %-->
+                            <div class="itemStatus itemStatus-danger">待付款</div>
+                            <!--% } else if (o.datas[i].status==12) { %-->
+                            <div class="itemStatus itemStatus-danger">待付款</div>
+                            <!--% } else if (o.datas[i].status==13) { %-->
+                            <div class="itemStatus itemStatus-danger">待付款</div>
+                            <!--% } else if (o.datas[i].status==20) { %-->
+                            <div class="itemStatus">已付款</div>
+                            <!--% } else if (o.datas[i].status==30) { %-->
+                            <div class="itemStatus itemStatus-danger">挂帐</div>
+                            <!--% } else if (o.datas[i].status==40) { %-->
+                            <div class="itemStatus itemStatus-danger">尾款</div>
+                            <!--% } else if (o.datas[i].status==50) { %-->
+                            <div class="itemStatus itemStatus-pass">已取消</div>
+                            <!--% } else if (o.datas[i].status==61) { %-->
+                            <div class="itemStatus itemStatus-pass">退单</div>
+                            <!--% } else if (o.datas[i].status==62) { %-->
+                            <div class="itemStatus itemStatus-pass">退卡</div>
+                            <!--% } else if (o.datas[i].status==69) { %-->
+                            <div class="itemStatus itemStatus-pass">退款中</div>
+                            <!--% } else if (o.datas[i].status==70) { %-->
+                            <div class="itemStatus">补卡</div>
+                            <!--% } %-->
                         </div>
                     </div>
                     <div flex="75" style="padding:1vw 1vw 0vw 0;color:#FD6565"layout="column" layout-align="space-between stretch">
