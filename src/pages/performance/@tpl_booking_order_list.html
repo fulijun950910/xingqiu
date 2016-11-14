@@ -23,15 +23,31 @@
         <!--% for(var i=0;i<o.data.length;i++) { %-->
             <div class="bookingList">
                 <div class="bookinglist9">
-                    <div class="bookingClientName">
-                        客户姓名：<span>{%=o.data[i].appointmentName %}</span>
+                    <div class="bookingClientName" layout="row" layout-align="space-between center">
+                        <div>客户姓名：<span>{%=o.data[i].appointmentName %}</span></div>
+                        <strong class="bkorder-affirm">
+                            <!--% if(o.data[i].status==1){ %-->
+                            <span style="color:yellow;">待确认</span>
+                            <!--% } else if (o.data[i].status==2) { %-->
+                            <span style="color:lightgreen;">已确认</span>
+                            <!--% } else if (o.data[i].status==3) { %-->
+                            <span style="">已成功</span>
+                            <!--% } else if (o.data[i].status==4) { %-->
+                            <span style="">已取消</span>
+                            <!--% } %-->
+                        </strong>
+                    </div>
+                    <div class="radiu-boder">
+                        <div class="left-radiu radiu"></div>
+                        <div class="center-border"></div>
+                        <div class="right-radiu radiu"></div>
                     </div>
                     <div class="bookingordertime">
-                        预约时间：{%=o.data[i].startTime %}
+                        预约时间：<span class="font-gay">{%=o.data[i].startTime %}</span>
                     </div>
                     <!--% if(o.data[i].employeeName){ %-->
                     <div class="">
-                        服务技师：<span>{%=o.data[i].employeeName %}</span>
+                        服务技师：<span class="font-gay">{%=o.data[i].employeeName %}</span>
                     </div>
                     <!--% } %-->
 
@@ -58,17 +74,7 @@
 
                     <!-- 下边框线 -->
                     <div class="bookingborder">
-                        <strong class="bkorder-affirm">
-                            <!--% if(o.data[i].status==1){ %-->
-                            <i class="icon icon-chulizhong" style="color:yellow ;padding-right: 2px;font-size: 40px;"></i>待确认
-                            <!--% } else if (o.data[i].status==2) { %-->
-                            <i class="icon icon-yiqueren" style="color:lightgreen;padding-right: 2px;font-size: 40px;"></i>已确认
-                            <!--% } else if (o.data[i].status==3) { %-->
-                            <i class="icon icon-yiwancheng" style="padding-right: 2px;font-size: 40px;"></i>已成功
-                            <!--% } else if (o.data[i].status==4) { %-->
-                            <i class="icon icon-yiquxiao" style="padding-right: 2px;font-size: 40px;"></i>已取消
-                            <!--% } %-->
-                        </strong>
+
                     </div>
 
                     <!-- 服务评价内容 -->
