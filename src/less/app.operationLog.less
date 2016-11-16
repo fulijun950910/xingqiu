@@ -64,57 +64,75 @@
 .changeDetail{
   font-size:4vw;
   padding-bottom: 4vw;
-  &>.head{
-    background:#B14CC9;
-    color:#fff;
-    text-align:right;
-    font-size:3vw;
-    box-sizing: border-box;
-    padding:1vw 2vw;
+  background:#B14CC9;
+  min-height:100vh;
+  &:before{
+    display:table;
+    content:"";
+    clear:both
   }
-  .headContent{
+  .nav{
     background:#fff;
-    font-size:3vw;
-    color:#8C8C8C;
-    text-align:center;
-    .content{
-      padding:6vw 0;
+    width: 96vw;
+    margin:3vw auto;
+    padding:2vw ;
+    box-sizing: border-box;
+    border-radius: .5vw;
+    &>.head{
+      font-size:3.6vw;
       box-sizing: border-box;
+      padding:2vw 0;
     }
-    .price{
-      font-size:7vw;
-      color:#B14CC9;
-    }
-    .radio{
-      overflow: hidden;
-      img{
-        display:block;
-        min-width:100%;
+    .headContent{
+      background:#fff;
+      font-size:3vw;
+      color:#8C8C8C;
+      text-align:center;
+      border-left:1px dotted #ddd;
+      .content{
+        padding:6vw 0;
+        box-sizing: border-box;
+      }
+      .price{
+        font-size:6vw;
+        color:#FD6565;
       }
     }
   }
+  .bod{
+    background:#fff;
+    margin:0 2vw;
+    border-radius:.5vw;
+    padding:0 1vw;
+  }
   .bodItem{
-    width:94vw;
-    margin:4vw auto 0;
+    padding-bottom:4vw;
+    &:not(:last-child){
+      border-bottom:1px dotted #E8E8E8;
+    }
     .head{
-      font-size:3vw;
-      color:#8c8c8c;
-      height:7vw;
+      font-size:4vw;
+      padding:3vw 0;
+      .buleBox{
+        display:inline-block;
+        vertical-align: middle;
+        height:6vw;
+        width:1.2vw;
+        background:#04CBC7;
+        margin:-1vw 2vw 0 1vw;
+      }
     }
     .itemType{
-      color:#8c8c8c;
+      //color:#8c8c8c;
     }
     .content{
       background:#fff;
       border-radius: 1vw;
-      box-shadow:0 0 5px #ddd;
       box-sizing: border-box;
+      padding: 0 3vw;
       .contentItem{
-        height:10vw;
-        padding:0 2vw;
-        &:not(:last-child){
-          border-bottom:1px solid #E8E8E8;
-        }
+        padding:1.5vw 0;
+        font-size:3.2vw;
       }
     }
   }

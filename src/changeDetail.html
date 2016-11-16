@@ -27,24 +27,25 @@
 
 
     <script type="text/html" id="tmpl-changeDetail">
-        <div class="head">
-            <div>{%=o.merchantName %}</div>
-            <div>{%=o.storeName %}</div>
-            <div>交班时间：{%=o.lastRemainDate %}</div>
-        </div>
-        <div class="headContent">
-            <div class="radio">
-                <img src="images/border1.jpg" alt=""/>
+        <div class="nav" layout="row" layout-align="space-between stretch">
+            <div flex="60" class="head" layout="column" layout-align="space-between start">
+                <div><i class='ic'>&#xe645;</i> {%=o.merchantName %}</div>
+                <div><i class='ic'>&#xe60d;</i> {%=o.lastRemainDate %}</div>
+                <div><i class='ic'>&#xe715;</i> {%=o.employeeName %}</div>
             </div>
-            <div class="content">
-                <div>交班预留现金</div>
-                <div>￥<span class="price">{%=o.currentRemainCash %}</span>元</div>
+            <div flex="40" class="headContent">
+                <div class="content">
+                    <div>交班预留现金</div>
+                    <div>￥<span class="price">{%=o.currentRemainCash %}</span>元</div>
+                </div>
             </div>
         </div>
+
+
         <div class="bod">
             <!--% for(var i=0;i<o.tmpl.length;i++){ %-->
             <div class="bodItem">
-                <div class="head">{%#o.tmpl[i].name %}</div>
+                <div class="head"><div class="buleBox"></div>{%#o.tmpl[i].name %}</div>
                 <div class="content">
                     <!--% if(o.tmpl[i].rows){ %-->
                     <!--% for(var j=0;j<o.tmpl[i].rows.length;j++){ %-->

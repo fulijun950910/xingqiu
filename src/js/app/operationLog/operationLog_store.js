@@ -202,6 +202,7 @@ app.changeDetail={
         app.api.operationLog.getIncomeInfo({
             data:{
                 merchantId:keyGetValue("merchantId"),
+                employeeId:keyGetValue("employeeId"),
                 storeId:keyGetValue("storeId")
             },
             success:function(res){
@@ -225,7 +226,7 @@ app.changeDetail={
         var self = [];
 
         self= [{
-            name: "<i style='margin-bottom: -1vw;' class='ic'>&#xe645;</i> 收入金额统计",
+            name: "收入金额统计",
             rows: [
                 { name: "现金收入", value:'￥'+app.tools.toThousands(data.cash) },
                 { name: "POS收入", value: '￥'+app.tools.toThousands(data.pos) },
@@ -239,7 +240,7 @@ app.changeDetail={
                 { name: "欠款金额", value: '￥'+app.tools.toThousands(data.unPayMoney) },
             ]
         }, {
-            name: "<i class='ic'>&#xe619;</i> 收入来源统计",
+            name: "收入来源统计",
             rows: [
                 { name: "项目收入", value: '￥'+app.tools.toThousands(data.itemIncome) },
                 { name: "开卡收入", value: '￥'+app.tools.toThousands(data.cardIncome) },
@@ -249,7 +250,7 @@ app.changeDetail={
                 { name: "附加费", value: '￥'+app.tools.toThousands(data.otherIncome) },
             ]
         }, {
-            name: "<i class='ic'>&#xe628;</i> 收入来源分析",
+            name: "收入来源分析",
             rows: [
                 { name: "项目数量", value: data.itemCounts + '个' },
                 { name: "开卡张数", value: data.cardCounts + '张' },
@@ -262,7 +263,7 @@ app.changeDetail={
             ]
         }];
         var tempRepairData = {
-            name: "<i class='ic'>&#xe650;</i> 历史变更数据",
+            name: "历史变更数据",
             rows: []
         };
         // 动态历史变更数据
