@@ -22,6 +22,7 @@ module.exports = function(grunt) {
                     'src/js/libs/router.userinfo.js',
                     'src/js/libs/router.sign.js',
                     'src/js/libs/router.performance.js',
+                    'src/js/libs/router.operationLog.js',
                     'src/js/libs/tmpl.js',
                     'src/js/libs/iscroll-probe.js',
                     'src/js/libs/jweixin-1.0.0.js',
@@ -47,6 +48,7 @@ module.exports = function(grunt) {
                     'src/js/app/performance/app.performance.rank.js',
                     'src/js/app/user/app.userinfo.js',
                     'src/js/app/sign/app.sign.js',
+                    'src/js/app/operationLog/operationLog_store.js',
                 ]
             },
             cssFiles: {

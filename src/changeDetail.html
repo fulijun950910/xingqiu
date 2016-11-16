@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name = "format-detection" content="telephone = no" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>交班详情</title>
+    <link rel="stylesheet" href="css/weui.min.css" />
+    <link rel="stylesheet" href="css/app.min.css" />
+    <link rel="stylesheet" href="css/swiper.css">
+    <script>
+    //百度代码统计
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?3c1210a8346d103698ba8ce2129c637b";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+</head>
+
+<body >
+    <div class="changeDetail" id="tpl-changeDetail">
+    </div>
+
+
+    <script type="text/html" id="tmpl-changeDetail">
+        <div class="head">
+            <div>{%=o.merchantName %}</div>
+            <div>{%=o.storeName %}</div>
+            <div>交班时间：{%=o.lastRemainDate %}</div>
+        </div>
+        <div class="headContent">
+            <div class="radio">
+                <img src="images/border1.jpg" alt=""/>
+            </div>
+            <div class="content">
+                <div>交班预留现金</div>
+                <div>￥<span class="price">{%=o.currentRemainCash %}</span>元</div>
+            </div>
+        </div>
+        <div class="bod">
+            <!--% for(var i=0;i<o.tmpl.length;i++){ %-->
+            <div class="bodItem">
+                <div class="head">{%#o.tmpl[i].name %}</div>
+                <div class="content">
+                    <!--% if(o.tmpl[i].rows){ %-->
+                    <!--% for(var j=0;j<o.tmpl[i].rows.length;j++){ %-->
+                    <div class="contentItem" layout="row" layout-align="space-between center">
+                        <div class="itemType">{%=o.tmpl[i].rows[j].name %}</div>
+                        <div>{%=o.tmpl[i].rows[j].value %}</div>
+                    </div>
+                    <!--% } %-->
+                    <!--% } %-->
+                </div>
+            </div>
+            <!--% } %-->
+        </div>
+    </script>
+    <script src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/swiper.jquery.min.js"></script>
+    <script src="js/router.min.js"></script>
+    <script src="js/libs.js"></script>
+    <script src="js/router.operationLog.js"></script>
+    <script src="js/iscroll-probe.js"></script>
+    <script type="text/javascript" src="js/tmpl.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+    $(function() {
+        var screenHeight = window.screen.height;
+        $('body').css('height', screenHeight + 'px');
+    });
+    app.changeDetail.getIncomeInfo()
+    </script>
+</body>
+
+</html>

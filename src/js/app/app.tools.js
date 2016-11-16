@@ -1,7 +1,7 @@
 app.tools={
 	//千分位格式化,返回10,000.00
 	toThousands:function(num){
-		if(!num){
+		if(!num&&num!=0){
 			return '';
 		}
 		var num = (num/100).toFixed(2);
@@ -67,6 +67,21 @@ app.tools={
 			return "3个月前"
 		}
 	},
+	sliceStr:function(str,len){
+		var realLength = 0, length = str.length, charCode;
+		for (var i = 0; i < length; i++) {
+			charCode = str.charCodeAt(i);
+			if (charCode >= 0 && charCode <= 128){
+				realLength += 1;
+			}else{
+				realLength += 2;
+			}
+			if(realLength>len){
+				return str.slice(0,i)+"..."
+			};
+		}
+		return str;
+	},
 	//返回，时分秒=12:00:00
 	getMoment:function(){
 		var date=new Date();
@@ -110,4 +125,22 @@ app.tools={
 		// }
 		// return value;
 	}
+}
+
+//处理url参数
+String.prototype.getParameterKey = function (arg) {
+	var parameter = this.substr(1, this.length);
+	var parameters = parameter.split('&');
+	for (var ii = 0; ii < parameters.length; ii++) {
+		var key_value = parameters[ii];
+		if (key_value.split('=')[0] == arg) {
+			return key_value.split('=')[1];
+		}
+	}
+	return '';
+}
+//URL根据Key获取value值
+window.keyGetValue = function (key) {
+	var url = window.location;
+	return url.search.getParameterKey(key);
 }
