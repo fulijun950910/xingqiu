@@ -109,6 +109,16 @@ app.productEcharts = {
             return;
         }
         app.productEcharts.show(query).then(function(result) {
+            for(var i=0;i< result.data.itemSalesDetail.length;i++){
+                for(var j=i+1;j< result.data.itemSalesDetail.length;j++){
+                    if(result.data.itemSalesDetail[i][2]+result.data.itemSalesDetail[i][3]>result.data.itemSalesDetail[j][2]+result.data.itemSalesDetail[j][3]){
+                        var itemA=result.data.itemSalesDetail.splice(i,1)[0]
+                        result.data.itemSalesDetail.splice(j,0,itemA)
+                        var itemB=result.data.itemSalesDetail.splice(j-1,1)[0]
+                        result.data.itemSalesDetail.splice(i,0,itemB)
+                    }
+                }
+            }
             for (var i = result.data.itemSalesDetail.length - 1; i >= 0; i--) {
                 switch (result.data.itemSalesDetail[i][0]) {
                     case 'SERVICE_ITEM':
