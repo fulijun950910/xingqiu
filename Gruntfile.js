@@ -21,6 +21,7 @@ module.exports = function(grunt) {
                     'src/js/libs/router.bind.js',
                     'src/js/libs/router.userinfo.js',
                     'src/js/libs/router.sign.js',
+                    'src/js/libs/router.echarts.js',
                     'src/js/libs/router.performance.js',
                     'src/js/libs/tmpl.js',
                     'src/js/libs/iscroll-probe.js',
@@ -29,6 +30,7 @@ module.exports = function(grunt) {
                     'src/js/libs/mobileBUGFix.mini.js',
                     'src/js/libs/swiper.jquery.min.js',
                     'src/js/libs/moment.min.js',
+                    'src/js/libs/echarts.common.min.js',
                 ],
                 libs: [
                     'src/js/libs/tmpl.js'
@@ -47,6 +49,9 @@ module.exports = function(grunt) {
                     'src/js/app/performance/app.performance.rank.js',
                     'src/js/app/user/app.userinfo.js',
                     'src/js/app/sign/app.sign.js',
+                    'src/js/app/echarts/app.member.js',
+                    'src/js/app/echarts/app.employee.js',
+                    'src/js/app/echarts/app.product.js'
                 ]
             },
             cssFiles: {

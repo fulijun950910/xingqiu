@@ -1,0 +1,159 @@
+<script type="text/html" id="tpl_product">
+    <div class="bd background-sign">
+        <div id="tmpl-product" class="product_echarts">
+        </div>
+    </div>
+    <script type="text/html" id="tmpl-product-model">
+        <div class="header">
+            <span class="go_back"></span>
+            <span class="head">业绩看板</span>
+            <span class="title">品项分析</span>
+        </div>
+        <div class="main">
+            <span class="date" onclick="app.productEcharts.reportShow(1,'startDate')">上一月</span>
+            <a id="showActionSheet_rank" href="javascript:;" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">{%= app.tools.sliceStr(o.storeName,10 )%}</a>
+            <span class="storeId" style="display: none;">{%=o.storeId%}</span>
+            <span class="nowDate">{%=o.nowDate%}</span>
+            <span class="date" onclick="app.productEcharts.reportShow(-1,'startDate')">下一月</span>
+        </div>
+        <div class="orderEmployee-box">
+            <div class="orderEmployeeData-box">
+                <div class="tool-tab">
+                    <ul>
+                        <li class="active">项目</li>
+                        <li>组合</li>
+                        <li>产品</li>
+                        <li>卡</li>
+                    </ul>
+                    <span class="line"></span>
+                </div>
+                <div class="swiper-container ">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide tab-content-1">
+                            <div class="data-list" style=" background: #f5f5f5;">
+                                <div class="data-item" style="border: none;">
+                                    <span class="index">序号</span>
+                                    <span class="productName" style="text-align: center;">项目名称</span>
+                                    <span class="amount">收入合计</span>
+                                    <span class="amount">销量</span>
+                                </div>
+                            </div>
+                            <!--%if(!o.serviceItem || o.serviceItem.length == 0){ %-->
+                            <!--     <div class="none-data" id="product-echarts-scroller">该门店还没有项目销售数据哦~</div> -->
+                            <div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw;"> 抱歉,暂时没有查到数据...</span></div>
+                            <!--% } else { %-->
+                            <!--% for (var i=0; i <o.serviceItem.length; i++) { %-->
+                            <div class="weui_cells" style="margin: 0; ">
+                                <div class="data-list">
+                                    <div class="data-item" style="text-align: center;">
+                                        <span class="index">{%= i + 1%}</span>
+                                        <span class="productName">{%= app.tools.sliceStr(o.serviceItem[i][1],20) %}</span>
+                                        <span class="amount">{%= (o.serviceItem[i][2] + o.serviceItem[i][3]) / 100 %}</span>
+                                        <span class="amount">{%= o.serviceItem[i][4] %}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--% } %-->
+                            <!--% } %-->
+                        </div>
+                        <div class="swiper-slide tab-content-2">
+                            <div class="data-list" style="background: #f5f5f5;">
+                                <div class="data-item" style="border: none;">
+                                    <span class="index">序号</span>
+                                    <span class="productName" style="text-align: center;">组合名称</span>
+                                    <span class="amount">收入合计</span>
+                                    <span class="amount">销量</span>
+                                </div>
+                            </div>
+                            <!--%if(!o.servicePackage || o.servicePackage.length == 0){ %-->
+                            <!--   <div class="none-data">该门店还没有组合销售数据哦~</div> -->
+                            <div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw;"> 抱歉,暂时没有查到数据...</span></div>
+                            <!--% } else { %-->
+                            <!--% for (var i=0; i <o.servicePackage.length; i++) { %-->
+                            <div class="weui_cells" style="margin: 0; ">
+                                <div class="data-list">
+                                    <div class="data-item">
+                                        <span class="index">{%= i + 1%}</span>
+                                        <span class="productName">{%= app.tools.sliceStr(o.servicePackage[i][1],20) %}</span>
+                                        <span class="amount">{%= (o.servicePackage[i][2] + o.servicePackage[i][3]) / 100 %}</span>
+                                        <span class="amount">{%= o.servicePackage[i][4] %}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--% } %-->
+                            <!--% } %-->
+                        </div>
+                        <div class="swiper-slide tab-content-3">
+                            <div class="data-list" style="background: #f5f5f5;">
+                                <div class="data-item" style="border: none;">
+                                    <span class="index">序号</span>
+                                    <span class="productName" style="text-align: center;">产品名称</span>
+                                    <span class="amount">收入合计</span>
+                                    <span class="amount">销量</span>
+                                </div>
+                            </div>
+                            <!--%if(!o.product || o.product.length == 0){ %-->
+                            <!-- <div class="none-data">该门店还没有产品销售数据哦~</div> -->
+                            <div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw;"> 抱歉,暂时没有查到数据...</span></div>
+                            <!--% } else { %-->
+                            <!--% for (var i=0; i <o.product.length; i++) { %-->
+                            <div class="weui_cells" style="margin: 0; ">
+                                <div class="data-list">
+                                    <div class="data-item">
+                                        <span class="index">{%= i + 1%}</span>
+                                        <span class="productName">{%= app.tools.sliceStr(o.product[i][1],20) %}</span>
+                                        <span class="amount">{%= (o.product[i][2] + o.product[i][3]) / 100 %}</span>
+                                        <span class="amount">{%= o.product[i][4] %}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--% } %-->
+                            <!--% } %-->
+                        </div>
+                        <div class="swiper-slide tab-content-4">
+                            <div class="data-list" style="background: #f5f5f5;">
+                                <div class="data-item" style="border: none;">
+                                    <span class="index">序号</span>
+                                    <span class="productName" style="text-align: center;">卡名称</span>
+                                    <span class="amount">收入合计</span>
+                                    <span class="amount">销量</span>
+                                </div>
+                            </div>
+                            <!--%if(!o.card || o.card.length == 0){ %-->
+                            <!--  <div class="none-data">该门店还没有卡销售数据哦~</div> -->
+                            <div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw;"> 抱歉,暂时没有查到数据...</span></div>
+                            <!--% } else { %-->
+                            <!--% for (var i=0; i <o.card.length; i++) { %-->
+                            <div class="weui_cells" style="margin: 0; ">
+                                <div class="data-list">
+                                    <div class="data-item">
+                                        <span class="index">{%= i + 1%}</span>
+                                        <span class="productName">{%= app.tools.sliceStr(o.card[i][1],20) %}</span>
+                                        <span class="amount">{%= (o.card[i][2] + o.card[i][3]) / 100 %}</span>
+                                        <span class="amount">{%= o.card[i][4] %}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--% } %-->
+                            <!--% } %-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 门店切换 -->
+        <div id="actionSheet_wrap">
+            <div class="weui_mask_transition" id="mask_rank"></div>
+            <div class="weui_actionsheet" id="weui_actionsheet_rank">
+                <div id="storeRankSheet" style="width: 100vw;max-height: 80vh;overflow-y: scroll;" class="weui_actionsheet_menu">
+                    <!--% for (var i=0; i <o.storeList.length; i++) { %-->
+                    <div name="{%= o.storeList[i].id %}" class="weui_actionsheet_cell">{%= o.storeList[i].name %}</div>
+                    <!--% } %-->
+                </div>
+                <div class="weui_actionsheet_action">
+                    <div class="weui_actionsheet_cell" id="actionsheet_cancel_rank">取消</div>
+                </div>
+            </div>
+        </div>
+    </script>
+</script>
