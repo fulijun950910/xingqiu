@@ -40,7 +40,7 @@ app.operationLog={
         }
     },
     dateInte:function(){
-        $("#operationLogDate").val(this.date);
+        $(".operationLogDate").val(this.date);
     },
     showTab:function(dom){
         var dom=$(dom).parent();
@@ -134,7 +134,6 @@ app.operationLog={
             },
             success:function(res){
                 app.endLoading();
-                app.operationLog.dateInte();
                 if(res.success&&res.data){
                     if(res.data.cardList.length>0||res.data.memberList.length>0||res.data.orderList.length>0||res.data.sysList.length>0){
                         var data=app.operationLog.detailToArray(res.data);
@@ -147,6 +146,7 @@ app.operationLog={
                 }else{
                     app.tools.show("tpl-operationLogDetail")
                 }
+                app.operationLog.dateInte();
             },
             error:function(){}
         })
@@ -166,9 +166,12 @@ app.operationLog={
         location.href = "/userinfo.html#/user_login";
         return;
     },
+    goReport:function(){
+        location.href = "/performance-index.html#/performance_report";
+    },
     goDetail:function(storeid){
         app.operationLog.storeId=storeid;
-        location.href = "operationLog.html#/operationLog_detail";
+        location.hash = "/operationLog_detail";
         return;
     },
     init:function(){
@@ -176,12 +179,12 @@ app.operationLog={
         if(app.operationLog.employee){
             app.operationLog.employee=JSON.parse(app.operationLog.employee);
             var employee=app.operationLog.employee;
-            if (employee.role != app.constant.WECHAT_BUSINESS[1].code&&employee.role != app.constant.WECHAT_BUSINESS[2].code) {
+            if(!app.operationLog.employee.merchant){
                 app.operationLog.goUser();
                 return;
             }
-            if(!app.operationLog.employee.merchant){
-                app.operationLog.goUser();
+            if (employee.role != app.constant.WECHAT_BUSINESS[0].code&&employee.role != app.constant.WECHAT_BUSINESS[1].code) {
+                app.operationLog.goReport();
                 return;
             }
             //start
