@@ -31,8 +31,8 @@
             <div class="orderList9">
                 <div class="orderClientName" layout="row" layout-align="space-between center">
                     <div class="lisetHead" layout="row" layout-align="start center">
-                        <img src="{%=app.filePath + o.datas[i].memberAvatarId %}" onerror="this.src='/images/upimg.png'" alt=""/>
-                        <span>{%=o.datas[i].memberName %}</span>
+                        <img src="{%=app.filePath + o.datas[i].memberAvatarId %}" onerror="this.src='/images/default_female.png'" alt=""/>
+                        <span>{%=app.tools.sliceStr(o.datas[i].memberName,12) %}</span>
                         <!--% if(o.datas[i].mobile){ %-->
                         <span>/{%=o.datas[i].mobile %}</span>
                         <!--% } %-->

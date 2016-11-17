@@ -23,6 +23,7 @@ module.exports = function(grunt) {
                     'src/js/libs/router.sign.js',
                     'src/js/libs/router.echarts.js',
                     'src/js/libs/router.performance.js',
+                    'src/js/libs/router.operationLog.js',
                     'src/js/libs/tmpl.js',
                     'src/js/libs/iscroll-probe.js',
                     'src/js/libs/jweixin-1.0.0.js',
@@ -52,6 +53,7 @@ module.exports = function(grunt) {
                     'src/js/app/echarts/app.member.js',
                     'src/js/app/echarts/app.employee.js',
                     'src/js/app/echarts/app.product.js'
+                    'src/js/app/operationLog/operationLog_store.js',
                 ]
             },
             cssFiles: {

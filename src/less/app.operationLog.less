@@ -1,0 +1,141 @@
+.operationLog{
+  font-size:4vw;
+  .bodBox{
+    background:#fff;
+    width:94vw;
+    margin:4vw auto 0;
+    height:87vh;
+    border-radius: 2vw;
+    box-shadow:0 0 5px #ddd;
+    padding:0 4vw;
+    box-sizing: border-box;
+  }
+  .Number{
+    color:#B14CC9;
+  }
+  .logHeader{
+    color:#8C8C8C;
+    height:5vh;
+    padding-top:2vh;
+  }
+  .bodContent{
+    height:80vh;
+    overflow-y: scroll;
+  }
+  .logContent{
+    height:12vw;
+    border-bottom:1px solid #E8E8E8;
+  }
+
+
+  //detail
+  .tabBox{
+    background:#fff;
+    width:94vw;
+    margin:4vw auto 0;
+    border-radius: 1vw;
+    box-shadow:0 0 5px #ddd;
+    padding:0 4vw;
+    box-sizing: border-box;
+    .tabHead{
+      height:12vw;
+    }
+    .tabContent{
+      overflow:hidden;
+    }
+  }
+  .tabBox.act{
+    .tabHead{
+      color:#8C8C8C;
+    }
+    .tabContent{
+    }
+  }
+
+  .tabContentItem{
+    padding: 2vw 0;
+    &:not(:last-child){
+      border-bottom:1px solid #E8E8E8;
+    }
+  }
+}
+
+//
+.changeDetail{
+  font-size:4vw;
+  padding-bottom: 4vw;
+  background:#B14CC9;
+  min-height:100vh;
+  &:before{
+    display:table;
+    content:"";
+    clear:both
+  }
+  .nav{
+    background:#fff;
+    width: 94vw;
+    margin:3vw auto;
+    padding:2vw ;
+    box-sizing: border-box;
+    border-radius: .5vw;
+    &>.head{
+      font-size:3.6vw;
+      box-sizing: border-box;
+      padding: 2vw 0 2vw 2vw;
+    }
+    .headContent{
+      background:#fff;
+      font-size:3vw;
+      color:#8C8C8C;
+      text-align:center;
+      border-left:1px dotted #ddd;
+      .content{
+        padding:6vw 0;
+        box-sizing: border-box;
+      }
+      .price{
+        font-size:6vw;
+        color:#FD6565;
+      }
+    }
+  }
+  .bod{
+    background:#fff;
+    margin:0 auto;
+    width:94vw;
+    box-sizing: border-box;
+    border-radius:.5vw;
+    padding:0 1vw;
+  }
+  .bodItem{
+    padding-bottom:4vw;
+    &:not(:last-child){
+      border-bottom:1px dotted #E8E8E8;
+    }
+    .head{
+      font-size:4vw;
+      padding:3vw 0;
+      .buleBox{
+        display:inline-block;
+        vertical-align: middle;
+        height:6vw;
+        width:1.2vw;
+        background:#04CBC7;
+        margin:-1vw 2vw 0 1vw;
+      }
+    }
+    .itemType{
+      //color:#8c8c8c;
+    }
+    .content{
+      background:#fff;
+      border-radius: 1vw;
+      box-sizing: border-box;
+      padding: 0 3vw;
+      .contentItem{
+        padding:1.5vw 0;
+        font-size:3.2vw;
+      }
+    }
+  }
+}
