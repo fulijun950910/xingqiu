@@ -43,13 +43,21 @@ app.productEcharts = {
     //初始数据
     reportShow: function(data, type, dateType) {
         var employee = null;
-        var results = {};
         if (JSON.parse(localStorage.employee)) {
             employee = JSON.parse(localStorage.employee);
         }
+        var results = {
+            serviceItem: [],
+            product: [],
+            servicePackage: [],
+            card: []
+        };
         var query = {
             'merchantId': employee.merchantId
         };
+
+
+
         var date = $('.nowDate').text();
         if (date) {
             query.startDate = moment(date).format('YYYY-MM-DD hh:mm:ss');
@@ -78,6 +86,7 @@ app.productEcharts = {
                 query.storeIds = data;
                 break;
         }
+        results.nowDate = moment(query.startDate).format('YYYY-MM');
         //获取门店
         for (var i = employee.storeList.length - 1; i >= 0; i--) {
             if (employee.storeList[i].id == query.storeIds) {
@@ -87,11 +96,15 @@ app.productEcharts = {
         }
         results.storeId = query.storeIds;
         results.storeList = employee.storeList;
-        results.nowDate = moment(query.startDate).format('YYYY-MM');
-        results.serviceItem = [];
-        results.product = [];
-        results.servicePackage = [];
-        results.card = [];
+        //普通员工
+        if (employee.role == "wechat_business_normal") {
+            var tmplhtml = $('#tmpl-product-model').html();
+            var resultTmpl = tmpl(tmplhtml, results);
+            $('#tmpl-product').html(resultTmpl);
+            $('.errorMessage').text('亲~您当前的权限还不能看数据哦~');
+            initSwiper();
+            return;
+        }
         app.productEcharts.show(query).then(function(result) {
             for (var i = result.data.itemSalesDetail.length - 1; i >= 0; i--) {
                 switch (result.data.itemSalesDetail[i][0]) {

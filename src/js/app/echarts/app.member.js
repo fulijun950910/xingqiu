@@ -17,18 +17,29 @@ app.memberEcharts = {
         if (JSON.parse(localStorage.employee)) {
             merchantId = JSON.parse(localStorage.employee).merchantId;
         }
+        var memberData = {};
+        //普通员工
+        if (JSON.parse(localStorage.employee).role == "wechat_business_normal") {
+            var tmplhtml = $('#tmpl-member-model').html();
+            var resultTmpl = tmpl(tmplhtml, memberData);
+            $('#tmpl-member').html(resultTmpl);
+            $('.errorBox').show();
+            return;
+        }
         app.memberEcharts.getMemberStatistics({
             'merchantId': merchantId
         }).then(function(data) {
+            memberData = data;
             var tmplhtml = $('#tmpl-member-model').html();
-            var resultTmpl = tmpl(tmplhtml, data);
+            var resultTmpl = tmpl(tmplhtml, memberData);
             $('#tmpl-member').html(resultTmpl);
+             $('.data-box').show();
             //客户来源
-            app.memberEcharts.memberSourceList(data);
+            app.memberEcharts.memberSourceList(memberData);
             //会员末到店
-            app.memberEcharts.memberLeaveDataList(data);
+            app.memberEcharts.memberLeaveDataList(memberData);
             //会员到店频次
-            app.memberEcharts.memberArrvialTimesList(data);
+            app.memberEcharts.memberArrvialTimesList(memberData);
 
         }, function(error) {
             app.alert(error);

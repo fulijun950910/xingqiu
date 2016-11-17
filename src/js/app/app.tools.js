@@ -112,6 +112,8 @@ app.tools = {
         },
         //字符串长度替换
         sliceStr: function(str, len) {
+            if (!str)
+                return;
             var realLength = 0,
                 length = str.length,
                 charCode;
@@ -127,6 +129,23 @@ app.tools = {
                 };
             }
             return str;
+        },
+        toThousands: function(num) {
+            if (num != 0 && !num)
+                return '';
+            var num = (num / 100).toFixed(2);
+            //数字千分位格式化
+            var numstr = '';
+            if (typeof num == 'number')
+                numstr += num;
+            if (typeof num == 'string')
+                numstr = num;
+            var fmtNum = '';
+            var narray = numstr.split('.');
+            fmtNum = narray[0].replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+            if (narray.length > 1)
+                fmtNum = fmtNum + '.' + narray[1];
+            return fmtNum;
         }
     }
     //处理url参数

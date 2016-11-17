@@ -68,6 +68,15 @@ app.employeeEcharts = {
         results.storeId = orderPerformanceList.storeId;
         results.storeList = employee.storeList;
         results.nowDate = moment(orderPerformanceList.startDate).format('YYYY-MM');
+        //普通员工
+        if (employee.role == "wechat_business_normal") {
+            var tmplhtml = $('#tmpl-employee-model').html();
+            var resultTmpl = tmpl(tmplhtml, results);
+            $('#tmpl-employee').html(resultTmpl);
+            $('.errorMessage').text('亲~您当前的权限还不能看数据哦~');
+            initSwiper();
+            return;
+        }
         app.employeeEcharts.orderEmployeePerformance(orderPerformanceList).then(function(result) {
             results.orderEmployeePerformanceList = result.rows;
             var tmplhtml = $('#tmpl-employee-model').html();
