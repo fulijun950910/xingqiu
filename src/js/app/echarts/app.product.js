@@ -103,6 +103,9 @@ app.productEcharts = {
             $('#tmpl-product').html(resultTmpl);
             $('.errorMessage').text('亲~您当前的权限还不能看数据哦~');
             initSwiper();
+            if (results.storeList && results.storeList.length > 1) {
+                app.productEcharts.initStore();
+            }
             return;
         }
         app.productEcharts.show(query).then(function(result) {

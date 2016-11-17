@@ -73,6 +73,9 @@ app.employeeEcharts = {
             var tmplhtml = $('#tmpl-employee-model').html();
             var resultTmpl = tmpl(tmplhtml, results);
             $('#tmpl-employee').html(resultTmpl);
+            if (results.storeList && results.storeList.length > 1) {
+                app.employeeEcharts.initStore();
+            }
             $('.errorMessage').text('亲~您当前的权限还不能看数据哦~');
             initSwiper();
             return;
