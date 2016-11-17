@@ -11,7 +11,7 @@
         </div>
         <div class="main">
             <span class="date" onclick="app.employeeEcharts.orderEmployeePerformanceList(1,'startDate')">上一月</span>
-            <a id="showActionSheet_rank" href="javascript:;" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">{%= app.tools.sliceStr(o.storeName,10 )%}</a>
+            <a id="showActionSheet_rank" href="javascript:;" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);color:#69e2da;">{%= app.tools.sliceStr(o.storeName,10 )%} &gt;</a>
             <span class="storeId" style="display: none;">{%=o.storeId%}</span>
             <span class="nowDate">{%=o.nowDate%}</span>
             <span class="date" onclick="app.employeeEcharts.orderEmployeePerformanceList(-1,'startDate')">下一月</span>
@@ -35,7 +35,7 @@
             <div class="orderEmployeeData-box">
                 <div class="data-list">
                     <!--%if(!o.orderEmployeePerformanceList || o.orderEmployeePerformanceList.length == 0){ %-->
-                    <div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw;"> 该门店还没有员工哦~</span></div>
+                    <div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw; margin-left: 4vw;" class="errorMessage"> 亲~,该门店还没有员工哦...</span></div>
                     <!--% } else { %-->
                     <!--% for (var i=0; i <o.orderEmployeePerformanceList.length; i++) { %-->
                     <div class="data-item" style="text-align: center;">
