@@ -202,7 +202,7 @@ app.changeDetail={
         app.api.operationLog.getIncomeInfo({
             data:{
                 merchantId:keyGetValue("merchantId"),
-                employeeName:keyGetValue("employeeId"),
+                employeeId:keyGetValue("employeeId"),
                 storeId:keyGetValue("storeId")
             },
             success:function(res){
