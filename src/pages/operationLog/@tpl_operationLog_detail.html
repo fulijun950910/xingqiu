@@ -26,9 +26,14 @@
             </div>
             <div class="tabContent">
                 <!--% for(var j=0;j<o[i].value.length;j++){ %-->
-                <div class="tabContentItem" layout="row" layout-align="space-between center">
-                    <div flex="60">{%=o[i].value[j].operatorEvent %}</div>
-                    <div flex="40" style="text-align:right;">{%=o[i].value[j].operatorName %}</div>
+                <div class="tabContentItem" layout="row" layout-align="space-between start">
+                    <div flex="50">{%=o[i].value[j].operatorEvent %}
+                        <!--% if(o[i].value[j].memberName){ %-->
+                        ({%=o[i].value[j].memberName %}/{%=o[i].value[j].memberNo %})
+                        <!--% } %-->
+                    </div>
+                    <div flex="20" style="color:#8c8c8c;">{%=app.tools.toDate(o[i].value[j].operatorTime,"hh-mm-ss") %}</div>
+                    <div flex="30" style="text-align:right;">{%=o[i].value[j].operatorName %}</div>
                 </div>
                 <!--% } %-->
             </div>
