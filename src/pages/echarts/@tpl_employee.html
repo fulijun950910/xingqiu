@@ -41,8 +41,8 @@
                     <div class="data-item" style="text-align: center;">
                         <span class="index">{%= i + 1%}</span>
                         <span class="employeeName">{%= app.tools.sliceStr(o.orderEmployeePerformanceList[i].employeeName,6) %}</span>
-                        <span class="amount">{%= o.orderEmployeePerformanceList[i].achievementTotalAmount / 100 %}</span>
-                        <span class="amount">{%= o.orderEmployeePerformanceList[i].cardConsumeTotalAmount / 100 %}</span>
+                        <span class="amount">{%= app.tools.toThousands(o.orderEmployeePerformanceList[i].achievementTotalAmount)%}</span>
+                        <span class="amount">{%= app.tools.toThousands(o.orderEmployeePerformanceList[i].cardConsumeTotalAmount) %}</span>
                         <span class="amount">{%= o.orderEmployeePerformanceList[i].serviceMemberCount +o.orderEmployeePerformanceList[i].serviceUnMemberCount  %} </span>
                     </div>
                     <!--% } %-->
