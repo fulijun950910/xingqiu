@@ -202,6 +202,7 @@ app.changeDetail={
         app.api.operationLog.getIncomeInfo({
             data:{
                 merchantId:keyGetValue("merchantId"),
+                employeeName:keyGetValue("employeeId"),
                 storeId:keyGetValue("storeId")
             },
             success:function(res){
@@ -212,6 +213,7 @@ app.changeDetail={
                     data.currentRemainCash=app.tools.toThousands(res.data.currentRemainCash);
                     data.lastRemainDate=res.data.lastRemainDate;
                     data.merchantName=res.data.merchantName;
+                    data.employeeName=res.data.employeeName;
                     data.storeName=res.data.storeName;
                     var html = $('#tmpl-changeDetail').html();
                     var template = tmpl(html, data);
