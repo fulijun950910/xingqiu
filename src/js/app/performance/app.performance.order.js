@@ -131,7 +131,6 @@ app.performance.order = {
                                 cardBalance().then(
                                     cardData,
                                     function(result){
-                                        console.log(result)
                                         var html = $('#tmpl-order-detail').html();
                                         var result = tmpl(html, result.data);
                                         $('#order-detail').html(result);
