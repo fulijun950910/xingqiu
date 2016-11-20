@@ -1,0 +1,273 @@
+.index .go-left {
+  display: inline-block;
+  width: 2.5vw;
+  height: 2.5vw;
+  border: 1px solid #fff;
+  border-top: none;
+  border-right: none;
+  transform: rotate(40deg);
+}
+.index .go-bottom {
+  display: inline-block;
+  width: 2.5vw;
+  height: 2.5vw;
+  border: 1px solid #fff;
+  border-top: none;
+  border-right: none;
+  transform: rotate(-40deg);
+  position: absolute;
+  top: 3vw;
+  left: 10vw;
+}
+.index .go-right {
+  display: inline-block;
+  width: 2.5vw;
+  height: 2.5vw;
+  border: 1px solid #666;
+  border-top: none;
+  border-right: none;
+  transform: rotate(220deg);
+}
+.index .wrap {
+  width: 92vw;
+  margin: auto;
+}
+.index .primary-color {
+  color: #b44dce;
+}
+.index .header {
+  background: url(../images/bg.png) no-repeat;
+  height: 75vw;
+  background-size: 100%;
+  color: #fff;
+  font-family: '微软雅黑';
+}
+.index .header .top-bar {
+  height: 36px;
+  line-height: 36px;
+  font-size: 16px;
+  position: relative;
+  padding-top: 2vw;
+}
+.index .header .top-bar div {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.index .header .top-bar .storeList {
+  position: absolute;
+  left: 0;
+}
+.index .header .top-bar .dateList {
+  position: absolute;
+  left: 40vw;
+}
+.index .header .top-bar .employeeRoleList {
+  position: absolute;
+  right: 0;
+}
+.index .header .message {
+  height: 7vw;
+}
+.index .header .message .message-info {
+  color: #fff;
+  position: absolute;
+  right: 0;
+  display: block;
+  top: 15vw;
+  background: #9e54cf;
+  border-radius: 25px 0 0 25px;
+  width: 12vw;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  opacity: .7;
+}
+.index .header .message .message-info i {
+  font-size: 4.5vw;
+}
+.index .header .message .message-info .message-news {
+  background: #00cbc5;
+  border-radius: 100%;
+  display: block;
+  width: 14px;
+  height: 14px;
+  line-height: 14px;
+  font-size: 8pt;
+  position: absolute;
+  top: 0;
+  right: 2vw;
+}
+.index .header .performance {
+  height: 28vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.index .header .performance .totalAmount {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+.index .header .performance .totalAmount .title {
+  font-size: 12px;
+}
+.index .header .performance .totalAmount .price {
+  font-size: 30px;
+}
+.index .header .performance .vs {
+  font-size: 12px;
+  background: #bda4f5;
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  font-weight: bold;
+}
+.index .header .sub-bar {
+  position: relative;
+  height: 11vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 6.5vw;
+  padding: 0 2vw;
+}
+.index .header .sub-bar .item {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+.index .header .sub-bar .item .count {
+  font-size: 12px;
+}
+.index .header .sub-bar .item .text {
+  font-size: 9px;
+}
+.index .header .sub-bar .item-line {
+  width: 1px;
+  height: 35%;
+  background: #fff;
+  opacity: .2;
+  display: block;
+  margin-top: 3vw;
+}
+.index .header .bg-fixed {
+  position: absolute;
+  background: #fff;
+  width: 92vw;
+  height: 12vw;
+  opacity: .1;
+  top: 48vw;
+  border-radius: 36px;
+  margin-top: 5vw;
+}
+.index .main-info {
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  border-radius: 5px;
+  box-shadow: 30px 30px 30px #f4f4fc;
+}
+.index .main-info a {
+  color: #333 !important;
+  -webkit-tap-highlight-color: transparent;
+  flex-basis: 33%;
+  text-align: center;
+  height: 25vw;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}
+.index .main-info .item i {
+  font-size: 24px;
+}
+.index .main-info .item-1 i,
+.index .main-info .item-3 i {
+  color: #e34748;
+}
+.index .main-info .item-2 i,
+.index .main-info .item-6 i {
+  color: #eea637;
+}
+.index .main-info .item-4 i,
+.index .main-info .item-5 i {
+  color: #59a2d5;
+}
+.index .main-info .border-right {
+  border-right: 1px solid #e5e5e5;
+}
+.index .main-info .border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+.index .card-list {
+  width: 92vw;
+  margin: auto;
+}
+.index .card-list a {
+  color: #333 !important;
+  margin: 16px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  height: 15vw;
+  border-radius: 5px;
+  box-shadow: 30px 30px 30px #f4f4fc;
+  padding: 0 3vw;
+}
+.index .card-list .card-box i {
+  font-size: 24px;
+}
+.index .card-list .card-box-1 i {
+  color: #fd9a32;
+}
+.index .card-list .card-box-2 i {
+  color: #df5552;
+}
+.index .card-list .card-box-3 i {
+  color: #65a9da;
+}
+.index .normal-header .achievementTotalAmount .total-line {
+  width: 10vw;
+  height: 2px;
+  background: #fff;
+  opacity: .3;
+  margin-top: 1vw;
+}
+.index .normal-header .achievementTotalAmount .item {
+  font-size: 25px;
+}
+.index .normal-header .achievementTotalAmount .item .price {
+  font-size: 40px;
+}
+.index .normal-header .sub-bar .item .title {
+  font-size: 9pt;
+}
+.index .normal-header .bg-fixed {
+  height: 16vw;
+  top: 48vw;
+  margin-top: 3vw;
+}
+.index .normal-info {
+  background: none;
+}
+.index .normal-info .item {
+  flex-basis: 23%;
+  justify-content: space-around;
+  background: #fff;
+  border-radius: 5px;
+}
+.index .font-size-9 {
+  font-size: 9pt;
+  color: #666;
+}
+.index .font-size-18 {
+  font-size: 18px;
+}
+.index .margin-top-8 {
+  margin-top: -8vw;
+}
