@@ -1,3 +1,23 @@
+.operaLog{
+  .header{
+    background: #b44dce;
+    height: 13vw;
+    line-height: 13vw;
+    color: #fff;
+    font-size: 4vw;
+    a{
+      color:#fff;
+    }
+    .head{
+      position:absolute;
+      top:0;
+      left:1vw;
+    }
+    .title{
+      text-align:center;
+    }
+  }
+}
 .operationLog{
   font-size:4vw;
   padding-bottom: 4vw;
@@ -5,10 +25,11 @@
     background:#fff;
     width:94vw;
     margin:4vw auto 0;
-    min-height:87vh;
+    min-height: 130vw;
     border-radius: 2vw;
     box-shadow:0 0 5px #ddd;
     box-sizing: border-box;
+    padding: 0 2vw;
   }
   .Number{
     color:#B14CC9;
@@ -23,6 +44,7 @@
     padding: 0 2vw;
   }
   .bodContent{
+    font-size: 3.6vw;
   }
   .logContent{
     height:12vw;
@@ -32,18 +54,19 @@
 
   //detail
   .tabBox{
-    background:#fff;
     width:94vw;
     margin:4vw auto 0;
-    border-radius: 1vw;
-    box-shadow:0 0 5px #ddd;
-    padding:0 4vw;
-    box-sizing: border-box;
+
     .tabHead{
       height:12vw;
     }
     .tabContent{
       overflow:hidden;
+      border-radius: 1vw;
+      box-shadow:0 0 5px #ddd;
+      background:#fff;
+      padding:0 4vw;
+      box-sizing: border-box;
     }
   }
   .tabBox.act{
@@ -55,7 +78,7 @@
   }
 
   .tabContentItem{
-    padding: 2vw 0;
+    padding: 3vw 0;
     font-size: 3.2vw;
     &:not(:last-child){
       border-bottom:1px solid #E8E8E8;
