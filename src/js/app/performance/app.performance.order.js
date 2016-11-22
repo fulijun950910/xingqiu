@@ -43,20 +43,26 @@ app.performance.order = {
                         $('#order-query-date').val(date.format('yyyy-MM-dd'))
                     }
                 }
-
                 // date = $('#order-query-date').val() || date.format('yyyy-MM-dd');
                 // if (!$('#order-query-date').val())
-
+                var info = JSON.parse(localStorage.getItem("orderInfo"));
                 var data = {
                     type: 2,
-                    ids: employee.id,
+                    // ids: employee.id,
                     page: app.performance.order.page.page,
                     size: app.performance.order.page.size,
-                    date: date.format('yyyy-MM-dd')
+                    date: date.format('yyyy-MM-dd'),
+                    startTime: info.startDate,
+                    endTime: info.endDate,
+                    //   storeIds: info.storeIds
                 }
+                //
                 if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
                     data.type = 1;
-                    data.ids = app.performance.currentStoreid;
+                    data.ids = info.storeIds;
+                    // data.ids = app.performance.currentStoreid;
+                } else {
+                    data.ids = employee.id;
                 }
                 if (data.type == 1) {
                     //百度事件统计
@@ -123,34 +129,34 @@ app.performance.order = {
                         data: data,
                         success: function(result) {
                             app.endLoading();
-                            if(false){
-                                var cardData={
-                                    cardInstanceIds:[result.data.orderCardItems[0].cardInstanceForm.cardInstanceId],
-                                    orderId:result.data.orderId
+                            if (false) {
+                                var cardData = {
+                                    cardInstanceIds: [result.data.orderCardItems[0].cardInstanceForm.cardInstanceId],
+                                    orderId: result.data.orderId
                                 }
                                 cardBalance().then(
                                     cardData,
-                                    function(result){
+                                    function(result) {
                                         var html = $('#tmpl-order-detail').html();
                                         var result = tmpl(html, result.data);
                                         $('#order-detail').html(result);
                                     }
                                 )
-                            }else{
+                            } else {
                                 var html = $('#tmpl-order-detail').html();
                                 var result = tmpl(html, result.data);
                                 $('#order-detail').html(result);
                             }
 
 
-                            function cardBalance(){
+                            function cardBalance() {
                                 return {
-                                    then:function(data,success,err){
+                                    then: function(data, success, err) {
                                         app.api.order.cardBalance({
-                                            data:data,
-                                            success:function(res){
+                                            data: data,
+                                            success: function(res) {
                                                 console.log(res)
-                                                result.data.cardBalance=res.data.balance
+                                                result.data.cardBalance = res.data.balance
                                                 success(result)
                                             }
                                         })
@@ -183,7 +189,7 @@ app.performance.order = {
         app.performance.order.stop();
     },
     orderComment: function() {
-        app.performance.order.order.isEditServer=false;
+        app.performance.order.order.isEditServer = false;
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
                 //修复页面置顶效果
@@ -195,24 +201,23 @@ app.performance.order = {
                 app.api.order.getTag({
                     data: data,
                     success: function(result) {
-                        var res=result;
+                        var res = result;
                         app.api.order.getOrderServer({
-                            data: {orderId:app.performance.order.order.orderId},
+                            data: { orderId: app.performance.order.order.orderId },
                             success: function(result) {
-                                app.performance.order.order.tags=res.data;
-                                if(result.data){
-                                    app.performance.order.order.membertags=result.data.tags;
-                                    app.performance.order.order.fileId=result.data.fileId;
-                                    if(result.data.orderId){app.performance.order.order.isEditServer=true;}
-                                }else{
-                                    app.performance.order.order.membertags=[]
+                                app.performance.order.order.tags = res.data;
+                                if (result.data) {
+                                    app.performance.order.order.membertags = result.data.tags;
+                                    app.performance.order.order.fileId = result.data.fileId;
+                                    if (result.data.orderId) { app.performance.order.order.isEditServer = true; }
+                                } else {
+                                    app.performance.order.order.membertags = []
                                 }
                                 var html = $('#tmpl-order-comment').html();
                                 var tmplate = tmpl(html, app.performance.order.order);
                                 $('#order-comment').html(tmplate);
                             },
-                            error: function() {
-                            }
+                            error: function() {}
                         });
                     },
                     error: function() {
@@ -222,7 +227,7 @@ app.performance.order = {
             }
         }, function() {});
 
-        $('#order-comment').on('click',"#comment-pic",function() {
+        $('#order-comment').on('click', "#comment-pic", function() {
             $('#comment-file').click();
             $('#comment-file').change(function(dom) {
                 app.performance.order.changeImg(dom);
@@ -230,17 +235,17 @@ app.performance.order = {
         });
     },
     submitComment: function() {
-        if(! $('#comment-content').val()){
+        if (!$('#comment-content').val()) {
             app.alert("请填写服务小计")
             return;
         }
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
-                var tagNames=[];
-                $.each(app.performance.order.order.membertags,function(i,v){
-                    tagNames.push(v.name);
-                })
-                //修复页面置顶效果
+                var tagNames = [];
+                $.each(app.performance.order.order.membertags, function(i, v) {
+                        tagNames.push(v.name);
+                    })
+                    //修复页面置顶效果
                 window.scrollTo(0, 0);
                 var data = {
                     fileId: app.performance.order.commentFileId,
@@ -249,7 +254,7 @@ app.performance.order = {
                     employeeId: employee.id,
                     remark: $('#comment-content').val(),
                     orderId: app.performance.order.order.orderId,
-                    tagNames:tagNames
+                    tagNames: tagNames
                 }
                 app.api.order.comment({
                     data: data,
@@ -267,12 +272,12 @@ app.performance.order = {
 
     },
     submitTag: function() {
-        var name=$('#createTagName').val();
+        var name = $('#createTagName').val();
         $('#createTagName').val("");
-        if(!name){
-            setTimeout(function(){
+        if (!name) {
+            setTimeout(function() {
                 app.alert("请填写标签名");
-            },200)
+            }, 200)
             return;
         }
         app.startLoading();
@@ -298,27 +303,27 @@ app.performance.order = {
         }, function() {});
 
     },
-    tagsChange:function(i){
-        var tag=app.performance.order.order.tags.slice(i)[0];
+    tagsChange: function(i) {
+        var tag = app.performance.order.order.tags.slice(i)[0];
         app.performance.order.order.membertags.push(tag)
         this.loadCommit();
     },
-    merberTagsChange:function(i){
-        app.performance.order.order.membertags.splice(i,1)[0];
+    merberTagsChange: function(i) {
+        app.performance.order.order.membertags.splice(i, 1)[0];
         this.loadCommit();
     },
-    loadCommit:function(){
+    loadCommit: function() {
         $("#order-comment .memberTags").empty();
-        $.each(app.performance.order.order.membertags,function(i,v){
-            $("#order-comment .memberTags").append("<li>"+v.name+"<i ontouchstart=\"app.performance.order.merberTagsChange("+i+")\""+"><b ></b></i></span></li>")
+        $.each(app.performance.order.order.membertags, function(i, v) {
+            $("#order-comment .memberTags").append("<li>" + v.name + "<i ontouchstart=\"app.performance.order.merberTagsChange(" + i + ")\"" + "><b ></b></i></span></li>")
         });
         $("#order-comment .tags ul").empty();
-        $.each(app.performance.order.order.tags,function(i,v){
-            $("#order-comment .tags ul").append("<li ontouchstart=\"app.performance.order.tagsChange("+i+")\""+">"+v.name+"</li>")
+        $.each(app.performance.order.order.tags, function(i, v) {
+            $("#order-comment .tags ul").append("<li ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
 
         });
     },
-    loadTag:function(){
+    loadTag: function() {
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
                 var data = {
@@ -328,10 +333,10 @@ app.performance.order = {
                 app.api.order.getTag({
                     data: data,
                     success: function(result) {
-                        app.performance.order.order.tags=result.data;
+                        app.performance.order.order.tags = result.data;
                         $("#order-comment .tags ul").empty();
-                        $.each(app.performance.order.order.tags,function(i,v){
-                            $("#order-comment .tags ul").append("<li ontouchstart=\"app.performance.order.tagsChange("+i+")\""+">"+v.name+"</li>")
+                        $.each(app.performance.order.order.tags, function(i, v) {
+                            $("#order-comment .tags ul").append("<li ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
 
                         });
                     },
