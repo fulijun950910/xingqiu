@@ -79,8 +79,8 @@ app.productEcharts = {
         }
         switch (type) {
             case 'startDate':
-                query.startDate = moment(date).subtract(data, "month").startOf("month").format('YYYY-MM-DD hh:mm:ss')
-                query.endDate = moment(date).subtract(data, "month").endOf("month").format('YYYY-MM-DD hh:mm:ss')
+                query.startDate = moment(date).subtract(data, "month").format('YYYY-MM-DD ') + "00:00:00";
+                query.endDate = moment(date).subtract(data, "month").format('YYYY-MM-DD ') + "59:59:59"
                 break;
             case 'storeId':
                 query.storeIds = data;

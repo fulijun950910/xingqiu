@@ -89,6 +89,7 @@ app.memberEcharts = {
             },
             // tooltip: {
             //     trigger: 'item',
+            
             //     formatter: "{a} <br/>{b} : {c}"
             // },
             series: [{

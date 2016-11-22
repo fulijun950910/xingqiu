@@ -48,7 +48,7 @@
     // }
     .header {
         background: url(../images/bg.png) no-repeat;
-        height: 75vw;
+        height: 72vw;
         background-size: 100%;
         color: #fff;
         font-family: '微软雅黑';
@@ -111,8 +111,8 @@
             height: 28vw;
             display: -webkit-flex;
             display: flex;
-            justify-content: space-between;
-            -webkit-justify-content: space-between;
+            justify-content: center;
+            -webkit-justify-content: center;
             align-items: center;
             -webkit-align-items: center;
             .totalAmount {
@@ -122,6 +122,8 @@
                 flex-flow: column;
                 -webkit-align-items: center;
                 align-items: center;
+                flex-basis: 45%;
+                -webkit-flex-basis: 45%;
                 .title {
                     font-size: 12px;
                 }
@@ -138,20 +140,21 @@
                 text-align: center;
                 line-height: 30px;
                 font-weight: bold;
+                // margin: 0 5vw;
             }
         }
         .sub-bar {
             position: relative;
-            height: 11vw;
+            height: 12vw;
             display: -webkit-flex;
             display: flex;
             -webkit-justify-content: space-around;
             justify-content: space-around;
             -webkit-align-items: center;
             align-items: center;
-            margin-top: 6.5vw;
+            margin-top: 4vh;
             padding: 0 2vw;
-            z-index:11;
+            z-index: 11;
             .item {
                 display: -webkit-flex;
                 display: flex;
@@ -159,7 +162,7 @@
                 flex-flow: column;
                 -webkit-align-items: center;
                 align-items: center;
-                color:#fff;
+                color: #fff;
                 .count {
                     font-size: 12px;
                 }
@@ -184,7 +187,7 @@
             opacity: .1;
             top: 48vw;
             border-radius: 36px;
-            margin-top: 5vw;
+            margin-top: 4.5vh;
         }
     }
     // header end
@@ -377,6 +380,9 @@
     .font-size-18 {
         font-size: 18px;
     }
+    .font-size-12 {
+        font-size: 12px;
+    }
     .margin-top-8 {
         margin-top: -8vw;
         font-size: 10pt;
@@ -392,13 +398,18 @@
             z-index: 99;
             /* right: 18vw; */
             // bottom: -167.1vw;
-            background: rgba(0, 0, 0, .6);
-            width: 100vw;
-            height: 100vh;
             top: 0;
             left: 0;
             position: absolute;
             -webkit-tap-highlight-color: transparent;
+            background: none;
+            transition: all 1s;
+            -webkit-transition: all 1s;
+        }
+        .mask_show {
+            width: 100vw;
+            //height: 100vh;
+            background: rgba(0, 0, 0, .6);
         }
         .stores {
             display: flex;
@@ -406,14 +417,16 @@
             flex-flow: column;
             -webkit- flex-flow: column;
             z-index: 100;
-            height: 100vh;
+            width: 100vw;
+            z-index: 100;
+            overflow-y: auto;
+            position: fixed;
+            bottom: -400px;
+            //height: 50vh;
+            //max-height: 50vh;
+            //height: 100px;
+            overflow-y: auto;
             background: #fff;
-            overflow-y: auto;
-            width: 60vw;
-            overflow-y: auto;
-            position: absolute;
-            left: -60vw;
-            // bottom: 0;
             transition: all 1s;
             -webkit-transition: all 1s;
             span {
@@ -422,14 +435,16 @@
                 display: flex;
                 display: -webkit-flex;
                 -webkit-tap-highlight-color: transparent;
+                position: relative;
+                font-size: 14px;
                 &.active {
-                    .primary-color;
+                    color: #00cbc7;
                     background: #f5f5f5;
+                    justify-content: space-between;
                     i {
                         font-weight: 900;
                         line-height: 6vw;
                         font-size: 1rem;
-                        margin-left: 35vw;
                         &:after {
                             content: '';
                             margin-top: 1.5vw;
@@ -437,7 +452,7 @@
                             display: block;
                             width: .7rem;
                             height: .4rem;
-                            border: .2rem solid #b44dce;
+                            border: .2rem solid #00cbc7;
                             border-top: none;
                             border-right: none;
                             -moz-transform: rotate(-45deg);
@@ -450,7 +465,7 @@
             }
         }
         .stores-active {
-            left: 0;
+            bottom: 0;
         }
     }
     // 切换日期
@@ -462,41 +477,37 @@
         left: 0;
         .mask {
             z-index: 99;
-            /* right: 18vw; */
-            // bottom: -167.1vw;
-            background: rgba(0, 0, 0, .6);
-            width: 100vw;
-            height: 100vh;
-            top: 0;
             left: 0;
             position: absolute;
             -webkit-tap-highlight-color: transparent;
+            background: none;
+            transition: all 1s;
+            -webkit-transition: all 1s;
+        }
+        .mask_show {
+            width: 100vw;
+            background: rgba(0, 0, 0, .6);
         }
         .date_menu {
-            // display: flex;
-            // display: -webkit-flex;
-            // flex-flow: column;
-            // -webkit-flex-flow: column;
             z-index: 100;
-            width: 92vw;
+            width: 100vw;
             overflow-y: auto;
             position: fixed;
             transition: all 1s;
             -webkit-transition: all 1s;
-            bottom: -300px;
-            left: 4vw;
+            bottom: -400px;
         }
         .date_info {
             background: #fff;
             text-align: center;
-            border-radius: 15px;
             span {
                 padding: 4vw 2vw;
                 border-bottom: 1px solid #f4f4fc;
                 -webkit-tap-highlight-color: transparent;
                 display: block;
+                font-size: 14px;
                 &.active {
-                    .primary-color;
+                    color: #4ED9CF;
                 }
             }
             span:last-of-type {
@@ -512,7 +523,104 @@
             text-align: center;
         }
         .date_menu_active {
-            bottom: 3vw;
+            bottom: 0;
+        }
+    }
+    //切换身份
+    #employeeList {
+        -webkit-tap-highlight-color: transparent;
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        .mask {
+            z-index: 99;
+            left: 0;
+            position: absolute;
+            -webkit-tap-highlight-color: transparent;
+            background: none;
+            transition: all 1s;
+            -webkit-transition: all 1s;
+        }
+        .mask_show {
+            width: 100vw;
+            background: rgba(0, 0, 0, .6);
+        }
+        .employeeList_menu {
+            .title {
+                font-size: 12px;
+                color: #222;
+                text-align: center;
+                margin-top: 2vw;
+            }
+            z-index: 100;
+            width: 100vw;
+            overflow-y: auto;
+            position: fixed;
+            transition: all 1s;
+            -webkit-transition: all 1s;
+            bottom: -600px;
+            background:#f4f4fc;
+            max-height: 60vh;
+        }
+        .employeeList_info {
+            display: flex;
+            display: -webkit-flex;
+            flex-flow: column;
+            -webkit- flex-flow: column;
+            .employee_item {
+                img {
+                    width: 50px;
+                    height: 50px;
+                }
+                display: flex;
+                display: -webkit-flex;
+                background: #fff;
+                box-shadow: 30px 30px 30px #f4f4fc;
+                padding: 4vw;
+                border-radius: 5px;
+                margin:2vw 4vw;
+                align-items: center;
+                .line {
+                    position: absolute;
+                    top: 14vw;
+                    left: 0;
+                    width: 0;
+                    height: .3rem;
+                    background: #4ED9CF;
+                }
+                .line_aminter {
+                    width: 18vw;
+                }
+                &.active {
+                    border: 1px solid #4ED9CF;
+                    position: relative;
+                    overflow: hidden;
+                }
+            }
+            .employee_info {
+                display: flex;
+                flex-flow: column;
+                margin-left: 3vw;
+                .employee_name {
+                    font-size: 14px;
+                }
+                .merchant_name {
+                    font-size: 9pt;
+                    color: #666;
+                }
+            }
+        }
+        #employee_cancel {
+            display: block;
+            background: #fff;
+            padding: 4vw 2vw;
+            margin-top: 5vw;
+            border-radius: 15px;
+            text-align: center;
+        }
+        .employee_menu_active {
+            bottom: 0;
         }
     }
 }

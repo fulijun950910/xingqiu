@@ -1,79 +1,68 @@
 <script type="text/html" id="tpl_performance_emp">
-<!-- //隐藏标题 -->
-<div id="hiddenTitle" class="hiddenTitle">员工业绩</div>
-<div class="hd" id="emp_per">
-
-</div>
-<script type="text/html" id="tmpl-emp-performance">
-	<div class="report">
-		
-	</div>
-	<!-- 业绩数据图 -->
-	
-	<div class="roundCell" >
-		
-		<div class="leftbox" id="emp_cardConsume">
-			<a  href="javascript:;" class="leftDay">
-			<i class="icon icon-uniF3D2"></i>  卡耗</a>
-		</div>
-
-		<div class="roundParent">
-			<div class="round">
-				<div class="leftRound">
-					<div></div>
-				</div>
-				<div class="rightRound">
-					<div></div>
-				</div>
-			</div>
-
-			<div class="user_data" id="emp_data">
-				<p>本月收入</p>
-				<h3 id="emp_performance"> {%=o.performance%} </h3>
-				<div class="weui_progress_bar">
-		            <div class="weui_progress_inner_bar js_progress schedule-mw-pink" style="width: 100%;"></div>
-		        </div>
-		        <!--<button classs="">看明细</button>-->
-			</div>
-
-		</div>
-		
-		<div class="rightbox" id="emp_today_performance">
-			<a href="javascript:;" class="thisMonth" style="display: none;">
+    <!-- //隐藏标题 -->
+    <div id="hiddenTitle" class="hiddenTitle">员工业绩</div>
+    <div class="hd" id="emp_per">
+    </div>
+    <script type="text/html" id="tmpl-emp-performance">
+        <div class="report">
+        </div>
+        <!-- 业绩数据图 -->
+        <div class="roundCell">
+            <div class="leftbox" id="emp_cardConsume">
+                <a href="javascript:;" class="leftDay">
+                    <i class="icon icon-uniF3D2"></i> 卡耗</a>
+            </div>
+            <div class="roundParent">
+                <div class="round">
+                    <div class="leftRound">
+                        <div></div>
+                    </div>
+                    <div class="rightRound">
+                        <div></div>
+                    </div>
+                </div>
+                <div class="user_data" id="emp_data">
+                    <p>本月收入</p>
+                    <h3 id="emp_performance"> {%=o.performance%} </h3>
+                    <div class="weui_progress_bar">
+                        <div class="weui_progress_inner_bar js_progress schedule-mw-pink" style="width: 100%;"></div>
+                    </div>
+                    <!--<button classs="">看明细</button>-->
+                </div>
+            </div>
+            <div class="rightbox" id="emp_today_performance">
+                <a href="javascript:;" class="thisMonth" style="display: none;">
 				业绩  <i class="icon icon-uniF3D3"></i>
 			</a>
-		</div>
-		
-	</div>
-
-	<!-- 到店客人，新增会员，当日总消耗 -->
-	<ul class="data_cell">
-		<li>
-			<p>{%=o.todyAppointmentNum%}</p>
-			<a href="performance-index.html#/booking-order-list">今日预约</a>
-		</li>
-		<li>
-			<p>{%=o.todyOrderNum%}</p>
-			<a href="performance-index.html#/order-list">今日订单</a>
-		</li>
-		<li>
-			<p>{%=o.currentMonthCommission%}</p>
-			<a>本月提成</a>
-		</li>
-	</ul>
-
-	<!-- 业绩排名 -->
-	<div class="emp_details">
-		<ul class="emp">
-			<li>
-				<a href="performance-index.html#/performance_rank">
-					<div class="leftDetail">业绩排名</div>
-					<div class="rightDetail">
-						<span>{%=o.performanceRanking%}</span><i class="icon icon-uniF3D3"></i>
-					</div>
-				</a>
-			</li>
-		</ul>
-	</div>
-</script>
+            </div>
+        </div>
+        <!-- 到店客人，新增会员，当日总消耗 -->
+        <ul class="data_cell">
+            <li>
+                <p>{%=o.todyAppointmentNum%}</p>
+                <a href="performance-index.html#/booking-order-list">今日预约</a>
+            </li>
+            <li>
+                <p>{%=o.todyOrderNum%}</p>
+                <a href="performance-index.html#/order-list">今日订单</a>
+            </li>
+            <li>
+                <p>{%=o.currentMonthCommission%}</p>
+                <a>本月提成</a>
+            </li>
+        </ul>
+        <!-- 业绩排名 -->
+        <div class="emp_details">
+            <ul class="emp">
+                <li>
+                    <a href="performance-index.html#/performance_rank">
+                        <div class="leftDetail">业绩排名</div>
+                        <div class="rightDetail">
+                            <span>{%=o.performanceRanking%}</span><i class="icon icon-uniF3D3"></i>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </script>
 </script>

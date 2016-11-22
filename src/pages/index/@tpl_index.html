@@ -1,268 +1,313 @@
 <script type="text/html" id="tpl_index">
-    <div class="bd background-sign" class="index-admin">
+    <div class="bd background-sign" class="index-admin" style="min-height: 100vh;">
         <div id="tmpl-index" class="index">
         </div>
     </div>
     <!-- 管理员 -->
     <script type="text/html" id="tmpl-index-admin-model">
-        <div class="header ">
-            <div class="wrap ">
-                <div class="top-bar ">
-                    <div class="storeList ">
-                        <div class="go-left"></div>
-                        <span class="store_name ">全部门店</span>
+        <div class="header">
+            <div class="wrap">
+                <div class="top-bar">
+                    <div class="storeList">
+                        <!--    <div class="go-left"></div> -->
+                        <span class="store_name" data-storeId="{%=o.storeId%}">全部门店 </span><i class="ic">&#xe63f;</i>
                     </div>
-                    <div class="dateList ">
-                        <span class="title ">今日</span>
-                        <i class="ic ">&#xe63f;</i>
+                    <div class="dateList">
+                        <span class="date_name" data-type="{%=o.dataType%}">今日</span>
+                        <i class="ic">&#xe63f;</i>
                     </div>
-                    <div class="employeeRoleList ">
-                        <span class="title ">切换身份</span>
-                        <div class="go-right" style="    border-bottom: 1px solid #fff;border-left: 1px solid #fff;"></div>
+                    <div class="employeeRoleList" style="display: none;">
+                        <!-- <span class="title">切换身份</span> -->
+                        <i class="ic">&#xe64e;</i>
+                        <!--  <div class="go-right" style="    border-bottom: 1px solid #fff;border-left: 1px solid #fff;"></div> -->
                     </div>
                 </div>
-                <div class="message ">
-                    <a href="# " class="message-info ">
-                        <i class="ic ">&#xe65c;</i>
-                        <span class="message-news ">3</span>
+                <div class="message">
+                    <a href="#" class="message-info">
+                        <i class="ic">&#xe65c;</i>
+                        <span class="message-news">3</span>
                     </a>
                 </div>
-                <div class="performance ">
+                <div class="performance">
                     <!-- 业绩 -->
-                    <div class="achievementTotalAmount totalAmount ">
-                        <span class="title ">业绩</span>
-                        <span class="price-icon ">￥<span class="price ">8,900</span>.00</span>
+                    <div class="achievementTotalAmount totalAmount">
+                        <span class="title">业绩</span>
+                        <span class="price-icon">￥<span class="price">{%= o.performanceInfo.performanceY %}</span>.{%= o.performanceInfo.performanceF %}</span>
                     </div>
-                    <span class="vs ">VS</span>
+                    <span class="vs">VS</span>
                     <!-- 卡耗 -->
-                    <div class="cardConsumeTotalAmount totalAmount ">
-                        <span class="title ">卡耗</span>
-                        <span class="price-icon ">￥<span class="price ">6,435</span>.00</span>
+                    <div class="cardConsumeTotalAmount totalAmount">
+                        <span class="title">卡耗</span>
+                        <span class="price-icon">￥<span class="price">{%= o.performanceInfo.cardConsumeY %}</span>.{%= o.performanceInfo.cardConsumeF %}</span>
                     </div>
                 </div>
-                <div class="sub-bar ">
-                    <div class="item ">
-                        <span class="count ">4</span>
-                        <span class="text ">到店客人</span>
+                <div class="sub-bar">
+                    <div class="item">
+                        <span class="count">{%=o.performanceInfo.customerNum %}</span>
+                        <span class="text">到店客人</span>
                     </div>
-                    <span class="item-line "></span>
-                    <div class="item ">
-                        <span class="count ">10</span>
-                        <span class="text ">新增会员</span>
+                    <span class="item-line"></span>
+                    <div class="item">
+                        <span class="count">{%=o.performanceInfo.newMemberNum %}</span>
+                        <span class="text">新增会员</span>
                     </div>
-                    <span class="item-line "></span>
-                    <a href="/performance-index.html#/booking-order-list "  class="item ">
-                        <span class="count ">8</span>
-                        <span class="text ">预约</span>
+                    <span class="item-line"></span>
+                    <a href="/performance-index.html#/booking-order-list" class="item">
+                        <span class="count">{%=o.performanceInfo.appointmentNum %}</span>
+                        <span class="text">&nbsp;&nbsp;预约&nbsp;&nbsp;</span>
                     </a>
-                    <span class="item-line "></span>
-                      <a href="/performance-index.html#/order-list "  class="item ">
-                        <span class="count ">6</span>
-                        <span class="text ">订单</span>
+                    <span class="item-line"></span>
+                    <a href="/performance-index.html#/order-list" class="item">
+                        <span class="count">{%=o.performanceInfo.orderNum %}</span>
+                        <span class="text">&nbsp;&nbsp;订单&nbsp;&nbsp;</span>
                     </a>
                 </div>
-                <div class="bg-fixed "></div>
+                <div class="bg-fixed" style="    margin-top: 3vh;"></div>
             </div>
         </div>
-        <div class="main ">
-            <div class="wrap main-info ">
-                <a href="/echarts-index.html#/echartsEmployee " class="item item-1 border-right border-bottom ">
-                    <i class="ic ">&#xe648;</i>
-                    <span>员工绩效</span>
+        <div class="main">
+            <div class="wrap main-info">
+                <a href="/echarts-index.html#/echartsEmployee" class="item item-1 border-right border-bottom">
+                    <i class="ic">&#xe648;</i>
+                    <span class="font-size-12">员工绩效</span>
                 </a>
-                <a href="# " class="item item-2 border-right border-bottom ">
-                    <i class="ic ">&#xe619;</i>
-                    <span>案例分享</span>
+                <a href="#" class="item item-2 border-right border-bottom">
+                    <i class="ic">&#xe619;</i>
+                    <span class="font-size-12">案例分享</span>
                 </a>
-                <a href="/echarts-index.html#/echartsMember " class="item item-3 border-bottom ">
-                    <i class="ic ">&#xe669;</i>
-                    <span>顾客分析</span>
+                <a href="/echarts-index.html#/echartsMember" class="item item-3 border-bottom">
+                    <i class="ic">&#xe669;</i>
+                    <span class="font-size-12">顾客分析</span>
                 </a>
-                <a href="/echarts-index.html#/echartsProduct " class="item item-4 border-right ">
-                    <i class="ic ">&#xe65a;</i>
-                    <span>品项分析</span>
+                <a href="/echarts-index.html#/echartsProduct" class="item item-4 border-right">
+                    <i class="ic">&#xe65a;</i>
+                    <span class="font-size-12">品项分析</span>
                 </a>
-                <a href="#" class="item item-5 border-right ">
-                    <i class="ic ">&#xe64b;</i>
-                    <span>微信营销</span>
+                <a href="#" class="item item-5 border-right">
+                    <i class="ic">&#xe64b;</i>
+                    <span class="font-size-12">微信营销</span>
                 </a>
-                <a href="# " class="item item-6 ">
-                    <i class="ic ">&#xe6a9;</i>
-                    <span>在线验券</span>
+                <a href="#" class="item item-6">
+                    <i class="ic">&#xe6a9;</i>
+                    <span class="font-size-12">在线验券</span>
                 </a>
             </div>
         </div>
-        <div class="card-list ">
-            <a href="# " class="card-box card-box-1 ">
+        <div class="card-list">
+            <a href="#" class="card-box card-box-1">
                 <div>
-                    <i class="ic ">&#xe628;</i>
-                    <span>收入来源</span>
+                    <i class="ic">&#xe628;</i>
+                    <span class="font-size-12">收入来源</span>
                 </div>
-                <span class="go-right "></span>
+                <span class="go-right"></span>
             </a>
-            <a href="/operationLog.html#/operationLog_store" class="card-box card-box-2 ">
+            <a href="/operationLog.html#/operationLog_store" class="card-box card-box-2">
                 <div>
-                    <i class="ic ">&#xe654;</i>
-                    <span>系统事件记录</span>
+                    <i class="ic">&#xe654;</i>
+                    <span class="font-size-12">系统事件记录</span>
                 </div>
                 <div>
-                    <span style="color: #b44dce; ">6</span>
-                    <span class="go-right "></span>
+                    <!-- <span style="color: #b44dce;">6</span> -->
+                    <span class="go-right"></span>
                 </div>
             </a>
-            <a href="/userinfo.html#/" class="card-box card-box-3 " ">
+            <a href="/userinfo.html#/" class="card-box card-box-3">
                 <div>
-                    <i class="ic ">&#xe60e;</i>
-                    <span>个人中心</span>
+                    <i class="ic">&#xe60e;</i>
+                    <span class="font-size-12">个人中心</span>
                 </div>
-                <span class="go-right "></span>
+                <span class="go-right"></span>
             </a>
         </div>
-        <div style="height: 8px; "></div>
-                <!-- 切换门店 -->
-        <div class="storeLists ">
-            <div class="mask "></div>
-            <div class="stores ">
-                <span >门店一</span>
-                 <span>门店二</span>
-                <span>门店三</span>
-                <span>门店四</span>
-                <span>门店五</span>
-                <span>门店六</span>
+        <div style="height: 8px;"></div>
+        <!-- 切换门店 -->
+        <div class="storeLists">
+            <div class="mask"></div>
+            <div class="stores">
+                <span class="allStore" data-id="{%=o.storeIds%}" style="display:none">全部门店</span>
+                <div class="stores-info">
+                    <!--% for (var i=0; i <o.storeList.length; i++) { %-->
+                    <span data-id="{%=o.storeList[i].id %}">{%= o.storeList[i].name %}</span>
+                    <!--% } %-->
+                </div>
             </div>
         </div>
         <!-- end -->
         <!-- 日期切换 -->
         <div id="dateList">
-           <div class="mask "></div>
-                <div   class="date_menu ">
-                <div class="date_info ">
-                        <span>今日</span>
-                         <span>昨日</span>
-                        <span>本月</span>
-                        <span>自定义</span>
-                 </div>
-                    <!-- 取消 -->
-                    <span  id="date_cancel">取消</span>
+            <div class="mask"></div>
+            <div class="date_menu">
+                <div class="date_info">
+                    <span data-type=1>今日</span>
+                    <span data-type=2>昨日</span>
+                    <span data-type=3>本月</span>
+                    <!--  <span data-type=4>自定义</span> -->
+                </div>
+                <!-- 取消 -->
+                <!-- <span  id="date_cancel">取消</span> -->
+            </div>
+        </div>
+        <!-- 切换身份 -->
+        <div id="employeeList">
+            <div class="mask"></div>
+            <div class="employeeList_menu">
+                <div class="title">请选择您的身份</div>
+                <div class="employeeList_info">
+                    <!--% for (var i=0; i <o.employeeList.length; i++) { %-->
+                    <div class="employee_item" data-merchantId="{%= o.employeeList[i].merchant.id %}" data-employeeId="{%= o.employeeList[i].id %}" data-userId="{%= o.employeeList[i].userId %}">
+                        <img id="comment-pic" src="{%=app.filePath + o.employeeList[i].avatarFileId %}" onerror="this.src='images/default_female.png'">
+                        <div class="employee_info">
+                            <span class="employee_name">{%= o.employeeList[i].name %}
+                               <!--% if(o.employeeList[i].store){ %-->
+                                -{%= o.employeeList[i].store.name %}
+                                <!--% } %-->
+                            </span>
+                            <span class="merchant_name">{%= o.employeeList[i].merchant.name %}</span>
+                        </div>
+                    </div>
+                    <!--% } %-->
                 </div>
             </div>
+        </div>
     </script>
     <!-- 普通员工 -->
-    <script type="text/html " id="tmpl-index-normal-model">
- <!--    <div class="index-main ">
+    <script type="text/html" id="tmpl-index-normal-model">
+        <!--    <div class="index-main">
         <div> -->
-               <div class="header normal-header ">
-                <div class="wrap ">
-                    <div class="top-bar ">
-                        <div class="storeList ">
-                              <div class="go-left "></div>
-                          <span class="store_name ">全部门店</span>
-                        </div>
-                        <div class="dateList " id="showIOSActionSheet ">
-                            <span class="date_name ">今日</span>
-                                <i class="ic ">&#xe63f;</i>
-                        </div>
-                        <div class="employeeRoleList ">
-                            <span class="title ">切换身份</span>
-                               <div class="go-right " style=" border-bottom: 1px solid #fff;border-left: 1px solid #fff; "></div>
-                        </div>
+        <div class="header normal-header">
+            <div class="wrap">
+                <div class="top-bar">
+                    <div class="storeList">
+                        <!--    <div class="go-left"></div> -->
+                        <span class="store_name" data-storeId="{%=o.storeId%}">全部门店 </span><i class="ic">&#xe63f;</i>
                     </div>
-                    <div class="message ">
-                        <a href="# " class="message-info ">
-                            <i class="ic ">&#xe65c;</i>
-                            <span class="message-news ">3</span>
-                        </a>
+                    <div class="dateList">
+                        <span class="date_name" data-type="{%=o.dataType%}">今日</span>
+                        <i class="ic">&#xe63f;</i>
                     </div>
-                    <div class="performance ">
-                        <!-- 提成 -->
-                        <div class="achievementTotalAmount totalAmount ">
-                            <span class="title ">提成</span>
-                            <span class="total-line "></span>
-                            <span class="price-icon ">￥<span class="price ">8,900</span>.00</span>
-                        </div>
+                    <div class="employeeRoleList" style="display:none;">
+                        <i class="ic">&#xe64e;</i>
+                        <!-- <span class="title">切换身份</span>
+                        <div class="go-right" style=" border-bottom: 1px solid #fff;border-left: 1px solid #fff;"></div> -->
                     </div>
-                    <div class="sub-bar ">
-                        <div class="item ">
-                            <span class="title ">业绩</span>
-                            <span class="price-icon ">￥<span class="price ">8,900</span><span class="font-size-9 " style="color:#fff; ">.00</span></span> </div>
-                        <span class="item-line "></span>
-                        <div class="item ">
-                          <span class="title ">卡耗</span>
-                            <span class="price-icon ">￥<span class="price ">8,900</span><span class="font-size-9 " style="color:#fff; ">.00</span></span>
-                        </div>
-                    </div>
-                    <div class="bg-fixed "></div>
                 </div>
-            </div>
-            <div class="main ">
-                <div class="wrap normal-info ">
-                    <a href="/performance-index.html#/booking-order-list " class="item item-1 ">
-                        <span class="primary-color font-size-18 ">18</span>
-                        <span class="margin-top-8 ">预约</span>
+                <div class="message">
+                    <a href="#" class="message-info">
+                        <i class="ic">&#xe65c;</i>
+                        <span class="message-news">3</span>
                     </a>
-                         <a href="/performance-index.html#/order-list " class="item item-2 ">
-                        <span class="primary-color font-size-18 ">300</span>
-                        <span class="margin-top-8 ">订单</span>
-                    </a>
-                         <a href="/echarts-index.html#/echartsMember " class="item item-3 ">
-                        <i class="ic ">&#xe647;</i>
-                        <span class="margin-top-8 ">服务小记</span>
-                    </a>
-                    <a href="# " class="item item-4 ">
-                        <i class="ic ">&#xe619;</i>
-                        <span class="margin-top-8 ">案例分享</span>
-                    </a>
-               
                 </div>
+                <div class="performance">
+                    <!-- 提成 -->
+                    <div class="achievementTotalAmount totalAmount">
+                        <span class="title">提成</span>
+                        <span class="total-line"></span>
+                        <span class="price-icon">￥<span class="price">{%=o.performanceInfo.currentMonthCommissionY %}</span>.{%= o.performanceInfo.currentMonthCommissionF %}</span>
+                    </div>
+                </div>
+                <div class="sub-bar">
+                    <div class="item">
+                        <span class="title">业绩</span>
+                        <span class="price-icon">￥<span class="price">{%= o.performanceInfo.performanceY %}</span><span class="font-size-9" style="color:#fff;">.{%= o.performanceInfo.performanceF %}</span></span>
+                    </div>
+                    <span class="item-line"></span>
+                    <div class="item">
+                        <span class="title">卡耗</span>
+                        <span class="price-icon">￥<span class="price">{%= o.performanceInfo.cardConsumeY %}</span><span class="font-size-9" style="color:#fff;">.{%= o.performanceInfo.cardConsumeF %}</span></span>
+                    </div>
+                </div>
+                <div class="bg-fixed"></div>
             </div>
-            <div class="card-list " >
-                <a href="/operationLog.html#/operationLog_store " class="card-box card-box-2 ">
-                    <div>
-                        <i class="ic ">&#xe654;</i>
-                        <span class="font-size-10 ">查看排名(<span class="primary-color " >4</span>)</span>
-                    </div>
-                    <div>
-                        <span class="font-size-9 ">从本月1号到至今</span>
-                        <span class="go-right "></span>
-                    </div>
+        </div>
+        <div class="main">
+            <div class="wrap normal-info">
+                <a href="/performance-index.html#/booking-order-list" class="item item-1">
+                    <span class="primary-color font-size-18">{%=o.performanceInfo.appointmentNum %}</span>
+                    <span class="margin-top-8">预约</span>
                 </a>
-                       <a href="/userinfo.html#/" class="card-box card-box-3 ">
+                <a href="/performance-index.html#/order-list" class="item item-2">
+                    <span class="primary-color font-size-18">{%=o.performanceInfo.orderNum %}</span>
+                    <span class="margin-top-8">订单</span>
+                </a>
+                <a href="/echarts-index.html#/echartsMember" class="item item-3">
+                    <i class="ic">&#xe647;</i>
+                    <span class="margin-top-8">服务小记</span>
+                </a>
+                <a href="#" class="item item-4">
+                    <i class="ic">&#xe619;</i>
+                    <span class="margin-top-8">案例分享</span>
+                </a>
+            </div>
+        </div>
+        <div class="card-list">
+            <a href="/operationLog.html#/operationLog_store" class="card-box card-box-2">
                 <div>
-                    <i class="ic ">&#xe60e;</i>
+                    <i class="ic">&#xe654;</i>
+                    <span class="font-size-10">查看排名(<span class="primary-color" >{%=o.performanceInfo.performanceRanking %}</span>)</span>
+                </div>
+                <div>
+                    <span class="font-size-9">从本月1号到至今</span>
+                    <span class="go-right"></span>
+                </div>
+            </a>
+            <a href="/userinfo.html#/" class="card-box card-box-3">
+                <div>
+                    <i class="ic">&#xe60e;</i>
                     <span>个人中心</span>
                 </div>
-                <span class="go-right "></span>
+                <span class="go-right"></span>
             </a>
-            </div>
-            <div style="height: 8px; "></div>
-    <!--     </div> -->
+        </div>
+        <div style="height: 8px;"></div>
+        <!--     </div> -->
         <!-- 切换门店 -->
-        <div class="storeLists ">
-            <div class="mask "></div>
-            <div class="stores ">
-                <span >门店一</span>
-                 <span>门店二</span>
-                <span>门店三</span>
-                <span>门店四</span>
-                <span>门店五</span>
-                <span>门店六</span>
+        <div class="storeLists">
+            <div class="mask"></div>
+            <div class="stores">
+                <div class="stores-info">
+                    <!--% for (var i=0; i <o.storeList.length; i++) { %-->
+                    <span data-id="{%=o.storeList[i].id %}">{%= o.storeList[i].name %}</span>
+                    <!--% } %-->
+                </div>
             </div>
         </div>
         <!-- end -->
         <!-- 日期切换 -->
         <div id="dateList">
-           <div class="mask "></div>
-                <div   class="date_menu ">
-                <div class="date_info ">
-                        <span>今日</span>
-                         <span>昨日</span>
-                        <span>本月</span>
-                        <span>自定义</span>
-                 </div>
-                    <!-- 取消 -->
-                    <span  id="date_cancel">取消</span>
+            <div class="mask"></div>
+            <div class="date_menu">
+                <div class="date_info">
+                    <span data-type=1>今日</span>
+                    <span data-type=2>昨日</span>
+                    <span data-type=3>本月</span>
+                    <!--  <span data-type=4>自定义</span> -->
+                </div>
+                <!-- 取消 -->
+                <!-- <span  id="date_cancel">取消</span> -->
+            </div>
+        </div>
+        <!-- 切换身份 -->
+        <div id="employeeList">
+            <div class="mask"></div>
+            <div class="employeeList_menu">
+                <div class="title">请选择您的身份</div>
+                <div class="employeeList_info">
+                    <!--% for (var i=0; i <o.employeeList.length; i++) { %-->
+                    <div class="employee_item" data-employeeId="{%= o.employeeList[i].id %}" data-userId="{%= o.employeeList[i].userId %}" data-merchantId="{%= o.employeeList[i].merchant.id %}">
+                        <img id="comment-pic" src="{%=app.filePath + o.employeeList[i].avatarFileId %}" onerror="this.src='images/default_female.png'">
+                        <div class="employee_info">
+                            <span class="employee_name">{%= o.employeeList[i].name %}
+                               <!--% if(o.employeeList[i].store){ %-->
+                                -{%= o.employeeList[i].store.name %}
+                                <!--% } %-->
+                            </span>
+                            <span class="merchant_name">{%= o.employeeList[i].merchant.name %}</span>
+                        </div>
+                    </div>
+                    <!--% } %-->
                 </div>
             </div>
- <!--    </div> -->
+        </div>
+        <!--    </div> -->
     </script>
 </script>
