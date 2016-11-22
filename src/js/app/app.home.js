@@ -86,6 +86,11 @@ app.noData = function() {
     toastHtml += '<div  style=" position: fixed; background: #fff;width: 100vw; z-index: 1;height: 46px;line-height: 46px;display: flex; display: -webkit-flex;justify-content: space-around; -webkit-justify-content: space-around;top: 0;    align-items: center;    z-index: 111;font-size: 10pt;    opacity: .9;">正在加班开发中，敬请期待哦~  </div>';
     toastHtml += '</div>';
     $('body').append(toastHtml);
+    $('.noData').show();
+    setTimeout(function() {
+        $('.noData').hide();
+        $('.noData').remove();
+    }, 2000);
     $('.noData').show().on('click', '#i', function() {
         $('.noData').off('click').hide();
         $('.noData').remove();
@@ -96,7 +101,7 @@ app.noData = function() {
     });
 }
 app.goBack = function() {
-    window.location.href ="/main.html#/index";
+    window.location.href = "/main.html#/index";
 }
 
 //微信confirm问询窗

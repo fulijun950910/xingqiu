@@ -65,57 +65,61 @@ function initEemployee() {
         }
         var merchantId = parseInt($(this).attr('data-merchantId'));
         app.index.bind(data).then(function(result) {
-            var listEmployeeStoreListData = {
-                    employeeId: data.employeeId,
-                    merchantId: merchantId
-                }
-                // var openId = result.data;
-            app.index.listEmployeeStoreList(listEmployeeStoreListData).then(function(result) {
-                app.index.getEmployee(data.userId).then(function(employeeInfo) {
-                    var employee = employeeInfo;
-                    //employee.openId = openId;
-                    for (var j in employee) {
-                        if (employee[j].id == data.employeeId) {
-                            employee = employee[j];
-                            employee.storeList = result;
-                            break;
-                        }
+                var listEmployeeStoreListData = {
+                        employeeId: data.employeeId,
+                        merchantId: merchantId
                     }
-                    var storeIds = [];
-                    for (var o in result) {
-                        storeIds.push(result[o].id);
-                    }
-                    employee.storeIds = storeIds.join(',');
-                    for (var j in employee.merchantRole.permissionPackage.permissions) {
-                        var permission = employee.merchantRole.permissionPackage.permissions[j];
-                        if (permission == app.constant.WECHAT_BUSINESS[1].code) {
-                            employee.role = app.constant.WECHAT_BUSINESS[1].code;
-                            break;
-                        } else if (permission == app.constant.WECHAT_BUSINESS[2].code) {
-                            employee.role = app.constant.WECHAT_BUSINESS[2].code;
-                            break;
-                        } else {
-                            employee.role = null;
-                        }
-                    }
-                    //员工登录
-                    app.api.userinfo.emplogin({
-                        data: {
-                            empid: data.employeeId
-                        },
-                        success: function(results) {
-                            if (results && results.success) {
-                                window.localStorage.employee = JSON.stringify(employee);
-                                app.index.performance();
-                            } else {
-                                app.alert('切换失败');
-                            }
-                        },
-                        error: function() { app.alert('切换失败'); }
-                    });
-                }, function() { app.alert('切换失败'); });
-            }, function() { app.alert('切换失败'); });
-        }, function() { app.alert('切换失败'); })
+                    // var openId = result.data;
+                app.index.listEmployeeStoreList(listEmployeeStoreListData).then(function(result) {
+                        app.index.getEmployee(data.userId).then(function(employeeInfo) {
+                                var employee = employeeInfo;
+                                //employee.openId = openId;
+                                for (var j in employee) {
+                                    if (employee[j].id == data.employeeId) {
+                                        employee = employee[j];
+                                        employee.storeList = result;
+                                        break;
+                                    }
+                                }
+                                var storeIds = [];
+                                for (var o in result) {
+                                    storeIds.push(result[o].id);
+                                }
+                                employee.storeIds = storeIds.join(',');
+                                for (var j in employee.merchantRole.permissionPackage.permissions) {
+                                    var permission = employee.merchantRole.permissionPackage.permissions[j];
+                                    if (permission == app.constant.WECHAT_BUSINESS[1].code) {
+                                        employee.role = app.constant.WECHAT_BUSINESS[1].code;
+                                        break;
+                                    } else if (permission == app.constant.WECHAT_BUSINESS[2].code) {
+                                        employee.role = app.constant.WECHAT_BUSINESS[2].code;
+                                        break;
+                                    } else {
+                                        employee.role = null;
+                                    }
+                                }
+                                //员工登录
+                                app.api.userinfo.emplogin({
+                                    data: {
+                                        empid: data.employeeId
+                                    },
+                                    success: function(results) {
+                                        if (results && results.success) {
+                                            window.localStorage.employee = JSON.stringify(employee);
+                                            $('#tmpl-index').html("");
+                                            app.index.performance();
+                                        } else {
+                                            app.alert('切换失败');
+                                        }
+                                    },
+                                    error: function() { app.alert('切换失败'); }
+                                });
+                            },
+                            function() { app.alert('切换失败'); });
+                    },
+                    function() { app.alert('切换失败'); });
+            },
+            function() { app.alert('切换失败'); })
     });
 };
 
@@ -128,15 +132,15 @@ function getDateName(code) {
     data[3] = "本月";
     return data[code];
 };
-var orderInfo ={}
-//创建订单信息
+var orderInfo = {}
+    //创建订单信息
 function createOrderInfo() {
     var order = {
         startDate: orderInfo.startDate,
         endDate: orderInfo.endDate,
         storeIds: orderInfo.orderStoreIds
     }
-    var order_info= JSON.stringify(order);
+    var order_info = JSON.stringify(order);
     window.localStorage.setItem("orderInfo", order_info);
     window.location.href = "/performance-index.html#/order-list";
 }
@@ -152,6 +156,7 @@ app.index = {
     },
     init: function() {
         window.localStorage.setItem("orderInfo", "");
+        $('#tmpl-index').html("");
         app.index.userdata().then(function(userDate) {
             if (!sessionStorage.employeeList) {
                 app.index.getEmployee(JSON.parse(localStorage.employee).userId).then(function(employeeList) {
@@ -247,6 +252,29 @@ app.index = {
         var tmplhtml;
         memberData.recordCount = 0;
         app.index.performanceReport(data, employee.role).then(function(performanceInfoData) {
+            memberData.performanceInfo = performanceInfoData;
+            if (employee.role == "wechat_business_normal") {
+                memberData.performanceInfo.performance = app.tools.toThousands(memberData.performanceInfo.performance).split('.');
+                memberData.performanceInfo.performanceY = memberData.performanceInfo.performance[0];
+                memberData.performanceInfo.performanceF = memberData.performanceInfo.performance[1];
+                //卡耗 cardConsume
+                memberData.performanceInfo.cardConsume = app.tools.toThousands(memberData.performanceInfo.cardConsumeTotalAmount).split('.');
+                memberData.performanceInfo.cardConsumeY = memberData.performanceInfo.cardConsume[0];
+                memberData.performanceInfo.cardConsumeF = memberData.performanceInfo.cardConsume[1];
+            } else {
+                memberData.performanceInfo.performance = app.tools.toThousands(memberData.performanceInfo.income).split('.');
+                memberData.performanceInfo.performanceY = memberData.performanceInfo.performance[0];
+                memberData.performanceInfo.performanceF = memberData.performanceInfo.performance[1];
+                //卡耗 cardConsume
+                memberData.performanceInfo.cardConsume = app.tools.toThousands(memberData.performanceInfo.cardConsume).split('.');
+                memberData.performanceInfo.cardConsumeY = memberData.performanceInfo.cardConsume[0];
+                memberData.performanceInfo.cardConsumeF = memberData.performanceInfo.cardConsume[1];
+            }
+            //提成 currentMonthCommission
+            memberData.performanceInfo.currentMonthCommission = app.tools.toThousands(memberData.performanceInfo.currentMonthCommission).split('.');
+            memberData.performanceInfo.currentMonthCommissionY = memberData.performanceInfo.currentMonthCommission[0];
+            memberData.performanceInfo.currentMonthCommissionF = memberData.performanceInfo.currentMonthCommission[1];
+            memberData.employeeList = JSON.parse(sessionStorage.employeeList);
             if (employee.role == "wechat_business_normal") {
                 tmplhtml = $('#tmpl-index-normal-model').html();
             } else if (employee.role == "wechat_business_admin") {
@@ -288,31 +316,7 @@ app.index = {
                 });
                 tmplhtml = $('#tmpl-index-admin-model').html();
             }
-            memberData.performanceInfo = performanceInfoData;
             //员工业绩
-            if (employee.role == "wechat_business_normal") {
-                memberData.performanceInfo.performance = app.tools.toThousands(memberData.performanceInfo.performance).split('.');
-                memberData.performanceInfo.performanceY = memberData.performanceInfo.performance[0];
-                memberData.performanceInfo.performanceF = memberData.performanceInfo.performance[1];
-                //卡耗 cardConsume
-                memberData.performanceInfo.cardConsume = app.tools.toThousands(memberData.performanceInfo.cardConsumeTotalAmount).split('.');
-                memberData.performanceInfo.cardConsumeY = memberData.performanceInfo.cardConsume[0];
-                memberData.performanceInfo.cardConsumeF = memberData.performanceInfo.cardConsume[1];
-            } else {
-                memberData.performanceInfo.performance = app.tools.toThousands(memberData.performanceInfo.income).split('.');
-                memberData.performanceInfo.performanceY = memberData.performanceInfo.performance[0];
-                memberData.performanceInfo.performanceF = memberData.performanceInfo.performance[1];
-                //卡耗 cardConsume
-                memberData.performanceInfo.cardConsume = app.tools.toThousands(memberData.performanceInfo.cardConsume).split('.');
-                memberData.performanceInfo.cardConsumeY = memberData.performanceInfo.cardConsume[0];
-                memberData.performanceInfo.cardConsumeF = memberData.performanceInfo.cardConsume[1];
-            }
-
-            //提成 currentMonthCommission
-            memberData.performanceInfo.currentMonthCommission = app.tools.toThousands(memberData.performanceInfo.currentMonthCommission).split('.');
-            memberData.performanceInfo.currentMonthCommissionY = memberData.performanceInfo.currentMonthCommission[0];
-            memberData.performanceInfo.currentMonthCommissionF = memberData.performanceInfo.currentMonthCommission[1];
-            memberData.employeeList = JSON.parse(sessionStorage.employeeList);
             resultTmpl = tmpl(tmplhtml, memberData);
             $('#tmpl-index').html(resultTmpl);
             if (memberData.performanceInfo.performanceY.length > 6) {
