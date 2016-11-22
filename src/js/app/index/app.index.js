@@ -278,15 +278,20 @@
                    memberData.performanceInfo.performance = app.tools.toThousands(memberData.performanceInfo.performance).split('.');
                    memberData.performanceInfo.performanceY = memberData.performanceInfo.performance[0];
                    memberData.performanceInfo.performanceF = memberData.performanceInfo.performance[1];
+                   //卡耗 cardConsume
+                   memberData.performanceInfo.cardConsume = app.tools.toThousands(memberData.performanceInfo.cardConsumeTotalAmount).split('.');
+                   memberData.performanceInfo.cardConsumeY = memberData.performanceInfo.cardConsume[0];
+                   memberData.performanceInfo.cardConsumeF = memberData.performanceInfo.cardConsume[1];
                } else {
                    memberData.performanceInfo.performance = app.tools.toThousands(memberData.performanceInfo.income).split('.');
                    memberData.performanceInfo.performanceY = memberData.performanceInfo.performance[0];
                    memberData.performanceInfo.performanceF = memberData.performanceInfo.performance[1];
+                   //卡耗 cardConsume
+                   memberData.performanceInfo.cardConsume = app.tools.toThousands(memberData.performanceInfo.cardConsume).split('.');
+                   memberData.performanceInfo.cardConsumeY = memberData.performanceInfo.cardConsume[0];
+                   memberData.performanceInfo.cardConsumeF = memberData.performanceInfo.cardConsume[1];
                }
-               //卡耗 cardConsume
-               memberData.performanceInfo.cardConsume = app.tools.toThousands(memberData.performanceInfo.cardConsume).split('.');
-               memberData.performanceInfo.cardConsumeY = memberData.performanceInfo.cardConsume[0];
-               memberData.performanceInfo.cardConsumeF = memberData.performanceInfo.cardConsume[1];
+
                //提成 currentMonthCommission
                memberData.performanceInfo.currentMonthCommission = app.tools.toThousands(memberData.performanceInfo.currentMonthCommission).split('.');
                memberData.performanceInfo.currentMonthCommissionY = memberData.performanceInfo.currentMonthCommission[0];

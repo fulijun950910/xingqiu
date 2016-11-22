@@ -62,40 +62,39 @@ app.alert = function(msg, title) {
 
 //微信操作完成透明提示窗口
 app.toast = function(msg) {
-    var msg = msg || '已完成';
+        var msg = msg || '已完成';
+        var toastHtml = '';
+        toastHtml += '<div id="toast" style="display: none;">';
+        toastHtml += '<div class="weui_mask_transparent"></div>';
+        toastHtml += '<div class="weui_toast">';
+        toastHtml += '<i class="weui_icon_toast"></i>';
+        toastHtml += '<p class="weui_toast_content">' + msg + '</p>';
+        toastHtml += '</div>';
+        toastHtml += '</div>';
+        $('body').append(toastHtml);
+        $('#toast').show();
+        setTimeout(function() {
+            $('#toast').hide();
+            $('#toast').remove();
+        }, 2000);
+    }
+    // <div style=" position: fixed; background: #fff;width: 100vw; z-index: 1;height: 46px;line-height: 46px;display: flex; display: -webkit-flex;justify-content: space-around; -webkit-justify-content: space-around;">功能正在拼命开发中，敬请期待~ <i class="ic">&#xe664;</i> </div>
+app.noData = function() {
     var toastHtml = '';
-    toastHtml += '<div id="toast" style="display: none;">';
-    toastHtml += '<div class="weui_mask_transparent"></div>';
-    toastHtml += '<div class="weui_toast">';
-    toastHtml += '<i class="weui_icon_toast"></i>';
-    toastHtml += '<p class="weui_toast_content">' + msg + '</p>';
-    toastHtml += '</div>';
+    toastHtml += '<div class="noData">';
+    toastHtml += '<div class="mask" style="height:100%; z-index: 99;width: 100vw;background: rgba(0,0,0,.6);    position: fixed; top: 0;"></div>';
+    toastHtml += '<div  style=" position: fixed; background: #fff;width: 100vw; z-index: 1;height: 46px;line-height: 46px;display: flex; display: -webkit-flex;justify-content: space-around; -webkit-justify-content: space-around;top: 0;    align-items: center;    z-index: 111;font-size: 10pt;">小美正在加班开发中，敬请期待哦~ <i class="ic" id="i">&#xe664;</i> </div>';
     toastHtml += '</div>';
     $('body').append(toastHtml);
-    $('#toast').show();
-    setTimeout(function() {
-        $('#toast').hide();
-        $('#toast').remove();
-    }, 2000);
+    $('.noData').show().on('click', '#i', function() {
+        $('.noData').off('click').hide();
+        $('.noData').remove();
+    });
+    $('.noData').on('click', '.mask', function() {
+        $('.noData').off('click').hide();
+        $('.noData').remove();
+    });
 }
-
-// app.noDate = function(msg) {
-//     var msg = msg || '敬请期待';
-//     var toastHtml = '';
-//     toastHtml += '<div id="toast" style="display: none;">';
-//     toastHtml += '<div class="weui_mask_transparent"></div>';
-//     toastHtml += '<div class="weui_toast">';
-//     toastHtml += '<i class="weui_icon_toast"></i>';
-//     toastHtml += '<p class="weui_toast_content">' + msg + '</p>';
-//     toastHtml += '</div>';
-//     toastHtml += '</div>';
-//     $('body').append(toastHtml);
-//     $('#toast').show();
-//     setTimeout(function() {
-//         $('#toast').hide();
-//         $('#toast').remove();
-//     }, 2000);
-// }
 
 //微信confirm问询窗
 app.confirm = function(msg, title) {

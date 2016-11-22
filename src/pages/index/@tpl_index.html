@@ -24,7 +24,7 @@
                 </div>
                 <div class="message">
                     <a href="#" class="message-info">
-                    <!--     <i class="ic">&#xe65c;</i>
+                        <!--     <i class="ic">&#xe65c;</i>
                         <span class="message-news">3</span> -->
                     </a>
                 </div>
@@ -42,12 +42,12 @@
                     </div>
                 </div>
                 <div class="sub-bar">
-                    <div class="item">
+                    <div class="item" onclick="app.noData()">
                         <span class="count">{%=o.performanceInfo.customerNum %}</span>
                         <span class="text">到店客人</span>
                     </div>
                     <span class="item-line"></span>
-                    <div class="item">
+                    <div class="item" onclick="app.noData()">
                         <span class="count">{%=o.performanceInfo.newMemberNum %}</span>
                         <span class="text">新增会员</span>
                     </div>
@@ -71,30 +71,30 @@
                     <i class="ic">&#xe648;</i>
                     <span class="font-size-12">员工绩效</span>
                 </a>
-                <a href="#" class="item item-2 border-right border-bottom">
-                    <i class="ic">&#xe619;</i>
-                    <span class="font-size-12">案例分享</span>
-                </a>
-                <a href="/echarts-index.html#/echartsMember" class="item item-3 border-bottom">
+                <a href="/echarts-index.html#/echartsMember" class="item item-2 border-bottom border-right">
                     <i class="ic">&#xe669;</i>
                     <span class="font-size-12">顾客分析</span>
                 </a>
-                <a href="/echarts-index.html#/echartsProduct" class="item item-4 border-right">
+                <a href="/echarts-index.html#/echartsProduct" class="item item-5 border-bottom">
                     <i class="ic">&#xe65a;</i>
                     <span class="font-size-12">品项分析</span>
                 </a>
-                <a href="#" class="item item-5 border-right">
+                <a href="#" class="item item-4  border-right" onclick="app.noData()">
+                    <i class="ic">&#xe619;</i>
+                    <span class="font-size-12">案例分享</span>
+                </a>
+                <a href="#" class="item item-3 border-right" onclick="app.noData()">
                     <i class="ic">&#xe64b;</i>
                     <span class="font-size-12">微信营销</span>
                 </a>
-                <a href="#" class="item item-6">
+                <a href="#" class="item item-6" onclick="app.noData()">
                     <i class="ic">&#xe6a9;</i>
                     <span class="font-size-12">在线验券</span>
                 </a>
             </div>
         </div>
         <div class="card-list">
-            <a href="#" class="card-box card-box-1">
+            <a href="#" class="card-box card-box-1" onclick="app.noData()">
                 <div>
                     <i class="ic">&#xe628;</i>
                     <span class="font-size-12">收入来源</span>
@@ -191,7 +191,7 @@
                 </div>
                 <div class="message">
                     <a href="#" class="message-info">
-                       <!--  <i class="ic">&#xe65c;</i>
+                        <!--  <i class="ic">&#xe65c;</i>
                         <span class="message-news">3</span> -->
                     </a>
                 </div>
@@ -227,11 +227,11 @@
                     <span class="primary-color font-size-18">{%=o.performanceInfo.orderNum %}</span>
                     <span class="margin-top-8">订单</span>
                 </a>
-                <a href="#" class="item item-3">
+                <a href="#" class="item item-3" onclick="app.noData()">
                     <i class="ic">&#xe647;</i>
                     <span class="margin-top-8">服务小记</span>
                 </a>
-                <a href="#" class="item item-4">
+                <a href="#" class="item item-4" onclick="app.noData()">
                     <i class="ic">&#xe619;</i>
                     <span class="margin-top-8">案例分享</span>
                 </a>
@@ -244,8 +244,8 @@
                     <span class="font-size-10">查看排名
                       <!--% if(o.performanceInfo.performanceRanking){ %-->
                     (<span class="primary-color" >{%=o.performanceInfo.performanceRanking %}</span>)
-                     <!--% } %-->
-                     </span>
+                    <!--% } %-->
+                    </span>
                 </div>
                 <div>
                     <span class="font-size-9">从本月1号到至今</span>
