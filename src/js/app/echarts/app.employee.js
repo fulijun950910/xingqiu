@@ -29,8 +29,8 @@ app.employeeEcharts = {
             orderPerformanceList.startDate = moment(date).subtract(0, "month").startOf("month").format('YYYY-MM-DD hh:mm:ss')
             orderPerformanceList.endDate = moment(date).subtract(0, "month").endOf("month").format('YYYY-MM-DD hh:mm:ss')
         } else {
-            orderPerformanceList.startDate = moment().startOf("month").format('YYYY-MM-DD hh:mm:ss');
-            orderPerformanceList.endDate = moment().format('YYYY-MM-DD hh:mm:ss');
+            orderPerformanceList.startDate = moment().startOf("month").format('YYYY-MM-DD HH:mm:ss');
+            orderPerformanceList.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
         }
         var storeId = $('.storeId').text();
         if (storeId) {
@@ -51,8 +51,8 @@ app.employeeEcharts = {
                 break;
             case 'startDate':
 
-                orderPerformanceList.startDate = moment(date).subtract(data, "month").startOf("month").format('YYYY-MM-DD hh:mm:ss')
-                orderPerformanceList.endDate = moment(date).subtract(data, "month").endOf("month").format('YYYY-MM-DD hh:mm:ss')
+                orderPerformanceList.startDate = moment(date).subtract(data, "month").startOf("month").format('YYYY-MM-DD HH:mm:ss')
+                orderPerformanceList.endDate = moment(date).subtract(data, "month").endOf("month").format('YYYY-MM-DD HH:mm:ss')
                 break;
             case 'storeId':
                 orderPerformanceList.storeId = data;

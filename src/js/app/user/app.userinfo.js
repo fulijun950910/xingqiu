@@ -2,10 +2,12 @@ app.userinfo = {
     init: function() {
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
-                if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
-                    location.href = "/performance-index.html#/performance_report";
-                } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                    location.href = "/performance-index.html#/performance_emp";
+                // if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
+                //     location.href = "/performance-index.html#/performance_report";
+                // } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
+                //     location.href = "/performance-index.html#/performance_emp";
+                if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
+                    location.href = "/main.html#/index";
                 } else {
                     location.href = "/userinfo.html#/user_login";
                     app.alert('未查到您的身份,请登录美问saas平台设置您的员工身份!!', '操作失败');
@@ -135,11 +137,11 @@ app.userinfo = {
             action: 'click'
         });
         var param = {
-            username: $('input[name="username"]').val(),
-            password: app.userinfo.base64Encode($('input[name="password"]').val()),
-            rememberMe: true
-        }
-        //查询用户
+                username: $('input[name="username"]').val(),
+                password: app.userinfo.base64Encode($('input[name="password"]').val()),
+                rememberMe: true
+            }
+            //查询用户
         app.api.userinfo.auth({
             data: param,
             success: function(resultUser) {
@@ -173,8 +175,7 @@ app.userinfo = {
                             $('#show_employe_list label:first').click();
                             app.userinfo.loginEmployee();
 
-                        }
-                        else {
+                        } else {
                             $('#select_shade').show();
                             $('#show_employe_list label:first').click();
                         }
@@ -280,14 +281,15 @@ app.userinfo = {
                                                 empid: employee.id
                                             },
                                             success: function(results) {
-                                                if (results && results.success) {
-                                                }
+                                                if (results && results.success) {}
                                                 //
                                                 app.userinfo.getEmployee().then(function(employee) {
-                                                    if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
-                                                        location.href = "/performance-index.html#/performance_report";
-                                                    } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                                                        location.href = "/performance-index.html#/performance_emp";
+                                                    // if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
+                                                    //     location.href = "/performance-index.html#/performance_report";
+                                                    // } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
+                                                    //     location.href = "/performance-index.html#/performance_emp";
+                                                    if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
+                                                        location.href = "/main.html#/index";
                                                     } else {
                                                         localStorage.clear();
                                                         location.href = "/userinfo.html#/user_login";
@@ -316,7 +318,7 @@ app.userinfo = {
         }, function() {});
     },
     logout: function() {
-        app.userinfo.getEmployee().then(function(employee){
+        app.userinfo.getEmployee().then(function(employee) {
             //事件统计
             baiduStatistical.add({
                 category: '退出登录',
@@ -341,10 +343,10 @@ app.userinfo = {
                 }
             })
 
-        },function(){});
+        }, function() {});
     },
     find: function() {
-        app.userinfo.getEmployee().then(function(employee){
+        app.userinfo.getEmployee().then(function(employee) {
             var data = {
                 employeeId: employee.id
             }
@@ -368,10 +370,10 @@ app.userinfo = {
 
                 }
             })
-        },function(){})
+        }, function() {})
     },
     updateEmployee: function() {
-         app.userinfo.getEmployee().then(function(employee){
+        app.userinfo.getEmployee().then(function(employee) {
             //事件统计
             baiduStatistical.add({
                 category: '个人信息修改',
@@ -384,7 +386,7 @@ app.userinfo = {
                 id: employee.id,
                 name: $('input[name="name"]').val(),
                 gender: $('select[name="gender"]').val(),
-                birthday: $('input[name="birthday"]').val()?$('input[name="birthday"]').val()+ ' 00:00:00':"",
+                birthday: $('input[name="birthday"]').val() ? $('input[name="birthday"]').val() + ' 00:00:00' : "",
                 address: $('input[name="address"]').val(),
                 description: $('input[name="description"]').val(),
                 avatarFileId: app.userinfo.fileId
@@ -395,7 +397,7 @@ app.userinfo = {
                     if (result.success)
                         app.alert('个人信息修改成功', '修改成功');
                     //清空本地Session
-                    app.userinfo.getEmployee().then(function(employee){
+                    app.userinfo.getEmployee().then(function(employee) {
                         var e1 = employee;
                         e1.name = employee.name;
                         e1.gender = employee.gender;
@@ -404,13 +406,13 @@ app.userinfo = {
                         e1.description = employee.description;
                         e1.avatarFileId = employee.avatarFileId;
                         localStorage.employee = JSON.stringify(e1);
-                    },function(){})
+                    }, function() {})
                 },
                 error: function(a, b, c) {
                     app.alert('个人信息修改异常,请稍后尝试', '修改异常');
                 }
             })
-         },function(){})
+        }, function() {})
     },
     authUserValidate: function(dom) {
         //事件统计
@@ -492,11 +494,11 @@ app.userinfo = {
             return;
         }
         var data = {
-            authUserId: app.userinfo.authUserId,
-            password: password,
-            validateCode: verifycode
-        }
-        //事件统计
+                authUserId: app.userinfo.authUserId,
+                password: password,
+                validateCode: verifycode
+            }
+            //事件统计
         baiduStatistical.add({
             category: '修改密码',
             label: '用户修改密码',

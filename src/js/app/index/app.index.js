@@ -181,7 +181,7 @@
                    //今日
                    case 1:
                        data.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
-                       data.endDate = moment().format('YYYY-MM-DD hh:mm:ss');
+                       data.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
                        break;
                        //昨天
                    case 2:
@@ -197,7 +197,7 @@
            } else {
                memberData.dataType = 1;
                data.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
-               data.endDate = moment().format('YYYY-MM-DD hh:mm:ss');
+               data.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
            }
            switch (type) {
                case 'storeIds':
@@ -210,7 +210,7 @@
                        //今日
                        case 1:
                            data.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
-                           data.endDate = moment().format('YYYY-MM-DD hh:mm:ss');
+                           data.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
                            break;
                            //昨天
                        case 2:

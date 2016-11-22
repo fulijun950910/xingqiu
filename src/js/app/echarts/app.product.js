@@ -60,11 +60,11 @@ app.productEcharts = {
 
         var date = $('.nowDate').text();
         if (date) {
-            query.startDate = moment(date).format('YYYY-MM-DD hh:mm:ss');
-            query.endDate = moment(date).subtract(0, "month").endOf("month").format('YYYY-MM-DD hh:mm:ss');
+            query.startDate = moment(date).format('YYYY-MM-DD HH:mm:ss');
+            query.endDate = moment(date).subtract(0, "month").endOf("month").format('YYYY-MM-DD HH:mm:ss');
         } else {
-            query.startDate = moment().startOf("month").format('YYYY-MM-DD hh:mm:ss');
-            query.endDate = moment().format('YYYY-MM-DD hh:mm:ss');
+            query.startDate = moment().startOf("month").format('YYYY-MM-DD HH:mm:ss');
+            query.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
         }
         query.queryData = {
             itemSalesDetail: true
