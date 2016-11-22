@@ -107,7 +107,7 @@
                     <span class="font-size-12">系统事件记录</span>
                 </div>
                 <div>
-                    <!-- <span style="color: #b44dce;">6</span> -->
+                    <span style="color: #b44dce;" class="recordCount">{%=o.recordCount%}</span>
                     <span class="go-right"></span>
                 </div>
             </a>
@@ -227,7 +227,7 @@
                     <span class="primary-color font-size-18">{%=o.performanceInfo.orderNum %}</span>
                     <span class="margin-top-8">订单</span>
                 </a>
-                <a href="/echarts-index.html#/echartsMember" class="item item-3">
+                <a href="#" class="item item-3">
                     <i class="ic">&#xe647;</i>
                     <span class="margin-top-8">服务小记</span>
                 </a>
@@ -238,10 +238,14 @@
             </div>
         </div>
         <div class="card-list">
-            <a href="/operationLog.html#/operationLog_store" class="card-box card-box-2">
+            <a href="/performance-index.html#/performance_rank" class="card-box card-box-2">
                 <div>
                     <i class="ic">&#xe654;</i>
-                    <span class="font-size-10">查看排名(<span class="primary-color" >{%=o.performanceInfo.performanceRanking %}</span>)</span>
+                    <span class="font-size-10">查看排名
+                      <!--% if(o.performanceInfo.performanceRanking){ %-->
+                    (<span class="primary-color" >{%=o.performanceInfo.performanceRanking %}</span>)
+                     <!--% } %-->
+                     </span>
                 </div>
                 <div>
                     <span class="font-size-9">从本月1号到至今</span>

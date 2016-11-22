@@ -19,5 +19,5 @@ app.api.index = {
             error: settings.error,
             data: settings.data
         })
-    },
+    }
 }

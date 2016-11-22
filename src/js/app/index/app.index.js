@@ -229,10 +229,47 @@
            data.storeId = parseInt(data.storeIds);
            //普通员工
            var tmplhtml;
+           memberData.recordCount = 0;
            app.index.performanceReport(data, employee.role).then(function(performanceInfoData) {
                if (employee.role == "wechat_business_normal") {
                    tmplhtml = $('#tmpl-index-normal-model').html();
                } else if (employee.role == "wechat_business_admin") {
+                   app.api.operationLog.getOperatorStore({
+                       data: {
+                           "query": [{
+                               "field": "merchantId",
+                               "value": data.merchantId
+                           }, {
+                               "field": "startTime",
+                               "value": data.startDate
+                           }, {
+                               "field": "endTime",
+                               "value": data.endDate
+                           }, {
+                               "field": "storeId",
+                               "value": data.storeIds
+                           }],
+                           "sort": [{
+                               "field": "operatorTime",
+                               "sort": "desc"
+                           }],
+                           "page": 1,
+                           "size": 10000
+                       },
+                       success: function(results) {
+                           if (results.code == "000000") {
+                               if (results.data.length == 1) {
+                                   memberData.recordCount = results.data[0].recordCount;
+                               } else {
+                                   for (var i = results.data.length - 1; i >= 0; i--) {
+                                       memberData.recordCount += results.data[i].recordCount;
+                                   }
+                               }
+                               $('.recordCount').text(memberData.recordCount);
+                           }
+                       },
+                       error: function() {}
+                   });
                    tmplhtml = $('#tmpl-index-admin-model').html();
                }
                memberData.performanceInfo = performanceInfoData;
@@ -249,8 +286,10 @@
                memberData.performanceInfo.currentMonthCommissionY = memberData.performanceInfo.currentMonthCommission[0];
                memberData.performanceInfo.currentMonthCommissionF = memberData.performanceInfo.currentMonthCommission[1];
                memberData.employeeList = JSON.parse(sessionStorage.employeeList);
+               console.log(memberData);
                resultTmpl = tmpl(tmplhtml, memberData);
                $('#tmpl-index').html(resultTmpl);
+
                if (memberData.employeeList.length > 1) {
                    $('.index .employeeRoleList').show();
                    initEemployee();

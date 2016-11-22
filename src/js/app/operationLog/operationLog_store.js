@@ -167,7 +167,7 @@ app.operationLog={
         return;
     },
     goReport:function(){
-        location.href = "/performance-index.html#/performance_report";
+        location.href = "/main.html#/index";
     },
     goDetail:function(storeid){
         app.operationLog.storeId=storeid;
