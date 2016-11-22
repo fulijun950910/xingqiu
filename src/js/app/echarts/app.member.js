@@ -1,18 +1,48 @@
 app.memberEcharts = {
-    userdata: function() {
-        //初始化用户信息
-        return new Promise(function(resolve, reject) {
-            app.userinfo.getEmployee().then(function(user) {
-                resolve(user);
-            }, function() {});
+    initStoreList: function () {
+        //展开门店选择
+        $('.member_echarts').on('click', '.storeList', function () {
+            $('.storeLists').fadeIn(200);
+            $('.storeLists .mask').addClass('mask_show');
+            $('.stores').addClass('stores-active');
+            $('.mask').height($('.bd').height());
+        });
+        //关闭门店选择
+        $('.member_echarts .storeLists').on('click', '.mask', function () {
+            $('.stores').removeClass('stores-active');
+            $('.storeLists .mask').removeClass('mask_show');
+        });
+        //点击切换门店
+        $('.member_echarts .storeLists .stores').on('click', 'span', function (event) {
+            $('.storeLists span').removeClass('active').find('i').remove();
+            $(this).addClass('active').append('<i></i>');
+            $('.index .storeLists .mask').click();
+            $('.stores').removeClass('stores-active');
+            $('.storeLists .mask').removeClass('mask_show');
+
+            app.memberEcharts.storeId=$(this).attr("data-id");
+            $('.member_echarts .storeList span').html($(this).html())
+            app.memberEcharts.init();
         });
     },
-    init: function() {
-        app.memberEcharts.userdata().then(function(userDate) {
-            app.memberEcharts.getMemberData();
-        }, function() {})
+    userdata: function () {
+        //初始化用户信息
+        return new Promise(function (resolve, reject) {
+            app.userinfo.getEmployee().then(function (user) {
+                resolve(user);
+            }, function () {
+            });
+        });
     },
-    getMemberData: function(firstResult, maxResult) {
+    init: function () {
+
+        app.memberEcharts.userdata().then(function (userDate) {
+            app.memberEcharts.getMemberData();
+        }, function () {
+        })
+    },
+    getMemberData: function (firstResult, maxResult) {
+
         var merchantId = null;
         if (JSON.parse(localStorage.employee)) {
             merchantId = JSON.parse(localStorage.employee).merchantId;
@@ -28,29 +58,35 @@ app.memberEcharts = {
         }
         app.memberEcharts.getMemberStatistics({
             'merchantId': merchantId
-        }).then(function(data) {
+        }).then(function (data) {
             memberData = data;
+            var storeList = localStorage.getItem("employee");
+            storeList = JSON.parse(storeList).storeList;
+            memberData.storeList = storeList;
             var tmplhtml = $('#tmpl-member-model').html();
             var resultTmpl = tmpl(tmplhtml, memberData);
             $('#tmpl-member').html(resultTmpl);
-             $('.data-box').show();
+            $('.data-box').show();
             //客户来源
             app.memberEcharts.memberSourceList(memberData);
             //会员末到店
             app.memberEcharts.memberLeaveDataList(memberData);
             //会员到店频次
             app.memberEcharts.memberArrvialTimesList(memberData);
-
-        }, function(error) {
+            app.memberEcharts.initStoreList();
+        }, function (error) {
             app.alert(error);
         });
     },
-    getMemberStatistics: function(data) {
-        return new Promise(function(resolve, reject) {
+    getMemberStatistics: function (data) {
+        if(this.storeId){
+            data.storeId=this.storeId;
+        }
+        return new Promise(function (resolve, reject) {
             app.startLoading();
             app.api.echarts.getMemberStatistics({
                 data: data,
-                success: function(results) {
+                success: function (results) {
                     app.endLoading();
                     if (results.success) {
                         resolve(results.data);
@@ -58,7 +94,7 @@ app.memberEcharts = {
                         reject(results.message);
                     }
                 },
-                error: function(error) {
+                error: function (error) {
                     app.endLoading();
                     console.info(error);
                     reject(error);
@@ -67,14 +103,17 @@ app.memberEcharts = {
         });
     },
     //会员来源
-    memberSourceList: function(data) {
+    memberSourceList: function (data) {
         var myChart = echarts.init(document.getElementById('memberSourceList'));
         var legendList = [];
         var dataList = [];
         if (data.memberSourceList && data.memberSourceList.length > 0) {
             for (var i = data.memberSourceList.length - 1; i >= 0; i--) {
                 legendList.push(data.memberSourceList[i].name);
-                dataList.push({ value: app.memberEcharts.sum(data.memberSourceList, data.memberSourceList[i].count), name: data.memberSourceList[i].name });
+                dataList.push({
+                    value: app.memberEcharts.sum(data.memberSourceList, data.memberSourceList[i].count),
+                    name: data.memberSourceList[i].name
+                });
             }
         }
         var option = {
@@ -89,7 +128,7 @@ app.memberEcharts = {
             },
             // tooltip: {
             //     trigger: 'item',
-            
+
             //     formatter: "{a} <br/>{b} : {c}"
             // },
             series: [{
@@ -112,7 +151,7 @@ app.memberEcharts = {
     },
 
     //会员末到店
-    memberLeaveDataList: function(data) {
+    memberLeaveDataList: function (data) {
         var myChart = echarts.init(document.getElementById('memberLeaveDataList'));
         var dataList = [1, 2, 3, 4, 5];
         if (data.memberLeaveDataList && data.memberLeaveDataList.length > 0) {
@@ -164,7 +203,7 @@ app.memberEcharts = {
     },
 
     //会员末到店
-    memberArrvialTimesList: function(data) {
+    memberArrvialTimesList: function (data) {
         var myChart = echarts.init(document.getElementById('memberArrvialTimesList'));
         var dataList = [];
         if (data.memberArrvialTimesList && data.memberArrvialTimesList.length > 0) {
@@ -216,7 +255,7 @@ app.memberEcharts = {
         myChart.setOption(option);
     },
 
-    sum: function(list, index) {
+    sum: function (list, index) {
         var sum = 0;
         for (var i = list.length - 1; i >= 0; i--) {
             sum += list[i].count;
