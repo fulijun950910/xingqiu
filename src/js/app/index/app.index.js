@@ -106,7 +106,7 @@ function initEemployee() {
                                     success: function(results) {
                                         if (results && results.success) {
                                             window.localStorage.employee = JSON.stringify(employee);
-                                            $('#tmpl-index').html("");
+                                            $('.index .storeList .store_name').attr('data-storeId', "");
                                             app.index.performance();
                                         } else {
                                             app.alert('切换失败');
@@ -156,7 +156,7 @@ app.index = {
     },
     init: function() {
         window.localStorage.setItem("orderInfo", "");
-        $('#tmpl-index').html("");
+        $('.index .storeList .store_name').attr('data-storeId', "");
         app.index.userdata().then(function(userDate) {
             if (!sessionStorage.employeeList) {
                 app.index.getEmployee(JSON.parse(localStorage.employee).userId).then(function(employeeList) {
