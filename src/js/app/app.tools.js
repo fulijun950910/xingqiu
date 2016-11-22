@@ -29,6 +29,10 @@ app.tools = {
         var html = '<div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw;"> 抱歉,暂时没有查到数据...</span></div>';
         $('#' + domId).html(html);
     },
+    // noData(): function() {
+    //     var html = '<div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw;"> 抱歉,暂时没有查到数据...</span></div>';
+    //     $('#' + domId).html(html);
+    // },
     //返回，01月01日
     getDate: function() {
         var date = new Date();

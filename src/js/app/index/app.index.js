@@ -273,23 +273,33 @@
                    tmplhtml = $('#tmpl-index-admin-model').html();
                }
                memberData.performanceInfo = performanceInfoData;
-               //业绩
-               memberData.performanceInfo.performance = app.tools.toThousands(memberData.performanceInfo.performance).split('.');
-               memberData.performanceInfo.performanceY = memberData.performanceInfo.performance[0];
-               memberData.performanceInfo.performanceF = memberData.performanceInfo.performance[1];
-               //卡耗
+               //员工业绩
+               if (employee.role == "wechat_business_normal") {
+                   memberData.performanceInfo.performance = app.tools.toThousands(memberData.performanceInfo.performance).split('.');
+                   memberData.performanceInfo.performanceY = memberData.performanceInfo.performance[0];
+                   memberData.performanceInfo.performanceF = memberData.performanceInfo.performance[1];
+               } else {
+                   memberData.performanceInfo.performance = app.tools.toThousands(memberData.performanceInfo.income).split('.');
+                   memberData.performanceInfo.performanceY = memberData.performanceInfo.performance[0];
+                   memberData.performanceInfo.performanceF = memberData.performanceInfo.performance[1];
+               }
+               //卡耗 cardConsume
                memberData.performanceInfo.cardConsume = app.tools.toThousands(memberData.performanceInfo.cardConsume).split('.');
                memberData.performanceInfo.cardConsumeY = memberData.performanceInfo.cardConsume[0];
                memberData.performanceInfo.cardConsumeF = memberData.performanceInfo.cardConsume[1];
-               //业绩 currentMonthCommission
+               //提成 currentMonthCommission
                memberData.performanceInfo.currentMonthCommission = app.tools.toThousands(memberData.performanceInfo.currentMonthCommission).split('.');
                memberData.performanceInfo.currentMonthCommissionY = memberData.performanceInfo.currentMonthCommission[0];
                memberData.performanceInfo.currentMonthCommissionF = memberData.performanceInfo.currentMonthCommission[1];
                memberData.employeeList = JSON.parse(sessionStorage.employeeList);
-               console.log(memberData);
                resultTmpl = tmpl(tmplhtml, memberData);
                $('#tmpl-index').html(resultTmpl);
-
+               if (memberData.performanceInfo.performanceY.length > 6) {
+                   $('.achievementTotalAmount  .price').css('font-size', '12pt');
+               }
+               if (memberData.performanceInfo.currentMonthCommissionY.length > 6) {
+                   $('.cardConsumeTotalAmount  .price').css('font-size', '12pt');
+               }
                if (memberData.employeeList.length > 1) {
                    $('.index .employeeRoleList').show();
                    initEemployee();
