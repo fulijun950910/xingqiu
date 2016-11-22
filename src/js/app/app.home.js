@@ -96,7 +96,7 @@ app.noData = function() {
     });
 }
 app.goBack = function() {
-    window.location.href = history.go(-1);
+    window.location.href ="/main.html#/index";
 }
 
 //微信confirm问询窗
