@@ -11,7 +11,7 @@
         </div>
         <div class="main">
             <span class="date" onclick="app.employeeEcharts.orderEmployeePerformanceList(1,'startDate')">上一月</span>
-            <a id="showActionSheet_rank" href="javascript:;" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);color:#69e2da;">{%= app.tools.sliceStr(o.storeName,10 )%} &gt;</a>
+            <a id="showActionSheet_rank" href="javascript:;" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);color:#69e2da;">{%= app.tools.sliceStr(o.storeName,10 )%}<i class="ic">&#xe63f;</i></a>
             <span class="storeId" style="display: none;">{%=o.storeId%}</span>
             <span class="nowDate">{%=o.nowDate%}</span>
             <span class="date" onclick="app.employeeEcharts.orderEmployeePerformanceList(-1,'startDate')">下一月</span>
