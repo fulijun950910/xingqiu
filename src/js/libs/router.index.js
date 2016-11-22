@@ -16,8 +16,8 @@ $(function() {
         }
     };
 
-    router.push(tpl_index)
-        .init();
+    router.push(tpl_index).setDefault('/index').init();
+       // .init();
 
     if (/Android/gi.test(navigator.userAgent)) {
         window.addEventListener('resize', function() {
