@@ -83,7 +83,7 @@ app.noData = function() {
     var toastHtml = '';
     toastHtml += '<div class="noData">';
     toastHtml += '<div class="mask" style="height:100%; z-index: 99;width: 100vw;background: rgba(0,0,0,.6);    position: fixed; top: 0;"></div>';
-    toastHtml += '<div  style=" position: fixed; background: #fff;width: 100vw; z-index: 1;height: 46px;line-height: 46px;display: flex; display: -webkit-flex;justify-content: space-around; -webkit-justify-content: space-around;top: 0;    align-items: center;    z-index: 111;font-size: 10pt;">小美正在加班开发中，敬请期待哦~ <i class="ic" id="i">&#xe664;</i> </div>';
+    toastHtml += '<div  style=" position: fixed; background: #fff;width: 100vw; z-index: 1;height: 46px;line-height: 46px;display: flex; display: -webkit-flex;justify-content: space-around; -webkit-justify-content: space-around;top: 0;    align-items: center;    z-index: 111;font-size: 10pt;">正在加班开发中，敬请期待哦~ <i class="ic" id="i">&#xe664;</i> </div>';
     toastHtml += '</div>';
     $('body').append(toastHtml);
     $('.noData').show().on('click', '#i', function() {
