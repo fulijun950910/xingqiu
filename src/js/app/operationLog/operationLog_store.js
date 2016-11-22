@@ -48,13 +48,13 @@ app.operationLog={
         //dom.find(".tabContent").stop().animate({height:length*12+"vw"},200)
         //dom.siblings().find(".tabContent").stop().animate({height:0},200)
 
-        if(dom.hasClass("act")){
-            dom.removeClass("act");
-            dom.find(".tabContent").slideUp(200);
-        }else{
-            dom.addClass("act");
-            dom.find(".tabContent").slideDown(200);
-        }
+        //if(dom.hasClass("act")){
+        //    dom.removeClass("act");
+        //    dom.find(".tabContent").slideUp(200);
+        //}else{
+        //    dom.addClass("act");
+        //    dom.find(".tabContent").slideDown(200);
+        //}
     },
     querystore:function(){
         app.startLoading();
