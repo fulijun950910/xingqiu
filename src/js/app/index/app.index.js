@@ -67,14 +67,14 @@ function initEemployee() {
         var merchantId = parseInt($(this).attr('data-merchantId'));
         app.index.bind(data).then(function(result) {
                 var listEmployeeStoreListData = {
-                    employeeId: data.employeeId,
-                    merchantId: merchantId
-                }
-                var openId = result.data;
+                        employeeId: data.employeeId,
+                        merchantId: merchantId
+                    }
+                    //   var openId = result.data;
                 app.index.listEmployeeStoreList(listEmployeeStoreListData).then(function(result) {
                         app.index.getEmployee(data.userId).then(function(employeeInfo) {
                                 var employee = employeeInfo;
-                                employee.openId = openId;
+                                //      employee.openId = openId;
                                 for (var j in employee) {
                                     if (employee[j].id == data.employeeId) {
                                         employee = employee[j];
@@ -372,6 +372,7 @@ app.index = {
             //日期名称
             $('#dateList span').eq(parseInt(memberData.dataType) - 1).addClass('active');
             $('.index .dateList').find('.date_name').text(getDateName(memberData.dataType));
+            $('.index .storeList').find('.store_name').text(app.tools.sliceStr($('.index .storeList').find('.store_name').text(), 14));
         }, function() {})
     },
     performanceReport: function(data, type) {

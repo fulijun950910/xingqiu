@@ -1,47 +1,45 @@
 app.memberEcharts = {
-    initStoreList: function () {
+    initStoreList: function() {
         //展开门店选择
-        $('.member_echarts').on('click', '.storeList', function () {
+        $('.member_echarts').on('click', '.storeList', function() {
             $('.storeLists').fadeIn(200);
             $('.storeLists .mask').addClass('mask_show');
             $('.stores').addClass('stores-active');
             $('.mask').height($('.bd').height());
         });
         //关闭门店选择
-        $('.member_echarts .storeLists').on('click', '.mask', function () {
+        $('.member_echarts .storeLists').on('click', '.mask', function() {
             $('.stores').removeClass('stores-active');
             $('.storeLists .mask').removeClass('mask_show');
         });
         //点击切换门店
-        $('.member_echarts .storeLists .stores').on('click', 'span', function (event) {
+        $('.member_echarts .storeLists .stores').on('click', 'span', function(event) {
             $('.storeLists span').removeClass('active').find('i').remove();
             $(this).addClass('active').append('<i></i>');
             $('.index .storeLists .mask').click();
             $('.stores').removeClass('stores-active');
             $('.storeLists .mask').removeClass('mask_show');
 
-            app.memberEcharts.storeId=$(this).attr("data-id");
+            app.memberEcharts.storeId = $(this).attr("data-id");
             $('.member_echarts .storeList span').html($(this).html())
             app.memberEcharts.init();
         });
     },
-    userdata: function () {
+    userdata: function() {
         //初始化用户信息
-        return new Promise(function (resolve, reject) {
-            app.userinfo.getEmployee().then(function (user) {
+        return new Promise(function(resolve, reject) {
+            app.userinfo.getEmployee().then(function(user) {
                 resolve(user);
-            }, function () {
-            });
+            }, function() {});
         });
     },
-    init: function () {
+    init: function() {
 
-        app.memberEcharts.userdata().then(function (userDate) {
+        app.memberEcharts.userdata().then(function(userDate) {
             app.memberEcharts.getMemberData();
-        }, function () {
-        })
+        }, function() {})
     },
-    getMemberData: function (firstResult, maxResult) {
+    getMemberData: function(firstResult, maxResult) {
 
         var merchantId = null;
         if (JSON.parse(localStorage.employee)) {
@@ -58,7 +56,7 @@ app.memberEcharts = {
         }
         app.memberEcharts.getMemberStatistics({
             'merchantId': merchantId
-        }).then(function (data) {
+        }).then(function(data) {
             memberData = data;
             var storeList = localStorage.getItem("employee");
             storeList = JSON.parse(storeList).storeList;
@@ -74,19 +72,19 @@ app.memberEcharts = {
             //会员到店频次
             app.memberEcharts.memberArrvialTimesList(memberData);
             app.memberEcharts.initStoreList();
-        }, function (error) {
+        }, function(error) {
             app.alert(error);
         });
     },
-    getMemberStatistics: function (data) {
-        if(this.storeId){
-            data.storeId=this.storeId;
+    getMemberStatistics: function(data) {
+        if (this.storeId) {
+            data.storeId = this.storeId;
         }
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
             app.startLoading();
             app.api.echarts.getMemberStatistics({
                 data: data,
-                success: function (results) {
+                success: function(results) {
                     app.endLoading();
                     if (results.success) {
                         resolve(results.data);
@@ -94,7 +92,7 @@ app.memberEcharts = {
                         reject(results.message);
                     }
                 },
-                error: function (error) {
+                error: function(error) {
                     app.endLoading();
                     console.info(error);
                     reject(error);
@@ -103,7 +101,7 @@ app.memberEcharts = {
         });
     },
     //会员来源
-    memberSourceList: function (data) {
+    memberSourceList: function(data) {
         var myChart = echarts.init(document.getElementById('memberSourceList'));
         var legendList = [];
         var dataList = [];
@@ -111,8 +109,8 @@ app.memberEcharts = {
             for (var i = data.memberSourceList.length - 1; i >= 0; i--) {
                 legendList.push(data.memberSourceList[i].name);
                 dataList.push({
-                    value: app.memberEcharts.sum(data.memberSourceList, data.memberSourceList[i].count),
-                    name: data.memberSourceList[i].name
+                    value: data.memberSourceList[i].count,
+                    name: data.memberSourceList[i].name +"-"+ data.memberSourceList[i].count+"人"
                 });
             }
         }
@@ -121,11 +119,11 @@ app.memberEcharts = {
                 text: '客户来源分析',
                 x: 'center'
             },
-            legend: {
-                orient: 'vertical',
-                left: 'left',
-                data: legendList
-            },
+            // legend: {
+            //     orient: 'vertical',
+            //     left: 'left',
+            //     data: legendList
+            // },
             // tooltip: {
             //     trigger: 'item',
 
@@ -134,13 +132,14 @@ app.memberEcharts = {
             series: [{
                 name: '客户来源分析',
                 type: 'pie',
-                radius: '50%',
-                center: ['50%', '60%'],
+                radius: '65vw',
+                height:'60vh',
+                center: ['50%', '45%'],
                 data: dataList,
                 itemStyle: {
                     emphasis: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
+                        // shadowBlur: 10,
+                        // shadowOffsetX: 0,
                         shadowColor: 'rgba(0, 0, 0, 0.5)'
                     }
                 }
@@ -151,7 +150,7 @@ app.memberEcharts = {
     },
 
     //会员末到店
-    memberLeaveDataList: function (data) {
+    memberLeaveDataList: function(data) {
         var myChart = echarts.init(document.getElementById('memberLeaveDataList'));
         var dataList = [1, 2, 3, 4, 5];
         if (data.memberLeaveDataList && data.memberLeaveDataList.length > 0) {
@@ -203,7 +202,7 @@ app.memberEcharts = {
     },
 
     //会员末到店
-    memberArrvialTimesList: function (data) {
+    memberArrvialTimesList: function(data) {
         var myChart = echarts.init(document.getElementById('memberArrvialTimesList'));
         var dataList = [];
         if (data.memberArrvialTimesList && data.memberArrvialTimesList.length > 0) {
@@ -255,7 +254,7 @@ app.memberEcharts = {
         myChart.setOption(option);
     },
 
-    sum: function (list, index) {
+    sum: function(list, index) {
         var sum = 0;
         for (var i = list.length - 1; i >= 0; i--) {
             sum += list[i].count;
