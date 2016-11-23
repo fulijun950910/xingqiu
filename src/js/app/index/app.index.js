@@ -112,7 +112,7 @@ function initEemployee() {
                                         if (results && results.success) {
                                             window.localStorage.employee = JSON.stringify(employee);
                                             initData();
-                                            app.index.performance();
+                                            app.index.init();
                                         } else {
                                             app.alert('切换失败');
                                         }
@@ -219,11 +219,12 @@ app.index = {
         });
     },
     init: function() {
+        //app.alert(sessionStorage.getItem("employeeList"));
         window.localStorage.setItem("orderInfo", "");
         initData();
-        $('#tmpl-index').html('');
+        //  $('#tmpl-index').html('');
         app.index.userdata().then(function(userDate) {
-            if (!sessionStorage.employeeList) {
+            if (!sessionStorage.getItem("employeeList")) {
                 app.index.getEmployee(JSON.parse(localStorage.employee).userId).then(function(employeeList) {
                     window.sessionStorage.setItem('employeeList', JSON.stringify(employeeList));
                     app.index.performance();
@@ -284,68 +285,65 @@ app.index = {
         }
         var tmplhtml;
         app.index.performanceReport(data, employee.role).then(function(performanceInfoData) {
-                if (performanceInfoData) {
-                    memberData.performanceInfo = performanceInfoData;
-                    //计算业绩、提成、卡耗
-                    performanceInfo(employee.role, memberData);
-                    memberData.employeeList = JSON.parse(sessionStorage.employeeList);
-                    if (employee.role == "wechat_business_normal") {
-                        tmplhtml = $('#tmpl-index-normal-model').html();
-                    } else if (employee.role == "wechat_business_admin") {
-                        app.index.getOperatorStore(data);
-                        tmplhtml = $('#tmpl-index-admin-model').html();
-                    }
-                    resultTmpl = tmpl(tmplhtml, memberData);
-                    $('#tmpl-index').html(resultTmpl);
-                    initStoreList();
-                    initDate();
-                    // initHtml(memberData, employee);
-                    if (memberData.employeeList.length > 1) {
-                        initEemployee();
-                        $('.index .employeeRoleList').show();
-                        for (i in memberData.employeeList) {
-                            if (memberData.employeeList[i].id == employee.id) {
-                                $('.index #employeeList .employee_item').eq(i).append('<span class="active"><i class="ic">&#xe659;</i></span>');
-                            }
-                        }
-                    }
-                    if (memberData.performanceInfo.performanceY.length > 6) {
-                        $('.achievementTotalAmount  .price').css('font-size', '12pt');
-                    }
-                    if (memberData.performanceInfo.currentMonthCommissionY.length > 6) {
-                        $('.cardConsumeTotalAmount  .price').css('font-size', '12pt');
-                    }
-
-                    if (employee.storeList.length == 1) {
-                        if (employee.role != "wechat_business_normal") {
-                            $('.storeLists span:first').remove();
-                        }
-                        $('.index .storeList').find('.store_name').text(memberData.storeList[0].name);
-                    } else {
-                        $('.allStore').show();
-                    }
-                    if (data.storeIds == employee.storeIds) {
-                        $('.storeLists span:first').addClass('active').append('<i></i>');
-                    } else {
-                        $('.allStore').show();
-                        var sum = 0;
-                        for (var i = 0; i <= memberData.storeList.length - 1; i++) {
-                            var storeId = memberData.storeList[i].id;
-                            if (storeId == data.storeIds || storeId == parseInt(data.storeIds)) {
-                                $('.storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
-                                $('.index .storeList').find('.store_name').text(memberData.storeList[i].name);
-                                sum++;
-                            }
-                        }
-                        if (sum == memberData.storeList.length) {
-                            $('.storeLists .stores-info span').eq(0).addClass('active').append('<i></i>');
-                        }
-                    }
-                    //日期名称
-                    $('#dateList span').eq(parseInt(memberData.dataType) - 1).addClass('active');
-                    $('.index .dateList').find('.date_name').text(getDateName(memberData.dataType));
-                    $('.index .storeList').find('.store_name').text(app.tools.sliceStr($('.index .storeList').find('.store_name').text(), 14));
+                memberData.performanceInfo = performanceInfoData;
+                //计算业绩、提成、卡耗
+                performanceInfo(employee.role, memberData);
+                memberData.employeeList = JSON.parse(sessionStorage.employeeList);
+                if (employee.role == "wechat_business_normal") {
+                    tmplhtml = $('#tmpl-index-normal-model').html();
+                } else {
+                    app.index.getOperatorStore(data);
+                    tmplhtml = $('#tmpl-index-admin-model').html();
                 }
+                resultTmpl = tmpl(tmplhtml, memberData);
+                $('#tmpl-index').html(resultTmpl);
+                initStoreList();
+                initDate();
+                // initHtml(memberData, employee);
+                if (memberData.employeeList.length > 1) {
+                    initEemployee();
+                    $('.index .employeeRoleList').show();
+                    for (i in memberData.employeeList) {
+                        if (memberData.employeeList[i].id == employee.id) {
+                            $('.index #employeeList .employee_item').eq(i).append('<span class="active"><i class="ic">&#xe659;</i></span>');
+                        }
+                    }
+                }
+                if (memberData.performanceInfo.performanceY.length > 6) {
+                    $('.achievementTotalAmount  .price').css('font-size', '12pt');
+                }
+                if (memberData.performanceInfo.currentMonthCommissionY.length > 6) {
+                    $('.cardConsumeTotalAmount  .price').css('font-size', '12pt');
+                }
+                if (employee.storeList.length == 1) {
+                    if (employee.role != "wechat_business_normal") {
+                        $('.storeLists span:first').remove();
+                    }
+                    $('.index .storeList').find('.store_name').text(memberData.storeList[0].name);
+                } else {
+                    $('.allStore').show();
+                }
+                if (data.storeIds == employee.storeIds) {
+                    $('.storeLists span:first').addClass('active').append('<i></i>');
+                } else {
+                    $('.allStore').show();
+                    var sum = 0;
+                    for (var i = 0; i <= memberData.storeList.length - 1; i++) {
+                        var storeId = memberData.storeList[i].id;
+                        if (storeId == data.storeIds || storeId == parseInt(data.storeIds)) {
+                            $('.storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
+                            $('.index .storeList').find('.store_name').text(memberData.storeList[i].name);
+                            sum++;
+                        }
+                    }
+                    if (sum == memberData.storeList.length) {
+                        $('.storeLists .stores-info span').eq(0).addClass('active').append('<i></i>');
+                    }
+                }
+                //日期名称
+                $('#dateList span').eq(parseInt(memberData.dataType) - 1).addClass('active');
+                $('.index .dateList').find('.date_name').text(getDateName(memberData.dataType));
+                $('.index .storeList').find('.store_name').text(app.tools.sliceStr($('.index .storeList').find('.store_name').text(), 14));
             },
             function() {})
     },
