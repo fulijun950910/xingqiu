@@ -192,7 +192,7 @@ app.memberEcharts = {
                 barWidth: '50%',
                 itemStyle: {
                     normal: {
-                        color: '#bbc1f7'
+                        color: '#8970c4'
                     }
                 },
                 data: dataList
@@ -245,7 +245,7 @@ app.memberEcharts = {
                 barWidth: '50%',
                 itemStyle: {
                     normal: {
-                        color: '#bbc1f7'
+                        color: '#8970c4'
                     }
                 },
                 data: dataList

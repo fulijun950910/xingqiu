@@ -26,8 +26,8 @@ app.employeeEcharts = {
         };
         var date = $('.nowDate').text();
         if (date) {
-            orderPerformanceList.startDate = moment(date).subtract(0, "month").startOf("month").format('YYYY-MM-DD hh:mm:ss')
-            orderPerformanceList.endDate = moment(date).subtract(0, "month").endOf("month").format('YYYY-MM-DD hh:mm:ss')
+            orderPerformanceList.startDate = moment(date).subtract(0, "month").startOf("month").format('YYYY-MM-DD HH:mm:ss')
+            orderPerformanceList.endDate = moment(date).subtract(0, "month").endOf("month").format('YYYY-MM-DD HH:mm:ss')
         } else {
             orderPerformanceList.startDate = moment().startOf("month").format('YYYY-MM-DD HH:mm:ss');
             orderPerformanceList.endDate = moment().format('YYYY-MM-DD HH:mm:ss');

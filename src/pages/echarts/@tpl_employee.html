@@ -5,7 +5,7 @@
     </div>
     <script type="text/html" id="tmpl-employee-model">
         <div class="header">
-            <span class="go_back" onclick="app.goBack()"></span>
+            <span onclick="app.goBack()">  <i class="ic">&#xe60c;</i></span>
             <span class="head" onclick="app.goBack()">业绩看板</span>
             <span class="title">员工绩效分析</span>
         </div>
@@ -35,7 +35,7 @@
             <div class="orderEmployeeData-box">
                 <div class="data-list">
                     <!--%if(!o.orderEmployeePerformanceList || o.orderEmployeePerformanceList.length == 0){ %-->
-                    <div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw; margin-left: 4vw;" class="errorMessage"> 亲~,该门店还没有员工哦...</span></div>
+                    <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c">  亲~,该门店还没有员工哦...</span></div>
                     <!--% } else { %-->
                     <!--% for (var i=0; i <o.orderEmployeePerformanceList.length; i++) { %-->
                     <div class="data-item" style="text-align: center;">

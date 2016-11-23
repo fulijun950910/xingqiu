@@ -55,9 +55,6 @@ app.productEcharts = {
         var query = {
             'merchantId': employee.merchantId
         };
-
-
-
         var date = $('.nowDate').text();
         if (date) {
             query.startDate = moment(date).format('YYYY-MM-DD HH:mm:ss');
@@ -79,8 +76,8 @@ app.productEcharts = {
         }
         switch (type) {
             case 'startDate':
-                query.startDate = moment(date).subtract(data, "month").format('YYYY-MM-DD ') + "00:00:00";
-                query.endDate = moment(date).subtract(data, "month").format('YYYY-MM-DD ') + "59:59:59"
+                query.startDate = moment(date).subtract(data, "month").startOf('month').format('YYYY-MM-DD ') + "00:00:00";
+                query.endDate = moment(date).subtract(data, "month").endOf('month').format('YYYY-MM-DD ') + "59:59:59"
                 break;
             case 'storeId':
                 query.storeIds = data;
@@ -109,13 +106,13 @@ app.productEcharts = {
             return;
         }
         app.productEcharts.show(query).then(function(result) {
-            for(var i=0;i< result.data.itemSalesDetail.length;i++){
-                for(var j=i+1;j< result.data.itemSalesDetail.length;j++){
-                    if(result.data.itemSalesDetail[i][2]+result.data.itemSalesDetail[i][3]>result.data.itemSalesDetail[j][2]+result.data.itemSalesDetail[j][3]){
-                        var itemA=result.data.itemSalesDetail.splice(i,1)[0]
-                        result.data.itemSalesDetail.splice(j,0,itemA)
-                        var itemB=result.data.itemSalesDetail.splice(j-1,1)[0]
-                        result.data.itemSalesDetail.splice(i,0,itemB)
+            for (var i = 0; i < result.data.itemSalesDetail.length; i++) {
+                for (var j = i + 1; j < result.data.itemSalesDetail.length; j++) {
+                    if (result.data.itemSalesDetail[i][2] + result.data.itemSalesDetail[i][3] > result.data.itemSalesDetail[j][2] + result.data.itemSalesDetail[j][3]) {
+                        var itemA = result.data.itemSalesDetail.splice(i, 1)[0]
+                        result.data.itemSalesDetail.splice(j, 0, itemA)
+                        var itemB = result.data.itemSalesDetail.splice(j - 1, 1)[0]
+                        result.data.itemSalesDetail.splice(i, 0, itemB)
                     }
                 }
             }

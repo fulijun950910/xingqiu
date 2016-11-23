@@ -59,6 +59,7 @@ function initEemployee() {
     $('.index #employeeList ').on('click', '.employee_item', function(event) {
         $('#employeeList .employee_item').removeClass('active').find('i').remove();
         $('.index #employeeList .mask').click();
+
         var data = {
             userId: parseInt($(this).attr('data-userId')),
             employeeId: parseInt($(this).attr('data-employeeId'))
@@ -106,7 +107,7 @@ function initEemployee() {
                                     success: function(results) {
                                         if (results && results.success) {
                                             window.localStorage.employee = JSON.stringify(employee);
-                                            $('.index .storeList .store_name').attr('data-storeId', "");
+                                            initData();
                                             app.index.performance();
                                         } else {
                                             app.alert('切换失败');
@@ -121,6 +122,14 @@ function initEemployee() {
             },
             function() { app.alert('切换失败'); })
     });
+};
+
+function initData() {
+    $('.index .storeList .store_name').attr('data-storeId', "");
+    //  $('.index .dateList .date_name').attr('data-type', "");
+    $('.index #employeeList .employee_item').attr('data-userId', '');
+    $('.index #employeeList .employee_item').attr('data-employeeId', '');
+    $('.index #employeeList .employee_item').attr('data-merchantId', '');
 };
 
 function getDateName(code) {
@@ -156,7 +165,7 @@ app.index = {
     },
     init: function() {
         window.localStorage.setItem("orderInfo", "");
-        $('.index .storeList .store_name').attr('data-storeId', "");
+        initData();
         app.index.userdata().then(function(userDate) {
             if (!sessionStorage.employeeList) {
                 app.index.getEmployee(JSON.parse(localStorage.employee).userId).then(function(employeeList) {
@@ -249,6 +258,10 @@ app.index = {
         orderInfo.orderStoreIds = data.storeIds;
         data.storeId = parseInt(data.storeIds);
         //普通员工
+        if (employee.role == "wechat_business_normal") {
+            data.startDate = moment().subtract(0, "month").startOf("month").format('YYYY-MM-DD ') + "00:00:00";
+            data.endDate = moment().subtract(0, "month").endOf('month').format('YYYY-MM-DD ') + "59:59:59";
+        }
         var tmplhtml;
         memberData.recordCount = 0;
         app.index.performanceReport(data, employee.role).then(function(performanceInfoData) {

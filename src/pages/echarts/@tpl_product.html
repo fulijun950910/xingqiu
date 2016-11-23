@@ -5,13 +5,13 @@
     </div>
     <script type="text/html" id="tmpl-product-model">
         <div class="header">
-            <span class="go_back" onclick="app.goBack()"></span>
+            <span onclick="app.goBack()">  <i class="ic">&#xe60c;</i></span>
             <span class="head" onclick="app.goBack()">业绩看板</span>
             <span class="title">品项分析</span>
         </div>
         <div class="main">
             <span class="date" onclick="app.productEcharts.reportShow(1,'startDate')">上一月</span>
-            <a id="showActionSheet_rank" href="javascript:;" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);color:#69e2da;">{%= app.tools.sliceStr(o.storeName,10 )%}&gt;</a>
+            <a id="showActionSheet_rank" href="javascript:;" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);color:#69e2da;">{%= app.tools.sliceStr(o.storeName,10 )%}<i class="ic">&#xe63f;</i></a>
             <span class="storeId" style="display: none;">{%=o.storeId%}</span>
             <span class="nowDate">{%=o.nowDate%}</span>
             <span class="date" onclick="app.productEcharts.reportShow(-1,'startDate')">下一月</span>
@@ -40,7 +40,8 @@
                             </div>
                             <!--%if(!o.serviceItem || o.serviceItem.length == 0){ %-->
                             <!--     <div class="none-data" id="product-echarts-scroller">该门店还没有项目销售数据哦~</div> -->
-                            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 抱歉,暂时没有查到数据...</span></div>
+                            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
+                            <!-- <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 抱歉,暂时没有查到数据...</span></div> -->
                             <!--% } else { %-->
                             <!--% for (var i=0; i <o.serviceItem.length; i++) { %-->
                             <div class="weui_cells" style="margin: 0; ">
@@ -67,7 +68,10 @@
                             </div>
                             <!--%if(!o.servicePackage || o.servicePackage.length == 0){ %-->
                             <!--   <div class="none-data">该门店还没有组合销售数据哦~</div> -->
-                            <div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw; margin-left: 4vw;" class="errorMessage"> 抱歉,暂时没有查到数据...</span></div>
+                           <!--  <div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw; margin-left: 4vw;" class="errorMessage"> 抱歉,暂时没有查到数据...</span></div> -->
+
+                            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c" class="errorMessage"> 亲~抱歉,暂时没有查到数据...~</span></div>
+
                             <!--% } else { %-->
                             <!--% for (var i=0; i <o.servicePackage.length; i++) { %-->
                             <div class="weui_cells" style="margin: 0; ">
@@ -94,7 +98,8 @@
                             </div>
                             <!--%if(!o.product || o.product.length == 0){ %-->
                             <!-- <div class="none-data">该门店还没有产品销售数据哦~</div> -->
-                            <div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw; margin-left: 4vw;" class="errorMessage"> 抱歉,暂时没有查到数据...</span></div>
+                           <!--  <div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw; margin-left: 4vw;" class="errorMessage"> 抱歉,暂时没有查到数据...</span></div> -->
+                             <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c" class="errorMessage"> 亲~抱歉,暂时没有查到数据...~</span></div>
                             <!--% } else { %-->
                             <!--% for (var i=0; i <o.product.length; i++) { %-->
                             <div class="weui_cells" style="margin: 0; ">
@@ -121,7 +126,8 @@
                             </div>
                             <!--%if(!o.card || o.card.length == 0){ %-->
                             <!--  <div class="none-data">该门店还没有卡销售数据哦~</div> -->
-                            <div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw; margin-left: 4vw;" class="errorMessage"> 抱歉,暂时没有查到数据...</span></div>
+                            <!-- <div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw; margin-left: 4vw;" class="errorMessage"> 抱歉,暂时没有查到数据...</span></div> -->
+                             <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c" class="errorMessage"> 亲~抱歉,暂时没有查到数据...~</span></div>
                             <!--% } else { %-->
                             <!--% for (var i=0; i <o.card.length; i++) { %-->
                             <div class="weui_cells" style="margin: 0; ">
