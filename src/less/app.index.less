@@ -417,8 +417,8 @@
             position: absolute;
             -webkit-tap-highlight-color: transparent;
             background: none;
-            transition: all .4s;
-            -webkit-transition: all .4s;
+            transition: all 1s;
+            -webkit-transition: all 1s;
         }
         .mask_show {
             width: 100vw;
@@ -586,6 +586,7 @@
                 img {
                     width: 50px;
                     height: 50px;
+                    border-radius: 50%;
                 }
                 display: flex;
                 display: -webkit-flex;
@@ -595,6 +596,7 @@
                 border-radius: 5px;
                 margin:2vw 4vw;
                 align-items: center;
+                position:relative;
                 .line {
                     position: absolute;
                     top: 14vw;
@@ -606,10 +608,26 @@
                 .line_aminter {
                     width: 18vw;
                 }
-                &.active {
-                    border: 1px solid #4ED9CF;
-                    position: relative;
-                    overflow: hidden;
+                // &.active {
+                //     border: 1px solid #00cbc7;
+                // }
+                span {
+                    &.active {
+                        width: 0;
+                        height: 0;
+                        border-top: 10vw solid #00cbc7;
+                        border-left: 13vw solid transparent;
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        i {
+                            position: absolute;
+                            top: -9vw;
+                            color: #fff;
+                            left: -5vw;
+                            font-size: 4vw;
+                        }
+                    }
                 }
             }
             .employee_info {

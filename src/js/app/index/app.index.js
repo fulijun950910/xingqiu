@@ -1,14 +1,16 @@
 //初始化门店切换
 function initStoreList() {
     //展开门店选择
-    $('.index').on('click', '.storeList', function() {
+    $('.index').on('click', '.storeList', function(event) {
+        event.stopPropagation();
         $('.storeLists').fadeIn(200);
         $('.storeLists .mask').addClass('mask_show');
         $('.stores').addClass('stores-active');
         $('.mask').height($('.bd').height());
     });
     //关闭门店选择
-    $('.index .storeLists').on('click', '.mask', function() {
+    $('.index .storeLists').on('click', '.mask', function(event) {
+        event.stopPropagation();
         $('.stores').removeClass('stores-active');
         $('.storeLists .mask').removeClass('mask_show');
     });
@@ -21,6 +23,7 @@ function initStoreList() {
     });
 };
 
+//初始化时间切换
 function initDate() {
     $('.index').on('click', '.dateList', function() {
         $('#dateList').fadeIn(200);
@@ -45,6 +48,7 @@ function initDate() {
     });
 };
 
+//初始化身份切换
 function initEemployee() {
     $('.index').on('click', '.employeeRoleList ', function() {
         $('#employeeList').fadeIn(200);
@@ -57,9 +61,9 @@ function initEemployee() {
         $('#employeeList .mask').removeClass('mask_show');
     });
     $('.index #employeeList ').on('click', '.employee_item', function(event) {
-        $('#employeeList .employee_item').removeClass('active').find('i').remove();
+        $('#employeeList .employee_item').find('.active').remove();
+        $(this).append('<span class="active"><i class="ic">&#xe659;</i></span>');
         $('.index #employeeList .mask').click();
-
         var data = {
             userId: parseInt($(this).attr('data-userId')),
             employeeId: parseInt($(this).attr('data-employeeId'))
@@ -141,8 +145,10 @@ function getDateName(code) {
     data[3] = "本月";
     return data[code];
 };
+
+//创建订单信息
 var orderInfo = {}
-    //创建订单信息
+
 function createOrderInfo() {
     var order = {
         startDate: orderInfo.startDate,
@@ -152,7 +158,56 @@ function createOrderInfo() {
     var order_info = JSON.stringify(order);
     window.localStorage.setItem("orderInfo", order_info);
     window.location.href = "/performance-index.html#/order-list";
-}
+};
+
+//获取时间
+function getDateType(type, data) {
+    switch (parseInt(type)) {
+        //今日
+        case 1:
+            data.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
+            data.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
+            break;
+            //昨天
+        case 2:
+            data.startDate = moment().subtract(1, "days").format('YYYY-MM-DD ') + "00:00:00";
+            data.endDate = moment().subtract(1, "days").format('YYYY-MM-DD ') + "23:59:59";
+            break;
+            //本月
+        case 3:
+            data.startDate = moment().subtract(0, "month").startOf("month").format('YYYY-MM-DD ') + "00:00:00";
+            data.endDate = moment().subtract(0, "month").endOf('month').format('YYYY-MM-DD ') + "23:59:59";
+            break;
+    }
+};
+
+//计算员工。管理员业绩与卡耗
+function performanceInfo(role, memberData) {
+    if (role == "wechat_business_normal") {
+        memberData.performanceInfo.performance = app.tools.toThousands(memberData.performanceInfo.performance).split('.');
+        memberData.performanceInfo.performanceY = memberData.performanceInfo.performance[0];
+        memberData.performanceInfo.performanceF = memberData.performanceInfo.performance[1];
+        //卡耗 cardConsume
+        memberData.performanceInfo.cardConsume = app.tools.toThousands(memberData.performanceInfo.cardConsumeTotalAmount).split('.');
+        memberData.performanceInfo.cardConsumeY = memberData.performanceInfo.cardConsume[0];
+        memberData.performanceInfo.cardConsumeF = memberData.performanceInfo.cardConsume[1];
+    } else {
+        memberData.performanceInfo.performance = app.tools.toThousands(memberData.performanceInfo.income).split('.');
+        memberData.performanceInfo.performanceY = memberData.performanceInfo.performance[0];
+        memberData.performanceInfo.performanceF = memberData.performanceInfo.performance[1];
+        //卡耗 cardConsume
+        memberData.performanceInfo.cardConsume = app.tools.toThousands(memberData.performanceInfo.cardConsume).split('.');
+        memberData.performanceInfo.cardConsumeY = memberData.performanceInfo.cardConsume[0];
+        memberData.performanceInfo.cardConsumeF = memberData.performanceInfo.cardConsume[1];
+    }
+    //提成 
+    memberData.performanceInfo.currentMonthCommission = app.tools.toThousands(memberData.performanceInfo.currentMonthCommission).split('.');
+    memberData.performanceInfo.currentMonthCommissionY = memberData.performanceInfo.currentMonthCommission[0];
+    memberData.performanceInfo.currentMonthCommissionF = memberData.performanceInfo.currentMonthCommission[1];
+};
+
+function initHtml(memberData, employee) {};
+
 //初始化日期
 app.index = {
     userdata: function() {
@@ -166,6 +221,7 @@ app.index = {
     init: function() {
         window.localStorage.setItem("orderInfo", "");
         initData();
+        $('#tmpl-index').html('');
         app.index.userdata().then(function(userDate) {
             if (!sessionStorage.employeeList) {
                 app.index.getEmployee(JSON.parse(localStorage.employee).userId).then(function(employeeList) {
@@ -182,7 +238,6 @@ app.index = {
         if (localStorage.employee && JSON.parse(localStorage.employee)) {
             employee = JSON.parse(localStorage.employee);
         }
-        console.log(employee);
         var data = {
             'merchantId': employee.merchantId,
             'employeeId': employee.id,
@@ -200,27 +255,10 @@ app.index = {
             memberData.storeId = employee.storeIds;
             data.storeIds = employee.storeIds;
         }
-        //  }
         var dataType = $('.index .dateList .date_name').attr('data-type');
         if (dataType && dataType.trim()) {
             memberData.dataType = $('.index .dateList .date_name').attr('data-type');
-            switch (parseInt(memberData.dataType)) {
-                //今日
-                case 1:
-                    data.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
-                    data.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
-                    break;
-                    //昨天
-                case 2:
-                    data.startDate = moment().subtract(1, "days").format('YYYY-MM-DD ') + "00:00:00";
-                    data.endDate = moment().subtract(1, "days").format('YYYY-MM-DD ') + "59:59:59";
-                    break;
-                    //本月
-                case 3:
-                    data.startDate = moment().subtract(0, "month").startOf("month").format('YYYY-MM-DD ') + "00:00:00";
-                    data.endDate = moment().subtract(0, "month").endOf('month').format('YYYY-MM-DD ') + "59:59:59";
-                    break;
-            }
+            getDateType(memberData.dataType, data);
         } else {
             memberData.dataType = 1;
             data.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
@@ -229,152 +267,89 @@ app.index = {
         switch (type) {
             case 'storeIds':
                 data.storeIds = result;
-                // data.storeId = result;
                 memberData.storeId = result;
                 break;
             case 'date':
-                switch (result) {
-                    //今日
-                    case 1:
-                        data.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
-                        data.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
-                        break;
-                        //昨天
-                    case 2:
-                        data.startDate = moment().subtract(1, "days").format('YYYY-MM-DD ') + "00:00:00";
-                        data.endDate = moment().subtract(1, "days").format('YYYY-MM-DD ') + "59:59:59";
-                        break;
-                        //本月
-                    case 3:
-                        data.startDate = moment().subtract(0, "month").startOf("month").format('YYYY-MM-DD ') + "00:00:00";
-                        data.endDate = moment().subtract(0, "month").endOf('month').format('YYYY-MM-DD ') + "59:59:59";
-                        break;
-                }
+                getDateType(result, data);
                 memberData.dataType = result;
-                break;
         }
         orderInfo.startDate = data.startDate;
         orderInfo.endDate = data.endDate;
         orderInfo.orderStoreIds = data.storeIds;
         data.storeId = parseInt(data.storeIds);
-        //普通员工
+        //普通员工(暂查本月的)
         if (employee.role == "wechat_business_normal") {
             data.startDate = moment().subtract(0, "month").startOf("month").format('YYYY-MM-DD ') + "00:00:00";
-            data.endDate = moment().subtract(0, "month").endOf('month').format('YYYY-MM-DD ') + "59:59:59";
+            data.endDate = moment().subtract(0, "month").endOf('month').format('YYYY-MM-DD ') + "23:59:59";
         }
         var tmplhtml;
-        memberData.recordCount = 0;
         app.index.performanceReport(data, employee.role).then(function(performanceInfoData) {
-            memberData.performanceInfo = performanceInfoData;
-            if (employee.role == "wechat_business_normal") {
-                memberData.performanceInfo.performance = app.tools.toThousands(memberData.performanceInfo.performance).split('.');
-                memberData.performanceInfo.performanceY = memberData.performanceInfo.performance[0];
-                memberData.performanceInfo.performanceF = memberData.performanceInfo.performance[1];
-                //卡耗 cardConsume
-                memberData.performanceInfo.cardConsume = app.tools.toThousands(memberData.performanceInfo.cardConsumeTotalAmount).split('.');
-                memberData.performanceInfo.cardConsumeY = memberData.performanceInfo.cardConsume[0];
-                memberData.performanceInfo.cardConsumeF = memberData.performanceInfo.cardConsume[1];
-            } else {
-                memberData.performanceInfo.performance = app.tools.toThousands(memberData.performanceInfo.income).split('.');
-                memberData.performanceInfo.performanceY = memberData.performanceInfo.performance[0];
-                memberData.performanceInfo.performanceF = memberData.performanceInfo.performance[1];
-                //卡耗 cardConsume
-                memberData.performanceInfo.cardConsume = app.tools.toThousands(memberData.performanceInfo.cardConsume).split('.');
-                memberData.performanceInfo.cardConsumeY = memberData.performanceInfo.cardConsume[0];
-                memberData.performanceInfo.cardConsumeF = memberData.performanceInfo.cardConsume[1];
-            }
-            //提成 currentMonthCommission
-            memberData.performanceInfo.currentMonthCommission = app.tools.toThousands(memberData.performanceInfo.currentMonthCommission).split('.');
-            memberData.performanceInfo.currentMonthCommissionY = memberData.performanceInfo.currentMonthCommission[0];
-            memberData.performanceInfo.currentMonthCommissionF = memberData.performanceInfo.currentMonthCommission[1];
-            memberData.employeeList = JSON.parse(sessionStorage.employeeList);
-            if (employee.role == "wechat_business_normal") {
-                tmplhtml = $('#tmpl-index-normal-model').html();
-            } else if (employee.role == "wechat_business_admin") {
-                app.api.operationLog.getOperatorStore({
-                    data: {
-                        "query": [{
-                            "field": "merchantId",
-                            "value": data.merchantId
-                        }, {
-                            "field": "startTime",
-                            "value": data.startDate
-                        }, {
-                            "field": "endTime",
-                            "value": data.endDate
-                        }, {
-                            "field": "storeId",
-                            "value": data.storeIds
-                        }],
-                        "sort": [{
-                            "field": "operatorTime",
-                            "sort": "desc"
-                        }],
-                        "page": 1,
-                        "size": 10000
-                    },
-                    success: function(results) {
-                        if (results.code == "000000") {
-                            if (results.data.length == 1) {
-                                memberData.recordCount = results.data[0].recordCount;
-                            } else {
-                                for (var i = results.data.length - 1; i >= 0; i--) {
-                                    memberData.recordCount += results.data[i].recordCount;
-                                }
-                            }
-                            $('.recordCount').text(memberData.recordCount);
-                        }
-                    },
-                    error: function() {}
-                });
-                tmplhtml = $('#tmpl-index-admin-model').html();
-            }
-            //员工业绩
-            resultTmpl = tmpl(tmplhtml, memberData);
-            $('#tmpl-index').html(resultTmpl);
-            if (memberData.performanceInfo.performanceY.length > 6) {
-                $('.achievementTotalAmount  .price').css('font-size', '12pt');
-            }
-            if (memberData.performanceInfo.currentMonthCommissionY.length > 6) {
-                $('.cardConsumeTotalAmount  .price').css('font-size', '12pt');
-            }
-            if (memberData.employeeList.length > 1) {
-                $('.index .employeeRoleList').show();
-                initEemployee();
-            }
-            initStoreList();
-            initDate();
-            if (employee.storeList.length == 1) {
-                if (employee.role != "wechat_business_normal") {
-                    $('.storeLists span:first').remove();
-                }
-                $('.index .storeList').find('.store_name').text(memberData.storeList[0].name);
-            } else {
-                $('.allStore').show();
-            }
-            if (data.storeIds == employee.storeIds) {
-                $('.storeLists span:first').addClass('active').append('<i></i>');
-            } else {
-                $('.allStore').show();
-                var sum = 0;
-                for (var i = 0; i <= memberData.storeList.length - 1; i++) {
-                    var storeId = memberData.storeList[i].id;
-                    if (storeId == data.storeIds || storeId == parseInt(data.storeIds)) {
-                        $('.storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
-                        $('.index .storeList').find('.store_name').text(memberData.storeList[i].name);
-                        sum++;
+                if (performanceInfoData) {
+                    memberData.performanceInfo = performanceInfoData;
+                    //计算业绩、提成、卡耗
+                    performanceInfo(employee.role, memberData);
+                    memberData.employeeList = JSON.parse(sessionStorage.employeeList);
+                    if (employee.role == "wechat_business_normal") {
+                        tmplhtml = $('#tmpl-index-normal-model').html();
+                    } else if (employee.role == "wechat_business_admin") {
+                        app.index.getOperatorStore(data);
+                        tmplhtml = $('#tmpl-index-admin-model').html();
                     }
+                    resultTmpl = tmpl(tmplhtml, memberData);
+                    $('#tmpl-index').html(resultTmpl);
+                    initStoreList();
+                    initDate();
+                    // initHtml(memberData, employee);
+                    if (memberData.employeeList.length > 1) {
+                        initEemployee();
+                        $('.index .employeeRoleList').show();
+                        for (i in memberData.employeeList) {
+                            if (memberData.employeeList[i].id == employee.id) {
+                                $('.index #employeeList .employee_item').eq(i).append('<span class="active"><i class="ic">&#xe659;</i></span>');
+                            }
+                        }
+                    }
+                    if (memberData.performanceInfo.performanceY.length > 6) {
+                        $('.achievementTotalAmount  .price').css('font-size', '12pt');
+                    }
+                    if (memberData.performanceInfo.currentMonthCommissionY.length > 6) {
+                        $('.cardConsumeTotalAmount  .price').css('font-size', '12pt');
+                    }
+
+                    if (employee.storeList.length == 1) {
+                        if (employee.role != "wechat_business_normal") {
+                            $('.storeLists span:first').remove();
+                        }
+                        $('.index .storeList').find('.store_name').text(memberData.storeList[0].name);
+                    } else {
+                        $('.allStore').show();
+                    }
+                    if (data.storeIds == employee.storeIds) {
+                        $('.storeLists span:first').addClass('active').append('<i></i>');
+                    } else {
+                        $('.allStore').show();
+                        var sum = 0;
+                        for (var i = 0; i <= memberData.storeList.length - 1; i++) {
+                            var storeId = memberData.storeList[i].id;
+                            if (storeId == data.storeIds || storeId == parseInt(data.storeIds)) {
+                                $('.storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
+                                $('.index .storeList').find('.store_name').text(memberData.storeList[i].name);
+                                sum++;
+                            }
+                        }
+                        if (sum == memberData.storeList.length) {
+                            $('.storeLists .stores-info span').eq(0).addClass('active').append('<i></i>');
+                        }
+                    }
+                    //日期名称
+                    $('#dateList span').eq(parseInt(memberData.dataType) - 1).addClass('active');
+                    $('.index .dateList').find('.date_name').text(getDateName(memberData.dataType));
+                    $('.index .storeList').find('.store_name').text(app.tools.sliceStr($('.index .storeList').find('.store_name').text(), 14));
                 }
-                if (sum == memberData.storeList.length) {
-                    $('.storeLists .stores-info span').eq(0).addClass('active').append('<i></i>');
-                }
-            }
-            //日期名称
-            $('#dateList span').eq(parseInt(memberData.dataType) - 1).addClass('active');
-            $('.index .dateList').find('.date_name').text(getDateName(memberData.dataType));
-            $('.index .storeList').find('.store_name').text(app.tools.sliceStr($('.index .storeList').find('.store_name').text(), 14));
-        }, function() {})
+            },
+            function() {})
     },
+    //获取业绩看板数据
     performanceReport: function(data, type) {
         if (type != "wechat_business_normal") {
             return new Promise(function(resolve, reject) {
@@ -418,6 +393,7 @@ app.index = {
             });
         }
     },
+    //获取员工信息
     getEmployee: function(data) {
         var userInfo = {
             userId: data
@@ -442,6 +418,7 @@ app.index = {
             });
         });
     },
+    //绑定信息
     bind: function(data) {
         return new Promise(function(resolve, reject) {
             app.startLoading();
@@ -463,6 +440,7 @@ app.index = {
             });
         });
     },
+    //获取员工门店列表
     listEmployeeStoreList: function(data) {
         return new Promise(function(resolve, reject) {
             // app.startLoading();
@@ -484,4 +462,44 @@ app.index = {
             });
         });
     },
+    //获取事件数量
+    getOperatorStore: function(query) {
+        app.api.operationLog.getOperatorStore({
+            data: {
+                "query": [{
+                    "field": "merchantId",
+                    "value": query.merchantId
+                }, {
+                    "field": "startTime",
+                    "value": query.startDate
+                }, {
+                    "field": "endTime",
+                    "value": query.endDate
+                }, {
+                    "field": "storeId",
+                    "value": query.storeIds
+                }],
+                "sort": [{
+                    "field": "operatorTime",
+                    "sort": "desc"
+                }],
+                "page": 1,
+                "size": 10000
+            },
+            success: function(results) {
+                var recordCount = 0;
+                if (results.code == "000000") {
+                    if (results.data.length == 1) {
+                        recordCount = results.data[0].recordCount;
+                    } else {
+                        for (var i = results.data.length - 1; i >= 0; i--) {
+                            recordCount += results.data[i].recordCount;
+                        }
+                    }
+                    $('.recordCount').text(recordCount);
+                }
+            },
+            error: function() {}
+        });
+    }
 }

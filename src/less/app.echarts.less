@@ -163,17 +163,25 @@
 .product_echarts {
     .orderEmployee-box {
         .orderBy-box {
-            .flex-30 {
-                width: 20vw;
+            .flex-25 {
+                width: 25vw;
             }
             margin-top: 2vw;
             background: #fff;
             height: 13vw;
+            line-height: 13vw;
+            display:-webkit-flex;
             display: flex;
-            justify-content: space-around;
-            align-items: center;
-            font-size:11pt;
+            // justify-content: space-around;
+            // align-items: center;
+            font-size: 11pt;
             border-bottom: 1px solid #eaeaea;
+            .orderBy-1,
+            .orderBy-2,
+            .orderBy-3 {
+                width: 25vw;
+                text-align: center;
+            }
         }
         .ic {
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -189,13 +197,13 @@
                 padding: 3vw 0;
                 border-bottom: 1px solid #eaeaea;
                 font-size: 10pt;
+                display: flex;
+                display: -webkit-flex;
                 .index {
-                    display: inline-block;
                     width: 10vw;
                     text-align: center;
                 }
                 .employeeName {
-                    display: inline-block;
                     width: 15vw;
                     text-align: center;
                 }
@@ -205,8 +213,7 @@
                     text-align: center;
                 }
                 .amount {
-                    display: inline-block;
-                    width: 20vw;
+                    width: 25vw;
                     text-align: center;
                 }
             }

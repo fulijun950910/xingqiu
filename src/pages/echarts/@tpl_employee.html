@@ -18,19 +18,19 @@
         </div>
         <div class="orderEmployee-box">
             <div class="orderBy-box">
-                <span class="flex-30"></span>
-                <span class="orderBy-1" onclick="app.employeeEcharts.orderEmployeePerformanceList(1,'orderBy')">业绩
+                <div class="flex-25"></div>
+                <div class="orderBy-1" onclick="app.employeeEcharts.orderEmployeePerformanceList(1,'orderBy')">业绩
                 <i class="ic desc" >&#xe672;</i>
                  <i class="ic asc"  style="display: none;" >&#xe671;</i>
-                </span>
-                <span class="orderBy-2" onclick="app.employeeEcharts.orderEmployeePerformanceList(2,'orderBy')">卡耗 
+                </div>
+                <div class="orderBy-2" onclick="app.employeeEcharts.orderEmployeePerformanceList(2,'orderBy')">卡耗 
                         <i class="ic desc " >&#xe672;</i>
                         <i class="ic asc" style="display: none;">&#xe671;</i>
-                 </span>
-                <span class="orderBy-3">客数 
+                 </div>
+                <div class="orderBy-3">客数 
               <!--    <i class="ic desc">&#xe672;</i>
                 <i class="ic asc" style="display: none;">&#xe671;</i> -->
-                </span>
+                </div>
             </div>
             <div class="orderEmployeeData-box">
                 <div class="data-list">
@@ -39,11 +39,11 @@
                     <!--% } else { %-->
                     <!--% for (var i=0; i <o.orderEmployeePerformanceList.length; i++) { %-->
                     <div class="data-item" style="text-align: center;">
-                        <span class="index">{%= i + 1%}</span>
-                        <span class="employeeName">{%= app.tools.sliceStr(o.orderEmployeePerformanceList[i].employeeName,6) %}</span>
-                        <span class="amount">{%= app.tools.toThousands(o.orderEmployeePerformanceList[i].achievementTotalAmount)%}</span>
-                        <span class="amount">{%= app.tools.toThousands(o.orderEmployeePerformanceList[i].cardConsumeTotalAmount) %}</span>
-                        <span class="amount">{%= o.orderEmployeePerformanceList[i].serviceMemberCount +o.orderEmployeePerformanceList[i].serviceUnMemberCount  %} </span>
+                        <div class="index">{%= i + 1%}</div>
+                        <div class="employeeName">{%= app.tools.sliceStr(o.orderEmployeePerformanceList[i].employeeName,6) %}</div>
+                        <div class="amount">{%= app.tools.toThousands(o.orderEmployeePerformanceList[i].achievementTotalAmount)%}</div>
+                        <div class="amount">{%= app.tools.toThousands(o.orderEmployeePerformanceList[i].cardConsumeTotalAmount) %}</div>
+                        <div class="amount">{%= o.orderEmployeePerformanceList[i].serviceMemberCount +o.orderEmployeePerformanceList[i].serviceUnMemberCount  %} </div>
                     </div>
                     <!--% } %-->
                     <!--% } %-->
