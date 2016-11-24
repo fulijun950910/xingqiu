@@ -330,4 +330,5 @@ module.exports = function(grunt) {
     grunt.registerTask('test', ['qunit']);
     //grunt.registerTask('default', ['configureProxies:server','web-dev', 'connect', 'watch']);
     grunt.registerTask('default', ['web-dev', 'connect', 'watch']);
+    grunt.registerTask('packaging', ['web-dev']);
 };
