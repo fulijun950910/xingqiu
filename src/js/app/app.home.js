@@ -9,7 +9,7 @@ app.home = {
 
 //微信ajax加载窗
 app.startLoading = function(msg) {
-    var msg = msg || '数据加载中';
+        var msg = msg || '数据加载中';
         if (!($('#loadingToast').length > 0)) {
             var loadingHtml = '';
             loadingHtml += '<div id="loadingToast" class="weui_loading_toast" style="display:none;">';
@@ -29,7 +29,7 @@ app.startLoading = function(msg) {
             loadingHtml += '<div class="weui_loading_leaf weui_loading_leaf_10"></div>';
             loadingHtml += '<div class="weui_loading_leaf weui_loading_leaf_11"></div>';
             loadingHtml += '</div>';
-            loadingHtml += '<p class="weui_toast_content">'+msg+'</p>';
+            loadingHtml += '<p class="weui_toast_content">' + msg + '</p>';
             loadingHtml += '</div></div>';
             $('body').append(loadingHtml);
         }
@@ -125,4 +125,15 @@ app.confirm = function(msg, title) {
         $('#dialog1').remove();
         return true;
     });
+}
+app.changeTitle = function(title) {
+    //修改title值
+    var $body = $('body');
+    document.title = title;
+    var $iframe = $('<iframe src="/favicon.ico"></iframe>');
+    $iframe.on('load', function() {
+        setTimeout(function() {
+            $iframe.off('load').remove();
+        }, 0);
+    }).appendTo($body);
 }

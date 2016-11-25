@@ -1,10 +1,4 @@
-.index {
-    span,
-    div,
-    a,
-    i {
-        -webkit-tap-highlight-color: transparent;
-    }
+.index,.income {
     i {
         top: .4vw;
     }
@@ -12,43 +6,40 @@
         // position: relative;
         // height: 100vh;
     }
-    .go-left {
-        // position: absolute;
-        // top: 4vw;
-        // left: 2vw;
-        display: inline-block;
-        width: 2.5vw;
-        height: 2.5vw;
-        border: 1px solid #fff;
-        border-top: none;
-        border-right: none;
-        transform: rotate(45deg);
-    }
-    .go-bottom {
-        display: inline-block;
-        width: 2.5vw;
-        height: 2.5vw;
-        border: 1px solid #fff;
-        border-top: none;
-        border-right: none;
-        transform: rotate(-40deg);
-        position: absolute;
-        top: 3vw;
-        left: 10vw;
-    }
-    .go-right {
-        display: inline-block;
-        width: 2.5vw;
-        height: 2.5vw;
-        border: 1px solid #ccc;
-        border-top: none;
-        border-right: none;
-        transform: rotate(225deg);
-    }
-    .wrap {
-        width: 92vw;
-        margin: auto;
-    }
+    // .go-left {
+    //     // position: absolute;
+    //     // top: 4vw;
+    //     // left: 2vw;
+    //     display: inline-block;
+    //     width: 2.5vw;
+    //     height: 2.5vw;
+    //     border: 1px solid #fff;
+    //     border-top: none;
+    //     border-right: none;
+    //     transform: rotate(45deg);
+    // }
+    // .go-bottom {
+    //     display: inline-block;
+    //     width: 2.5vw;
+    //     height: 2.5vw;
+    //     border: 1px solid #fff;
+    //     border-top: none;
+    //     border-right: none;
+    //     transform: rotate(-40deg);
+    //     position: absolute;
+    //     top: 3vw;
+    //     left: 10vw;
+    // }
+    // .go-right {
+    //     display: inline-block;
+    //     width: 2.5vw;
+    //     height: 2.5vw;
+    //     border: 1px solid #ccc;
+    //     border-top: none;
+    //     border-right: none;
+    //     transform: rotate(225deg);
+    // }
+ 
     .primary-color {
         color: #b44dce;
     }
@@ -61,15 +52,13 @@
         background-size: 100%;
         color: #fff;
         font-family: '微软雅黑';
+        position:relative;
         .top-bar {
             height: 36px;
             line-height: 36px;
             font-size: 16px;
             position: relative;
             padding-top: 2vw;
-            div {
-                -webkit-tap-highlight-color: transparent;
-            }
             .storeList {
                 position: absolute;
                 left: 0;
@@ -197,14 +186,12 @@
             position: absolute;
             background: #fff;
             width: 92vw;
-            height: 12vw;
+            height: 13vw;
             opacity: .1;
-            top: 48vw;
             border-radius: 36px;
-            margin-top: 4.5vh;
+            bottom: 4vh;
         }
     }
-    // header end
     .main-info {
         background: #fff;
         display: -webkit-flex;
@@ -329,11 +316,6 @@
                 }
             }
         }
-        .bg-fixed {
-            height: 16vw;
-            top: 48vw;
-            margin-top: 3vw;
-        }
     }
     .normal-info {
         display: -webkit-flex;
@@ -360,7 +342,6 @@
             justify-content: space-around;
             -webkit-justify-content: space-around;
             background: #fff;
-            // box-shadow: 30px 30px 30px #f4f4fc;
             border-radius: 5px;
             flex-flow: column;
             -webkit-flex-flow: column;
@@ -410,8 +391,6 @@
         left: 0;
         .mask {
             z-index: 99;
-            /* right: 18vw; */
-            // bottom: -167.1vw;
             top: 0;
             left: 0;
             position: absolute;
@@ -422,7 +401,6 @@
         }
         .mask_show {
             width: 100vw;
-            //height: 100vh;
             background: rgba(0, 0, 0, .6);
         }
         .stores {
@@ -608,9 +586,6 @@
                 .line_aminter {
                     width: 18vw;
                 }
-                // &.active {
-                //     border: 1px solid #00cbc7;
-                // }
                 span {
                     &.active {
                         width: 0;

@@ -2,7 +2,6 @@
 function initStoreList() {
     //展开门店选择
     $('.index').on('click', '.storeList', function(event) {
-        event.stopPropagation();
         $('.storeLists').fadeIn(200);
         $('.storeLists .mask').addClass('mask_show');
         $('.stores').addClass('stores-active');
@@ -10,7 +9,6 @@ function initStoreList() {
     });
     //关闭门店选择
     $('.index .storeLists').on('click', '.mask', function(event) {
-        event.stopPropagation();
         $('.stores').removeClass('stores-active');
         $('.storeLists .mask').removeClass('mask_show');
     });
@@ -71,14 +69,14 @@ function initEemployee() {
         var merchantId = parseInt($(this).attr('data-merchantId'));
         app.index.bind(data).then(function(result) {
                 var listEmployeeStoreListData = {
-                    employeeId: data.employeeId,
-                    merchantId: merchantId
-                }
-                var openId = result.data;
+                        employeeId: data.employeeId,
+                        merchantId: merchantId
+                    }
+                    //  var openId = result.data;
                 app.index.listEmployeeStoreList(listEmployeeStoreListData).then(function(result) {
                         app.index.getEmployee(data.userId).then(function(employeeInfo) {
                                 var employee = employeeInfo;
-                                employee.openId = openId;
+                                //       employee.openId = openId;
                                 for (var j in employee) {
                                     if (employee[j].id == data.employeeId) {
                                         employee = employee[j];
@@ -148,6 +146,8 @@ function getDateName(code) {
 
 //创建订单信息
 var orderInfo = {}
+    //业绩来源
+var performanceInfo = {};
 
 function createOrderInfo() {
     var order = {
@@ -182,7 +182,7 @@ function getDateType(type, data) {
 };
 
 //计算员工。管理员业绩与卡耗
-function performanceInfo(role, memberData) {
+function changePerformance(role, memberData) {
     if (role == "wechat_business_normal") {
         memberData.performanceInfo.performance = app.tools.toThousands(memberData.performanceInfo.performance).split('.');
         memberData.performanceInfo.performanceY = memberData.performanceInfo.performance[0];
@@ -219,8 +219,8 @@ app.index = {
         });
     },
     init: function() {
-        //app.alert(sessionStorage.getItem("employeeList"));
         window.localStorage.setItem("orderInfo", "");
+        window.localStorage.setItem("performanceInfo", "");
         initData();
         //  $('#tmpl-index').html('');
         app.index.userdata().then(function(userDate) {
@@ -274,9 +274,20 @@ app.index = {
                 getDateType(result, data);
                 memberData.dataType = result;
         }
-        orderInfo.startDate = data.startDate;
-        orderInfo.endDate = data.endDate;
-        orderInfo.orderStoreIds = data.storeIds;
+        //订单信息
+        orderInfo = {
+            startDate: data.startDate,
+            endDate: data.endDate,
+            orderStoreIds: data.storeIds
+        };
+        //业绩来源信息
+        performanceInfo = {
+            startDate: data.startDate,
+            endDate: data.endDate,
+            performanceStoreIds: data.storeIds,
+            dataType: memberData.dataType
+        };
+      
         data.storeId = parseInt(data.storeIds);
         //普通员工(暂查本月的)
         if (employee.role == "wechat_business_normal") {
@@ -287,7 +298,7 @@ app.index = {
         app.index.performanceReport(data, employee.role).then(function(performanceInfoData) {
                 memberData.performanceInfo = performanceInfoData;
                 //计算业绩、提成、卡耗
-                performanceInfo(employee.role, memberData);
+                changePerformance(employee.role, memberData);
                 memberData.employeeList = JSON.parse(sessionStorage.employeeList);
                 if (employee.role == "wechat_business_normal") {
                     tmplhtml = $('#tmpl-index-normal-model').html();
@@ -295,11 +306,12 @@ app.index = {
                     app.index.getOperatorStore(data);
                     tmplhtml = $('#tmpl-index-admin-model').html();
                 }
+                //修改html 的title
+                app.changeTitle('业绩看板');
                 resultTmpl = tmpl(tmplhtml, memberData);
                 $('#tmpl-index').html(resultTmpl);
                 initStoreList();
                 initDate();
-                // initHtml(memberData, employee);
                 if (memberData.employeeList.length > 1) {
                     initEemployee();
                     $('.index .employeeRoleList').show();
@@ -346,6 +358,18 @@ app.index = {
                 $('.index .storeList').find('.store_name').text(app.tools.sliceStr($('.index .storeList').find('.store_name').text(), 14));
             },
             function() {})
+    },
+
+    //业绩来源
+    performanceSource: function() {
+        var performance = {
+            startDate: performanceInfo.startDate,
+            endDate: performanceInfo.endDate,
+            storeIds: performanceInfo.performanceStoreIds,
+            dataType: performanceInfo.dataType,
+        }
+        window.localStorage.setItem("performanceInfo", JSON.stringify(performance));
+        window.location.href = "/main.html#/income";
     },
     //获取业绩看板数据
     performanceReport: function(data, type) {

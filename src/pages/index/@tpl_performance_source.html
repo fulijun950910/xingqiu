@@ -1,0 +1,81 @@
+<script type="text/html" id="tpl_income">
+    <div class="bd background-sign" style="min-height: 100vh;">
+        <div id="tmpl-income" class="income">
+        </div>
+    </div>
+    <script type="text/html" id="tmpl-income-model">
+        <div class="header " style="height:165px;">
+            <div class="wrap">
+                <div class="top-bar">
+                    <div class="storeList">
+                        <span class="store_name" data-storeId="{%=o.storeId%}">全部门店 </span>
+                    </div>
+                    <div class="dateList" style="left:43vw;">
+                        <span class="date_name" data-type="{%=o.dataType%}">本月</span>
+                    </div>
+                </div>
+                <div class="performance">
+                    <!-- 提成 -->
+                    <div class="achievementTotalAmount totalAmount">
+                        <span class="title">收入总计</span>
+                        <span class="total-line"></span>
+                        <span class="price-icon">￥<span class="price">{%= o.totalAmount[0] %}</span>.{%= o.totalAmount[1] %}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="performance-info">
+            <!--% for (var i=0; i <o.performanceInfo.length; i++) { %-->
+            <div class="performance-item" layout="row" layout-align="space-between center">
+                <div flex="30">
+                    <i class="ic" style="color:{%= o.performanceInfo[i][3] %}">&#xe{%= o.performanceInfo[i][2] %}</i>
+                    <span class="performance-name ">{%= o.performanceInfo[i][0] %}</span>
+                </div>
+                <!--   <span class="performance-count" flex="20">23笔</span> -->
+                <span class="price-icon font-priceF-size text-align-right" flex>￥<span class="font-priceY-size">{%=o.performanceInfo[i][1][0] %}</span>.{%= o.performanceInfo[i][1][1] %}</span>
+            </div>
+            <!--% } %-->
+        </div>
+        <div style="height: 57px;"></div>
+        <!-- 面包 导航-->
+        <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
+            <div onclick="app.goBack()" flex="33">
+                <i class="ic" ">&#xe68b;</i>
+            <span>返回</span>
+        </div>
+        <div flex="33 " class="storeList">
+          <i class="ic"> &#xe645;</i>
+                <span>门店</span>
+            </div>
+            <div flex="33" class="dateList">
+                <i class="ic">&#xe68c;</i>
+                <span>日期</span>
+            </div>
+        </div>
+        <!--     </div> -->
+        <!-- 切换门店 -->
+        <div class="storeLists ">
+            <div class="mask "></div>
+            <div class="stores ">
+                <div class="stores-info ">
+                    <!--% for (var i=0; i <o.storeList.length; i++) { %-->
+                    <span data-id="{%=o.storeList[i].id %}">{%= o.storeList[i].name %}</span>
+                    <!--% } %-->
+                </div>
+            </div>
+        </div>
+        <!-- end -->
+        <!-- 日期切换 -->
+        <div id="dateList">
+            <div class="mask "></div>
+            <div class="date_menu ">
+                <div class="date_info ">
+                    <span data-type=1>今日</span>
+                    <span data-type=2>昨日</span>
+                    <span data-type=3>本月</span>
+                    <!--  <span data-type=4>自定义</span> -->
+                </div>
+            </div>
+        </div>
+    </script>
+</script>

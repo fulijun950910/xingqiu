@@ -15,9 +15,23 @@ $(function() {
             app.index.init();
         }
     };
+    //业绩来源
+        var tpl_performance = {
+        url: '/income',
+        render: function() {
+            return $('#tpl_income').html();
+        },
+        bind: function() {
+            app.income.init();
+        }
+    };
 
-    router.push(tpl_index).setDefault('/index').init();
-       // .init();
+
+    router.push(tpl_index).push(tpl_performance)
+        .setDefault('/index').init();
+
+
+    // .init();
 
     if (/Android/gi.test(navigator.userAgent)) {
         window.addEventListener('resize', function() {

@@ -19,5 +19,14 @@ app.api.index = {
             error: settings.error,
             data: settings.data
         })
+    },
+    getIncomeSource: function(settings) {
+        app.api.ajax({
+            url: '/wechatbusinessassists/getIncomeSource',
+            type: 'POST',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
+        })
     }
 }

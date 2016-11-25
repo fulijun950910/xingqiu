@@ -1,0 +1,203 @@
+// 公共样式
+@primary-color :#b44dce; //主题紫色
+@secondary-color : #4ED9CF; //辅助蒂芙尼蓝
+@font-primary-color: #333;
+@font-secondary-color: #888;
+@primary-background-color: #f4f4fc;
+@font-small-size: 9pt;
+@font-default-size: 12px;
+@font-priceY-size: 8vw;
+@font-priceF-size: 15px;
+div,
+span,
+i,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.wrap {
+    width: 92vw;
+    margin: auto;
+}
+
+//面包导航
+.breadCrumbs {
+    position: fixed;
+    height: 49px;
+    width: 100vw;
+    background: @primary-background-color;
+    color: @secondary-color;
+    bottom: 0;
+    div {
+        line-height: 49px;
+        .text-align-center;
+        &:nth-of-type(2) {
+            border-left: 1px solid #e5e5e5;
+            border-right: 1px solid #e5e5e5;
+        }
+    }
+}
+
+.font-priceY-size {
+    font-size: @font-priceY-size;
+}
+
+.font-priceF-size {
+    font-size: @font-priceF-size;
+}
+
+.font-secondary-color {
+    color: @font-secondary-color;
+}
+
+.font-primary-color {
+    color: @font-primary-color;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.text-align-left {
+    text-align: left;
+}
+
+.text-align-right {
+    text-align: right;
+}
+
+[layout="row"] {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+}
+
+[layout="column"] {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+
+[flex-wrap="wrap"] {
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.flex(@a, @b) {
+    justify-content: @a;
+    -webkit-justify-content: @a;
+    align-items: @b;
+    -webkit-align-items: @b;
+}
+
+[layout-align="space-between center"] {
+    .flex(space-between, center);
+}
+
+[layout-align="space-between end"] {
+    .flex(space-between, flex-end)
+}
+
+[layout-align="space-between stretch"] {
+    .flex(space-between, stretch)
+}
+
+[layout-align="space-around center"] {
+    .flex(space-around, center)
+}
+
+[layout-align="space-around stretch"] {
+    .flex(space-around, stretch)
+}
+
+[layout-align="center center"] {
+    .flex(center, center)
+}
+
+[layout-align="center start"] {
+    .flex(center, flex-start)
+}
+
+[layout-align="center end"] {
+    .flex(center, flex-end)
+}
+
+[layout-align="start center"] {
+    .flex(flex-start, center)
+}
+
+[layout-align="center space-around"] {
+    .flex(center, space-around)
+}
+
+.flex-basis(@a) {
+    -webkit-flex: 1 1 @a;
+    flex: 1 1 @a;
+    max-width: @a;
+    max-height: 100%;
+}
+
+[flex] {
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+[flex="5"] {
+    .flex-basis(5%);
+}
+
+[flex="10"] {
+    .flex-basis(10%);
+}
+
+[flex="20"] {
+    .flex-basis(20%);
+}
+
+[flex="25"] {
+    .flex-basis(25%);
+}
+
+[flex="30"] {
+    .flex-basis(30%);
+}
+
+[flex="33"] {
+    .flex-basis(33%);
+}
+
+[flex="35"] {
+    .flex-basis(35%);
+}
+
+[flex="40"] {
+    .flex-basis(40%);
+}
+
+[flex="50"] {
+    .flex-basis(50%);
+}
+
+[flex="60"] {
+    .flex-basis(60%);
+}
+
+[flex="70"] {
+    .flex-basis(70%);
+}
+
+[flex="80"] {
+    .flex-basis(80%);
+}
+
+[flex="90"] {
+    .flex-basis(90%);
+}
+
+[flex="100"] {
+    .flex-basis(100%);
+}

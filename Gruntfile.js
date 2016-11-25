@@ -55,6 +55,7 @@ module.exports = function(grunt) {
                     'src/js/app/echarts/app.employee.js',
                     'src/js/app/echarts/app.product.js',
                     'src/js/app/index/app.index.js',
+                    'src/js/app/index/app.performance.js',
                     'src/js/app/operationLog/operationLog_store.js'
                 ]
             },
