@@ -86,7 +86,7 @@ function getDateType(type, data) {
 };
 //1现金、2POS、3微信、4支付宝、5团购、6减免、7欠款、8会员卡耗、9券、10店内活动、11赠品、12自定义
 var icons = ["68a;", "690;", "692;", "68d;", "687;", "689;", "68f;", "691;", "694;", "693;", "68e;", "68f;"];
-var rgbs = ["#00cbc7", "#f65d69", "#75d140", "#25a9ee", "#00cbc7", "#f65d69", "#f69755"];
+var rgbs = ["#00cbc7", "#f65d69", "#75d140", "#25a9ee"];
 
 //计算员工。管理员业绩与卡耗
 function changePerformanceInfo(memberData) {
@@ -108,28 +108,28 @@ function changePerformanceInfo(memberData) {
                 memberData.performanceInfo[i].push(icons[3], rgbs[3]);
                 break;
             case '团购':
-                memberData.performanceInfo[i].push(icons[4], rgbs[4]);
+                memberData.performanceInfo[i].push(icons[4], rgbs[i % 4]);
                 break;
             case '减免':
-                memberData.performanceInfo[i].push(icons[5], rgbs[5]);
+                memberData.performanceInfo[i].push(icons[5], rgbs[i % 4]);
                 break;
             case '欠款':
-                memberData.performanceInfo[i].push(icons[6], rgbs[6]);
+                memberData.performanceInfo[i].push(icons[6], rgbs[i % 4]);
                 break;
             case '会员卡耗':
-                memberData.performanceInfo[i].push(icons[7], rgbs[i % 3]);
+                memberData.performanceInfo[i].push(icons[7], rgbs[i % 4]);
                 break;
             case '券':
-                memberData.performanceInfo[i].push(icons[8], rgbs[i % 3]);
+                memberData.performanceInfo[i].push(icons[8], rgbs[i % 4]);
                 break;
             case '店内活动':
-                memberData.performanceInfo[i].push(icons[9], rgbs[i % 3]);
+                memberData.performanceInfo[i].push(icons[9], rgbs[i % 4]);
                 break;
             case '赠品':
-                memberData.performanceInfo[i].push(icons[10], rgbs[i % 3]);
+                memberData.performanceInfo[i].push(icons[10], rgbs[i % 4]);
                 break;
             default:
-                memberData.performanceInfo[i].push(icons[icons.length - 1], rgbs[i % 3]);
+                memberData.performanceInfo[i].push(icons[icons.length - 1], rgbs[i % 4]);
                 break;
         }
     }
