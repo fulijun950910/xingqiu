@@ -23,29 +23,64 @@ function initIncomeStoreList() {
 };
 
 //初始化时间切换
-function initIncomeDate() {
+function initIncomeDate(memberData) {
     $('.income').on('click', '.dateList', function() {
         $('#dateList').fadeIn(200);
         $('#dateList .mask').addClass('mask_show');
-        $('.date_menu').addClass('date_menu_active');
-        $('.mask').height($('.bd').height());
+        $('#dateList .date_menu').addClass('date_menu_active');
+        $('#dateList .mask').height($('.bd').height());
         //判断是否有选中active
         if (!$('#dateList span').hasClass('active')) {
             $('#dateList span:first').addClass('active');
         }
     });
-    $('.income #dateList').on('click', '.mask', function() {
+    $('.income').on('click', '.mask', function() {
         $('.date_menu').removeClass('date_menu_active');
-        $('#dateList .mask').removeClass('mask_show');
+        $('.mask').removeClass('mask_show');
+        $('.cystomDate .date_menu').removeClass('date_menu_active');
+        $('.cystomDate .mask').removeClass('mask_show');
+        $('#dateList span').removeClass('active').find('i').remove();
+        $('#dateList span').eq(parseInt(memberData.dataType) - 1).addClass('active');
     });
     //点击切换日期
     $('.income #dateList .date_info').on('click', 'span', function(event) {
         $('#dateList span').removeClass('active').find('i').remove();
         $(this).addClass('active');
-        $('.income #dateList .mask').click();
-        app.income.getIncomeSourceInfo(parseInt($(this).attr('data-type')), 'date');
+        $('.income  .mask').click();
+        if ($(this).attr('data-type') == 4) {
+
+            setDate();
+            $('.cystomDate').fadeIn(200);
+            $('.cystomDate .mask').addClass('mask_show');
+            $('.cystomDate .date_menu').addClass('date_menu_active');
+            $('.cystomDate .mask').height($('.bd').height());
+        } else {
+            app.income.getIncomeSourceInfo(parseInt($(this).attr('data-type')), 'date');
+        }
     });
 };
+
+function initCystomDate(memberData) {
+    //取消自定义事件选择
+    $('.cystomDate').on('click', '.cancelDate', function() {
+        $('.cystomDate .date_menu').removeClass('date_menu_active');
+        $('.cystomDate .mask').removeClass('mask_show');
+        $('#dateList span').removeClass('active').find('i').remove();
+        $('#dateList span').eq(parseInt(memberData.dataType) - 1).addClass('active');
+    });
+    //确定自定义时间选择
+    $('.cystomDate').on('click', '.saveDate', function() {
+        $('.income  .mask').click();
+        app.income.getIncomeSourceInfo(4, 'date');
+    });
+}
+
+function setDate() {
+    var startDate = moment().format('YYYY-MM-DD') + "T" + "00:00";
+    var endDate = moment().format('YYYY-MM-DD') + "T" + "23:59";
+    $("#startDate").val(startDate);
+    $('#endDate').val(endDate);
+}
 
 function initIncomeData() {
     $('.income .storeList .store_name').attr('data-storeId', "");
@@ -54,13 +89,14 @@ function initIncomeData() {
     $('.income #employeeList .employee_item').attr('data-merchantId', '');
 };
 
-function getDateName(code) {
+function getDateName(code, memberData) {
     if (!code)
         return "今日";
     var data = [];
     data[1] = "今日";
     data[2] = "昨天";
     data[3] = "本月";
+    data[4] = moment(memberData.startDate).format('YYYY-MM-DD') + "~" + moment(memberData.endDate).format('YYYY-MM-DD');
     return data[code];
 };
 
@@ -81,6 +117,10 @@ function getDateType(type, data) {
         case 3:
             data.startDate = moment().subtract(0, "month").startOf("month").format('YYYY-MM-DD ') + "00:00:00";
             data.endDate = moment().subtract(0, "month").endOf('month').format('YYYY-MM-DD ') + "23:59:59";
+            break;
+        case 4:
+            data.startDate = moment($('#startDate').val()).format('YYYY-MM-DD HH:mm:') + "00";
+            data.endDate = moment($('#endDate').val()).format('YYYY-MM-DD HH:mm:') + "59";
             break;
     }
 };
@@ -218,7 +258,8 @@ app.income = {
                 var resultTmpl = tmpl(tmplhtml, memberData);
                 $('#tmpl-income').html(resultTmpl);
                 initIncomeStoreList();
-                initIncomeDate();
+                initIncomeDate(memberData);
+                initCystomDate(memberData);
                 if (data.storeIds == employee.storeIds) {
                     $('.storeLists span:first').addClass('active').append('<i></i>');
                 } else {
@@ -230,9 +271,12 @@ app.income = {
                         }
                     }
                 }
+                if (memberData.dataType == 4) {
+                    $('.income  .dateList').css({ 'left': '39vw', 'font-size': '10pt' });
+                }
                 //日期名称
                 $('#dateList span').eq(parseInt(memberData.dataType) - 1).addClass('active');
-                $('.income .dateList').find('.date_name').text(getDateName(memberData.dataType));
+                $('.income .dateList').find('.date_name').text(getDateName(memberData.dataType, memberData));
                 $('.income .storeList').find('.store_name').text(app.tools.sliceStr($('.income .storeList').find('.store_name').text(), 14));
             },
             function() {})

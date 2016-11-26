@@ -1,4 +1,5 @@
-.index,.income {
+.index,
+.income {
     i {
         top: .4vw;
     }
@@ -39,7 +40,6 @@
     //     border-right: none;
     //     transform: rotate(225deg);
     // }
- 
     .primary-color {
         color: #b44dce;
     }
@@ -52,7 +52,7 @@
         background-size: 100%;
         color: #fff;
         font-family: '微软雅黑';
-        position:relative;
+        position: relative;
         .top-bar {
             height: 36px;
             line-height: 36px;
@@ -204,7 +204,7 @@
         flex-wrap: wrap;
         margin-top: 16px;
         border-radius: 5px;
-        box-shadow: 30px 30px 30px #f4f4fc;
+        box-shadow: 30px 30px 30px @primary-background-color;
         a {
             color: #333 !important;
             -webkit-tap-highlight-color: transparent;
@@ -264,7 +264,7 @@
             background: #fff;
             height: 15vw;
             border-radius: 5px;
-            box-shadow: 30px 30px 30px #f4f4fc;
+            box-shadow: 30px 30px 30px @primary-background-color;
             padding: 0 3vw;
         }
         .card-box {
@@ -423,7 +423,7 @@
             -webkit-transition: all .4s;
             span {
                 padding: 4vw 2vw;
-                border-bottom: 1px solid #f4f4fc;
+                border-bottom: 1px solid @primary-background-color;
                 display: flex;
                 display: -webkit-flex;
                 -webkit-tap-highlight-color: transparent;
@@ -461,7 +461,8 @@
         }
     }
     // 切换日期
-    #dateList {
+    #dateList,
+    .cystomDate {
         -webkit-tap-highlight-color: transparent;
         display: none;
         position: absolute;
@@ -494,7 +495,7 @@
             text-align: center;
             span {
                 padding: 4vw 2vw;
-                border-bottom: 1px solid #f4f4fc;
+                border-bottom: 1px solid @primary-background-color;
                 -webkit-tap-highlight-color: transparent;
                 display: block;
                 font-size: 14px;
@@ -516,6 +517,29 @@
         }
         .date_menu_active {
             bottom: 0;
+        }
+        .title {
+            background: @primary-background-color;
+            height: 40px;
+            padding: 0 2vw;
+        }
+        .date {
+            padding: 10vw 2vw;
+        }
+        label {
+            margin-bottom: 2vw;
+            color: #888;
+            font-size: 12px;
+        }
+        input {
+           // box-shadow: none;
+            border: 1px solid #e5e5e5;
+            height: 10vw;
+             background: #bab7ae;
+            border-radius: 5px;
+            text-align: center;
+            width: 43vw;
+            font-size: 8pt !important;
         }
     }
     //切换身份
@@ -552,7 +576,7 @@
             transition: all .4s;
             -webkit-transition: all .4s;
             bottom: -600px;
-            background:#f4f4fc;
+            background:@primary-background-color;
             max-height: 60vh;
         }
         .employeeList_info {
@@ -569,7 +593,7 @@
                 display: flex;
                 display: -webkit-flex;
                 background: #fff;
-                box-shadow: 30px 30px 30px #f4f4fc;
+                box-shadow: 30px 30px 30px @primary-background-color;
                 padding: 4vw;
                 border-radius: 5px;
                 margin:2vw 4vw;
