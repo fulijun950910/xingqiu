@@ -2,7 +2,6 @@
 function initIncomeStoreList() {
     //展开门店选择
     $('.income .breadCrumbs').on('click', '.storeList', function(event) {
-        console.log('点击切换门店');
         $('.income .storeLists').fadeIn(200);
         $('.income .storeLists .mask').addClass('mask_show');
         $('.income .stores').addClass('stores-active');
@@ -26,7 +25,6 @@ function initIncomeStoreList() {
 //初始化时间切换
 function initIncomeDate() {
     $('.income').on('click', '.dateList', function() {
-        console.log('点击切换日期');
         $('#dateList').fadeIn(200);
         $('#dateList .mask').addClass('mask_show');
         $('.date_menu').addClass('date_menu_active');
@@ -87,8 +85,8 @@ function getDateType(type, data) {
     }
 };
 //1现金、2POS、3微信、4支付宝、5团购、6减免、7欠款、8会员卡耗、9券、10店内活动、11赠品、12自定义
-var icons = ["68a;", "690;", "665;", "689;", "687;", "687;", "684;", "691;", "694;", "693;", "68e;", "684;"];
-var rgbs = ["#00cbc7", "#f65d69", "#75d140", "#25a9ee", "#00cbc7", "#f65d69", "#f69755", "#00cbc7", "#f65d69", "#f69755", "#25a9ee"];
+var icons = ["68a;", "690;", "692;", "68d;", "687;", "689;", "68f;", "691;", "694;", "693;", "68e;", "68f;"];
+var rgbs = ["#00cbc7", "#f65d69", "#75d140", "#25a9ee", "#00cbc7", "#f65d69", "#f69755"];
 
 //计算员工。管理员业绩与卡耗
 function changePerformanceInfo(memberData) {
@@ -119,17 +117,17 @@ function changePerformanceInfo(memberData) {
                 memberData.performanceInfo[i].push(icons[6], rgbs[6]);
                 break;
             case '会员卡耗':
-                memberData.performanceInfo[i].push(icons[7], rgbs[7]);
+                memberData.performanceInfo[i].push(icons[7], rgbs[i % 3]);
                 break;
-     
             case '券':
-                memberData.performanceInfo[i].push(icons[8], rgbs[10]);
+                memberData.performanceInfo[i].push(icons[8], rgbs[i % 3]);
                 break;
-
             case '店内活动':
                 memberData.performanceInfo[i].push(icons[9], rgbs[i % 3]);
                 break;
-
+            case '赠品':
+                memberData.performanceInfo[i].push(icons[10], rgbs[i % 3]);
+                break;
             default:
                 memberData.performanceInfo[i].push(icons[icons.length - 1], rgbs[i % 3]);
                 break;
@@ -139,6 +137,7 @@ function changePerformanceInfo(memberData) {
 };
 //初始化日期
 app.income = {
+
     userdata: function() {
         //初始化用户信息
         return new Promise(function(resolve, reject) {
@@ -148,8 +147,10 @@ app.income = {
         });
     },
     init: function() {
-        app.income.userdata().then(function(userDate) {
-            app.income.getIncomeSourceInfo(true, "init");
+        app.income.userdata().then(function(userData) {
+            if (userData) {
+                app.income.getIncomeSourceInfo(true, "init");
+            }
         }, function() {})
     },
     getIncomeSourceInfo: function(result, type) {
@@ -185,6 +186,7 @@ app.income = {
         switch (type) {
             case 'storeIds':
                 data.storeIds = result;
+                memberData.storeId = result;
                 break;
             case 'date':
                 getDateType(result, data);
@@ -206,6 +208,7 @@ app.income = {
                 break;
         }
         app.income.getIncomeData(data).then(function(incomeInfoData) {
+
                 memberData.performanceInfo = incomeInfoData;
                 //计算业绩、提成、卡耗
                 changePerformanceInfo(memberData);
@@ -216,7 +219,6 @@ app.income = {
                 $('#tmpl-income').html(resultTmpl);
                 initIncomeStoreList();
                 initIncomeDate();
-
                 if (data.storeIds == employee.storeIds) {
                     $('.storeLists span:first').addClass('active').append('<i></i>');
                 } else {

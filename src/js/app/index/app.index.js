@@ -369,7 +369,7 @@ app.index = {
             dataType: performanceInfo.dataType,
         }
         window.localStorage.setItem("performanceInfo", JSON.stringify(performance));
-        window.location.href = "/main.html#/income";
+        window.location.href = "/income.html#/income";
     },
     //获取业绩看板数据
     performanceReport: function(data, type) {
