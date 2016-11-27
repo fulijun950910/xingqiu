@@ -1,7 +1,7 @@
 //初始化门店切换
 function initIncomeStoreList() {
     //展开门店选择
-    $('.income .breadCrumbs').on('click', '.storeList', function(event) {
+    $('.income').on('click', '.storeList', function(event) {
         $('.income .storeLists').fadeIn(200);
         $('.income .storeLists .mask').addClass('mask_show');
         $('.income .stores').addClass('stores-active');
@@ -14,7 +14,6 @@ function initIncomeStoreList() {
     });
     //点击切换门店
     $('.income .storeLists .stores').on('click', 'span', function(event) {
-        console.log(11);
         $('.storeLists span').removeClass('active').find('i').remove();
         $(this).addClass('active').append('<i></i>');
         $('.income .storeLists .mask').click();
@@ -48,7 +47,6 @@ function initIncomeDate(memberData) {
         $(this).addClass('active');
         $('.income  .mask').click();
         if ($(this).attr('data-type') == 4) {
-
             setDate();
             $('.cystomDate').fadeIn(200);
             $('.cystomDate .mask').addClass('mask_show');
@@ -74,12 +72,23 @@ function initCystomDate(memberData) {
         app.income.getIncomeSourceInfo(4, 'date');
     });
 }
+//自定义时间
+var incomeDate = {};
 
 function setDate() {
     var startDate = moment().format('YYYY-MM-DD') + "T" + "00:00";
     var endDate = moment().format('YYYY-MM-DD') + "T" + "23:59";
-    $("#startDate").val(startDate);
-    $('#endDate').val(endDate);
+    if (incomeDate && incomeDate.startDate) {
+        startDate = moment(incomeDate.startDate).format('YYYY-MM-DD') + "T" + moment(incomeDate.startDate).format('HH:mm:ss');
+        endDate = moment(incomeDate.endDate).format('YYYY-MM-DD') + "T" + moment(incomeDate.endDate).format('HH:mm:ss');
+    }
+    $(".income .startDate").val(startDate);
+    $('.income .endDate').val(endDate);
+
+    /*  var startDate = moment().format('YYYY-MM-DD') + "T" + "00:00";
+      var endDate = moment().format('YYYY-MM-DD') + "T" + "23:59";
+      $(".income .startDate").val(startDate);
+      $('.income .endDate').val(endDate);*/
 }
 
 function initIncomeData() {
@@ -89,19 +98,22 @@ function initIncomeData() {
     $('.income #employeeList .employee_item').attr('data-merchantId', '');
 };
 
-function getDateName(code, memberData) {
-    if (!code)
+function getDateName(code, data) {
+    var result = [];
+    if (!code) {
         return "今日";
-    var data = [];
-    data[1] = "今日";
-    data[2] = "昨天";
-    data[3] = "本月";
-    data[4] = moment(memberData.startDate).format('YYYY-MM-DD') + "~" + moment(memberData.endDate).format('YYYY-MM-DD');
-    return data[code];
+    }
+    if (data) {
+        result[4] = moment(data.startDate).format('YYYY-MM-DD') + "~" + moment(data.endDate).format('YYYY-MM-DD');
+    }
+    result[1] = "今日";
+    result[2] = "昨天";
+    result[3] = "本月";
+    return result[code];
 };
 
 //获取时间
-function getDateType(type, data) {
+function getIncomeDateType(type, data) {
     switch (parseInt(type)) {
         //今日
         case 1:
@@ -119,8 +131,20 @@ function getDateType(type, data) {
             data.endDate = moment().subtract(0, "month").endOf('month').format('YYYY-MM-DD ') + "23:59:59";
             break;
         case 4:
-            data.startDate = moment($('#startDate').val()).format('YYYY-MM-DD HH:mm:') + "00";
-            data.endDate = moment($('#endDate').val()).format('YYYY-MM-DD HH:mm:') + "59";
+            // data.startDate = moment($('.income .startDate').val()).format('YYYY-MM-DD HH:mm:') + "00";
+            // data.endDate = moment($('.income .endDate').val()).format('YYYY-MM-DD HH:mm:') + "59";
+            if ($('.income .startDate').val()) {
+                data.startDate = moment($('.income .startDate').val()).format('YYYY-MM-DD HH:mm:') + "00";
+                incomeDate.startDate = data.startDate;
+            } else {
+                data.startDate = incomeDate.startDate;
+            }
+            if ($('.income .endDate').val()) {
+                data.endDate = moment($('.income .endDate').val()).format('YYYY-MM-DD HH:mm:') + "59";
+                incomeDate.endDate = data.endDate;
+            } else {
+                data.endDate = incomeDate.endDate;
+            }
             break;
     }
 };
@@ -217,7 +241,7 @@ app.income = {
         var dataType = $('.income .dateList .date_name').attr('data-type');
         if (dataType && dataType.trim()) {
             memberData.dataType = $('.income .dateList .date_name').attr('data-type');
-            getDateType(memberData.dataType, data);
+            getIncomeDateType(memberData.dataType, data);
         } else {
             memberData.dataType = 1;
             data.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
@@ -229,7 +253,7 @@ app.income = {
                 memberData.storeId = result;
                 break;
             case 'date':
-                getDateType(result, data);
+                getIncomeDateType(result, data);
                 memberData.dataType = result;
                 break;
             case 'init':
@@ -241,14 +265,18 @@ app.income = {
                 //自定义
                 if (performanceInfo.dataType == 4) {
                     data.startDate = performanceInfo.startDate;
-                    data.endDate = performanceInfo.startDate;
+                    data.endDate = performanceInfo.endDate;
+                    incomeDate = {
+                        startDate: data.startDate,
+                        endDate: data.endDate
+                    };
+                    memberData.dataType = performanceInfo.dataType;
                 } else {
-                    getDateType(performanceInfo.dataType, data);
+                    getIncomeDateType(performanceInfo.dataType, data);
                 }
                 break;
         }
         app.income.getIncomeData(data).then(function(incomeInfoData) {
-
                 memberData.performanceInfo = incomeInfoData;
                 //计算业绩、提成、卡耗
                 changePerformanceInfo(memberData);
@@ -276,7 +304,7 @@ app.income = {
                 }
                 //日期名称
                 $('#dateList span').eq(parseInt(memberData.dataType) - 1).addClass('active');
-                $('.income .dateList').find('.date_name').text(getDateName(memberData.dataType, memberData));
+                $('.income .dateList').find('.date_name').text(getDateName(memberData.dataType, data));
                 $('.income .storeList').find('.store_name').text(app.tools.sliceStr($('.income .storeList').find('.store_name').text(), 14));
             },
             function() {})
