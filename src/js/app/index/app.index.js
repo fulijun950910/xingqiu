@@ -189,7 +189,7 @@ function getDateName(code, data) {
 };
 
 //创建订单信息
-var orderInfo = {}
+// var orderInfo = {}
     //业绩来源
 var performanceInfo = {};
 
@@ -197,13 +197,13 @@ var performanceInfo = {};
 var indexDate = {};
 
 function createOrderInfo() {
-    var order = {
-        startDate: orderInfo.startDate,
-        endDate: orderInfo.endDate,
-        storeIds: orderInfo.orderStoreIds
-    }
-    var order_info = JSON.stringify(order);
-    window.localStorage.setItem("orderInfo", order_info);
+    // var order = {
+    //     startDate: orderInfo.startDate,
+    //     endDate: orderInfo.endDate,
+    //     storeIds: orderInfo.orderStoreIds
+    // }
+    var order_info = JSON.stringify(performanceInfo);
+    window.localStorage.setItem("performanceInfo", order_info);
     window.location.href = "/performance-index.html#/order-list";
 };
 
@@ -289,7 +289,7 @@ app.index = {
         });
     },
     init: function() {
-        window.localStorage.setItem("orderInfo", "");
+        // window.localStorage.setItem("orderInfo", "");
         window.localStorage.setItem("performanceInfo", "");
         window.sessionStorage.setItem('employeeList', "");
         initData();
@@ -346,12 +346,13 @@ app.index = {
                 memberData.dataType = result;
         }
         //订单信息
-        orderInfo = {
-            startDate: data.startDate,
-            endDate: data.endDate,
-            orderStoreIds: data.storeIds
-        };
-        //业绩来源信息
+        // orderInfo = {
+        //     startDate: data.startDate,
+        //     endDate: data.endDate,
+        //     orderStoreIds: data.storeIds,
+        //     dataType:
+        // };
+        //业绩来源信息、订单信息
         performanceInfo = {
             startDate: data.startDate,
             endDate: data.endDate,
