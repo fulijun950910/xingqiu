@@ -60,7 +60,7 @@
                                                 <!--% }else{ %-->
                                                 <!--% for (var i=0; i <o.financialInfoData.length; i++) { %-->
                                                 <div class="financial-item-small" onclick="app.financial.financialInfo()">
-                                                    <div layout="column" layout-align="center start">
+                                                    <div layout="column" layout-align="center start" class="financial-info-small">
                                                         <div class="logo" flex>
                                                             <img src="../images/{%= o.financialInfoData[i].type %}.png" alt="活动logo">
                                                         </div>
@@ -74,7 +74,7 @@
                                                                 <!--% } %-->
                                                             </div>
                                                             <div class="date">{%= app.tools.formatDate(o.financialInfoData[i].startDate) %}至{%= app.tools.formatDate(o.financialInfoData[i].endDate) %}</div>
-                                                            <div layout="row" layout-align="space-between center">
+                                                            <div layout="row" layout-align="space-between center" class="">
                                                                 <span>点击量:<span class="number">{%= o.financialInfoData[i].visitCount %}</span></span>
                                                                 <span>转发量:<span class="number">{%= o.financialInfoData[i].shareCount %}</span></span>
                                                                 <span>成交量:<span class="number">{%= o.financialInfoData[i].buyCount %}</span></span>
