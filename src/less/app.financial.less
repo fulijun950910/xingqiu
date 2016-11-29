@@ -1,0 +1,147 @@
+.financial,
+.financial-info {
+    .tool-tab {
+        height: 10vh;
+        position: fixed;
+        top: 0;
+        width: 100vw;
+        background: #fff;
+        z-index: 11;
+        ul {
+            margin-top: 0;
+        }
+    }
+    .swiper-container {
+        min-height: -webkit-calc(80.7vh);
+        min-height: calc(80.7vh);
+        .weui_cells {
+            border-radius: 5px;
+            background: none;
+        }
+    }
+    .financial-item,
+    .financial-item-small {
+        padding: 2vw;
+        margin-bottom: 4vw;
+        background: #fff;
+        border-radius: 5px;
+        box-shadow: 30px 30px 30px @primary-background-color;
+        img {
+            width: 65px;
+            height: 65px;
+            border-radius: 5px;
+        }
+        .info {
+            font-size: 12px;
+            line-height: 6.5vw;
+            //margin-left: 5vw;
+            color: @font-secondary-color;
+            .name,
+            .phone {
+                color: @font-primary-color;
+                font-size: 14px;
+                margin-right: 1vw;
+            }
+            .number {
+                color: @primary-color;
+            }
+            .status {
+                border: 1px solid #dcaB58;
+                padding: 0 2vw;
+                height: 15px;
+                line-height: 17px;
+                margin-left: 2vw;
+                border-radius: 2px;
+                margin-top: 0.8vw;
+                color: #dcaB58;
+            }
+            .status-disable {
+                color: @font-secondary-color;
+                border: 1px solid @font-secondary-color;
+            }
+        }
+    }
+    .financial-item-small {
+        .financial-info-small {
+            position: relative;
+        }
+        img {
+            width: 88vw;
+            height: 32vw;
+        }
+        .info {
+            width: 86vw;
+            .status {
+                position: absolute;
+                top: 0;
+                right: 0;
+                border-radius: 0;
+                margin: 0;
+                width: 15vw;
+                height: 8vw;
+                text-align: center;
+                line-height: 8vw;
+                border: none;
+                background: #dcaB58;
+                color: #fff;
+            }
+            .status-disable {
+                background: #888;
+            }
+        }
+    }
+    .ic {
+        bottom: -0.6vw;
+    }
+    .financial-info-list {
+        .financial-item {
+            margin-bottom: 5vw;
+            border-radius: 5px;
+            background: #fff;
+            box-shadow: 30px 30px 30px @primary-background-color;
+            position: relative;
+            padding: 2vw;
+            img {
+                width: 70px;
+                height: 70px;
+                border-radius: 50%;
+            }
+            .info {
+                margin-left: 0;
+            }
+            .name {
+                margin-right: 0;
+            }
+        }
+    }
+    .activeInfo {
+        position: absolute;
+        left: 0;
+        top: 0;
+        .active {
+            width: 0;
+            height: 0;
+            border-top: 10vw solid @primary-color;
+            border-right: 13vw solid transparent;
+            position: absolute;
+        }
+        .buyStatus {
+            color: #fff;
+            position: absolute;
+            font-size: 14px;
+            left: 1vw;
+        }
+    }
+    .checkTicket {
+        position: fixed;
+        bottom: 40vw;
+        right: 4vw;
+        width: 80px;
+        height: 80px;
+        /* line-height: 40px; */
+        background: @secondary-color;
+        color: #fff;
+        border-radius: 50%;
+        text-align: center;
+    }
+}

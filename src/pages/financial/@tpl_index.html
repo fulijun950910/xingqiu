@@ -1,0 +1,245 @@
+<!-- <script type="text/html" id="tpl_financial"> -->
+<script type="text/html" id="tpl_financial">
+    <div class="bd background-sign" style="min-height: 100vh;">
+        <div id="tmpl-financial" class="financial">
+        </div>
+    </div>
+    <script type="text/html" id="tmpl-financial-model">
+      <!--   <div class="bd background-sign" style="min-height: 100vh;"> -->
+            <!-- <div id="tmpl-financial"> -->
+                <div class="financial-info">
+          <!--           <div class="orderEmployee-box">
+                        <div class="orderEmployeeData-box"> -->
+                            <div class="tool-tab">
+                                <ul>
+                                    <li class="active">全部</li>
+                                    <li>大转盘</li>
+                                    <li>团拼</li>
+                                    <li>分享活动</li>
+                                </ul>
+                                <span class="line"></span>
+                            </div>
+                            <div style="height: 17vw;"></div>
+                            <div class="swiper-container wrap">
+                                <div class="swiper-wrapper">
+                                    <!-- 全部start -->
+                                    <div class="swiper-slide tab-content-1">
+                                        <div class="weui_cells">
+                                            <div class="financial-list">
+                                                <!--%if(!o.financialInfoData || o.financialInfoData.length == 0){ %-->
+                                                <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
+                                                <!--% } else  if(o.financialInfoData.length > 2){ %-->
+                                                <!--% for (var i=0; i <o.financialInfoData.length; i++) { %-->
+                                                <div class="financial-item" onclick="app.financial.financialInfo()">
+                                                    <div layout="row" layout-align="space-between center">
+                                                        <div class="logo" flex="20">
+                                                            <img src="../images/{%= o.financialInfoData[i].type %}.png" alt="活动logo">
+                                                        </div>
+                                                        <div class="info" layout="column" flex="65">
+                                                            <div layout="row">
+                                                                <span class="name">{%= app.tools.sliceStr(o.financialInfoData[i].title,14) %}</span>
+                                                                <!--%if(o.financialInfoData[i].status=="normal"){ %-->
+                                                                <span class="status">{%= app.tools.getConstantByValue(app.constant.PROMOTION_TYPE,o.financialInfoData[i].status) %}</span>
+                                                                <!--% } else { %-->
+                                                                <span class="status status-disable">{%= app.tools.getConstantByValue(app.constant.PROMOTION_TYPE,o.financialInfoData[i].status) %}</span>
+                                                                <!--% } %-->
+                                                            </div>
+                                                            <div class="date">{%= app.tools.formatDate(o.financialInfoData[i].startDate) %}至{%= app.tools.formatDate(o.financialInfoData[i].endDate) %}</div>
+                                                            <div layout="row" layout-align="space-between center">
+                                                                <span>点击量:<span class="number">{%= o.financialInfoData[i].visitCount %}</span></span>
+                                                                <span>转发量:<span class="number">{%= o.financialInfoData[i].shareCount %}</span></span>
+                                                                <span>成交量:<span class="number">{%= o.financialInfoData[i].buyCount %}</span></span>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <i class="ic">&#xe61a;</i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--% } %-->
+                                                <!--% }else{ %-->
+                                                <!--% for (var i=0; i <o.financialInfoData.length; i++) { %-->
+                                                <div class="financial-item-small" onclick="app.financial.financialInfo()">
+                                                    <div layout="column" layout-align="center start" class="financial-info-small">
+                                                        <div class="logo" flex>
+                                                            <img src="../images/{%= o.financialInfoData[i].type %}.png" alt="活动logo">
+                                                        </div>
+                                                        <div class="info"  flex>
+                                                            <div layout="row" flex-wrap="wrap">
+                                                                <span class="name">{%=o.financialInfoData[i].title %}</span>
+                                                                <!--%if(o.financialInfoData[i].status=="normal"){ %-->
+                                                                <span class="status">{%= app.tools.getConstantByValue(app.constant.PROMOTION_TYPE,o.financialInfoData[i].status) %}</span>
+                                                                <!--% } else { %-->
+                                                                <span class="status status-disable">{%= app.tools.getConstantByValue(app.constant.PROMOTION_TYPE,o.financialInfoData[i].status) %}</span>
+                                                                <!--% } %-->
+                                                            </div>
+                                                            <div class="date">{%= app.tools.formatDate(o.financialInfoData[i].startDate) %}至{%= app.tools.formatDate(o.financialInfoData[i].endDate) %}</div>
+                                                            <div layout="row" layout-align="space-between center" class="">
+                                                                <span>点击量:<span class="number">{%= o.financialInfoData[i].visitCount %}</span></span>
+                                                                <span>转发量:<span class="number">{%= o.financialInfoData[i].shareCount %}</span></span>
+                                                                <span>成交量:<span class="number">{%= o.financialInfoData[i].buyCount %}</span></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--% } %-->
+                                                <!--% } %-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 全部end -->
+                                    <!-- 大转盘 start -->
+                                    <div class="swiper-slide tab-content-2">
+                                        <div class="weui_cells">
+                                            <div class="financial-list">
+                                                <!--%if(!o.dzpList || o.dzpList.length == 0){ %-->
+                                                <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
+                                                <!--% } else { %-->
+                                                <!--% for (var i=0; i <o.dzpList.length; i++) { %-->
+                                                <div class="financial-item" onclick="app.financial.financialInfo()">
+                                                    <div layout="row" layout-align="space-between center">
+                                                        <div class="logo" flex="25">
+                                                            <img src="../images/{%= o.dzpList[i].type %}.png" alt="活动logo">
+                                                        </div>
+                                                        <div class="info" layout="column" flex="60">
+                                                            <div layout="row">
+                                                                <span class="name">{%= app.tools.sliceStr(o.dzpList[i].title,14) %}</span>
+                                                                <!--%if(o.dzpList[i].status=="normal"){ %-->
+                                                                <span class="status">{%= app.tools.getConstantByValue(app.constant.PROMOTION_TYPE,o.dzpList[i].status) %}</span>
+                                                                <!--% } else { %-->
+                                                                <span class="status status-disable">{%= app.tools.getConstantByValue(app.constant.PROMOTION_TYPE,o.dzpList[i].status) %}</span>
+                                                                <!--% } %-->
+                                                            </div>
+                                                            <div class="date">{%= app.tools.formatDate(o.dzpList[i].startDate) %}至{%= app.tools.formatDate(o.dzpList[i].endDate) %}</div>
+                                                            <div layout="row" layout-align="space-between center">
+                                                                <span>点击量:<span class="number">{%= o.dzpList[i].visitCount %}</span></span>
+                                                                <span>转发量:<span class="number">{%= o.dzpList[i].shareCount %}</span></span>
+                                                                <span>成交量:<span class="number">{%= o.dzpList[i].buyCount %}</span></span>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <i class="ic">&#xe61a;</i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--% } %-->
+                                                <!--% } %-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 大转盘 end -->
+                                    <!-- 团拼start -->
+                                    <div class="swiper-slide tab-content-3">
+                                        <div class="weui_cells">
+                                            <div class="financial-list">
+                                                <!--%if(!o.tgList || o.tgList.length == 0){ %-->
+                                                <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
+                                                <!--% } else { %-->
+                                                <!--% for (var i=0; i <o.tgList.length; i++) { %-->
+                                                <div class="financial-item" onclick="app.financial.financialInfo()">
+                                                    <div layout="row" layout-align="space-between center">
+                                                        <div class="logo" flex="25">
+                                                            <img src="../images/{%= o.tgList[i].type %}.png" alt="活动logo">
+                                                        </div>
+                                                        <div class="info" layout="column" flex="60">
+                                                            <div layout="row">
+                                                                <span class="name">{%= app.tools.sliceStr(o.tgList[i].title,14) %}</span>
+                                                                <!--%if(o.tgList[i].status=="normal"){ %-->
+                                                                <span class="status">{%= app.tools.getConstantByValue(app.constant.PROMOTION_TYPE,o.tgList[i].status) %}</span>
+                                                                <!--% } else { %-->
+                                                                <span class="status status-disable">{%= app.tools.getConstantByValue(app.constant.PROMOTION_TYPE,o.tgList[i].status) %}</span>
+                                                                <!--% } %-->
+                                                            </div>
+                                                            <div class="date">{%= app.tools.formatDate(o.tgList[i].startDate) %}至{%= app.tools.formatDate(o.tgList[i].endDate) %}</div>
+                                                            <div layout="row" layout-align="space-between center">
+                                                                <span>点击量:<span class="number">{%= o.tgList[i].visitCount %}</span></span>
+                                                                <span>转发量:<span class="number">{%= o.tgList[i].shareCount %}</span></span>
+                                                                <span>成交量:<span class="number">{%= o.tgList[i].buyCount %}</span></span>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <i class="ic">&#xe61a;</i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--% } %-->
+                                                <!--% } %-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 分享 -->
+                                    <div class="swiper-slide tab-content-4">
+                                        <div class="weui_cells">
+                                            <div class="financial-list">
+                                                <!--%if(!o.fxList || o.fxList.length == 0){ %-->
+                                                <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
+                                                <!--% } else { %-->
+                                                <!--% for (var i=0; i <o.fxList.length; i++) { %-->
+                                                <div class="financial-item" onclick="app.financial.financialInfo()">
+                                                    <div layout="row" layout-align="space-between center">
+                                                        <div class="logo" flex="25">
+                                                            <img src="../images/{%= o.fxList[i].type %}.png" alt="活动logo">
+                                                        </div>
+                                                        <div class="info" layout="column" flex="60">
+                                                            <div layout="row">
+                                                                <span class="name">{%= app.tools.sliceStr(o.fxList[i].title,14) %}</span>
+                                                                <!--%if(o.fxList[i].status=="normal"){ %-->
+                                                                <span class="status">{%= app.tools.getConstantByValue(app.constant.PROMOTION_TYPE,o.fxList[i].status) %}</span>
+                                                                <!--% } else { %-->
+                                                                <span class="status status-disable">{%= app.tools.getConstantByValue(app.constant.PROMOTION_TYPE,o.fxList[i].status) %}</span>
+                                                                <!--% } %-->
+                                                            </div>
+                                                            <div class="date">{%= app.tools.formatDate(o.fxList[i].startDate) %}至{%= app.tools.formatDate(o.fxList[i].endDate) %}</div>
+                                                            <div layout="row" layout-align="space-between center">
+                                                                <span>点击量:<span class="number">{%= o.fxList[i].visitCount %}</span></span>
+                                                                <span>转发量:<span class="number">{%= o.fxList[i].shareCount %}</span></span>
+                                                                <span>成交量:<span class="number">{%= o.fxList[i].buyCount %}</span></span>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <i class="ic">&#xe61a;</i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--% } %-->
+                                                <!--% } %-->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                   <!--          
+                        </div>
+                    </div> -->
+                </div>
+                <div style="height: 57px;"></div>
+                <!-- 面包 导航-->
+                <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
+                    <a href="/main.html#/index" flex="50" class="border-right ">
+                <i class="ic" ">&#xe68b;</i>
+                    <span>返回</span>
+                </a>
+                    <div flex="50 " class="dateList ">
+                        <i class="ic "> &#xe645;</i>
+                        <span>券状态</span>
+                    </div>
+                </div>
+                <!-- 券状态 -->
+                <div id="dateList">
+                    <div class="mask "></div>
+                    <div class="date_menu ">
+                        <div class="date_info ">
+                            <!--%if(o.promotionStatus && o.promotionStatus.length > 0){ %-->
+                            <!--% for (var i=0; i <o.promotionStatus.length; i++) { %-->
+                            <span data-type={%=o .promotionStatus[i].code%}>{%= o.promotionStatus[i].name %}</span>
+                            <!--% } %-->
+                            <!--% } %-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+       <!--  </div> -->
+    </script>
+</script>
