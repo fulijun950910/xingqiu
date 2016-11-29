@@ -79,7 +79,7 @@ app.financial = {
             'merchantId': employee.merchantId,
             'status': status ? status : undefined,
             'page': 1,
-            'size': 2
+            'size': 1000
         }
         app.financial.getWxPromotionStatistics(data).then(function(financialInfoData) {
                 var data = {

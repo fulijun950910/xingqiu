@@ -41,7 +41,7 @@ a {
     color: @secondary-color;
     bottom: 0;
     border-top: 1px solid #eaeaea;
-    z-index:11;
+    z-index: 11;
     div,
     a {
         color: @secondary-color;
@@ -58,6 +58,10 @@ a {
     .border-right {
         border-right: 1px solid #e5e5e5;
     }
+}
+
+.box-shadow {
+   // box-shadow: 1px 2px 2px rgba(102,102,102,.1);
 }
 
 //错误error
@@ -105,10 +109,10 @@ a {
     width: 25vw;
     height: 2px;
     background: @primary-color;
-    transition: left .5s;
+    transition: left .3s;
     left: 0;
     bottom: 0;
-    transition: left 1s;
+    transition: left .3s;
 }
 
 .line-animation {
@@ -344,7 +348,7 @@ a {
             display: flex;
             display: -webkit-flex;
             background: #fff;
-            box-shadow: 30px 30px 30px @primary-background-color;
+             .box-shadow;
             padding: 4vw;
             border-radius: 5px;
             margin:2vw 4vw;
