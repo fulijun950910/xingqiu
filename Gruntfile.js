@@ -34,7 +34,8 @@ module.exports = function(grunt) {
                     'src/js/libs/echarts.common.min.js',
                     'src/js/libs/router.index.js',
                     'src/js/libs/router.income.js',
-                    'src/js/libs/router.checkTicket.js'
+                    'src/js/libs/router.checkTicket.js',
+                    'src/js/libs/router.financial.js'
                 ],
                 libs: [
                     'src/js/libs/tmpl.js'
@@ -59,7 +60,8 @@ module.exports = function(grunt) {
                     'src/js/app/index/app.index.js',
                     'src/js/app/income/app.income.js',
                     'src/js/app/operationLog/operationLog_store.js',
-                    'src/js/app/checkTicket/app.checkTicket.js'
+                    'src/js/app/checkTicket/app.checkTicket.js',
+                    'src/js/app/financial/app.financial.js'
                 ]
             },
             cssFiles: {

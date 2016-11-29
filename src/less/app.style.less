@@ -4,6 +4,7 @@
 @font-primary-color: #333;
 @font-secondary-color: #888;
 @primary-background-color: #f4f4fc;
+@primary-status-color: #feb951;
 @font-small-size: 9pt;
 @font-default-size: 12px;
 @font-priceY-size: 16px;
@@ -20,6 +21,17 @@ a {
     margin: auto;
 }
 
+.go-right {
+    display: inline-block;
+    width: 2.5vw;
+    height: 2.5vw;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-right: none;
+    transform: rotate(225deg);
+    -webkit-transform: rotate(225deg);
+}
+
 //面包导航
 .breadCrumbs {
     position: fixed;
@@ -28,7 +40,11 @@ a {
     background: @primary-background-color;
     color: @secondary-color;
     bottom: 0;
-    div {
+    border-top: 1px solid #eaeaea;
+    z-index:11;
+    div,
+    a {
+        color: @secondary-color;
         line-height: 49px;
         .text-align-center;
         &:nth-of-type(2) {
@@ -36,12 +52,83 @@ a {
             border-right: 1px solid #e5e5e5;
         }
     }
+    .border-left {
+        border-left: 1px solid #e5e5e5;
+    }
+    .border-right {
+        border-right: 1px solid #e5e5e5;
+    }
 }
 
+//错误error
 .messageError {
     color: red;
     font-size: 9pt;
     display: none;
+}
+
+.tool-tab {
+    height: 10vh;
+    position: relative;
+    ul {
+        background: #fff;
+        color: @font-primary-color;
+        height: 100%;
+        display: flex;
+        margin-top: 2vw;
+        li {
+            list-style: none;
+            width: 50%;
+            height: 100%;
+            line-height: 10vh;
+            text-align: center;
+            &.active {
+                color: @primary-color;
+            }
+        }
+    }
+}
+
+.tab-container {
+    // min-height: 90vh;
+    background: @primary-background-color;
+}
+
+.active {
+    color: @primary-color;
+}
+
+.line {
+    margin-left: 0 !important;
+    display: block;
+    position: absolute;
+    width: 25vw;
+    height: 2px;
+    background: @primary-color;
+    transition: left .5s;
+    left: 0;
+    bottom: 0;
+    transition: left 1s;
+}
+
+.line-animation {
+    left: 25vw;
+}
+
+.weui_cells:after,
+.weui_cells:before {
+    width: 0 !important;
+}
+
+.none-data {
+    border-bottom: 1px solid #eaeaea;
+    height: 15vw;
+    line-height: 15vw;
+    text-align: center;
+    color: @font-primary-color;
+    font-size: 8pt;
+    background: #fff;
+    width: 100vw;
 }
 
 // 切换门店
@@ -93,7 +180,7 @@ a {
             font-size: 14px;
             &.active {
                 color: #00cbc7;
-                background: #f5f5f5;
+                background: @primary-background-color;
                 justify-content: space-between;
                 i {
                     font-weight: 900;
@@ -302,7 +389,7 @@ a {
             }
             .merchant_name {
                 font-size: 9pt;
-                color: #666;
+                color: @font-primary-color;
             }
         }
     }

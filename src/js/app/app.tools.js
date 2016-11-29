@@ -134,6 +134,11 @@ app.tools = {
         }
         return hours + ':' + minutes + ':' + seconds;
     },
+    formatDate: function(date) {
+        if (!date)
+            return "";
+        return moment(date).format('YYYY-MM-DD');
+    },
     //处理部分IOS不能滑动问题
     resetBodyWH: function() {
         var screenHeight = window.screen.height;
@@ -156,6 +161,19 @@ app.tools = {
         //  var value = unescape(allcookies.substring(cookie_pos, cookie_end));
         // }
         // return value;
+    },
+    getConstantByValue: function(constant, value) {
+        if (!constant) {
+            return null;
+        }
+        if (!value) {
+            return null;
+        }
+        for (var i = constant.length - 1; i >= 0; i--) {
+            if (constant[i].code == value) {
+                return constant[i].name;
+            }
+        }
     }
 }
 
