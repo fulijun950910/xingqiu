@@ -125,7 +125,7 @@ app.income = {
         var dataType = $('.income .dateList .date_name').attr('data-type');
         if (dataType && dataType.trim()) {
             memberData.dataType = $('.income .dateList .date_name').attr('data-type');
-            app.tools.getDateType(memberData.dataType, data)
+            app.tools.getDateType(memberData.dataType, data,incomeDate)
         } else {
             memberData.dataType = 1;
             data.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
@@ -137,13 +137,14 @@ app.income = {
                 memberData.storeId = result;
                 break;
             case 'date':
-                app.tools.getDateType(result, data)
+                app.tools.getDateType(result, data,incomeDate)
                 memberData.dataType = result;
                 break;
             case 'init':
                 var performanceInfo = null;
                 if (localStorage.performanceInfo && JSON.parse(localStorage.performanceInfo)) {
                     performanceInfo = JSON.parse(localStorage.performanceInfo);
+                    memberData.dataType = performanceInfo.dataType;
                 }
                 data.storeIds = performanceInfo.storeIds;
                 //自定义
@@ -154,9 +155,8 @@ app.income = {
                         startDate: data.startDate,
                         endDate: data.endDate
                     };
-                    memberData.dataType = performanceInfo.dataType;
                 } else {
-                    app.tools.getDateType(performanceInfo.dataType, data)
+                    app.tools.getDateType(performanceInfo.dataType, data,incomeDate)
                 }
                 break;
         }
@@ -170,8 +170,8 @@ app.income = {
                 var resultTmpl = tmpl(tmplhtml, memberData);
                 $('#tmpl-income').html(resultTmpl);
                 app.income.initDate(memberData.dataType); //初始化时间
-                app.income.initStoreList();//初始化门店
-                app.income.initCystomDate(memberData.dataType);//初始化自定义时间
+                app.income.initStoreList(); //初始化门店
+                app.income.initCystomDate(memberData.dataType); //初始化自定义时间
                 if (data.storeIds == employee.storeIds) {
                     $('.storeLists span:first').addClass('active').append('<i></i>');
                 } else {

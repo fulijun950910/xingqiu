@@ -260,7 +260,7 @@ app.tools = {
         $(".startDate").val(startDate);
         $('.endDate').val(endDate);
     },
-    getDateType: function(type, data) {
+    getDateType: function(type, data,date) {
         switch (parseInt(type)) {
             //今日
             case 1:
@@ -279,16 +279,16 @@ app.tools = {
                 break;
             case 4:
                 if ($('.startDate').val()) {
-                    data.startDate = moment($('.income .startDate').val()).format('YYYY-MM-DD HH:mm:') + "00";
-                    incomeDate.startDate = data.startDate;
+                    data.startDate = moment($('.startDate').val()).format('YYYY-MM-DD HH:mm:') + "00";
+                    date.startDate = data.startDate;
                 } else {
-                    data.startDate = incomeDate.startDate;
+                    data.startDate = date.startDate;
                 }
                 if ($('.endDate').val()) {
-                    data.endDate = moment($('.income .endDate').val()).format('YYYY-MM-DD HH:mm:') + "59";
-                    incomeDate.endDate = data.endDate;
+                    data.endDate = moment($('.endDate').val()).format('YYYY-MM-DD HH:mm:') + "59";
+                    date.endDate = data.endDate;
                 } else {
-                    data.endDate = incomeDate.endDate;
+                    data.endDate = date.endDate;
                 }
                 break;
         }

@@ -1,90 +1,3 @@
-//初始化门店切换
-function initStoreList() {
-    //展开门店选择
-    $('.index').on('click', '.storeList', function(event) {
-        $('.storeLists').fadeIn(200);
-        $('.storeLists .mask').addClass('mask_show');
-        $('.stores').addClass('stores-active');
-        $('.mask').height($('.bd').height());
-    });
-    //关闭门店选择
-    $('.index .storeLists').on('click', '.mask', function(event) {
-        $('.stores').removeClass('stores-active');
-        $('.storeLists .mask').removeClass('mask_show');
-    });
-    //点击切换门店
-    $('.index .storeLists .stores').on('click', 'span', function(event) {
-        $('.storeLists span').removeClass('active').find('i').remove();
-        $(this).addClass('active').append('<i></i>');
-        $('.index .storeLists .mask').click();
-        app.index.performance($(this).attr('data-id'), 'storeIds');
-    });
-};
-
-//初始化时间切换
-function initDate(memberData) {
-    $('.index').on('click', '.dateList', function() {
-        $('#dateList').fadeIn(200);
-        $('#dateList .mask').addClass('mask_show');
-        $('.date_menu').addClass('date_menu_active');
-        $('.mask').height($('.bd').height());
-        //判断是否有选中active
-        if (!$('#dateList span').hasClass('active')) {
-            $('#dateList span:first').addClass('active');
-        }
-    });
-    $('.index').on('click', '.mask', function() {
-        $('.date_menu').removeClass('date_menu_active');
-        $('.mask').removeClass('mask_show');
-        $('.cystomDate .date_menu').removeClass('date_menu_active');
-        $('.cystomDate .mask').removeClass('mask_show');
-        $('#dateList span').removeClass('active').find('i').remove();
-        $('#dateList span').eq(parseInt(memberData.dataType) - 1).addClass('active');
-    });
-    //点击切换日期
-    $('.index #dateList .date_info').on('click', 'span', function(event) {
-        $('#dateList span').removeClass('active').find('i').remove();
-        $(this).addClass('active');
-        $('.index  .mask').click();
-        if ($(this).attr('data-type') == 4) {
-            setIndexDate();
-            $('.cystomDate').fadeIn(200);
-            $('.cystomDate .mask').addClass('mask_show');
-            $('.cystomDate .date_menu').addClass('date_menu_active');
-            $('.cystomDate .mask').height($('.bd').height());
-        } else {
-            app.index.performance(parseInt($(this).attr('data-type')), 'date');
-        }
-        //   app.index.performance(parseInt($(this).attr('data-type')), 'date');
-    });
-};
-
-function initIndexCystomDate(memberData) {
-    //取消自定义事件选择
-    $('.cystomDate').on('click', '.cancelDate', function() {
-        $('.cystomDate .date_menu').removeClass('date_menu_active');
-        $('.cystomDate .mask').removeClass('mask_show');
-        $('#dateList span').removeClass('active').find('i').remove();
-        $('#dateList span').eq(parseInt(memberData.dataType) - 1).addClass('active');
-    });
-    //确定自定义时间选择
-    $('.cystomDate').on('click', '.saveDate', function() {
-        $('.income  .mask').click();
-        app.index.performance(4, 'date');
-    });
-};
-
-function setIndexDate() {
-    var startDate = moment().format('YYYY-MM-DD') + "T" + "00:00";
-    var endDate = moment().format('YYYY-MM-DD') + "T" + "23:59";
-    if (indexDate && indexDate.startDate) {
-        startDate = moment(indexDate.startDate).format('YYYY-MM-DD') + "T" + moment(indexDate.startDate).format('HH:mm:ss');
-        endDate = moment(indexDate.endDate).format('YYYY-MM-DD') + "T" + moment(indexDate.startDate).format('HH:mm:ss');
-    }
-    $(".index .startDate").val(startDate);
-    $('.index .endDate').val(endDate);
-};
-
 //初始化身份切换
 function initEemployee() {
     $('.index').on('click', '.employeeRoleList ', function() {
@@ -167,116 +80,22 @@ function initEemployee() {
 
 function initData() {
     $('.index .storeList .store_name').attr('data-storeId', "");
-    //  $('.index .dateList .date_name').attr('data-type', "");
     $('.index #employeeList .employee_item').attr('data-userId', '');
     $('.index #employeeList .employee_item').attr('data-employeeId', '');
     $('.index #employeeList .employee_item').attr('data-merchantId', '');
 };
 
-function getDateName(code, data) {
-    var result = [];
-    if (!code) {
-        return "今日";
-    }
-    if (data) {
-        result[4] = moment(data.startDate).format('YYYY-MM-DD') + "~" + moment(data.endDate).format('YYYY-MM-DD');
-    }
-
-    result[1] = "今日";
-    result[2] = "昨天";
-    result[3] = "本月";
-    return result[code];
-};
-
-//创建订单信息
-// var orderInfo = {}
-    //业绩来源
+//业绩来源
 var performanceInfo = {};
 
 //自定义时间
 var indexDate = {};
 
 function createOrderInfo() {
-    // var order = {
-    //     startDate: orderInfo.startDate,
-    //     endDate: orderInfo.endDate,
-    //     storeIds: orderInfo.orderStoreIds
-    // }
     var order_info = JSON.stringify(performanceInfo);
     window.localStorage.setItem("performanceInfo", order_info);
     window.location.href = "/performance-index.html#/order-list";
 };
-
-//获取时间
-function getIndexDateType(type, data) {
-    switch (parseInt(type)) {
-        //今日
-        case 1:
-            data.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
-            data.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
-            break;
-            //昨天
-        case 2:
-            data.startDate = moment().subtract(1, "days").format('YYYY-MM-DD ') + "00:00:00";
-            data.endDate = moment().subtract(1, "days").format('YYYY-MM-DD ') + "23:59:59";
-            break;
-            //本月
-        case 3:
-            data.startDate = moment().subtract(0, "month").startOf("month").format('YYYY-MM-DD ') + "00:00:00";
-            data.endDate = moment().subtract(0, "month").endOf('month').format('YYYY-MM-DD ') + "23:59:59";
-            break;
-        case 4:
-            if ($('.index .startDate').val()) {
-                data.startDate = moment($('.index .startDate').val()).format('YYYY-MM-DD HH:mm:') + "00";
-                indexDate.startDate = data.startDate;
-            } else {
-                data.startDate = indexDate.startDate;
-            }
-            if ($('.index .endDate').val()) {
-                data.endDate = moment($('.index .endDate').val()).format('YYYY-MM-DD HH:mm:') + "59";
-                indexDate.endDate = data.endDate;
-            } else {
-                data.endDate = indexDate.endDate;
-            }
-            // if (indexDate && indexDate.startDate) {
-            //     data.startDate = indexDate.startDate;
-            //     data.endDate = indexDate.endDate;
-            // } else {
-            //     data.startDate = moment($('.index .startDate').val()).format('YYYY-MM-DD HH:mm:') + "00";
-            //     data.endDate = moment($('.index .endDate').val()).format('YYYY-MM-DD HH:mm:') + "59";
-            //     indexDate.startDate = data.startDate;
-            //     indexDate.endDate = data.endDate;
-            // }
-            break;
-    }
-};
-
-//计算员工。管理员业绩与卡耗
-function changePerformance(role, memberData) {
-    if (role == "wechat_business_normal") {
-        memberData.performanceInfo.performance = app.tools.toThousands(memberData.performanceInfo.performance).split('.');
-        memberData.performanceInfo.performanceY = memberData.performanceInfo.performance[0];
-        memberData.performanceInfo.performanceF = memberData.performanceInfo.performance[1];
-        //卡耗 cardConsume
-        memberData.performanceInfo.cardConsume = app.tools.toThousands(memberData.performanceInfo.cardConsumeTotalAmount).split('.');
-        memberData.performanceInfo.cardConsumeY = memberData.performanceInfo.cardConsume[0];
-        memberData.performanceInfo.cardConsumeF = memberData.performanceInfo.cardConsume[1];
-    } else {
-        memberData.performanceInfo.performance = app.tools.toThousands(memberData.performanceInfo.income).split('.');
-        memberData.performanceInfo.performanceY = memberData.performanceInfo.performance[0];
-        memberData.performanceInfo.performanceF = memberData.performanceInfo.performance[1];
-        //卡耗 cardConsume
-        memberData.performanceInfo.cardConsume = app.tools.toThousands(memberData.performanceInfo.cardConsume).split('.');
-        memberData.performanceInfo.cardConsumeY = memberData.performanceInfo.cardConsume[0];
-        memberData.performanceInfo.cardConsumeF = memberData.performanceInfo.cardConsume[1];
-    }
-    //提成 
-    memberData.performanceInfo.currentMonthCommission = app.tools.toThousands(memberData.performanceInfo.currentMonthCommission).split('.');
-    memberData.performanceInfo.currentMonthCommissionY = memberData.performanceInfo.currentMonthCommission[0];
-    memberData.performanceInfo.currentMonthCommissionF = memberData.performanceInfo.currentMonthCommission[1];
-};
-
-function initHtml(memberData, employee) {};
 
 //初始化日期
 app.index = {
@@ -288,12 +107,45 @@ app.index = {
             }, function() {});
         });
     },
+    initDate: function(type) {
+        app.tools.initDate(type);
+        $('.index #dateList .date_info').on('click', 'span', function(event) {
+            $('#dateList span').removeClass('active').find('i').remove();
+            $(this).addClass('active');
+            $('.index  .mask').click();
+            if ($(this).attr('data-type') == 4) {
+                app.tools.setDate(indexDate);
+                $('.cystomDate').fadeIn(200);
+                $('.cystomDate .mask').addClass('mask_show');
+                $('.cystomDate .date_menu').addClass('date_menu_active');
+                $('.cystomDate .mask').height($('.bd').height());
+            } else {
+                app.index.performance(parseInt($(this).attr('data-type')), 'date');
+            }
+        });
+    },
+    initCystomDate: function(type) {
+        app.tools.initCystomDate(type);
+        //确定自定义时间选择
+        $('.cystomDate').on('click', '.saveDate', function() {
+            $('.index  .mask').click();
+            app.index.performance(4, 'date');
+        });
+    },
+    initStoreList: function() {
+        app.tools.initStoreList();
+        //点击切换门店
+        $('.index .storeLists .stores').on('click', 'span', function(event) {
+            $('.storeLists span').removeClass('active').find('i').remove();
+            $(this).addClass('active').append('<i></i>');
+            $('.index .storeLists .mask').click();
+            app.index.performance($(this).attr('data-id'), 'storeIds');
+        });
+    },
     init: function() {
-        // window.localStorage.setItem("orderInfo", "");
         window.localStorage.setItem("performanceInfo", "");
         window.sessionStorage.setItem('employeeList', "");
         initData();
-        //  $('#tmpl-index').html('');
         app.index.userdata().then(function(userDate) {
             if (!sessionStorage.getItem("employeeList")) {
                 app.index.getEmployee(JSON.parse(localStorage.employee).userId).then(function(employeeList) {
@@ -305,6 +157,7 @@ app.index = {
             }
         }, function() {})
     },
+
     performance: function(result, type) {
         var employee = null;
         if (localStorage.employee && JSON.parse(localStorage.employee)) {
@@ -330,7 +183,7 @@ app.index = {
         var dataType = $('.index .dateList .date_name').attr('data-type');
         if (dataType && dataType.trim()) {
             memberData.dataType = $('.index .dateList .date_name').attr('data-type');
-            getIndexDateType(memberData.dataType, data);
+            app.tools.getDateType(memberData.dataType, data, indexDate);
         } else {
             memberData.dataType = 1;
             data.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
@@ -342,16 +195,9 @@ app.index = {
                 memberData.storeId = result;
                 break;
             case 'date':
-                getIndexDateType(result, data);
+                app.tools.getDateType(result, data, indexDate);
                 memberData.dataType = result;
         }
-        //订单信息
-        // orderInfo = {
-        //     startDate: data.startDate,
-        //     endDate: data.endDate,
-        //     orderStoreIds: data.storeIds,
-        //     dataType:
-        // };
         //业绩来源信息、订单信息
         performanceInfo = {
             startDate: data.startDate,
@@ -369,7 +215,6 @@ app.index = {
         app.index.performanceReport(data, employee.role).then(function(performanceInfoData) {
                 memberData.performanceInfo = performanceInfoData;
                 //计算业绩、提成、卡耗
-                changePerformance(employee.role, memberData);
                 memberData.employeeList = JSON.parse(sessionStorage.employeeList);
                 if (employee.role == "wechat_business_normal") {
                     tmplhtml = $('#tmpl-index-normal-model').html();
@@ -381,9 +226,9 @@ app.index = {
                 app.changeTitle('业绩看板');
                 resultTmpl = tmpl(tmplhtml, memberData);
                 $('#tmpl-index').html(resultTmpl);
-                initStoreList();
-                initDate(memberData);
-                initIndexCystomDate(memberData);
+                app.index.initStoreList();
+                app.index.initDate(memberData.dataType);
+                app.index.initCystomDate(memberData.dataType);
                 if (memberData.employeeList.length > 1) {
                     initEemployee();
                     $('.index .employeeRoleList').show();
@@ -393,10 +238,12 @@ app.index = {
                         }
                     }
                 }
-                if (memberData.performanceInfo.performanceY.length > 6) {
+                //业绩、
+                if ((memberData.performanceInfo.income + "").length > 6) {
                     $('.achievementTotalAmount  .price').css('font-size', '12pt');
                 }
-                if (memberData.performanceInfo.currentMonthCommissionY.length > 6) {
+                //卡耗
+                if ((memberData.performanceInfo.cardConsume + "").length > 6) {
                     $('.cardConsumeTotalAmount  .price').css('font-size', '12pt');
                 }
                 if (employee.storeList.length == 1) {
@@ -429,7 +276,7 @@ app.index = {
                 }
                 //日期名称
                 $('#dateList span').eq(parseInt(memberData.dataType) - 1).addClass('active');
-                $('.index .dateList').find('.date_name').text(getDateName(memberData.dataType, data));
+                $('.index .dateList').find('.date_name').text(app.tools.getDateName(memberData.dataType, data));
                 $('.index .storeList').find('.store_name').text(app.tools.sliceStr($('.index .storeList').find('.store_name').text(), 14));
             },
             function() {})
