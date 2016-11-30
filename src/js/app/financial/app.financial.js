@@ -29,7 +29,7 @@ app.financial = {
         var promotionInstanceId = window.location.hash.substr(window.location.hash.indexOf('=') + 1);
         var data = {
             'merchantId': employee.merchantId,
-            'status': status ? status : undefined,
+            'ticketStatus': status ?parseInt(status) : undefined,
             promotionInstanceId: promotionInstanceId ? parseInt(promotionInstanceId) : undefined
         }
         app.financial.getWxPromotionDetails(data).then(function(financialInfoDetails) {
@@ -40,6 +40,19 @@ app.financial = {
                 var tmplhtml = $('#tmpl-financial-info-model').html();
                 var resultTmpl = tmpl(tmplhtml, data);
                 $('#tmpl-financial-info').html(resultTmpl);
+                app.tools.initDate();
+                $('#dateList').on('click', 'span', function(event) {
+                    $('#dateList span').removeClass('active');
+                    $('#dateList  .mask').click();
+                    $(this).addClass('active');
+                    app.financial.getWxPromotionStatisticsInfo($(this).attr('data-type'));
+                });
+                for (var i = data.ticketStatus.length - 1; i >= 0; i--) {
+                    if (data.ticketStatus[i].code == status) {
+                        $('#dateList span').eq(i).addClass('active');
+                        return;
+                    }
+                }
             },
             function() {})
     },
@@ -51,7 +64,7 @@ app.financial = {
         }
         var data = {
             'merchantId': employee.merchantId,
-            'status': status ? status : undefined,
+            'status': status ? parseInt(status) : undefined,
             'page': 1,
             'size': 1000
         }
