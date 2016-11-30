@@ -21,7 +21,11 @@
                             <span class="name">{%= app.tools.sliceStr(o.financialInfoDetails[i].memberName,14) %}</span>
                             <span class="phone" style="    margin-left: 2vw;">{%= o.financialInfoDetails[i].mobile %}</span>
                         </div>
-                        <div class="financial-status">{%= app.tools.getConstantByValue(app.constant.TICKET_STATUS,o.financialInfoDetails[i].ticketStatus) %}</div>
+                        <!--%if(o.financialInfoDetails[i].ticketStatus==1){ %-->
+                        <span class="financial-status">{%= app.tools.getConstantByValue(app.constant.TICKET_STATUS,o.financialInfoDetails[i].ticketStatus) %}</span>
+                        <!--% } else { %-->
+                        <span class="financial-disable">{%= app.tools.getConstantByValue(app.constant.TICKET_STATUS,o.financialInfoDetails[i].ticketStatus) %}</span>
+                        <!--% } %-->
                         <div class="date">{%= o.financialInfoDetails[i].createTime %}</div>
                     </div>
                     <div>
