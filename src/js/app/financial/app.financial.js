@@ -85,7 +85,7 @@ app.financial = {
         app.financial.getWxPromotionDetails(data).then(function(financialInfoDetails) {
                 var data = {
                     financialInfoDetails: financialInfoDetails,
-                    TICKET_STATUS: app.constant.TICKET_STATUS
+                    ticketStatus: app.constant.TICKET_STATUS
                 };
                 var tmplhtml = $('#tmpl-financial-info-model').html();
                 var resultTmpl = tmpl(tmplhtml, data);

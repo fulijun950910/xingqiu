@@ -41,7 +41,7 @@
             <span>我要</span>
             <span>验券</span>
         </a>
-         <div style="height: 49px;"></div>
+        <div style="height: 49px;"></div>
         <!-- <div style="height: 57px;"></div> -->
         <!-- 面包 导航-->
         <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
@@ -49,9 +49,21 @@
                 <i class="ic" ">&#xe68b;</i>
                     <span>返回</span>
                 </a>
-            <div flex="50 " class="storeList ">
+            <div flex="50 " class="dateList ">
                 <i class="ic "> &#xe645;</i>
                 <span>券状态</span>
+            </div>
+        </div>
+        <div id="dateList">
+            <div class="mask "></div>
+            <div class="date_menu ">
+                <div class="date_info ">
+                    <!--%if(o.ticketStatus && o.ticketStatus.length > 0){ %-->
+                    <!--% for (var i=0; i <o.ticketStatus.length; i++) { %-->
+                    <span data-type={%=o .ticketStatus[i].code%}>{%= o.ticketStatus[i].name %}</span>
+                    <!--% } %-->
+                    <!--% } %-->
+                </div>
             </div>
         </div>
     </script>
