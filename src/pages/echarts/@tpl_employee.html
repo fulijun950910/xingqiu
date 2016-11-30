@@ -4,11 +4,11 @@
         </div>
     </div>
     <script type="text/html" id="tmpl-employee-model">
-        <div class="header">
+        <!-- <div class="header">
             <span onclick="app.goBack()">  <i class="ic">&#xe60c;</i></span>
             <span class="head" onclick="app.goBack()">业绩看板</span>
             <span class="title">员工绩效分析</span>
-        </div>
+        </div> -->
         <div class="main">
             <span class="date" onclick="app.employeeEcharts.orderEmployeePerformanceList(1,'startDate')">上一月</span>
             <a id="showActionSheet_rank" href="javascript:;" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);color:#69e2da;">{%= app.tools.sliceStr(o.storeName,10 )%}<i class="ic">&#xe63f;</i></a>
@@ -20,15 +20,15 @@
             <div class="orderBy-box">
                 <div class="flex-25"></div>
                 <div class="orderBy-1" onclick="app.employeeEcharts.orderEmployeePerformanceList(1,'orderBy')">业绩
-                <i class="ic desc" >&#xe672;</i>
-                 <i class="ic asc"  style="display: none;" >&#xe671;</i>
+                    <i class="ic desc">&#xe672;</i>
+                    <i class="ic asc" style="display: none;">&#xe671;</i>
                 </div>
-                <div class="orderBy-2" onclick="app.employeeEcharts.orderEmployeePerformanceList(2,'orderBy')">卡耗 
-                        <i class="ic desc " >&#xe672;</i>
-                        <i class="ic asc" style="display: none;">&#xe671;</i>
-                 </div>
-                <div class="orderBy-3">客数 
-              <!--    <i class="ic desc">&#xe672;</i>
+                <div class="orderBy-2" onclick="app.employeeEcharts.orderEmployeePerformanceList(2,'orderBy')">卡耗
+                    <i class="ic desc ">&#xe672;</i>
+                    <i class="ic asc" style="display: none;">&#xe671;</i>
+                </div>
+                <div class="orderBy-3">客数
+                    <!--    <i class="ic desc">&#xe672;</i>
                 <i class="ic asc" style="display: none;">&#xe671;</i> -->
                 </div>
             </div>
@@ -43,24 +43,40 @@
                         <div class="employeeName">{%= app.tools.sliceStr(o.orderEmployeePerformanceList[i].employeeName,6) %}</div>
                         <div class="amount">{%= app.tools.toThousands(o.orderEmployeePerformanceList[i].achievementTotalAmount)%}</div>
                         <div class="amount">{%= app.tools.toThousands(o.orderEmployeePerformanceList[i].cardConsumeTotalAmount) %}</div>
-                        <div class="amount">{%= o.orderEmployeePerformanceList[i].serviceMemberCount +o.orderEmployeePerformanceList[i].serviceUnMemberCount  %} </div>
+                        <div class="amount">{%= o.orderEmployeePerformanceList[i].serviceMemberCount +o.orderEmployeePerformanceList[i].serviceUnMemberCount %} </div>
                     </div>
                     <!--% } %-->
                     <!--% } %-->
                 </div>
             </div>
         </div>
+        <div style="height: 57px;"></div>
+        <!-- 面包 导航-->
+        <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
+            <div onclick="app.goBack()" flex="33">
+                <i class="ic" ">&#xe68b;</i>
+            <span>返回</span>
+        </div>
+        <div flex="33 " class="storeList ">
+          <i class="ic "> &#xe645;</i>
+                <span>门店</span>
+            </div>
+            <div flex="33 " class="dateList ">
+                <i class="ic ">&#xe68c;</i>
+                <span>日期</span>
+            </div>
+        </div>
         <!-- 门店切换 -->
-        <div id="actionSheet_wrap">
-            <div class="weui_mask_transition" id="mask_rank"></div>
-            <div class="weui_actionsheet" id="weui_actionsheet_rank">
-                <div id="storeRankSheet" style="width: 100vw;max-height: 80vh;overflow-y: scroll;" class="weui_actionsheet_menu">
+        <div id="actionSheet_wrap ">
+            <div class="weui_mask_transition " id="mask_rank "></div>
+            <div class="weui_actionsheet " id="weui_actionsheet_rank ">
+                <div id="storeRankSheet " style="width: 100vw;max-height: 80vh;overflow-y: scroll; " class="weui_actionsheet_menu ">
                     <!--% for (var i=0; i <o.storeList.length; i++) { %-->
-                    <div name="{%= o.storeList[i].id %}" class="weui_actionsheet_cell">{%= o.storeList[i].name %}</div>
+                    <div name="{%=o .storeList[i].id %} " class="weui_actionsheet_cell ">{%= o.storeList[i].name %}</div>
                     <!--% } %-->
                 </div>
-                <div class="weui_actionsheet_action">
-                    <div class="weui_actionsheet_cell" id="actionsheet_cancel_rank">取消</div>
+                <div class="weui_actionsheet_action ">
+                    <div class="weui_actionsheet_cell " id="actionsheet_cancel_rank ">取消</div>
                 </div>
             </div>
         </div>
