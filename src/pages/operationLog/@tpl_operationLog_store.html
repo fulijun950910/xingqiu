@@ -1,0 +1,47 @@
+<script type="text/html" id="tpl_operationLog_store">
+    <!-- //隐藏标题 -->
+    <div id="hiddenTitle" class="hiddenTitle">预约单列表</div>
+    <div class="operaLog">
+        <div class="header">
+            <a href="/main.html#/index" class="head"><i class="ic">&#xe60c;</i>业绩看板</a>
+            <div class="title">系统事件记录</div>
+        </div>
+        <!-- 预约单顶栏 -->
+        <div class="headerFence">
+            <div class="headerFence9">
+                <a onclick="app.operationLog.leftDay(this,'store')" class="leftday"><i class="icon icon-uniF3D2"></i> 前一天</a>
+                <input onchange="app.operationLog.changeDay(this,'store')" style="background-color:transparent;" id="operationLogDate" class="operationLogDate" type="date">
+                <a onclick="app.operationLog.nextDay(this,'store')" class="nextday">后一天 <i class="icon icon-uniF3D3"></i></a>
+            </div>
+        </div>
+
+        <!-- 预约单列表 -->
+        <div class="operationLog" id="tpl-operationLogStore">
+
+
+        </div>
+    </div>
+    <script type="text/html" id="tmpl-operationLogStore">
+        <div class="bodBox">
+            <div class="logHeader" layout="row" layout-align="space-between center">
+                <div>门店名称</div>
+                <div flex="30">操作数量(笔)</div>
+            </div>
+            <div class="bodContent">
+                <div class="fullBox">
+                    <!--% if(o.length){ %-->
+                    <!--% for(var i=0;i<o.length;i++){ %-->
+                    <div class="logContent" data-storeId="{%=o[i].id %}" layout="row" layout-align="space-between center">
+                        <div>{%=o[i].name %}</div>
+                        <div flex="30" layout="row" layout-align="space-between center">
+                            <div class="Number">{%=o[i].recordCount %}</div>
+                            <i class="ic " style="color:#aaa;margin-top:2vw;">&#xe61a;</i>
+                        </div>
+                    </div>
+                    <!--% } %-->
+                    <!--% } %-->
+                </div>
+            </div>
+        </div>
+    </script>
+</script>

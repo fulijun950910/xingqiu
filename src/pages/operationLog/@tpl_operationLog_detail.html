@@ -1,0 +1,49 @@
+<script type="text/html" id="tpl_operationLog_detail">
+    <!-- //隐藏标题 -->
+    <div id="hiddenTitle" class="hiddenTitle">预约单列表</div>
+    <div class="bd">
+        <div class="operaLog">
+            <div class="header">
+                <a href="/operationLog.html#/operationLog_store" class="head"><i class="ic">&#xe60c;</i>返回</a>
+                <div class="title">系统事件记录-详情</div>
+            </div>
+            <!-- 预约单顶栏 -->
+            <div class="headerFence">
+                <div class="headerFence9">
+                    <a onclick="app.operationLog.leftDay(this,'detail')" class="leftday"><i class="icon icon-uniF3D2"></i> 前一天</a>
+                    <input onchange="app.operationLog.changeDay(this,'detail')" style="background-color:transparent;" id="operationLogDate" class="operationLogDate" type="date">
+                    <a onclick="app.operationLog.nextDay(this,'detail')" class="nextday">后一天 <i class="icon icon-uniF3D3"></i></a>
+                </div>
+            </div>
+
+            <!-- 预约单列表 -->
+            <div class="operationLog" id="tpl-operationLogDetail">
+
+            </div>
+        </div>
+    </div>
+    <script type="text/html" id="tmpl-operationLogDetail">
+        <!--% for(var i=0;i<o.length;i++){ %-->
+        <!--% if(o[i].value&&o[i].value.length>0){ %-->
+        <div class="tabBox act">
+            <div onclick="app.operationLog.showTab(this)" class="tabHead" layout="row" layout-align="space-between center">
+                <div>{%=o[i].name %}</div>
+            </div>
+            <div class="tabContent">
+                <!--% for(var j=0;j<o[i].value.length;j++){ %-->
+                <div class="tabContentItem" layout="row" layout-align="space-between start">
+                    <div flex="50">{%=o[i].value[j].operatorEvent %}
+                        <!--% if(o[i].value[j].memberName){ %-->
+                        ({%=o[i].value[j].memberName %}/{%=o[i].value[j].memberNo %})
+                        <!--% } %-->
+                    </div>
+                    <div flex="20" style="color:#8c8c8c;">{%=app.tools.toDate(o[i].value[j].operatorTime,"hh:mm:ss") %}</div>
+                    <div flex="30" style="text-align:right;">{%=o[i].value[j].operatorName %}</div>
+                </div>
+                <!--% } %-->
+            </div>
+        </div>
+        <!--% } %-->
+        <!--% } %-->
+    </script>
+</script>

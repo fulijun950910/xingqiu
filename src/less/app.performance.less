@@ -249,10 +249,10 @@ ul {
                 i:last-child {
                     font-size: 2em;
                 }
-                .icon-jiantou-copy2 {
+                .icon-jiantou-up {
                     color: #FF4848;
                 }
-                .icon-jiantou4 {
+                .icon-jiantou-down {
                     color: #5EE9A9;
                 }
                 .blueCor {
@@ -488,8 +488,6 @@ ul {
             //width: 92%;
             li {
                 font-size: 0.9em;
-                font-weight: 600;
-                padding: 4px 0;
                 .label_content {
                     display: inline-block;
                     width: 22%;
@@ -508,7 +506,6 @@ ul {
         }
         .comment {
             width: 100%;
-            margin-top: .8em;
             background: #fff;
             textarea {
                 width: 100%;
@@ -517,8 +514,10 @@ ul {
                 padding-top: .4em;
                 border: none;
                 resize: none;
-                font-weight: 600;
-                font-size: 1em;
+                font-size: 4vw;
+                color: #555;
+                font-family: "Microsoft YaHei",tahoma,arial,"Hiragino Sans GB","\5b8b\4f53",sans-serif;
+            }
             }
         }
     }
@@ -539,6 +538,10 @@ ul {
                 //  margin: 6px;
                 font-weight: normal;
                 border-radius: 10px;
+                margin:2px;
+                i{
+                    padding:3vw 0;
+                }
                 b {
                     margin-left: 13px;
                     display: inline-block;
@@ -566,6 +569,7 @@ ul {
             background: #f5f5f5;
             border: 1px dashed #fff;
             margin: 10px 0;
+            padding-bottom: 10px;
             ul {
                 display: -webkit-flex;
                 display: flex;
@@ -601,7 +605,7 @@ ul {
             }
         }
     }
-}
+
 
 //上传图片模块
 .servicepic {
@@ -631,6 +635,7 @@ ul {
     span {
         position: relative;
         margin-left: 3em;
+        color:#b2b2b2;
     }
 }
 
@@ -698,7 +703,7 @@ ul {
                     width: 5em;
                 }
                 span {
-                    color: #3DD5E0;
+                    color: #BEBEBE;
                 }
                 strong {
                     display: block;
@@ -761,7 +766,6 @@ ul {
                 float: right;
                 width: 20%;
                 height: 2.5em;
-                margin-top: .5em;
                 background-color: #FFF;
                 border-radius: .3em;
                 border: 1px solid #3DD5E0;
@@ -788,28 +792,24 @@ ul {
 .headerFence {
     position: relative;
     width: 100%;
-    height: 3em;
     background-color: #FFF;
-    line-height: 3em;
     text-align: center;
     color: #C8C8C8;
     border-bottom: 1px solid #D8D8D8;
     box-shadow: 0px 1px 3px #D8D8D8;
+    padding: 3vw 0 4vw;
     .headerFence9 {
         position: relative;
         width: 90%;
         margin: auto;
         a {
             position: relative;
-            display: inline-block;
-            border: 1px solid #9c9c9c;
-            color: #9c9c9c;
-            height: 1.7em;
-            width: 5em;
-            border-radius: .2em;
-            line-height: 1.7em;
-            font-size: .8em;
-            margin-top: .8em;
+            border: 1px solid #b44dce;
+            padding: 1vw 5vw;
+            border-radius: 5px;
+            font-size: 8pt;
+            color: #666;
+            -webkit-tap-highlight-color: transparent;
         }
         .leftday {
             float: left;
@@ -820,9 +820,8 @@ ul {
         input {
             text-align: center;
             border: none;
-            font-size: 1em;
+            font-size: 3.6vw;
             color: #646464;
-            padding-left: 2em;
         }
     }
 }
@@ -830,25 +829,30 @@ ul {
 //预约列表
 .bookingList {
     position: relative;
-    width: 100%;
+    width: 96%;
     background-color: #FFF;
-    margin-top: .8em;
+    margin: 4vw auto 0;
+    border-radius: .8vw;
     border-top: 1px solid #D8D8D8;
     border-bottom: 1px solid #D8D8D8;
     box-shadow: 0px 1px 3px #D8D8D8;
     color: #686868;
+    font-size:4vw;
+    .font-gay{
+        color:#bebebe;
+    }
     .bookinglist9 {
         position: relative;
-        width: 90%;
+        width:94%;
         margin: auto;
         .bookingClientName {
             position: relative;
             height: 1.6em;
             line-height: 1.6em;
-            margin-top: 1em;
+            margin-top: .8em;
             color: #6F6F6F;
             span {
-                color: #45D6E1;
+                color: #B54DCE;
             }
             a {
                 float: right;
@@ -872,7 +876,7 @@ ul {
                     width: 5em;
                 }
                 span {
-                    color: #3DD5E0;
+                    color: #bebebe;
                 }
                 strong {
                     display: block;
@@ -907,6 +911,34 @@ ul {
             }
         }
     }
+    .radiu-boder{
+        position:relative;
+        width:100%;
+        margin: 3vw 0 2vw;
+        .radiu{
+            width:4vw;
+            height:4vw;
+            background:#eee;
+            border-radius: 2vw;
+            position:absolute;
+            z-index: 0;
+        }
+        .left-radiu{
+            top:-2vw;
+            left:-4.8vw;
+        }
+        .right-radiu{
+            top:-2vw;
+            right:-4.8vw;
+        }
+        .center-border{
+            width:100%;
+            height:1.7vw;
+            margin:1.7vw auto 0;
+            border-top:1px dashed #eee;
+        }
+
+    }
 }
 
 // .bookingList:last-child{
@@ -921,9 +953,7 @@ ul {
 .orderlist-headerFence {
     position: relative;
     width: 100%;
-    height: 5.8em;
     background-color: #FFF;
-    line-height: 3em;
     color: #C8C8C8;
     border-bottom: 1px solid #D1D1D1;
     box-shadow: 0px 1px 3px #D1D1D1;
@@ -933,17 +963,15 @@ ul {
         width: 90%;
         margin: auto;
         border-bottom: 1px solid #EEE;
+        padding: 3vw 0 4vw;
         a {
             position: relative;
-            display: inline-block;
-            border: 1px solid #9c9c9c;
-            color: #9c9c9c;
-            height: 1.7em;
-            width: 5em;
-            border-radius: .2em;
-            line-height: 1.7em;
-            font-size: .8em;
-            margin-top: .8em;
+            border: 1px solid #b44dce;
+            padding: 1vw 5vw;
+            border-radius: 5px;
+            font-size: 8pt;
+            color: #666;
+            -webkit-tap-highlight-color: transparent;
         }
         .leftday {
             float: left;
@@ -954,9 +982,8 @@ ul {
         input {
             text-align: center;
             border: none;
-            font-size: 1em;
+            font-size: 3.6vw;
             color: #646464;
-            padding-left: 2em;
         }
     }
     .headerPerformance9 {
@@ -968,6 +995,7 @@ ul {
         margin: auto;
         .performance {
             display: inline;
+            font-size:4vw;
             strong {
                 color: #40D5E0;
             }
@@ -975,6 +1003,7 @@ ul {
         .push {
             display: inline;
             margin-left: 1em;
+            font-size:4vw;
             strong {
                 color: #40D5E0;
             }
@@ -1034,6 +1063,15 @@ ul {
                     color:#fff;
                     line-height:4vw;
                 }
+                .itemStatus-danger{
+                    background:#d76eed;
+                }
+                .itemStatus-pass{
+                    background:#9B9B9B;
+                }
+                .itemStatus-wait{
+                    background:#58A2E8;
+                }
             }
 
         }
@@ -1070,7 +1108,7 @@ ul {
                 }
                 span {
                     font-size:3.4vw;
-                    color:#000;
+                    color:#555;
                 }
                 strong {
                     display: block;
@@ -1082,7 +1120,7 @@ ul {
         .orderlist-performance {
             width: 100%;
             margin-top: .2em;
-            color: #000;
+            color: #555;
             font-size:3vw;
             .performance {
                 display: inline;
@@ -1133,7 +1171,7 @@ ul {
                 margin-top: .5em;
                 background-color: #FFF;
                 border-radius: .8vw;
-                border: 1px dotted #6F6F6F;
+                border: 1px dotted #aaa;
                 color: #000;
                 font-size: 4vw;
             }
@@ -1154,7 +1192,7 @@ ul {
     z-index: 1;
    left: 0px;
     width: 100%;
-    overflow: scroll;
+    overflow-y: inherit;
 }
 
 #scroller {
@@ -1188,7 +1226,7 @@ ul {
     z-index: 1;
     left: 0px;
     width: 100%;
-    overflow: scroll;
+    overflow-y: inherit;
 }
 
 .scroller {
@@ -1247,7 +1285,7 @@ ul {
             padding:1vw 0 0vw;
             font-size:3.6vw;
             i{
-                font-size: 6vw;
+                font-size: 5vw;
                 margin-top: -2vw;
                 margin-right:1vw;
             }

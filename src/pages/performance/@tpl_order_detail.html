@@ -1,17 +1,16 @@
 <script type="text/html" id="tpl_order_detail">
 <!-- //隐藏标题 -->
-<div id="hiddenTitle" class="hiddenTitle">订单明细</div>
-<div id="wrapper" class="order-detail-wrapper">
-    <div id="order-detail" class="scroller" >
+<div >
+    <div id="order-detail"  >
 
     </div>
 </div>
 
 <script type="text/html" id="tmpl-order-detail">
-    <div class="bd">
+    <div class="bd" style="padding-bottom: 5vw;">
         <div class="box detailUser">
             <div layout="row" layout-align="start center" style="margin-bottom:3vw;">
-                <img src="{%=app.filePath + o.member.avatarId %}" onerror="this.src='/images/upimg.png'" style="width:8vw;height:8vw;border-radius:4vw;margin-right:2vw;margin-top:-1vw;"  alt=""/>
+                <img src="{%=app.filePath + o.member.avatarId %}" onerror="this.src='/images/default_female.png'" style="width:8vw;height:8vw;border-radius:4vw;margin-right:2vw;margin-top:-1vw;"  alt=""/>
                 <span>{%=o.member.memberName%}</span>
                 <!--% if(o.member.memberMobile){ %-->
                 <span>/{%=o.member.memberMobile %}</span>
@@ -56,7 +55,7 @@
                 <div flex="30"><i class="ic icon-zhangdan"></i>内容项</div>
                 <div flex="10">单位</div>
                 <div flex="20">价格</div>
-                <div flex="15">支付方式</div>
+                <div flex="15"><nobr>支付方式</nobr> </div>
                 <div flex="25" style="text-align:right;">实收</div>
             </div>
             <div>
@@ -82,9 +81,11 @@
                         <!--% if(o.orderItems[i].orderEmployees&&o.orderItems[i].orderEmployees.length>0){ %-->
                         <!--% for(var j=0;j<o.orderItems[i].orderEmployees.length;j++){ %-->
                         <div>{%=o.orderItems[i].orderEmployees[j].employeeName %}&emsp;
+                            <!--% if(o.orderItems[i].orderEmployees[j].orderEmployeePerformances.length>0){ %-->
                             <span>业绩:￥{%=app.performance.order.fenToYuan(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].achievementTotalAmount) %}</span>
                             <span>| 卡耗:￥{%=app.performance.order.fenToYuan(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].cardConsumeTotalAmount) %}</span>
                             <span>| 提成:￥{%=app.performance.order.fenToYuan(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].commissionAmount) %}</span>
+                            <!--% } %-->
                         </div>
                         <!--% } %-->
                         <!--% } %-->
@@ -172,9 +173,11 @@
                         <!--% if(o.orderRechargeItems[i].orderEmployees&&o.orderRechargeItems[i].orderEmployees.length>0){ %-->
                         <!--% for(var j=0;j<o.orderRechargeItems[i].orderEmployees.length;j++){ %-->
                         <div>{%=o.orderRechargeItems[i].orderEmployees[j].employeeName %}&emsp;
+                            <!--% if(o.orderRechargeItems[i].orderEmployees[j].orderEmployeePerformances.length>0){ %-->
                             <span>业绩:￥{%=app.performance.order.fenToYuan(o.orderRechargeItems[i].orderEmployees[j].orderEmployeePerformances[0].achievementTotalAmount) %}</span>
                             <span>| 卡耗:￥{%=app.performance.order.fenToYuan(o.orderRechargeItems[i].orderEmployees[j].orderEmployeePerformances[0].cardConsumeTotalAmount) %}</span>
                             <span>| 提成:￥{%=app.performance.order.fenToYuan(o.orderRechargeItems[i].orderEmployees[j].orderEmployeePerformances[0].commissionAmount) %}</span>
+                            <!--% } %-->
                         </div>
                         <!--% } %-->
                         <!--% } %-->
@@ -239,16 +242,16 @@
         </div>
         <!--% } %-->
         <!--% if(o.serviceSubtota){ %-->
-        <div class="box orderNo" layout="row" layout-align="start center">
-            <div><img src="{%=app.filePath + o.serviceSubtotaFileId%}" onerror="this.src='/images/upimg.png'" style="width:20vw;height:20vw;margin-right:2vw;"  alt=""/></div>
+        <div class="box orderNo" >
             <div>
                 <p style="color:#aaa">服务小计：</p>
                 {%=o.serviceSubtota %}
             </div>
+            <div><img src="{%=app.filePath + o.serviceSubtotaFileId%}" onerror="this.src='/images/upimg.png'" style="width:40vw;margin-right:2vw;"  alt=""/></div>
         </div>
         <!--% } %-->
         <div class="submit_comment">
-            <a href="javascript:;" onclick="app.performance.order.comment({%=JSON.stringify(app.performance.order.order) %})" class="weui_btn comment_save_btn">写小计</a>
+            <a href="javascript:;" ontouchstart="app.performance.order.comment({%=JSON.stringify(app.performance.order.order) %})" class="weui_btn comment_save_btn">写小计</a>
         </div>
     </div>
 </script>

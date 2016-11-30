@@ -21,7 +21,9 @@ module.exports = function(grunt) {
                     'src/js/libs/router.bind.js',
                     'src/js/libs/router.userinfo.js',
                     'src/js/libs/router.sign.js',
+                    'src/js/libs/router.echarts.js',
                     'src/js/libs/router.performance.js',
+                    'src/js/libs/router.operationLog.js',
                     'src/js/libs/tmpl.js',
                     'src/js/libs/iscroll-probe.js',
                     'src/js/libs/jweixin-1.0.0.js',
@@ -29,6 +31,11 @@ module.exports = function(grunt) {
                     'src/js/libs/mobileBUGFix.mini.js',
                     'src/js/libs/swiper.jquery.min.js',
                     'src/js/libs/moment.min.js',
+                    'src/js/libs/echarts.common.min.js',
+                    'src/js/libs/router.index.js',
+                    'src/js/libs/router.income.js',
+                    'src/js/libs/router.checkTicket.js',
+                    'src/js/libs/router.financial.js'
                 ],
                 libs: [
                     'src/js/libs/tmpl.js'
@@ -47,6 +54,14 @@ module.exports = function(grunt) {
                     'src/js/app/performance/app.performance.rank.js',
                     'src/js/app/user/app.userinfo.js',
                     'src/js/app/sign/app.sign.js',
+                    'src/js/app/echarts/app.member.js',
+                    'src/js/app/echarts/app.employee.js',
+                    'src/js/app/echarts/app.product.js',
+                    'src/js/app/index/app.index.js',
+                    'src/js/app/income/app.income.js',
+                    'src/js/app/operationLog/operationLog_store.js',
+                    'src/js/app/checkTicket/app.checkTicket.js',
+                    'src/js/app/financial/app.financial.js'
                 ]
             },
             cssFiles: {
@@ -321,4 +336,5 @@ module.exports = function(grunt) {
     grunt.registerTask('test', ['qunit']);
     //grunt.registerTask('default', ['configureProxies:server','web-dev', 'connect', 'watch']);
     grunt.registerTask('default', ['web-dev', 'connect', 'watch']);
+    grunt.registerTask('packaging', ['web-dev']);
 };

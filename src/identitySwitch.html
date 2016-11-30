@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title></title>
+    <link rel="stylesheet" href="./css/weui.min.css"/>
+    <link rel="stylesheet" href="./css/example.css"/>
+    <link rel="stylesheet" href="./css/app.min.css"/>
+</head>
+<body>
+    <!-- 弹出选择身份列表 -->
+    <div class="select_shade" id="select_shade">
+        <div class="parent_panel">
+            <div id="show_employe_list" class="weui_cells weui_cells_radio">
+            </div>
+            <div class="selbtn_box">
+                <button onclick="app.userinfo.loginEmployee()" class="role_sel_btn">确认</button>
+            </div>
+        </div>
+    </div>
+    <script type="text/html" id="tmpl-employee-list">
+        <!--% for (var i=0; i <o.datas.length; i++) { %-->
+        <label class="weui_cell weui_check_label" for="{%=o.datas[i].id %}">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>
+                    <!--% if(o.datas[i].store){ %-->
+                    {%=o.datas[i].store.name %}-
+                    <!--% } %-->
+                    {%=o.datas[i].name %}</p>
+            </div>
+            <div class="weui_cell_ft">
+                <input type="radio" class="weui_check" data-employee="{%=o.datas[i].jsonData %}" name="emp_data"
+                       id="{%=o.datas[i].id %}">
+                <span class="weui_icon_checked"></span>
+            </div>
+        </label>
+        <!--% } %-->
+    </script>    
+<script src="./js/jquery.min.js"></script>
+<script src="./js/app.js"></script>
+<script src="js/libs.js"></script>
+<script type="text/javascript">
+$(function(){
+    //切换身份
+    $('#select_shade').show();
+
+    //处理选择身份
+    $('.weui_check_label').on('click',function(){
+        $(this).find('.weui_cell_ft .weui_check').click();
+    });
+
+    //阻止事件冒泡
+    $('.weui_check').on("click",function(event){
+        event.stopPropagation();    
+    });
+
+    //获取登陆用户信息
+    app.userinfo.getEmployee().then(function(employee) {
+        if (employee) {
+            //获取userid
+            var accountParam={
+                userId:employee.userId
+            }
+            //获取登录身份
+            app.api.userinfo.listEmployee({
+                data: accountParam,
+                success: function(resultEmployeeList) {
+                    if (!resultEmployeeList || !resultEmployeeList.success || !resultEmployeeList.data || resultEmployeeList.data.length <= 0) {
+                        app.alert('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息。', '登录异常');
+                        return;
+                    }
+                    for (var i in resultEmployeeList.data) {
+                        resultEmployeeList.data[i].jsonData = JSON.stringify(resultEmployeeList.data[i]);
+                    }
+                    var data = {
+                        datas: resultEmployeeList.data
+                    };
+                    var template = $('#tmpl-employee-list').html();
+                    var result = tmpl(template, data);
+                    $('#show_employe_list').html(result);
+
+                    // 如果只有一个员工，默认登录该员工并且绑定，否则显示员工列表让用户选择
+                    if (resultEmployeeList.data.length == 1) {
+                        $('#show_employe_list label:first').click();
+                        app.userinfo.loginEmployee();
+                    }else{
+                        $('#select_shade').show();
+                        $('#show_employe_list label:first').click();
+                    }
+                },
+                error: function(a, b, c){}
+            })
+        }
+    }, function() {});
+})
+</script>
+</body>
+</html>

@@ -40,6 +40,31 @@ String.prototype.format = function(format){
     var de=new Date(this);
     return de.format(format);
 }
+$.fn.tap = function (element, fun) {
+    var ele = this
+    if (arguments.length == 0) {
+        $(ele).trigger("touchstart")
+        $(ele).trigger("touchend")
+        return;
+    }
+    ele.on("touchstart", element, function (e) {
+        ele.on("touchend", element, function (e) {
+            var params = {
+                ele: this,
+                fun: fun
+            }
+            params.fun(e);
+            ele.off("touchend");
+        })
+        setTimeout(function () {
+            ele.off("touchend")
+        }, 800)
+        ele.on("touchmove", function (e) {
+            ele.off("touchend");
+        })
+
+    })
+}
 
 //百度统计代码
 var baiduStatistical={

@@ -1,0 +1,19 @@
+<script type="text/html" id="tpl_checkTitcket">
+    <div class="bd background-sign wrap" style="min-height: 100vh;">
+        <div id="tmpl-income" class="checkTicket">
+            <div class="div-body">
+                <div class="div-img">
+                    <img src="../images/checkTicket.jpg" width="100%" class="couponsImg" />
+                </div>
+                <div class="div-input">
+                    <i class="ic">&#xe685;</i>
+                    <input type="tel" placeholder="请输入兑换券券号" class="ticketNumber" />
+                </div>
+                <div class="messageError">
+                    请输入有效的券号
+                </div>
+                <span id="select" name="select" class="btnSelect" onclick="app.checkTicket.getTicketDetailInfo();">查询</span>
+            </div>
+        </div>
+    </div>
+</script>

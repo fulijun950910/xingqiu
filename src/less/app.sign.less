@@ -1,5 +1,5 @@
     body {
-        background-color: #ffffff;
+        background-color: @primary-background-color;
     }
     
     .sign_app {
@@ -27,7 +27,7 @@
                     // width: 35vw;
                     margin-left: 60vw;
                     word-wrap: break-word;
-                    text-align: right;
+                    text-align: left;
                 }
                 .week {
                     font-size: .7em;
@@ -46,7 +46,7 @@
             text-align: center;
             width: 1px;
             position: relative;
-            left: 58vw;
+            left: 57vw;
             top: -27vw;
             height: 45vw;
         }
@@ -101,12 +101,13 @@
     
     .line_top {
         position: absolute;
-        width: 8px;
-        height: 8px;
+        width: 2vw;
+        height: 2vw;
         border: 1px solid #d0d0d0;
         border-radius: 100%;
-        top: -9px;
-        left: -4px;
+        top: -2.8vw;
+        left: -1vw;
+        margin-left:-1px;
     }
     
     .sign_info_list {
@@ -120,7 +121,7 @@
                 margin-top: .5vw;
             }
             .sign_info {
-                font-size: 10pt;
+                font-size: 7pt;
                 word-wrap: break-word;
                 background: #f6f4f5;
                 width: 51vw;
@@ -128,7 +129,7 @@
             }
             .line_sign-0 {
                 top: 5vw;
-                left: 98.1%;
+                left: 56vw;
             }
         }
         .sign_in_info-1 {
@@ -143,7 +144,7 @@
             }
             .sign_info {
                 padding-top: 6vw;
-                font-size: 10pt;
+                font-size: 7pt;
                 width: 40vw;
                 word-wrap: break-word;
             }
@@ -171,6 +172,22 @@
         color: #7d7d7d;
         text-align: center;
         padding: 2vw;
+    }
+    
+    .login_in {
+        background: #62cda9;
+        color: #fff;
+        padding: .1vw 1vw;
+        border-radius: 5px;
+        font-size: 7pt;
+    }
+    
+    .login_out {
+        background: #bd9060;
+        color: #fff;
+        padding: .1vw 1vw;
+        border-radius: 5px;
+        font-size: 7pt;
     }
     
     //白色背景缓冲
