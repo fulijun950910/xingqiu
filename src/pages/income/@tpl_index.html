@@ -19,7 +19,7 @@
                     <div class="achievementTotalAmount totalAmount">
                         <span class="title">收入总计</span>
                         <span class="total-line"></span>
-                        <span class="price-icon">￥<span class="price">{%= o.totalAmount[0] %}</span>.{%= o.totalAmount[1] %}</span>
+                        <span class="price-icon">￥<span class="price">{%= app.tools.changePrice(o.totalAmount)[0] %}</span>.{%= app.tools.changePrice(o.totalAmount)[1] %}</span>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                     <span class="performance-name ">{%= o.performanceInfo[i][0] %}</span>
                 </div>
                 <!--   <span class="performance-count" flex="20">23笔</span> -->
-                <span class="price-icon font-priceF-size text-align-right" flex>￥<span class="font-priceY-size">{%=o.performanceInfo[i][1][0] %}</span>.{%= o.performanceInfo[i][1][1] %}</span>
+                <span class="price-icon font-priceF-size text-align-right" flex>￥<span class="font-priceY-size">{%= app.tools.changePrice(o.performanceInfo[i][1])[0] %}</span>.{%= app.tools.changePrice(o.performanceInfo[i][1])[1] %}</span>
             </div>
             <!--% } %-->
         </div>

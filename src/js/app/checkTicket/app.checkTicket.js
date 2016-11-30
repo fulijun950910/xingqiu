@@ -4,14 +4,6 @@
  }
  var ticketDetailInfo = null;
  app.checkTicket = {
-     ticketStatusName: function(status) {
-         var data = [];
-         data[1] = "待使用";
-         data[2] = "券不可用";
-         data[3] = "券已过期";
-         data[4] = "券已使用";
-         return data[status];
-     },
      checkTicket: function() {
          window.sessionStorage.setItem("ticketInfo", "");
          $('.container').css('background-color', '#fff ');
@@ -27,9 +19,6 @@
          }).keyup(function() {
              $(this).triggerHandler('blur');
          });
-         // .focus(function() {
-         //     $(this).triggerHandler('blur');
-         // });
      },
      //获取券信息
      getTicketDetailInfo: function() {
@@ -59,30 +48,7 @@
              }, function() {});
          });
      },
-     //初始化门店切换
-     initStoreList: function() {
-         //展开门店选择
-         $('.verifyTicketInstance').on('click', '.storeList', function(event) {
-             $('.verifyTicketInstance .storeLists').fadeIn(200);
-             $('.verifyTicketInstance .storeLists .mask').addClass('mask_show');
-             $('.verifyTicketInstance .stores').addClass('stores-active');
-             $('.verifyTicketInstance .mask').height($('.bd').height());
-         });
-         $('.verifyTicketInstance .storeList').find('.store_name').find('')
-             //关闭门店选择
-         $('.verifyTicketInstance .storeLists').on('click', '.mask', function(event) {
-             $('.stores').removeClass('stores-active');
-             $('.storeLists .mask').removeClass('mask_show');
-         });
-         //点击切换门店
-         $('.storeLists .stores').on('click', 'span', function(event) {
-             $('.storeLists span').removeClass('active').find('i').remove();
-             $(this).addClass('active').append('<i></i>');
-             $('.verifyTicketInstance .storeLists .mask').click();
-             app.checkTicket.init($(this).attr('data-id'));
-         });
 
-     },
      init: function(storeId) {
          app.checkTicket.userdata().then(function(userDate) {
              var storeIdActive = null;
@@ -102,7 +68,14 @@
              }
              $('.container').css('background-color', 'transparent ');
              if (ticketInfo.employeeInfo.storeList.length > 1) {
-                 app.checkTicket.initStoreList();
+                 app.tools.initStoreList();
+                 //点击切换门店
+                 $('.storeLists .stores').on('click', 'span', function(event) {
+                     $('.storeLists span').removeClass('active').find('i').remove();
+                     $(this).addClass('active').append('<i></i>');
+                     $('.storeLists .mask').click();
+                     app.checkTicket.init($(this).attr('data-id'));
+                 });
              }
 
              if (ticketInfo.employeeInfo.storeList.length > 1) {
@@ -140,6 +113,7 @@
              app.alert(error);
          });
      },
+     //查询券信息
      getTicket: function(data) {
          return new Promise(function(resolve, reject) {
              app.startLoading();
@@ -161,6 +135,7 @@
              });
          });
      },
+     //验券
      verifyTicketInstance: function(data) {
          return new Promise(function(resolve, reject) {
              app.startLoading();

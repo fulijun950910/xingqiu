@@ -7,7 +7,7 @@
         <div class="div-body">
             <div class="div-box" style="line-height: 20vw;" layout-align="space-between center" layout="row">
                 <div>券号：{%= o.ticketNo%}</div>
-                   <span class="ticketStatus">{%= app.checkTicket.ticketStatusName(o.status)%}</span>
+                   <span class="ticketStatus">{%= app.tools.getConstantByValue(app.constant.TICKET_STATUS,o.status) %}</span>
             </div>
             <div class="div-box" layout="row" layout-align="space-between center" layout="row">
                 <div>活动适用门店</div>

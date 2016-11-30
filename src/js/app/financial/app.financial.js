@@ -1,55 +1,5 @@
 //初始化日期
 app.financial = {
-    initSwiper: function() {
-        var mySwiper = new Swiper('.swiper-container', {
-            autoHeight: true,
-            onSlideChangeEnd: function(swiper) {
-                var j = mySwiper.activeIndex;
-                $('.line-animation').css('left', j * 25 + 'vw');
-                $('.line').addClass('line-animation');
-                $('.tool-tab li').removeClass('active');
-                $('.tool-tab li').eq(j).addClass('active');
-                mySwiper.slideTo(i, 1000, false);
-            }
-        });
-        $('.tool-tab').on('click', 'li', function(e) {
-            //取消事件的默认动作。
-            e.preventDefault();
-            //得到当前索引
-            var i = $(this).index();
-            mySwiper.slideTo(i, 1000, false);
-            $('.line-animation').css('left', i * 25 + 'vw');
-            $('.line').addClass('line-animation');
-            $('.tool-tab li').removeClass('active');
-            $(this).addClass('active');
-            mySwiper.slideTo(i, 1000, false);
-        });
-    },
-    //初始化时间切换
-    initDate: function() {
-        $('.breadCrumbs').on('click', '.dateList ', function() {
-            $('#dateList').fadeIn(200);
-            $('#dateList .mask').addClass('mask_show');
-            $('#dateList .date_menu').addClass('date_menu_active');
-            $('#dateList .mask').height($('.bd').height());
-            //判断是否有选中active
-            if (!$('#dateList span').hasClass('active')) {
-                $('#dateList span:first').addClass('active');
-            }
-        });
-        //取消
-        $('#dateList').on('click', '.mask', function() {
-            $('.date_menu').removeClass('date_menu_active');
-            $('.mask').removeClass('mask_show');
-        });
-        //点击切换
-        $('#dateList').on('click', 'span', function(event) {
-            $('#dateList span').removeClass('active');
-            $('#dateList  .mask').click();
-            $(this).addClass('active');
-            app.financial.getfinancialSourceInfo($(this).attr('data-type'));
-        });
-    },
     userdata: function() {
         //初始化用户信息
         return new Promise(function(resolve, reject) {
@@ -90,7 +40,6 @@ app.financial = {
                 var tmplhtml = $('#tmpl-financial-info-model').html();
                 var resultTmpl = tmpl(tmplhtml, data);
                 $('#tmpl-financial-info').html(resultTmpl);
-               // app.financial.initDate();
             },
             function() {})
     },
@@ -133,8 +82,14 @@ app.financial = {
                 var tmplhtml = $('#tmpl-financial-model').html();
                 var resultTmpl = tmpl(tmplhtml, data);
                 $('#tmpl-financial').html(resultTmpl);
-                app.financial.initSwiper();
-                app.financial.initDate();
+                app.tools.initSwiper();
+                app.tools.initDate();
+                $('#dateList').on('click', 'span', function(event) {
+                    $('#dateList span').removeClass('active');
+                    $('#dateList  .mask').click();
+                    $(this).addClass('active');
+                    app.financial.getfinancialSourceInfo($(this).attr('data-type'));
+                });
                 for (var i = data.promotionStatus.length - 1; i >= 0; i--) {
                     if (data.promotionStatus[i].code == status) {
                         $('#dateList span').eq(i).addClass('active');
