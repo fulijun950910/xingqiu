@@ -68,8 +68,8 @@ app.income = {
     },
     initDate: function(type) {
         app.tools.initDate(type);
-        $('.income #dateList .date_info').on('click', 'span', function(event) {
-            $('#dateList span').removeClass('active').find('i').remove();
+        $('.income .dateLists .date_info').on('click', 'span', function(event) {
+            $('.dateLists span').removeClass('active').find('i').remove();
             $(this).addClass('active');
             $('.income  .mask').click();
             if ($(this).attr('data-type') == 4) {
@@ -187,7 +187,7 @@ app.income = {
                     $('.income  .dateList').css({ 'left': '39vw', 'font-size': '10pt' });
                 }
                 //日期名称
-                $('#dateList span').eq(parseInt(memberData.dataType) - 1).addClass('active');
+                $('.dateLists span').eq(parseInt(memberData.dataType) - 1).addClass('active');
                 $('.income .dateList').find('.date_name').text(app.tools.getDateName(memberData.dataType, data));
                 $('.income .storeList').find('.store_name').text(app.tools.sliceStr($('.income .storeList').find('.store_name').text(), 14));
             },

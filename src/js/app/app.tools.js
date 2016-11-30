@@ -209,9 +209,9 @@ app.tools = {
         $('.cystomDate').on('click', '.cancelDate', function() {
             $('.cystomDate .date_menu').removeClass('date_menu_active');
             $('.cystomDate .mask').removeClass('mask_show');
-            $('#dateList span').removeClass('active').find('i').remove();
+            $('.dateLists span').removeClass('active').find('i').remove();
             if (type) {
-                $('#dateList span').eq(parseInt(type) - 1).addClass('active');
+                $('.dateLists span').eq(parseInt(type) - 1).addClass('active');
             }
         });
         $('.cystomDate').on('click', '.mask', function() {
@@ -219,33 +219,33 @@ app.tools = {
             $('.mask').removeClass('mask_show');
             $('.cystomDate .date_menu').removeClass('date_menu_active');
             $('.cystomDate .mask').removeClass('mask_show');
-            $('#dateList span').removeClass('active').find('i').remove();
+            $('.dateLists span').removeClass('active').find('i').remove();
             if (type) {
-                $('#dateList span').eq(parseInt(type) - 1).addClass('active');
+                $('.dateLists span').eq(parseInt(type) - 1).addClass('active');
             }
         });
     },
     //初始化
     initDate: function(type) {
         $('.dateList').click(function() {
-            $('#dateList').fadeIn(200);
-            $('#dateList .mask').addClass('mask_show');
-            $('#dateList .date_menu').addClass('date_menu_active');
-            $('#dateList .mask').height($('.bd').height());
+            $('.dateLists').fadeIn(200);
+            $('.dateLists .mask').addClass('mask_show');
+            $('.dateLists .date_menu').addClass('date_menu_active');
+            $('.dateLists .mask').height($('.bd').height());
             //判断是否有选中active
-            if (!$('#dateList span').hasClass('active')) {
-                $('#dateList span:first').addClass('active');
+            if (!$('.dateLists span').hasClass('active')) {
+                $('.dateLists span:first').addClass('active');
             }
         });
         //取消
-        $('#dateList').on('click', '.mask', function() {
+        $('.dateLists').on('click', '.mask', function() {
             $('.date_menu').removeClass('date_menu_active');
             $('.mask').removeClass('mask_show');
             $('.cystomDate .date_menu').removeClass('date_menu_active');
             $('.cystomDate .mask').removeClass('mask_show');
-            $('#dateList span').removeClass('active').find('i').remove();
+            $('.dateLists span').removeClass('active').find('i').remove();
             if (type) {
-                $('#dateList span').eq(parseInt(type) - 1).addClass('active');
+                $('.dateLists span').eq(parseInt(type) - 1).addClass('active');
             }
         });
     },

@@ -16,28 +16,28 @@ app.performance.order = {
     //初始化时间切换
     initDate: function(memberData) {
         $('.headerFence9').on('click', '.dateList', function() {
-            $('#dateList').fadeIn(200);
-            $('#dateList .mask').addClass('mask_show');
-            $('#dateList .date_menu').addClass('date_menu_active');
-            $('#dateList .mask').height($('.container').height());
+            $('.dateLists').fadeIn(200);
+            $('.dateLists .mask').addClass('mask_show');
+            $('.dateLists .date_menu').addClass('date_menu_active');
+            $('.dateLists .mask').height($('.container').height());
             //判断是否有选中active
-            if (!$('#dateList span').hasClass('active')) {
-                $('#dateList span:first').addClass('active');
+            if (!$('.dateLists span').hasClass('active')) {
+                $('.dateLists span:first').addClass('active');
             }
         });
-        $('#dateList').on('click', '.mask', function() {
+        $('.dateLists').on('click', '.mask', function() {
             $('.date_menu').removeClass('date_menu_active');
             $('.mask').removeClass('mask_show');
             $('.cystomDate .date_menu').removeClass('date_menu_active');
             $('.cystomDate .mask').removeClass('mask_show');
-            $('#dateList span').removeClass('active').find('i').remove();
-            // $('#dateList span').eq(parseInt(memberData.dataType) - 1).addClass('active');
+            $('.dateLists span').removeClass('active').find('i').remove();
+            // $('.dateLists span').eq(parseInt(memberData.dataType) - 1).addClass('active');
         });
         //点击切换日期
-        $('#dateList .date_info').on('click', 'span', function(event) {
-            $('#dateList span').removeClass('active').find('i').remove();
+        $('.dateLists .date_info').on('click', 'span', function(event) {
+            $('.dateLists span').removeClass('active').find('i').remove();
             $(this).addClass('active');
-            $('#dateList  .mask').click();
+            $('.dateLists  .mask').click();
             if ($(this).attr('data-type') == 4) {
                 app.performance.order.setDate();
                 $('.cystomDate').fadeIn(200);
@@ -55,8 +55,8 @@ app.performance.order = {
         $('.cystomDate').on('click', '.cancelDate', function() {
             $('.cystomDate .date_menu').removeClass('date_menu_active');
             $('.cystomDate .mask').removeClass('mask_show');
-            $('#dateList span').removeClass('active').find('i').remove();
-            //   $('#dateList span').eq(parseInt(memberData.dataType) - 1).addClass('active');
+            $('.dateLists span').removeClass('active').find('i').remove();
+            //   $('.dateLists span').eq(parseInt(memberData.dataType) - 1).addClass('active');
         });
         //确定自定义时间选择
         $('.cystomDate').on('click', '.saveDate', function() {
@@ -196,7 +196,7 @@ app.performance.order = {
                         app.endLoading();
                         app.performance.order.initDate(orderList);
                         app.performance.order.initCystomDate(orderList);
-                        $('#dateList span').eq(parseInt(orderList.dataType) - 1).addClass('active');
+                        $('.dateLists span').eq(parseInt(orderList.dataType) - 1).addClass('active');
                         if (!result.success || !result.data || !result.data.orderListVo) {
                             setTimeout(function() {
                                 app.tools.show('order-scroller');

@@ -109,8 +109,8 @@ app.index = {
     },
     initDate: function(type) {
         app.tools.initDate(type);
-        $('.index #dateList .date_info').on('click', 'span', function(event) {
-            $('#dateList span').removeClass('active').find('i').remove();
+        $('.index .dateLists .date_info').on('click', 'span', function(event) {
+            $('.dateLists span').removeClass('active').find('i').remove();
             $(this).addClass('active');
             $('.index  .mask').click();
             if ($(this).attr('data-type') == 4) {
@@ -275,7 +275,7 @@ app.index = {
                     $('.index  .dateList').css({ 'left': '39vw', 'font-size': '10pt' });
                 }
                 //日期名称
-                $('#dateList span').eq(parseInt(memberData.dataType) - 1).addClass('active');
+                $('.dateLists span').eq(parseInt(memberData.dataType) - 1).addClass('active');
                 $('.index .dateList').find('.date_name').text(app.tools.getDateName(memberData.dataType, data));
                 $('.index .storeList').find('.store_name').text(app.tools.sliceStr($('.index .storeList').find('.store_name').text(), 14));
             },

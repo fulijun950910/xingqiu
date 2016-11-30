@@ -41,15 +41,15 @@ app.financial = {
                 var resultTmpl = tmpl(tmplhtml, data);
                 $('#tmpl-financial-info').html(resultTmpl);
                 app.tools.initDate();
-                $('#dateList').on('click', 'span', function(event) {
-                    $('#dateList span').removeClass('active');
-                    $('#dateList  .mask').click();
+                $('.dateLists').on('click', 'span', function(event) {
+                    $('.dateLists span').removeClass('active');
+                    $('.dateLists  .mask').click();
                     $(this).addClass('active');
                     app.financial.getWxPromotionStatisticsInfo($(this).attr('data-type'));
                 });
                 for (var i = data.ticketStatus.length - 1; i >= 0; i--) {
                     if (data.ticketStatus[i].code == status) {
-                        $('#dateList span').eq(i).addClass('active');
+                        $('.dateLists span').eq(i).addClass('active');
                         return;
                     }
                 }
@@ -64,7 +64,7 @@ app.financial = {
         }
         var data = {
             'merchantId': employee.merchantId,
-            'status': status ? parseInt(status) : undefined,
+            'status': status ? status : undefined,
             'page': 1,
             'size': 1000
         }
@@ -97,15 +97,15 @@ app.financial = {
                 $('#tmpl-financial').html(resultTmpl);
                 app.tools.initSwiper();
                 app.tools.initDate();
-                $('#dateList').on('click', 'span', function(event) {
-                    $('#dateList span').removeClass('active');
-                    $('#dateList  .mask').click();
+                $('.dateLists').on('click', 'span', function(event) {
+                    $('.dateLists span').removeClass('active');
+                    $('.dateLists  .mask').click();
                     $(this).addClass('active');
                     app.financial.getfinancialSourceInfo($(this).attr('data-type'));
                 });
                 for (var i = data.promotionStatus.length - 1; i >= 0; i--) {
                     if (data.promotionStatus[i].code == status) {
-                        $('#dateList span').eq(i).addClass('active');
+                        $('.dateLists span').eq(i).addClass('active');
                         return;
                     }
                 }
