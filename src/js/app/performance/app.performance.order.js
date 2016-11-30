@@ -200,7 +200,6 @@ app.performance.order = {
                         if (!result.success || !result.data || !result.data.orderListVo) {
                             setTimeout(function() {
                                 app.tools.show('order-scroller');
-
                             }, 200);
                             return;
                         }
@@ -614,6 +613,9 @@ app.performance.order = {
 
     },
     countPerformance: function(data) {
+        //重置初始化
+        app.performance.order.performance = 0;
+        app.performance.order.commission = 0;
         for (var i in data) {
             var orderVo = data[i];
             app.performance.order.performance = parseInt(app.performance.order.performance) + parseInt(orderVo.performance);
