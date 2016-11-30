@@ -26,7 +26,7 @@
                                 <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
                                 <!--% } else  if(o.financialInfoData.length > 2){ %-->
                                 <!--% for (var i=0; i <o.financialInfoData.length; i++) { %-->
-                                <div class="financial-item" onclick="app.financial.financialInfo()">
+                                <div class="financial-item" onclick="app.financial.financialInfo({%= o.financialInfoData[i].id %})">
                                     <div layout="row" layout-align="space-between center">
                                         <div class="logo" flex="15">
                                             <img src="../images/{%= o.financialInfoData[i].type %}.png" alt="活动logo">
@@ -55,7 +55,7 @@
                                 <!--% } %-->
                                 <!--% }else{ %-->
                                 <!--% for (var i=0; i <o.financialInfoData.length; i++) { %-->
-                                <div class="financial-item-small" onclick="app.financial.financialInfo()">
+                                <div class="financial-item-small" onclick="app.financial.financialInfo({%= o.financialInfoData[i].id %})">
                                     <div layout="column" layout-align="center start" class="financial-info-small">
                                         <div class="logo" flex>
                                             <img src="../images/{%= o.financialInfoData[i].type %}.png" alt="活动logo">
@@ -92,7 +92,7 @@
                                 <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
                                 <!--% } else  if(o.dzpList.length > 2){ %-->
                                 <!--% for (var i=0; i <o.dzpList.length; i++) { %-->
-                                <div class="financial-item" onclick="app.financial.financialInfo()">
+                                <div class="financial-item" onclick="app.financial.financialInfo({%= o.dzpList[i].id %})">
                                     <div layout="row" layout-align="space-between center">
                                         <div class="logo" flex="15">
                                             <img src="../images/{%= o.dzpList[i].type %}.png" alt="活动logo">
@@ -121,7 +121,7 @@
                                 <!--% } %-->
                                 <!--% }else{ %-->
                                 <!--% for (var i=0; i <o.dzpList.length; i++) { %-->
-                                <div class="financial-item-small" onclick="app.financial.financialInfo()">
+                                <div class="financial-item-small" onclick="app.financial.financialInfo({%= o.dzpList[i].id %})">
                                     <div layout="column" layout-align="center start" class="financial-info-small">
                                         <div class="logo" flex>
                                             <img src="../images/{%= o.dzpList[i].type %}.png" alt="活动logo">
@@ -158,7 +158,7 @@
                                 <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
                                 <!--% } else  if(o.tgList.length > 2){ %-->
                                 <!--% for (var i=0; i <o.tgList.length; i++) { %-->
-                                <div class="financial-item" onclick="app.financial.financialInfo()">
+                                <div class="financial-item" onclick="app.financial.financialInfo({%= o.tgList[i].id %})">
                                     <div layout="row" layout-align="space-between center">
                                         <div class="logo" flex="15">
                                             <img src="../images/{%= o.tgList[i].type %}.png" alt="活动logo">
@@ -187,7 +187,7 @@
                                 <!--% } %-->
                                 <!--% }else{ %-->
                                 <!--% for (var i=0; i <o.tgList.length; i++) { %-->
-                                <div class="financial-item-small" onclick="app.financial.financialInfo()">
+                                <div class="financial-item-small" onclick="app.financial.financialInfo({%= o.tgList[i].id %})">
                                     <div layout="column" layout-align="center start" class="financial-info-small">
                                         <div class="logo" flex>
                                             <img src="../images/{%= o.tgList[i].type %}.png" alt="活动logo">
@@ -223,7 +223,7 @@
                                 <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
                                 <!--% } else  if(o.fxList.length > 2){ %-->
                                 <!--% for (var i=0; i <o.fxList.length; i++) { %-->
-                                <div class="financial-item" onclick="app.financial.financialInfo()">
+                                <div class="financial-item" onclick="app.financial.financialInfo({%= o.fxList[i].id %})">
                                     <div layout="row" layout-align="space-between center">
                                         <div class="logo" flex="15">
                                             <img src="../images/{%= o.fxList[i].type %}.png" alt="活动logo">
@@ -252,7 +252,7 @@
                                 <!--% } %-->
                                 <!--% }else{ %-->
                                 <!--% for (var i=0; i <o.fxList.length; i++) { %-->
-                                <div class="financial-item-small" onclick="app.financial.financialInfo()">
+                                <div class="financial-item-small" onclick="app.financial.financialInfo({%= o.fxList[i].id %})">
                                     <div layout="column" layout-align="center start" class="financial-info-small">
                                         <div class="logo" flex>
                                             <img src="../images/{%= o.fxList[i].type %}.png" alt="活动logo">

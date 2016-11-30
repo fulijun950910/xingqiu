@@ -16,7 +16,7 @@ $(function() {
         }
     };
     var tpl_financial_info= {
-        url: '/financial-info',
+        url: '/financial-info?:promotionInstanceId',
         render: function() {
             return $('#tpl_financial_info').html();
         },

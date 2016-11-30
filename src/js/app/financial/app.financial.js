@@ -58,18 +58,43 @@ app.financial = {
             }, function() {});
         });
     },
+    //初始化活动数据
     init: function() {
         app.financial.userdata().then(function() {
             app.financial.getfinancialSourceInfo();
         }, function() {})
     },
+    //初始化活动营销数据
     info: function() {
-        $('#container').html($('#tpl_financial_info').html());
+        app.financial.userdata().then(function() {
+            app.financial.getWxPromotionStatisticsInfo();
+        }, function() {})
     },
     //微信详情
-    financialInfo: function() {
-        window.location.href = "/wechat-financial.html#/financial-info";
+    financialInfo: function(promotionInstanceId) {
+        window.location.href = "/wechat-financial.html#/financial-info?promotionInstanceId=" + promotionInstanceId;
     },
+    //活动营销数据
+    getWxPromotionStatisticsInfo: function(status) {
+        var promotionInstanceId = window.location.hash.substr(window.location.hash.indexOf('=') + 1);
+        var data = {
+            'merchantId': employee.merchantId,
+            'status': status ? status : undefined,
+            promotionInstanceId: promotionInstanceId ? parseInt(promotionInstanceId) : undefined
+        }
+        app.financial.getWxPromotionDetails(data).then(function(financialInfoDetails) {
+                var data = {
+                    financialInfoDetails: financialInfoDetails,
+                    TICKET_STATUS: app.constant.TICKET_STATUS
+                };
+                var tmplhtml = $('#tmpl-financial-info-model').html();
+                var resultTmpl = tmpl(tmplhtml, data);
+                $('#tmpl-financial-info').html(resultTmpl);
+               // app.financial.initDate();
+            },
+            function() {})
+    },
+    //活动详情
     getfinancialSourceInfo: function(status) {
         var employee = null;
         if (localStorage.employee && JSON.parse(localStorage.employee)) {
@@ -120,11 +145,33 @@ app.financial = {
             },
             function() {})
     },
-    //获取业绩来源
+    //获取活动详情
     getWxPromotionStatistics: function(data) {
         return new Promise(function(resolve, reject) {
             app.startLoading();
             app.api.financial.getWxPromotionStatistics({
+                data: data,
+                success: function(results) {
+                    app.endLoading();
+                    if (results.success) {
+                        resolve(results.data);
+                    } else {
+                        reject(results.message);
+                    }
+                },
+                error: function(error) {
+                    app.endLoading();
+                    console.info(error);
+                    reject(error);
+                }
+            });
+        });
+    },
+    //获取活动营销数据
+    getWxPromotionDetails: function(data) {
+        return new Promise(function(resolve, reject) {
+            app.startLoading();
+            app.api.financial.getWxPromotionDetails({
                 data: data,
                 success: function(results) {
                     app.endLoading();

@@ -1,38 +1,47 @@
 <script type="text/html" id="tpl_financial_info">
     <div class="bd background-sign" style="min-height: 100vh;">
         <div id="tmpl-financial-info" class="financial-info">
-            <div class="financial-info-list wrap">
-                <div style="height: 5vw"></div>
-                <!-- item start -->
-                <div class="financial-item">
-                    <div layout="row" layout-align="space-between center">
-                        <div class="logo" flex="20">
-                            <img src="../images/404.png" alt="活动logo">
-                        </div>
-                        <div class="info" layout="column" flex="65">
-                            <div layout="row">
-                                <span class="name">王一朵</span>
-                                <span class="phone" style="    margin-left: 2vw;">13764940297</span>
-                            </div>
-                            <div class="financial-status">末验券</div>
-                            <div class="date">2016-11-30 12:40:20</div>
-                        </div>
-                        <div>
-                            <span class="price">￥300.00</span>
-                        </div>
+        </div>
+    </div>
+    <script type="text/html" id="tmpl-financial-info-model">
+        <div class="financial-info-list wrap">
+            <div style="height: 5vw"></div>
+            <!-- item start -->
+            <!--%if(!o.financialInfoDetails || o.financialInfoDetails.length == 0){ %-->
+            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
+            <!--% } else { %-->
+            <!--% for (var i=0; i <o.financialInfoDetails.length; i++) { %-->
+            <div class="financial-item">
+                <div layout="row" layout-align="space-between center">
+                    <div class="logo" flex="20">
+                        <img id="comment-pic" src="{%=app.filePath + o.financialInfoDetails[i].memberAvatarId %}" onerror="this.src='images/default_female.png'">
                     </div>
-                    <div class="activeInfo">
-                        <span class="active"></span>
-                        <span class="buyStatus">买</span>
+                    <div class="info" layout="column" flex="65">
+                        <div layout="row">
+                            <span class="name">{%= app.tools.sliceStr(o.financialInfoDetails[i].memberName,14) %}</span>
+                            <span class="phone" style="    margin-left: 2vw;">{%= o.financialInfoDetails[i].mobile %}</span>
+                        </div>
+                        <div class="financial-status">{%= app.tools.getConstantByValue(app.constant.TICKET_STATUS,o.financialInfoDetails[i].ticketStatus) %}</div>
+                        <div class="date">{%= o.financialInfoDetails[i].createTime %}</div>
+                    </div>
+                    <div>
+                        <span class="price font-priceF-size " flex>￥<span class="font-priceY-size">{%= app.tools.changePrice(o.financialInfoDetails[i].price)[0] %}</span>.{%= app.tools.changePrice(o.financialInfoDetails[i].price)[1] %}</span>
                     </div>
                 </div>
-                <!-- item end -->
+                <div class="activeInfo">
+                    <span class="active"></span>
+                    <span class="buyStatus">{%= app.tools.getConstantByValue(app.constant.ORDER_STATUS,o.financialInfoDetails[i].status) %}</span>
+                </div>
             </div>
-            <a class="checkTicket" layout="column" layout-align="center center" href="/check-ticket.html#/checkTicket">
-                <span>我要</span>
-                <span>验券</span>
-            </a>
+            <!--% } %-->
+            <!--% } %-->
+            <!-- item end -->
         </div>
+        <a class="checkTicket" layout="column" layout-align="center center" href="/check-ticket.html#/checkTicket">
+            <span>我要</span>
+            <span>验券</span>
+        </a>
+         <div style="height: 49px;"></div>
         <!-- <div style="height: 57px;"></div> -->
         <!-- 面包 导航-->
         <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
@@ -45,5 +54,5 @@
                 <span>券状态</span>
             </div>
         </div>
-    </div>
+    </script>
 </script>

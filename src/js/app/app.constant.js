@@ -30,7 +30,22 @@ app.constant = {
         { name: '待审核', code: 'audit' },
         { name: '上架', code: 'normal' },
         { name: '下架', code: 'disshelve' },
-        { name: '过期', code: 'past' }, 
+        { name: '过期', code: 'past' },
         { name: '打回', code: 'audit_fail' }
+    ],
+    //券状态
+    TICKET_STATUS: [
+        { name: '末验券', code: 1 },
+        { name: '不可用', code: 2 },
+        { name: '已过期', code: 3 },
+        { name: '已使用', code: 4 },
+        { name: '', code: "" }
+    ],
+    //订单状态
+    ORDER_STATUS: [
+        { name: '买', code: 'buy' },
+        { name: '赠', code: 'present' },
+        { name: '退', code: 'refund' },
+        { name: '待', code: 'notbuy' }
     ]
 }

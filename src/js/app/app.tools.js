@@ -174,6 +174,9 @@ app.tools = {
                 return constant[i].name;
             }
         }
+    },
+    changePrice: function(price) {
+        return app.tools.toThousands(price).split('.');
     }
 }
 
