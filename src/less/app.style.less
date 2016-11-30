@@ -117,6 +117,7 @@ a {
     left: 0;
     bottom: 0;
     transition: left .3s;
+    -webkit-transition: left .3s;
 }
 
 .line-animation {
@@ -174,7 +175,6 @@ a {
         //height: 50vh;
         //max-height: 50vh;
         //height: 100px;
-        overflow-y: auto;
         background: #fff;
         transition: all .4s;
         -webkit-transition: all .4s;
@@ -190,6 +190,7 @@ a {
                 color: #00cbc7;
                 background: @primary-background-color;
                 justify-content: space-between;
+                -webkit-justify-content: space-between;
                 i {
                     font-weight: 900;
                     line-height: 6vw;
@@ -357,6 +358,7 @@ a {
             border-radius: 5px;
             margin:2vw 4vw;
             align-items: center;
+            -webkit-align-items: center;
             position:relative;
             .line {
                 position: absolute;
@@ -390,7 +392,9 @@ a {
         }
         .employee_info {
             display: flex;
+            display:-webkit-flex;
             flex-flow: column;
+            -webkit-flex-flow: column;
             margin-left: 3vw;
             .employee_name {
                 font-size: 14px;
