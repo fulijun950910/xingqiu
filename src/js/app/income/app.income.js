@@ -1,26 +1,8 @@
-// function initCystomDate(type) {
-//     //取消自定义事件选择
-//     $('.cystomDate').on('click', '.cancelDate', function() {
-//         $('.cystomDate .date_menu').removeClass('date_menu_active');
-//         $('.cystomDate .mask').removeClass('mask_show');
-//         $('#dateList span').removeClass('active').find('i').remove();
-//         if (type) {
-//             $('#dateList span').eq(parseInt(type) - 1).addClass('active');
-//         }
-//     });
-//     //确定自定义时间选择
-//     $('.cystomDate').on('click', '.saveDate', function() {
-//         $('.income  .mask').click();
-//         app.income.getIncomeSourceInfo(4, 'date');
-//     });
-// }
 //自定义时间
 var incomeDate = {};
-
 //1现金、2POS、3微信、4支付宝、5团购、6减免、7欠款、8会员卡耗、9券、10店内活动、11赠品、12自定义
 var icons = ["68a;", "690;", "692;", "68d;", "687;", "689;", "68f;", "691;", "694;", "693;", "68e;", "68f;"];
 var rgbs = ["#00cbc7", "#f65d69", "#75d140", "#25a9ee"];
-
 //计算员工。管理员业绩与卡耗
 function changePerformanceInfo(memberData) {
     memberData.totalAmount = 0;
