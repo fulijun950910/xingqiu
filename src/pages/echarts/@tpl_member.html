@@ -21,11 +21,12 @@
                 <div class="source-data data-box" id="memberArrvialTimesList">
                 </div>
             </div>
-            <div style="height: 57px;"></div>
-            <!-- 面包 导航-->
-            <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
-                <div onclick="app.goBack()" flex="50">
-                    <i class="ic" ">&#xe68b;</i>
+        </div>
+        <div style="height: 57px;"></div>
+        <!-- 面包 导航-->
+        <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
+            <div onclick="app.goBack()" flex="50">
+                <i class="ic" ">&#xe68b;</i>
                     <span>返回</span>
                 </div>
                 <div flex="50 " class="storeList ">
@@ -33,19 +34,18 @@
                 <span>门店</span>
             </div>
         </div>
-            <!-- 切换门店 -->
+                    <!-- 切换门店 -->
             <div class="storeLists ">
                 <div class="mask "></div>
                 <div class="stores ">
                     <div class="stores-info ">
-                        <span class="allStore " data-id="">全部门店</span>
+                        <span class="allStore " data-id=" ">全部门店</span>
                         <!--% for (var i=0; i <o.storeList.length; i++) { %-->
-                        <span data-id="{%=o.storeList[i].id %}">{%= o.storeList[i].name %}</span>
+                        <span data-id="{%=o.storeList[i].id %} ">{%= o.storeList[i].name %}</span>
                         <!--% } %-->
                     </div>
                 </div>
             </div>
             <!-- end -->
-        </div>
     </script>
 </script>
