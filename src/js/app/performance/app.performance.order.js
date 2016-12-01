@@ -9,7 +9,7 @@ app.performance.order = {
         app.tools.initDate(type, orderlIstIdName);
         $('.performance-order-list .dateLists .date_info').on('click', 'span', function(event) {
             $('.dateLists span').removeClass('active').find('i').remove();
-          //  $(this).addClass('active');
+            //  $(this).addClass('active');
             $('.performance-order-list  .mask').click();
             if ($(this).attr('data-type') == 4) {
                 app.tools.setDate(orderDate);
@@ -66,6 +66,8 @@ app.performance.order = {
                 if (dateType) {
                     orderList.dataType = dateType;
                     app.tools.getDateType(dateType, data, orderDate);
+                    data.startTime = data.startDate;
+                    data.endTime = data.endDate;
                 }
                 //
                 if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
@@ -81,6 +83,7 @@ app.performance.order = {
                     //百度事件统计
                     baiduStatistical.add({ category: '员工-订单列表', label: '当日订单', val: '', action: 'click' });
                 }
+
                 app.startLoading();
                 app.performance.order.initDate(orderList.dataType);
                 app.performance.order.initCystomDate(orderList.dataType);
