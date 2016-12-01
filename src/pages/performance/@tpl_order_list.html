@@ -1,20 +1,20 @@
 <script type="text/html" id="tpl_order_list">
     <!-- //隐藏标题 -->
     <div id="hiddenTitle" class="hiddenTitle">考勤打卡</div>
-    <div class="bd">
+    <div class="bd performance-order-list" id="temp-performance-order-list" style="min-height: 100vh;">
         <!--  订单顶栏 -->
         <div class="orderlist-headerFence" style="z-index:10;position:absolute;">
-            <div class="headerFence9">
+       <!--      <div class="headerFence9">
                 <div class="dateList">
                     <span class="date_name">今日</span>
                     <i class="ic">&#xe63f;</i>
                 </div>
-                <!--   <a onclick="app.performance.order.leftDay(this)" class="leftday"><i class="icon icon-uniF3D2"></i>
+            </div> -->
+            <!--   <a onclick="app.performance.order.leftDay(this)" class="leftday"><i class="icon icon-uniF3D2"></i>
                     前一天</a>
                 <input onchange="app.performance.order.changeDay()" style="background-color:transparent;" id="order-query-date" type="date" value="">
                 <a onclick="app.performance.order.nextDay(this)" class="nextday">后一天 <i
                         class="icon icon-uniF3D3"></i></a> -->
-            </div>
             <div class="headerPerformance9">
                 <div class="performance">业绩汇总：<strong id="total-performance">￥0.00</strong></div>
                 <div class="push">提成：<strong id="total-push">￥0.00</strong></div>
@@ -23,6 +23,18 @@
         <!-- 订单列表 -->
         <div class="wrapper orderlist-wrapper" id="order-wrapper">
             <div id="order-scroller" class="scroller">
+            </div>
+        </div>
+        <div style="height: 57px;"></div>
+        <!-- 面包 导航-->
+        <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
+            <div onclick="app.goBack()" flex="50">
+                <i class="ic"">&#xe68b;</i>
+            <span>返回</span>
+        </div>
+            <div flex="50" class="dateList">
+                <i class="ic">&#xe68c;</i>
+                <span>日期</span>
             </div>
         </div>
         <div class="dateLists">
@@ -40,20 +52,20 @@
         </div>
         <!-- 自定义 -->
         <div class="cystomDate">
-            <div class="mask "></div>
-            <div class="date_menu ">
-                <div class="date_info ">
-                    <div class="title " layout="row" layout-align="space-between center">
+            <div class="mask"></div>
+            <div class="date_menu">
+                <div class="date_info">
+                    <div class="title" layout="row" layout-align="space-between center">
                         <div class="cancelDate">取消</div>
                         <div class="saveDate">确定</div>
                     </div>
-                    <div class="date " layout="row" layout-align="space-between center">
+                    <div class="date" layout="row" layout-align="space-between center">
                         <div layout="column" style="padding-right: 1vw;">
-                            <label for=" ">开始时间</label>
+                            <label for="">开始时间</label>
                             <input type="datetime-local" class="startDate">
                         </div>
                         <div layout="column">
-                            <label for=" ">结束时间</label>
+                            <label for="">结束时间</label>
                             <input type="datetime-local" class="endDate">
                         </div>
                     </div>

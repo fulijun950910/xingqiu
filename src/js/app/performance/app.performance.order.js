@@ -2,114 +2,33 @@
  * Created by wzc on 16/7/7.
  */
 var orderDate = {};
+var orderlIstIdName = "temp-performance-order-list";
 app.performance.order = {
-    setDate: function() {
-        var startTime = moment().format('YYYY-MM-DD') + "T" + "00:00";
-        var endTime = moment().format('YYYY-MM-DD') + "T" + "23:59";
-        if (orderDate && orderDate.startTime) {
-            startTime = moment(orderDate.startTime).format('YYYY-MM-DD') + "T" + moment(orderDate.startTime).format('HH:mm:ss');
-            endTime = moment(orderDate.endTime).format('YYYY-MM-DD') + "T" + moment(orderDate.endTime).format('HH:mm:ss');
-        }
-        $(".startDate").val(startTime);
-        $('.endDate').val(endTime);
-    },
     //初始化时间切换
-    initDate: function(memberData) {
-        $('.headerFence9').on('click', '.dateList', function() {
-            $('.dateLists').fadeIn(200);
-            $('.dateLists .mask').addClass('mask_show');
-            $('.dateLists .date_menu').addClass('date_menu_active');
-            $('.dateLists .mask').height($('.container').height());
-            //判断是否有选中active
-            if (!$('.dateLists span').hasClass('active')) {
-                $('.dateLists span:first').addClass('active');
-            }
-        });
-        $('.dateLists').on('click', '.mask', function() {
-            $('.date_menu').removeClass('date_menu_active');
-            $('.mask').removeClass('mask_show');
-            $('.cystomDate .date_menu').removeClass('date_menu_active');
-            $('.cystomDate .mask').removeClass('mask_show');
+    initDate: function(type) {
+        app.tools.initDate(type, orderlIstIdName);
+        $('.performance-order-list .dateLists .date_info').on('click', 'span', function(event) {
             $('.dateLists span').removeClass('active').find('i').remove();
-            // $('.dateLists span').eq(parseInt(memberData.dataType) - 1).addClass('active');
-        });
-        //点击切换日期
-        $('.dateLists .date_info').on('click', 'span', function(event) {
-            $('.dateLists span').removeClass('active').find('i').remove();
-            $(this).addClass('active');
-            $('.dateLists  .mask').click();
+          //  $(this).addClass('active');
+            $('.performance-order-list  .mask').click();
             if ($(this).attr('data-type') == 4) {
-                app.performance.order.setDate();
+                app.tools.setDate(orderDate);
                 $('.cystomDate').fadeIn(200);
                 $('.cystomDate .mask').addClass('mask_show');
                 $('.cystomDate .date_menu').addClass('date_menu_active');
-                $('.cystomDate .mask').height($('.container').height());
+                $('.cystomDate .mask').height($('.bd').height());
             } else {
                 app.performance.order.list(parseInt($(this).attr('data-type')));
             }
         });
     },
-
-    initCystomDate: function(memberData) {
-        //取消自定义事件选择
-        $('.cystomDate').on('click', '.cancelDate', function() {
-            $('.cystomDate .date_menu').removeClass('date_menu_active');
-            $('.cystomDate .mask').removeClass('mask_show');
-            $('.dateLists span').removeClass('active').find('i').remove();
-            //   $('.dateLists span').eq(parseInt(memberData.dataType) - 1).addClass('active');
-        });
+    initCystomDate: function(type) {
+        app.tools.initCystomDate(type, incomeIdName);
         //确定自定义时间选择
         $('.cystomDate').on('click', '.saveDate', function() {
-            $('.cystomDate .cancelDate').click();
+            $('.performance-order-list  .mask').click();
             app.performance.order.list(4);
         });
-    },
-    //获取时间
-    getOrderDateType: function(type, data) {
-        switch (parseInt(type)) {
-            //今日
-            case 1:
-                data.startTime = moment().format('YYYY-MM-DD ') + "00:00:00";
-                data.endTime = moment().format('YYYY-MM-DD HH:mm:ss');
-                break;
-                //昨天
-            case 2:
-                data.startTime = moment().subtract(1, "days").format('YYYY-MM-DD ') + "00:00:00";
-                data.endTime = moment().subtract(1, "days").format('YYYY-MM-DD ') + "23:59:59";
-                break;
-                //本月
-            case 3:
-                data.startTime = moment().subtract(0, "month").startOf("month").format('YYYY-MM-DD ') + "00:00:00";
-                data.endTime = moment().subtract(0, "month").endOf('month').format('YYYY-MM-DD ') + "23:59:59";
-                break;
-            case 4:
-                if ($('.startDate').val()) {
-                    data.startTime = moment($('.startDate').val()).format('YYYY-MM-DD HH:mm:') + "00";
-                    orderDate.startTime = data.startTime;
-                } else {
-                    data.startTime = orderDate.startTime;
-                }
-                if ($('.endDate').val()) {
-                    data.endTime = moment($('.endDate').val()).format('YYYY-MM-DD HH:mm:') + "59";
-                    orderDate.endTime = data.endTime;
-                } else {
-                    data.endTime = orderDate.endTime;
-                }
-                break;
-        }
-    },
-    getDateName: function(code, data) {
-        var result = [];
-        if (!code) {
-            return "今日";
-        }
-        if (data) {
-            result[4] = moment(data.startTime).format('YYYY-MM-DD') + "~" + moment(data.endTime).format('YYYY-MM-DD');
-        }
-        result[1] = "今日";
-        result[2] = "昨天";
-        result[3] = "本月";
-        return result[code];
     },
     page: {
         page: 1,
@@ -133,50 +52,25 @@ app.performance.order = {
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
                 app.performance.order.destory();
-                // var date = null;
-                // if ($('#order-query-date').val()) {
-                //     date = $('#order-query-date').val();
-                // } else {
-                //     date = new Date();
-                //     if (app.performance.currentDate == 1) {
-                //         date.setDate(date.getDate() - 1);
-                //     } else if (app.performance.order.currentDay) {
-                //         date = app.performance.order.currentDay;
-                //     }
-                //     if (typeof date == undefined || typeof date == 'undefined') {
-                //         date = new Date();
-                //     }
-                //     date = date.format('yyyy/MM/dd');
-                //     $('#order-query-date').val(date);
-                //     if (!$('#order-query-date').val()) {
-                //         $('#order-query-date').val(date.format('yyyy-MM-dd'))
-                //     }
-                // }
-                // date = $('#order-query-date').val() || date.format('yyyy-MM-dd');
-                // if (!$('#order-query-date').val())
                 var orderList = {};
                 var info = JSON.parse(localStorage.getItem("performanceInfo"));
                 orderList.dataType = info.dataType;
 
                 var data = {
                     type: 2, //员工
-                    //ids: employee.id,
                     page: app.performance.order.page.page,
                     size: app.performance.order.page.size,
-                    //date: date.format('yyyy-MM-dd'),
                     startTime: info.startDate,
                     endTime: info.endDate,
-                    // storeIds: info.storeIds
                 }
                 if (dateType) {
                     orderList.dataType = dateType;
-                    app.performance.order.getOrderDateType(dateType, data);
+                    app.tools.getDateType(dateType, data, orderDate);
                 }
                 //
                 if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
                     data.type = 1; //管理员
                     data.ids = info.performanceStoreIds;
-                    // data.ids = app.performance.currentStoreid;
                 } else {
                     data.ids = employee.id;
                 }
@@ -187,16 +81,15 @@ app.performance.order = {
                     //百度事件统计
                     baiduStatistical.add({ category: '员工-订单列表', label: '当日订单', val: '', action: 'click' });
                 }
-                $('.dateList').find('.date_name').text(app.performance.order.getDateName(orderList.dataType, data));
                 app.startLoading();
-
+                app.performance.order.initDate(orderList.dataType);
+                app.performance.order.initCystomDate(orderList.dataType);
+                $('.dateLists span').removeClass('active').find('i').remove();
+                $('.dateLists span').eq(parseInt(orderList.dataType) - 1).addClass('active');
                 app.api.order.list({
                     data: data,
                     success: function(result) {
                         app.endLoading();
-                        app.performance.order.initDate(orderList);
-                        app.performance.order.initCystomDate(orderList);
-                        $('.dateLists span').eq(parseInt(orderList.dataType) - 1).addClass('active');
                         if (!result.success || !result.data || !result.data.orderListVo) {
                             setTimeout(function() {
                                 app.tools.show('order-scroller');
@@ -210,9 +103,6 @@ app.performance.order = {
                         var html = $('#tmpl-order-list').html();
                         var template = tmpl(html, orderList);
                         $('#order-scroller').html(template);
-                        $('.dateList').find('.date_name').text(app.performance.order.getDateName(orderList.dataType, data));
-                        // app.performance.order.scrollInit();
-                        // myScroll.refresh();
                     },
                     error: function(error) {
                         app.endLoading();
