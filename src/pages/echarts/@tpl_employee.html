@@ -1,66 +1,120 @@
 <script type="text/html" id="tpl_employee">
-    <div class="bd background-sign">
+    <div class="bd background-sign" id="temp-employee">
         <div id="tmpl-employee" class="employee_echarts">
         </div>
     </div>
     <script type="text/html" id="tmpl-employee-model">
-        <div class="header">
-            <span class="go_back" onclick="app.goBack()"></span>
-            <span class="head" onclick="app.goBack()">业绩看板</span>
-            <span class="title">员工绩效分析</span>
-        </div>
-        <div class="main">
-            <span class="date" onclick="app.employeeEcharts.orderEmployeePerformanceList(1,'startDate')">上一月</span>
-            <a id="showActionSheet_rank" href="javascript:;" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);color:#69e2da;">{%= app.tools.sliceStr(o.storeName,10 )%}<i class="ic">&#xe63f;</i></a>
-            <span class="storeId" style="display: none;">{%=o.storeId%}</span>
-            <span class="nowDate">{%=o.nowDate%}</span>
-            <span class="date" onclick="app.employeeEcharts.orderEmployeePerformanceList(-1,'startDate')">下一月</span>
-        </div>
         <div class="orderEmployee-box">
-            <div class="orderBy-box">
-                <span class="flex-30"></span>
-                <span class="orderBy-1" onclick="app.employeeEcharts.orderEmployeePerformanceList(1,'orderBy')">业绩
-                <i class="ic desc" >&#xe672;</i>
-                 <i class="ic asc"  style="display: none;" >&#xe671;</i>
-                </span>
-                <span class="orderBy-2" onclick="app.employeeEcharts.orderEmployeePerformanceList(2,'orderBy')">卡耗 
-                        <i class="ic desc " >&#xe672;</i>
-                        <i class="ic asc" style="display: none;">&#xe671;</i>
-                 </span>
-                <span class="orderBy-3">客数 
-              <!--    <i class="ic desc">&#xe672;</i>
-                <i class="ic asc" style="display: none;">&#xe671;</i> -->
-                </span>
-            </div>
             <div class="orderEmployeeData-box">
-                <div class="data-list">
+                <div class="data-list wrap">
                     <!--%if(!o.orderEmployeePerformanceList || o.orderEmployeePerformanceList.length == 0){ %-->
-                    <div style="width: 100%;text-align: center;color:#555555;"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw; margin-left: 4vw;" class="errorMessage"> 亲~,该门店还没有员工哦...</span></div>
+                    <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 20vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c">  亲~,该门店还没有员工哦...</span></div>
                     <!--% } else { %-->
                     <!--% for (var i=0; i <o.orderEmployeePerformanceList.length; i++) { %-->
-                    <div class="data-item" style="text-align: center;">
-                        <span class="index">{%= i + 1%}</span>
-                        <span class="employeeName">{%= app.tools.sliceStr(o.orderEmployeePerformanceList[i].employeeName,6) %}</span>
-                        <span class="amount">{%= app.tools.toThousands(o.orderEmployeePerformanceList[i].achievementTotalAmount)%}</span>
-                        <span class="amount">{%= app.tools.toThousands(o.orderEmployeePerformanceList[i].cardConsumeTotalAmount) %}</span>
-                        <span class="amount">{%= o.orderEmployeePerformanceList[i].serviceMemberCount +o.orderEmployeePerformanceList[i].serviceUnMemberCount  %} </span>
+                    <div class="data-item" layout="row" layout-align="space-between center">
+                        <div class="member-img">
+                            <img id="comment-pic" src="{%=app.filePath + o.orderEmployeePerformanceList[i].employeeImageId %}" onerror="this.src='images/default_female.png'">
+                        </div>
+                        <div style="padding: 3vw 0;margin-left:2vw" layout="row" flex layout-align="space-around center" class="border-bottom">
+                            <div class="employee-info" layout="column" style="padding-right: 15vw;">
+                                <span class="name">{%= app.tools.sliceStr(o.orderEmployeePerformanceList[i].employeeName,6) %}</span>
+                                <span>No.{%= i + 1%}</span>
+                            </div>
+                            <div class="amount text-align-left" layout="column" flex="50">
+                                <span>业绩:<span class="primary-color font-priceF-size" flex>￥<span class="font-priceY-size">{%= app.tools.changePrice(o.orderEmployeePerformanceList[i].achievementTotalAmount)[0] %}</span>.{%= app.tools.changePrice(o.orderEmployeePerformanceList[i].achievementTotalAmount)[1] %}</span>
+                                </span>
+                                <span>卡耗:<span class="primary-color font-priceF-size" flex>￥<span class="font-priceY-size">{%= app.tools.changePrice(o.orderEmployeePerformanceList[i].cardConsumeTotalAmount)[0] %}</span>.{%= app.tools.changePrice(o.orderEmployeePerformanceList[i].cardConsumeTotalAmount)[1] %}</span>
+                                </span>
+                            </div>
+                            <div class="amount" layout="column">
+                                <span class="">客次:<span class="primary-color font-priceY-size">{%= o.orderEmployeePerformanceList[i].serviceMemberCount +o.orderEmployeePerformanceList[i].serviceUnMemberCount %} </span></span>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <!--% } %-->
                     <!--% } %-->
                 </div>
             </div>
         </div>
-        <!-- 门店切换 -->
-        <div id="actionSheet_wrap">
-            <div class="weui_mask_transition" id="mask_rank"></div>
-            <div class="weui_actionsheet" id="weui_actionsheet_rank">
-                <div id="storeRankSheet" style="width: 100vw;max-height: 80vh;overflow-y: scroll;" class="weui_actionsheet_menu">
-                    <!--% for (var i=0; i <o.storeList.length; i++) { %-->
-                    <div name="{%= o.storeList[i].id %}" class="weui_actionsheet_cell">{%= o.storeList[i].name %}</div>
-                    <!--% } %-->
+        <div style="height: 57px;"></div>
+        <!-- 面包 导航-->
+        <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
+            <div onclick="app.goBack()" flex="25">
+                <i class="ic"">&#xe68b;</i>
+            <span>返回</span>
+        </div>
+        <div flex="25" class="storeList">
+        <span style="display:none" data-storeId="{%=o.storeId%}" class="store_name"></span>
+          <i class="ic"> &#xe645;</i>
+                <span>门店</span>
+            </div>
+            <div flex="25" class="dateList border-right">
+             <span style="display:none" data-type="{%=o.dataType%}" class="date_name"></span>
+                <i class="ic">&#xe68c;</i>
+                <span>日期</span>
+            </div>
+            <div flex="25" class="orderLists">
+            <span style="display:none" data-orderby="{%=o.orderby%}" data-orderbyType="{%=o.orderbyType%}" class="date_name"></span>
+               <i class="ic "> &#xe75d;</i>
+                <span>排序</span>
+            </div>
+        </div>
+              <!-- 日期切换 -->
+        <div class="dateLists">
+            <div class="mask"></div>
+            <div class="date_menu">
+                <div class="date_info">
+                    <span data-type=1>今日</span>
+                    <span data-type=2>昨日</span>
+                    <span data-type=3>本月</span>
+                   <span data-type=4>自定义</span>
                 </div>
-                <div class="weui_actionsheet_action">
-                    <div class="weui_actionsheet_cell" id="actionsheet_cancel_rank">取消</div>
+            </div>
+        </div>
+            <!-- 自定义 -->
+        <div class="cystomDate">
+            <div class="mask"></div>
+            <div class="date_menu">
+                <div class="date_info">
+                    <div class="title" layout="row" layout-align="space-between center">
+                        <div class="cancelDate">取消</div>
+                        <div class="saveDate">确定</div>
+                    </div>
+                    <div class="date" layout="row" layout-align="space-between center">
+                    <div layout="column" style="padding-right: 1vw;">
+                        <label for="">开始时间</label>
+                         <input type="datetime-local" class ="startDate"   >
+                    </div>
+                      <div  layout="column" >
+                             <label for="">结束时间</label>
+                             <input type="datetime-local" class="endDate"  >
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 门店切换 -->
+            <!-- 切换门店 -->
+            <div class="storeLists">
+                <div class="mask"></div>
+                <div class="stores">
+                    <div class="stores-info">
+                        <!--% for (var i=0; i <o.storeList.length; i++) { %-->
+                        <span data-id="{%=o.storeList[i].id %}">{%= o.storeList[i].name %}</span>
+                        <!--% } %-->
+                    </div>
+                </div>
+            </div>
+            <!-- end -->
+       <div class="tempLists">
+            <div class="mask"></div>
+            <div class="date_menu">
+                <div class="date_info">
+                    <span data-type=1 data-orderBy="desc">业绩从高到低</span>
+                    <span data-type=1 data-orderBy="asc">业绩从低到高</span>
+                    <span data-type=2 data-orderBy="desc">卡耗从高到低</span>
+                   <span data-type=2 data-orderBy="asc">卡耗从低到高</span>
                 </div>
             </div>
         </div>

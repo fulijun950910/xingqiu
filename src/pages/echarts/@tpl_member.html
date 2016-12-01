@@ -1,22 +1,14 @@
 <script type="text/html" id="tpl_member">
-    <div class="bd background-sign member_echarts">
-        <div class="header">
-            <span class="go_back" onclick="app.goBack()"></span>
-            <span class="head" onclick="app.goBack()">业绩看板</span>
-            <span class="title">顾客分析</span>
-        </div>
-        <div class="main">
-            <a class="storeList"  href="javascript:;" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);color:#69e2da;"><span>全部门店</span><i class="ic">&#xe63f;</i></a>
-        </div>
+    <div class="bd background-sign member_echarts" id="temp-member">
         <div id="tmpl-member" class="member_echarts">
-
         </div>
     </div>
     <script type="text/html" id="tmpl-member-model">
         <!-- 来源分析 -->
-
         <div class="box">
-            <div style="width: 100%;text-align: center;color:#555555; display: none;" class="errorBox"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw; margin-left: 4vw;" class="errorMessage"> 亲~您当前的权限还不能看数据哦~</span></div>
+            <!--   <div style="width: 100%;text-align: center;color:#555555; display: none;" class="errorBox"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw; margin-left: 4vw;" class="errorMessage"> 亲~您当前的权限还不能看数据哦~</span></div> -->
+            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw; display:none;" class="errorBox"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c" class="errorMessage">  亲~您当前的权限还不能看数据哦~</span>
+            </div>
             <div class="source-box data-box" style="display: none">
                 <div class="source-data data-box" id="memberSourceList">
                 </div>
@@ -29,19 +21,31 @@
                 <div class="source-data data-box" id="memberArrvialTimesList">
                 </div>
             </div>
-            <!-- 切换门店 -->
-            <div class="storeLists">
-                <div class="mask"></div>
-                <div class="stores">
-                    <div class="stores-info">
-                        <span class="allStore" data-id="" >全部门店</span>
+        </div>
+        <div style="height: 57px;"></div>
+        <!-- 面包 导航-->
+        <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
+            <div onclick="app.goBack()" flex="50">
+                <i class="ic" ">&#xe68b;</i>
+                    <span>返回</span>
+                </div>
+                <div flex="50 " class="storeList ">
+                  <i class="ic "> &#xe645;</i>
+                <span>门店</span>
+            </div>
+        </div>
+                    <!-- 切换门店 -->
+            <div class="storeLists ">
+                <div class="mask "></div>
+                <div class="stores ">
+                    <div class="stores-info ">
+                        <span class="allStore " data-id=" ">全部门店</span>
                         <!--% for (var i=0; i <o.storeList.length; i++) { %-->
-                        <span data-id="{%=o.storeList[i].id %}">{%= o.storeList[i].name %}</span>
+                        <span data-id="{%=o.storeList[i].id %} ">{%= o.storeList[i].name %}</span>
                         <!--% } %-->
                     </div>
                 </div>
             </div>
             <!-- end -->
-        </div>
     </script>
 </script>

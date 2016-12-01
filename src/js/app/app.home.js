@@ -8,7 +8,8 @@ app.home = {
 }
 
 //微信ajax加载窗
-app.startLoading = function() {
+app.startLoading = function(msg) {
+        var msg = msg || '数据加载中';
         if (!($('#loadingToast').length > 0)) {
             var loadingHtml = '';
             loadingHtml += '<div id="loadingToast" class="weui_loading_toast" style="display:none;">';
@@ -28,7 +29,7 @@ app.startLoading = function() {
             loadingHtml += '<div class="weui_loading_leaf weui_loading_leaf_10"></div>';
             loadingHtml += '<div class="weui_loading_leaf weui_loading_leaf_11"></div>';
             loadingHtml += '</div>';
-            loadingHtml += '<p class="weui_toast_content">数据加载中</p>';
+            loadingHtml += '<p class="weui_toast_content">' + msg + '</p>';
             loadingHtml += '</div></div>';
             $('body').append(loadingHtml);
         }
@@ -124,4 +125,56 @@ app.confirm = function(msg, title) {
         $('#dialog1').remove();
         return true;
     });
+}
+
+app.initDate = function(fn) {
+    $('.dateList').click(function() {
+        $('#dateList').fadeIn(200);
+        $('#dateList .mask').addClass('mask_show');
+        $('.date_menu').addClass('date_menu_active');
+        $('.mask').height($('.bd').height());
+        //判断是否有选中active
+        if (!$('#dateList span').hasClass('active')) {
+            $('#dateList span:first').addClass('active');
+        }
+    });
+    // $('.index').on('click', '.dateList', function() {
+
+    // });
+    $('#dateList').on('click', '.mask', function() {
+        $('.date_menu').removeClass('date_menu_active');
+        $('.mask').removeClass('mask_show');
+        $('.cystomDate .date_menu').removeClass('date_menu_active');
+        $('.cystomDate .mask').removeClass('mask_show');
+        $('#dateList span').removeClass('active').find('i').remove();
+        $('#dateList span').eq(parseInt(memberData.dataType) - 1).addClass('active');
+    });
+    //点击切换日期
+    $(' #dateList .date_info').on('click', 'span', function(event) {
+        $('#dateList span').removeClass('active').find('i').remove();
+        $(this).addClass('active');
+        $('#dateList  .mask').click();
+        if ($(this).attr('data-type') == 4) {
+            setIndexDate();
+            $('.cystomDate').fadeIn(200);
+            $('.cystomDate .mask').addClass('mask_show');
+            $('.cystomDate .date_menu').addClass('date_menu_active');
+            $('.cystomDate .mask').height($('.bd').height());
+        } else {
+            fn;
+            // app.index.performance(parseInt($(this).attr('data-type')), 'date');
+        }
+    });
+}
+
+app.changeTitle = function(title) {
+    //修改title值
+    var $body = $('body');
+    document.title = title;
+    var $iframe = $('<iframe src="/favicon.ico"></iframe>');
+    $iframe.on('load', function() {
+        setTimeout(function() {
+            $iframe.off('load').remove();
+        }, 0);
+    }).appendTo($body);
 }

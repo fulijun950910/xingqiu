@@ -1,0 +1,74 @@
+<script type="text/html" id="tpl_financial_info">
+    <div class="bd background-sign" style="min-height: 100vh;">
+        <div id="tmpl-financial-info" class="financial-info">
+        </div>
+    </div>
+    <script type="text/html" id="tmpl-financial-info-model">
+        <div class="financial-info-list wrap">
+            <div style="height: 5vw"></div>
+            <!-- item start -->
+            <!--%if(!o.financialInfoDetails || o.financialInfoDetails.length == 0){ %-->
+            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
+            <!--% } else { %-->
+            <!--% for (var i=0; i <o.financialInfoDetails.length; i++) { %-->
+            <div class="financial-item">
+                <div layout="row" layout-align="space-between center">
+                    <div class="logo" flex="20">
+                        <img id="comment-pic" src="{%=app.filePath + o.financialInfoDetails[i].memberAvatarId %}" onerror="this.src='images/default_female.png'">
+                    </div>
+                    <div class="info" layout="column" flex="65">
+                        <div layout="row">
+                            <span class="name">{%= app.tools.sliceStr(o.financialInfoDetails[i].memberName,14) %}</span>
+                            <span class="phone" style="    margin-left: 2vw;">{%= o.financialInfoDetails[i].mobile %}</span>
+                        </div>
+                        <!--%if(o.financialInfoDetails[i].ticketStatus==1){ %-->
+                        <span class="financial-status">{%= app.tools.getConstantByValue(app.constant.TICKET_STATUS,o.financialInfoDetails[i].ticketStatus) %}</span>
+                        <!--% } else { %-->
+                        <span class="financial-disable">{%= app.tools.getConstantByValue(app.constant.TICKET_STATUS,o.financialInfoDetails[i].ticketStatus) %}</span>
+                        <!--% } %-->
+                        <div class="date">{%= o.financialInfoDetails[i].createTime %}</div>
+                    </div>
+                    <div>
+                        <span class="primary-color font-priceF-size " flex>￥<span class="font-priceY-size">{%= app.tools.changePrice(o.financialInfoDetails[i].price)[0] %}</span>.{%= app.tools.changePrice(o.financialInfoDetails[i].price)[1] %}</span>
+                    </div>
+                </div>
+                <div class="activeInfo">
+                    <span class="active"></span>
+                    <span class="buyStatus">{%= app.tools.getConstantByValue(app.constant.ORDER_STATUS,o.financialInfoDetails[i].status) %}</span>
+                </div>
+            </div>
+            <!--% } %-->
+            <!--% } %-->
+            <!-- item end -->
+        </div>
+        <a class="checkTicket" layout="column" layout-align="center center" href="/check-ticket.html#/checkTicket">
+            <span>我要</span>
+            <span>验券</span>
+        </a>
+        <div style="height: 49px;"></div>
+        <!-- <div style="height: 57px;"></div> -->
+        <!-- 面包 导航-->
+        <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
+            <a href="/wechat-financial.html#/financial" flex="50" class="border-right ">
+                <i class="ic" ">&#xe68b;</i>
+                    <span>返回</span>
+                </a>
+            <div flex="50 " class="dateList ">
+                <i class="ic ">&#xe75d;</i>
+                <span>券状态</span>
+            </div>
+        </div>
+        <div class ="dateLists">
+            <div class="mask "></div>
+            <div class="date_menu ">
+                <div class="date_info ">
+                    <!--%if(o.ticketStatus && o.ticketStatus.length > 0){ %-->
+                    <!--% for (var i=0; i <o.ticketStatus.length; i++) { %-->
+                    <span data-type={%=o .ticketStatus[i].code%}>{%= o.ticketStatus[i].name %}</span>
+                    <!--% } %-->
+                    <!--% } %-->
+                </div>
+            </div>
+        </div>
+    </script>
+</script>

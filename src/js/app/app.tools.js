@@ -134,6 +134,11 @@ app.tools = {
         }
         return hours + ':' + minutes + ':' + seconds;
     },
+    formatDate: function(date) {
+        if (!date)
+            return "";
+        return moment(date).format('YYYY-MM-DD');
+    },
     //处理部分IOS不能滑动问题
     resetBodyWH: function() {
         var screenHeight = window.screen.height;
@@ -156,7 +161,189 @@ app.tools = {
         //  var value = unescape(allcookies.substring(cookie_pos, cookie_end));
         // }
         // return value;
-    }
+    },
+    getConstantByValue: function(constant, value) {
+        if (!constant) {
+            return null;
+        }
+        if (!value) {
+            return null;
+        }
+        for (var i = constant.length - 1; i >= 0; i--) {
+            if (constant[i].code == value) {
+                return constant[i].name;
+            }
+        }
+    },
+    changePrice: function(price) {
+        return app.tools.toThousands(price).split('.');
+    },
+    //初始化swiper
+    initSwiper: function(leftWidth) {
+        var mySwiper = new Swiper('.swiper-container', {
+            autoHeight: true,
+            onSlideChangeEnd: function(swiper) {
+                var j = mySwiper.activeIndex;
+                $('.line-animation').css('left', j * leftWidth + 'vw');
+                $('.line').addClass('line-animation');
+                $('.tool-tab li').removeClass('active');
+                $('.tool-tab li').eq(j).addClass('active');
+                mySwiper.slideTo(i, 1000, false);
+            }
+        });
+        $('.tool-tab').on('click', 'li', function(e) {
+            //取消事件的默认动作。
+            e.preventDefault();
+            //得到当前索引
+            var i = $(this).index();
+            mySwiper.slideTo(i, 1000, false);
+            $('.line-animation').css('left', i * leftWidth + 'vw');
+            $('.line').addClass('line-animation');
+            $('.tool-tab li').removeClass('active');
+            $(this).addClass('active');
+            mySwiper.slideTo(i, 1000, false);
+        });
+    },
+    initCystomDate: function(type, idName) {
+        console.log(idName);
+        //取消自定义事件选择
+        $('#' + idName).find('.cystomDate').on('click', '.cancelDate', function() {
+            $('#' + idName).find('.cystomDate .date_menu').removeClass('date_menu_active');
+            $('#' + idName).find('.cystomDate .mask').removeClass('mask_show');
+            $('#' + idName).find('.dateLists span').removeClass('active').find('i').remove();
+            if (type) {
+                $('#' + idName).find('.dateLists span').eq(parseInt(type) - 1).addClass('active');
+            }
+        });
+        $('#' + idName).find('.cystomDate').on('click', '.mask', function() {
+            $('#' + idName).find('.date_menu').removeClass('date_menu_active');
+            $('#' + idName).find('.mask').removeClass('mask_show');
+            $('#' + idName).find('.cystomDate .date_menu').removeClass('date_menu_active');
+            $('#' + idName).find('.cystomDate .mask').removeClass('mask_show');
+            $('#' + idName).find('.dateLists span').removeClass('active').find('i').remove();
+            if (type) {
+                $('#' + idName).find('.dateLists span').eq(parseInt(type) - 1).addClass('active');
+            }
+        });
+    },
+    //初始化
+    initDate: function(type, idName) {
+        $('#' + idName).find('.dateList').click(function() {
+            $('#' + idName).find('.dateLists').fadeIn(200);
+            $('#' + idName).find('.dateLists .mask').addClass('mask_show');
+            $('#' + idName).find('.dateLists .date_menu').addClass('date_menu_active');
+            $('#' + idName).find('.dateLists .mask').height($('.bd').height());
+            //判断是否有选中active
+            if (!$('#' + idName).find('.dateLists span').hasClass('active')) {
+                $('#' + idName).find('.dateLists span:first').addClass('active');
+            }
+        });
+        //取消
+        $('#' + idName).find('.dateLists').on('click', '.mask', function() {
+            $('#' + idName).find('.date_menu').removeClass('date_menu_active');
+            $('#' + idName).find('.mask').removeClass('mask_show');
+            $('#' + idName).find('.cystomDate .date_menu').removeClass('date_menu_active');
+            $('#' + idName).find('.cystomDate .mask').removeClass('mask_show');
+            $('#' + idName).find('.dateLists span').removeClass('active').find('i').remove();
+            if (type) {
+                $('#' + idName).find('.dateLists span').eq(parseInt(type) - 1).addClass('active');
+            }
+        });
+    },
+    //自定义初始化时间
+    setDate: function(date) {
+        var startDate = moment().format('YYYY-MM-DD') + "T" + "00:00";
+        var endDate = moment().format('YYYY-MM-DD') + "T" + "23:59";
+        if (date && date.startDate) {
+            startDate = moment(date.startDate).format('YYYY-MM-DD') + "T" + moment(date.startDate).format('HH:mm:ss');
+            endDate = moment(date.endDate).format('YYYY-MM-DD') + "T" + moment(date.endDate).format('HH:mm:ss');
+        }
+        $(".startDate").val(startDate);
+        $('.endDate').val(endDate);
+    },
+    getDateType: function(type, data, date) {
+        switch (parseInt(type)) {
+            //今日
+            case 1:
+                data.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
+                data.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
+                break;
+                //昨天
+            case 2:
+                data.startDate = moment().subtract(1, "days").format('YYYY-MM-DD ') + "00:00:00";
+                data.endDate = moment().subtract(1, "days").format('YYYY-MM-DD ') + "23:59:59";
+                break;
+                //本月
+            case 3:
+                data.startDate = moment().subtract(0, "month").startOf("month").format('YYYY-MM-DD ') + "00:00:00";
+                data.endDate = moment().subtract(0, "month").endOf('month').format('YYYY-MM-DD ') + "23:59:59";
+                break;
+            case 4:
+                if ($('.startDate').val()) {
+                    data.startDate = moment($('.startDate').val()).format('YYYY-MM-DD HH:mm:') + "00";
+                    date.startDate = data.startDate;
+                } else {
+                    data.startDate = date.startDate;
+                }
+                if ($('.endDate').val()) {
+                    data.endDate = moment($('.endDate').val()).format('YYYY-MM-DD HH:mm:') + "59";
+                    date.endDate = data.endDate;
+                } else {
+                    data.endDate = date.endDate;
+                }
+                break;
+        }
+    },
+    getDateName: function(code, data) {
+        var result = [];
+        if (!code) {
+            return "今日";
+        }
+        if (data) {
+            result[4] = moment(data.startDate).format('YYYY-MM-DD') + "~" + moment(data.endDate).format('YYYY-MM-DD');
+        }
+        result[1] = "今日";
+        result[2] = "昨天";
+        result[3] = "本月";
+        return result[code];
+    },
+    //初始化门店切换
+    initStoreList: function(idName) {
+        //展开门店选择
+        $('#' + idName).on('click', '.storeList', function(event) {
+            event.preventDefault();
+            $('#' + idName).find('.storeLists').fadeIn(200);
+            $('#' + idName).find('.storeLists .mask').addClass('mask_show');
+            $('#' + idName).find('.stores').addClass('stores-active');
+            $('#' + idName).find('.mask').height($('.bd').height());
+        });
+        $('#' + idName).find('.storeList').find('.store_name').find('')
+            //关闭门店选择
+        $('#' + idName).find('.storeLists').on('click', '.mask', function(event) {
+            $('#' + idName).find('.stores').removeClass('stores-active');
+            $('#' + idName).find('.storeLists .mask').removeClass('mask_show');
+        });
+    },
+    // 自定义弹出层
+    initTempData: function(className,idName) {
+        console.log(className);
+        $('.' + className).click(function() {
+            $('#' + idName).find('.tempLists').fadeIn(200);
+            $('#' + idName).find('.tempLists .mask').addClass('mask_show');
+            $('#' + idName).find('.tempLists .date_menu').addClass('date_menu_active');
+            $('#' + idName).find('.tempLists .mask').height($('.bd').height());
+            //判断是否有选中active
+            if (!$('#' + idName).find('.tempLists span').hasClass('active')) {
+                $('#' + idName).find('.tempLists span:first').addClass('active');
+            }
+        });
+        //取消
+        $('#' + idName).find('.tempLists').on('click', '.mask', function() {
+            $('#' + idName).find('.date_menu').removeClass('date_menu_active');
+            $('#' + idName).find('.mask').removeClass('mask_show');
+            $('#' + idName).find('.tempLists span').removeClass('active').find('i').remove();
+        });
+    },
 }
 
 //处理url参数

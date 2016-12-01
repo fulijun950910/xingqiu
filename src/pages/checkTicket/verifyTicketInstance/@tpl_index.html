@@ -1,0 +1,63 @@
+<script type="text/html" id="tpl_verifyTicketInstance">
+    <div class="bd background-sign" style="min-height: 100vh;overflow-y: hidden;">
+        <div id="tmpl-verifyTicketInstance" class="verifyTicketInstance">
+        </div>
+    </div>
+    <script type="text/html" id="tmpl-verifyTicketInstance-model">
+        <div class="div-body">
+            <div class="div-box" style="line-height: 20vw;" layout-align="space-between center" layout="row">
+                <div>券号：{%= o.ticketNo%}</div>
+                   <span class="ticketStatus">{%= app.tools.getConstantByValue(app.constant.TICKET_STATUS,o.status) %}</span>
+            </div>
+            <div class="div-box" layout="row" layout-align="space-between center" layout="row">
+                <div>活动适用门店</div>
+                <div class="storeList">
+                    <span class="store_name" data-storeId="{%=o.storeId%}">{%=o.employeeInfo.store.name%}</span>
+                </div>
+            </div>
+            <div class="div-box" layout="row" layout-align="space-between center" layout="row">
+                <div>活动名称</div>
+                <span>{%= o.promotionName%}</span>
+            </div>
+            <div class="div-box" layout="row" layout-align="space-between center" layout="row">
+                <div>客户信息</div>
+                <span>{%= o.memberName%} -{%= o.mobile%}</span>
+            </div>
+            <div class="div-box" layout="row" layout-align="space-between center" layout="row">
+                <div>券名称</div>
+                <span>{%= o.ticketName%}</span>
+            </div>
+            <!--   <div class="div-box" layout="row" layout-align="space-between center" layout="row">
+                <div>券类型</div>
+                <span>购买</span>
+            </div>
+            <div class="div-box" layout="row" layout-align="space-between center" layout="row">
+                <div>券来源</div>
+                <span>百度糯米</span>
+            </div>
+            <div class="div-box" layout="row" layout-align="space-between center" layout="row">
+                <div>购买时间</div>
+                <span>2016-10-18 12:00</span>
+            </div> -->
+            <div class="div-box" layout="row" layout-align="space-between center" layout="row">
+                <div>操作人</div>
+                <span>{%= o.employeeInfo.name%}</span>
+            </div>
+            <span id="verifyTicket" name="select" class="btnTestCoupons" 
+            onclick="app.checkTicket.verifyTicket();">我要验券</span>
+            <div class="div-left-half"></div>
+            <div class="div-right-half"></div>
+        </div>
+        <div style="height: 8px;"></div>
+        <div class="storeLists ">
+            <div class="mask "></div>
+            <div class="stores ">
+                <div class="stores-info ">
+                    <!--% for (var i=0; i <o.employeeInfo.storeList.length; i++) { %-->
+                    <span data-id="{%=o.employeeInfo.storeList[i].id %}">{%= o.employeeInfo.storeList[i].name %}</span>
+                    <!--% } %-->
+                </div>
+            </div>
+        </div>
+    </script>
+</script>

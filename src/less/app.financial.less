@@ -1,0 +1,169 @@
+.financial,
+.financial-info,
+.product_echarts {
+    .tool-tab {
+        height: 10vh;
+        position: fixed;
+        top: 0;
+        width: 100vw;
+        background: #fff;
+        z-index: 11;
+        box-shadow: 1px 2px 2px rgba(102, 102, 102, .1);
+        ul {
+            margin-top: 0;
+        }
+    }
+    .swiper-container {
+        min-height: -webkit-calc(80.7vh);
+        min-height: calc(80.7vh);
+        .weui_cells {
+            border-radius: 5px;
+            background: none;
+        }
+    }
+    .financial-item,
+    .financial-item-small {
+        padding: 2vw;
+        margin-bottom: 4vw;
+        background: #fff;
+        border-radius: 5px;
+        .box-shadow;
+        img {
+            width: 65px;
+            height: 65px;
+            border-radius: 5px;
+        }
+        .info {
+            font-size: 12px;
+            line-height: 6.5vw;
+            //margin-left: 5vw;
+            color: @font-secondary-color;
+            .name,
+            .phone {
+                color: @font-primary-color;
+                font-size: 14px;
+                margin-right: 1vw;
+            }
+            .number {
+                color: @primary-color;
+            }
+            .status {
+                border: 1px solid #dcaB58;
+                padding: 0 2vw;
+                height: 15px;
+                line-height: 17px;
+                margin-left: 2vw;
+                border-radius: 2px;
+                margin-top: 0.8vw;
+                color: #dcaB58;
+            }
+            .status-disable {
+                color: @font-secondary-color;
+                border: 1px solid @font-secondary-color;
+            }
+        }
+        .ic {
+            color: #888;
+        }
+    }
+    .financial-item-small {
+        .financial-info-small {
+            position: relative;
+        }
+        img {
+            width: 88vw;
+            height: 32vw;
+        }
+        .info {
+            min-width: 80vw;
+            line-height: 30px;
+            margin-left: 2vw;
+            .status {
+                position: absolute;
+                top: 0;
+                right: 0;
+                border-radius: 0;
+                margin: 0;
+                width: 15vw;
+                height: 8vw;
+                text-align: center;
+                line-height: 8vw;
+                border: none;
+                background: #dcaB58;
+                color: #fff;
+            }
+            .status-disable {
+                background: #888;
+            }
+            .name {
+                font-size: 16px;
+            }
+            .date {
+                border-bottom: 1px solid #eaeaea;
+            }
+            .small-count-info {
+                padding-top: .5vw;
+            }
+        }
+    }
+    .ic {
+        bottom: -0.6vw;
+    }
+    .financial-info-list {
+        .financial-item {
+            margin-bottom: 4vw;
+            border-radius: 5px;
+            background: #fff;
+            .box-shadow;
+            position: relative;
+            padding: 2vw;
+            img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+            }
+            .info {
+                margin-left: 0;
+            }
+            .name {
+                margin-right: 0;
+            }
+        }
+        .financial-status {
+            color: #dcaB58;
+        }
+        // .financial-disable{
+        //     color:#888;
+        // }
+    }
+    .activeInfo {
+        position: absolute;
+        left: 0;
+        top: 0;
+        .active {
+            width: 0;
+            height: 0;
+            border-top: 8vw solid @primary-color;
+            border-right: 8vw solid transparent;
+            position: absolute;
+        }
+        .buyStatus {
+            color: #fff;
+            position: absolute;
+            font-size: 12px;
+            left: .4vw;
+        }
+    }
+    .checkTicket {
+        position: fixed;
+        bottom: 40vw;
+        right: 4vw;
+        width: 50px;
+        height: 50px;
+        background: #4ED9CF;
+        color: #fff;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 12px;
+    }
+}

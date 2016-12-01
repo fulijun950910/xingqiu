@@ -1,5 +1,5 @@
 <script type="text/html" id="tpl_index">
-    <div class="bd background-sign" class="index-admin" style="min-height: 100vh;">
+    <div class="bd background-sign" class="index-admin" style="min-height: 100vh;" id="tepm-index">
         <div id="tmpl-index" class="index">
         </div>
     </div>
@@ -32,13 +32,13 @@
                     <!-- 业绩 -->
                     <div class="achievementTotalAmount totalAmount">
                         <span class="title">业绩</span>
-                        <span class="price-icon">￥<span class="price">{%= o.performanceInfo.performanceY %}</span>.{%= o.performanceInfo.performanceF %}</span>
+                        <span class="price-icon">￥<span class="price">{%= app.tools.changePrice(o.performanceInfo.income)[0] %}</span>.{%= app.tools.changePrice(o.performanceInfo.income)[1] %}</span>
                     </div>
                     <span class="vs">VS</span>
                     <!-- 卡耗 -->
                     <div class="cardConsumeTotalAmount totalAmount">
                         <span class="title">卡耗</span>
-                        <span class="price-icon">￥<span class="price">{%= o.performanceInfo.cardConsumeY %}</span>.{%= o.performanceInfo.cardConsumeF %}</span>
+                        <span class="price-icon">￥<span class="price">{%= app.tools.changePrice(o.performanceInfo.cardConsume)[0] %}</span>.{%= app.tools.changePrice(o.performanceInfo.cardConsume)[1] %}</span>
                     </div>
                 </div>
                 <div class="sub-bar">
@@ -83,21 +83,21 @@
                     <i class="ic">&#xe619;</i>
                     <span class="font-size-12">案例分享</span>
                 </a>
-                <a href="#" class="item item-3 border-right" onclick="app.noData()">
+                <a href="/wechat-financial.html#/financial" class="item item-3 border-right">
                     <i class="ic">&#xe64b;</i>
                     <span class="font-size-12">微信营销</span>
                 </a>
-                <a href="#" class="item item-6" onclick="app.noData()">
+                <a href="/check-ticket.html#/checkTicket" class="item item-6">
                     <i class="ic">&#xe6a9;</i>
                     <span class="font-size-12">在线验券</span>
                 </a>
             </div>
         </div>
         <div class="card-list">
-            <a href="#" class="card-box card-box-1" onclick="app.noData()">
+            <a href="#" class="card-box card-box-1" onclick="app.index.performanceSource()">
                 <div>
                     <i class="ic">&#xe628;</i>
-                    <span class="font-size-12">收入来源</span>
+                    <span class="font-size-12">业绩来源</span>
                 </div>
                 <span class="go-right"></span>
             </a>
@@ -134,17 +134,40 @@
         </div>
         <!-- end -->
         <!-- 日期切换 -->
-        <div id="dateList">
+        <div class="dateLists">
             <div class="mask"></div>
             <div class="date_menu">
                 <div class="date_info">
                     <span data-type=1>今日</span>
                     <span data-type=2>昨日</span>
                     <span data-type=3>本月</span>
-                    <!--  <span data-type=4>自定义</span> -->
+                    <span data-type=4>自定义</span>
                 </div>
                 <!-- 取消 -->
                 <!-- <span  id="date_cancel">取消</span> -->
+            </div>
+        </div>
+        <!-- 自定义 -->
+        <!-- 自定义 -->
+        <div class="cystomDate">
+            <div class="mask "></div>
+            <div class="date_menu ">
+                <div class="date_info ">
+                    <div class="title " layout="row" layout-align="space-between center">
+                        <div class="cancelDate">取消</div>
+                        <div class="saveDate">确定</div>
+                    </div>
+                    <div class="date " layout="row" layout-align="space-between center">
+                        <div layout="column" style="padding-right: 1vw;">
+                            <label for=" ">开始时间</label>
+                            <input type="datetime-local" class="startDate">
+                        </div>
+                        <div layout="column">
+                            <label for=" ">结束时间</label>
+                            <input type="datetime-local" class="endDate">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- 切换身份 -->
@@ -183,6 +206,11 @@
                         <span class="date_name" data-type="{%=o.dataType%}">今日</span>
                         <i class="ic">&#xe63f;</i>
                     </div>
+                    <!-- <div class="normal-dateList" style="left:43vw;">
+                    <span class="date_name">本月</span>
+                        <span class="date_name" data-type="{%=o.dataType%}">今日</span>
+                        <i class="ic">&#xe63f;</i>
+                    </div> -->
                     <div class="employeeRoleList" style="display:none;">
                         <i class="ic">&#xe64e;</i>
                         <!-- <span class="title">切换身份</span>
@@ -200,18 +228,18 @@
                     <div class="achievementTotalAmount totalAmount">
                         <span class="title">提成</span>
                         <span class="total-line"></span>
-                        <span class="price-icon">￥<span class="price">{%=o.performanceInfo.currentMonthCommissionY %}</span>.{%= o.performanceInfo.currentMonthCommissionF %}</span>
+                        <span class="price-icon">￥<span class="price">{%= app.tools.changePrice(o.performanceInfo.currentMonthCommission)[0] %}</span>.{%= app.tools.changePrice(o.performanceInfo.currentMonthCommission)[1] %}</span>
                     </div>
                 </div>
                 <div class="sub-bar">
                     <div class="item">
                         <span class="title">业绩</span>
-                        <span class="price-icon">￥<span class="price">{%= o.performanceInfo.performanceY %}</span><span class="font-size-9" style="color:#fff;">.{%= o.performanceInfo.performanceF %}</span></span>
+                        <span class="price-icon">￥<span class="price">{%= app.tools.changePrice(o.performanceInfo.performance)[0] %}</span><span class="font-size-9" style="color:#fff;">.{%= app.tools.changePrice(o.performanceInfo.performance)[1] %}</span></span>
                     </div>
                     <span class="item-line"></span>
                     <div class="item">
                         <span class="title">卡耗</span>
-                        <span class="price-icon">￥<span class="price">{%= o.performanceInfo.cardConsumeY %}</span><span class="font-size-9" style="color:#fff;">.{%= o.performanceInfo.cardConsumeF %}</span></span>
+                        <span class="price-icon">￥<span class="price">{%= app.tools.changePrice(o.performanceInfo.cardConsumeTotalAmount)[0] %}</span><span class="font-size-9" style="color:#fff;">.{%= app.tools.changePrice(o.performanceInfo.cardConsumeTotalAmount)[1] %}</span></span>
                     </div>
                 </div>
                 <div class="bg-fixed"></div>
@@ -275,17 +303,38 @@
         </div>
         <!-- end -->
         <!-- 日期切换 -->
-        <div id="dateList">
+        <div class="dateLists">
             <div class="mask"></div>
             <div class="date_menu">
                 <div class="date_info">
                     <span data-type=1>今日</span>
                     <span data-type=2>昨日</span>
                     <span data-type=3>本月</span>
-                    <!--  <span data-type=4>自定义</span> -->
+                    <span data-type=4>自定义</span>
                 </div>
                 <!-- 取消 -->
                 <!-- <span  id="date_cancel">取消</span> -->
+            </div>
+        </div>
+        <div class="cystomDate">
+            <div class="mask "></div>
+            <div class="date_menu ">
+                <div class="date_info ">
+                    <div class="title " layout="row" layout-align="space-between center">
+                        <div class="cancelDate">取消</div>
+                        <div class="saveDate">确定</div>
+                    </div>
+                    <div class="date " layout="row" layout-align="space-between center">
+                        <div layout="column" style="padding-right: 1vw;">
+                            <label for=" ">开始时间</label>
+                            <input type="datetime-local" class="startDate">
+                        </div>
+                        <div layout="column">
+                            <label for=" ">结束时间</label>
+                            <input type="datetime-local" class="endDate">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- 切换身份 -->

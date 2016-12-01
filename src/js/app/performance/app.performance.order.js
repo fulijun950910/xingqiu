@@ -1,7 +1,35 @@
 /**
  * Created by wzc on 16/7/7.
  */
+var orderDate = {};
+var orderlIstIdName = "temp-performance-order-list";
 app.performance.order = {
+    //初始化时间切换
+    initDate: function(type) {
+        app.tools.initDate(type, orderlIstIdName);
+        $('.performance-order-list .dateLists .date_info').on('click', 'span', function(event) {
+            $('.dateLists span').removeClass('active').find('i').remove();
+          //  $(this).addClass('active');
+            $('.performance-order-list  .mask').click();
+            if ($(this).attr('data-type') == 4) {
+                app.tools.setDate(orderDate);
+                $('.cystomDate').fadeIn(200);
+                $('.cystomDate .mask').addClass('mask_show');
+                $('.cystomDate .date_menu').addClass('date_menu_active');
+                $('.cystomDate .mask').height($('.bd').height());
+            } else {
+                app.performance.order.list(parseInt($(this).attr('data-type')));
+            }
+        });
+    },
+    initCystomDate: function(type) {
+        app.tools.initCystomDate(type, incomeIdName);
+        //确定自定义时间选择
+        $('.cystomDate').on('click', '.saveDate', function() {
+            $('.performance-order-list  .mask').click();
+            app.performance.order.list(4);
+        });
+    },
     page: {
         page: 1,
         size: 10000,
@@ -20,47 +48,29 @@ app.performance.order = {
         if (typeof myScroll != 'undefined')
             myScroll.refresh();
     },
-    list: function() {
+    list: function(dateType) {
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
                 app.performance.order.destory();
-                var date = null;
-                if ($('#order-query-date').val()) {
-                    date = $('#order-query-date').val();
-                } else {
-                    date = new Date();
-                    if (app.performance.currentDate == 1) {
-                        date.setDate(date.getDate() - 1);
-                    } else if (app.performance.order.currentDay) {
-                        date = app.performance.order.currentDay;
-                    }
-                    if (typeof date == undefined || typeof date == 'undefined') {
-                        date = new Date();
-                    }
-                    date = date.format('yyyy/MM/dd');
-                    $('#order-query-date').val(date);
-                    if (!$('#order-query-date').val()) {
-                        $('#order-query-date').val(date.format('yyyy-MM-dd'))
-                    }
-                }
-                // date = $('#order-query-date').val() || date.format('yyyy-MM-dd');
-                // if (!$('#order-query-date').val())
-                var info = JSON.parse(localStorage.getItem("orderInfo"));
+                var orderList = {};
+                var info = JSON.parse(localStorage.getItem("performanceInfo"));
+                orderList.dataType = info.dataType;
+
                 var data = {
-                    type: 2,
-                    // ids: employee.id,
+                    type: 2, //员工
                     page: app.performance.order.page.page,
                     size: app.performance.order.page.size,
-                    date: date.format('yyyy-MM-dd'),
                     startTime: info.startDate,
                     endTime: info.endDate,
-                    //   storeIds: info.storeIds
+                }
+                if (dateType) {
+                    orderList.dataType = dateType;
+                    app.tools.getDateType(dateType, data, orderDate);
                 }
                 //
                 if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
-                    data.type = 1;
-                    data.ids = info.storeIds;
-                    // data.ids = app.performance.currentStoreid;
+                    data.type = 1; //管理员
+                    data.ids = info.performanceStoreIds;
                 } else {
                     data.ids = employee.id;
                 }
@@ -72,6 +82,10 @@ app.performance.order = {
                     baiduStatistical.add({ category: '员工-订单列表', label: '当日订单', val: '', action: 'click' });
                 }
                 app.startLoading();
+                app.performance.order.initDate(orderList.dataType);
+                app.performance.order.initCystomDate(orderList.dataType);
+                $('.dateLists span').removeClass('active').find('i').remove();
+                $('.dateLists span').eq(parseInt(orderList.dataType) - 1).addClass('active');
                 app.api.order.list({
                     data: data,
                     success: function(result) {
@@ -84,15 +98,11 @@ app.performance.order = {
                         }
                         app.performance.order.page.total = result.data.total;
                         app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
-                        var data = {
-                            datas: result.data.orderListVo
-                        }
+                        orderList.datas = result.data.orderListVo;
                         app.performance.order.countPerformance(result.data.orderListVo);
                         var html = $('#tmpl-order-list').html();
-                        var template = tmpl(html, data);
+                        var template = tmpl(html, orderList);
                         $('#order-scroller').html(template);
-                        app.performance.order.scrollInit();
-                        myScroll.refresh();
                     },
                     error: function(error) {
                         app.endLoading();
@@ -147,7 +157,6 @@ app.performance.order = {
                                 var result = tmpl(html, result.data);
                                 $('#order-detail').html(result);
                             }
-
 
                             function cardBalance() {
                                 return {
@@ -494,6 +503,9 @@ app.performance.order = {
 
     },
     countPerformance: function(data) {
+        //重置初始化
+        app.performance.order.performance = 0;
+        app.performance.order.commission = 0;
         for (var i in data) {
             var orderVo = data[i];
             app.performance.order.performance = parseInt(app.performance.order.performance) + parseInt(orderVo.performance);

@@ -1,51 +1,38 @@
-.index {
-    span,
-    div,
-    a,
+.index,
+.income {
     i {
-        -webkit-tap-highlight-color: transparent;
+        top: .4vw;
     }
     .index-main {
         // position: relative;
         // height: 100vh;
     }
-    .go-left {
-        // position: absolute;
-        // top: 4vw;
-        // left: 2vw;
-        display: inline-block;
-        width: 2.5vw;
-        height: 2.5vw;
-        border: 1px solid #fff;
-        border-top: none;
-        border-right: none;
-        transform: rotate(45deg);
-    }
-    .go-bottom {
-        display: inline-block;
-        width: 2.5vw;
-        height: 2.5vw;
-        border: 1px solid #fff;
-        border-top: none;
-        border-right: none;
-        transform: rotate(-40deg);
-        position: absolute;
-        top: 3vw;
-        left: 10vw;
-    }
-    .go-right {
-        display: inline-block;
-        width: 2.5vw;
-        height: 2.5vw;
-        border: 1px solid #ccc;
-        border-top: none;
-        border-right: none;
-        transform: rotate(225deg);
-    }
-    .wrap {
-        width: 92vw;
-        margin: auto;
-    }
+    // .go-left {
+    //     // position: absolute;
+    //     // top: 4vw;
+    //     // left: 2vw;
+    //     display: inline-block;
+    //     width: 2.5vw;
+    //     height: 2.5vw;
+    //     border: 1px solid #fff;
+    //     border-top: none;
+    //     border-right: none;
+    //     transform: rotate(45deg);
+    // }
+    // .go-bottom {
+    //     display: inline-block;
+    //     width: 2.5vw;
+    //     height: 2.5vw;
+    //     border: 1px solid #fff;
+    //     border-top: none;
+    //     border-right: none;
+    //     transform: rotate(-40deg);
+    //     -webkit-transform: rotate(-40deg);
+    //     position: absolute;
+    //     top: 3vw;
+    //     left: 10vw;
+    // }
+
     .primary-color {
         color: #b44dce;
     }
@@ -58,20 +45,19 @@
         background-size: 100%;
         color: #fff;
         font-family: '微软雅黑';
+        position: relative;
         .top-bar {
             height: 36px;
             line-height: 36px;
             font-size: 16px;
             position: relative;
             padding-top: 2vw;
-            div {
-                -webkit-tap-highlight-color: transparent;
-            }
             .storeList {
                 position: absolute;
                 left: 0;
             }
-            .dateList {
+            .dateList,
+            .normal-dateList {
                 position: absolute;
                 left: 40vw;
             }
@@ -193,14 +179,12 @@
             position: absolute;
             background: #fff;
             width: 92vw;
-            height: 12vw;
+            height: 13vw;
             opacity: .1;
-            top: 48vw;
             border-radius: 36px;
-            margin-top: 4.5vh;
+            bottom: 4vh;
         }
     }
-    // header end
     .main-info {
         background: #fff;
         display: -webkit-flex;
@@ -213,11 +197,13 @@
         flex-wrap: wrap;
         margin-top: 16px;
         border-radius: 5px;
-        box-shadow: 30px 30px 30px #f4f4fc;
+         .box-shadow;
         a {
             color: #333 !important;
             -webkit-tap-highlight-color: transparent;
             flex-basis: 33%;
+            -webkit-flex-basis: 33%;
+            width:33%;
             text-align: center;
             height: 25vw;
             display: -webkit-flex;
@@ -273,7 +259,7 @@
             background: #fff;
             height: 15vw;
             border-radius: 5px;
-            box-shadow: 30px 30px 30px #f4f4fc;
+             .box-shadow;
             padding: 0 3vw;
         }
         .card-box {
@@ -325,11 +311,6 @@
                 }
             }
         }
-        .bg-fixed {
-            height: 16vw;
-            top: 48vw;
-            margin-top: 3vw;
-        }
     }
     .normal-info {
         display: -webkit-flex;
@@ -356,7 +337,6 @@
             justify-content: space-around;
             -webkit-justify-content: space-around;
             background: #fff;
-            // box-shadow: 30px 30px 30px #f4f4fc;
             border-radius: 5px;
             flex-flow: column;
             -webkit-flex-flow: column;
@@ -396,241 +376,5 @@
     .margin-top-8 {
         margin-top: -8vw;
         font-size: 10pt;
-    }
-    // 切换门店
-    .storeLists {
-        -webkit-tap-highlight-color: transparent;
-        display: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        .mask {
-            z-index: 99;
-            /* right: 18vw; */
-            // bottom: -167.1vw;
-            top: 0;
-            left: 0;
-            position: absolute;
-            -webkit-tap-highlight-color: transparent;
-            background: none;
-            transition: all .4s;
-            -webkit-transition: all .4s;
-        }
-        .mask_show {
-            width: 100vw;
-            //height: 100vh;
-            background: rgba(0, 0, 0, .6);
-        }
-        .stores {
-            display: flex;
-            display: -webkit-flex;
-            flex-flow: column;
-            -webkit-flex-flow: column;
-            z-index: 100;
-            width: 100vw;
-            z-index: 100;
-            overflow-y: auto;
-            position: fixed;
-            bottom: -400px;
-            //height: 50vh;
-            //max-height: 50vh;
-            //height: 100px;
-            overflow-y: auto;
-            background: #fff;
-            transition: all .4s;
-            -webkit-transition: all .4s;
-            span {
-                padding: 4vw 2vw;
-                border-bottom: 1px solid #f4f4fc;
-                display: flex;
-                display: -webkit-flex;
-                -webkit-tap-highlight-color: transparent;
-                position: relative;
-                font-size: 14px;
-                &.active {
-                    color: #00cbc7;
-                    background: #f5f5f5;
-                    justify-content: space-between;
-                    i {
-                        font-weight: 900;
-                        line-height: 6vw;
-                        font-size: 1rem;
-                        &:after {
-                            content: '';
-                            margin-top: 1.5vw;
-                            margin-left: 1.1vw;
-                            display: block;
-                            width: .7rem;
-                            height: .4rem;
-                            border: .2rem solid #00cbc7;
-                            border-top: none;
-                            border-right: none;
-                            -moz-transform: rotate(-45deg);
-                            -ms-transform: rotate(-45deg);
-                            -webkit-transform: rotate(-45deg);
-                            transform: rotate(-45deg);
-                        }
-                    }
-                }
-            }
-        }
-        .stores-active {
-            bottom: 0;
-        }
-    }
-    // 切换日期
-    #dateList {
-        -webkit-tap-highlight-color: transparent;
-        display: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        .mask {
-            z-index: 99;
-            left: 0;
-            position: absolute;
-            -webkit-tap-highlight-color: transparent;
-            background: none;
-            transition: all .4s;
-            -webkit-transition: all .4s;
-        }
-        .mask_show {
-            width: 100vw;
-            background: rgba(0, 0, 0, .6);
-        }
-        .date_menu {
-            z-index: 100;
-            width: 100vw;
-            overflow-y: auto;
-            position: fixed;
-            transition: all .4s;
-            -webkit-transition: all .4s;
-            bottom: -400px;
-        }
-        .date_info {
-            background: #fff;
-            text-align: center;
-            span {
-                padding: 4vw 2vw;
-                border-bottom: 1px solid #f4f4fc;
-                -webkit-tap-highlight-color: transparent;
-                display: block;
-                font-size: 14px;
-                &.active {
-                    color: #4ED9CF;
-                }
-            }
-            span:last-of-type {
-                border-bottom: none;
-            }
-        }
-        #date_cancel {
-            display: block;
-            background: #fff;
-            padding: 4vw 2vw;
-            margin-top: 5vw;
-            border-radius: 15px;
-            text-align: center;
-        }
-        .date_menu_active {
-            bottom: 0;
-        }
-    }
-    //切换身份
-    #employeeList {
-        -webkit-tap-highlight-color: transparent;
-        display: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        .mask {
-            z-index: 99;
-            left: 0;
-            position: absolute;
-            -webkit-tap-highlight-color: transparent;
-            background: none;
-            transition: all .4s;
-            -webkit-transition: all .4s;
-        }
-        .mask_show {
-            width: 100vw;
-            background: rgba(0, 0, 0, .6);
-        }
-        .employeeList_menu {
-            .title {
-                font-size: 12px;
-                color: #222;
-                text-align: center;
-                margin-top: 2vw;
-            }
-            z-index: 100;
-            width: 100vw;
-            overflow-y: auto;
-            position: fixed;
-            transition: all .4s;
-            -webkit-transition: all .4s;
-            bottom: -600px;
-            background:#f4f4fc;
-            max-height: 60vh;
-        }
-        .employeeList_info {
-            display: flex;
-            display: -webkit-flex;
-            flex-flow: column;
-            -webkit-flex-flow: column;
-            .employee_item {
-                img {
-                    width: 50px;
-                    height: 50px;
-                }
-                display: flex;
-                display: -webkit-flex;
-                background: #fff;
-                box-shadow: 30px 30px 30px #f4f4fc;
-                padding: 4vw;
-                border-radius: 5px;
-                margin:2vw 4vw;
-                align-items: center;
-                .line {
-                    position: absolute;
-                    top: 14vw;
-                    left: 0;
-                    width: 0;
-                    height: .3rem;
-                    background: #4ED9CF;
-                }
-                .line_aminter {
-                    width: 18vw;
-                }
-                &.active {
-                    border: 1px solid #4ED9CF;
-                    position: relative;
-                    overflow: hidden;
-                }
-            }
-            .employee_info {
-                display: flex;
-                flex-flow: column;
-                margin-left: 3vw;
-                .employee_name {
-                    font-size: 14px;
-                }
-                .merchant_name {
-                    font-size: 9pt;
-                    color: #666;
-                }
-            }
-        }
-        #employee_cancel {
-            display: block;
-            background: #fff;
-            padding: 4vw 2vw;
-            margin-top: 5vw;
-            border-radius: 15px;
-            text-align: center;
-        }
-        .employee_menu_active {
-            bottom: 0;
-        }
     }
 }
