@@ -1,5 +1,6 @@
 //自定义时间
 var incomeDate = {};
+var incomeIdName = "tepm-income";
 //1现金、2POS、3微信、4支付宝、5团购、6减免、7欠款、8会员卡耗、9券、10店内活动、11赠品、12自定义
 var icons = ["68a;", "690;", "692;", "68d;", "687;", "689;", "68f;", "691;", "694;", "693;", "68e;", "68f;"];
 var rgbs = ["#00cbc7", "#f65d69", "#75d140", "#25a9ee"];
@@ -67,7 +68,7 @@ app.income = {
         }, function() {})
     },
     initDate: function(type) {
-        app.tools.initDate(type);
+        app.tools.initDate(type,incomeIdName);
         $('.income .dateLists .date_info').on('click', 'span', function(event) {
             $('.dateLists span').removeClass('active').find('i').remove();
             $(this).addClass('active');
@@ -84,7 +85,7 @@ app.income = {
         });
     },
     initCystomDate: function(type) {
-        app.tools.initCystomDate(type);
+        app.tools.initCystomDate(type,incomeIdName);
         //确定自定义时间选择
         $('.cystomDate').on('click', '.saveDate', function() {
             $('.income  .mask').click();
@@ -92,7 +93,7 @@ app.income = {
         });
     },
     initStoreList: function() {
-        app.tools.initStoreList();
+        app.tools.initStoreList(incomeIdName);
         //点击切换门店
         $('.income .storeLists .stores').on('click', 'span', function(event) {
             $('.storeLists span').removeClass('active').find('i').remove();

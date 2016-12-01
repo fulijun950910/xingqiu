@@ -1,3 +1,4 @@
+var financialIdName = "temp-financial";
 //初始化日期
 app.financial = {
     userdata: function() {
@@ -40,7 +41,7 @@ app.financial = {
                 var tmplhtml = $('#tmpl-financial-info-model').html();
                 var resultTmpl = tmpl(tmplhtml, data);
                 $('#tmpl-financial-info').html(resultTmpl);
-                app.tools.initDate();
+                app.tools.initDate("",financialIdName);
                 $('.dateLists').on('click', 'span', function(event) {
                     $('.dateLists span').removeClass('active');
                     $('.dateLists  .mask').click();
@@ -95,7 +96,7 @@ app.financial = {
                 var tmplhtml = $('#tmpl-financial-model').html();
                 var resultTmpl = tmpl(tmplhtml, data);
                 $('#tmpl-financial').html(resultTmpl);
-                app.tools.initSwiper();
+                app.tools.initSwiper(25);
                 app.tools.initDate();
                 $('.dateLists').on('click', 'span', function(event) {
                     $('.dateLists span').removeClass('active');

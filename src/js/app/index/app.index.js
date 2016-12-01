@@ -1,3 +1,4 @@
+var indexIdName = "tepm-index";
 //初始化身份切换
 function initEemployee() {
     $('.index').on('click', '.employeeRoleList ', function() {
@@ -108,7 +109,7 @@ app.index = {
         });
     },
     initDate: function(type) {
-        app.tools.initDate(type);
+        app.tools.initDate(type,indexIdName);
         $('.index .dateLists .date_info').on('click', 'span', function(event) {
             $('.dateLists span').removeClass('active').find('i').remove();
             $(this).addClass('active');
@@ -125,7 +126,7 @@ app.index = {
         });
     },
     initCystomDate: function(type) {
-        app.tools.initCystomDate(type);
+        app.tools.initCystomDate(type,indexIdName);
         //确定自定义时间选择
         $('.cystomDate').on('click', '.saveDate', function() {
             $('.index  .mask').click();
@@ -133,7 +134,7 @@ app.index = {
         });
     },
     initStoreList: function() {
-        app.tools.initStoreList();
+        app.tools.initStoreList(indexIdName);
         //点击切换门店
         $('.index .storeLists .stores').on('click', 'span', function(event) {
             $('.storeLists span').removeClass('active').find('i').remove();

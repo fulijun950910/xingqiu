@@ -1,3 +1,5 @@
+var employeeDate = {};
+var employeeIdName = "temp-employee";
 app.employeeEcharts = {
     userdata: function() {
         //初始化用户信息
@@ -7,13 +9,58 @@ app.employeeEcharts = {
             }, function() {});
         });
     },
+    initDate: function(type) {
+        app.tools.initDate(type, employeeIdName);
+        $('.employee_echarts .dateLists .date_info').on('click', 'span', function(event) {
+            $('.dateLists span').removeClass('active').find('i').remove();
+            $(this).addClass('active');
+            $('.employee_echarts  .mask').click();
+            if ($(this).attr('data-type') == 4) {
+                app.tools.setDate(employeeDate);
+                $('.cystomDate').fadeIn(200);
+                $('.cystomDate .mask').addClass('mask_show');
+                $('.cystomDate .date_menu').addClass('date_menu_active');
+                $('.cystomDate .mask').height($('.bd').height());
+            } else {
+                app.employeeEcharts.orderEmployeePerformanceList(parseInt($(this).attr('data-type')), 'date');
+            }
+        });
+    },
+    initCystomDate: function(type) {
+        app.tools.initCystomDate(type, employeeIdName);
+        //确定自定义时间选择
+        $('.cystomDate').on('click', '.saveDate', function() {
+            $('.employee_echarts  .mask').click();
+            app.employeeEcharts.orderEmployeePerformanceList(4, 'date');
+        });
+    },
+    initStoreList: function() {
+        app.tools.initStoreList(employeeIdName);
+        //点击切换门店
+        $('.employee_echarts .storeLists .stores').on('click', 'span', function(event) {
+            $('.storeLists span').removeClass('active').find('i').remove();
+            $(this).addClass('active').append('<i></i>');
+            $('.employee_echarts .storeLists .mask').click();
+            app.employeeEcharts.orderEmployeePerformanceList(parseInt($(this).attr('data-id')), 'storeIds');
+        });
+    },
+    initOrderByList: function() {
+        app.tools.initTempData('orderLists', employeeIdName);
+        //点击排序
+        $('.employee_echarts .tempLists .date_info').on('click', 'span', function(event) {
+            $('.tempLists span').removeClass('active').find('i').remove();
+            $(this).addClass('active');
+            $('.employee_echarts  .mask').click();
+            app.employeeEcharts.orderEmployeePerformanceList(parseInt($(this).attr('data-type')), 'orderBy', $(this).attr('data-orderBy'));
+        });
+    },
     init: function() {
         app.employeeEcharts.userdata().then(function(userDate) {
             app.employeeEcharts.orderEmployeePerformanceList();
         }, function() {})
     },
     //初始数据
-    orderEmployeePerformanceList: function(data, type, dateType) {
+    orderEmployeePerformanceList: function(data, type, byType) {
         var employee = null;
         var results = {};
         if (JSON.parse(localStorage.employee)) {
@@ -24,50 +71,40 @@ app.employeeEcharts = {
             'orderBy': 1, //1：按照业绩排序 2：按卡耗排序 3：按提成排序
             'orderByType': 'desc'
         };
-        var date = $('.nowDate').text();
-        if (date) {
-            orderPerformanceList.startDate = moment(date).subtract(0, "month").startOf("month").format('YYYY-MM-DD HH:mm:ss')
-            orderPerformanceList.endDate = moment(date).subtract(0, "month").endOf("month").format('YYYY-MM-DD HH:mm:ss')
+
+        var storeIds = $('.employee_echarts .storeList .store_name').attr('data-storeId');
+        orderPerformanceList.storeId = storeIds ? parseInt(storeIds) : employee.storeList[0].id
+            //dataType
+        var dataType = $('.employee_echarts .dateList .date_name').attr('data-type');
+        if (dataType && dataType.trim()) {
+            results.dataType = $('.employee_echarts .dateList .date_name').attr('data-type');
+            app.tools.getDateType(results.dataType, orderPerformanceList, employeeDate)
         } else {
-            orderPerformanceList.startDate = moment().startOf("month").format('YYYY-MM-DD HH:mm:ss');
+            results.dataType = 1;
+            orderPerformanceList.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
             orderPerformanceList.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
         }
-        var storeId = $('.storeId').text();
-        if (storeId) {
-            orderPerformanceList.storeId = parseInt($('.storeId').text());;
-        } else {
-            if (employee.storeList.length > 0) {
-                orderPerformanceList.storeId = employee.storeList[0].id;
-            }
-        }
+        var orderBy = $('.employee_echarts .orderLists .date_name').attr('data-orderby');
+        orderPerformanceList.orderBy = orderBy ? orderBy : 1;
+        var orderByType = $('.employee_echarts .orderLists .date_name').attr('data-orderbyType');
+        orderPerformanceList.orderByType = orderByType ? orderByType : 'desc';
         switch (type) {
-            case 'orderBy':
-                if ($('.orderBy-' + data).find('.asc').is(':hidden')) {　　 //如果node是隐藏的则显示node元素，否则隐藏
-                    orderPerformanceList.orderByType = 'desc';
-                } else {　　
-                    orderPerformanceList.orderByType = 'asc';
-                }
-                orderPerformanceList.orderBy = data;
-                break;
-            case 'startDate':
-
-                orderPerformanceList.startDate = moment(date).subtract(data, "month").startOf("month").format('YYYY-MM-DD HH:mm:ss')
-                orderPerformanceList.endDate = moment(date).subtract(data, "month").endOf("month").format('YYYY-MM-DD HH:mm:ss')
-                break;
-            case 'storeId':
+            case 'storeIds':
                 orderPerformanceList.storeId = data;
                 break;
-        }
-        //获取门店
-        for (var i = employee.storeList.length - 1; i >= 0; i--) {
-            if (employee.storeList[i].id == orderPerformanceList.storeId) {
-                results.storeName = employee.storeList[i].name;
+            case 'date':
+                app.tools.getDateType(data, orderPerformanceList, employeeDate)
+                results.dataType = data;
                 break;
-            }
+            case 'orderBy':
+                orderPerformanceList.orderBy = data;
+                orderPerformanceList.orderByType = byType;
+                break;
         }
         results.storeId = orderPerformanceList.storeId;
         results.storeList = employee.storeList;
-        results.nowDate = moment(orderPerformanceList.startDate).format('YYYY-MM');
+        results.orderbyType = orderPerformanceList.orderByType;
+        results.orderBy = orderPerformanceList.orderBy;
         //普通员工
         if (employee.role == "wechat_business_normal") {
             var tmplhtml = $('#tmpl-employee-model').html();
@@ -77,7 +114,6 @@ app.employeeEcharts = {
                 app.employeeEcharts.initStore();
             }
             $('.errorMessage').text('亲~您当前的权限还不能看数据哦~');
-            initSwiper();
             return;
         }
         app.employeeEcharts.orderEmployeePerformance(orderPerformanceList).then(function(result) {
@@ -85,53 +121,36 @@ app.employeeEcharts = {
             var tmplhtml = $('#tmpl-employee-model').html();
             var resultTmpl = tmpl(tmplhtml, results);
             $('#tmpl-employee').html(resultTmpl);
-            if (orderPerformanceList.orderByType == 'asc') {
-                $('.orderBy-' + data).find('.asc').hide();
-                $('.orderBy-' + data).find('.desc').show();
-            } else {　　
-                $('.orderBy-' + data).find('.asc').show();
-                $('.orderBy-' + data).find('.desc').hide();
+            app.employeeEcharts.initDate(results.dataType);
+            app.employeeEcharts.initStoreList();
+            app.employeeEcharts.initCystomDate(results.dataType);
+            app.employeeEcharts.initOrderByList();
+            $('.employee_echarts .dateLists span').eq(parseInt(results.dataType) - 1).addClass('active');
+            //业绩
+            if (results.orderBy == 1) {
+                if (results.orderbyType == "desc") {
+                    $('.employee_echarts .tempLists span').eq(0).addClass('active');
+                } else {
+                    $('.employee_echarts .tempLists span').eq(1).addClass('active');
+                }
+            } else { //卡耗
+                if (results.orderbyType == "desc") {
+                    $('.employee_echarts .tempLists span').eq(2).addClass('active');
+                } else {
+                    $('.employee_echarts .tempLists span').eq(3).addClass('active');
+                }
             }
-            if (results.storeList && results.storeList.length > 1) {
-                app.employeeEcharts.initStore();
+            for (var i = 0; i <= results.storeList.length - 1; i++) {
+                var storeId = results.storeList[i].id;
+                if (storeId == orderPerformanceList.storeId || storeId == parseInt(orderPerformanceList.storeId)) {
+                    $('.employee_echarts .storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
+                    return;
+                }
             }
+
+
         }, function(error) {
             app.alert(error);
-        });
-    },
-    initStore: function() {
-        //处理门店选择
-        $('#storeRankSheet').on('click', '.weui_actionsheet_cell', function() {
-            //获取门店ID;
-            var storeid = parseInt($(this).attr('name'));
-            $('#actionsheet_cancel_rank').click();
-            //获取数据
-            app.employeeEcharts.orderEmployeePerformanceList(storeid, "storeId");
-            $('#showActionSheet_rank').show();
-        });
-        //初始化页面选择门店事件
-        $('#container').on('click', '#showActionSheet_rank', function() {
-            var mask = $('#mask_rank');
-            var weuiActionsheet = $('#weui_actionsheet_rank');
-            weuiActionsheet.addClass('weui_actionsheet_toggle');
-            mask.show()
-                .addClass('weui_fade_toggle').one('click', function() {
-                    hideActionSheet(weuiActionsheet, mask);
-                });
-            $('#actionsheet_cancel_rank').one('click', function() {
-                hideActionSheet(weuiActionsheet, mask);
-            });
-            mask.unbind('transitionend').unbind('webkitTransitionEnd');
-
-            function hideActionSheet(weuiActionsheet, mask) {
-                weuiActionsheet.removeClass('weui_actionsheet_toggle');
-                mask.removeClass('weui_fade_toggle');
-                mask.on('transitionend', function() {
-                    mask.hide();
-                }).on('webkitTransitionEnd', function() {
-                    mask.hide();
-                })
-            }
         });
     },
     orderEmployeePerformance: function(data) {

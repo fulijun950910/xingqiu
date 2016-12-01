@@ -179,12 +179,12 @@ app.tools = {
         return app.tools.toThousands(price).split('.');
     },
     //初始化swiper
-    initSwiper: function() {
+    initSwiper: function(leftWidth) {
         var mySwiper = new Swiper('.swiper-container', {
             autoHeight: true,
             onSlideChangeEnd: function(swiper) {
                 var j = mySwiper.activeIndex;
-                $('.line-animation').css('left', j * 25 + 'vw');
+                $('.line-animation').css('left', j * leftWidth + 'vw');
                 $('.line').addClass('line-animation');
                 $('.tool-tab li').removeClass('active');
                 $('.tool-tab li').eq(j).addClass('active');
@@ -197,55 +197,56 @@ app.tools = {
             //得到当前索引
             var i = $(this).index();
             mySwiper.slideTo(i, 1000, false);
-            $('.line-animation').css('left', i * 25 + 'vw');
+            $('.line-animation').css('left', i * leftWidth + 'vw');
             $('.line').addClass('line-animation');
             $('.tool-tab li').removeClass('active');
             $(this).addClass('active');
             mySwiper.slideTo(i, 1000, false);
         });
     },
-    initCystomDate: function(type) {
+    initCystomDate: function(type, idName) {
+        console.log(idName);
         //取消自定义事件选择
-        $('.cystomDate').on('click', '.cancelDate', function() {
-            $('.cystomDate .date_menu').removeClass('date_menu_active');
-            $('.cystomDate .mask').removeClass('mask_show');
-            $('.dateLists span').removeClass('active').find('i').remove();
+        $('#' + idName).find('.cystomDate').on('click', '.cancelDate', function() {
+            $('#' + idName).find('.cystomDate .date_menu').removeClass('date_menu_active');
+            $('#' + idName).find('.cystomDate .mask').removeClass('mask_show');
+            $('#' + idName).find('.dateLists span').removeClass('active').find('i').remove();
             if (type) {
-                $('.dateLists span').eq(parseInt(type) - 1).addClass('active');
+                $('#' + idName).find('.dateLists span').eq(parseInt(type) - 1).addClass('active');
             }
         });
-        $('.cystomDate').on('click', '.mask', function() {
-            $('.date_menu').removeClass('date_menu_active');
-            $('.mask').removeClass('mask_show');
-            $('.cystomDate .date_menu').removeClass('date_menu_active');
-            $('.cystomDate .mask').removeClass('mask_show');
-            $('.dateLists span').removeClass('active').find('i').remove();
+        $('#' + idName).find('.cystomDate').on('click', '.mask', function() {
+            $('#' + idName).find('.date_menu').removeClass('date_menu_active');
+            $('#' + idName).find('.mask').removeClass('mask_show');
+            $('#' + idName).find('.cystomDate .date_menu').removeClass('date_menu_active');
+            $('#' + idName).find('.cystomDate .mask').removeClass('mask_show');
+            $('#' + idName).find('.dateLists span').removeClass('active').find('i').remove();
             if (type) {
-                $('.dateLists span').eq(parseInt(type) - 1).addClass('active');
+                $('#' + idName).find('.dateLists span').eq(parseInt(type) - 1).addClass('active');
             }
         });
     },
     //初始化
-    initDate: function(type) {
-        $('.dateList').click(function() {
-            $('.dateLists').fadeIn(200);
-            $('.dateLists .mask').addClass('mask_show');
-            $('.dateLists .date_menu').addClass('date_menu_active');
-            $('.dateLists .mask').height($('.bd').height());
+    initDate: function(type, idName) {
+        $('#' + idName).find('.dateList').click(function() {
+            $('#' + idName).find('.dateLists').fadeIn(200);
+            $('#' + idName).find('.dateLists .mask').addClass('mask_show');
+            $('#' + idName).find('.dateLists .date_menu').addClass('date_menu_active');
+            $('#' + idName).find('.dateLists .mask').height($('.bd').height());
             //判断是否有选中active
-            if (!$('.dateLists span').hasClass('active')) {
-                $('.dateLists span:first').addClass('active');
+            if (!$('#' + idName).find('.dateLists span').hasClass('active')) {
+                $('#' + idName).find('.dateLists span:first').addClass('active');
             }
         });
         //取消
-        $('.dateLists').on('click', '.mask', function() {
-            $('.date_menu').removeClass('date_menu_active');
-            $('.mask').removeClass('mask_show');
-            $('.cystomDate .date_menu').removeClass('date_menu_active');
-            $('.cystomDate .mask').removeClass('mask_show');
-            $('.dateLists span').removeClass('active').find('i').remove();
+        $('#' + idName).find('.dateLists').on('click', '.mask', function() {
+            $('#' + idName).find('.date_menu').removeClass('date_menu_active');
+            $('#' + idName).find('.mask').removeClass('mask_show');
+            $('#' + idName).find('.cystomDate .date_menu').removeClass('date_menu_active');
+            $('#' + idName).find('.cystomDate .mask').removeClass('mask_show');
+            $('#' + idName).find('.dateLists span').removeClass('active').find('i').remove();
             if (type) {
-                $('.dateLists span').eq(parseInt(type) - 1).addClass('active');
+                $('#' + idName).find('.dateLists span').eq(parseInt(type) - 1).addClass('active');
             }
         });
     },
@@ -260,7 +261,7 @@ app.tools = {
         $(".startDate").val(startDate);
         $('.endDate').val(endDate);
     },
-    getDateType: function(type, data,date) {
+    getDateType: function(type, data, date) {
         switch (parseInt(type)) {
             //今日
             case 1:
@@ -307,19 +308,40 @@ app.tools = {
         return result[code];
     },
     //初始化门店切换
-    initStoreList: function() {
+    initStoreList: function(idName) {
         //展开门店选择
-        $('.storeList').click(function() {
-            $('.storeLists').fadeIn(200);
-            $('.storeLists .mask').addClass('mask_show');
-            $('.stores').addClass('stores-active');
-            $('.mask').height($('.bd').height());
-        })
-        $('.storeList').find('.store_name').find('')
+        $('#' + idName).on('click', '.storeList', function(event) {
+            event.preventDefault();
+            $('#' + idName).find('.storeLists').fadeIn(200);
+            $('#' + idName).find('.storeLists .mask').addClass('mask_show');
+            $('#' + idName).find('.stores').addClass('stores-active');
+            $('#' + idName).find('.mask').height($('.bd').height());
+        });
+        $('#' + idName).find('.storeList').find('.store_name').find('')
             //关闭门店选择
-        $('.storeLists').on('click', '.mask', function(event) {
-            $('.stores').removeClass('stores-active');
-            $('.storeLists .mask').removeClass('mask_show');
+        $('#' + idName).find('.storeLists').on('click', '.mask', function(event) {
+            $('#' + idName).find('.stores').removeClass('stores-active');
+            $('#' + idName).find('.storeLists .mask').removeClass('mask_show');
+        });
+    },
+    // 自定义弹出层
+    initTempData: function(className,idName) {
+        console.log(className);
+        $('.' + className).click(function() {
+            $('#' + idName).find('.tempLists').fadeIn(200);
+            $('#' + idName).find('.tempLists .mask').addClass('mask_show');
+            $('#' + idName).find('.tempLists .date_menu').addClass('date_menu_active');
+            $('#' + idName).find('.tempLists .mask').height($('.bd').height());
+            //判断是否有选中active
+            if (!$('#' + idName).find('.tempLists span').hasClass('active')) {
+                $('#' + idName).find('.tempLists span:first').addClass('active');
+            }
+        });
+        //取消
+        $('#' + idName).find('.tempLists').on('click', '.mask', function() {
+            $('#' + idName).find('.date_menu').removeClass('date_menu_active');
+            $('#' + idName).find('.mask').removeClass('mask_show');
+            $('#' + idName).find('.tempLists span').removeClass('active').find('i').remove();
         });
     },
 }

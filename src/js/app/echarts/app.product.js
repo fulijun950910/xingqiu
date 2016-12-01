@@ -1,30 +1,41 @@
-function initSwiper() {
-    var mySwiper = new Swiper('.swiper-container', {
-        onSlideChangeEnd: function(swiper) {
-            var j = mySwiper.activeIndex;
-            $('.line-animation').css('left', j * 25 + 'vw');
-            $('.line').addClass('line-animation');
-            $('.tool-tab li').removeClass('active');
-            $('.tool-tab li').eq(j).addClass('active');
-            mySwiper.slideTo(i, 1000, false);
-        }
-    });
-
-    $('.tool-tab').on('click', 'li', function(e) {
-        //取消事件的默认动作。
-        e.preventDefault();
-        //得到当前索引
-        var i = $(this).index();
-        mySwiper.slideTo(i, 1000, false);
-        $('.line-animation').css('left', i * 25 + 'vw');
-        $('.line').addClass('line-animation');
-        $('.tool-tab li').removeClass('active');
-        $(this).addClass('active');
-        mySwiper.slideTo(i, 1000, false);
-    });
-}
-
+var echartsDate = {};
+var productEchartsIdName = 'tmpl-product';
 app.productEcharts = {
+    initDate: function(type) {
+        app.tools.initDate(type, productEchartsIdName);
+        $('.product_echarts .dateLists .date_info').on('click', 'span', function(event) {
+            $('.product_echarts .dateLists span').removeClass('active').find('i').remove();
+            $(this).addClass('active');
+            $('.product_echarts  .mask').click();
+            if ($(this).attr('data-type') == 4) {
+                app.tools.setDate(echartsDate);
+                $('.cystomDate').fadeIn(200);
+                $('.cystomDate .mask').addClass('mask_show');
+                $('.cystomDate .date_menu').addClass('date_menu_active');
+                $('.cystomDate .mask').height($('.bd').height());
+            } else {
+                app.productEcharts.reportShow(parseInt($(this).attr('data-type')), 'date');
+            }
+        });
+    },
+    initCystomDate: function(type) {
+        app.tools.initCystomDate(type, productEchartsIdName);
+        //确定自定义时间选择
+        $('.cystomDate').on('click', '.saveDate', function() {
+            $('.product_echarts  .mask').click();
+            app.productEcharts.reportShow(4, 'date');
+        });
+    },
+    initStoreList: function() {
+        app.tools.initStoreList(productEchartsIdName);
+        //点击切换门店
+        $('.product_echarts .storeLists .stores').on('click', 'span', function(event) {
+            $('.product_echarts .storeLists span').removeClass('active').find('i').remove();
+            $(this).addClass('active').append('<i></i>');
+            $('.product_echarts .storeLists .mask').click();
+            app.productEcharts.reportShow($(this).attr('data-id'), 'storeIds');
+        });
+    },
     userdata: function() {
         //初始化用户信息
         return new Promise(function(resolve, reject) {
@@ -41,7 +52,7 @@ app.productEcharts = {
         });
     },
     //初始数据
-    reportShow: function(data, type, dateType) {
+    reportShow: function(data, type) {
         var employee = null;
         if (JSON.parse(localStorage.employee)) {
             employee = JSON.parse(localStorage.employee);
@@ -55,51 +66,42 @@ app.productEcharts = {
         var query = {
             'merchantId': employee.merchantId
         };
-        var date = $('.nowDate').text();
-        if (date) {
-            query.startDate = moment(date).format('YYYY-MM-DD HH:mm:ss');
-            query.endDate = moment(date).subtract(0, "month").endOf("month").format('YYYY-MM-DD HH:mm:ss');
-        } else {
-            query.startDate = moment().startOf("month").format('YYYY-MM-DD HH:mm:ss');
-            query.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
-        }
         query.queryData = {
             itemSalesDetail: true
         }
-        var storeId = $('.storeId').text();
-        if (storeId) {
-            query.storeIds = parseInt($('.storeId').text());;
+        var storeIds = $('.storeList .store_name').attr('data-storeId');
+        if (storeIds && storeIds.trim()) {
+            query.storeIds = $('.storeList .store_name').attr('data-storeId');
         } else {
-            if (employee.storeList.length > 0) {
-                query.storeIds = employee.storeList[0].id;
-            }
+            query.storeIds = employee.storeIds;
+        }
+        var dataType = $('.dateList .date_name').attr('data-type');
+        if (dataType && dataType.trim()) {
+            query.dataType = $('.dateList .date_name').attr('data-type');
+            app.tools.getDateType(query.dataType, data, echartsDate)
+        } else {
+            query.dataType = 1;
+            query.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
+            query.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
         }
         switch (type) {
-            case 'startDate':
-                query.startDate = moment(date).subtract(data, "month").startOf('month').format('YYYY-MM-DD ') + "00:00:00";
-                query.endDate = moment(date).subtract(data, "month").endOf('month').format('YYYY-MM-DD ') + "23:59:59"
-                break;
-            case 'storeId':
+            case 'storeIds':
                 query.storeIds = data;
                 break;
-        }
-        results.nowDate = moment(query.startDate).format('YYYY-MM');
-        //获取门店
-        for (var i = employee.storeList.length - 1; i >= 0; i--) {
-            if (employee.storeList[i].id == query.storeIds) {
-                results.storeName = employee.storeList[i].name;
+            case 'date':
+                app.tools.getDateType(data, query, echartsDate)
+                query.dataType = data;
                 break;
-            }
         }
-        results.storeId = query.storeIds;
         results.storeList = employee.storeList;
+        results.storeIds = employee.storeIds;
         //普通员工
         if (employee.role == "wechat_business_normal") {
             var tmplhtml = $('#tmpl-product-model').html();
             var resultTmpl = tmpl(tmplhtml, results);
             $('#tmpl-product').html(resultTmpl);
             $('.errorMessage').text('亲~您当前的权限还不能看数据哦~');
-            initSwiper();
+            app.tools.initSwiper(25);
             if (results.storeList && results.storeList.length > 1) {
                 app.productEcharts.initStore();
             }
@@ -132,50 +134,28 @@ app.productEcharts = {
                         break;
                 }
             }
+            console.log(results);
             var tmplhtml = $('#tmpl-product-model').html();
             var resultTmpl = tmpl(tmplhtml, results);
             $('#tmpl-product').html(resultTmpl);
-            initSwiper();
-            if (results.storeList && results.storeList.length > 1) {
-                app.productEcharts.initStore();
+            app.tools.initSwiper(25);
+            app.productEcharts.initDate(query.dataType); //初始化时间
+            app.productEcharts.initStoreList(); //初始化门店
+            app.productEcharts.initCystomDate(query.dataType); //初始化自定义时间
+            if (query.storeIds == results.storeIds) {
+                $('.storeLists span:first').addClass('active').append('<i></i>');
+            } else {
+                for (var i = 0; i <= results.storeList.length - 1; i++) {
+                    var storeId = results.storeList[i].id;
+                    if (storeId == query.storeIds || storeId == parseInt(query.storeIds)) {
+                        $('.storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
+                    }
+                }
             }
+            //日期名称
+            $('.dateLists span').eq(parseInt(query.dataType) - 1).addClass('active');
         }, function(error) {
             app.alert(error);
-        });
-    },
-    initStore: function() {
-        //处理门店选择
-        $('#storeRankSheet').on('click', '.weui_actionsheet_cell', function() {
-            //获取门店ID;
-            var storeid = parseInt($(this).attr('name'));
-            $('#actionsheet_cancel_rank').click();
-            //获取数据
-            app.productEcharts.reportShow(storeid, "storeId");
-            $('#showActionSheet_rank').show();
-        });
-        //初始化页面选择门店事件
-        $('#container').on('click', '#showActionSheet_rank', function() {
-            var mask = $('#mask_rank');
-            var weuiActionsheet = $('#weui_actionsheet_rank');
-            weuiActionsheet.addClass('weui_actionsheet_toggle');
-            mask.show()
-                .addClass('weui_fade_toggle').one('click', function() {
-                    hideActionSheet(weuiActionsheet, mask);
-                });
-            $('#actionsheet_cancel_rank').one('click', function() {
-                hideActionSheet(weuiActionsheet, mask);
-            });
-            mask.unbind('transitionend').unbind('webkitTransitionEnd');
-
-            function hideActionSheet(weuiActionsheet, mask) {
-                weuiActionsheet.removeClass('weui_actionsheet_toggle');
-                mask.removeClass('weui_fade_toggle');
-                mask.on('transitionend', function() {
-                    mask.hide();
-                }).on('webkitTransitionEnd', function() {
-                    mask.hide();
-                })
-            }
         });
     },
     show: function(data) {

@@ -1,11 +1,12 @@
+var memberEchartsIdName = 'temp-member';
 app.memberEcharts = {
     initStoreList: function() {
-        app.tools.initStoreList();
+        app.tools.initStoreList(memberEchartsIdName);
         //点击切换门店
-        $('.storeLists .stores').on('click', 'span', function(event) {
-            $('.storeLists span').removeClass('active').find('i').remove();
+        $('.member_echarts .storeLists .stores').on('click', 'span', function(event) {
+            $('.member_echarts .storeLists span').removeClass('active').find('i').remove();
             $(this).addClass('active').append('<i></i>');
-            $('.storeLists .mask').click();
+            $('.member_echarts .storeLists .mask').click();
             app.memberEcharts.getMemberData($(this).attr('data-id'));
         });
     },
@@ -60,13 +61,13 @@ app.memberEcharts = {
             //  app.memberEcharts.initStoreList();
             app.memberEcharts.initStoreList(); //初始化门店
             if (!data.storeId ) {
-                $('.storeLists .stores-info span').eq(0).addClass('active').append('<i></i>');
+                $('.member_echarts .storeLists .stores-info span').eq(0).addClass('active').append('<i></i>');
                 return;
             }
             for (var i = 0; i <= memberData.storeList.length - 1; i++) {
                 var storeId = memberData.storeList[i].id;
                 if (storeId == data.storeId || storeId == parseInt(data.storeId)) {
-                    $('.storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
+                    $('.member_echarts .storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
                 }
             }
         }, function(error) {
@@ -74,9 +75,6 @@ app.memberEcharts = {
         });
     },
     getMemberStatistics: function(data) {
-        // if (this.storeId) {
-        //     data.storeId = this.storeId;
-        // }
         return new Promise(function(resolve, reject) {
             app.startLoading();
             app.api.echarts.getMemberStatistics({

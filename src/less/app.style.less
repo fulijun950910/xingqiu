@@ -16,6 +16,10 @@ a {
     -webkit-tap-highlight-color: transparent;
 }
 
+.ic {
+    top: .4vw;
+}
+
 .wrap {
     width: 92vw;
     margin: auto;
@@ -56,12 +60,22 @@ a {
             border-right: 1px solid #e5e5e5;
         }
     }
-    .border-left {
-        border-left: 1px solid #e5e5e5;
-    }
-    .border-right {
-        border-right: 1px solid #e5e5e5;
-    }
+}
+
+.border-left {
+    border-left: 1px solid #e5e5e5;
+}
+
+.border-right {
+    border-right: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
 }
 
 .box-shadow {
@@ -221,7 +235,8 @@ a {
 
 // 切换日期
 .dateLists,
-.cystomDate {
+.cystomDate,
+.tempLists {
     -webkit-tap-highlight-color: transparent;
     display: none;
     position: absolute;
@@ -284,6 +299,7 @@ a {
     }
     .date {
         padding: 10vw 2vw;
+        border: none !important;
     }
     label {
         margin-bottom: 2vw;
@@ -392,7 +408,7 @@ a {
         }
         .employee_info {
             display: flex;
-            display:-webkit-flex;
+            display: -webkit-flex;
             flex-flow: column;
             -webkit-flex-flow: column;
             margin-left: 3vw;

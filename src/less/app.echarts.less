@@ -5,14 +5,15 @@
     max-width: 100vw;
     overflow-x: hidden;
     font-family: "微软雅黑";
-    .main {
-        background: #fff;
-        margin-top: 1vw;
-        height: 10vw;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-    }
+    background: #fff;
+    // .main {
+    //     background: #fff;
+    //     margin-top: 1vw;
+    //     height: 10vw;
+    //     display: flex;
+    //     justify-content: space-around;
+    //     align-items: center;
+    // }
     .date {
         border: 1px solid #b44dce;
         padding: 1vw 5vw;
@@ -158,6 +159,10 @@
     }
 }
 
+.employee_echarts {
+    min-height: 100vh;
+}
+
 //员工
 .employee_echarts,
 .product_echarts {
@@ -166,14 +171,11 @@
             .flex-25 {
                 width: 25vw;
             }
-            margin-top: 2vw;
             background: #fff;
             height: 13vw;
             line-height: 13vw;
             display:-webkit-flex;
             display: flex;
-            // justify-content: space-around;
-            // align-items: center;
             font-size: 11pt;
             border-bottom: 1px solid #eaeaea;
             .orderBy-1,
@@ -187,35 +189,46 @@
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         }
     }
-    .orderEmployeeData-box {
+    .orderEmployeeData-box,
+    .product_echarts {
+        background: #fff;
         .data-list {
-            background: #fff;
             .data-item {
-                // display: flex;
-                // justify-content: space-around;
-                // align-items: center;
-                padding: 3vw 0;
-                border-bottom: 1px solid #eaeaea;
                 font-size: 10pt;
-                display: flex;
-                display: -webkit-flex;
-                .index {
-                    width: 10vw;
-                    text-align: center;
+                text-align: center;
+                color: #666;
+                font-size: @font-default-size;
+                .member-img {
+                    img {
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                    }
                 }
-                .employeeName {
-                    width: 15vw;
-                    text-align: center;
+                .member-amount {
+                    padding: 3vw 0;
+                    //margin-left: 2vw;
                 }
-                .productName {
-                    display: inline-block;
-                    width: 45vw;
-                    text-align: center;
+                .name {
+                    color: @font-primary-color;
                 }
-                .amount {
-                    width: 25vw;
-                    text-align: center;
-                }
+                // .index {
+                //     width: 10vw;
+                //     text-align: center;
+                // }
+                // .employeeName {
+                //     width: 15vw;
+                //     text-align: center;
+                // }
+                // .productName {
+                //     display: inline-block;
+                //     width: 45vw;
+                //     text-align: center;
+                // }
+                // .amount {
+                //     width: 25vw;
+                //     text-align: center;
+                // }
             }
             .none-data {
                 border-bottom: 1px solid #eaeaea;
@@ -230,9 +243,15 @@
 }
 
 .product_echarts {
+    .tool-tab {
+        ul {
+            background: @primary-background-color ;
+        }
+    }
     .swiper-container {
         background: #fff;
-        min-height: 100%;
+        min-height: 82vh !important;
+        margin: 0 4vw;
         .weui_cell {
             padding: 5px 15px !important;
             position: relative;
@@ -243,8 +262,18 @@
             -webkit-align-items: center;
             align-items: center;
         }
-        .swiper-slide {
-            min-height: 71vh;
+        .index {
+            font-size: 14px;
+            color: @font-secondary-color;
         }
+        .productName {
+            text-indent: 5vw;
+        }
+    }
+    .data-title {
+        border: none;
+        font-size: 14px;
+        padding: 5vw 0 0vw;
+        color: #888;
     }
 }
