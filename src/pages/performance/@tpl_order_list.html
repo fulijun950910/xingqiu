@@ -4,17 +4,6 @@
     <div class="bd performance-order-list" id="temp-performance-order-list" style="min-height: 100vh;">
         <!--  订单顶栏 -->
         <div class="orderlist-headerFence" style="z-index:10;position:absolute;">
-       <!--      <div class="headerFence9">
-                <div class="dateList">
-                    <span class="date_name">今日</span>
-                    <i class="ic">&#xe63f;</i>
-                </div>
-            </div> -->
-            <!--   <a onclick="app.performance.order.leftDay(this)" class="leftday"><i class="icon icon-uniF3D2"></i>
-                    前一天</a>
-                <input onchange="app.performance.order.changeDay()" style="background-color:transparent;" id="order-query-date" type="date" value="">
-                <a onclick="app.performance.order.nextDay(this)" class="nextday">后一天 <i
-                        class="icon icon-uniF3D3"></i></a> -->
             <div class="headerPerformance9">
                 <div class="performance">业绩汇总：<strong id="total-performance">￥0.00</strong></div>
                 <div class="push">提成：<strong id="total-push">￥0.00</strong></div>
@@ -24,14 +13,14 @@
         <div class="wrapper orderlist-wrapper" id="order-wrapper">
             <div id="order-scroller" class="scroller">
             </div>
+            <div style="height:57px;"> </div>
         </div>
-        <div style="height: 57px;"></div>
         <!-- 面包 导航-->
         <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
             <div onclick="app.goBack()" flex="50">
-                <i class="ic"">&#xe68b;</i>
-            <span>返回</span>
-        </div>
+                <i class="ic">&#xe68b;</i>
+                <span>返回</span>
+            </div>
             <div flex="50" class="dateList">
                 <i class="ic">&#xe68c;</i>
                 <span>日期</span>
@@ -46,8 +35,6 @@
                     <span data-type=3>本月</span>
                     <span data-type=4>自定义</span>
                 </div>
-                <!-- 取消 -->
-                <!-- <span  id="date_cancel">取消</span> -->
             </div>
         </div>
         <!-- 自定义 -->
@@ -74,86 +61,86 @@
         </div>
     </div>
     <script type="text/html" id="tmpl-order-list">
-        <!--% for(var i=0;i<o.datas.length;i++){ %-->
-        <div class="orderList" onclick="app.performance.order.chooseOrderId({%=JSON.stringify(o.datas[i]) %})">
-            <div class="orderList9">
-                <div class="orderClientName" layout="row" layout-align="space-between center">
-                    <div class="lisetHead" layout="row" layout-align="start center">
-                        <img src="{%=app.filePath + o.datas[i].memberAvatarId %}" onerror="this.src='/images/default_female.png'" alt="" />
-                        <span>{%=app.tools.sliceStr(o.datas[i].memberName,12) %}</span>
-                        <!--% if(o.datas[i].mobile){ %-->
-                        <span>/{%=o.datas[i].mobile %}</span>
-                        <!--% } %-->
-                        <span class="time">&emsp;{%=app.tools.toDetailDate(o.datas[i].orderDate,o.datas[i].nowDate) %}</span>
-                    </div>
-                    <a href="javascript:;">订单详情 <i class="icon icon-uniF3D3"></i></a>
-                </div>
-                <div class="orderContent" layout="row" layout-align="space-between stretch">
-                    <div flex="25" layout="row" layout-align="start center">
-                        <div class="orderItemImage">
-                            <img src="{%=app.filePath + o.datas[i].itemFileId %}" onerror="this.src='/images/upimg.png'" alt="" />
-                            <!--% if(o.datas[i].status==1){ %-->
-                            <div class="itemStatus itemStatus-wait">处理中</div>
-                            <!--% } else if (o.datas[i].status==11) { %-->
-                            <div class="itemStatus itemStatus-danger">待付款</div>
-                            <!--% } else if (o.datas[i].status==12) { %-->
-                            <div class="itemStatus itemStatus-danger">待付款</div>
-                            <!--% } else if (o.datas[i].status==13) { %-->
-                            <div class="itemStatus itemStatus-danger">待付款</div>
-                            <!--% } else if (o.datas[i].status==20) { %-->
-                            <div class="itemStatus">已付款</div>
-                            <!--% } else if (o.datas[i].status==30) { %-->
-                            <div class="itemStatus itemStatus-danger">挂帐</div>
-                            <!--% } else if (o.datas[i].status==40) { %-->
-                            <div class="itemStatus itemStatus-danger">尾款</div>
-                            <!--% } else if (o.datas[i].status==50) { %-->
-                            <div class="itemStatus itemStatus-pass">已取消</div>
-                            <!--% } else if (o.datas[i].status==61) { %-->
-                            <div class="itemStatus itemStatus-pass">退单</div>
-                            <!--% } else if (o.datas[i].status==62) { %-->
-                            <div class="itemStatus itemStatus-pass">退卡</div>
-                            <!--% } else if (o.datas[i].status==69) { %-->
-                            <div class="itemStatus itemStatus-pass">退款中</div>
-                            <!--% } else if (o.datas[i].status==70) { %-->
-                            <div class="itemStatus">补卡</div>
+            <!--% for(var i=0;i<o.datas.length;i++){ %-->
+            <div class="orderList" onclick="app.performance.order.chooseOrderId({%=JSON.stringify(o.datas[i]) %})">
+                <div class="orderList9">
+                    <div class="orderClientName" layout="row" layout-align="space-between center">
+                        <div class="lisetHead" layout="row" layout-align="start center">
+                            <img src="{%=app.filePath + o.datas[i].memberAvatarId %}" onerror="this.src='/images/default_female.png'" alt="" />
+                            <span>{%=app.tools.sliceStr(o.datas[i].memberName,12) %}</span>
+                            <!--% if(o.datas[i].mobile){ %-->
+                            <span>/{%=o.datas[i].mobile %}</span>
                             <!--% } %-->
+                            <span class="time">&emsp;{%=app.tools.toDetailDate(o.datas[i].orderDate,o.datas[i].nowDate) %}</span>
                         </div>
+                        <a href="javascript:;">订单详情 <i class="icon icon-uniF3D3"></i></a>
                     </div>
-                    <div flex="75" style="padding:1vw 1vw 0vw 0;color:#FD6565" layout="column" layout-align="space-between stretch">
-                        <!-- 订单内容 -->
-                        <div>
-                            <ul class="order-item">
-                                <!--% if(o.datas[i].itemVoList){ %-->
-                                <!--% for(var j=0;j<o.datas[i].itemVoList.length;j++ ){ %-->
-                                <li>
-                                    <span>{%=o.datas[i].itemVoList[j].itemName %}</span>
-                                </li>
+                    <div class="orderContent" layout="row" layout-align="space-between stretch">
+                        <div flex="25" layout="row" layout-align="start center">
+                            <div class="orderItemImage">
+                                <img src="{%=app.filePath + o.datas[i].itemFileId %}" onerror="this.src='/images/upimg.png'" alt="" />
+                                <!--% if(o.datas[i].status==1){ %-->
+                                <div class="itemStatus itemStatus-wait">处理中</div>
+                                <!--% } else if (o.datas[i].status==11) { %-->
+                                <div class="itemStatus itemStatus-danger">待付款</div>
+                                <!--% } else if (o.datas[i].status==12) { %-->
+                                <div class="itemStatus itemStatus-danger">待付款</div>
+                                <!--% } else if (o.datas[i].status==13) { %-->
+                                <div class="itemStatus itemStatus-danger">待付款</div>
+                                <!--% } else if (o.datas[i].status==20) { %-->
+                                <div class="itemStatus">已付款</div>
+                                <!--% } else if (o.datas[i].status==30) { %-->
+                                <div class="itemStatus itemStatus-danger">挂帐</div>
+                                <!--% } else if (o.datas[i].status==40) { %-->
+                                <div class="itemStatus itemStatus-danger">尾款</div>
+                                <!--% } else if (o.datas[i].status==50) { %-->
+                                <div class="itemStatus itemStatus-pass">已取消</div>
+                                <!--% } else if (o.datas[i].status==61) { %-->
+                                <div class="itemStatus itemStatus-pass">退单</div>
+                                <!--% } else if (o.datas[i].status==62) { %-->
+                                <div class="itemStatus itemStatus-pass">退卡</div>
+                                <!--% } else if (o.datas[i].status==69) { %-->
+                                <div class="itemStatus itemStatus-pass">退款中</div>
+                                <!--% } else if (o.datas[i].status==70) { %-->
+                                <div class="itemStatus">补卡</div>
                                 <!--% } %-->
-                                <!--% } %-->
-                            </ul>
+                            </div>
                         </div>
-                        <div>
-                            <div class="bkorder-affirm" style="text-align:right;">¥{%=app.performance.order.fenToYuan(o.datas[i].realReceivableMoney)%}</div>
-                            <div class="orderlist-performance">
-                                <div class="performance">业绩:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].performance)%}</span></div>
-                                <div class="push">卡耗:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].cardConsume)%}</span></div>
-                                <div class="push">提成:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].commission)%}</span></div>
+                        <div flex="75" style="padding:1vw 1vw 0vw 0;color:#FD6565" layout="column" layout-align="space-between stretch">
+                            <!-- 订单内容 -->
+                            <div>
+                                <ul class="order-item">
+                                    <!--% if(o.datas[i].itemVoList){ %-->
+                                    <!--% for(var j=0;j<o.datas[i].itemVoList.length;j++ ){ %-->
+                                    <li>
+                                        <span>{%=o.datas[i].itemVoList[j].itemName %}</span>
+                                    </li>
+                                    <!--% } %-->
+                                    <!--% } %-->
+                                </ul>
+                            </div>
+                            <div>
+                                <div class="bkorder-affirm" style="text-align:right;">¥{%=app.performance.order.fenToYuan(o.datas[i].realReceivableMoney)%}</div>
+                                <div class="orderlist-performance">
+                                    <div class="performance">业绩:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].performance)%}</span></div>
+                                    <div class="push">卡耗:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].cardConsume)%}</span></div>
+                                    <div class="push">提成:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].commission)%}</span></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!--<strong class="payment"></strong>-->
-                <!-- 下边框线 -->
-                <!--<div class="orderborder"></div>-->
-                <!-- 服务评价内容 -->
-                <div class="evaluatebox" layout-align="space-between center" layout="row">
-                    <div class="evaluate" style="word-break: break-all;overflow: hidden;">小记:
-                        <span>{%=o.datas[i].comment %}</span>
+                    <!--<strong class="payment"></strong>-->
+                    <!-- 下边框线 -->
+                    <!--<div class="orderborder"></div>-->
+                    <!-- 服务评价内容 -->
+                    <div class="evaluatebox" layout-align="space-between center" layout="row">
+                        <div class="evaluate" style="word-break: break-all;overflow: hidden;">小记:
+                            <span>{%=o.datas[i].comment %}</span>
+                        </div>
+                        <button class="noclick" onclick="app.performance.order.comment({%=JSON.stringify(o.datas[i]) %})"><i class="ic icon-tianxie" style="font-size: 5.2vw;color: #666;margin-top:.4vw;"></i>服务小记</button>
                     </div>
-                    <button class="noclick" onclick="app.performance.order.comment({%=JSON.stringify(o.datas[i]) %})"><i class="ic icon-tianxie" style="font-size: 5.2vw;color: #666;margin-top:.4vw;"></i>服务小记</button>
                 </div>
             </div>
-        </div>
-        <!--% } %-->
+            <!--% } %-->
     </script>
 </script>

@@ -109,7 +109,7 @@ app.index = {
         });
     },
     initDate: function(type) {
-        app.tools.initDate(type,indexIdName);
+        app.tools.initDate(type, indexIdName);
         $('.index .dateLists .date_info').on('click', 'span', function(event) {
             $('.dateLists span').removeClass('active').find('i').remove();
             $(this).addClass('active');
@@ -126,7 +126,7 @@ app.index = {
         });
     },
     initCystomDate: function(type) {
-        app.tools.initCystomDate(type,indexIdName);
+        app.tools.initCystomDate(type, indexIdName);
         //确定自定义时间选择
         $('.cystomDate').on('click', '.saveDate', function() {
             $('.index  .mask').click();
@@ -240,11 +240,8 @@ app.index = {
                     }
                 }
                 //业绩、
-                if ((memberData.performanceInfo.income + "").length > 6) {
+                if ((memberData.performanceInfo.income + "").length > 6 || (memberData.performanceInfo.cardConsume + "").length > 6) {
                     $('.achievementTotalAmount  .price').css('font-size', '12pt');
-                }
-                //卡耗
-                if ((memberData.performanceInfo.cardConsume + "").length > 6) {
                     $('.cardConsumeTotalAmount  .price').css('font-size', '12pt');
                 }
                 if (employee.storeList.length == 1) {
