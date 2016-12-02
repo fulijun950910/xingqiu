@@ -16,8 +16,8 @@
                             <img id="comment-pic" src="{%=app.filePath + o.orderEmployeePerformanceList[i].employeeImageId %}" onerror="this.src='images/default_female.png'">
                         </div>
                         <div style="padding: 3vw 0;margin-left:2vw" layout="row" flex layout-align="space-around center" class="border-bottom">
-                            <div class="employee-info" layout="column" style="padding-right: 15vw;">
-                                <span class="name">{%= app.tools.sliceStr(o.orderEmployeePerformanceList[i].employeeName,4) %}</span>
+                            <div class="employee-info text-align-left" layout="column"  flex="20">
+                                <span class="name">{%= app.tools.sliceStr(o.orderEmployeePerformanceList[i].employeeName,8) %}</span>
                                 <span>No.{%= i + 1%}</span>
                             </div>
                             <div class="amount text-align-left" layout="column" flex="50">

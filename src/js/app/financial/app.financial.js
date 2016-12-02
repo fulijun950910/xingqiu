@@ -24,7 +24,7 @@ app.financial = {
     },
     //微信详情
     financialInfo: function(promotionInstanceId) {
-        window.location.href = "/wechat-financial.html#/financial-info?promotionInstanceId=" + promotionInstanceId;
+        window.location.href = "/financial.html#/financial-info?promotionInstanceId=" + promotionInstanceId;
     },
     //活动营销数据
     getWxPromotionStatisticsInfo: function(status) {

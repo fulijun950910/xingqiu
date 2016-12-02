@@ -105,6 +105,7 @@ app.employeeEcharts = {
         results.storeList = employee.storeList;
         results.orderbyType = orderPerformanceList.orderByType;
         results.orderBy = orderPerformanceList.orderBy;
+        app.tools.changeTitle('员工业绩分析');
         //普通员工
         if (employee.role == "wechat_business_normal") {
             var tmplhtml = $('#tmpl-employee-model').html();
