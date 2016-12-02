@@ -61,7 +61,7 @@ app.memberEcharts = {
             //  app.memberEcharts.initStoreList();
             app.memberEcharts.initStoreList(); //初始化门店
             if (!data.storeId ) {
-                $('.member_echarts .storeLists .stores-info span').eq(0).addClass('active').append('<i></i>');
+                $('.member_echarts .storeLists  span').eq(0).addClass('active').append('<i></i>');
                 return;
             }
             for (var i = 0; i <= memberData.storeList.length - 1; i++) {
