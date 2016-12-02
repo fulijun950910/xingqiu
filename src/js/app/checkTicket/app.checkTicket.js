@@ -105,6 +105,7 @@
          };
          app.checkTicket.verifyTicketInstance(data).then(function(result) {
              if (result) {
+                app.alert('小主，验券成功');
                  ticketInfo.status = 4;
                  $('.ticketStatus').text('券已使用');
                  $('#verifyTicket').css('background-color', '#ccc');

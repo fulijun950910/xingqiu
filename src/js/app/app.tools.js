@@ -325,7 +325,7 @@ app.tools = {
         });
     },
     // 自定义弹出层
-    initTempData: function(className,idName) {
+    initTempData: function(className, idName) {
         console.log(className);
         $('.' + className).click(function() {
             $('#' + idName).find('.tempLists').fadeIn(200);
@@ -344,6 +344,16 @@ app.tools = {
             $('#' + idName).find('.tempLists span').removeClass('active').find('i').remove();
         });
     },
+    changeTitle: function(title) {
+        var $body = $('body');
+        document.title = title;
+        var $iframe = $('<iframe src="/favicon.ico"></iframe>');
+        $iframe.on('load', function() {
+            setTimeout(function() {
+                $iframe.off('load').remove();
+            }, 0);
+        }).appendTo($body);
+    }
 }
 
 //处理url参数

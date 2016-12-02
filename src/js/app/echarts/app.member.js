@@ -48,6 +48,7 @@ app.memberEcharts = {
             storeList = JSON.parse(storeList).storeList;
             memberData.storeList = storeList;
             memberData.storeIds = employee.storeIds;
+             app.tools.changeTitle('会员来源分析');
             var tmplhtml = $('#tmpl-member-model').html();
             var resultTmpl = tmpl(tmplhtml, memberData);
             $('#tmpl-member').html(resultTmpl);

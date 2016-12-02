@@ -134,7 +134,7 @@ app.productEcharts = {
                         break;
                 }
             }
-            console.log(results);
+             app.tools.changeTitle('品项数据分析');
             var tmplhtml = $('#tmpl-product-model').html();
             var resultTmpl = tmpl(tmplhtml, results);
             $('#tmpl-product').html(resultTmpl);
