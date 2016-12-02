@@ -111,7 +111,6 @@ app.financial = {
                         return;
                     }
                 }
-
             },
             function() {})
     },

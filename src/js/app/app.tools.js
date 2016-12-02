@@ -26,7 +26,7 @@ app.tools = {
     },
     //显示未查到数据
     show: function(domId) {
-        var html = '<div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 5vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 抱歉,暂时没有查到数据...</span></div>';
+        var html = '<div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 抱歉,暂时没有查到数据...</span></div>';
         $('#' + domId).html(html);
     },
     // noData(): function() {

@@ -61,6 +61,7 @@
                  storeIdActive = ticketInfo.employeeInfo.storeId;
                  ticketInfo.storeId = ticketInfo.employeeInfo.storeId;
              }
+             app.tools.changeTitle('券信息');
              var tmplhtml = $('#tmpl-verifyTicketInstance-model').html();
              var resultTmpl = tmpl(tmplhtml, ticketInfo);
              $('#tmpl-verifyTicketInstance').html(resultTmpl);
@@ -105,7 +106,7 @@
          };
          app.checkTicket.verifyTicketInstance(data).then(function(result) {
              if (result) {
-                app.alert('小主，验券成功');
+                 app.alert('小主，验券成功');
                  ticketInfo.status = 4;
                  $('.ticketStatus').text('券已使用');
                  $('#verifyTicket').css('background-color', '#ccc');
