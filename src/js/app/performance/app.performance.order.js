@@ -23,7 +23,7 @@ app.performance.order = {
         });
     },
     initCystomDate: function(type) {
-        app.tools.initCystomDate(type, incomeIdName);
+        app.tools.initCystomDate(type, orderlIstIdName);
         //确定自定义时间选择
         $('.cystomDate').on('click', '.saveDate', function() {
             $('.performance-order-list  .mask').click();

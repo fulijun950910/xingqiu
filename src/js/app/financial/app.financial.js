@@ -31,7 +31,7 @@ app.financial = {
         var promotionInstanceId = window.location.hash.substr(window.location.hash.indexOf('=') + 1);
         var data = {
             'merchantId': employee.merchantId,
-            'ticketStatus': status ?parseInt(status) : undefined,
+            'ticketStatus': status ? parseInt(status) : undefined,
             promotionInstanceId: promotionInstanceId ? parseInt(promotionInstanceId) : undefined
         }
         app.financial.getWxPromotionDetails(data).then(function(financialInfoDetails) {
@@ -42,17 +42,21 @@ app.financial = {
                 var tmplhtml = $('#tmpl-financial-info-model').html();
                 var resultTmpl = tmpl(tmplhtml, data);
                 $('#tmpl-financial-info').html(resultTmpl);
-                app.tools.initDate("",financialInfoIdName);
+                app.tools.initDate("", financialInfoIdName);
                 $('.dateLists').on('click', 'span', function(event) {
                     $('.dateLists span').removeClass('active');
                     $('.dateLists  .mask').click();
                     $(this).addClass('active');
                     app.financial.getWxPromotionStatisticsInfo($(this).attr('data-type'));
                 });
-                for (var i = data.ticketStatus.length - 1; i >= 0; i--) {
-                    if (data.ticketStatus[i].code == status) {
-                        $('.dateLists span').eq(i).addClass('active');
-                        return;
+                if (!status) {
+                    $('.dateLists span:first').addClass('active');
+                } else {
+                    for (var i = data.ticketStatus.length - 1; i >= 0; i--) {
+                        if (data.ticketStatus[i].code == status) {
+                            $('.dateLists span').eq(i + 1).addClass('active');
+                            return;
+                        }
                     }
                 }
             },
@@ -98,17 +102,22 @@ app.financial = {
                 var resultTmpl = tmpl(tmplhtml, data);
                 $('#tmpl-financial').html(resultTmpl);
                 app.tools.initSwiper(25);
-                app.tools.initDate("",financialIdName);
+                app.tools.initDate("", financialIdName);
                 $('.dateLists').on('click', 'span', function(event) {
                     $('.dateLists span').removeClass('active');
                     $('.dateLists  .mask').click();
                     $(this).addClass('active');
                     app.financial.getfinancialSourceInfo($(this).attr('data-type'));
                 });
-                for (var i = data.promotionStatus.length - 1; i >= 0; i--) {
-                    if (data.promotionStatus[i].code == status) {
-                        $('.dateLists span').eq(i).addClass('active');
-                        return;
+                if (!status) {
+                    $('.dateLists span:first').addClass('active');
+                    return;
+                } else {
+                    for (var i = data.promotionStatus.length - 1; i >= 0; i--) {
+                        if (data.promotionStatus[i].code == status) {
+                            $('.dateLists span').eq(i+1).addClass('active');
+                            return;
+                        }
                     }
                 }
             },
