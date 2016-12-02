@@ -3,6 +3,7 @@
      employee = JSON.parse(localStorage.employee);
  }
  var ticketDetailInfo = null;
+ var checkTicketIdName = "tmpl-verifyTicketInstance";
  app.checkTicket = {
      checkTicket: function() {
          window.sessionStorage.setItem("ticketInfo", "");
@@ -68,7 +69,7 @@
              }
              $('.container').css('background-color', 'transparent ');
              if (ticketInfo.employeeInfo.storeList.length > 1) {
-                 app.tools.initStoreList();
+                 app.tools.initStoreList(checkTicketIdName);
                  //点击切换门店
                  $('.storeLists .stores').on('click', 'span', function(event) {
                      $('.storeLists span').removeClass('active').find('i').remove();
