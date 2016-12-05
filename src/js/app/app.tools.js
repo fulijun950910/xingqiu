@@ -188,7 +188,7 @@ app.tools = {
                 $('.line').addClass('line-animation');
                 $('.tool-tab li').removeClass('active');
                 $('.tool-tab li').eq(j).addClass('active');
-                mySwiper.slideTo(i, 1000, false);
+                mySwiper.slideTo(i, 10, false);
             }
         });
         $('.tool-tab').on('click', 'li', function(e) {
@@ -196,12 +196,12 @@ app.tools = {
             e.preventDefault();
             //得到当前索引
             var i = $(this).index();
-            mySwiper.slideTo(i, 1000, false);
+            mySwiper.slideTo(i, 10, false);
             $('.line-animation').css('left', i * leftWidth + 'vw');
             $('.line').addClass('line-animation');
             $('.tool-tab li').removeClass('active');
             $(this).addClass('active');
-            mySwiper.slideTo(i, 1000, false);
+            mySwiper.slideTo(i, 10, false);
         });
     },
     initCystomDate: function(type, idName) {

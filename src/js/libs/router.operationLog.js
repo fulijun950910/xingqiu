@@ -28,7 +28,7 @@ $(function () {
         bind: function () {
             //修复页面置顶效果
             window.scrollTo(0,0);
-            app.operationLog.queryDetail();
+            app.operationLog.initDetail('init');
         }
     }
 

@@ -57,7 +57,7 @@
                         <span class="text">&nbsp;&nbsp;预约&nbsp;&nbsp;</span>
                     </a>
                     <span class="item-line"></span>
-                    <a href="#" onclick="createOrderInfo()" class="item">
+                    <a href="#" onclick="app.index.createOrderInfo()" class="item">
                         <span class="count">{%=o.performanceInfo.orderNum %}</span>
                         <span class="text">&nbsp;&nbsp;订单&nbsp;&nbsp;</span>
                     </a>
@@ -101,7 +101,7 @@
                 </div>
                 <span class="go-right"></span>
             </a>
-            <a href="/operationLog.html#/operationLog_store" class="card-box card-box-2">
+            <a href="#" onclick="app.index.createOperationLog()" class="card-box card-box-2">
                 <div>
                     <i class="ic">&#xe654;</i>
                     <span class="font-size-12">系统事件记录</span>
@@ -251,7 +251,7 @@
                     <span class="primary-color font-size-18">{%=o.performanceInfo.appointmentNum %}</span>
                     <span class="margin-top-8">预约</span>
                 </a>
-                <a href="#" onclick="createOrderInfo()" class="item item-2">
+                <a href="#" onclick="app.index.createOrderInfo()" class="item item-2">
                     <span class="primary-color font-size-18">{%=o.performanceInfo.orderNum %}</span>
                     <span class="margin-top-8">订单</span>
                 </a>

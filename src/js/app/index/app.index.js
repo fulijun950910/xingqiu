@@ -86,17 +86,10 @@ function initData() {
     $('.index #employeeList .employee_item').attr('data-merchantId', '');
 };
 
-//业绩来源
 var performanceInfo = {};
 
 //自定义时间
 var indexDate = {};
-
-function createOrderInfo() {
-    var order_info = JSON.stringify(performanceInfo);
-    window.localStorage.setItem("performanceInfo", order_info);
-    window.location.href = "/performance-index.html#/order-list";
-};
 
 //初始化日期
 app.index = {
@@ -207,11 +200,6 @@ app.index = {
             dataType: memberData.dataType
         };
         data.storeId = parseInt(data.storeIds);
-        //普通员工(暂查本月的)
-        if (employee.role == "wechat_business_normal") {
-            data.startDate = moment().subtract(0, "month").startOf("month").format('YYYY-MM-DD ') + "00:00:00";
-            data.endDate = moment().subtract(0, "month").endOf('month').format('YYYY-MM-DD ') + "23:59:59";
-        }
         var tmplhtml;
         app.index.performanceReport(data, employee.role).then(function(performanceInfoData) {
                 memberData.performanceInfo = performanceInfoData;
@@ -290,6 +278,18 @@ app.index = {
         }
         window.localStorage.setItem("performanceInfo", JSON.stringify(performance));
         window.location.href = "/income.html#/income";
+    },
+    //订单列表
+    createOrderInfo: function() {
+        var order_info = JSON.stringify(performanceInfo);
+        window.localStorage.setItem("performanceInfo", order_info);
+        window.location.href = "/performance-index.html#/order-list";
+    },
+    //系统事件
+    createOperationLog: function() {
+        var operationLog = JSON.stringify(performanceInfo);
+        window.localStorage.setItem("performanceInfo", operationLog);
+        window.location.href = "/operationLog.html#/operationLog_store";
     },
     //获取业绩看板数据
     performanceReport: function(data, type) {
