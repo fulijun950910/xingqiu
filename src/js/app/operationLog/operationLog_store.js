@@ -223,7 +223,9 @@ app.changeDetail={
                     $('#tpl-changeDetail').html(template);
                 }
             },
-            error:function(){}
+            error:function(){
+                app.operationLog.goReport();
+            }
         })
     },
     businessDataFormat:function(data){
