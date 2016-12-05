@@ -56,7 +56,7 @@ app.employeeEcharts = {
     },
     init: function() {
         app.employeeEcharts.userdata().then(function(userDate) {
-            app.employeeEcharts.orderEmployeePerformanceList();
+            app.employeeEcharts.orderEmployeePerformanceList("", 'init');
         }, function() {})
     },
     //初始数据
@@ -99,6 +99,26 @@ app.employeeEcharts = {
             case 'orderBy':
                 orderPerformanceList.orderBy = data;
                 orderPerformanceList.orderByType = byType;
+                break;
+                //初始第一次页面
+            case 'init':
+                var employeeInfo = null;
+                if (localStorage.performanceInfo && JSON.parse(localStorage.performanceInfo)) {
+                    employeeInfo = JSON.parse(localStorage.performanceInfo);
+                    results.dataType = employeeInfo.dataType;
+                }
+                orderPerformanceList.storeId = employeeInfo.performanceStoreIds.split(',').length == 1 ? employeeInfo.performanceStoreIds : employee.storeList[0].id;
+                //自定义
+                if (employeeInfo.dataType == 4) {
+                    orderPerformanceList.startDate = employeeInfo.startDate;
+                    orderPerformanceList.endDate = employeeInfo.endDate;
+                    employeeDate = {
+                        startDate: orderPerformanceList.startDate,
+                        endDate: orderPerformanceList.endDate
+                    };
+                } else {
+                    app.tools.getDateType(employeeInfo.dataType, orderPerformanceList, employeeDate)
+                }
                 break;
         }
         results.storeId = orderPerformanceList.storeId;

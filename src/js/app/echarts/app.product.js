@@ -46,7 +46,7 @@ app.productEcharts = {
     },
     init: function() {
         app.productEcharts.userdata().then(function(userDate) {
-            app.productEcharts.reportShow();
+            app.productEcharts.reportShow("", "init");
         }, function(error) {
             app.alert(error);
         });
@@ -92,6 +92,26 @@ app.productEcharts = {
                 app.tools.getDateType(data, query, echartsDate)
                 query.dataType = data;
                 break;
+                //初始第一次页面
+            case 'init':
+                var employeeInfo = null;
+                if (localStorage.performanceInfo && JSON.parse(localStorage.performanceInfo)) {
+                    employeeInfo = JSON.parse(localStorage.performanceInfo);
+                    query.dataType = employeeInfo.dataType;
+                }
+                query.storeIds =employeeInfo.performanceStoreIds ;
+                //自定义
+                if (employeeInfo.dataType == 4) {
+                    query.startDate = employeeInfo.startDate;
+                    query.endDate = employeeInfo.endDate;
+                    echartsDate = {
+                        startDate: query.startDate,
+                        endDate: query.endDate
+                    };
+                } else {
+                    app.tools.getDateType(employeeInfo.dataType, query, echartsDate)
+                }
+                break;
         }
         results.storeList = employee.storeList;
         results.storeIds = employee.storeIds;
@@ -134,7 +154,7 @@ app.productEcharts = {
                         break;
                 }
             }
-             app.tools.changeTitle('品项数据分析');
+            app.tools.changeTitle('品项数据分析');
             var tmplhtml = $('#tmpl-product-model').html();
             var resultTmpl = tmpl(tmplhtml, results);
             $('#tmpl-product').html(resultTmpl);

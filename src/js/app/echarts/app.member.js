@@ -20,7 +20,7 @@ app.memberEcharts = {
     },
     init: function() {
         app.memberEcharts.userdata().then(function(userDate) {
-            app.memberEcharts.getMemberData();
+            app.memberEcharts.getMemberData("init");
         }, function() {})
     },
     getMemberData: function(storeId) {
@@ -28,8 +28,7 @@ app.memberEcharts = {
         if (JSON.parse(localStorage.employee)) {
             employee = JSON.parse(localStorage.employee);
         }
-        var memberData = {
-        };
+        var memberData = {};
         //普通员工
         if (JSON.parse(localStorage.employee).role == "wechat_business_normal") {
             var tmplhtml = $('#tmpl-member-model').html();
@@ -38,9 +37,18 @@ app.memberEcharts = {
             $('.errorBox').show();
             return;
         }
+        var store;
+        if (storeId == "init") {
+            var employeeInfo = null;
+            if (localStorage.performanceInfo && JSON.parse(localStorage.performanceInfo)) {
+                store = JSON.parse(localStorage.performanceInfo).performanceStoreIds.split(',').length == 1 ? parseInt(JSON.parse(localStorage.performanceInfo).performanceStoreIds): undefined;
+            }
+        } else {
+            store = storeId ? parseInt(storeId) : undefined;
+        }
         var data = {
             merchantId: employee.merchantId,
-            storeId: storeId ?parseInt(storeId) : undefined
+            storeId: store
         };
         app.memberEcharts.getMemberStatistics(data).then(function(results) {
             memberData = results;
@@ -48,7 +56,7 @@ app.memberEcharts = {
             storeList = JSON.parse(storeList).storeList;
             memberData.storeList = storeList;
             memberData.storeIds = employee.storeIds;
-             app.tools.changeTitle('会员来源分析');
+            app.tools.changeTitle('会员来源分析');
             var tmplhtml = $('#tmpl-member-model').html();
             var resultTmpl = tmpl(tmplhtml, memberData);
             $('#tmpl-member').html(resultTmpl);
@@ -61,7 +69,7 @@ app.memberEcharts = {
             app.memberEcharts.memberArrvialTimesList(memberData);
             //  app.memberEcharts.initStoreList();
             app.memberEcharts.initStoreList(); //初始化门店
-            if (!data.storeId ) {
+            if (!data.storeId) {
                 $('.member_echarts .storeLists  span').eq(0).addClass('active').append('<i></i>');
                 return;
             }
