@@ -86,8 +86,6 @@ function initData() {
     $('.index #employeeList .employee_item').attr('data-merchantId', '');
 };
 
-var performanceInfo = {};
-
 //自定义时间
 var indexDate = {};
 
@@ -192,13 +190,14 @@ app.index = {
                 app.tools.getDateType(result, data, indexDate);
                 memberData.dataType = result;
         }
-        //业绩来源信息、订单信息
-        performanceInfo = {
+        //缓存筛选条件
+        var performanceInfo = {
             startDate: data.startDate,
             endDate: data.endDate,
             performanceStoreIds: data.storeIds,
             dataType: memberData.dataType
         };
+        window.localStorage.setItem("performanceInfo", JSON.stringify(performanceInfo));
         data.storeId = parseInt(data.storeIds);
         var tmplhtml;
         app.index.performanceReport(data, employee.role).then(function(performanceInfoData) {
@@ -266,30 +265,6 @@ app.index = {
                 $('.index .storeList').find('.store_name').text(app.tools.sliceStr($('.index .storeList').find('.store_name').text(), 14));
             },
             function() {})
-    },
-
-    //业绩来源
-    performanceSource: function() {
-        var performance = {
-            startDate: performanceInfo.startDate,
-            endDate: performanceInfo.endDate,
-            storeIds: performanceInfo.performanceStoreIds,
-            dataType: performanceInfo.dataType,
-        }
-        window.localStorage.setItem("performanceInfo", JSON.stringify(performance));
-        window.location.href = "/income.html#/income";
-    },
-    //订单列表
-    createOrderInfo: function() {
-        var order_info = JSON.stringify(performanceInfo);
-        window.localStorage.setItem("performanceInfo", order_info);
-        window.location.href = "/performance-index.html#/order-list";
-    },
-    //系统事件
-    createOperationLog: function() {
-        var operationLog = JSON.stringify(performanceInfo);
-        window.localStorage.setItem("performanceInfo", operationLog);
-        window.location.href = "/operationLog.html#/operationLog_store";
     },
     //获取业绩看板数据
     performanceReport: function(data, type) {
