@@ -206,6 +206,7 @@ app.changeDetail={
             data:{
                 merchantId:keyGetValue("merchantId"),
                 employeeId:keyGetValue("employeeId"),
+                exchangeWorkId:keyGetValue("exchangeWorkId"),
                 storeId:keyGetValue("storeId")
             },
             success:function(res){
@@ -223,7 +224,9 @@ app.changeDetail={
                     $('#tpl-changeDetail').html(template);
                 }
             },
-            error:function(){}
+            error:function(){
+                app.operationLog.goReport();
+            }
         })
     },
     businessDataFormat:function(data){
