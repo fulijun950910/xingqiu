@@ -1,7 +1,21 @@
-$(function () {
+function init() {
+    $('.userInfo').on('click', '.clearUserName', function(event) {
+        event.preventDefault();
+        $('.userInfo').find('.username').val("");
+    });
+    $('.userInfo').on('touchstart', '.getPwd', function(event) {
+        event.preventDefault();
+        $('.userInfo').find('.password').attr('type', 'text');
+    });
+    $('.userInfo').on('touchend', '.getPwd', function(event) {
+        event.preventDefault();
+        $('.userInfo').find('.password').attr('type', 'password');
+    });
+};
+$(function() {
 
     var routerUser = new Router({
-        container: '#container',    
+        container: '#container',
         enterTimeout: 250,
         leaveTimeout: 250
     });
@@ -10,34 +24,36 @@ $(function () {
     var userinfo = {
         url: '/',
         className: 'user_home',
-        render: function () {
+        render: function() {
             return $('#tpl_user_home').html();
         },
-        bind: function(){
+        bind: function() {
             app.userinfo.find();
         }
     };
 
     //修改密码
-    var updatepwd={
-        url:'/update_pwd',
-        className:'update_pwd',
-        render: function () {
+    var updatepwd = {
+        url: '/update_pwd',
+        className: 'update_pwd',
+        render: function() {
             return $('#tpl_update_pwd').html();
         },
-        bind: function(){
-            app.userinfo.updatepwd_init();
+        bind: function() {
+            init();
+            // app.userinfo.updatepwd_init();
         }
     }
 
     //登录
-    var login={
-        url:'/user_login',
-        className:'user_login',
-        render: function () {
+    var login = {
+        url: '/user_login',
+        className: 'user_login',
+        render: function() {
             return $('#tpl_user_login').html();
         },
-        bind: function(){
+        bind: function() {
+            init();
             //缓存及cookie清理
             //localStorage.clear();
             //sessionStorage.clear();
@@ -45,9 +61,9 @@ $(function () {
     }
 
     routerUser.push(userinfo)
-    .push(updatepwd)
-    .push(login)
-    .setDefault('/').init();
+        .push(updatepwd)
+        .push(login)
+        .setDefault('/').init();
 
 
     // .container 设置了 overflow 属性, 导致 Android 手机下输入框获取焦点时, 输入法挡住输入框的 bug
@@ -57,9 +73,9 @@ $(function () {
     // 1. 参考 http://stackoverflow.com/questions/23757345/android-does-not-correctly-scroll-on-input-focus-if-not-body-element
     //    Android 手机下, input 或 textarea 元素聚焦时, 主动滚一把
     if (/Android/gi.test(navigator.userAgent)) {
-        window.addEventListener('resize', function () {
+        window.addEventListener('resize', function() {
             if (document.activeElement.tagName == 'INPUT' || document.activeElement.tagName == 'TEXTAREA') {
-                window.setTimeout(function () {
+                window.setTimeout(function() {
                     document.activeElement.scrollIntoViewIfNeeded();
                 }, 0);
             }

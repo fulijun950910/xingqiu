@@ -10,7 +10,8 @@ app.userinfo = {
                     location.href = "/main.html#/index";
                 } else {
                     location.href = "/userinfo.html#/user_login";
-                    app.alert('未查到您的身份,请登录美问saas平台设置您的员工身份!!', '操作失败');
+                    // app.alert('未查到您的身份,请登录美问saas平台设置您的员工身份!!', '操作失败');
+                    app.userinfo.alertError('小主，未查到您的身份,请登录美问saas平台设置您的员工身份!!');
                 }
             }
         }, function() {});
@@ -55,17 +56,20 @@ app.userinfo = {
                                 }
                                 if (!employee) {
                                     location.href = "/userinfo.html#/user_login";
-                                    app.alert('未查到您的身份,请登录美问saas平台设置您的员工身份!!', '操作失败');
+                                    //app.alert('未查到您的身份,请登录美问saas平台设置您的员工身份!!', '操作失败');
+                                    app.userinfo.alertError('小主，未查到您的身份,请登录美问saas平台设置您的员工身份!!')
                                     throw new Error();
                                 }
                                 if (!employee.role) {
                                     location.href = "/userinfo.html#/user_login";
-                                    app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
+                                    //app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
+                                    app.userinfo.alertError('小主，您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!')
                                     throw new Error();
                                 }
 
                                 if (employee.positionStatus && employee.positionStatus != '1') {
-                                    app.alert('当前员工已离职,不可登录', '登录失败');
+                                    // app.alert('当前员工已离职,不可登录', '登录失败');
+                                    app.userinfo.alertError('小主，当前员工已离职,不可登录')
                                     throw new Error();
                                 }
 
@@ -107,6 +111,15 @@ app.userinfo = {
         //弹出选择角色门店信息列表
         $('#select_shade').hide();
     },
+    alertError: function(text, second) {
+        var text = text || "小主，您当前的网络不给力,请稍后再试";
+        var second = second || 2000;
+        $('.userInfo').find('.error').addClass('active');
+        $('.errorText').text(text);
+        setTimeout(function() {
+            $('.userInfo').find('.error').removeClass('active');
+        }, second);
+    },
     login: function() {
         //缓存及cookie清理
         localStorage.clear();
@@ -114,21 +127,25 @@ app.userinfo = {
         var error_login = false,
             msg = '';
         if (!$('input[name="username"]').val()) {
-            error_login = true;
-            msg = '用户名不可为空';
-        }
-        if (!$('input[name="password"]').val()) {
-            error_login = true;
-            msg = '密码不可为空';
-        }
-        if (error_login) {
-            $('#error_msg').html(msg);
-            $('#login_error').show();
-            setTimeout(function() {
-                $('#login_error').hide();
-            }, 3000);
+            app.userinfo.alertError('小主，请输入您的手机号码');
+            // error_login = true;
+            // msg = '用户名不可为空';
             return;
         }
+        if (!$('input[name="password"]').val()) {
+            app.userinfo.alertError('小主，请输入您的密码');
+            // error_login = true;
+            // msg = '密码不可为空';
+            return;
+        }
+        // if (error_login) {
+        //     $('#error_msg').html(msg);
+        //     $('#login_error').show();
+        //     setTimeout(function() {
+        //         $('#login_error').hide();
+        //     }, 3000);
+        //     return;
+        // }
         //事件统计
         baiduStatistical.add({
             category: '登录',
@@ -149,14 +166,16 @@ app.userinfo = {
                     userId: resultUser.data
                 }
                 if (!accountParam.userId) {
-                    app.alert('用户名或密码错误', '登录异常');
+                    // app.alert('用户名或密码错误', '登录异常');
+                    app.userinfo.alertError('小主，用户名或密码错误', 3000);
                     return;
                 }
                 app.api.userinfo.listEmployee({
                     data: accountParam,
                     success: function(resultEmployeeList) {
                         if (!resultEmployeeList || !resultEmployeeList.success || !resultEmployeeList.data || resultEmployeeList.data.length <= 0) {
-                            app.alert('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息。', '登录异常');
+                            //app.alert('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息。', '登录异常');
+                            app.userinfo.alertError('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息', 3000);
                             return;
                         }
 
@@ -293,7 +312,8 @@ app.userinfo = {
                                                     } else {
                                                         localStorage.clear();
                                                         location.href = "/userinfo.html#/user_login";
-                                                        app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
+                                                        // app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
+                                                        app.userinfo.alertError('小主，您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!');
                                                         return;
                                                     }
                                                 });
@@ -395,7 +415,8 @@ app.userinfo = {
                 data: employee,
                 success: function(result) {
                     if (result.success)
-                        app.alert('个人信息修改成功', '修改成功');
+                    // app.alert('个人信息修改成功', '修改成功');
+                        app.userinfo.alertError('小主，个人信息修改成功');
                     //清空本地Session
                     app.userinfo.getEmployee().then(function(employee) {
                         var e1 = employee;
@@ -409,7 +430,8 @@ app.userinfo = {
                     }, function() {})
                 },
                 error: function(a, b, c) {
-                    app.alert('个人信息修改异常,请稍后尝试', '修改异常');
+                    //   app.alert('个人信息修改异常,请稍后尝试', '修改异常');
+                    app.userinfo.alertError('小主，个人信息修改异常,请稍后尝试')
                 }
             })
         }, function() {})
@@ -428,7 +450,8 @@ app.userinfo = {
 
         var phone = $('input[name="phone"]').val();
         if (!phone) {
-            app.alert('请输入手机号', '获取验证码异常');
+            //app.alert('请输入手机号', '获取验证码异常');
+            app.userinfo.alertError('小主，请输入手机号');
             return;
         }
         var param = {
@@ -441,7 +464,8 @@ app.userinfo = {
                     authUserId: resultUser.data
                 }
                 if (!accountParam.authUserId) {
-                    app.alert('未找到当前用户', '获取验证码异常');
+                    //app.alert('未找到当前用户', '获取验证码异常');
+                    app.userinfo.alertError('小主，未找到当前用户');
                     return;
                 }
                 app.userinfo.authUserId = accountParam.authUserId;
@@ -475,22 +499,26 @@ app.userinfo = {
     updatePassword: function() {
         var phone = $('input[name="phone"]').val();
         if (!phone) {
-            app.alert('请输入手机号', '获取验证码异常');
+            //app.alert('请输入手机号', '获取验证码异常');
+            app.userinfo.alertError('小主，请输入手机号');
             return;
         }
         var verifycode = $('input[name="verifycode"]').val();
         if (!verifycode) {
-            app.alert('请输入验证码', '修改密码异常');
+            //app.alert('请输入验证码', '修改密码异常');
+            app.userinfo.alertError('小主，请输入验证码');
             return;
         }
         var password = $('input[name="password"]').val();
         if (!password) {
-            app.alert('请输入密码', '修改密码异常');
+            // app.alert('请输入密码', '修改密码异常');
+            app.userinfo.alertError('小主，请输入密码');
             return;
         }
 
         if (!app.userinfo.authUserId) {
-            app.alert('请点击获取验证码', '修改密码异常');
+            // app.alert('请点击获取验证码', '修改密码异常');
+            app.userinfo.alertError('小主，请点击获取验证码');
             return;
         }
         var data = {
@@ -509,12 +537,14 @@ app.userinfo = {
             data: data,
             success: function(result) {
                 if (result.success && result.data) {
-                    app.alert('修改成功', '密码修改成功');
+                    // app.alert('修改成功', '密码修改成功');
+                    app.userinfo.alertError('小主，修改成功');
                     app.userinfo.init();
                 }
             },
             error: function(a, b, c) {
-                app.alert('验证码错误', '修改密码异常');
+                //app.alert('验证码错误', '修改密码异常');
+                app.userinfo.alertError('小主，请输入正确的验证码');
             }
         })
     },
@@ -546,5 +576,11 @@ app.userinfo = {
                 error: function(a, b, c) {}
             });
         };
-    }
+    },
+    // clearUserName: function() {
+    //     $('.userInfo').on('click', '.clearUserName', function(event) {
+    //         event.preventDefault();
+    //         $('.userinfo').find('.username').val("");
+    //     });
+    // },
 }

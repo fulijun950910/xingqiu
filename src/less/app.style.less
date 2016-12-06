@@ -1,14 +1,17 @@
 // 公共样式
 @primary-color :#b44dce; //主题紫色
 @secondary-color : #4ED9CF; //辅助蒂芙尼蓝
+@icon-color:#f7aa25; //icon状态颜色
 @font-primary-color: #333;
 @font-secondary-color: #888;
 @primary-background-color: #f4f4fc;
 @primary-status-color: #feb951;
+@border-color:#e5e5e5;
 @font-small-size: 9pt;
 @font-default-size: 12px;
 @font-priceY-size: 16px;
 @font-priceF-size: 8pt;
+@button-height:12vw;
 div,
 span,
 i,
@@ -27,6 +30,9 @@ a {
 
 .primary-color {
     color: @primary-color;
+}
+.font-secondary-color{
+    color:@font-secondary-color;
 }
 
 .go-right {
@@ -56,26 +62,26 @@ a {
         line-height: 49px;
         .text-align-center;
         &:nth-of-type(2) {
-            border-left: 1px solid #e5e5e5;
-            border-right: 1px solid #e5e5e5;
+            border-left: 1px solid @border-color;
+            border-right: 1px solid @border-color;
         }
     }
 }
 
 .border-left {
-    border-left: 1px solid #e5e5e5;
+    border-left: 1px solid @border-color;
 }
 
 .border-right {
-    border-right: 1px solid #e5e5e5;
+    border-right: 1px solid @border-color;
 }
 
 .border-bottom {
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid @border-color;
 }
 
 .border-top {
-    border-top: 1px solid #e5e5e5;
+    border-top: 1px solid @border-color;
 }
 
 .box-shadow {
@@ -308,7 +314,7 @@ a {
     }
     input {
         // box-shadow: none;
-        border: 1px solid #e5e5e5;
+        border: 1px solid @border-color;
         height: 10vw;
         background: #bab7ae;
         border-radius: 5px;

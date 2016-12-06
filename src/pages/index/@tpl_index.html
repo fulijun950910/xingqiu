@@ -47,10 +47,10 @@
                         <span class="text">到店客人</span>
                     </div>
                     <span class="item-line"></span>
-                    <div class="item" onclick="app.noData()">
+                    <a href="/performance-index.html#/booking-order-list" class="item">
                         <span class="count">{%=o.performanceInfo.newMemberNum %}</span>
                         <span class="text">新增会员</span>
-                    </div>
+                    </a>
                     <span class="item-line"></span>
                     <a href="/performance-index.html#/booking-order-list" class="item">
                         <span class="count">{%=o.performanceInfo.appointmentNum %}</span>
@@ -94,14 +94,14 @@
             </div>
         </div>
         <div class="card-list">
-            <a href="/income.html#/income" class="card-box card-box-1" >
+            <a href="/income.html#/income" class="card-box card-box-1">
                 <div>
                     <i class="ic">&#xe628;</i>
                     <span class="font-size-12">业绩来源</span>
                 </div>
                 <span class="go-right"></span>
             </a>
-            <a href="/operationLog.html#/operationLog_store"  class="card-box card-box-2">
+            <a href="/operationLog.html#/operationLog_store" class="card-box card-box-2">
                 <div>
                     <i class="ic">&#xe654;</i>
                     <span class="font-size-12">系统事件记录</span>
@@ -251,7 +251,7 @@
                     <span class="primary-color font-size-18">{%=o.performanceInfo.appointmentNum %}</span>
                     <span class="margin-top-8">预约</span>
                 </a>
-                <a href="/performance-index.html#/order-list"  class="item item-2">
+                <a href="/performance-index.html#/order-list" class="item item-2">
                     <span class="primary-color font-size-18">{%=o.performanceInfo.orderNum %}</span>
                     <span class="margin-top-8">订单</span>
                 </a>
