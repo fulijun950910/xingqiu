@@ -5,7 +5,7 @@ app.tools = {
             return "0.00";
         }
         if (!num && num != 0) {
-            return '';
+            return '0.00';
         }
         var num = (num / 100).toFixed(2);
         //数字千分位格式化
@@ -163,6 +163,7 @@ app.tools = {
         // return value;
     },
     getConstantByValue: function(constant, value) {
+        var constantName = "";
         if (!constant) {
             return null;
         }
@@ -171,9 +172,11 @@ app.tools = {
         }
         for (var i = constant.length - 1; i >= 0; i--) {
             if (constant[i].code == value) {
-                return constant[i].name;
+                constantName = constant[i].name;
+                break;
             }
         }
+        return constantName;
     },
     changePrice: function(price) {
         return app.tools.toThousands(price).split('.');
@@ -205,7 +208,6 @@ app.tools = {
         });
     },
     initCystomDate: function(type, idName) {
-        console.log(idName);
         //取消自定义事件选择
         $('#' + idName).find('.cystomDate').on('click', '.cancelDate', function() {
             $('#' + idName).find('.cystomDate .date_menu').removeClass('date_menu_active');

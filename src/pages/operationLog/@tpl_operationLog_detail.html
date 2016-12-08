@@ -1,8 +1,8 @@
 <script type="text/html" id="tpl_operationLog_detail">
     <!-- //隐藏标题 -->
     <div id="hiddenTitle" class="hiddenTitle">预约单列表</div>
-    <div class="bd" id="temp-operationLogDetail" style="min-height: 100vh;">
-        <div class="operaLog">
+    <div class="bd operaLog" id="temp-operationLogDetail" style="min-height: 100vh;">
+        <div class=" verifyTicketInstance">
             <!--       <div class="header">
                 <a href="/operationLog.html#/operationLog_store" class="head"><i class="ic">&#xe60c;</i>返回</a>
                 <div class="title">系统事件记录-详情</div>
@@ -21,77 +21,182 @@
         </div>
     </div>
     <script type="text/html" id="tmpl-operationLogDetail">
-        <div class="tabBox act">
-            <!--% if(o && o.length>0){ %-->
-            <!--% for(var i=0;i<o.length;i++){ %-->
-            <!--% if(o[i].value&&o[i].value.length>0){ %-->
-            <div onclick="app.operationLog.showTab(this)" class="tabHead" layout="row" layout-align="space-between center">
-                <div>{%=o[i].name %}</div>
+        <div class=" act">
+            <div class="tool-tab">
+                <ul>
+                    <li class="active">订单操作</li>
+                    <li>会员卡操作</li>
+                    <li>会员操作</li>
+                    <li>系统操作</li>
+                </ul>
+                <span class="line"></span>
             </div>
-            <div class="tabContent">
-                <!--% for(var j=0;j<o[i].value.length;j++){ %-->
-                <div class="tabContentItem" layout="row" layout-align="space-between start">
-                    <div flex="50">{%=o[i].value[j].operatorEvent %}
-                        <!--% if(o[i].value[j].memberName){ %-->
-                        ({%=o[i].value[j].memberName %}/{%=o[i].value[j].memberNo %})
-                        <!--% } %-->
+            <div style="height:10vh;"></div>
+            <div class="swiper-container ">
+                <div class="swiper-wrapper ">
+                    <!-- 订单操作start -->
+                    <div class="swiper-slide tab-content-1">
+                        <div class="weui_cells">
+                            <div class="financial-list">
+                                <!--%if(!o || o.orderList.length == 0){ %-->
+                                <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
+                                <!--% } else{ %-->
+                                <!--% for (var i=0; i <o.orderList.length; i++) { %-->
+                                <div class="div-body">
+                                    <div class="div-box" style="line-height: 10vw;" layout-align="space-between center" layout="row">
+                                        <div>订单编号：{%= o.orderList[i].orderNo%}</div>
+                                        <span class="ticketStatus">{%= app.tools.getConstantByValue(app.constant.ORDER_RECORD_TYPE,o.orderList[i].type) %}</span>
+                                    </div>
+                                    <div class="operatorEvent">
+                                        <span>操作事件：<span>{%= o.orderList[i].operatorEvent%}</span></span>
+                                    </div>
+                                    <div layout="row" layout-align="space-between center" class="footer">
+                                        <span>操作时间：<span>{%= o.orderList[i].operatorTime%}</span></span>
+                                        <span>操作人:<span>{%= app.tools.sliceStr(o.orderList[i].operatorName,16) %}</span></span>
+                                    </div>
+                                    <div class="div-left-half"></div>
+                                    <div class="div-right-half"></div>
+                                </div>
+                                <!--% } %-->
+                                <!--% } %-->
+                            </div>
+                        </div>
                     </div>
-                    <div flex="20" style="color:#8c8c8c;">{%=app.tools.toDate(o[i].value[j].operatorTime,"hh:mm:ss") %}</div>
-                    <div flex="30" style="text-align:right;">{%=o[i].value[j].operatorName %}</div>
+                    <!-- 订单操作end -->
+                    <!-- 会员卡操作start -->
+                    <div class="swiper-slide tab-content-2">
+                        <div class="weui_cells">
+                            <div class="financial-list">
+                                <!--%if(!o || o.cardList.length == 0){ %-->
+                                <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
+                                <!--% } else{ %-->
+                                <!--% for (var i=0; i <o.cardList.length; i++) { %-->
+                                <div class="div-body">
+                                    <div class="div-box" style="line-height: 10vw;" layout-align="space-between center" layout="row">
+                                        <div>门店名称：{%= o.cardList[i].storeName%}</div>
+                                        <span class="ticketStatus">{%= app.tools.getConstantByValue(app.constant.CARE_RECORD_TYPE,o.cardList[i].type) %}</span>
+                                    </div>
+                                    <div class="operatorEvent">
+                                        <span>操作事件：<span>{%= o.cardList[i].operatorEvent%}</span></span>
+                                    </div>
+                                    <div layout="row" layout-align="space-between center" class="footer">
+                                        <span>操作时间：<span>{%= o.cardList[i].operatorTime%}</span></span>
+                                        <span>操作人:<span>{%= app.tools.sliceStr(o.cardList[i].operatorName,16) %}</span></span>
+                                    </div>
+                                       <div class="div-left-half"></div>
+                                    <div class="div-right-half"></div>
+                                </div>
+                                <!--% } %-->
+                                <!--% } %-->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 会员卡操作end -->
+                    <!-- 会员操作start -->
+                    <div class="swiper-slide tab-content-3">
+                        <div class="weui_cells">
+                            <div class="financial-list">
+                                <!--%if(!o || o.memberList.length == 0){ %-->
+                                <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
+                                <!--% } else{ %-->
+                                <!--% for (var i=0; i <o.memberList.length; i++) { %-->
+                                <div class="div-body">
+                                    <div class="div-box" style="line-height: 10vw;" layout-align="space-between center" layout="row">
+                                        <div>门店名称：{%= o.memberList[i].storeName%}</div>
+                                        <span class="ticketStatus">{%= app.tools.getConstantByValue(app.constant.MEMBER_RECORD_TYPE,o.memberList[i].type) %}</span>
+                                    </div>
+                                    <div class="operatorEvent">
+                                        <span>操作事件：<span>{%= o.memberList[i].operatorEvent%}</span></span>
+                                    </div>
+                                    <div layout="row" layout-align="space-between center" class="footer">
+                                        <span>操作时间：<span>{%= o.memberList[i].operatorTime%}</span></span>
+                                        <span>操作人:<span>{%= app.tools.sliceStr(o.memberList[i].operatorName,16) %}</span></span>
+                                    </div>
+                                       <div class="div-left-half"></div>
+                                    <div class="div-right-half"></div>
+                                </div>
+                                <!--% } %-->
+                                <!--% } %-->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 会员操作end -->
+                    <!-- 系统操作tart -->
+                    <div class="swiper-slide tab-content-4">
+                        <div class="weui_cells">
+                            <div class="financial-list">
+                                <!--%if(!o || o.sysList.length == 0){ %-->
+                                <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
+                                <!--% } else{ %-->
+                                <!--% for (var i=0; i <o.sysList.length; i++) { %-->
+                                <div class="div-body">
+                                    <div class="div-box" style="line-height: 10vw;margin:0 2vw;" layout-align="space-between center" layout="row">
+                                        <div>门店名称：{%= o.sysList[i].storeName%}</div>
+                                        <span class="ticketStatus">{%= app.tools.getConstantByValue(app.constant.SYS_RECORD_TYPE,o.sysList[i].type) %}</span>
+                                    </div>
+                                    <div class="operatorEvent">
+                                        <span>操作事件：<span>{%= o.sysList[i].operatorEvent%}</span></span>
+                                    </div>
+                                    <div layout="row" layout-align="space-between center" class="footer">
+                                        <span>操作时间：<span>{%= o.sysList[i].operatorTime%}</span></span>
+                                        <span>操作人:<span>{%= app.tools.sliceStr(o.sysList[i].operatorName,16) %}</span></span>
+                                    </div>
+                                       <div class="div-left-half"></div>
+                                    <div class="div-right-half"></div>
+                                </div>
+                                <!--% } %-->
+                                <!--% } %-->
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!--% } %-->
             </div>
-            <!--% } %-->
-            <!--% } %-->
-            <!--% }else{ %-->
-            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c">  亲~,没有查到数据~</span></div>
-            <!--% } %-->
-        </div>
-        <!-- 面包 导航-->
-        <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
-            <a href="/operationLog.html#/operationLog_store" flex="50" class="border-right ">
+            <!-- 订单操作end -->
+            <!-- 面包 导航-->
+            <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
+                <a href="/operationLog.html#/operationLog_store" flex="50" class="border-right ">
                 <i class="ic" ">&#xe68b;</i>
                     <span>返回</span>
                 </a>
-            <div flex="50 " class="dateList ">
-                <i class="ic ">&#xe75d;</i>
-                <span>日期</span>
-            </div>
-        </div>
-        <div class="dateLists">
-            <div class="mask"></div>
-            <div class="date_menu">
-                <div class="date_info">
-                    <span data-type=1>今日</span>
-                    <span data-type=2>昨日</span>
-                    <span data-type=3>本月</span>
-                    <span data-type=4>自定义</span>
+                <div flex="50 " class="dateList ">
+                    <i class="ic">&#xe68c;</i>
+                    <span>日期</span>
                 </div>
             </div>
-        </div>
-        <!-- 自定义 -->
-        <div class="cystomDate">
-            <div class="mask"></div>
-            <div class="date_menu">
-                <div class="date_info">
-                    <div class="title" layout="row" layout-align="space-between center">
-                        <div class="cancelDate">取消</div>
-                        <div class="saveDate">确定</div>
-                    </div>
-                    <div class="date" layout="row" layout-align="space-between center">
-                        <div layout="column" style="padding-right: 1vw;">
-                            <label for="">开始时间</label>
-                            <input type="datetime-local" class="startDate">
-                        </div>
-                        <div layout="column">
-                            <label for="">结束时间</label>
-                            <input type="datetime-local" class="endDate">
-                        </div>
+            <div class="dateLists">
+                <div class="mask"></div>
+                <div class="date_menu">
+                    <div class="date_info">
+                        <span data-type=1>今日</span>
+                        <span data-type=2>昨日</span>
+                        <span data-type=3>本月</span>
+                        <span data-type=4>自定义</span>
                     </div>
                 </div>
             </div>
+            <!-- 自定义 -->
+            <div class="cystomDate">
+                <div class="mask"></div>
+                <div class="date_menu">
+                    <div class="date_info">
+                        <div class="title" layout="row" layout-align="space-between center">
+                            <div class="cancelDate">取消</div>
+                            <div class="saveDate">确定</div>
+                        </div>
+                        <div class="date" layout="row" layout-align="space-between center">
+                            <div layout="column" style="padding-right: 1vw;">
+                                <label for="">开始时间</label>
+                                <input type="datetime-local" class="startDate">
+                            </div>
+                            <div layout="column">
+                                <label for="">结束时间</label>
+                                <input type="datetime-local" class="endDate">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        </div>
-        <div style="height:57px;"> </div>
+        <div style="height:35px;"> </div>
     </script>
 </script>

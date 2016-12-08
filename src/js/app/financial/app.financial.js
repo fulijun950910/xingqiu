@@ -1,7 +1,7 @@
-var financialIdName = "temp-financial";
-var financialInfoIdName = "tmpl-financial-info";
 //初始化日期
 app.financial = {
+    financialIdName: "temp-financial",
+    financialInfoIdName: "tmpl-financial-info",
     userdata: function() {
         //初始化用户信息
         return new Promise(function(resolve, reject) {
@@ -42,7 +42,7 @@ app.financial = {
                 var tmplhtml = $('#tmpl-financial-info-model').html();
                 var resultTmpl = tmpl(tmplhtml, data);
                 $('#tmpl-financial-info').html(resultTmpl);
-                app.tools.initDate("", financialInfoIdName);
+                app.tools.initDate("", app.financial.financialInfoIdName);
                 $('.dateLists').on('click', 'span', function(event) {
                     $('.dateLists span').removeClass('active');
                     $('.dateLists  .mask').click();
@@ -102,7 +102,7 @@ app.financial = {
                 var resultTmpl = tmpl(tmplhtml, data);
                 $('#tmpl-financial').html(resultTmpl);
                 app.tools.initSwiper(25);
-                app.tools.initDate("", financialIdName);
+                app.tools.initDate("", app.financial.financialIdName);
                 $('.dateLists').on('click', 'span', function(event) {
                     $('.dateLists span').removeClass('active');
                     $('.dateLists  .mask').click();
@@ -115,7 +115,7 @@ app.financial = {
                 } else {
                     for (var i = data.promotionStatus.length - 1; i >= 0; i--) {
                         if (data.promotionStatus[i].code == status) {
-                            $('.dateLists span').eq(i+1).addClass('active');
+                            $('.dateLists span').eq(i + 1).addClass('active');
                             return;
                         }
                     }

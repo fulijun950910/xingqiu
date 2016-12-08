@@ -150,7 +150,7 @@
         </div>
         <div style="height: 49px;"></div>
         <!-- 面包 导航-->
-        <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
+        <!--        <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
             <div onclick="app.goBack()" flex="33">
                 <i class="ic">&#xe68b;</i>
                 <span>返回</span>
@@ -163,26 +163,42 @@
                 <i class="ic">&#xe68c;</i>
                 <span>日期</span>
             </div>
+        </div> -->
+        <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
+            <div onclick="app.goBack()" flex="33">
+                <i class="ic" ">&#xe68b;</i>
+            <span>返回</span>
+        </div>
+        <div flex="33 " class="storeList ">
+        <span style="display:none " data-storeId="{%=o.storeId%} " class="store_name "></span>
+          <i class="ic "> &#xe645;</i>
+                <span>门店</span>
+            </div>
+            <div flex="33 " class="dateList border-right ">
+             <span style="display:none " data-type="{%=o.dataType%} " class="date_name "></span>
+                <i class="ic ">&#xe68c;</i>
+                <span>日期</span>
+            </div>
         </div>
         <!--     </div> -->
         <!-- 切换门店 -->
-        <div class="storeLists">
-            <div class="mask"></div>
-            <div class="stores">
-                <span class="allStore" data-id="{%=o.storeIds%}">全部门店</span>
-                <div class="stores-info">
+        <div class="storeLists ">
+            <div class="mask "></div>
+            <div class="stores ">
+                <span class="allStore " data-id="{%=o.storeIds%} ">全部门店</span>
+                <div class="stores-info ">
                     <!--% for (var i=0; i <o.storeList.length; i++) { %-->
-                    <span data-id="{%=o.storeList[i].id %}">{%= o.storeList[i].name %}</span>
+                    <span data-id="{%=o.storeList[i].id %} ">{%= o.storeList[i].name %}</span>
                     <!--% } %-->
                 </div>
             </div>
         </div>
         <!-- end -->
         <!-- 日期切换 -->
-        <div class="dateLists">
-            <div class="mask"></div>
-            <div class="date_menu">
-                <div class="date_info">
+        <div class="dateLists ">
+            <div class="mask "></div>
+            <div class="date_menu ">
+                <div class="date_info ">
                     <span data-type=1>今日</span>
                     <span data-type=2>昨日</span>
                     <span data-type=3>本月</span>
@@ -191,22 +207,22 @@
             </div>
         </div>
         <!-- 自定义 -->
-        <div class="cystomDate">
-            <div class="mask"></div>
-            <div class="date_menu">
-                <div class="date_info">
-                    <div class="title" layout="row" layout-align="space-between center">
-                        <div class="cancelDate">取消</div>
-                        <div class="saveDate">确定</div>
+        <div class="cystomDate ">
+            <div class="mask "></div>
+            <div class="date_menu ">
+                <div class="date_info ">
+                    <div class="title " layout="row " layout-align="space-between center ">
+                        <div class="cancelDate ">取消</div>
+                        <div class="saveDate ">确定</div>
                     </div>
-                    <div class="date" layout="row" layout-align="space-between center">
-                        <div layout="column" style="padding-right: 1vw;">
-                            <label for="">开始时间</label>
-                            <input type="datetime-local" class="startDate">
+                    <div class="date " layout="row " layout-align="space-between center ">
+                        <div layout="column " style="padding-right: 1vw; ">
+                            <label for=" ">开始时间</label>
+                            <input type="datetime-local " class="startDate ">
                         </div>
-                        <div layout="column">
-                            <label for="">结束时间</label>
-                            <input type="datetime-local" class="endDate">
+                        <div layout="column ">
+                            <label for=" ">结束时间</label>
+                            <input type="datetime-local " class="endDate ">
                         </div>
                     </div>
                 </div>

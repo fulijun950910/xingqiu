@@ -1,7 +1,7 @@
-var memberEchartsIdName = 'temp-member';
 app.memberEcharts = {
+    memberEchartsIdName: 'temp-member',
     initStoreList: function() {
-        app.tools.initStoreList(memberEchartsIdName);
+        app.tools.initStoreList(app.memberEcharts.memberEchartsIdName);
         //点击切换门店
         $('.member_echarts .storeLists .stores').on('click', 'span', function(event) {
             $('.member_echarts .storeLists span').removeClass('active').find('i').remove();
@@ -41,7 +41,7 @@ app.memberEcharts = {
         if (storeId == "init") {
             var employeeInfo = null;
             if (localStorage.performanceInfo && JSON.parse(localStorage.performanceInfo)) {
-                store = JSON.parse(localStorage.performanceInfo).performanceStoreIds.split(',').length == 1 ? parseInt(JSON.parse(localStorage.performanceInfo).performanceStoreIds): undefined;
+                store = JSON.parse(localStorage.performanceInfo).performanceStoreIds.split(',').length == 1 ? parseInt(JSON.parse(localStorage.performanceInfo).performanceStoreIds) : undefined;
             }
         } else {
             store = storeId ? parseInt(storeId) : undefined;

@@ -13,7 +13,7 @@ $(function() {
             return $('#tpl_newMember').html();
         },
         bind: function() {
-         //   app.memberEcharts.init();
+            app.member.init();
         }
     };
     //到店会员
@@ -23,7 +23,7 @@ $(function() {
             return $('#tpl_arrivalMember').html();
         },
         bind: function() {
-           // app.employeeEcharts.init();
+           app.member.initArrivalMember();
         }
     };
 

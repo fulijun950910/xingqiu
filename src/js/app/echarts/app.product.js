@@ -1,14 +1,14 @@
-var echartsDate = {};
-var productEchartsIdName = 'tmpl-product';
 app.productEcharts = {
+    echartsDate: {},
+    productEchartsIdName: 'tmpl-product',
     initDate: function(type) {
-        app.tools.initDate(type, productEchartsIdName);
+        app.tools.initDate(type, app.productEcharts.productEchartsIdName);
         $('.product_echarts .dateLists .date_info').on('click', 'span', function(event) {
             $('.product_echarts .dateLists span').removeClass('active').find('i').remove();
             $(this).addClass('active');
             $('.product_echarts  .mask').click();
             if ($(this).attr('data-type') == 4) {
-                app.tools.setDate(echartsDate);
+                app.tools.setDate(app.productEcharts.echartsDate);
                 $('.cystomDate').fadeIn(200);
                 $('.cystomDate .mask').addClass('mask_show');
                 $('.cystomDate .date_menu').addClass('date_menu_active');
@@ -19,7 +19,7 @@ app.productEcharts = {
         });
     },
     initCystomDate: function(type) {
-        app.tools.initCystomDate(type, productEchartsIdName);
+        app.tools.initCystomDate(type, app.productEcharts.productEchartsIdName);
         //确定自定义时间选择
         $('.cystomDate').on('click', '.saveDate', function() {
             $('.product_echarts  .mask').click();
@@ -27,7 +27,7 @@ app.productEcharts = {
         });
     },
     initStoreList: function() {
-        app.tools.initStoreList(productEchartsIdName);
+        app.tools.initStoreList(app.productEcharts.productEchartsIdName);
         //点击切换门店
         $('.product_echarts .storeLists .stores').on('click', 'span', function(event) {
             $('.product_echarts .storeLists span').removeClass('active').find('i').remove();
@@ -78,7 +78,7 @@ app.productEcharts = {
         var dataType = $('.dateList .date_name').attr('data-type');
         if (dataType && dataType.trim()) {
             query.dataType = $('.dateList .date_name').attr('data-type');
-            app.tools.getDateType(query.dataType, data, echartsDate)
+            app.tools.getDateType(query.dataType, data, app.productEcharts.echartsDate)
         } else {
             query.dataType = 1;
             query.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
@@ -89,7 +89,7 @@ app.productEcharts = {
                 query.storeIds = data;
                 break;
             case 'date':
-                app.tools.getDateType(data, query, echartsDate)
+                app.tools.getDateType(data, query, app.productEcharts.echartsDate)
                 query.dataType = data;
                 break;
                 //初始第一次页面
@@ -99,22 +99,23 @@ app.productEcharts = {
                     employeeInfo = JSON.parse(localStorage.performanceInfo);
                     query.dataType = employeeInfo.dataType;
                 }
-                query.storeIds =employeeInfo.performanceStoreIds ;
+                query.storeIds = employeeInfo.performanceStoreIds;
                 //自定义
                 if (employeeInfo.dataType == 4) {
                     query.startDate = employeeInfo.startDate;
                     query.endDate = employeeInfo.endDate;
-                    echartsDate = {
+                    app.productEcharts.echartsDate = {
                         startDate: query.startDate,
                         endDate: query.endDate
                     };
                 } else {
-                    app.tools.getDateType(employeeInfo.dataType, query, echartsDate)
+                    app.tools.getDateType(employeeInfo.dataType, query, app.productEcharts.echartsDate)
                 }
                 break;
         }
         results.storeList = employee.storeList;
         results.storeIds = employee.storeIds;
+        results.storeId = query.storeIds;
         //普通员工
         if (employee.role == "wechat_business_normal") {
             var tmplhtml = $('#tmpl-product-model').html();

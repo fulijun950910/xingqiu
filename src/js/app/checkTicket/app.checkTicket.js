@@ -2,9 +2,9 @@
  if (localStorage.employee && JSON.parse(localStorage.employee)) {
      employee = JSON.parse(localStorage.employee);
  }
- var ticketDetailInfo = null;
- var checkTicketIdName = "tmpl-verifyTicketInstance";
  app.checkTicket = {
+     ticketDetailInfo: null,
+     checkTicketIdName: "tmpl-verifyTicketInstance",
      checkTicket: function() {
          window.sessionStorage.setItem("ticketInfo", "");
          $('.container').css('background-color', '#fff ');
@@ -30,10 +30,10 @@
                  merchantId: employee.merchantId
              }
              app.checkTicket.getTicket(data).then(function(results) {
-                 ticketDetailInfo = results;
-                 ticketDetailInfo.ticketNo = data.ticketNo;
-                 ticketDetailInfo.employeeInfo = employee;
-                 window.sessionStorage.setItem('ticketInfo', JSON.stringify(ticketDetailInfo));
+                 app.checkTicket.ticketDetailInfo = results;
+                 app.checkTicket.ticketDetailInfo.ticketNo = data.ticketNo;
+                 app.checkTicket.ticketDetailInfo.employeeInfo = employee;
+                 window.sessionStorage.setItem('ticketInfo', JSON.stringify(app.checkTicket.ticketDetailInfo));
                  window.location.href = "/check-ticket.html#/verifyTicketInstance"
              }, function(error) {
                  $('.checkTicket').find('.messageError').show().text(error);
@@ -70,7 +70,7 @@
              }
              $('.container').css('background-color', 'transparent ');
              if (ticketInfo.employeeInfo.storeList.length > 1) {
-                 app.tools.initStoreList(checkTicketIdName);
+                 app.tools.initStoreList(app.checkTicket.checkTicketIdName);
                  //点击切换门店
                  $('.storeLists .stores').on('click', 'span', function(event) {
                      $('.storeLists span').removeClass('active').find('i').remove();

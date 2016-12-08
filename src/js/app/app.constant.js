@@ -38,7 +38,7 @@ app.constant = {
         { name: '末验券', code: 1 },
         { name: '不可用', code: 2 },
         { name: '已过期', code: 3 },
-        { name: '已使用', code: 4 },
+        { name: '已使用', code: 4 }
         // { name: '', code: "" }
     ],
     //订单状态
@@ -47,5 +47,39 @@ app.constant = {
         { name: '赠', code: 'present' },
         { name: '退', code: 'refund' },
         { name: '待', code: 'notbuy' }
-    ]
+    ],
+    //订单状态
+    HAS_CARD_TYPE: [
+        { name: '无卡', code: 1 },
+        { name: '持卡', code: 2 }
+    ],
+    //卡操作
+    CARE_RECORD_TYPE: [
+        { name: '换卡', code: 1 },
+        { name: '补卡', code: 2 },
+        { name: '添加赠送', code: 3 },
+        { name: '修改卡耗', code: 4 },
+        { name: '修改卡次数', code: 5 },
+        { name: '修改钱包余额', code: 6 },
+        { name: '修改卡余额', code: 7 }
+    ],
+    //订单操作
+    ORDER_RECORD_TYPE: [
+        { name: '退单', code: 1 },
+        { name: '补单', code: 2 },
+        { name: '重新分配业绩与提成', code: 3 }
+    ],
+    //系统操作
+    SYS_RECORD_TYPE: [
+        { name: '修改卡模板', code: 1 },
+        { name: '修改券模板', code: 2 },
+        { name: '修改提成', code: 3 },
+        { name: '修改权限', code: 4 }
+    ],
+    //会员操作
+    MEMBER_RECORD_TYPE: [
+        { name: '修改资料', code: 1 },
+        { name: '删除会员', code: 2 },
+        { name: '创建会员', code: 3 }
+    ],
 }

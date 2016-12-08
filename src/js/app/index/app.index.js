@@ -1,4 +1,3 @@
-var indexIdName = "tepm-index";
 //初始化身份切换
 function initEemployee() {
     $('.index').on('click', '.employeeRoleList ', function() {
@@ -86,11 +85,10 @@ function initData() {
     $('.index #employeeList .employee_item').attr('data-merchantId', '');
 };
 
-//自定义时间
-var indexDate = {};
-
 //初始化日期
 app.index = {
+    indexDate: {},
+    indexIdName: "tepm-index",
     userdata: function() {
         //初始化用户信息
         return new Promise(function(resolve, reject) {
@@ -100,13 +98,13 @@ app.index = {
         });
     },
     initDate: function(type) {
-        app.tools.initDate(type, indexIdName);
+        app.tools.initDate(type, app.index.indexIdName);
         $('.index .dateLists .date_info').on('click', 'span', function(event) {
             $('.dateLists span').removeClass('active').find('i').remove();
             $(this).addClass('active');
             $('.index  .mask').click();
             if ($(this).attr('data-type') == 4) {
-                app.tools.setDate(indexDate);
+                app.tools.setDate(app.index.indexDate);
                 $('.cystomDate').fadeIn(200);
                 $('.cystomDate .mask').addClass('mask_show');
                 $('.cystomDate .date_menu').addClass('date_menu_active');
@@ -117,7 +115,7 @@ app.index = {
         });
     },
     initCystomDate: function(type) {
-        app.tools.initCystomDate(type, indexIdName);
+        app.tools.initCystomDate(type, app.index.indexIdName);
         //确定自定义时间选择
         $('.cystomDate').on('click', '.saveDate', function() {
             $('.index  .mask').click();
@@ -125,7 +123,7 @@ app.index = {
         });
     },
     initStoreList: function() {
-        app.tools.initStoreList(indexIdName);
+        app.tools.initStoreList(app.index.indexIdName);
         //点击切换门店
         $('.index .storeLists .stores').on('click', 'span', function(event) {
             $('.storeLists span').removeClass('active').find('i').remove();
@@ -175,7 +173,7 @@ app.index = {
         var dataType = $('.index .dateList .date_name').attr('data-type');
         if (dataType && dataType.trim()) {
             memberData.dataType = $('.index .dateList .date_name').attr('data-type');
-            app.tools.getDateType(memberData.dataType, data, indexDate);
+            app.tools.getDateType(memberData.dataType, data, app.index.indexDate);
         } else {
             memberData.dataType = 1;
             data.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
@@ -187,7 +185,7 @@ app.index = {
                 memberData.storeId = result;
                 break;
             case 'date':
-                app.tools.getDateType(result, data, indexDate);
+                app.tools.getDateType(result, data, app.index.indexDate);
                 memberData.dataType = result;
         }
         //缓存筛选条件

@@ -1,17 +1,19 @@
 // 公共样式
 @primary-color :#b44dce; //主题紫色
 @secondary-color : #4ED9CF; //辅助蒂芙尼蓝
-@icon-color:#f7aa25; //icon状态颜色
+@icon-color: #f7aa25; //icon状态颜色
 @font-primary-color: #333;
 @font-secondary-color: #888;
 @primary-background-color: #f4f4fc;
 @primary-status-color: #feb951;
-@border-color:#e5e5e5;
+@border-color: #e5e5e5;
+@female-color: #f7398f; //女生
+@male-color: #4ED9CF; //男生
 @font-small-size: 9pt;
 @font-default-size: 12px;
 @font-priceY-size: 16px;
 @font-priceF-size: 8pt;
-@button-height:12vw;
+@button-height: 12vw;
 div,
 span,
 i,
@@ -28,12 +30,7 @@ a {
     margin: auto;
 }
 
-.primary-color {
-    color: @primary-color;
-}
-.font-secondary-color{
-    color:@font-secondary-color;
-}
+
 
 .go-right {
     display: inline-block;
@@ -86,6 +83,7 @@ a {
 
 .box-shadow {
     // box-shadow: 1px 2px 2px rgba(102,102,102,.1);
+    box-shadow: 0 0 5px rgba(102, 102, 102, .1);
 }
 
 //错误error
@@ -439,21 +437,35 @@ a {
         bottom: 0;
     }
 }
-
-.font-priceY-size {
-    font-size: @font-priceY-size;
-}
-
-.font-priceF-size {
-    font-size: @font-priceF-size;
+.primary-color {
+    color: @primary-color;
 }
 
 .font-secondary-color {
     color: @font-secondary-color;
 }
 
-.font-primary-color {
-    color: @font-primary-color;
+.female-color {
+    color: @female-color !important;
+}
+
+.male-color {
+    color: @male-color !important;
+}
+
+.font-size-14 {
+    font-size: 14px;
+}
+
+.font-size-12 {
+    font-size: 12px;
+}
+.font-priceY-size {
+    font-size: @font-priceY-size;
+}
+
+.font-priceF-size {
+    font-size: @font-priceF-size;
 }
 
 .text-align-center {

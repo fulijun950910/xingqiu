@@ -1,6 +1,6 @@
-var employeeDate = {};
-var employeeIdName = "temp-employee";
 app.employeeEcharts = {
+    employeeIdName: "temp-employee",
+    employeeDate: {},
     userdata: function() {
         //初始化用户信息
         return new Promise(function(resolve, reject) {
@@ -10,13 +10,13 @@ app.employeeEcharts = {
         });
     },
     initDate: function(type) {
-        app.tools.initDate(type, employeeIdName);
+        app.tools.initDate(type, app.employeeEcharts.employeeIdName);
         $('.employee_echarts .dateLists .date_info').on('click', 'span', function(event) {
             $('.dateLists span').removeClass('active').find('i').remove();
             $(this).addClass('active');
             $('.employee_echarts  .mask').click();
             if ($(this).attr('data-type') == 4) {
-                app.tools.setDate(employeeDate);
+                app.tools.setDate(app.employeeEcharts.employeeDate);
                 $('.cystomDate').fadeIn(200);
                 $('.cystomDate .mask').addClass('mask_show');
                 $('.cystomDate .date_menu').addClass('date_menu_active');
@@ -27,7 +27,7 @@ app.employeeEcharts = {
         });
     },
     initCystomDate: function(type) {
-        app.tools.initCystomDate(type, employeeIdName);
+        app.tools.initCystomDate(type, app.employeeEcharts.employeeIdName);
         //确定自定义时间选择
         $('.cystomDate').on('click', '.saveDate', function() {
             $('.employee_echarts  .mask').click();
@@ -35,7 +35,7 @@ app.employeeEcharts = {
         });
     },
     initStoreList: function() {
-        app.tools.initStoreList(employeeIdName);
+        app.tools.initStoreList(app.employeeEcharts.employeeIdName);
         //点击切换门店
         $('.employee_echarts .storeLists .stores').on('click', 'span', function(event) {
             $('.storeLists span').removeClass('active').find('i').remove();
@@ -45,7 +45,7 @@ app.employeeEcharts = {
         });
     },
     initOrderByList: function() {
-        app.tools.initTempData('orderLists', employeeIdName);
+        app.tools.initTempData('orderLists', app.employeeEcharts.employeeIdName);
         //点击排序
         $('.employee_echarts .tempLists .date_info').on('click', 'span', function(event) {
             $('.tempLists span').removeClass('active').find('i').remove();
@@ -78,7 +78,7 @@ app.employeeEcharts = {
         var dataType = $('.employee_echarts .dateList .date_name').attr('data-type');
         if (dataType && dataType.trim()) {
             results.dataType = $('.employee_echarts .dateList .date_name').attr('data-type');
-            app.tools.getDateType(results.dataType, orderPerformanceList, employeeDate)
+            app.tools.getDateType(results.dataType, orderPerformanceList, app.employeeEcharts.employeeDate)
         } else {
             results.dataType = 1;
             orderPerformanceList.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
@@ -93,7 +93,7 @@ app.employeeEcharts = {
                 orderPerformanceList.storeId = data;
                 break;
             case 'date':
-                app.tools.getDateType(data, orderPerformanceList, employeeDate)
+                app.tools.getDateType(data, orderPerformanceList, app.employeeEcharts.employeeDate)
                 results.dataType = data;
                 break;
             case 'orderBy':
@@ -112,12 +112,12 @@ app.employeeEcharts = {
                 if (employeeInfo.dataType == 4) {
                     orderPerformanceList.startDate = employeeInfo.startDate;
                     orderPerformanceList.endDate = employeeInfo.endDate;
-                    employeeDate = {
+                    app.employeeEcharts.employeeDate = {
                         startDate: orderPerformanceList.startDate,
                         endDate: orderPerformanceList.endDate
                     };
                 } else {
-                    app.tools.getDateType(employeeInfo.dataType, orderPerformanceList, employeeDate)
+                    app.tools.getDateType(employeeInfo.dataType, orderPerformanceList, app.employeeEcharts.employeeDate)
                 }
                 break;
         }

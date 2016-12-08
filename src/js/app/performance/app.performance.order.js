@@ -1,18 +1,18 @@
 /**
  * Created by wzc on 16/7/7.
  */
-var orderDate = {};
-var orderlIstIdName = "temp-performance-order-list";
 app.performance.order = {
+    orderDate: {},
+    orderlIstIdName: "temp-performance-order-list",
     //初始化时间切换
     initDate: function(type) {
-        app.tools.initDate(type, orderlIstIdName);
+        app.tools.initDate(type, app.performance.order.orderlIstIdName);
         $('.performance-order-list .dateLists .date_info').on('click', 'span', function(event) {
             $('.dateLists span').removeClass('active').find('i').remove();
             //  $(this).addClass('active');
             $('.performance-order-list  .mask').click();
             if ($(this).attr('data-type') == 4) {
-                app.tools.setDate(orderDate);
+                app.tools.setDate(app.performance.order.orderDate);
                 $('.cystomDate').fadeIn(200);
                 $('.cystomDate .mask').addClass('mask_show');
                 $('.cystomDate .date_menu').addClass('date_menu_active');
@@ -23,7 +23,7 @@ app.performance.order = {
         });
     },
     initCystomDate: function(type) {
-        app.tools.initCystomDate(type, orderlIstIdName);
+        app.tools.initCystomDate(type, app.performance.order.orderlIstIdName);
         //确定自定义时间选择
         $('.cystomDate').on('click', '.saveDate', function() {
             $('.performance-order-list  .mask').click();
@@ -65,7 +65,7 @@ app.performance.order = {
                 }
                 if (dateType) {
                     orderList.dataType = dateType;
-                    app.tools.getDateType(dateType, data, orderDate);
+                    app.tools.getDateType(dateType, data, app.performance.order.orderDate);
                     data.startTime = data.startDate;
                     data.endTime = data.endDate;
                 }

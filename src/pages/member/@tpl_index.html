@@ -1,54 +1,63 @@
-<script type="text/html" id="tpl_employee">
-    <div class="bd background-sign" id="temp-employee">
-        <div id="tmpl-employee" class="employee_echarts">
+<script type="text/html" id="tpl_newMember">
+    <div class="bd background-sign" id="temp-newMember" style="min-height: 100vh;">
+        <div id="tmpl-newMember" class="member financial-info">
         </div>
     </div>
-    <script type="text/html" id="tmpl-employee-model">
-        <div class="orderEmployee-box">
-            <div class="orderEmployeeData-box">
-                <div class="data-list wrap">
-                    <!--%if(!o.orderEmployeePerformanceList || o.orderEmployeePerformanceList.length == 0){ %-->
-                    <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c">  亲~,还没有新增的会员哦...</span></div>
-                    <!--% } else { %-->
-                    <!--% for (var i=0; i <o.orderEmployeePerformanceList.length; i++) { %-->
-                    <div class="data-item" layout="row" layout-align="space-between center">
-                        <div class="member-img">
-                            <img id="comment-pic" src="{%=app.filePath + o.orderEmployeePerformanceList[i].employeeImageId %}" onerror="this.src='images/default_female.png'">
-                        </div>
-                        <div style="padding: 3vw 0;margin-left:2vw" layout="row" flex layout-align="space-around center" class="border-bottom">
-                            <div class="employee-info text-align-left" layout="column"  flex="20">
-                                <span class="name">{%= app.tools.sliceStr(o.orderEmployeePerformanceList[i].employeeName,8) %}</span>
-                                <span>No.{%= i + 1%}</span>
-                            </div>
-                            <div class="amount text-align-left" layout="column" flex="50">
-                                <span>业绩:<span class="primary-color font-priceF-size" flex>￥<span class="font-priceY-size">{%= app.tools.changePrice(o.orderEmployeePerformanceList[i].achievementTotalAmount)[0] %}</span>.{%= app.tools.changePrice(o.orderEmployeePerformanceList[i].achievementTotalAmount)[1] %}</span>
-                                </span>
-                                <span>卡耗:<span class="primary-color font-priceF-size" flex>￥<span class="font-priceY-size">{%= app.tools.changePrice(o.orderEmployeePerformanceList[i].cardConsumeTotalAmount)[0] %}</span>.{%= app.tools.changePrice(o.orderEmployeePerformanceList[i].cardConsumeTotalAmount)[1] %}</span>
-                                </span>
-                            </div>
-                            <div class="amount" layout="column">
-                                <span class="">客数:<span class="primary-color font-priceY-size">{%= o.orderEmployeePerformanceList[i].serviceMemberCount +o.orderEmployeePerformanceList[i].serviceUnMemberCount %} </span></span>
-                                </span>
-                            </div>
-                        </div>
+    <script type="text/html" id="tmpl-newMember-model">
+        <div class="data-list financial-info-list wrap">
+            <div style="height: 5vw"></div>
+            <!--%if(!o.newMemberInfo || o.newMemberInfo.length == 0){ %-->
+            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c">  亲~,还没有新增的会员哦...</span></div>
+            <!--% } else { %-->
+            <!--% for (var i=0; i <o.newMemberInfo.length; i++) { %-->
+            <div class="financial-item">
+                <div layout="row" layout-align="space-between center">
+                    <div class="logo" flex="15">
+                        <img id="comment-pic" src="{%=app.filePath + o.newMemberInfo[i].avatarId %}" onerror="this.src='images/default_female.png'">
                     </div>
-                    <!--% } %-->
-                    <!--% } %-->
+                    <div class="info" layout="column" flex="65" layout-align="space-around start">
+                        <div layout="row">
+                            <span class="name">{%= app.tools.sliceStr(o.newMemberInfo[i].name,8) %}</span>
+                            <span class="phone" style="margin-left: 2vw;">{%= o.newMemberInfo[i].mobile %}</span>
+                            <!--%if(o.newMemberInfo[i].gender==1){ %-->
+                            <i class="ic male-color">&#xe66b;</i>
+                            <!--% } else { %-->
+                            <i class="ic female-color">&#xe683;</i>
+                            <!--% } %-->
+                        </div>
+                          <!--%if(o.newMemberInfo[i].memberSource){ %-->
+                             <span>来源:{%=o.newMemberInfo[i].memberSource%}</span>
+                            <!--% } %-->
+                              <!--%if(o.newMemberInfo[i].registerDate){ %-->
+                           <div class="date">{%= o.newMemberInfo[i].registerDate %}</div>
+                            <!--% } %-->
+                    </div>
+                    <div>
+                        <!--%if(o.newMemberInfo[i].hasCard==2){ %-->
+                        <span class="primary-color font-size-14">{%= app.tools.getConstantByValue(app.constant.HAS_CARD_TYPE,o.newMemberInfo[i].hasCard) %}</span>
+                        <!--% } else { %-->
+                        <span class="font-secondary-color font-size-14">{%= app.tools.getConstantByValue(app.constant.HAS_CARD_TYPE,o.newMemberInfo[i].hasCard) %}</span>
+                        <!--% } %-->
+                    </div>
                 </div>
             </div>
+            <!--% } %-->
+            <!--% } %-->
         </div>
         <div style="height: 49px;"></div>
         <!-- 面包 导航-->
         <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
             <div onclick="app.goBack()" flex="33">
                 <i class="ic">&#xe68b;</i>
-                <span>返回</span>
-            </div>
-            <div flex="33" class="storeList">
-                <i class="ic"> &#xe645;</i>
+            <span>返回</span>
+        </div>
+        <div flex="33" class="storeList">
+        <span style="display:none" data-storeId="{%=o.storeId%}" class="store_name"></span>
+          <i class="ic"> &#xe645;</i>
                 <span>门店</span>
             </div>
-            <div flex="33" class="dateList">
+            <div flex="33" class="dateList border-right">
+             <span style="display:none" data-type="{%=o.dataType%}" class="date_name"></span>
                 <i class="ic">&#xe68c;</i>
                 <span>日期</span>
             </div>
@@ -101,6 +110,5 @@
                 </div>
             </div>
         </div>
-            <!-- end -->
     </script>
 </script>

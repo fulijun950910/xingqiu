@@ -1,9 +1,6 @@
-//自定义时间
-var incomeDate = {};
-var incomeIdName = "tepm-income";
 //1现金、2POS、3微信、4支付宝、5团购、6减免、7欠款、8会员卡耗、9券、10店内活动、11赠品、12自定义
 var icons = ["68a;", "690;", "692;", "68d;", "687;", "689;", "68f;", "691;", "694;", "693;", "68e;", "68f;"];
-var rgbs = ["#00cbc7", "#f65d69", "#75d140", "#25a9ee","#f69755"];
+var rgbs = ["#00cbc7", "#f65d69", "#75d140", "#25a9ee", "#f69755"];
 //计算员工。管理员业绩与卡耗
 function changePerformanceInfo(memberData) {
     memberData.totalAmount = 0;
@@ -52,6 +49,8 @@ function changePerformanceInfo(memberData) {
 };
 //初始化日期
 app.income = {
+    incomeDate: {},
+    incomeIdName: "tepm-income",
     userdata: function() {
         //初始化用户信息
         return new Promise(function(resolve, reject) {
@@ -68,13 +67,13 @@ app.income = {
         }, function() {})
     },
     initDate: function(type) {
-        app.tools.initDate(type,incomeIdName);
+        app.tools.initDate(type, app.income.incomeIdName);
         $('.income .dateLists .date_info').on('click', 'span', function(event) {
             $('.dateLists span').removeClass('active').find('i').remove();
             $(this).addClass('active');
             $('.income  .mask').click();
             if ($(this).attr('data-type') == 4) {
-                app.tools.setDate(incomeDate);
+                app.tools.setDate(app.income.incomeDate);
                 $('.cystomDate').fadeIn(200);
                 $('.cystomDate .mask').addClass('mask_show');
                 $('.cystomDate .date_menu').addClass('date_menu_active');
@@ -85,7 +84,7 @@ app.income = {
         });
     },
     initCystomDate: function(type) {
-        app.tools.initCystomDate(type,incomeIdName);
+        app.tools.initCystomDate(type, app.income.incomeIdName);
         //确定自定义时间选择
         $('.cystomDate').on('click', '.saveDate', function() {
             $('.income  .mask').click();
@@ -93,7 +92,7 @@ app.income = {
         });
     },
     initStoreList: function() {
-        app.tools.initStoreList(incomeIdName);
+        app.tools.initStoreList(app.income.incomeIdName);
         //点击切换门店
         $('.income .storeLists .stores').on('click', 'span', function(event) {
             $('.storeLists span').removeClass('active').find('i').remove();
@@ -126,7 +125,7 @@ app.income = {
         var dataType = $('.income .dateList .date_name').attr('data-type');
         if (dataType && dataType.trim()) {
             memberData.dataType = $('.income .dateList .date_name').attr('data-type');
-            app.tools.getDateType(memberData.dataType, data,incomeDate)
+            app.tools.getDateType(memberData.dataType, data, app.income.incomeDate)
         } else {
             memberData.dataType = 1;
             data.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
@@ -138,7 +137,7 @@ app.income = {
                 memberData.storeId = result;
                 break;
             case 'date':
-                app.tools.getDateType(result, data,incomeDate)
+                app.tools.getDateType(result, data, app.income.incomeDate)
                 memberData.dataType = result;
                 break;
             case 'init':
@@ -147,17 +146,17 @@ app.income = {
                     performanceInfo = JSON.parse(localStorage.performanceInfo);
                     memberData.dataType = performanceInfo.dataType;
                 }
-                data.storeIds = performanceInfo.storeIds;
+                data.storeId = performanceInfo.performanceStoreIds.split(',').length > 1 ? undefined : performanceInfo.performanceStoreIds;
                 //自定义
                 if (performanceInfo.dataType == 4) {
                     data.startDate = performanceInfo.startDate;
                     data.endDate = performanceInfo.endDate;
-                    incomeDate = {
+                    app.income.incomeDate = {
                         startDate: data.startDate,
                         endDate: data.endDate
                     };
                 } else {
-                    app.tools.getDateType(performanceInfo.dataType, data,incomeDate)
+                    app.tools.getDateType(performanceInfo.dataType, data, app.income.incomeDate)
                 }
                 break;
         }

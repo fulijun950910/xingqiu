@@ -1,6 +1,6 @@
 <!-- 个人信息 -->
 <script type="text/html" id="tpl_user_home">
-    <div class="bd spacing">
+    <div class="bd spacing userInfo">
         <!-- //隐藏标题 -->
         <div id="hiddenTitle" class="hiddenTitle">个人信息</div>
 
@@ -27,12 +27,12 @@
 </div>
     <script type="text/html" id="tmpl-userinfo">
         <div class="mei_cell">
-            <label for="" class="mei_label"><i class="ic icon-ren1"></i></label>
+            <label for="" class="mei_label"><!-- <i class="ic icon-ren1"></i> -->用户名</label>
             <input name="name" type="text" value="{%=o.name %}" class="mei_input" placeholder="请输入姓名">
         </div>
         <!-- 性别 -->
         <div class="mei_cell">
-            <label for="" class="mei_label"><i class="ic icon-xingbie1"></i></label>
+            <label for="" class="mei_label"><!-- <i class="ic icon-xingbie1"></i> -->性别</label>
             <select class="weui_select" name="gender">
                 <option value="1">男</option>
                 <option value="2">女</option>
@@ -42,12 +42,12 @@
 
         <!-- 生日 -->
         <div class="mei_cell">
-            <label for="user_birthday" class="mei_label"><i class="ic icon-shengri1"></i></label>
+            <label for="user_birthday" class="mei_label"><!-- <i class="ic icon-shengri1"></i> -->生日</label>
             <input name="birthday" value="{%=o.birthday %}" style="background-color:transparent;" type="date" class="mei_input">
         </div>
         <!-- 地址 -->
         <div class="mei_cell">
-            <label for="user_addr" class="mei_label"><i class="ic icon-weizhi"></i></label>
+            <label for="user_addr" class="mei_label"><!-- <i class="ic icon-weizhi"></i> -->地址</label>
             <input name="address" type="text" class="mei_input" value="{%=o.address %}" placeholder="您的地址">
         </div>
 

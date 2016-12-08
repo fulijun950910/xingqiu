@@ -12,361 +12,346 @@ input {
     display: none;
 }
 
-//脥路脧帽露楼虏驴赂脽露脠
-@headPic-heig: 9em;
-@headimg-heig: 1.1em;
-@user-save-btn-color: #DB6FED;
-@user-save-btn-active-color: #aa46bb;
-//脥路脧帽虏驴路脰
-.headPic {
-    width: 100%;
-    height: @headPic-heig;
-    // background-color: red;
-    text-align: center;
-    .autoImg {
-        display: inline;
-        position: relative;
-        margin: auto;
-        top: @headimg-heig;
-        img {
-            width: 7em;
-            height: 7em;
-            border-radius: 50%;
-        }
-    }
-}
-
-//赂枚脠脣脨脜脧垄脕脨卤铆-鲁拢鹿忙脳脰脤氓脩脮脡芦露篓脪氓
-@usericon-lft-size: 0.35em;
-@usericon-color: #9a9898;
-@userinfo-font-color: #464646;
-@userinfo-lr-width: 90%;
-.cmn_cell {
-    position: relative;
-    width: @userinfo-lr-width;
-    margin: auto;
-    //border: 0.1em solid @border-color;
-    //  border-radius: 0.15em;
-}
-
-//脨脨脛脷脭陋脣脴icon脩霉脢陆
-.mei_cmn_icon {
-    font-size: 1.5em;
-    margin-left: @usericon-lft-size;
-    width: 12%;
-    //  line-height: 1.75em;
-    // color: @usericon-color;
-}
-
-//脨脨脛脷脭陋脣脴input脭陋脣脴
-.cmn_input {
-    //margin-left: 1.3em;
-    color: @userinfo-font-color;
-    outline: none;
-}
-
-.cmn_color {
-    color: @userinfo-font-color;
-}
-
-//脨脨脛脷脭陋脣脴脥篓脫脙脩霉脢陆
-.mei_cmn_cell {
-    position: relative;
-    width: 95%;
-    height: @button-height;
-    line-height: @button-height;
-    margin: 0 auto 6vw;
-    border: 1px solid @border-color;
-    border-radius: 25px;
-}
-
-.mei_cmn_input {
-    height: 2.5em;
-    width: 65%;
-    line-height: 1.75em;
-    font-size: 1em;
-}
-
-.userfrom {
-    // height: 16em;
-    .cmn_cell;
-    margin-top: 0px;
-    // background-color: blue;
-    .mei_cell {
-        .mei_cmn_cell;
-        i {
-            .mei_cmn_icon;
-        }
-        input {
-            .cmn_input;
-        }
-        input,
-        select {
-            .cmn_color;
-        }
-        .mei_input {
-            .mei_cmn_input;
-        }
-        .mei_input:focus {
-            border: none;
-        }
-        .weui_switch {
+.userInfo {
+    //脥路脧帽露楼虏驴赂脽露脠
+    @headPic-heig: 9em;
+    @headimg-heig: 1.1em;
+    @user-save-btn-color: #DB6FED;
+    @user-save-btn-active-color: #aa46bb;
+    //脥路脧帽虏驴路脰
+    .headPic {
+        width: 100%;
+        height: @headPic-heig;
+        background:@primary-color ;
+        // background-color: red;
+        text-align: center;
+        .autoImg {
+            display: inline;
             position: relative;
-            float: right;
-            top: 0.75em;
-        }
-        .weui_sex {
-            width: 15%;
-            height: 2.5em;
-            font-size: 1em;
-        }
-        .weui_select {
-            width: 65%;
-            margin-left: 1.45em;
-            padding-left: 0em;
+            margin: auto;
+            top: @headimg-heig;
+            img {
+                width: 7em;
+                height: 7em;
+                border-radius: 50%;
+            }
         }
     }
-    .mei_cell:last-child {
-        // border-bottom: none;
-        padding-bottom: 1.25em;
+    //赂枚脠脣脨脜脧垄脕脨卤铆-鲁拢鹿忙脳脰脤氓脩脮脡芦露篓脪氓
+    @usericon-lft-size: 0.35em;
+    @usericon-color: #9a9898;
+    @userinfo-font-color: #464646;
+    @userinfo-lr-width: 90%;
+    .cmn_cell {
+        position: relative;
+        width: @userinfo-lr-width;
+        margin: auto;
+        //border: 0.1em solid @border-color;
+        //  border-radius: 0.15em;
     }
-}
-
-.userinfo_save {
-    width: @userinfo-lr-width;
-    position: relative;
-    margin: auto;
-    top: 1.5em;
-    margin-bottom: 5em;
-    .mei_bind {
-        background-color: @secondary-color;
+    //脨脨脛脷脭陋脣脴icon脩霉脢陆
+    .mei_cmn_icon {
+        font-size: 1.5em;
+        margin-left: @usericon-lft-size;
+        width: 12%;
+        //  line-height: 1.75em;
+        // color: @usericon-color;
+    }
+    //脨脨脛脷脭陋脣脴input脭陋脣脴
+    .cmn_input {
+        //margin-left: 1.3em;
+        color: @userinfo-font-color;
+        outline: none;
+    }
+    .cmn_color {
+        color: @userinfo-font-color;
+    }
+    //脨脨脛脷脭陋脣脴脥篓脫脙脩霉脢陆
+    .mei_cmn_cell {
+        position: relative;
+        width: 95%;
         height: @button-height;
         line-height: @button-height;
+        margin: 0 auto 6vw;
+        border: 1px solid @border-color;
         border-radius: 25px;
-        text-align: center;
     }
-    .login_btn {
-        color: #fff;
+    .mei_cmn_input {
+        height: 2.5em;
+        width: 65%;
+        line-height: 1.75em;
+        font-size: 1em;
     }
-    .weui_btn:active {
-        background-color: @user-save-btn-active-color;
+    .userfrom {
+        // height: 16em;
+        .cmn_cell;
+        margin-top: 0px;
+        // background-color: blue;
+        .mei_cell {
+            .mei_cmn_cell;
+            i {
+                .mei_cmn_icon;
+            }
+            input {
+                .cmn_input;
+            }
+            input,
+            select {
+                .cmn_color;
+            }
+            .mei_input {
+                .mei_cmn_input;
+            }
+            .mei_input:focus {
+                border: none;
+            }
+            .weui_switch {
+                position: relative;
+                float: right;
+                top: 0.75em;
+            }
+            .weui_sex {
+                width: 15%;
+                height: 2.5em;
+                font-size: 1em;
+            }
+            .weui_select {
+                width: 65%;
+                margin-left: 1.45em;
+                padding-left: 0em;
+            }
+        }
+        .mei_cell:last-child {
+            // border-bottom: none;
+            padding-bottom: 1.25em;
+        }
     }
-    .userinfo_btm {
+    .userinfo_save {
+        width: @userinfo-lr-width;
         position: relative;
-        width: 100%;
-        margin-bottom: 2em;
-        top: 0.7em;
-        text-align: center;
-        .unbind,
-        .forgetpwd {
-            font-size: 1em;
-            color: @secondary-color;
+        margin: auto;
+        top: 1.5em;
+        margin-bottom: 5em;
+        .mei_bind {
+            background-color: @secondary-color;
+            height: @button-height;
+            line-height: @button-height;
+            border-radius: 25px;
+            text-align: center;
         }
-        .unbind {
-            float: left;
+        .login_btn {
+            color: #fff;
         }
-        .forgetpwd {
-            float: right;
+        .weui_btn:active {
+            background-color: @user-save-btn-active-color;
         }
-    }
-}
-
-//脮脣潞脜掳贸露篓-脨脼赂脛
-.user_account {
-    .cmn_cell;
-    top: 20%;
-    .mei_cell {
-        .mei_cmn_cell;
-        i {
-            .mei_cmn_icon;
-        }
-        input {
-            .cmn_input;
-        }
-        input,
-        select {
-            .cmn_color;
-        }
-        .mei_input {
-            .mei_cmn_input;
-        }
-        .mei_send {
-            .mei_cmn_input;
-            width: 42%;
-        }
-        .mei_send2 {
-            .mei_cmn_input;
-            border-radius: 0.2em;
-            background-color: #FFF;
-            border: 1px solid @border-color;
-            color: #65C4B7;
-        }
-        .mei_send2:active {
-            background-color: @border-color;
-        }
-    }
-    .mei_cell:last-child {
-        //    border-bottom: none;
-        padding-bottom: 0.1em;
-    }
-}
-
-.userinfo_bind {
-    .userinfo_save;
-    top: 20%;
-    .userinfo_btm {
-        .clause {
-            // font-size: .9em;
-            color: @secondary-color;
-            //float: right;
-        }
-    }
-}
-
-//脙脌脦脢logo
-.meilogo {
-    text-align: center;
-    height: 10%;
-    position: relative;
-    top: 15%;
-    i {
-        font-size: 3em;
-        color: @user-save-btn-color;
-    }
-}
-
-//脝脕脛禄脨隆脫脷430
-@media screen and (max-width: 421px) {
-    .meiapp {
-        width: 100%;
-        height: 41em;
-    }
-    .user_account .mei_cell .mei_send2 {
-        margin-left: 5%;
-        width: 32%;
-    }
-}
-
-// //脝脕脛禄脨隆脫脷381
-// @media screen and (max-width: 381px) {
-//     .meiapp {
-//         width: 100%;
-//       //  height: 37em;
-//     }
-//     .user_account .mei_cell .mei_send2 {
-//         margin-left: 3%;
-//         width: 28%;
-//     }
-// }
-// //脝脕脛禄脨隆脫脷321
-// @media screen and (max-width: 321px) {
-//     .meiapp {
-//         width: 100%;
-//         height: 32em;
-//     }
-//     .user_account .mei_cell .mei_send2 {
-//         margin-left: 3%;
-//         width: 25%;
-//     }
-// }
-.loginbox {
-    text-align: center;
-    margin-bottom: 5%;
-    .loginbtn {
-        color: #67AA09;
-    }
-}
-
-//选择角色-门店弹出层样式
-.select_shade {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0em;
-    left: 0em;
-    z-index: 999;
-    background-color: rgba(0, 0, 0, 0.3);
-    display: none;
-    .parent_panel {
-        position: relative;
-        width: 70%;
-        top: 50%;
-        left: 50%;
-        -webkit-transform: translateX(-50%) translateY(-50%);
-        -moz-transform: translateX(-50%) translateY(-50%);
-        -ms-transform: translateX(-50%) translateY(-50%);
-        transform: translateX(-50%) translateY(-50%);
-        border-radius: .3em;
-        background-color: #FFF;
-        #show_employe_list {
-            border-radius: .3em;
-        }
-        .select_panel {
+        .userinfo_btm {
+            position: relative;
             width: 100%;
-            height: 100%;
-            ul {
-                li {
-                    border-bottom: 1px solid @border-color;
-                    width: 95%;
-                    height: 2.5em;
-                    color: #747474;
-                    line-height: 2.5em;
-                    margin-left: 5%;
-                    a {
-                        display: block;
+            margin-bottom: 2em;
+            top: 0.7em;
+            text-align: center;
+            .unbind,
+            .forgetpwd {
+                font-size: 1em;
+                color: @secondary-color;
+            }
+            .unbind {
+                float: left;
+            }
+            .forgetpwd {
+                float: right;
+            }
+        }
+    }
+    //脮脣潞脜掳贸露篓-脨脼赂脛
+    .user_account {
+        .cmn_cell;
+        top: 20%;
+        .mei_cell {
+            .mei_cmn_cell;
+            i {
+                .mei_cmn_icon;
+            }
+            input {
+                .cmn_input;
+            }
+            input,
+            select {
+                .cmn_color;
+            }
+            .mei_input {
+                .mei_cmn_input;
+            }
+            .mei_send {
+                .mei_cmn_input;
+                width: 42%;
+            }
+            .mei_send2 {
+                .mei_cmn_input;
+                border-radius: 0.2em;
+                background-color: #FFF;
+                border: 1px solid @border-color;
+                color: #65C4B7;
+            }
+            .mei_send2:active {
+                background-color: @border-color;
+            }
+        }
+        .mei_cell:last-child {
+            //    border-bottom: none;
+            padding-bottom: 0.1em;
+        }
+    }
+    .userinfo_bind {
+        .userinfo_save;
+        top: 20%;
+        .userinfo_btm {
+            .clause {
+                // font-size: .9em;
+                color: @secondary-color;
+                //float: right;
+            }
+        }
+    }
+    //脙脌脦脢logo
+    .meilogo {
+        text-align: center;
+        height: 10%;
+        position: relative;
+        top: 15%;
+        i {
+            font-size: 3em;
+            color: @user-save-btn-color;
+        }
+    }
+    //脝脕脛禄脨隆脫脷430
+    @media screen and (max-width: 421px) {
+        .meiapp {
+            width: 100%;
+            height: 41em;
+        }
+        .user_account .mei_cell .mei_send2 {
+            margin-left: 5%;
+            width: 32%;
+        }
+    }
+    // //脝脕脛禄脨隆脫脷381
+    // @media screen and (max-width: 381px) {
+    //     .meiapp {
+    //         width: 100%;
+    //       //  height: 37em;
+    //     }
+    //     .user_account .mei_cell .mei_send2 {
+    //         margin-left: 3%;
+    //         width: 28%;
+    //     }
+    // }
+    // //脝脕脛禄脨隆脫脷321
+    // @media screen and (max-width: 321px) {
+    //     .meiapp {
+    //         width: 100%;
+    //         height: 32em;
+    //     }
+    //     .user_account .mei_cell .mei_send2 {
+    //         margin-left: 3%;
+    //         width: 25%;
+    //     }
+    // }
+    .loginbox {
+        text-align: center;
+        margin-bottom: 5%;
+        .loginbtn {
+            color: #67AA09;
+        }
+    }
+    //选择角色-门店弹出层样式
+    .select_shade {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0em;
+        left: 0em;
+        z-index: 999;
+        background-color: rgba(0, 0, 0, 0.3);
+        display: none;
+        .parent_panel {
+            position: relative;
+            width: 70%;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            -moz-transform: translateX(-50%) translateY(-50%);
+            -ms-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+            border-radius: .3em;
+            background-color: #FFF;
+            #show_employe_list {
+                border-radius: .3em;
+            }
+            .select_panel {
+                width: 100%;
+                height: 100%;
+                ul {
+                    li {
+                        border-bottom: 1px solid @border-color;
+                        width: 95%;
                         height: 2.5em;
                         color: #747474;
-                        .left_sel {
-                            float: left;
-                            display: inline;
-                            width: 75%;
-                            padding-left: 2%;
-                            text-overflow: ellipsis;
-                            white-space: nowrap;
-                            overflow: hidden;
-                        }
-                        .right_sel {
-                            float: right;
-                            display: inline;
-                            width: 15%;
-                            margin: auto;
-                            i {
+                        line-height: 2.5em;
+                        margin-left: 5%;
+                        a {
+                            display: block;
+                            height: 2.5em;
+                            color: #747474;
+                            .left_sel {
+                                float: left;
+                                display: inline;
+                                width: 75%;
+                                padding-left: 2%;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                overflow: hidden;
+                            }
+                            .right_sel {
+                                float: right;
+                                display: inline;
+                                width: 15%;
                                 margin: auto;
-                                font-size: 1.8em;
-                                color: #DB6FED !important;
+                                i {
+                                    margin: auto;
+                                    font-size: 1.8em;
+                                    color: #DB6FED !important;
+                                }
                             }
                         }
                     }
-                }
-                li:last-child {
-                    border: none;
+                    li:last-child {
+                        border: none;
+                    }
                 }
             }
-        }
-        .selbtn_box {
-            position: relative;
-            .role_sel_btn {
-                width: 100%;
-                height: 2.5em;
-                border: none;
-                border-top: 1px solid @border-color;
-                border-bottom-left-radius: .3em;
-                border-bottom-right-radius: .3em;
-                background-color: #FFF;
-                color: @user-save-btn-color;
-                font-size: 1em;
+            .selbtn_box {
+                position: relative;
+                .role_sel_btn {
+                    width: 100%;
+                    height: 2.5em;
+                    border: none;
+                    border-top: 1px solid @border-color;
+                    border-bottom-left-radius: .3em;
+                    border-bottom-right-radius: .3em;
+                    background-color: #FFF;
+                    color: @user-save-btn-color;
+                    font-size: 1em;
+                }
             }
         }
     }
-}
-
-//处理时间样式
-#clock {
-    border: none;
-    background-color: #FFF;
-}
-
-.userInfo {
+    //处理时间样式
+    #clock {
+        border: none;
+        background-color: #FFF;
+    }
     .error {
         position: fixed;
         top: -12vw;
@@ -382,5 +367,19 @@ input {
         &.active {
             top: 0;
         }
+    }
+}
+
+.spacing {
+    .userfrom {
+        .mei_cell {
+            margin: 0;
+            border: none;
+            border-bottom: 1px solid #e5e5e5;
+            border-radius:0;
+        }
+    }
+    .weui_btn_warn {
+        background: @secondary-color ;
     }
 }

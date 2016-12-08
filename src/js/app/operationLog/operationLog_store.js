@@ -1,7 +1,7 @@
-var operationLogStoreIdName = "temp-operationLogStore";
-var operationLogDetailName = "temp-operationLogDetail";
-var operationLogDate = {};
 app.operationLog = {
+    operationLogStoreIdName: "temp-operationLogStore",
+    operationLogDetailName: "temp-operationLogDetail",
+    operationLogDate: {},
     // date: new Date().format('yyyy-MM-dd'),
     // leftDay: function(dom, type) {
     //     var $this = $(dom).parent().find('input');
@@ -43,7 +43,7 @@ app.operationLog = {
     //     }
     // },
     // dateInte: function() {
-    //     $(".operationLogDate").val(this.date);
+    //     $(".app.operationLog.operationLogDate").val(this.date);
     // },
     // showTab: function(dom) {
     //     var dom = $(dom).parent();
@@ -59,70 +59,104 @@ app.operationLog = {
     //     //    dom.find(".tabContent").slideDown(200);
     //     //}
     // },
-    initDate: function(dateType, type) {
-        var idName = type == "detail" ? operationLogDetailName : operationLogStoreIdName;
+    initDate: function(dateType, idName) {
         app.tools.initDate(dateType, idName);
         $('.operaLog .dateLists .date_info').on('click', 'span', function(event) {
             $('.dateLists span').removeClass('active').find('i').remove();
             // $(this).addClass('active');
             $('.operaLog  .mask').click();
             if ($(this).attr('data-type') == 4) {
-                app.tools.setDate(operationLogDate);
+                app.tools.setDate(app.operationLog.operationLogDate);
                 $('.cystomDate').fadeIn(200);
                 $('.cystomDate .mask').addClass('mask_show');
                 $('.cystomDate .date_menu').addClass('date_menu_active');
                 $('.cystomDate .mask').height($('.bd').height());
             } else {
-                if (type == "detail") {
-                    app.operationLog.queryDetail(parseInt($(this).attr('data-type')));
+                if (idName == app.operationLog.operationLogDetailName) {
+                    app.operationLog.queryDetail(parseInt($(this).attr('data-type')), 'date');
                 } else {
-                    app.operationLog.querystore(parseInt($(this).attr('data-type')));
+                    app.operationLog.querystore(parseInt($(this).attr('data-type')), 'date');
                 }
 
             }
         });
     },
-    initCystomDate: function(dateType, type) {
-        var idName = type == "detail" ? operationLogDetailName : operationLogStoreIdName;
+    initCystomDate: function(dateType, idName) {
         app.tools.initCystomDate(dateType, idName);
         //确定自定义时间选择
-        $('.operaLog .cystomDate').on('click', '.saveDate', function() {
+        $('.cystomDate').on('click', '.saveDate', function() {
             $('.operaLog  .mask').click();
-            if (type == "detail") {
-                app.operationLog.queryDetail(4);
+            if (idName == app.operationLog.operationLogDetailName) {
+                app.operationLog.queryDetail(4, 'date');
             } else {
-                app.operationLog.querystore(4);
+                app.operationLog.querystore(4, 'date');
             }
         });
     },
-    querystore: function(type) {
-
+    initStoreList: function(idName) {
+        app.tools.initStoreList(idName);
+        //点击切换门店
+        $('.operaLog .storeLists .stores').on('click', 'span', function(event) {
+            $('.storeLists span').removeClass('active').find('i').remove();
+            $(this).addClass('active').append('<i></i>');
+            $('.operaLog .storeLists .mask').click();
+            app.operationLog.querystore($(this).attr('data-id'), 'storeIds');
+        });
+    },
+    querystore: function(result, type) {
+        var newoperaLog = {
+            storeIds: employee.storeIds,
+            storeList: employee.storeList
+        };
         var query = {};
-        var performanceInfo = null;
-        if (type == "init") {
-            //  var performanceInfo = null;
-            if (localStorage.performanceInfo && JSON.parse(localStorage.performanceInfo)) {
-                performanceInfo = JSON.parse(localStorage.performanceInfo);
-                query.dateType = performanceInfo.dataType;
-            }
-            query.storeIds = performanceInfo.storeIds;
-            //自定义
-            if (performanceInfo.dataType == 4) {
-                query.startDate = performanceInfo.startDate;
-                query.endDate = performanceInfo.endDate;
-                operationLogDate = {
-                    startDate: query.startDate,
-                    endDate: query.endDate
-                };
-            } else {
-                app.tools.getDateType(performanceInfo.dataType, query, operationLogDate)
-            }
+        var storeIds = $('.operaLog .storeList .store_name').attr('data-storeId');
+        if (storeIds && storeIds.trim()) {
+            newoperaLog.storeId = $('.operaLog .storeList .store_name').attr('data-storeId');
+            query.storeIds = $('.operaLog .storeList .store_name').attr('data-storeId');
         } else {
-            query.dateType = type ? type : 1;
-            app.tools.getDateType(query.dateType, query, operationLogDate)
+            newoperaLog.storeId = employee.storeIds;
+            query.storeIds = employee.storeIds;
         }
-        app.startLoading();
+        var dateType = $('.operaLog .dateList .date_name').attr('data-type');
+        if (dateType && dateType.trim()) {
+            newoperaLog.dateType = $('.operaLog .dateList .date_name').attr('data-type');
+            app.tools.getDateType(parseInt(newoperaLog.dateType), query, app.operationLog.operationLogDate);
+        } else {
+            newoperaLog.dateType = 1;
+            query.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
+            query.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
+        }
+        switch (type) {
+            case 'storeIds':
+                query.storeIds = result;
+                newoperaLog.storeId = result;
+                break;
+            case 'date':
+                app.tools.getDateType(parseInt(result), query, app.operationLog.operationLogDate)
+                newoperaLog.dateType = result;
+                break;
+            case 'init':
+                var performanceInfo = null;
+                if (localStorage.performanceInfo && JSON.parse(localStorage.performanceInfo)) {
+                    performanceInfo = JSON.parse(localStorage.performanceInfo);
+                    newoperaLog.dateType = performanceInfo.dataType;
+                }
+                query.storeIds = performanceInfo.performanceStoreIds;
+                //自定义
+                if (performanceInfo.dataType == 4) {
+                    query.startDate = performanceInfo.startDate;
+                    query.endDate = performanceInfo.endDate;
+                    app.operationLog.operationLogDate = {
+                        startDate: query.startDate,
+                        endDate: query.endDate
+                    };
+                } else {
+                    app.tools.getDateType(performanceInfo.dataType, query, app.operationLog.operationLogDate);
+                }
+                break;
+        }
 
+        app.startLoading();
         app.api.operationLog.getOperatorStore({
             data: {
                 "query": [{
@@ -138,7 +172,7 @@ app.operationLog = {
                     "value": query.endDate
                 }, {
                     "field": "storeId",
-                    "value": JSON.parse(localStorage.performanceInfo).performanceStoreIds
+                    "value": query.storeIds
                         //  "value": app.operationLog.employee.storeIds
                 }],
                 "sort": [{
@@ -155,20 +189,30 @@ app.operationLog = {
                     dateType: query.dateType
                 }
                 window.localStorage.setItem("queryInfo", JSON.stringify(app.operationLog.queryInfo));
+                newoperaLog.operationInfo = res.data;
                 app.endLoading();
                 // app.operationLog.dateInte();
                 // if (res.success && res.data && res.data.length > 0) {
                 var html = $('#tmpl-operationLogStore').html();
-                var template = tmpl(html, res.data);
+                var template = tmpl(html, newoperaLog);
                 $('#tpl-operationLogStore').html(template);
-
                 // } else {
                 //     app.tools.show("tpl-operationLogStore")
                 // }
-                app.operationLog.initDate(query.dateType, "query");
-                app.operationLog.initCystomDate(query.dateType, "query");
-                // $('.dateLists span').removeClass('active').find('i').remove();
-                $('.dateLists span').eq(parseInt(query.dateType) - 1).addClass('active');
+                app.operationLog.initStoreList(app.operationLog.operationLogStoreIdName);
+                app.operationLog.initDate(newoperaLog.dateType, app.operationLog.operationLogStoreIdName);
+                app.operationLog.initCystomDate(newoperaLog.dateType, app.operationLog.operationLogStoreIdName);
+                if (query.storeIds == employee.storeIds) {
+                    $('.storeLists span:first').addClass('active').append('<i></i>');
+                } else {
+                    for (var i = 0; i <= newoperaLog.storeList.length - 1; i++) {
+                        var storeIds = newoperaLog.storeList[i].id;
+                        if (storeIds == query.storeIds || storeIds == parseInt(query.storeIds)) {
+                            $('.storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
+                        }
+                    }
+                }
+                $('.dateLists span').eq(parseInt(newoperaLog.dateType) - 1).addClass('active');
             },
             error: function(err) {
                 console.log(err);
@@ -187,16 +231,16 @@ app.operationLog = {
             if (queryInfo.dateType == 4) {
                 query.startDate = queryInfo.startTime;
                 query.endDate = queryInfo.endTime;
-                operationLogDate = {
+                app.operationLog.operationLogDate = {
                     startDate: query.startDate,
                     endDate: query.endDate
                 };
             } else {
-                app.tools.getDateType(query.dateType, query, operationLogDate)
+                app.tools.getDateType(query.dateType, query, app.operationLog.operationLogDate)
             }
         } else {
             query.dateType = type ? type : 1;
-            app.tools.getDateType(query.dateType, query, operationLogDate)
+            app.tools.getDateType(query.dateType, query, app.operationLog.operationLogDate)
         }
         app.startLoading();
         app.api.operationLog.getOperatorDetail({
@@ -229,17 +273,18 @@ app.operationLog = {
 
                 // app.operationLog.dateInte();
                 // if (res.success && res.data && res.data.length > 0) {
-                var data;
-                if (res.data.cardList.length > 0 || res.data.memberList.length > 0 || res.data.orderList.length > 0 || res.data.sysList.length > 0) {
-                    data = app.operationLog.detailToArray(res.data);
-                } else {
-                    data = [];
-                }
+                // var data;
+                // if (res.data.cardList.length > 0 || res.data.memberList.length > 0 || res.data.orderList.length > 0 || res.data.sysList.length > 0) {
+                //     data = app.operationLog.detailToArray(res.data);
+                // } else {
+                //     data = [];
+                // }
                 var html = $('#tmpl-operationLogDetail').html();
-                var template = tmpl(html, data);
+                var template = tmpl(html, res.data);
                 $('#tpl-operationLogDetail').html(template);
-                app.operationLog.initDate(query.dateType, 'detail');
-                app.operationLog.initCystomDate(query.dateType, 'detail');
+                app.tools.initSwiper(25);
+                app.operationLog.initDate(query.dateType, app.operationLog.operationLogDetailName);
+                app.operationLog.initCystomDate(query.dateType, app.operationLog.operationLogDetailName);
                 $('.dateLists span').eq(parseInt(query.dateType) - 1).addClass('active');
 
 
@@ -260,16 +305,16 @@ app.operationLog = {
             error: function() {}
         })
     },
-    detailToArray: function(data) {
-        var self = []
-        self = [
-            { name: "订单操作", value: data.orderList },
-            { name: "会员卡操作", value: data.cardList },
-            { name: "会员操作", value: data.memberList },
-            { name: "其他操作", value: data.sysList }
-        ]
-        return self;
-    },
+    // detailToArray: function(data) {
+    //     var self = []
+    //     self = [
+    //         { name: "订单操作", value: data.orderList },
+    //         { name: "会员卡操作", value: data.cardList },
+    //         { name: "会员操作", value: data.memberList },
+    //         { name: "其他操作", value: data.sysList }
+    //     ]
+    //     return self;
+    // },
     goUser: function() {
         localStorage.clear();
         location.href = "/userinfo.html#/user_login";
@@ -298,7 +343,7 @@ app.operationLog = {
             }
             //start
             window.localStorage.setItem("queryInfo", "");
-            app.operationLog.querystore('init');
+            app.operationLog.querystore("", 'init');
             $("#container").tap(".logContent", function() {
                 var storeid = $(this.ele).attr("data-storeId")
                 app.operationLog.goDetail(storeid)
@@ -336,7 +381,7 @@ app.changeDetail = {
                     $('#tpl-changeDetail').html(template);
                 }
             },
-            error:function(){
+            error: function() {
                 app.operationLog.goReport();
             }
         })
