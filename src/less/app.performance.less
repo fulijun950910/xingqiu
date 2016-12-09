@@ -953,9 +953,10 @@ ul {
     position: relative;
     width: 100%;
     background-color: #FFF;
-    color: #C8C8C8;
-    border-bottom: 1px solid #D1D1D1;
-    box-shadow: 0px 1px 3px #D1D1D1;
+    color: @font-primary-color;
+    .box-shadow;
+    // border-bottom: 1px solid #D1D1D1;
+    // box-shadow: 0px 1px 3px #D1D1D1;
     .headerFence9 {
         position: relative;
         text-align: center;
@@ -1016,18 +1017,65 @@ ul {
 }
 
 .orderList {
+    // position: relative;
+    // width: 100%;
+    // background-color: #FFF;
+    // margin-top: .8em;
     position: relative;
     width: 100%;
-    background-color: #FFF;
     margin-top: .8em;
-    border-top: 1px solid #EEE;
-    border-bottom: 1px solid #D1D1D1;
-    box-shadow: 0px 1px 3px #D1D1D1;
-    color: #686868;
+    color: #333;
+    // margin-bottom: 3vw !important;
+    border-radius: 5px;
+    background: #fff;
+    // padding-bottom:3vw;
+    // 
+    .border-bottom;
+    .box-shadow;
+    // border-bottom: 1px solid #D1D1D1;
+    // box-shadow: 0px 1px 3px #D1D1D1;
+    color: @font-primary-color;
     .orderList9 {
         position: relative;
-        width: 96%;
-        margin: auto;
+        border-radius: 5px;
+        //  width: 98%;
+        // margin: auto;
+        .financial-item {
+            box-shadow: none;
+            margin-bottom: 0;
+            img {
+                width: 45px;
+                height: 45px;
+                border-radius: 50%;
+            }
+            .total-price {
+                position: absolute;
+                top: 33%;
+                right: 1vw;
+            }
+            .activeInfo {
+                position: absolute;
+                left: 0;
+                top: 0;
+                .active {
+                    width: 0;
+                    height: 0;
+                    border-top: 11vw solid @primary-color;
+                    border-right: 11vw solid transparent;
+                    position: absolute;
+                }
+                .buyStatus {
+                    color: #fff;
+                    position: absolute;
+                    font-size: 12px;
+                    top: .4vw;
+                    left: -.3vw;
+                    transform: rotate(-45deg);
+                    display: block;
+                    width: 30px;
+                }
+            }
+        }
         .lisetHead {
             color: #000;
             font-size: 3.6vw;
@@ -1043,7 +1091,7 @@ ul {
             }
         }
         .orderContent {
-            background: #F2F2F2;
+            // background: #F2F2F2;
             .orderItemImage {
                 position: relative;
                 margin: 2vw;
@@ -1075,7 +1123,7 @@ ul {
         }
         .orderClientName {
             position: relative;
-            margin: 3vw 0 2vw;
+            // margin: 3vw 0 2vw;
             color: #6F6F6F;
             span {
                 color: #6F6F6F;
@@ -1210,10 +1258,10 @@ ul {
     -o-text-size-adjust: none;
     text-size-adjust: none;
     img {
-        width: 10vw;
-        height: 10vw;
+        width: 8vw;
+        height: 8vw;
         border-radius: 100%;
-        margin-right: 5vw;
+        margin-right: 2vw;
     }
 }
 
@@ -1226,23 +1274,24 @@ ul {
 }
 
 .scroller {
-    z-index: 2;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    -webkit-transform: translateZ(0);
-    -moz-transform: translateZ(0);
-    -ms-transform: translateZ(0);
-    -o-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-text-size-adjust: none;
-    -moz-text-size-adjust: none;
-    -ms-text-size-adjust: none;
-    -o-text-size-adjust: none;
-    text-size-adjust: none;
+    // z-index: 2;
+    // -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    // -webkit-transform: translateZ(0);
+    // -moz-transform: translateZ(0);
+    // -ms-transform: translateZ(0);
+    // -o-transform: translateZ(0);
+    // transform: translateZ(0);
+    // -webkit-touch-callout: none;
+    // -webkit-user-select: none;
+    // -moz-user-select: none;
+    // -ms-user-select: none;
+    // user-select: none;
+    // -webkit-text-size-adjust: none;
+    // -moz-text-size-adjust: none;
+    // -ms-text-size-adjust: none;
+    // -o-text-size-adjust: none;
+    // text-size-adjust: none;
+    // min-height:100vh;
 }
 
 //订单详情
@@ -1315,9 +1364,9 @@ ul {
 
 //订单列表
 .orderlist-wrapper {
-    top: 1.8em;
+    //  top: 15vw;
     // bottom: 15vw;
-  // margin-bottom: 57px;
+    // margin-bottom: 57px;
 }
 
 //预约单部分
@@ -1346,64 +1395,83 @@ ul {
     margin-top: 0em;
 }
 
-.tool-tab {
-    height: 10vh;
-    position: relative;
-    ul {
-        background: #fff;
-        color: #666;
-        height: 100%;
-        display: flex;
-        li {
-            list-style: none;
-            width: 50%;
-            height: 100%;
-            line-height: 10vh;
-            text-align: center;
-            &.active {
-                color: #4ED9CF;
-            }
-        }
+// .tool-tab {
+//     height: 10vh;
+//     position: relative;
+//     ul {
+//         background: #fff;
+//         color: #666;
+//         height: 100%;
+//         display: flex;
+//         li {
+//             list-style: none;
+//             width: 50%;
+//             height: 100%;
+//             line-height: 10vh;
+//             text-align: center;
+//             &.active {
+//                 color: #4ED9CF;
+//             }
+//         }
+//     }
+// }
+// .tab-container {
+//     min-height: 90vh;
+//     background: #f5f5f5;
+// }
+// .active {
+//     color: #4ED9CF;
+// }
+// .line {
+//     margin-left: 15vw;
+//     display: block;
+//     position: absolute;
+//     width: 20vw;
+//     height: 1px;
+//     background: #4ED9CF;
+//     transition: left .5s;
+//     left: 0;
+//     bottom: 0;
+//     transition: left 1s;
+// }
+// .line-animation {
+//     left: 50vw;
+// }
+// .swiper-container {
+//     background: #F5F5F5;
+//     min-height: 100%;
+//     .weui_cell {
+//         padding: 5px 15px !important;
+//         position: relative;
+//         display: -webkit-box;
+//         display: -webkit-flex;
+//         display: flex;
+//         -webkit-box-align: center;
+//         -webkit-align-items: center;
+//         align-items: center;
+//     }
+// }
+#performance_rank {
+    .swiper-wrapper {
+        min-height: calc(88vh - 57px);
+        min-height: -webkit-calc(88vh - 57px)
     }
-}
-
-.tab-container {
-    min-height: 90vh;
-    background: #f5f5f5;
-}
-
-.active {
-    color: #4ED9CF;
-}
-
-.line {
-    margin-left: 15vw;
-    display: block;
-    position: absolute;
-    width: 20vw;
-    height: 1px;
-    background: #4ED9CF;
-    transition: left .5s;
-    left: 0;
-    bottom: 0;
-    transition: left 1s;
-}
-
-.line-animation {
-    left: 50vw;
-}
-
-.swiper-container {
-    background: #F5F5F5;
-    min-height: 100%;
+    .swiper-container-autoheight,
+    .swiper-container-autoheight .swiper-slide {
+        margin-top: 2vw;
+    }
     .weui_cell {
-        padding: 5px 15px !important;
-        position: relative;
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-align: center;
-        -webkit-align-items: center;
-        align-items: center;
+        padding: 5px 15px;
+    }
+    .tool-tab {
+        ul {
+            margin-top: 0;
+        }
+        .line {
+            width: 50vw;
+        }
+        .line-animation {
+            left: 50vw;
+        }
     }
 }

@@ -127,6 +127,7 @@ app.member = {
                         var storeIds = newMember.storeList[i].id;
                         if (storeIds == data.storeIds || storeIds == parseInt(data.storeIds)) {
                             $('.storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
+                            break;
                         }
                     }
                 }
@@ -212,6 +213,7 @@ app.member = {
                         var storeIds = arrivalMember.storeList[i].id;
                         if (storeIds == data.storeIds || storeIds == parseInt(data.storeIds)) {
                             $('.storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
+                            break;
                         }
                     }
                 }

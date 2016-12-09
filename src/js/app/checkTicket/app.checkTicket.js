@@ -86,6 +86,7 @@
                      if (ticketInfo.employeeInfo.storeList[i].id == storeIdActive || ticketInfo.employeeInfo.storeList[i].id == parseInt(storeIdActive)) {
                          $('.storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
                          $('.verifyTicketInstance .storeList').find('.store_name').text(ticketInfo.employeeInfo.storeList[i].name);
+                         return;
                      }
                  }
              }

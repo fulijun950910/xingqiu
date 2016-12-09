@@ -18,7 +18,7 @@ app.performance.order = {
                 $('.cystomDate .date_menu').addClass('date_menu_active');
                 $('.cystomDate .mask').height($('.bd').height());
             } else {
-                app.performance.order.list(parseInt($(this).attr('data-type')));
+                app.performance.order.list(parseInt($(this).attr('data-type')), "date");
             }
         });
     },
@@ -27,7 +27,27 @@ app.performance.order = {
         //确定自定义时间选择
         $('.cystomDate').on('click', '.saveDate', function() {
             $('.performance-order-list  .mask').click();
-            app.performance.order.list(4);
+            app.performance.order.list(4, "date");
+        });
+    },
+    initStoreList: function() {
+        app.tools.initStoreList(app.performance.order.orderlIstIdName);
+        //点击切换门店
+        $('.employee_echarts .storeLists .stores').on('click', 'span', function(event) {
+            $('.storeLists span').removeClass('active').find('i').remove();
+            $(this).addClass('active').append('<i></i>');
+            $('.employee_echarts .storeLists .mask').click();
+            app.performance.order.list(parseInt($(this).attr('data-id')), 'storeIds');
+        });
+    },
+    initStatusList: function() {
+        app.tools.initTempData('orderLists', app.performance.order.orderlIstIdName);
+        //点击排序
+        $('.employee_echarts .tempLists .date_info').on('click', 'span', function(event) {
+            $('.tempLists span').removeClass('active').find('i').remove();
+            $(this).addClass('active');
+            $('.employee_echarts  .mask').click();
+            app.performance.order.list(parseInt($(this).attr('data-status')), 'status');
         });
     },
     page: {
@@ -43,19 +63,18 @@ app.performance.order = {
         app.performance.order.page.page = 1;
         app.performance.order.performance = 0;
         app.performance.order.commission = 0;
-        $('#total-performance').text('￥0.00');
-        $('#total-push').text('￥0.00');
+        // $('#total-performance').text('￥0.00');
+        // $('#total-push').text('￥0.00');
         if (typeof myScroll != 'undefined')
             myScroll.refresh();
     },
-    list: function(dateType) {
+    list: function(dateType, type) {
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
                 app.performance.order.destory();
                 var orderList = {};
                 var info = JSON.parse(localStorage.getItem("performanceInfo"));
                 orderList.dataType = info.dataType;
-
                 var data = {
                     type: 2, //员工
                     page: app.performance.order.page.page,
@@ -83,29 +102,35 @@ app.performance.order = {
                     //百度事件统计
                     baiduStatistical.add({ category: '员工-订单列表', label: '当日订单', val: '', action: 'click' });
                 }
-
                 app.startLoading();
-                app.performance.order.initDate(orderList.dataType);
-                app.performance.order.initCystomDate(orderList.dataType);
-                $('.dateLists span').removeClass('active').find('i').remove();
-                $('.dateLists span').eq(parseInt(orderList.dataType) - 1).addClass('active');
                 app.api.order.list({
                     data: data,
                     success: function(result) {
                         app.endLoading();
-                        if (!result.success || !result.data || !result.data.orderListVo) {
-                            setTimeout(function() {
-                                app.tools.show('order-scroller');
-                            }, 200);
-                            return;
-                        }
-                        app.performance.order.page.total = result.data.total;
-                        app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
+                        // if (!result.success || !result.data || !result.data.orderListVo) {
+                        //     setTimeout(function() {
+                        //         app.tools.show('order-scroller');
+                        //     }, 200);
+                        //     return;
+                        // }orderList.datas = result.data.orderListVo;
                         orderList.datas = result.data.orderListVo;
-                        app.performance.order.countPerformance(result.data.orderListVo);
+                        orderList.storeIds = employee.storeIds;
+                        orderList.storeList = employee.storeList;
+                        orderList.storeId = data.ids;
+                        orderList.status = "";
                         var html = $('#tmpl-order-list').html();
                         var template = tmpl(html, orderList);
                         $('#order-scroller').html(template);
+                        if (!result.success || !result.data || !result.data.orderListVo) {
+                            app.performance.order.page.total = result.data.total;
+                            app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
+                            app.performance.order.countPerformance(result.data.orderListVo);
+                        }
+                        app.performance.order.initDate(orderList.dataType);
+                        app.performance.order.initCystomDate(orderList.dataType);
+                        app.performanceInfo.order.initStoreList();
+                        app.performance.order.initStatusList();
+                        $('.dateLists span').eq(parseInt(orderList.dataType) - 1).addClass('active');
                     },
                     error: function(error) {
                         app.endLoading();
@@ -514,7 +539,11 @@ app.performance.order = {
             app.performance.order.performance = parseInt(app.performance.order.performance) + parseInt(orderVo.performance);
             app.performance.order.commission = parseInt(app.performance.order.commission) + parseInt(orderVo.commission);
         }
-        $('#total-performance').text('￥' + app.performance.order.fenToYuan(app.performance.order.performance));
-        $('#total-push').text('￥' + app.performance.order.fenToYuan(app.performance.order.commission));
+        // $('#total-performance').text('￥' + app.performance.order.fenToYuan(app.performance.order.performance));
+        // $('#total-push').text('￥' + app.performance.order.fenToYuan(app.performance.order.commission));
+        $('#total-performance').find('.performance-priceY').text(app.tools.changePrice(app.performance.order.performance)[0]);
+        $('#total-performance').find('.performance-priceF').text(app.tools.changePrice(app.performance.order.performance)[1]);
+        $('#total-push').find('.push-priceY').text(app.tools.changePrice(app.performance.order.commission)[0]);
+        $('#total-push').find('.push-priceF').text(app.tools.changePrice(app.performance.order.commission)[1]);
     }
 }

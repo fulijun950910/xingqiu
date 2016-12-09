@@ -13,7 +13,7 @@
             <!--% for (var i=0; i <o.financialInfoDetails.length; i++) { %-->
             <div class="financial-item">
                 <div layout="row" layout-align="space-between center">
-                    <div class="logo" flex="20">
+                    <div class="logo" flex="15">
                         <img id="comment-pic" src="{%=app.filePath + o.financialInfoDetails[i].memberAvatarId %}" onerror="this.src='images/default_female.png'">
                     </div>
                     <div class="info" layout="column" flex="65">
@@ -32,6 +32,11 @@
                         <span class="primary-color font-priceF-size " flex>￥<span class="font-priceY-size">{%= app.tools.changePrice(o.financialInfoDetails[i].price)[0] %}</span>.{%= app.tools.changePrice(o.financialInfoDetails[i].price)[1] %}</span>
                     </div>
                 </div>
+                  <div class="activeInfo">
+                    <span class="active"></span>
+                    <span class="buyStatus">{%= app.tools.getConstantByValue(app.constant.ORDER_STATUS,o.financialInfoDetails[i].status) %}</span>
+                </div>
+
             </div>
             <!--% } %-->
             <!--% } %-->

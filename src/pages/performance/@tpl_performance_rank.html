@@ -1,16 +1,9 @@
 <script type="text/html" id="tpl_performance_rank">
     <!-- //隐藏标题 -->
     <div id="hiddenTitle" class="hiddenTitle">业绩排名</div>
-    <div class="hd" id="performance_rank" style="min-height: 100vh;overflow: scroll;">
+    <div class="hd bd performance-rank" id="performance_rank" style="min-height: 100vh;overflow: scroll;">
     </div>
     <script type="text/html" id="tmpl-emp-rank">
-        <div class="emp_report">
-            <p class="report_look">
-                数据查看
-                <a id="showActionSheet_rank" style="display:none;" href="javascript:;">
-        {%= o.storeName %}&gt;</a>
-            </p>
-        </div>
         <div class="tool-tab">
             <ul>
                 <li class="active">业绩排名</li>
@@ -19,86 +12,97 @@
             <span class="line"></span>
         </div>
         <div style=" z-index: 1; width: 100%;overflow: scroll;">
-            <div class="swiper-container ">
+            <div class="swiper-container">
                 <div class="swiper-wrapper">
+
                     <div class="swiper-slide tab-content-1">
                         <div id="scroller">
-                            <div class="weui_cells" style="margin: 0; ">
-                                <!--% for (var i=0; i <o.data[0].achievementList.length; i++) { %-->
-                                <!--  % if (o.userid==o.data.userid) { %
+                            <!--%if(!o  || o.achievementList.length==0){ %-->
+                            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c">  亲~,该门店暂时还没有排名...</span></div>
+                            <!--% } else { %-->
+                            <div class="weui_cells" style="margin: 0;">
+                                <!--% for (var i=0,len=o.achievementList.length; i <len; i++) { %-->
                                 <div class="weui_cell">
                                     <div>
-                                        <img id="comment-pic" src="{%=app.filePath + o.data[0].achievementList[i].employeeAvatarId %}" onerror="this.src='images/default_female.png'">
+                                        <img id="comment-pic" src="{%=app.filePath + o.achievementList[i].employeeAvatarId %}" onerror="this.src='images/default_female.png'">
                                     </div>
-                                    <div class="weui_cell_bd weui_cell_primary">
-                                        <p>我</p>
+                                    <div class="weui_cell_bd weui_cell_primary font-size-12">
+                                        <p>{%=o.achievementList[i].employeeName%}</p>
                                     </div>
-                                    <div class="weui_cell_ft">{%=o.data[0].achievementList[i].performance %}</div>
-                                </div>
-                                % }else{ % -->
-                                <div class="weui_cell">
-                                    <div>
-                                        <img id="comment-pic" src="{%=app.filePath + o.data[0].achievementList[i].employeeAvatarId %}" onerror="this.src='images/default_female.png'">
+                                    <div class="weui_cell_ft"><span class="primary-color font-priceF-size" id="total-push">￥<span class="font-priceY-size push-priceY">{%=app.tools.changePrice(o.achievementList[i].performance)[0]%}</span>.<span class="push-priceF">{%=app.tools.changePrice(o.achievementList[i].performance)[1]%}</span></span>
                                     </div>
-                                    <div class="weui_cell_bd weui_cell_primary">
-                                        <p>{%=o.data[0].achievementList[i].employeeName%}</p>
-                                    </div>
-                                    <div class="weui_cell_ft">{%= app.tools.toThousands(o.data[0].achievementList[i].performance.toFixed(2))%}</div>
                                 </div>
                                 <!--%  } %-->
                             </div>
+                              <!--%  } %-->
                         </div>
                     </div>
                     <div class="swiper-slide tab-content-2">
                         <div id="scroller">
-                            <div class="weui_cells" style="margin: 0; ">
-                                <!--% for (var i=0; i <o.data[0].cardConsumeList.length; i++) { %-->
-                                <!--                % if (o.userid==o.data.userid) { %
+                            <!--%if(!o || o.cardConsumeList.length==0){ %-->
+                            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c">  亲~,该门店暂时还没有排名...</span></div>
+                            <!--% } else { %-->
+                            <div class="weui_cells" style="margin: 0;">
+                                <!--% for (var i=0,len=o.cardConsumeList.length; i <len; i++) { %-->
+                              
                                 <div class="weui_cell">
                                     <div>
-                                        <img id="comment-pic" src="{%=app.filePath + o.data[0].cardConsumeList[i].employeeAvatarId %}" onerror="this.src='images/default_female.png'">
+                                        <img id="comment-pic" src="{%=app.filePath + o.cardConsumeList[i].employeeAvatarId %}" onerror="this.src='images/default_female.png'">
                                     </div>
-                                    <div class="weui_cell_bd weui_cell_primary">
-                                        <p>我</p>
+                                    <div class="weui_cell_bd weui_cell_primary font-size-12">
+                                        <p>{%=o.cardConsumeList[i].employeeName%}</p>
                                     </div>
-                                    <div class="weui_cell_ft">{%=o.data[0].cardConsumeList[i].performance %}</div>
-                                </div>
-                                % }else{ % -->
-                                <div class="weui_cell">
-                                    <div>
-                                        <img id="comment-pic" src="{%=app.filePath + o.data[0].cardConsumeList[i].employeeAvatarId %}" onerror="this.src='images/default_female.png'">
+                                    <div class="weui_cell_ft"><span class="primary-color font-priceF-size" id="total-push">￥<span class="font-priceY-size push-priceY">{%=app.tools.changePrice(o.cardConsumeList[i].performance)[0]%}</span>.<span class="push-priceF">{%=app.tools.changePrice(o.cardConsumeList[i].performance)[1]%}</span></span>
                                     </div>
-                                    <div class="weui_cell_bd weui_cell_primary">
-                                        <p>{%=o.data[0].cardConsumeList[i].employeeName%}</p>
-                                    </div>
-                                    <div class="weui_cell_ft">{%= app.tools.toThousands(o.data[0].cardConsumeList[i].performance.toFixed(2))%}</div>
                                 </div>
                                 <!--% } %-->
                             </div>
+                             <!--% } %-->
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
+        <div style="height: 57px;"></div>
+        <!-- 面包 导航-->
+        <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
+            <div onclick="app.goBack()" flex="50">
+                <i class="ic">&#xe68b;</i>
+                    <span>返回</span>
+                </div>
+                <div flex="50" class="storeList">
+                  <i class="ic"> &#xe645;</i>
+                <span>门店</span>
+            </div>
         </div>
-        </div>
+                    <!-- 切换门店 -->
+            <div class="storeLists">
+                <div class="mask"></div>
+                <div class="stores">
+                    <div class="stores-info">
+                        <!--% for (var i=0; i <o.storelist.length; i++) { %-->
+                        <span data-id="{%=o.storelist[i].id %}">{%= o.storelist[i].name %}</span>
+                        <!--% } %-->
+                    </div>
+                </div>
+            </div>
+    </script>
+</script>
         <!-- 页脚 -->
         <!-- <div class="pagfooter">
             <p>赚钱是痛苦的 / 花钱是快乐的 / 日子是无聊的</p>
         </div> -->
-        <div id="actionSheet_wrap">
+<!--         <div id="actionSheet_wrap">
             <div class="weui_mask_transition" id="mask_rank"></div>
             <div class="weui_actionsheet" id="weui_actionsheet_rank">
                 <div id="storeRankSheet" style="width: 100vw;max-height: 80vh;overflow-y: scroll;" class="weui_actionsheet_menu">
-                    <!--% for (var i=0; i <o.storelist.length; i++) { %-->
-                    <div name="{%= o.storelist[i].id %}" class="weui_actionsheet_cell">{%= o.storelist[i].name %}</div>
-                    <!--% } %-->
+                    % for (var i=0; i <o.storelist.length; i++) { %
+                    <div name="{%=o .storelist[i].id %}" class="weui_actionsheet_cell">{%= o.storelist[i].name %}</div>
+                    % } %
                 </div>
                 <div class="weui_actionsheet_action">
                     <div class="weui_actionsheet_cell" id="actionsheet_cancel_rank">取消</div>
                 </div>
             </div>
-        </div>
-        </div>
-    </script>
-</script>
+        </div> -->

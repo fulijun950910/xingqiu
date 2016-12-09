@@ -77,6 +77,7 @@ app.memberEcharts = {
                 var storeId = memberData.storeList[i].id;
                 if (storeId == data.storeId || storeId == parseInt(data.storeId)) {
                     $('.member_echarts .storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
+                    return;
                 }
             }
         }, function(error) {

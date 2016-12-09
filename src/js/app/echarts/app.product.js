@@ -163,18 +163,18 @@ app.productEcharts = {
             app.productEcharts.initDate(query.dataType); //初始化时间
             app.productEcharts.initStoreList(); //初始化门店
             app.productEcharts.initCystomDate(query.dataType); //初始化自定义时间
+              $('.dateLists span').eq(parseInt(query.dataType) - 1).addClass('active');
             if (query.storeIds == results.storeIds) {
-                $('.storeLists span:first').addClass('active').append('<i></i>');
+                $('.storeLists span:first').addClass('active').append('<i></i>');   //日期名称
             } else {
                 for (var i = 0; i <= results.storeList.length - 1; i++) {
                     var storeId = results.storeList[i].id;
                     if (storeId == query.storeIds || storeId == parseInt(query.storeIds)) {
                         $('.storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
+                        return;
                     }
                 }
             }
-            //日期名称
-            $('.dateLists span').eq(parseInt(query.dataType) - 1).addClass('active');
         }, function(error) {
             app.alert(error);
         });

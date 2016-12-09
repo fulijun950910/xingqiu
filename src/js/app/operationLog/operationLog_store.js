@@ -209,6 +209,7 @@ app.operationLog = {
                         var storeIds = newoperaLog.storeList[i].id;
                         if (storeIds == query.storeIds || storeIds == parseInt(query.storeIds)) {
                             $('.storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
+                            break;
                         }
                     }
                 }

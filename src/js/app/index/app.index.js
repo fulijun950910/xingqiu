@@ -221,6 +221,7 @@ app.index = {
                     for (i in memberData.employeeList) {
                         if (memberData.employeeList[i].id == employee.id) {
                             $('.index #employeeList .employee_item').eq(i).append('<span class="active"><i class="ic">&#xe659;</i></span>');
+                            break;
                         }
                     }
                 }

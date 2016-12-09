@@ -180,6 +180,7 @@ app.income = {
                         if (storeId == data.storeIds || storeId == parseInt(data.storeIds)) {
                             $('.storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
                             $('.income .storeList').find('.store_name').text(memberData.storeList[i].name);
+                            break;
                         }
                     }
                 }
