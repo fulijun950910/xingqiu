@@ -33,20 +33,20 @@ app.performance.order = {
     initStoreList: function() {
         app.tools.initStoreList(app.performance.order.orderlIstIdName);
         //点击切换门店
-        $('.employee_echarts .storeLists .stores').on('click', 'span', function(event) {
+        $('.performance-order-list .storeLists .stores').on('click', 'span', function(event) {
             $('.storeLists span').removeClass('active').find('i').remove();
             $(this).addClass('active').append('<i></i>');
-            $('.employee_echarts .storeLists .mask').click();
+            $('.performance-order-list .storeLists .mask').click();
             app.performance.order.list(parseInt($(this).attr('data-id')), 'storeIds');
         });
     },
     initStatusList: function() {
         app.tools.initTempData('orderLists', app.performance.order.orderlIstIdName);
         //点击排序
-        $('.employee_echarts .tempLists .date_info').on('click', 'span', function(event) {
+        $('.performance-order-list .tempLists .date_info').on('click', 'span', function(event) {
             $('.tempLists span').removeClass('active').find('i').remove();
             $(this).addClass('active');
-            $('.employee_echarts  .mask').click();
+            $('.performance-order-list  .mask').click();
             app.performance.order.list(parseInt($(this).attr('data-status')), 'status');
         });
     },
@@ -69,76 +69,119 @@ app.performance.order = {
             myScroll.refresh();
     },
     list: function(dateType, type) {
-        app.userinfo.getEmployee().then(function(employee) {
-            if (employee) {
-                app.performance.order.destory();
-                var orderList = {};
-                var info = JSON.parse(localStorage.getItem("performanceInfo"));
-                orderList.dataType = info.dataType;
-                var data = {
-                    type: 2, //员工
-                    page: app.performance.order.page.page,
-                    size: app.performance.order.page.size,
-                    startTime: info.startDate,
-                    endTime: info.endDate,
+        var query = {};
+        // app.userinfo.getEmployee().then(function(employee) {
+        app.performance.order.destory();
+        var orderList = {};
+        var storeIds = $('.performance-order-list .storeList .store_name').attr('data-storeId');
+        query.storeId = storeIds ? parseInt(storeIds) : employee.storeList[0].id
+            //dataType
+        var dataType = $('.performance-order-list .dateList .date_name').attr('data-type');
+        if (dataType && dataType.trim()) {
+            orderList.dataType = $('.performance-order-list .dateList .date_name').attr('data-type');
+            app.tools.getDateType(orderList.dataType, query, app.performance.order.orderDate)
+        } else {
+            orderList.dataType = 1;
+            query.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
+            query.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
+        }
+        var orderBy = $('.performance-order-list .orderLists .date_name').attr('data-orderby');
+        query.orderBy = orderBy ? orderBy : 1;
+        switch (type) {
+            case 'storeIds':
+                query.storeId = data;
+                break;
+            case 'date':
+                app.tools.getDateType(data, query, app.performance.order.orderDate)
+                orderList.dataType = data;
+                break;
+            case 'status':
+                query.orderBy = data;
+                query.orderByType = byType;
+                break;
+                //初始第一次页面
+            case 'init':
+                var employeeInfo = null;
+                if (localStorage.performanceInfo && JSON.parse(localStorage.performanceInfo)) {
+                    employeeInfo = JSON.parse(localStorage.performanceInfo);
+                    orderList.dataType = employeeInfo.dataType;
                 }
-                if (dateType) {
-                    orderList.dataType = dateType;
-                    app.tools.getDateType(dateType, data, app.performance.order.orderDate);
-                    data.startTime = data.startDate;
-                    data.endTime = data.endDate;
-                }
-                //
-                if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
-                    data.type = 1; //管理员
-                    data.ids = info.performanceStoreIds;
+                query.storeId = employeeInfo.performanceStoreIds;
+                //自定义
+                if (employeeInfo.dataType == 4) {
+                    query.startDate = employeeInfo.startDate;
+                    query.endDate = employeeInfo.endDate;
+                    app.performance.order.orderDate = {
+                        startDate: query.startDate,
+                        endDate: query.endDate
+                    };
                 } else {
-                    data.ids = employee.id;
+                    app.tools.getDateType(employeeInfo.dataType, query, app.performance.order.orderDate)
                 }
-                if (data.type == 1) {
-                    //百度事件统计
-                    baiduStatistical.add({ category: '管理员-订单列表', label: '当日订单', val: '', action: 'click' });
-                } else {
-                    //百度事件统计
-                    baiduStatistical.add({ category: '员工-订单列表', label: '当日订单', val: '', action: 'click' });
-                }
-                app.startLoading();
-                app.api.order.list({
-                    data: data,
-                    success: function(result) {
-                        app.endLoading();
-                        // if (!result.success || !result.data || !result.data.orderListVo) {
-                        //     setTimeout(function() {
-                        //         app.tools.show('order-scroller');
-                        //     }, 200);
-                        //     return;
-                        // }orderList.datas = result.data.orderListVo;
-                        orderList.datas = result.data.orderListVo;
-                        orderList.storeIds = employee.storeIds;
-                        orderList.storeList = employee.storeList;
-                        orderList.storeId = data.ids;
-                        orderList.status = "";
-                        var html = $('#tmpl-order-list').html();
-                        var template = tmpl(html, orderList);
-                        $('#order-scroller').html(template);
-                        if (!result.success || !result.data || !result.data.orderListVo) {
-                            app.performance.order.page.total = result.data.total;
-                            app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
-                            app.performance.order.countPerformance(result.data.orderListVo);
-                        }
-                        app.performance.order.initDate(orderList.dataType);
-                        app.performance.order.initCystomDate(orderList.dataType);
-                        app.performanceInfo.order.initStoreList();
-                        app.performance.order.initStatusList();
-                        $('.dateLists span').eq(parseInt(orderList.dataType) - 1).addClass('active');
-                    },
-                    error: function(error) {
-                        app.endLoading();
+                break;
+        }
+        var data = {
+            type: 2, //员工
+            page: app.performance.order.page.page,
+            size: app.performance.order.page.size,
+            startTime: query.startDate,
+            endTime: query.endDate,
+        };
+        if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
+            data.type = 1; //管理员
+            data.ids = query.storeId;
+        } else {
+            data.ids = employee.id;
+        }
+        if (data.type == 1) {
+            //百度事件统计
+            baiduStatistical.add({ category: '管理员-订单列表', label: '当日订单', val: '', action: 'click' });
+        } else {
+            //百度事件统计
+            baiduStatistical.add({ category: '员工-订单列表', label: '当日订单', val: '', action: 'click' });
+        }
+        app.startLoading();
+        app.api.order.list({
+                data: data,
+                success: function(result) {
+                    app.endLoading();
+                    // if (!result.success || !result.data || !result.data.orderListVo) {
+                    //     setTimeout(function() {
+                    //         app.tools.show('order-scroller');
+                    //     }, 200);
+                    //     return;
+                    // }orderList.datas = result.data.orderListVo;
+                    orderList.datas = result.data.orderListVo;
+                    orderList.storeIds = employee.storeIds;
+                    orderList.storeList = employee.storeList;
+                    orderList.storeId = data.ids;
+                    orderList.status = "";
+                    var html = $('#tmpl-order-list').html();
+                    var template = tmpl(html, orderList);
+                    $('#order-scroller').html(template);
+                    if (!result.success || !result.data || !result.data.orderListVo) {
+                        app.performance.order.page.total = result.data.total;
+                        app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
+                        app.performance.order.countPerformance(result.data.orderListVo);
                     }
-                })
-            }
-        }, function() {});
-
+                    app.performance.order.initDate(orderList.dataType);
+                    app.performance.order.initCystomDate(orderList.dataType);
+                    app.performance.order.initStoreList();
+                    app.performance.order.initStatusList();
+                    $('.dateLists span').eq(parseInt(orderList.dataType) - 1).addClass('active');
+                    for (var i = 0; i <= orderList.storeList.length - 1; i++) {
+                        var storeId = orderList.storeList[i].id;
+                        if (storeId == query.storeId || storeId == parseInt(query.storeId)) {
+                            $('.performance-order-list .storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
+                            return;
+                        }
+                    }
+                },
+                error: function(error) {
+                    app.endLoading();
+                }
+            })
+            // }, function() {});
     },
     detail: function() {
         app.startLoading();

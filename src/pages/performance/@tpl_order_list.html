@@ -58,7 +58,7 @@
                             <!-- <span class="time">{%=app.tools.toDetailDate(o.datas[i].orderDate,o.datas[i].nowDate) %}</span> -->
                             <div class="activeInfo">
                                 <span class="active"></span>
-                                <span class="buyStatus"><span>{%= app.tools.getConstantByValue(app.constant.ORDER_TYPE,o.datas[i].status) %}</span></span>
+                                <span class="buyStatus"><span>{%=app.tools.sliceStr( app.tools.getConstantByValue(app.constant.ORDER_TYPE,o.datas[i].status),4) %}</span></span>
                             </div>
                         </div>
                     </div>
@@ -129,6 +129,7 @@
             <div class="mask"></div>
             <div class="stores">
                 <div class="stores-info">
+                    <span class="allStore " data-id="{%=o.storeIds%} ">全部门店</span>
                     <!--% for (var i=0; i <o.storeList.length; i++) { %-->
                     <span data-id="{%=o.storeList[i].id %}">{%= o.storeList[i].name %}</span>
                     <!--% } %-->
@@ -143,7 +144,9 @@
                     <!--%if(app.constant.ORDER_TYPE && app.constant.ORDER_TYPE.length > 0){ %-->
                     <span data-type="">全部</span>
                     <!--% for (var i=0; i <app.constant.ORDER_TYPE.length; i++) { %-->
+                    <!--%if(app.constant.ORDER_TYPE[i].code !=""){ %-->
                     <span data-type={%=app.constant.ORDER_TYPE[i].code%}>{%= app.constant.ORDER_TYPE[i].name %}</span>
+                    <!--% } %-->
                     <!--% } %-->
                     <!--% } %-->
                 </div>

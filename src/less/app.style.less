@@ -30,6 +30,23 @@ a {
     margin: auto;
 }
 
+.error {
+    position: fixed;
+    top: -20vw;
+    left: 0;
+    width: 100vw;
+    height: @button-height;
+    line-height: @button-height;
+    text-align: center;
+    background: @icon-color;
+    color: #fff !important;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    &.active {
+        top: 0;
+    }
+}
+
 .go-right {
     display: inline-block;
     width: 2.5vw;
@@ -187,7 +204,7 @@ a {
         z-index: 100;
         overflow-y: auto;
         position: fixed;
-        bottom: -400px;
+        bottom: -200vw;
         //height: 50vh;
         //max-height: 50vh;
         //height: 100px;
@@ -265,7 +282,7 @@ a {
         position: fixed;
         transition: all .1s;
         -webkit-transition: all .1s;
-        bottom: -400px;
+        bottom: -200vw;
     }
     .date_info {
         background: #fff;
@@ -355,7 +372,7 @@ a {
         position: fixed;
         transition: all .1s;
         -webkit-transition: all .1s;
-        bottom: -600px;
+        bottom: -200vw;
         background:@primary-background-color;
         max-height: 60vh;
     }

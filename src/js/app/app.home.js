@@ -82,24 +82,14 @@ app.toast = function(msg) {
     // <div style=" position: fixed; background: #fff;width: 100vw; z-index: 1;height: 46px;line-height: 46px;display: flex; display: -webkit-flex;justify-content: space-around; -webkit-justify-content: space-around;">功能正在拼命开发中，敬请期待~ <i class="ic">&#xe664;</i> </div>
 app.noData = function() {
     var toastHtml = '';
-    toastHtml += '<div class="noData">';
-    toastHtml += '<div class="mask" style="height:100%; z-index: 99;width: 100vw;background: rgba(0,0,0,.6);    position: fixed; top: 0;"></div>';
-    toastHtml += '<div  style=" position: fixed; background: #fff;width: 100vw; z-index: 1;height: 46px;line-height: 46px;display: flex; display: -webkit-flex;justify-content: space-around; -webkit-justify-content: space-around;top: 0;    align-items: center;    z-index: 111;font-size: 10pt;    opacity: .9;">正在加班开发中，敬请期待哦~  </div>';
+    toastHtml += '<div class="error">';
+    toastHtml += '<span class="errorText">小美正在为您加班开发中，敬请期待哦~</span>';
     toastHtml += '</div>';
     $('body').append(toastHtml);
-    $('.noData').show();
+    $('.error').addClass('active');
     setTimeout(function() {
-        $('.noData').hide();
-        $('.noData').remove();
+        $('.error').removeClass('active');
     }, 2000);
-    $('.noData').show().on('click', '#i', function() {
-        $('.noData').off('click').hide();
-        $('.noData').remove();
-    });
-    $('.noData').on('click', '.mask', function() {
-        $('.noData').off('click').hide();
-        $('.noData').remove();
-    });
 }
 app.goBack = function() {
     window.location.href = "/main.html#/index";

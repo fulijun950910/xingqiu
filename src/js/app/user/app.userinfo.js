@@ -121,6 +121,7 @@ app.userinfo = {
         }, second);
     },
     login: function() {
+        app.startLoading();
         //缓存及cookie清理
         localStorage.clear();
         // sessionStorage.clear();
@@ -130,12 +131,14 @@ app.userinfo = {
             app.userinfo.alertError('小主，请输入您的手机号码');
             // error_login = true;
             // msg = '用户名不可为空';
+            app.endLoading();
             return;
         }
         if (!$('input[name="password"]').val()) {
             app.userinfo.alertError('小主，请输入您的密码');
             // error_login = true;
             // msg = '密码不可为空';
+            app.endLoading();
             return;
         }
         // if (error_login) {
@@ -162,6 +165,7 @@ app.userinfo = {
         app.api.userinfo.auth({
             data: param,
             success: function(resultUser) {
+                app.endLoading();
                 var accountParam = {
                     userId: resultUser.data
                 }

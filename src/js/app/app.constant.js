@@ -84,18 +84,17 @@ app.constant = {
     ],
     //订单状态
     ORDER_TYPE: [
-        { name: '处理', code: 1 },
-        { name: '待付', code: 11 },
-        { name: '待付', code: 12 },
-        { name: '待付', code: 13 },
-        { name: '待付', code: 20 },
-        { name: '已付', code: 30 },
-        { name: '挂帐', code: 40 },
-        { name: '尾款', code: 50 },
-        { name: '取消', code: 60 },
+        { name: '处理中', code: 1 },
+        { name: '挂帐', code: 30 },
+        { name: '尾款', code: 40 },
+        { name: '取消', code: 50 },
         { name: '退单', code: 61 },
         { name: '退卡', code: 62 },
         { name: '退款', code: 69 },
-        { name: '补卡', code: 70 }
+        { name: '补卡', code: 70 },
+        { name: '已付款', code: 20 },
+        { name: '待付款-上钟', code: 12 },
+        { name: '待付款-末上钟', code: 11 },
+        { name: '待付款-服务结束', code: 13 }
     ]
 }

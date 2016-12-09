@@ -186,7 +186,7 @@ app.operationLog = {
                 app.operationLog.queryInfo = {
                     startTime: query.startDate,
                     endTime: query.endDate,
-                    dateType: query.dateType
+                    dateType: newoperaLog.dateType
                 }
                 window.localStorage.setItem("queryInfo", JSON.stringify(app.operationLog.queryInfo));
                 newoperaLog.operationInfo = res.data;

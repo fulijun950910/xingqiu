@@ -22,7 +22,7 @@ input {
     .headPic {
         width: 100%;
         height: @headPic-heig;
-        background:@primary-color ;
+        // background:@primary-color ;
         // background-color: red;
         text-align: center;
         .autoImg {
@@ -51,11 +51,12 @@ input {
     }
     //脨脨脛脷脭陋脣脴icon脩霉脢陆
     .mei_cmn_icon {
-        font-size: 1.5em;
-        margin-left: @usericon-lft-size;
+        font-size: 1.1em;
+        // margin-left: @usericon-lft-size;
         width: 12%;
         //  line-height: 1.75em;
-        // color: @usericon-color;
+        //color: @primary-color;
+     //   color: @font-primary-color !important;
     }
     //脨脨脛脷脭陋脣脴input脭陋脣脴
     .cmn_input {
@@ -69,7 +70,7 @@ input {
     //脨脨脛脷脭陋脣脴脥篓脫脙脩霉脢陆
     .mei_cmn_cell {
         position: relative;
-        width: 95%;
+        // width: 95%;
         height: @button-height;
         line-height: @button-height;
         margin: 0 auto 6vw;
@@ -78,7 +79,7 @@ input {
     }
     .mei_cmn_input {
         height: 2.5em;
-        width: 65%;
+        width:73%;
         line-height: 1.75em;
         font-size: 1em;
     }
@@ -91,6 +92,7 @@ input {
             .mei_cmn_cell;
             i {
                 .mei_cmn_icon;
+                color:@font-secondary-color;
             }
             input {
                 .cmn_input;
@@ -123,7 +125,7 @@ input {
         }
         .mei_cell:last-child {
             // border-bottom: none;
-            padding-bottom: 1.25em;
+            // padding-bottom: 1.25em;
         }
     }
     .userinfo_save {
@@ -132,6 +134,16 @@ input {
         margin: auto;
         top: 1.5em;
         margin-bottom: 5em;
+        .mei_save {
+            height: @button-height;
+            background: @secondary-color;
+            text-align: center;
+            line-height: @button-height;
+            border-radius: 5px;
+            a{
+                color:#fff;
+            }
+        }
         .mei_bind {
             background-color: @secondary-color;
             height: @button-height;
@@ -154,7 +166,7 @@ input {
             .unbind,
             .forgetpwd {
                 font-size: 1em;
-                color: @secondary-color;
+                color: @secondary-color ;
             }
             .unbind {
                 float: left;
@@ -352,22 +364,7 @@ input {
         border: none;
         background-color: #FFF;
     }
-    .error {
-        position: fixed;
-        top: -12vw;
-        left: 0;
-        width: 100vw;
-        height: @button-height;
-        line-height: @button-height;
-        text-align: center;
-        background: @icon-color;
-        color: #fff;
-        transition: all .1s;
-        -webkit-transition: all .1s;
-        &.active {
-            top: 0;
-        }
-    }
+
 }
 
 .spacing {
@@ -376,7 +373,7 @@ input {
             margin: 0;
             border: none;
             border-bottom: 1px solid #e5e5e5;
-            border-radius:0;
+            border-radius: 0;
         }
     }
     .weui_btn_warn {
