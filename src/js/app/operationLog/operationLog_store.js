@@ -319,6 +319,7 @@ app.changeDetail = {
             data: {
                 merchantId: keyGetValue("merchantId"),
                 employeeId: keyGetValue("employeeId"),
+                exchangeWorkId: keyGetValue("exchangeWorkId"),
                 storeId: keyGetValue("storeId")
             },
             success: function(res) {
