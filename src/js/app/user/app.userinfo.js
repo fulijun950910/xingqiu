@@ -164,7 +164,7 @@ app.userinfo = {
         app.api.userinfo.auth({
             data: param,
             success: function(resultUser) {
-                app.endLoading();
+
                 var accountParam = {
                     userId: resultUser.data
                 }
@@ -179,6 +179,7 @@ app.userinfo = {
                         if (!resultEmployeeList || !resultEmployeeList.success || !resultEmployeeList.data || resultEmployeeList.data.length <= 0) {
                             //app.alert('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息。', '登录异常');
                             app.userinfo.alertError('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息', 3000);
+                            app.endLoading();
                             return;
                         }
 
@@ -201,7 +202,7 @@ app.userinfo = {
                             $('#select_shade').show();
                             $('#show_employe_list label:first').click();
                         }
-
+                        app.endLoading();
                     },
                     error: function(a, b, c) {
 
@@ -246,6 +247,7 @@ app.userinfo = {
         return out;
     },
     loginEmployee: function() {
+        app.startLoading();
         //事件统计
         baiduStatistical.add({
             category: '选择身份',
@@ -317,17 +319,19 @@ app.userinfo = {
                                                         location.href = "/userinfo.html#/user_login";
                                                         // app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
                                                         app.userinfo.alertError('小主，您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!');
+                                                        app.endLoading();
                                                         return;
                                                     }
                                                 });
                                             },
                                             error: function() {
-
+                                                app.endLoading();
                                             }
                                         });
                                     });
                                 },
                                 error: function(a, b, c) {
+                                    app.endLoading();
 
                                 }
                             })
