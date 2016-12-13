@@ -171,6 +171,7 @@ app.userinfo = {
                 if (!accountParam.userId) {
                     // app.alert('用户名或密码错误', '登录异常');
                     app.userinfo.alertError('小主，用户名或密码错误', 3000);
+                    app.endLoading();
                     return;
                 }
                 app.api.userinfo.listEmployee({
