@@ -6,7 +6,7 @@
      ticketDetailInfo: null,
      checkTicketIdName: "tmpl-verifyTicketInstance",
      checkTicket: function() {
-         window.sessionStorage.setItem("ticketInfo", "");
+         window.localStorage.setItem("ticketInfo", "");
          $('.container').css('background-color', '#fff ');
          $('#container').html($('#tpl_checkTitcket').html());
          $('.checkTicket').find('.ticketNumber').blur(function() {
@@ -33,10 +33,14 @@
                  app.checkTicket.ticketDetailInfo = results;
                  app.checkTicket.ticketDetailInfo.ticketNo = data.ticketNo;
                  app.checkTicket.ticketDetailInfo.employeeInfo = employee;
-                 window.sessionStorage.setItem('ticketInfo', JSON.stringify(app.checkTicket.ticketDetailInfo));
+                 window.localStorage.setItem('ticketInfo', JSON.stringify(app.checkTicket.ticketDetailInfo));
                  window.location.href = "/check-ticket.html#/verifyTicketInstance"
              }, function(error) {
-                 $('.checkTicket').find('.messageError').show().text(error);
+                 if (error) {
+                     $('.checkTicket').find('.messageError').show().text(error);
+                 } else {
+                     $('.checkTicket').find('.messageError').show().text('小主,当前网络不给力,请稍后再试');
+                 }
              });
          }
      },
@@ -53,7 +57,7 @@
      init: function(storeId) {
          app.checkTicket.userdata().then(function(userDate) {
              var storeIdActive = null;
-             var ticketInfo = JSON.parse(sessionStorage.ticketInfo);
+             var ticketInfo = JSON.parse(localStorage.ticketInfo);
              ticketInfo.storeId = storeId;
              if (storeId) {
                  storeIdActive = storeId;
@@ -80,7 +84,7 @@
                  });
              }
 
-             if (ticketInfo.employeeInfo.storeList.length > 1) {
+             if (ticketInfo.employeeInfo.storeList.length >= 1) {
                  for (var i = 0; i <= ticketInfo.employeeInfo.storeList.length - 1; i++) {
                      storeId = ticketInfo.employeeInfo.storeList[i].id;
                      if (ticketInfo.employeeInfo.storeList[i].id == storeIdActive || ticketInfo.employeeInfo.storeList[i].id == parseInt(storeIdActive)) {
@@ -94,7 +98,7 @@
      },
      //初始数据
      verifyTicket: function() {
-         var ticketInfo = JSON.parse(sessionStorage.ticketInfo);
+         var ticketInfo = JSON.parse(localStorage.ticketInfo);
          if (ticketInfo.status != 1) {
              return;
          }
@@ -111,7 +115,9 @@
                  ticketInfo.status = 4;
                  $('.ticketStatus').text('券已使用');
                  $('#verifyTicket').css('background-color', '#ccc');
-                 window.sessionStorage.setItem('ticketInfo', JSON.stringify(ticketInfo));
+                 window.localStorage.setItem('ticketInfo', JSON.stringify(ticketInfo));
+             } else {
+                 app.alert('小主,当前网络不给力,请稍后再验');
              }
          }, function(error) {
              app.alert(error);

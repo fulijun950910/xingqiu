@@ -29,7 +29,7 @@
                         <div class="date">{%= o.financialInfoDetails[i].createTime %}</div>
                     </div>
                     <div>
-                        <span class="primary-color font-priceF-size " flex>￥<span class="font-priceY-size">{%= app.tools.changePrice(o.financialInfoDetails[i].price)[0] %}</span>.{%= app.tools.changePrice(o.financialInfoDetails[i].price)[1] %}</span>
+                        <span class="primary-color font-priceF-size" flex>￥<span class="font-priceY-size">{%= app.tools.changePrice(o.financialInfoDetails[i].price)[0] %}</span>.{%= app.tools.changePrice(o.financialInfoDetails[i].price)[1] %}</span>
                     </div>
                 </div>
                   <div class="activeInfo">
@@ -50,19 +50,19 @@
         <!-- <div style="height: 57px;"></div> -->
         <!-- 面包 导航-->
         <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
-            <a href="/financial.html#/financial" flex="50" class="border-right ">
-                <i class="ic" ">&#xe68b;</i>
+            <a href="/financial.html#/financial" flex="50" class="border-right">
+                <i class="ic">&#xe68b;</i>
                     <span>返回</span>
                 </a>
-            <div flex="50 " class="dateList ">
-                <i class="ic ">&#xe75d;</i>
+            <div flex="50" class="dateList">
+                <i class="ic">&#xe75d;</i>
                 <span>券状态</span>
             </div>
         </div>
         <div class ="dateLists">
-            <div class="mask "></div>
-            <div class="date_menu ">
-                <div class="date_info ">
+            <div class="mask"></div>
+            <div class="date_menu">
+                <div class="date_info">
                     <!--%if(o.ticketStatus && o.ticketStatus.length > 0){ %-->
                     <span data-type="">全部</span>
                     <!--% for (var i=0; i <o.ticketStatus.length; i++) { %-->

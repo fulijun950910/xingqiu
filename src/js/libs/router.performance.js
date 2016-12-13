@@ -16,6 +16,7 @@ $(function () {
             //修复页面置顶效果
             window.scrollTo(0,0);
             app.performance.appointment.list();
+
         }
     }
     //预约详情
@@ -41,7 +42,7 @@ $(function () {
         bind: function () {
             //修复页面置顶效果
             window.scrollTo(0,0);
-            app.performance.order.list();
+            app.performance.order.list("","init");
             //app.performance.order.scrollInit()
         }
     }

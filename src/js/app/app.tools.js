@@ -94,6 +94,12 @@ app.tools = {
         }
         return str;
     },
+    substr: function(item,len) {
+        if (!item) {
+            return;
+        }
+        return item.substr(0, len);
+    },
     toDate: function(date, fmt) {
         if (date == null) return;
         date = date.replace(/-/ig, "/");

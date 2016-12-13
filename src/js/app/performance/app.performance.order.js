@@ -7,10 +7,10 @@ app.performance.order = {
     //初始化时间切换
     initDate: function(type) {
         app.tools.initDate(type, app.performance.order.orderlIstIdName);
-        $('.performance-order-list .dateLists .date_info').on('click', 'span', function(event) {
+        $('.order-list .dateLists .date_info').on('click', 'span', function(event) {
             $('.dateLists span').removeClass('active').find('i').remove();
             //  $(this).addClass('active');
-            $('.performance-order-list  .mask').click();
+            $('.order-list  .mask').click();
             if ($(this).attr('data-type') == 4) {
                 app.tools.setDate(app.performance.order.orderDate);
                 $('.cystomDate').fadeIn(200);
@@ -26,27 +26,27 @@ app.performance.order = {
         app.tools.initCystomDate(type, app.performance.order.orderlIstIdName);
         //确定自定义时间选择
         $('.cystomDate').on('click', '.saveDate', function() {
-            $('.performance-order-list  .mask').click();
+            $('.order-list  .mask').click();
             app.performance.order.list(4, "date");
         });
     },
     initStoreList: function() {
         app.tools.initStoreList(app.performance.order.orderlIstIdName);
         //点击切换门店
-        $('.performance-order-list .storeLists .stores').on('click', 'span', function(event) {
+        $('.order-list .storeLists .stores').on('click', 'span', function(event) {
             $('.storeLists span').removeClass('active').find('i').remove();
             $(this).addClass('active').append('<i></i>');
-            $('.performance-order-list .storeLists .mask').click();
-            app.performance.order.list(parseInt($(this).attr('data-id')), 'storeIds');
+            $('.order-list .storeLists .mask').click();
+            app.performance.order.list($(this).attr('data-id'), 'storeIds');
         });
     },
     initStatusList: function() {
         app.tools.initTempData('orderLists', app.performance.order.orderlIstIdName);
         //点击排序
-        $('.performance-order-list .tempLists .date_info').on('click', 'span', function(event) {
+        $('.order-list .tempLists .date_info').on('click', 'span', function(event) {
             $('.tempLists span').removeClass('active').find('i').remove();
             $(this).addClass('active');
-            $('.performance-order-list  .mask').click();
+            $('.order-list  .mask').click();
             app.performance.order.list(parseInt($(this).attr('data-status')), 'status');
         });
     },
@@ -68,36 +68,35 @@ app.performance.order = {
         if (typeof myScroll != 'undefined')
             myScroll.refresh();
     },
-    list: function(dateType, type) {
+    list: function(results, type) {
         var query = {};
         // app.userinfo.getEmployee().then(function(employee) {
         app.performance.order.destory();
         var orderList = {};
-        var storeIds = $('.performance-order-list .storeList .store_name').attr('data-storeId');
-        query.storeId = storeIds ? parseInt(storeIds) : employee.storeList[0].id
-            //dataType
-        var dataType = $('.performance-order-list .dateList .date_name').attr('data-type');
+        var storeIds = $('.order-list .storeList .store_name').attr('data-storeId');
+        query.storeIds = storeIds;
+        //dataType
+        var dataType = $('.order-list .dateList .date_name').attr('data-type');
         if (dataType && dataType.trim()) {
-            orderList.dataType = $('.performance-order-list .dateList .date_name').attr('data-type');
+            orderList.dataType = $('.order-list .dateList .date_name').attr('data-type');
             app.tools.getDateType(orderList.dataType, query, app.performance.order.orderDate)
         } else {
             orderList.dataType = 1;
             query.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
             query.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
         }
-        var orderBy = $('.performance-order-list .orderLists .date_name').attr('data-orderby');
-        query.orderBy = orderBy ? orderBy : 1;
+        var status = $('.order-list .orderLists .date_name').attr('data-status');
+        query.orderStatus = status || undefined;
         switch (type) {
             case 'storeIds':
-                query.storeId = data;
+                query.storeIds = results;
                 break;
             case 'date':
-                app.tools.getDateType(data, query, app.performance.order.orderDate)
-                orderList.dataType = data;
+                app.tools.getDateType(results, query, app.performance.order.orderDate)
+                orderList.dataType = results;
                 break;
             case 'status':
-                query.orderBy = data;
-                query.orderByType = byType;
+                query.orderStatus = results || undefined;
                 break;
                 //初始第一次页面
             case 'init':
@@ -106,7 +105,7 @@ app.performance.order = {
                     employeeInfo = JSON.parse(localStorage.performanceInfo);
                     orderList.dataType = employeeInfo.dataType;
                 }
-                query.storeId = employeeInfo.performanceStoreIds;
+                query.storeIds = employeeInfo.performanceStoreIds;
                 //自定义
                 if (employeeInfo.dataType == 4) {
                     query.startDate = employeeInfo.startDate;
@@ -126,12 +125,13 @@ app.performance.order = {
             size: app.performance.order.page.size,
             startTime: query.startDate,
             endTime: query.endDate,
+            orderStatus: query.orderStatus,
+            employeeId: employee.id,
+            storeIds: query.storeIds
         };
+        //管理员
         if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
-            data.type = 1; //管理员
-            data.ids = query.storeId;
-        } else {
-            data.ids = employee.id;
+            data.type = 1;
         }
         if (data.type == 1) {
             //百度事件统计
@@ -154,28 +154,51 @@ app.performance.order = {
                     orderList.datas = result.data.orderListVo;
                     orderList.storeIds = employee.storeIds;
                     orderList.storeList = employee.storeList;
-                    orderList.storeId = data.ids;
-                    orderList.status = "";
+                    orderList.storeId = query.storeIds;
+                    orderList.status = query.orderStatus || undefined;
                     var html = $('#tmpl-order-list').html();
                     var template = tmpl(html, orderList);
                     $('#order-scroller').html(template);
-                    if (!result.success || !result.data || !result.data.orderListVo) {
+                    if (result.success &&  result.data  && result.data.orderListVo) {
                         app.performance.order.page.total = result.data.total;
                         app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
-                        app.performance.order.countPerformance(result.data.orderListVo);
+                         app.performance.order.countPerformance(result.data.orderListVo);
                     }
                     app.performance.order.initDate(orderList.dataType);
                     app.performance.order.initCystomDate(orderList.dataType);
                     app.performance.order.initStoreList();
                     app.performance.order.initStatusList();
+                    //日期选中
                     $('.dateLists span').eq(parseInt(orderList.dataType) - 1).addClass('active');
-                    for (var i = 0; i <= orderList.storeList.length - 1; i++) {
-                        var storeId = orderList.storeList[i].id;
-                        if (storeId == query.storeId || storeId == parseInt(query.storeId)) {
-                            $('.performance-order-list .storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
-                            return;
+                    //门店选中
+                    if (employee.storeList.length == 1) {
+                        $('.order-list .storeLists .stores-info span').eq(1).addClass('active').append('<i></i>');
+                        $('.allStore').hide();
+                    } else {
+                        if (employee.storeIds == query.storeIds) {
+                            $('.order-list .storeLists .stores-info span').eq(0).addClass('active').append('<i></i>');
+                        } else {
+                            for (var i = 0, len = orderList.storeList.length; i < len; i++) {
+                                var storeId = orderList.storeList[i].id;
+                                if (storeId == query.storeIds || storeId == parseInt(query.storeIds)) {
+                                    $('.order-list .storeLists .stores-info span').eq(i + 1).addClass('active').append('<i></i>');
+                                    break;
+                                }
+                            }
                         }
-                    }
+                    };
+                    //状态选中
+                    if (!data.orderStatus) {
+                        $('.order-list .tempLists .date_info span').eq(0).addClass('active').append('<i></i>');
+                    } else {
+                        for (var i = 0, len = app.constant.ORDER_TYPE.length; i < len; i++) {
+                            var orderStatus = app.constant.ORDER_TYPE[i].code;
+                            if (orderStatus == data.orderStatus || orderStatus == parseInt(data.orderStatus)) {
+                                $('.order-list .tempLists .date_info span').eq(i + 1).addClass('active').append('<i></i>');
+                                break;
+                            }
+                        }
+                    };
                 },
                 error: function(error) {
                     app.endLoading();
@@ -445,28 +468,28 @@ app.performance.order = {
         var m = parseFloat(money) / 100;
         return m;
     },
-    leftDay: function(dom) {
-        app.performance.order.destory();
-        var $this = $(dom).parent().find('input');
-        var nowDate = new Date($this.val());
-        nowDate = new Date(nowDate.valueOf() - 1 * 24 * 60 * 60 * 1000);
-        nowDate = nowDate.format('yyyy-MM-dd');
-        $this.val(nowDate);
-        app.performance.order.list();
-    },
-    nextDay: function(dom) {
-        app.performance.order.destory();
-        var $this = $(dom).parent().find('input');
-        var nowDate = new Date($this.val());
-        nowDate = new Date(nowDate.valueOf() + 1 * 24 * 60 * 60 * 1000);
-        nowDate = nowDate.format('yyyy-MM-dd');
-        $this.val(nowDate);
-        app.performance.order.list();
-    },
-    changeDay: function() {
-        app.performance.order.destory();
-        app.performance.order.list();
-    },
+    // leftDay: function(dom) {
+    //     app.performance.order.destory();
+    //     var $this = $(dom).parent().find('input');
+    //     var nowDate = new Date($this.val());
+    //     nowDate = new Date(nowDate.valueOf() - 1 * 24 * 60 * 60 * 1000);
+    //     nowDate = nowDate.format('yyyy-MM-dd');
+    //     $this.val(nowDate);
+    //     app.performance.order.list();
+    // },
+    // nextDay: function(dom) {
+    //     app.performance.order.destory();
+    //     var $this = $(dom).parent().find('input');
+    //     var nowDate = new Date($this.val());
+    //     nowDate = new Date(nowDate.valueOf() + 1 * 24 * 60 * 60 * 1000);
+    //     nowDate = nowDate.format('yyyy-MM-dd');
+    //     $this.val(nowDate);
+    //     app.performance.order.list();
+    // },
+    // changeDay: function() {
+    //     app.performance.order.destory();
+    //     app.performance.order.list();
+    // },
     changeImg: function(file) {
         if (!file || !file.files || file.files.length <= 0)
             return;

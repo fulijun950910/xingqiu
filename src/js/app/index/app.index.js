@@ -136,6 +136,9 @@ app.index = {
         window.localStorage.setItem("performanceInfo", "");
         window.sessionStorage.setItem('employeeList', "");
         initData();
+        if(!localStorage.employee || !JSON.parse(localStorage.employee)){
+            location.href = "/userinfo.html#/user_login";
+        }
         app.index.userdata().then(function(userDate) {
             if (!sessionStorage.getItem("employeeList")) {
                 app.index.getEmployee(JSON.parse(localStorage.employee).userId).then(function(employeeList) {
@@ -263,7 +266,9 @@ app.index = {
                 $('.index .dateList').find('.date_name').text(app.tools.getDateName(memberData.dataType, data));
                 $('.index .storeList').find('.store_name').text(app.tools.sliceStr($('.index .storeList').find('.store_name').text(), 14));
             },
-            function() {})
+            function() {
+                location.href = "/userinfo.html#/user_login";
+            })
     },
     //获取业绩看板数据
     performanceReport: function(data, type) {

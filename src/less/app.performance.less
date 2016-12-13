@@ -645,8 +645,14 @@ ul {
     width: 100%;
     height: 3em;
     margin-top: 3em;
+    .comment_save_btn {
+        background-color: @secondary-color;
+    }
+    .weui_btn:after {
+        border: none;
+    }
     a {
-        width: 90%;
+        //   width: 90%;
     }
 }
 
@@ -703,7 +709,7 @@ ul {
                     width: 5em;
                 }
                 span {
-                    color: #BEBEBE;
+                    color: @font-secondary-color;
                 }
                 strong {
                     display: block;
@@ -840,7 +846,7 @@ ul {
     color: #686868;
     font-size: 4vw;
     .font-gay {
-        color: #bebebe;
+        color: @font-secondary-color;
     }
     .bookinglist9 {
         position: relative;
@@ -851,9 +857,9 @@ ul {
             height: 1.6em;
             line-height: 1.6em;
             margin-top: .8em;
-            color: #6F6F6F;
+            //color: #6F6F6F;
             span {
-                color: #B54DCE;
+                color: @font-primary-color;
             }
             a {
                 float: right;
@@ -874,10 +880,10 @@ ul {
                 color: #666666;
                 .leftorder {
                     display: inline-block;
-                    width: 5em;
+                    width: 1.4em;
                 }
                 span {
-                    color: #bebebe;
+                    color: @font-secondary-color;
                 }
                 strong {
                     display: block;
@@ -1051,7 +1057,7 @@ ul {
             }
             .total-price {
                 position: absolute;
-                top: 33%;
+                top: 25%;
                 right: 1vw;
             }
             .activeInfo {
@@ -1307,7 +1313,8 @@ ul {
     word-wrap: break-word;
     .box {
         background: #fff;
-        margin-top: 2vw;
+        // margin-top: 2vw;
+        margin: auto;
         padding: 2vw;
         box-sizing: border-box;
         .payfont {
@@ -1317,8 +1324,8 @@ ul {
     .detailUser {}
     .lineOrder {
         color: #666;
-        margin-left: 4vw;
-        line-height: 2em;
+        //   margin-left: 4vw;
+        line-height: 2.5em;
         .orderStatus {
             color: #698E67;
         }
@@ -1326,7 +1333,7 @@ ul {
     .orderInfo {
         font-size: 3.2vw;
         .head {
-            border-bottom: 1px solid #eee;
+            //  border-bottom: 1px solid #eee;
             color: #aaa;
             padding: 1vw 0 0vw;
             font-size: 3.6vw;
@@ -1337,7 +1344,8 @@ ul {
             }
         }
         .orderItem:not(:last-child) {
-            border-bottom: 1px solid #eee;
+            .border-bottom;
+            //  border-bottom: 1px solid #eee;
         }
         .orderItem {
             .itemCell {
@@ -1345,8 +1353,9 @@ ul {
             }
         }
         .itemEmployee {
-            text-align: right;
-            color: #4ED9CF;
+            //text-align: right;
+            //color: #4ED9CF;
+            color: @font-secondary-color;
             line-height: 2em;
             font-size: 3vw;
         }
@@ -1372,7 +1381,7 @@ ul {
 
 //预约单部分
 .booking_orderlist {
-    top: 3em;
+    top: 0em;
     bottom: .5em;
 }
 
@@ -1389,6 +1398,10 @@ ul {
     .weui_cells {
         background-color: #FFF;
     }
+}
+
+.margin-right-5 {
+    margin-right: 2vw;
 }
 
 //取消顶部间隔
@@ -1475,4 +1488,21 @@ ul {
             left: 50vw;
         }
     }
+}
+
+.order-statut {
+    padding: 0 2vw;
+    height: 5vw;
+    line-height: 5vw;
+    border-radius:5px;
+}
+
+.order-status-20 {
+    color: @icon-color;
+    border: 1px solid @icon-color;
+}
+
+.order-status-disable {
+    color: @font-secondary-color;
+    border: 1px solid @font-secondary-color;
 }

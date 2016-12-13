@@ -1,9 +1,9 @@
 <script type="text/html" id="tpl_order_list">
     <!-- //隐藏标题 -->
     <div id="hiddenTitle" class="hiddenTitle">考勤打卡</div>
-    <div class="bd performance-order-list financial" id="temp-performance-order-list" style="min-height: 100vh;">
+    <div class=" performance-order-list financial" id="temp-performance-order-list" style="min-height: 100vh;">
         <!-- 订单列表 -->
-        <div class="wrapper orderlist-wrapper" id="order-wrapper">
+        <div class="wrapper orderlist-wrapper bd" id="order-wrapper">
             <div class="orderlist-headerFence" style="z-index:3;position:fixed;">
                 <div class="headerPerformance9" layout="row" layout-align="space-between center">
                     <!-- <div class="performance">业绩汇总：<strong id="total-performance">￥0.00</strong></div>
@@ -22,7 +22,7 @@
         <div style="height:15vw;"></div>
         <div class="">
             <!--%if(!o.datas || o.datas.length == 0){ %-->
-            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
+            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据~</span></div>
             <!--% } else { %-->
             <!--% for(var i=0;i<o.datas.length;i++){ %-->
             <div class="orderList wrap" onclick="app.performance.order.chooseOrderId({%=JSON.stringify(o.datas[i]) %})">
@@ -38,7 +38,7 @@
                                 <span class="font-size-12">{%=o.datas[i].mobile %}</span>
                                 <!--% } %-->
                             </div>
-                            <div class="info" layout="column" flex="65" style="justify-content: space-around;">
+                            <div class="info" layout="column" flex="60" style="justify-content: space-around;">
                                 <div layout="column" style="padding-top:3vw;">
                                     <!--% if(o.datas[i].itemVoList){ %-->
                                     <!--% for(var j=0;j<o.datas[i].itemVoList.length;j++){ %-->
@@ -47,9 +47,12 @@
                                     <!--% } %-->
                                 </div>
                                 <div layout="row" layout-align="space-between center">
-                                    <div class="performance">业绩:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].performance)%}</span></div>
-                                    <div class="push">卡耗:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].cardConsume)%}</span></div>
-                                    <div class="push">提成:<span>¥{%=app.performance.order.fenToYuan(o.datas[i].commission)%}</span></div>
+                                    <div class="performance">业绩:<span>¥{%=app.tools.toThousands(o.datas[i].performance)%}</span></div>
+                                    <div class="push">卡耗:<span>¥{%=app.tools.toThousands(o.datas[i].cardConsume)%}</span></div>
+                                    <div class="push">提成:<span>¥{%=app.tools.toThousands(o.datas[i].commission)%}</span></div>
+                                </div>
+                                <div layout="row">
+                                    <span>备注:{%=o.datas[i].remark%}</span>
                                 </div>
                             </div>
                             <div class="total-price">
@@ -58,7 +61,7 @@
                             <!-- <span class="time">{%=app.tools.toDetailDate(o.datas[i].orderDate,o.datas[i].nowDate) %}</span> -->
                             <div class="activeInfo">
                                 <span class="active"></span>
-                                <span class="buyStatus"><span>{%=app.tools.sliceStr( app.tools.getConstantByValue(app.constant.ORDER_TYPE,o.datas[i].status),4) %}</span></span>
+                                <span class="buyStatus"><span>{%=app.tools.substr( app.tools.getConstantByValue(app.constant.ORDER_TYPE,o.datas[i].status),2) %}</span></span>
                             </div>
                         </div>
                     </div>
@@ -68,6 +71,7 @@
             <!--% } %-->
             <!--% } %-->
         </div>
+        <div style="height:57px;"></div>
         <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
             <div onclick="app.goBack()" flex="25">
                 <i class="ic">&#xe68b;</i>
@@ -129,7 +133,7 @@
             <div class="mask"></div>
             <div class="stores">
                 <div class="stores-info">
-                    <span class="allStore " data-id="{%=o.storeIds%} ">全部门店</span>
+                    <span class="allStore" data-id="{%=o.storeIds%}">全部门店</span>
                     <!--% for (var i=0; i <o.storeList.length; i++) { %-->
                     <span data-id="{%=o.storeList[i].id %}">{%= o.storeList[i].name %}</span>
                     <!--% } %-->
@@ -142,10 +146,10 @@
             <div class="date_menu">
                 <div class="date_info">
                     <!--%if(app.constant.ORDER_TYPE && app.constant.ORDER_TYPE.length > 0){ %-->
-                    <span data-type="">全部</span>
+                    <span data-status="">全部</span>
                     <!--% for (var i=0; i <app.constant.ORDER_TYPE.length; i++) { %-->
                     <!--%if(app.constant.ORDER_TYPE[i].code !=""){ %-->
-                    <span data-type={%=app.constant.ORDER_TYPE[i].code%}>{%= app.constant.ORDER_TYPE[i].name %}</span>
+                    <span data-status="{%=app.constant.ORDER_TYPE[i].code%}">{%= app.constant.ORDER_TYPE[i].name %}</span>
                     <!--% } %-->
                     <!--% } %-->
                     <!--% } %-->
@@ -154,48 +158,3 @@
         </div>
     </script>
 </script>
-<!--       <div class="orderClientName" layout="row" layout-align="space-between center">
-                        <div class="lisetHead" layout="column" layout-align="space-around center">
-                            <img src="{%=app.filePath + o.datas[i].memberAvatarId %}" onerror="this.src='/images/default_female.png'" alt="" />
-                            <span>{%=app.tools.sliceStr(o.datas[i].memberName,12) %}</span>
-                            <!--% if(o.datas[i].mobile){ %-->
-<!-- <span>{%=o.datas[i].mobile %}</span> -->
-<!--% } %-->
-<!-- <span class="time">&emsp;{%=app.tools.toDetailDate(o.datas[i].orderDate,o.datas[i].nowDate) %}</span>
-                        </div>
- -->
-<!--   </div> -->
-<!--              <div class="orderContent" layout="row" layout-align="space-between stretch">
-                        <div flex="25" layout="column" layout-align="space-around center">
-                            <div class="orderItemImage">
-                                <img src="{%=app.filePath + o.datas[i].itemFileId %}" onerror="this.src='/images/upimg.png'" alt="" />
-                            </div>
-                        </div>
-                        <div flex="75" style="padding:1vw 1vw 0vw 0;color:#FD6565" layout="column" layout-align="space-between stretch">
-                            <div>
-                                <ul class="order-item">
-                                    <!--% if(o.datas[i].itemVoList){ %-->
-<!--% for(var j=0;j<o.datas[i].itemVoList.length;j++ ){ %-->
-<!-- <li> -->
-<!--   <span>{%=o.datas[i].itemVoList[j].itemName %}</span> -->
-<!-- </li> -->
-<!--% } %-->
-<!--% } %-->
-<!--     </ul>
-                            </div>
-                            <div> -->
-<!--   <div class="bkorder-affirm" style="text-align:right;">¥{%=app.performance.order.fenToYuan(o.datas[i].realReceivableMoney)%}</div>
-                <div class="orderlist-performance">
-                </div> -->
-<!--<strong class="payment"></strong>-->
-<!-- 下边框线 -->
-<!--<div class="orderborder"></div>-->
-<!-- 服务评价内容 -->
-<!-- div class="evaluatebox" layout-align="space-between center" layout="row"> -->
-<!--   <div class="evaluate" style="word-break: break-all;overflow: hidden;">小记:
-                <span>{%=o.datas[i].comment %}</span>
-            </div> -->
-<!--  <button class="noclick" onclick="app.performance.order.comment({%=JSON.stringify(o.datas[i]) %})"><i class="ic icon-tianxie" style="font-size: 5.2vw;color: #666;margin-top:.4vw;"></i>服务小记</button> -->
-<!-- </div> -->
-<!--  </div>
-            </div> -->

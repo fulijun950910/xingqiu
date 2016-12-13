@@ -20,7 +20,6 @@ app.userinfo = {
     getEmployee: function() {
         return new Promise(function(resolve, reject) {
             if (localStorage.employee && localStorage.employee != 'null') {
-
                 resolve(JSON.parse(localStorage.employee));
             } else {
                 app.api.userinfo.findByOpenId({

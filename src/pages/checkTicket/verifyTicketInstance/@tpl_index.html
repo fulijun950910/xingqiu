@@ -5,14 +5,14 @@
     </div>
     <script type="text/html" id="tmpl-verifyTicketInstance-model">
         <div class="div-body">
-            <div class="div-box" style="line-height: 20vw;" layout-align="space-between center" layout="row">
+            <div class="div-box" style="line-height: 16vw;" layout-align="space-between center" layout="row">
                 <div>券号：{%= o.ticketNo%}</div>
-                   <span class="ticketStatus">{%= app.tools.getConstantByValue(app.constant.TICKET_STATUS,o.status) %}</span>
+                <span class="ticketStatus">{%= app.tools.getConstantByValue(app.constant.TICKET_STATUS,o.status) %}</span>
             </div>
             <div class="div-box" layout="row" layout-align="space-between center" layout="row">
                 <div>活动适用门店</div>
                 <div class="storeList">
-                    <span class="store_name" data-storeId="{%=o.storeId%}">{%=o.employeeInfo.store.name%}</span>
+                    <span class="store_name" data-storeId="{%=o.storeId%}"></span>
                 </div>
             </div>
             <div class="div-box" layout="row" layout-align="space-between center" layout="row">
@@ -43,16 +43,15 @@
                 <div>操作人</div>
                 <span>{%= o.employeeInfo.name%}</span>
             </div>
-            <span id="verifyTicket" name="select" class="btnTestCoupons" 
-            onclick="app.checkTicket.verifyTicket();">我要验券</span>
+            <span id="verifyTicket" name="select" class="btnTestCoupons" onclick="app.checkTicket.verifyTicket();">我要验券</span>
             <div class="div-left-half"></div>
             <div class="div-right-half"></div>
         </div>
         <div style="height: 8px;"></div>
-        <div class="storeLists ">
-            <div class="mask "></div>
-            <div class="stores ">
-                <div class="stores-info ">
+        <div class="storeLists">
+            <div class="mask"></div>
+            <div class="stores">
+                <div class="stores-info">
                     <!--% for (var i=0; i <o.employeeInfo.storeList.length; i++) { %-->
                     <span data-id="{%=o.employeeInfo.storeList[i].id %}">{%= o.employeeInfo.storeList[i].name %}</span>
                     <!--% } %-->

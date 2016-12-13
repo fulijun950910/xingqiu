@@ -1,89 +1,157 @@
 <script type="text/html" id="tpl_booking_order_list">
     <!-- //隐藏标题 -->
-<div id="hiddenTitle" class="hiddenTitle">预约单列表</div>
-<div class="bd">
-    
-    <!-- 预约单顶栏 -->
-    <div class="headerFence">
-        <div class="headerFence9">
-            <a onclick="app.performance.appointment.leftDay(this)" class="leftday"><i class="icon icon-uniF3D2"></i> 前一天</a>
-            <input onchange="app.performance.appointment.changeDay()" style="background-color:transparent;" id="appointment-query-date" type="date">
-            <a onclick="app.performance.appointment.nextDay(this)" class="nextday">后一天 <i class="icon icon-uniF3D3"></i></a>
+    <div id="hiddenTitle" class="hiddenTitle">预约单列表</div>
+    <div class="" style="min-height:100vh">
+        <!-- 预约单顶栏 -->
+        <!--         <div class="headerFence">
+            <div class="headerFence9">
+                <a onclick="app.performance.appointment.leftDay(this)" class="leftday"><i class="icon icon-uniF3D2"></i> 前一天</a>
+                <input onchange="app.performance.appointment.changeDay()" style="background-color:transparent;" id="appointment-query-date" type="date">
+                <a onclick="app.performance.appointment.nextDay(this)" class="nextday">后一天 <i class="icon icon-uniF3D3"></i></a>
+            </div>
+        </div> -->
+        <!-- 预约单列表 -->
+        <div class="booking_orderlist wrapper order-list bd" id="booking-wrapper">
+            <div id="order-scroller" class="scroller">
+            </div>
         </div>
     </div>
-    
-    <!-- 预约单列表 -->
-    <div class="booking_orderlist wrapper" id="booking-wrapper">
-        <div id="order-scroller" class="scroller">
-
-        </div>
-    </div>
-</div>
     <script type="text/html" id="tmpl-appointment-list">
-        <!--% for(var i=0;i<o.data.length;i++) { %-->
-            <div class="bookingList">
-                <div class="bookinglist9">
-                    <div class="bookingClientName" layout="row" layout-align="space-between center">
-                        <div>客户姓名：<span>{%=o.data[i].appointmentName %}</span></div>
+        <!--%if(!o.bookingLInfo || o.bookingLInfo.length == 0){ %-->
+        <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据~</span></div>
+        <!--% } else { %-->
+        <!--% for(var i=0;i<o.bookingLInfo.length;i++) { %-->
+        <div class="bookingList">
+            <div class="bookinglist9">
+                <div class="bookingClientName" layout="row" layout-align="space-between center">
+                    <div style="margin-top:4vw;"><span>{%=o.bookingLInfo[i].appointmentName %}</span>&nbsp;&nbsp;<span>{%=o.bookingLInfo[i].mobile %}</span></div>
+                </div>
+                <div class="radiu-boder">
+                    <div class="left-radiu radiu"></div>
+                    <div class="center-border"></div>
+                    <div class="right-radiu radiu"></div>
+                </div>
+                <div layout="row" layout-align="space-around center">
+                    <div flex="80">
+                        <div class="bookingordertime">
+                            <i class="ic primary-color margin-right-5">&#xe615;</i><span class="font-gay">{%=o.bookingLInfo[i].startTime %}</span>
+                        </div>
+                        <!--% if(o.bookingLInfo[i].employeeName){ %-->
+                        <div class="">
+                            <i class="ic primary-color margin-right-5">&#xe648;</i><span class="font-gay">{%=o.bookingLInfo[i].employeeName %}</span>
+                        </div>
+                        <!--% } %-->
+                        <!-- 订单内容 -->
+                        <ul class="booking-order-item">
+                            <!--% if(o.bookingLInfo[i].itemVoList){ %-->
+                            <!--% for(var j=0;j<o.bookingLInfo[i].itemVoList.length;j++ ){ %-->
+                            <!--% if(j==0){ %-->
+                            <li>
+                                <i class="ic primary-color margin-right-5">&#xe678;</i>
+                                <span>{%=o.bookingLInfo[i].itemVoList[j].name %}</span>
+                            </li>
+                            <!--% }else if(j==(o.bookingLInfo[i].itemVoList.length-1)){ %-->
+                            <li>
+                                <div class="leftorder"></div>
+                                <span>{%=o.bookingLInfo[i].itemVoList[j].name %}</span>
+                            </li>
+                            <!--% }else{ %-->
+                            <li><span>{%=o.bookingLInfo[i].itemVoList[j].itemName %}</span></li>
+                            <!--% } %-->
+                            <!--% } %-->
+                            <!--%  } %-->
+                        </ul>
+                    </div>
+                    <div flex="20">
                         <strong class="bkorder-affirm">
-                            <!--% if(o.data[i].status==1){ %-->
+                            <!--% if(o.bookingLInfo[i].status==1){ %-->
                             <span style="color:#8B572A;">待确认</span>
-                            <!--% } else if (o.data[i].status==2) { %-->
-                            <span style="color:lightgreen;">已确认</span>
-                            <!--% } else if (o.data[i].status==3) { %-->
-                            <span style="">已成功</span>
-                            <!--% } else if (o.data[i].status==4) { %-->
-                            <span style="">已取消</span>
+                            <!--% } else if (o.bookingLInfo[i].status==2) { %-->
+                            <span style="color:lightgreen;"><i class="ic" style=" font-size:3rem;">&#xe660;</i></span>
+                            <!--% } else if (o.bookingLInfo[i].status==3) { %-->
+                            <span style="font-size:3rem;">已成功</span>
+                            <!--% } else if (o.bookingLInfo[i].status==4) { %-->
+                            <span style="font-size:3rem;"><i class="ic" style=" font-size:3rem;">&#xe66c;</i></span>
                             <!--% } %-->
                         </strong>
                     </div>
-                    <div class="radiu-boder">
-                        <div class="left-radiu radiu"></div>
-                        <div class="center-border"></div>
-                        <div class="right-radiu radiu"></div>
-                    </div>
-                    <div class="bookingordertime">
-                        预约时间：<span class="font-gay">{%=o.data[i].startTime %}</span>
-                    </div>
-                    <!--% if(o.data[i].employeeName){ %-->
-                    <div class="">
-                        服务技师：<span class="font-gay">{%=o.data[i].employeeName %}</span>
-                    </div>
-                    <!--% } %-->
-
-                    <!-- 订单内容 -->
-                    <ul class="booking-order-item">
-                        <!--% if(o.data[i].itemVoList){ %-->
-                            <!--% for(var j=0;j<o.data[i].itemVoList.length;j++ ){ %-->
-                                <!--% if(j==0){ %-->
-                                    <li>
-                                        <div class="leftorder">订单内容：</div>
-                                        <span>{%=o.data[i].itemVoList[j].name %}</span>
-                                    </li>
-                                <!--% }else if(j==(o.data[i].itemVoList.length-1)){ %-->
-                                    <li>
-                                        <div class="leftorder"></div>
-                                        <span>{%=o.data[i].itemVoList[j].name %}</span>
-                                    </li>
-                                <!--% }else{ %-->
-                                    <li><span>{%=o.data[i].itemVoList[j].itemName %}</span></li>
-                                <!--% } %-->
-                            <!--% } %-->
-                        <!--%  } %-->
-                    </ul>
-
-                    <!-- 下边框线 -->
-                    <div class="bookingborder">
-
-                    </div>
-
-                    <!-- 服务评价内容 -->
-                    <div class="evaluatebox">
-                        <div class="evaluate">备注:<span>{%=o.data[i].information %}</span></div>
-                    </div>
-
+                </div>
+                <!-- 下边框线 -->
+                <div class="bookingborder">
+                </div>
+                <!-- 服务评价内容 -->
+                <div class="evaluatebox">
+                    <div class="evaluate">备注:<span>{%=o.bookingLInfo[i].information %}</span></div>
                 </div>
             </div>
+        </div>
         <!--% } %-->
+        <!--% } %-->
+        <div style="height: 57px;"></div>
+        <!-- 面包 导航-->
+        <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
+            <div onclick="app.goBack()" flex="{%=o.flex%}">
+                <i class="ic">&#xe68b;</i>
+                <span>返回</span>
+            </div>
+            <div class="storeList" flex="{%=o.flex%}">
+                <span style="display:none" data-storeId="{%=o.storeId%}" class="store_name"></span>
+                <i class="ic"> &#xe645;</i>
+                <span>门店</span>
+            </div>
+            <div class="dateList" flex="{%=o.flex%}">
+                <span style="display:none" data-type="{%=o.dataType%}" class="date_name"></span>
+                <i class="ic">&#xe68c;</i>
+                <span>日期</span>
+            </div>
+        </div>
+        <!--     </div> -->
+        <!-- 切换门店 -->
+        <div class="storeLists">
+            <div class="mask"></div>
+            <div class="stores">
+                <span class="allStore" data-id="{%=o.storeIds%}">全部门店</span>
+                <div class="stores-info">
+                    <!--% for (var i=0; i <o.storeList.length; i++) { %-->
+                    <span data-id="{%=o.storeList[i].id %}">{%= o.storeList[i].name %}</span>
+                    <!--% } %-->
+                </div>
+            </div>
+        </div>
+        <!-- end -->
+        <!-- 日期切换 -->
+        <div class="dateLists">
+            <div class="mask"></div>
+            <div class="date_menu">
+                <div class="date_info">
+                    <span data-type=1>今日</span>
+                    <span data-type=2>昨日</span>
+                    <span data-type=3>本月</span>
+                    <span data-type=4>自定义</span>
+                </div>
+            </div>
+        </div>
+        <!-- 自定义 -->
+        <div class="cystomDate">
+            <div class="mask"></div>
+            <div class="date_menu">
+                <div class="date_info">
+                    <div class="title" layout="row" layout-align="space-between center">
+                        <div class="cancelDate">取消</div>
+                        <div class="saveDate">确定</div>
+                    </div>
+                    <div class="date" layout="row" layout-align="space-between center">
+                        <div layout="column" style="padding-right: 1vw;">
+                            <label for="">开始时间</label>
+                            <input type="datetime-local" class="startDate">
+                        </div>
+                        <div layout="column">
+                            <label for="">结束时间</label>
+                            <input type="datetime-local" class="endDate">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </script>
 </script>
