@@ -136,7 +136,7 @@ app.index = {
         window.localStorage.setItem("performanceInfo", "");
         window.sessionStorage.setItem('employeeList', "");
         initData();
-        if(!localStorage.employee || !JSON.parse(localStorage.employee)){
+        if (!localStorage.employee || !JSON.parse(localStorage.employee)) {
             location.href = "/userinfo.html#/user_login";
         }
         app.index.userdata().then(function(userDate) {
@@ -180,7 +180,7 @@ app.index = {
         } else {
             memberData.dataType = 1;
             data.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
-            data.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
+            data.endDate = moment().format('YYYY-MM-DD ') + "23:59:59";
         }
         switch (type) {
             case 'storeIds':
