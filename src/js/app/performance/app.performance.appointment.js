@@ -103,7 +103,7 @@ app.performance.appointment = {
         } else {
             bookingList.dataType = 1;
             data.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
-            data.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
+            data.endDate = moment().format('YYYY-MM-DD 23:59:59');
         };
         switch (type) {
             case 'storeIds':

@@ -199,7 +199,7 @@ app.member = {
         app.member.getConsumers(data).then(function(memberInfoData) {
                 arrivalMember.arrivalMemberInfo = memberInfoData;
                 //修改html 的title
-                app.changeTitle('到店会员');
+                app.changeTitle('到店客人');
                 var tmplhtml = $('#tmpl-arrivalMember-model').html();
                 var resultTmpl = tmpl(tmplhtml, arrivalMember);
                 $('#tmpl-arrivalMember').html(resultTmpl);
