@@ -6,9 +6,9 @@
     </div>
     <script type="text/html" id="tmpl-order-detail">
         <div class="bd wrap " style="padding-bottom: 5vw;">
-            <div style="height: 4vw;"></div>
+            <div style="height: 2vw;"></div>
             <div class="box detailUser ">
-                <div layout="row" style="padding-bottom:3vw;" class="border-bottom">
+                <div layout="row" style="padding:2vw 0;" class="border-bottom">
                     <div flex="85" layout="row">
                         <img src="{%=app.filePath + o.member.avatarId %}" onerror="this.src='/images/default_female.png'" style="width:8vw;height:8vw;border-radius:4vw;margin-right:2vw;margin-top:-1vw;" alt="" />
                         <span>{%=o.member.memberName%}</span>
@@ -27,16 +27,16 @@
                     <!--% } %-->
                 </div>
                 <div class="lineOrder" layout="column">
-                    <div class="lineOrder">订单编号：{%=o.orderNo %}</div>
-                    <div class="lineOrder">下单时间：{%=o.orderDate%}</div>
-                    <div class="lineOrder">订单备注：{%=o.remark%}</div>
+                    <div class="lineOrder">订单编号：<span class="font-primary-color">{%=o.orderNo %}</div>
+                    <div class="lineOrder">下单时间：<span class="font-primary-color">{%=o.orderDate%}</div>
+                    <div class="lineOrder">订单备注：<span class="font-primary-color">{%=o.remark%}</span></div>
                 </div>
             </div>
             <!--% if(o.orderKind==1||o.orderKind==7){ %-->
             <div class="box orderInfo">
                 <div class="head border-top" layout="row" layout-align="space-between center">
                     <div flex="30">
-                        <!-- <i class="ic icon-zhangdan"></i> -->服务内容</div>
+                        <!-- <i class="ic icon-zhangdan"></i> -->订单内容</div>
                     <!-- <div flex="10">单位</div>
                     <div flex="20">价格</div>
                     <div flex="15">
@@ -44,22 +44,22 @@
                     </div>
                     <div flex="25" style="text-align:right;">实收</div> -->
                 </div>
-                <div>
+                <div class="text-indent-2vw">
                     <!--% if(o.orderItems&&o.orderItems.length>0){ %-->
                     <!--% for(var i=0;i<o.orderItems.length;i++){ %-->
                     <div class="orderItem">
                         <div class="itemCell" layout="row" layout-align="space-between start">
                             <div layout="column" flex="80">
-                                <div flex class="font-size-14">{%=o.orderItems[i].itemName %}</div>
+                                <div flex class="font-size-12">{%=o.orderItems[i].itemName %} &times; {%=o.orderItems[i].amount %}</div>
                                 <div layout="row" layout-align="space-between center">
-                                    <div style="margin-right:2vw;">数量:{%=o.orderItems[i].amount %}</div>
-                                    <div layout="row" flex flex-wrap="wrap" class="font-size-12" layout-align="start center">
-                                        <span>支付方式：</span>
+                                    <!-- <div style="margin-right:2vw;">数量:</div> -->
+                                    <div layout="row" flex flex-wrap="wrap" class="font-size-3vw" layout-align="start center">
+                                        <span class="font-size-3vw">支付方式：</span>
                                         <div layout="column">
                                             <!--% if(o.orderItems[i].orderItemPays&&o.orderItems[i].orderItemPays.length>0){ %-->
                                             <!--% for(var j=0;j<o.orderItems[i].orderItemPays.length;j++){ %-->
                                             <div style="width:100%" layout="row" layout-align="start center">
-                                                <div class="" style="margin-top: -1vw;">{%=o.orderItems[i].orderItemPays[j].paymentName %} : <span class="primary-color font-priceF-size">￥<span class="font-priceY-size push-priceY">{%= app.tools.changePrice(o.orderItems[i].orderItemPays[j].realPayMoney)[0] %}</span>.<span class="push-priceF">{%= app.tools.changePrice(o.orderItems[i].orderItemPays[j].realPayMoney)[1] %}</span></span>
+                                                <div class="" style="margin-top: -1vw;">{%=o.orderItems[i].orderItemPays[j].paymentName %}&nbsp;&nbsp;<span class="primary-color font-size-3vw"><span class="font-size-3vw push-priceY">{%= app.tools.changePrice(o.orderItems[i].orderItemPays[j].realPayMoney)[0] %}</span>.<span class="push-priceF">{%= app.tools.changePrice(o.orderItems[i].orderItemPays[j].realPayMoney)[1] %}</span></span>
                                                 </div>
                                             </div>
                                             <!--% } %-->
@@ -68,18 +68,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div layout="column">
+                            <div layout="column" class="priceF">
                                 <span class="primary-color font-priceF-size">￥<span class="font-priceY-size push-priceY">{%= app.tools.changePrice(o.orderItems[i].actualPerPrice)[0] %}</span>.<span class="push-priceF">{%= app.tools.changePrice(o.orderItems[i].actualPerPrice)[1] %}</span></span>
                             </div>
                         </div>
                         <div class="itemEmployee text-align-left">
                             <!--% if(o.orderItems[i].orderEmployees&&o.orderItems[i].orderEmployees.length>0){ %-->
                             <!--% for(var j=0;j<o.orderItems[i].orderEmployees.length;j++){ %-->
-                            <div layout="row" layout-align="space-around center" flex="80">{%=o.orderItems[i].orderEmployees[j].employeeName %}
+                            <div layout="row" layout-align="space-between center" flex>{%=o.orderItems[i].orderEmployees[j].employeeName %}
                                 <!--% if(o.orderItems[i].orderEmployees[j].orderEmployeePerformances.length>0){ %-->
-                                <span>业绩:￥{%=app.performance.order.fenToYuan(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].achievementTotalAmount) %}</span>
-                                <span>卡耗:￥{%=app.performance.order.fenToYuan(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].cardConsumeTotalAmount) %}</span>
-                                <span>提成:￥{%=app.performance.order.fenToYuan(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].commissionAmount) %}</span>
+                                <span>业绩:￥{%=app.tools.toThousands(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].achievementTotalAmount) %}</span>
+                                <span>卡耗:￥{%=app.tools.toThousands(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].cardConsumeTotalAmount) %}</span>
+                                <span>提成:￥{%=app.tools.toThousands(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].commissionAmount) %}</span>
                                 <!--% } %-->
                             </div>
                             <!--% } %-->
@@ -94,13 +94,13 @@
             <div class="box orderInfo">
                 <div class="head border-top" layout="row" layout-align="space-between center">
                     <div flex="30">
-                        <!-- <i class="ic icon-zhangdan"></i> -->服务内容</div>
+                        <!-- <i class="ic icon-zhangdan"></i> -->订单内容</div>
                     <!--   <div flex="10">单位</div>
                     <div flex="20">价格</div>
                     <div flex="15">支付方式</div>
                     <div flex="25" style="text-align:right;">实收</div> -->
                 </div>
-                <div>
+                <div class="text-indent-2vw">
                     <!--% if(o.orderCardItems&&o.orderCardItems.length>0){ %-->
                     <!--% for(var i=0;i<o.orderCardItems.length;i++){ %-->
                     <div class="orderItem">
@@ -110,7 +110,7 @@
                                 <div layout="row" layout-align="space-between center">
                                     <div style="margin-right:2vw;">数量:{%=o.orderCardItems[i].amount %}</div>
                                     <div layout="row" flex flex-wrap="wrap" class="font-size-12" layout-align="start center">
-                                        <span>支付方式：</span>
+                                        <span class="font-size-3vw">支付方式：</span>
                                         <div layout="column">
                                             <!--% if(o.orderCardItems[i].orderItemPays&&o.orderCardItems[i].orderItemPays.length>0){ %-->
                                             <!--% for(var j=0;j<o.orderCardItems[i].orderItemPays.length;j++){ %-->
@@ -124,18 +124,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div layout="column">
+                            <div layout="column" class="priceF">
                                 <span class="primary-color font-priceF-size">￥<span class="font-priceY-size push-priceY">{%= app.tools.changePrice(o.orderCardItems[i].actualPerPrice)[0] %}</span>.<span class="push-priceF">{%= app.tools.changePrice(o.orderCardItems[i].actualPerPrice)[1] %}</span></span>
                             </div>
                         </div>
                         <div class="itemEmployee text-align-left">
                             <!--% if(o.orderCardItems[i].orderEmployees&&o.orderCardItems[i].orderEmployees.length>0){ %-->
                             <!--% for(var j=0;j<o.orderCardItems[i].orderEmployees.length;j++){ %-->
-                            <div layout="row" layout-align="space-around center" flex="80">{%=o.orderCardItems[i].orderEmployees[j].employeeName %}
+                            <div layout="row" layout-align="space-between center" flex>{%=o.orderCardItems[i].orderEmployees[j].employeeName %}
                                 <!--% if(o.orderCardItems[i].orderEmployees[j].orderEmployeePerformances.length>0){ %-->
-                                <span>业绩:￥{%=app.performance.order.fenToYuan(o.orderCardItems[i].orderEmployees[j].orderEmployeePerformances[0].achievementTotalAmount) %}</span>
-                                <span>卡耗:￥{%=app.performance.order.fenToYuan(o.orderCardItems[i].orderEmployees[j].orderEmployeePerformances[0].cardConsumeTotalAmount) %}</span>
-                                <span>提成:￥{%=app.performance.order.fenToYuan(o.orderCardItems[i].orderEmployees[j].orderEmployeePerformances[0].commissionAmount) %}</span>
+                                <span>业绩:￥{%=app.tools.toThousands(o.orderCardItems[i].orderEmployees[j].orderEmployeePerformances[0].achievementTotalAmount) %}</span>
+                                <span>卡耗:￥{%=app.tools.toThousands(o.orderCardItems[i].orderEmployees[j].orderEmployeePerformances[0].cardConsumeTotalAmount) %}</span>
+                                <span>提成:￥{%=app.tools.toThousands(o.orderCardItems[i].orderEmployees[j].orderEmployeePerformances[0].commissionAmount) %}</span>
                                 <!--% } %-->
                             </div>
                             <!--% } %-->
@@ -150,13 +150,13 @@
             <div class="box orderInfo">
                 <div class="head border-top" layout="row" layout-align="space-between center">
                     <div flex="30">
-                        <!-- <i class="ic icon-zhangdan"></i> -->服务内容</div>
+                        <!-- <i class="ic icon-zhangdan"></i> -->订单内容</div>
                     <!--  <div flex="10">单位</div>
                     <div flex="20">价格</div>
                     <div flex="15">支付方式</div>
                     <div flex="25" style="text-align:right;">实收</div> -->
                 </div>
-                <div>
+                <div class="text-indent-2vw">
                     <!--% if(o.orderRechargeItems&&o.orderRechargeItems.length>0){ %-->
                     <!--% for(var i=0;i<o.orderRechargeItems.length;i++){ %-->
                     <div class="orderItem">
@@ -166,7 +166,7 @@
                                 <div layout="row" layout-align="space-between center">
                                     <div style="margin-right:2vw;">数量:{%=o.orderRechargeItems[i].amount %}</div>
                                     <div layout="row" flex flex-wrap="wrap" class="font-size-12" layout-align="start center">
-                                        <span>支付方式：</span>
+                                        <span class="font-size-3vw">支付方式：</span>
                                         <div layout="column">
                                             <!--% if(o.orderRechargeItems[i].orderItemPays&&o.orderRechargeItems[i].orderItemPays.length>0){ %-->
                                             <!--% for(var j=0;j<o.orderRechargeItems[i].orderItemPays.length;j++){ %-->
@@ -180,18 +180,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div layout="column">
+                            <div layout="column" class="priceF">
                                 <span class="primary-color font-priceF-size">￥<span class="font-priceY-size push-priceY">{%= app.tools.changePrice(o.orderRechargeItems[i].actualPerPrice)[0] %}</span>.<span class="push-priceF">{%= app.tools.changePrice(o.orderRechargeItems[i].actualPerPrice)[1] %}</span></span>
                             </div>
                         </div>
                         <div class="itemEmployee text-align-left">
                             <!--% if(o.orderRechargeItems[i].orderEmployees&&o.orderRechargeItems[i].orderEmployees.length>0){ %-->
                             <!--% for(var j=0;j<o.orderRechargeItems[i].orderEmployees.length;j++){ %-->
-                            <div layout="row" layout-align="space-around center" flex="80">{%=o.orderRechargeItems[i].orderEmployees[j].employeeName %}
+                            <div layout="row" layout-align="space-between center" flex>{%=o.orderRechargeItems[i].orderEmployees[j].employeeName %}
                                 <!--% if(o.orderRechargeItems[i].orderEmployees[j].orderEmployeePerformances.length>0){ %-->
-                                <span>业绩:￥{%=app.performance.order.fenToYuan(o.orderRechargeItems[i].orderEmployees[j].orderEmployeePerformances[0].achievementTotalAmount) %}</span>
-                                <span>卡耗:￥{%=app.performance.order.fenToYuan(o.orderRechargeItems[i].orderEmployees[j].orderEmployeePerformances[0].cardConsumeTotalAmount) %}</span>
-                                <span>提成:￥{%=app.performance.order.fenToYuan(o.orderRechargeItems[i].orderEmployees[j].orderEmployeePerformances[0].commissionAmount) %}</span>
+                                <span>业绩:￥{%=app.tools.toThousands(o.orderRechargeItems[i].orderEmployees[j].orderEmployeePerformances[0].achievementTotalAmount) %}</span>
+                                <span>卡耗:￥{%=app.tools.toThousands(o.orderRechargeItems[i].orderEmployees[j].orderEmployeePerformances[0].cardConsumeTotalAmount) %}</span>
+                                <span>提成:￥{%=app.tools.toThousands(o.orderRechargeItems[i].orderEmployees[j].orderEmployeePerformances[0].commissionAmount) %}</span>
                                 <!--% } %-->
                             </div>
                             <!--% } %-->
@@ -206,13 +206,13 @@
             <div class="box orderInfo">
                 <div class="head border-top" layout="row" layout-align="space-between center">
                     <div flex="30">
-                        <!-- <i class="ic icon-zhangdan"></i> -->服务内容</div>
+                        <!-- <i class="ic icon-zhangdan"></i> -->订单内容</div>
                     <!--  <div flex="10">单位</div>
                     <div flex="20">价格</div>
                     <div flex="15">支付方式</div>
                     <div flex="25" style="text-align:right;">实收</div> -->
                 </div>
-                <div>
+                <div class="text-indent-2vw">
                     <!--% if(o.orderItems&&o.orderItems.length>0){ %-->
                     <!--% for(var i=0;i<o.orderItems.length;i++){ %-->
                     <div class="orderItem">
@@ -222,7 +222,7 @@
                                 <div layout="row" layout-align="space-between center">
                                     <div style="margin-right:2vw;">数量:{%=o.orderItems[i].amount %}</div>
                                     <div layout="row" flex flex-wrap="wrap" class="font-size-12" layout-align="start center">
-                                        <span>支付方式：</span>
+                                        <span class="font-size-3vw">支付方式：</span>
                                         <div layout="column">
                                             <!--% if(o.orderItems[i].orderItemPays&&o.orderItems[i].orderItemPays.length>0){ %-->
                                             <!--% for(var j=0;j<o.orderItems[i].orderItemPays.length;j++){ %-->
@@ -236,18 +236,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div layout="column">
+                            <div layout="column" class="priceF">
                                 <span class="primary-color font-priceF-size">￥<span class="font-priceY-size push-priceY">{%= app.tools.changePrice(o.orderItems[i].actualPerPrice)[0] %}</span>.<span class="push-priceF">{%= app.tools.changePrice(o.orderItems[i].actualPerPrice)[1] %}</span></span>
                             </div>
                         </div>
                         <div class="itemEmployee text-align-left">
                             <!--% if(o.orderItems[i].orderEmployees&&o.orderItems[i].orderEmployees.length>0){ %-->
                             <!--% for(var j=0;j<o.orderItems[i].orderEmployees.length;j++){ %-->
-                            <div layout="row" layout-align="space-around center" flex="80">{%=o.orderItems[i].orderEmployees[j].employeeName %}
+                            <div layout="row" layout-align="space-between center" flex>{%=o.orderItems[i].orderEmployees[j].employeeName %}
                                 <!--% if(o.orderItems[i].orderEmployees[j].orderEmployeePerformances.length>0){ %-->
-                                <span>业绩:￥{%=app.performance.order.fenToYuan(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].achievementTotalAmount) %}</span>
-                                <span>卡耗:￥{%=app.performance.order.fenToYuan(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].cardConsumeTotalAmount) %}</span>
-                                <span>提成:￥{%=app.performance.order.fenToYuan(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].commissionAmount) %}</span>
+                                <span>业绩:￥{%=app.tools.toThousands(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].achievementTotalAmount) %}</span>
+                                <span>卡耗:￥{%=app.tools.toThousands(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].cardConsumeTotalAmount) %}</span>
+                                <span>提成:￥{%=app.tools.toThousands(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].commissionAmount) %}</span>
                                 <!--% } %-->
                             </div>
                             <!--% } %-->
@@ -259,23 +259,18 @@
                 </div>
             </div>
             <!--% } %-->
-            <!--% if(o.remark){ %-->
-            <div class="box orderRemake" layout="row" layout-align="start start">
-                <div><i class="ic icon-appeal"></i></div>
-                <div><span style="color:#aaa">订单备注：</span>{%=o.remark %}</div>
-            </div>
-            <!--% } %-->
+ 
             <!--% if(o.serviceSubtota){ %-->
             <div class="box orderNo">
-                <div>
-                    <p style="color:#aaa">服务小计：</p>
-                    {%=o.serviceSubtota %}
+                <div class="border-top" style="margin:2vw 0;">
+                    <p style="color:#aaa">服务小记</p>
+                   <span style="margin-left:2vw;">{%=o.serviceSubtota %}</span> 
                 </div>
-                <div><img src="{%=app.filePath + o.serviceSubtotaFileId%}" onerror="this.src='/images/upimg.png'" style="width:40vw;margin-right:2vw;" alt="" /></div>
+                <div style="margin-left:2vw;"><img src="{%=app.filePath + o.serviceSubtotaFileId%}" onerror="this.src='/images/upimg.png'" style="width:40vw;margin-right:2vw;" alt="" /></div>
             </div>
             <!--% } %-->
             <div class="submit_comment">
-                <a href="javascript:;" ontouchstart="app.performance.order.comment({%=JSON.stringify(app.performance.order.order) %})" class="weui_btn comment_save_btn" style="border:none;">写小计</a>
+                <a href="javascript:;" ontouchstart="app.performance.order.comment({%=JSON.stringify(app.performance.order.order) %})" class="weui_btn comment_save_btn" style="border:none;">写小记</a>
             </div>
         </div>
     </script>

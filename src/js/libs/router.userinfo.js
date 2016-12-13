@@ -3,14 +3,24 @@ function init() {
         event.preventDefault();
         $('.userInfo').find('.username').val("");
     });
-    $('.userInfo').on('touchstart', '.getPwd', function(event) {
+    $('.userInfo').on('click', '.getPwd', function(event) {
         event.preventDefault();
-        $('.userInfo').find('.password').attr('type', 'text');
+        if ($('.userInfo').find('.password').attr('type') == "text") {
+            $('.userInfo').find('.password').attr('type', 'password');
+            $('.userInfo .password').find('i').text('&#xe61c;')
+            // $('.userInfo .getPwd').find('i').css('color',"#333");
+           // $('.userInfo .getPwd').append('<i class="ic font-secondary-color" style="width:0;">&#xe695;</i>');
+        } else {
+            $('.userInfo').find('.password').attr('type', 'text');
+            // $('.userInfo .getPwd').find('i').css('color',"#888");
+        //    $('.userInfo .getPwd').append('<i class="ic font-secondary-color" style="width:0;">&#xe69d;</i>');
+        }
+
     });
-    $('.userInfo').on('touchend', '.getPwd', function(event) {
-        event.preventDefault();
-        $('.userInfo').find('.password').attr('type', 'password');
-    });
+    // $('.userInfo').on('touchend', '.getPwd', function(event) {
+    //     event.preventDefault();
+    //     $('.userInfo').find('.password').attr('type', 'password');
+    // });
 };
 $(function() {
 

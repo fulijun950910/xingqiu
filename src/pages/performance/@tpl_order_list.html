@@ -27,7 +27,7 @@
             <!--% for(var i=0;i<o.datas.length;i++){ %-->
             <div class="orderList wrap" onclick="app.performance.order.chooseOrderId({%=JSON.stringify(o.datas[i]) %})">
                 <div class="orderList9">
-                    <div class="financial-item">
+                    <div class="financial-item" style="border-radius:0;">
                         <div layout="row">
                             <div class="logo text-align-center" flex="25" layout="column" layout-align="space-between center">
                                 <img src="{%=app.filePath + o.datas[i].memberAvatarId %}" onerror="this.src='/images/default_female.png'" alt="" />
@@ -90,7 +90,7 @@
             <div flex="25" class="orderLists">
                 <span style="display:none" data-status="{%=o.status%}" class="date_name"></span>
                 <i class="ic "> &#xe75d;</i>
-                <span>筛选状态</span>
+                <span>筛选</span>
             </div>
         </div>
         <!-- 日期切换 -->
