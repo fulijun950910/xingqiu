@@ -147,7 +147,11 @@ app.performance.appointment = {
             bookingList.flex = 50;
         }
         app.performance.appointment.queryAppointmentList(data).then(function(result) {
-            bookingList.bookingLInfo = result.data;
+            if (result.data) {
+                bookingList.bookingLInfo = result.data;
+            } else {
+                bookingList.bookingLInfo = [];
+            }
             bookingList.storeList = employee.storeList;
             app.endLoading();
             var html = $('#tmpl-appointment-list').html();

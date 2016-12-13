@@ -47,7 +47,7 @@ app.performance.order = {
             $('.tempLists span').removeClass('active').find('i').remove();
             $(this).addClass('active');
             $('.order-list  .mask').click();
-            app.performance.order.list(parseInt($(this).attr('data-status')), 'status');
+            app.performance.order.list($(this).attr('data-status'), 'status');
         });
     },
     page: {
@@ -151,7 +151,11 @@ app.performance.order = {
                     //     }, 200);
                     //     return;
                     // }orderList.datas = result.data.orderListVo;
-                    orderList.datas = result.data.orderListVo;
+                    if (result.data) {
+                        orderList.datas = result.data.orderListVo;
+                    } else {
+                        orderList.datas = [];
+                    }
                     orderList.storeIds = employee.storeIds;
                     orderList.storeList = employee.storeList;
                     orderList.storeId = query.storeIds;
@@ -159,10 +163,10 @@ app.performance.order = {
                     var html = $('#tmpl-order-list').html();
                     var template = tmpl(html, orderList);
                     $('#order-scroller').html(template);
-                    if (result.success &&  result.data  && result.data.orderListVo) {
+                    if (result.success && result.data && result.data.orderListVo) {
                         app.performance.order.page.total = result.data.total;
                         app.performance.order.page.page = parseInt(app.performance.order.page.page) + 1;
-                         app.performance.order.countPerformance(result.data.orderListVo);
+                        app.performance.order.countPerformance(result.data.orderListVo);
                     }
                     app.performance.order.initDate(orderList.dataType);
                     app.performance.order.initCystomDate(orderList.dataType);
@@ -188,12 +192,12 @@ app.performance.order = {
                         }
                     };
                     //状态选中
-                    if (!data.orderStatus) {
+                    if (!query.orderStatus) {
                         $('.order-list .tempLists .date_info span').eq(0).addClass('active').append('<i></i>');
                     } else {
                         for (var i = 0, len = app.constant.ORDER_TYPE.length; i < len; i++) {
                             var orderStatus = app.constant.ORDER_TYPE[i].code;
-                            if (orderStatus == data.orderStatus || orderStatus == parseInt(data.orderStatus)) {
+                            if (orderStatus == query.orderStatus || orderStatus == parseInt(query.orderStatus)) {
                                 $('.order-list .tempLists .date_info span').eq(i + 1).addClass('active').append('<i></i>');
                                 break;
                             }
