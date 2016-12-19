@@ -428,6 +428,27 @@ app.changeDetail = {
                 // { name: "总客数", value: data.allConsumerCounts + '人' },
             ]
         }];
+        // 自定义支付方式
+        var tempRepairCousomPayMethodList = [];
+        if ($.isArray(data.exchangeWorkExtList)) {
+            for (var i = 0; i < data.exchangeWorkExtList.length; i++) {
+                var tempPayMethod = data.exchangeWorkExtList[i];
+                if (tempPayMethod.repair && tempPayMethod.payMoney) {
+                    tempRepairCousomPayMethodList.push({
+                        name: tempPayMethod.payMethodName,
+                        value:'￥' + app.tools.toThousands(tempPayMethod.payMoney)
+                    })
+                } else {
+                    self[0].rows.push({
+                        name: tempPayMethod.payMethodName,
+                        value:'￥' + app.tools.toThousands(tempPayMethod.payMoney)
+                    })
+                }
+
+            }
+        }
+
+
         var tempRepairData = {
             name: "历史变更数据",
             rows: []
@@ -454,6 +475,10 @@ app.changeDetail = {
                     value: '￥' + app.tools.toThousands(data[value.key])
                 })
             }
+        }
+
+        if (tempRepairCousomPayMethodList.length) {
+            tempRepairData.rows=tempRepairData.rows.concat(tempRepairCousomPayMethodList);
         }
         self.push(tempRepairData);
         return self;
