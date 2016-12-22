@@ -1,0 +1,52 @@
+<script type="text/html" id="tpl_serviceLog_search">
+    <!-- //隐藏标题 -->
+    <div id="hiddenTitle" class="hiddenTitle">预约单列表</div>
+    <div class="bd serviceLogList" id="temp-serviceLogList" style="min-height: 100vh;">
+        <div class=" verifyTicketInstance">
+            <!-- 预约单列表 -->
+            <div class="serviceLog" id="tpl_serviceLogList">
+                <div class="search">
+                    <div class="nav" layout="row" layout-align="space-between center">
+                        <div class="navInput" layout="row" layout-align="space-between center">
+                            <i class="ic icon-sousuo sousuoiInput"></i>
+                            <input id="search" type="text" maxlength="" placeholder="输入会员名"/>
+                        </div>
+                        <div flex="10" class="sousuoBtn" ontouchstart="app.serviceLog.initSearch()">搜索</div>
+                    </div>
+
+                    <div class="searchCellBox" >
+                        <!--内容区-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/html" id="tmpl_serviceLogList">
+        <!--% if(o&&o.length>0){ %-->
+        <!--% for(var i in o){ %-->
+        <div class="searchcell" data-data="{%=JSON.stringify(o[i]) %}">
+            <div class="memberInfo padding2" layout="row" layout-align="start center">
+                <img src="{%=app.filePath + o[i].avatarId %}" onerror="this.src='/images/default_female.png'" style="width:12vw;height:12vw;border-radius:100%;margin-right:2vw;" alt="" />
+                <div >
+                    <div>{%=o[i].name %} <span class="phone">&nbsp;&nbsp;{%=o[i].mobile %}&nbsp;&nbsp;</span>
+                        <!--% if(o[i].gender==1){ %-->
+                        <i class="ic icon-nan"></i>
+                        <!--% }else{ %-->
+                        <i class="ic icon-nv"></i>
+                        <!--% }%-->
+                    </div>
+                    <div class="storeIcon"><i class="ic ">&#xe645;</i>&nbsp;
+                        <!--% if(o[i].storeName){ %-->
+                        {%=o[i].storeName%}
+                        <!--% }else{ %-->
+                        尚未设置所属门店
+                        <!--% } %-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--% } %-->
+        <!--% } %-->
+    </script>
+</script>

@@ -127,6 +127,7 @@ app.performance.order = {
             endTime: query.endDate,
             orderStatus: query.orderStatus,
             employeeId: employee.id,
+            merchantId:employee.merchantId,
             storeIds: query.storeIds
         };
         //管理员
@@ -296,7 +297,18 @@ app.performance.order = {
         app.performance.order.stop();
     },
     orderComment: function() {
-        app.performance.order.order.isEditServer = false;
+        if(!app.performance.order.order){//非订单跳入
+            var commentData=localStorage.getItem("commentData");
+            if(commentData){
+                commentData=JSON.parse(commentData);
+                app.performance.order.order=commentData;
+            }
+            app.performance.order.order.commentType=1;//1 评价技师
+        }else{
+            app.performance.order.order.isEditServer = false;
+            app.performance.order.order.commentType=0;//0评价订单
+        }
+
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
                 //修复页面置顶效果
@@ -305,27 +317,51 @@ app.performance.order = {
                     memberId: app.performance.order.order.memberId,
                     merchantId: employee.merchantId
                 }
-                app.api.order.getTag({
+                app.api.order.getTag({//查询标签池
                     data: data,
                     success: function(result) {
                         var res = result;
-                        app.api.order.getOrderServer({
-                            data: { orderId: app.performance.order.order.orderId },
-                            success: function(result) {
-                                app.performance.order.order.tags = res.data;
-                                if (result.data) {
-                                    app.performance.order.order.membertags = result.data.tags;
-                                    app.performance.order.order.fileId = result.data.fileId;
-                                    if (result.data.orderId) { app.performance.order.order.isEditServer = true; }
-                                } else {
-                                    app.performance.order.order.membertags = []
-                                }
-                                var html = $('#tmpl-order-comment').html();
-                                var tmplate = tmpl(html, app.performance.order.order);
-                                $('#order-comment').html(tmplate);
-                            },
-                            error: function() {}
-                        });
+                        if(app.performance.order.order.commentType==1){//判断是否评价订单
+                            app.api.serviceLog.searchMemberDetail({
+                                data: { memberId: app.performance.order.order.memberId },
+                                success: function(result) {
+                                    app.performance.order.order.tags = res.data;
+                                    if (result.data) {
+                                        app.performance.order.order.membertags = result.data.tags;
+                                    } else {
+                                        app.performance.order.order.membertags = []
+                                    }
+                                    var html = $('#tmpl-order-comment').html();
+                                    var tmplate = tmpl(html, app.performance.order.order);
+                                    $('#order-comment').html(tmplate);
+
+                                    app.tools.initTempData("addTagsBtn","order-comment");
+                                },
+                                error: function() {}
+                            });
+
+                        }else{
+                            app.api.order.getOrderServer({
+                                data: { orderId: app.performance.order.order.orderId },
+                                success: function(result) {
+                                    app.performance.order.order.tags = res.data;
+                                    if (result.data) {
+                                        app.performance.order.order.membertags = result.data.tags;
+                                        app.performance.order.order.fileId = result.data.fileId;
+                                        if (result.data.orderId) { app.performance.order.order.isEditServer = true; }
+                                    } else {
+                                        app.performance.order.order.membertags = []
+                                    }
+                                    var html = $('#tmpl-order-comment').html();
+                                    var tmplate = tmpl(html, app.performance.order.order);
+                                    $('#order-comment').html(tmplate);
+
+                                    app.tools.initTempData("addTagsBtn","order-comment");
+                                },
+                                error: function() {}
+                            });
+                        }
+
                     },
                     error: function() {
 
@@ -362,13 +398,17 @@ app.performance.order = {
                     remark: $('#comment-content').val(),
                     orderId: app.performance.order.order.orderId,
                     tagNames: tagNames
-                }
+                };
                 app.api.order.comment({
                     data: data,
                     success: function(result) {
                         app.alert('订单评价生成', '操作成功');
                         //跳转到订单列表
-                        window.location.href = "performance-index.html#/order-list";
+                        if(app.performance.order.order.commentType==1){//判断跳转来源
+                            window.location.href = "serviceLog.html#/serviceLog_list";
+                        }else{
+                            window.location.href = "performance-index.html#/order-list";
+                        }
                     },
                     error: function(a, b, c, d) {
 
@@ -400,20 +440,35 @@ app.performance.order = {
                     data: data,
                     success: function(result) {
                         app.endLoading();
-                        app.performance.order.loadTag();
+                        if(result.success){
+                            app.performance.order.order.membertags.push({
+                                id:result.data,
+                                name: name
+                            });
+                            app.performance.order.loadTag();
+                            app.performance.order.loadCommit();
+                            app.performance.order.hideTagBox();
+                        }else{
+                            app.alert(result.message)
+                        }
                     },
                     error: function(a, b, c, d) {
-
+                        app.endLoading();
                     }
                 })
             }
         }, function() {});
 
     },
+    hideTagBox:function(){
+        $('#order-comment').find('.date_menu').removeClass('date_menu_active');
+        $('#order-comment').find('.mask').removeClass('mask_show');
+    },
     tagsChange: function(i) {
         var tag = app.performance.order.order.tags.slice(i)[0];
         app.performance.order.order.membertags.push(tag)
         this.loadCommit();
+        this.hideTagBox();
     },
     merberTagsChange: function(i) {
         app.performance.order.order.membertags.splice(i, 1)[0];
@@ -422,11 +477,11 @@ app.performance.order = {
     loadCommit: function() {
         $("#order-comment .memberTags").empty();
         $.each(app.performance.order.order.membertags, function(i, v) {
-            $("#order-comment .memberTags").append("<li>" + v.name + "<i ontouchstart=\"app.performance.order.merberTagsChange(" + i + ")\"" + "><b ></b></i></span></li>")
+            $("#order-comment .memberTags").append("<li class='li"+app.tools.tagColor(i,6)+"' >" + v.name + "<i ontouchstart=\"app.performance.order.merberTagsChange(" + i + ")\"" + "><b ></b></i></span></li>")
         });
-        $("#order-comment .tags ul").empty();
+        $("#order-comment .tagList ul").empty();
         $.each(app.performance.order.order.tags, function(i, v) {
-            $("#order-comment .tags ul").append("<li ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
+            $("#order-comment .tagList ul").append("<li class='li"+app.tools.tagColor(i,6)+" ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
 
         });
     },
@@ -443,7 +498,7 @@ app.performance.order = {
                         app.performance.order.order.tags = result.data;
                         $("#order-comment .tags ul").empty();
                         $.each(app.performance.order.order.tags, function(i, v) {
-                            $("#order-comment .tags ul").append("<li ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
+                            $("#order-comment .tagList ul").append("<li class='li"+app.tools.tagColor(i,6)+"' ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
 
                         });
                     },

@@ -331,11 +331,14 @@ app.tools = {
             $('#' + idName).find('.stores').removeClass('stores-active');
             $('#' + idName).find('.storeLists .mask').removeClass('mask_show');
         });
+        $('#' + idName).on("touchmove",".mask",function(e){
+            e.preventDefault();
+            e.stopPropagation();
+        })
     },
     // 自定义弹出层
     initTempData: function(className, idName) {
-        console.log(className);
-        $('.' + className).click(function() {
+        $('.' + className).on("touchstart",function() {
             $('#' + idName).find('.tempLists').fadeIn(200);
             $('#' + idName).find('.tempLists .mask').addClass('mask_show');
             $('#' + idName).find('.tempLists .date_menu').addClass('date_menu_active');
@@ -346,11 +349,15 @@ app.tools = {
             }
         });
         //取消
-        $('#' + idName).find('.tempLists').on('click', '.mask', function() {
+        $('#' + idName).find('.tempLists').on('touchend', '.mask', function() {
             $('#' + idName).find('.date_menu').removeClass('date_menu_active');
             $('#' + idName).find('.mask').removeClass('mask_show');
             $('#' + idName).find('.tempLists span').removeClass('active').find('i').remove();
         });
+        $('#' + idName).on("touchmove",".mask",function(e){
+            e.preventDefault();
+            e.stopPropagation();
+        })
     },
     changeTitle: function(title) {
         var $body = $('body');
@@ -361,6 +368,57 @@ app.tools = {
                 $iframe.off('load').remove();
             }, 0);
         }).appendTo($body);
+    },
+    tagColor:function(i,num){
+        if(!i){
+            return 0;
+        }
+        i=parseFloat(i);
+        i=parseFloat(i%num)
+        return Math.abs(i);
+
+    },
+    toTop:function(){
+        var altHtml = '';
+        altHtml += '<div id="toTop" style="display:none;position:fixed;bottom:30vw;right:10vw;width:10vw;height:10vw;border-radius:100%;z-index:15;">';
+        altHtml += '<a href="javascript:scroll(0,0)"><i style="color:#04CBC7;font-size:5rem;" class="ic icon-dingbu"></i></a>';
+        altHtml += '</div>';
+        if($("#top").length==0){
+            $('body').append(altHtml);
+            $(window).scroll(function(){
+                if($(window).scrollTop()<$(window).height()){
+                    $("#toTop").hide();
+                }else{
+                    $("#toTop").show();
+                }
+            });
+        }
+    },
+    seeImg:function(){
+        $("body img").tap("",function(e){
+            e.stopPropagation();
+            e.preventDefault()
+            var src=$(this.ele).attr("src");
+            var altHtml = '';
+            altHtml += '<div id="imgBlack" layout="row" layout-align="center center" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:99;background:rgba(0,0,0,0.8)">';
+            altHtml += '<img style="width:100%;" src="'+src+'"/>';
+            altHtml += '</div>';
+            $('body').append(altHtml);
+        })
+        $("body").tap("#imgBlack",function(){
+            $("#imgBlack").remove();
+        })
+
+        $("body").on("touchmove","#imgBlack",function(e){
+            e.stopPropagation();
+            e.preventDefault()
+        })
+        $("body img").on("touchstart",function(e){
+            e.stopPropagation();
+        })
+        $("body img").on("touchend",function(e){
+            e.stopPropagation();
+        })
     }
 }
 

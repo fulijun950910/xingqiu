@@ -472,29 +472,46 @@ ul {
     position: relative;
     width: 100%;
     top: 1em;
-    //background-color: #FFF;
-    border-top: 1px solid #EEE;
-    //box-shadow: 0px 1px 1px #CECECE;
+
     .inward_box {
         position: relative;
-        width: 92%;
+        width: 96%;
         margin: auto;
+        background:#fff;
+        border-radius:1.2vw;
+        box-shadow:0 0 2vw #ddd;
+        padding: 2vw;
+        box-sizing: border-box;
+        min-height: 140vw;
         ul {
-            // position: relative;
-            // width: 100%;
-            // margin-top: 0.3em;
-            background: #f9f9f9;
-            padding: .5em;
-            //width: 92%;
             li {
                 font-size: 0.9em;
                 .label_content {
                     display: inline-block;
-                    width: 22%;
-                    color: #8D8D8D;
+                    color: @font-gay;
+                    strong{
+                        color:#333;
+                    }
                 }
                 span {
                     color: #49D7E1;
+                }
+                .icon-nan{
+                    color:#4ED9CF!important;
+                    margin-left: 1vw;
+                    margin-top: -2vw;
+                }
+                .icon-nv {
+                    color: #f7398f!important;
+                    margin-left: 1vw;
+                    margin-top: -1vw;
+                }
+                .storeIcon{
+                    color:@font-gay;
+                    margin-top: 1vw;
+                    i{
+                        margin-top: -.2vw;
+                    }
                 }
             }
         }
@@ -507,6 +524,7 @@ ul {
         .comment {
             width: 100%;
             background: #fff;
+            border-bottom: 1px solid @border-color;
             textarea {
                 width: 100%;
                 height: 10em;
@@ -521,25 +539,155 @@ ul {
         }
     }
 }
+//选择标签库
+.baseBox{
+    .baseSearch{
+        border-bottom:1px solid @border-gay;
+        padding: 2vw;
+        box-sizing: border-box;
+        text-align:left;
+        .navInput{
+            background:@bg-gay;
+            border-radius:1vw;
+            height:8vw;
+            width:90%;
+            margin:0 2vw 0 0;
+
+            i{
+                font-size:1.2rem;
+                height:50%;
+                display:block;
+                margin:-2vw 0 0;
+                color:@font-gay;
+                padding:4vw 2vw;
+            }
+            input{
+                width:100%;
+                height:100%;
+                border:0;
+                background:transparent;
+                color:@font-purple;
+                font-size:@font-large;
+                margin-top: 1vw;
+                text-align: left;
+                &:focus { outline: none; };
+            }
+        }
+        .sousuoBtn{
+            color:@font-purple;
+            font-size:1rem;
+            text-align:center;
+        }
+    }
+    .baseTag{
+        padding: 0 2vw 4vw;
+        .tagTitle{
+            color: @font-gay;
+            line-height: 160%;
+            margin-top: 3vw;
+        }
+        .tagList{
+            li {
+                display: inline-block;
+                border: 1px solid;
+                padding: .2vw 2vw 0;
+                margin: 2vw .6vw;;
+                font-size: .82rem;
+                line-height: 160%;
+                border-radius: .6vw;
+                i {
+                    padding: 3vw 0;
+                }
+                b {
+                    margin-left: 13px;
+                    display: inline-block;
+                    width: 12px;
+                    height: 2px;
+                    background: #3f3f3f;
+                    font-size: 0;
+                    line-height: 0;
+                    vertical-align: middle;
+                    -webkit-transform: rotate(45deg);
+                }
+                b:after {
+                    content: '.';
+                    display: block;
+                    width: 12px;
+                    height: 2px;
+                    background: #3f3f3f;
+                    -webkit-transform: rotate(-90deg);
+                }
+                // background: #3DD4E0;
+                // color: #fff;
+            }
+            .li0{
+                color:#00CA64;
+                border-color:#00CA64;
+                background:rgba(0,202,100,.04);
+                b,b:after{
+                    background: #00CA64;
+                }
+            }
+            .li1{
+                color:#04CDC8;
+                border-color:#04CDC8;
+                background:rgba(4,205,200,.04);
+                b,b:after{
+                    background: #04CDC8;
+                }
+            }
+            .li2{
+                color:#009DC3;
+                border-color:#009DC3;
+                background:rgba(0,157,195,.04);
+                b,b:after{
+                    background: #009DC3;
+                }
+            }
+            .li3{
+                color:#d76eed;
+                border-color:#d76eed;
+                background:rgba(215,110,237,.04);
+                b,b:after{
+                    background: #d76eed;
+                }
+            }
+            .li4{
+                color:#D4AF7B;
+                border-color:#D4AF7B;
+                background:rgba(212,175,123,.04);
+                b,b:after{
+                    background: #D4AF7B;
+                }
+            }
+            .li5{
+                color:#A16A48;
+                border-color:#A16A48;
+                background:rgba(161,106,70,.04);
+                b,b:after{
+                    background: #A16A48;
+                }
+            }
+        }
+    }
+}
 
 .addTags {
-    background: #f9f9f9;
-    span {
+    border-bottom: 1px solid @border-color;
+    &>span {
         display: block;
-        padding-top: 10px;
-        color: #a0a0a0;
-        margin-left: 1em;
+        padding-top: 2vw;
     }
     .memberTags {
-        display: inline-block;
+        display: inline;
         li {
             display: inline-block;
-            border: 1px dashed #cfcfcf;
-            padding: 5px 10px;
-            //  margin: 6px;
-            font-weight: normal;
-            border-radius: 10px;
-            margin: 2px;
+            border: 1px solid;
+            padding: .2vw 2vw 0;
+            margin: 2vw .6vw;;
+            font-size: .82rem;
+            line-height: 160%;
+            border-radius: .6vw;
             i {
                 padding: 3vw 0;
             }
@@ -552,6 +700,7 @@ ul {
                 font-size: 0;
                 line-height: 0;
                 vertical-align: middle;
+                transform: rotate(45deg);
                 -webkit-transform: rotate(45deg);
             }
             b:after {
@@ -560,16 +709,75 @@ ul {
                 width: 12px;
                 height: 2px;
                 background: #3f3f3f;
+                transform: rotate(-90deg);
                 -webkit-transform: rotate(-90deg);
             }
-            // background: #3DD4E0;
-            // color: #fff;
+        }
+        .li0{
+            color:#00CA64;
+            border-color:#00CA64;
+            background:rgba(0,202,100,.04);
+            b,b:after{
+                background: #00CA64;
+            }
+        }
+        .li1{
+            color:#04CDC8;
+            border-color:#04CDC8;
+            background:rgba(4,205,200,.04);
+            b,b:after{
+                background: #04CDC8;
+            }
+        }
+        .li2{
+            color:#009DC3;
+            border-color:#009DC3;
+            background:rgba(0,157,195,.04);
+            b,b:after{
+                background: #009DC3;
+            }
+        }
+        .li3{
+            color:#d76eed;
+            border-color:#d76eed;
+            background:rgba(215,110,237,.04);
+            b,b:after{
+                background: #d76eed;
+            }
+        }
+        .li4{
+            color:#D4AF7B;
+            border-color:#D4AF7B;
+            background:rgba(212,175,123,.04);
+            b,b:after{
+                background: #D4AF7B;
+            }
+        }
+        .li5{
+            color:#A16A48;
+            border-color:#A16A48;
+            background:rgba(161,106,70,.04);
+            b,b:after{
+                background: #A16A48;
+            }
+        }
+    }
+    .addTagsBtn {
+        display: inline-block;
+        border: 1px dotted #d76eed;
+        padding: .2vw 2vw 0;
+        line-height: 100%;
+        border-radius: .6vw;
+        color:#d76eed;
+        background:rgba(215,110,237,.04);
+        font-size: 1.4rem;
+        vertical-align: middle;
+        b,b:after{
+            background: #d76eed;
         }
     }
     .tags {
-        background: #f5f5f5;
-        border: 1px dashed #fff;
-        margin: 10px 0;
+        border: 1px solid #fff;
         padding-bottom: 10px;
         ul {
             display: -webkit-flex;
@@ -577,7 +785,6 @@ ul {
             // -webkit-justify-content: space-around;
             // justify-content: space-around;
             flex-flow: row wrap;
-            background: #f5f5f5;
             li {
                 background: #fff;
                 padding: 7px 20px;
@@ -594,31 +801,19 @@ ul {
             height: 7vh;
             outline: none;
         }
-        .addTagsBtn {
-            border-radius: 0;
-            -webkit-appearance: none;
-            display: inline-block;
-            border: none;
-            width: 16vw;
-            height: 7vh;
-            color: #fff;
-            background: #ffccff;
-        }
+
     }
 }
 
 //上传图片模块
 .servicepic {
-    position: relative;
-    height: 6em;
-    top: 2em;
     background-color: #FFF;
     //box-shadow: 0px 1px 1px #CECECE;
     text-align: left;
     line-height: 6em;
     color: #7A7A7A;
-    width: 92%;
     margin: 0 auto;
+    padding:2vw 0;
     .uploadImg {
         float: left;
         width: 4.5em;
@@ -644,7 +839,7 @@ ul {
     position: relative;
     width: 100%;
     height: 3em;
-    margin-top: 3em;
+    margin:2vw 0;
     .comment_save_btn {
         background-color: @secondary-color;
     }
@@ -1517,3 +1712,4 @@ ul {
     position: absolute;
     right: 4vw;
 }
+

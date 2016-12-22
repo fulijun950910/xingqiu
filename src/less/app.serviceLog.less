@@ -1,0 +1,255 @@
+.serviceLogList{
+    .serviceCell{
+        .memberInfo,.serviceInfo{
+            background:#fff;
+        }
+        .left{
+            width:10%;
+        }
+        .serviceLine{
+            width:0;
+            border-left:1px solid @border-gay;
+        }
+        .right{
+            padding: 4vw 0 0;
+        }
+        .font-gay{
+            color:@font-gay;
+        }
+        .margin-right{
+            margin-left:-7vw;
+        }
+        .memberInfo{
+            //icon
+            .icon-nan{
+                color:#4ED9CF!important;
+                margin-left: 1vw;
+                margin-top: -2vw;
+            }
+            .icon-nv {
+                color: #f7398f!important;
+                margin-left: 1vw;
+                margin-top: -1vw;
+            }
+            //样式
+            .date{
+                font-size: @font-littlesmile;
+                color:@font-gay;
+            }
+            .phone{
+                color:@font-gay;
+            }
+            .storeIcon{
+                color:@font-gay;
+                margin-top: 1vw;
+                i{
+                    margin-top: -.2vw;
+                }
+            }
+        }
+
+        //服务部分
+        .serviceInfo{
+            .rightBox{
+                width:100%;
+                padding-right:2vw;
+                box-sizing: border-box;
+            }
+            .right{
+                padding:0 0 0 9vw;
+            }
+            .remark{
+                font-size:@font-smile;
+                margin:0 0 2vw 0;
+            }
+        }
+
+
+        //detail
+        .padding2{
+            padding:2vw 2vw 2vw 4vw;
+            box-sizing: border-box;
+        }
+        .serviceInfo.serviceInfoDetial{
+            background:transparent;
+            .rightBox {
+                padding-right: 1vw;
+            }
+            .right{
+                padding:0 0 0 3vw;
+            }
+            //小计详情
+            .date{
+                color:@font-gay;
+                font-size:@font-smile;
+            }
+            .serviceListCellTitle{
+                position:relative;
+                margin:6vw 0 3vw;
+                line-height: 100%;
+            }
+            .serviceRadius{
+                width:4vw;
+                height:4vw;
+                background:rgba(1,203,199,.4);
+                position:absolute;
+                top:0;
+                left:-5vw;
+                border-radius: 2vw;
+                .radiuSmile{
+                    width:2.4vw;
+                    height:2.4vw;
+                    background:#04CBC7;
+                    margin:.8vw auto 0;
+                    border-radius: 1.2vw;
+                }
+            }
+        }
+        //
+        .tagList{
+            li {
+                display: inline-block;
+                border: 1px solid;
+                padding: .2vw 2vw 0;
+                margin: 1vw .6vw;;
+                font-size: .82rem;
+                line-height: 160%;
+                border-radius: .6vw;
+                i {
+                    padding: 3vw 0;
+                }
+            }
+            .li0{
+                color:#00CA64;
+                border-color:#00CA64;
+                background:rgba(0,202,100,.04);
+                b,b:after{
+                    background: #00CA64;
+                }
+            }
+            .li1{
+                color:#04CDC8;
+                border-color:#04CDC8;
+                background:rgba(4,205,200,.04);
+                b,b:after{
+                    background: #04CDC8;
+                }
+            }
+            .li2{
+                color:#009DC3;
+                border-color:#009DC3;
+                background:rgba(0,157,195,.04);
+                b,b:after{
+                    background: #009DC3;
+                }
+            }
+            .li3{
+                color:#d76eed;
+                border-color:#d76eed;
+                background:rgba(215,110,237,.04);
+                b,b:after{
+                    background: #d76eed;
+                }
+            }
+            .li4{
+                color:#D4AF7B;
+                border-color:#D4AF7B;
+                background:rgba(212,175,123,.04);
+                b,b:after{
+                    background: #D4AF7B;
+                }
+            }
+            .li5{
+                color:#A16A48;
+                border-color:#A16A48;
+                background:rgba(161,106,70,.04);
+                b,b:after{
+                    background: #A16A48;
+                }
+            }
+        }
+    }
+
+    .search{
+        background:#fff;
+        .nav{
+            width: 100vw;
+            height: 12vw;
+            background: #fff;
+            padding: 1.2vw 2vw;
+            box-sizing: border-box;
+            border-bottom: 1px solid #e7e7e7;
+        }
+        .sousuoBtn{
+            color:@font-purple;
+            font-size:1rem;
+            text-align:center;
+            height: 100%;
+            margin-top: 4vw;
+        }
+        .navInput{
+            background:@bg-gay;
+            border-radius:1vw;
+            height:8vw;
+            width:90%;
+            margin:0 2vw 0 0;
+
+            i{
+                font-size:1.2rem;
+                height:50%;
+                display:block;
+                margin:-2vw 0 0;
+                color:@font-gay;
+                padding:4vw 2vw;
+            }
+            input{
+                width:100%;
+                height:100%;
+                border:0;
+                background:transparent;
+                color:@font-purple;
+                font-size:@font-large;
+                text-align: left;
+                &:focus { outline: none; };
+            }
+        }
+        //搜索
+        .searchCellBox{
+            padding:0 2vw;
+        }
+        .searchcell{
+            padding:3vw 0;
+            &:not(:last-child){
+                border-bottom:1px solid @border-gay;
+            }
+            .memberInfo{
+                .icon-nan{
+                    color:#4ED9CF!important;
+                    margin-left: 1vw;
+                    margin-top: -2vw;
+                }
+                .icon-nv {
+                    color: #f7398f!important;
+                    margin-left: 1vw;
+                    margin-top: -1vw;
+                }
+                //样式
+                .date{
+                    font-size: @font-littlesmile;
+                    color:@font-gay;
+                }
+                .phone{
+                    color:@font-gay;
+                }
+                .storeIcon{
+                    color:@font-gay;
+                    margin-top: 1vw;
+                    i{
+                        margin-top: -.2vw;
+                    }
+                }
+            }
+
+        }
+    }
+}
