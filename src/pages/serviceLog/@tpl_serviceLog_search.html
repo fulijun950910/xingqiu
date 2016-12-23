@@ -4,7 +4,7 @@
     <div class="bd serviceLogList" id="temp-serviceLogList" style="min-height: 100vh;">
         <div class=" verifyTicketInstance">
             <!-- 预约单列表 -->
-            <div class="serviceLog" id="tpl_serviceLogList">
+            <div class="serviceLog" id="tpl_serviceLogSearch">
                 <div class="search">
                     <div class="nav" layout="row" layout-align="space-between center">
                         <div class="navInput" layout="row" layout-align="space-between center">
@@ -22,7 +22,7 @@
             </div>
         </div>
     </div>
-    <script type="text/html" id="tmpl_serviceLogList">
+    <script type="text/html" id="tmpl_serviceLogSearch">
         <!--% if(o&&o.length>0){ %-->
         <!--% for(var i in o){ %-->
         <div class="searchcell" data-data="{%=JSON.stringify(o[i]) %}">

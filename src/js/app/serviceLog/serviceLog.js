@@ -96,9 +96,9 @@ app.serviceLog = {
             success: function(res) {
                 app.endLoading();
                 if(res.success&&res.data){
-                    var html = $('#tmpl_serviceLogList').html();
+                    var html = $('#tmpl_serviceLogSearch').html();
                     var template = tmpl(html, res.data);
-                    $('#tpl_serviceLogList .searchCellBox').html(template);
+                    $('#tpl_serviceLogSearch .searchCellBox').html(template);
                 }
                 app.serviceLog.searchEvent();
             },
