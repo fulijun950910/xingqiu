@@ -480,7 +480,9 @@ app.performance.order = {
         });
         $("#order-comment .tagList ul").empty();
         $.each(app.performance.order.order.tags, function(i, v) {
-            $("#order-comment .tagList ul").append("<li class='li"+app.tools.tagColor(i,6)+"' ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
+            if(v.name){
+                $("#order-comment .tagList ul").append("<li class='li"+app.tools.tagColor(i,6)+"' ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
+            }
         });
     },
     loadTag: function() {
@@ -496,8 +498,9 @@ app.performance.order = {
                         app.performance.order.order.tags = result.data;
                         $("#order-comment .tagList ul").empty();
                         $.each(app.performance.order.order.tags, function(i, v) {
-                            $("#order-comment .tagList ul").append("<li class='li"+app.tools.tagColor(i,6)+"' ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
-
+                            if(v.name){
+                                $("#order-comment .tagList ul").append("<li class='li"+app.tools.tagColor(i,6)+"' ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
+                            }
                         });
                     },
                     error: function() {
