@@ -263,7 +263,6 @@ app.performance.order = {
                                         app.api.order.cardBalance({
                                             data: data,
                                             success: function(res) {
-                                                console.log(res)
                                                 result.data.cardBalance = res.data.balance
                                                 success(result)
                                             }
@@ -480,7 +479,6 @@ app.performance.order = {
             $("#order-comment .memberTags").append("<li class='li"+app.tools.tagColor(i,6)+"' >" + v.name + "<i ontouchstart=\"app.performance.order.merberTagsChange(" + i + ")\"" + "><b ></b></i></span></li>")
         });
         $("#order-comment .tagList ul").empty();
-        console.log(app.performance.order.order.tags)
         $.each(app.performance.order.order.tags, function(i, v) {
             $("#order-comment .tagList ul").append("<li class='li"+app.tools.tagColor(i,6)+"' ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
         });
@@ -552,14 +550,12 @@ app.performance.order = {
     changeImg: function(file) {
         if (!file || !file.files || file.files.length <= 0)
             return;
-        console.log($("#comment-file"));
         var files = $(file)[0].files[0];
         $("#comment-file").localResizeIMG({
             width: 300,
             quality: .8,
             ele: file,
             success: function(result) {
-                console.log(result)
                 var content = result.clearBase64;
                 var myImage = {
                     content: content,
