@@ -107,15 +107,15 @@ app.serviceLog = {
     },
     searchEvent:function(){
         app.tools.toTop();//返回顶部
-        $("#tpl_serviceLogList").on("keydown", "#search", function (e) {
+        $("#tpl_serviceLogSearch").on("keydown", "#search", function (e) {
             if(e.keyCode==13){
                 app.serviceLog.initSearch();
             }
         });
-        $("#tpl_serviceLogList").on("touchstart", ".navInput .sousuoiInput,.sousuoBtn", function (e) {
+        $("#tpl_serviceLogSearch").on("touchstart", ".navInput .sousuoiInput,.sousuoBtn", function (e) {
             app.serviceLog.initSearch();
         });
-        $("#tpl_serviceLogList").tap(".searchCellBox .searchcell", function (e) {
+        $("#tpl_serviceLogSearch").tap(".searchCellBox .searchcell", function (e) {
             var data=$(this.ele).attr("data-data")
             if(data){
                 data=JSON.parse(data);

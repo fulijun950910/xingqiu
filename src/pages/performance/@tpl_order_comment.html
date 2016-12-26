@@ -124,7 +124,9 @@
                             <ul>
                                 <!--% if(o.tags){ %-->
                                 <!--% for(var i=0;i<o.tags.length;i++ ){ %-->
+                                <!--% if(o.tags[i].name){ %-->
                                 <li ontouchend="app.performance.order.tagsChange({%=i%})" class="li{%=app.tools.tagColor(i,6)%}">{%=o.tags[i].name%}</li>
+                                <!--% } %-->
                                 <!--% } %-->
                                 <!--% } %-->
                             </ul>

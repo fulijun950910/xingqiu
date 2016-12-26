@@ -480,9 +480,9 @@ app.performance.order = {
             $("#order-comment .memberTags").append("<li class='li"+app.tools.tagColor(i,6)+"' >" + v.name + "<i ontouchstart=\"app.performance.order.merberTagsChange(" + i + ")\"" + "><b ></b></i></span></li>")
         });
         $("#order-comment .tagList ul").empty();
+        console.log(app.performance.order.order.tags)
         $.each(app.performance.order.order.tags, function(i, v) {
-            $("#order-comment .tagList ul").append("<li class='li"+app.tools.tagColor(i,6)+" ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
-
+            $("#order-comment .tagList ul").append("<li class='li"+app.tools.tagColor(i,6)+"' ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
         });
     },
     loadTag: function() {
@@ -496,7 +496,7 @@ app.performance.order = {
                     data: data,
                     success: function(result) {
                         app.performance.order.order.tags = result.data;
-                        $("#order-comment .tags ul").empty();
+                        $("#order-comment .tagList ul").empty();
                         $.each(app.performance.order.order.tags, function(i, v) {
                             $("#order-comment .tagList ul").append("<li class='li"+app.tools.tagColor(i,6)+"' ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
 
