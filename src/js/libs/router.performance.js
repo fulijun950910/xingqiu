@@ -44,6 +44,14 @@ $(function () {
             window.scrollTo(0,0);
             app.performance.order.list("","init");
             //app.performance.order.scrollInit()
+
+            document.title = "订单列表";
+            var $iframe = $('<iframe src="/favicon.ico"></iframe>');
+            $iframe.on('load', function() {
+                setTimeout(function() {
+                    $iframe.off('load').remove();
+                }, 0);
+            }).appendTo($("body"));
         }
     }
     //订单详情
@@ -57,6 +65,14 @@ $(function () {
             //修复页面置顶效果
             window.scrollTo(0,0);
             app.performance.order.detail();
+
+            document.title = "订单详情";
+            var $iframe = $('<iframe src="/favicon.ico"></iframe>');
+            $iframe.on('load', function() {
+                setTimeout(function() {
+                    $iframe.off('load').remove();
+                }, 0);
+            }).appendTo($("body"));
         }
     }
 
@@ -113,6 +129,14 @@ $(function () {
             //修复页面置顶效果
             window.scrollTo(0,0);
             app.performance.order.orderComment();
+
+            document.title = "写小计";
+            var $iframe = $('<iframe src="/favicon.ico"></iframe>');
+            $iframe.on('load', function() {
+                setTimeout(function() {
+                    $iframe.off('load').remove();
+                }, 0);
+            }).appendTo($("body"));
         }
     }
 
