@@ -56,12 +56,12 @@ app.memberEcharts = {
             storeList = JSON.parse(storeList).storeList;
             memberData.storeList = storeList;
             memberData.storeIds = employee.storeIds;
-            app.tools.changeTitle('会员来源分析');
+            app.tools.changeTitle('顾客分析');
             var tmplhtml = $('#tmpl-member-model').html();
             var resultTmpl = tmpl(tmplhtml, memberData);
             $('#tmpl-member').html(resultTmpl);
             $('.data-box').show();
-            //客户来源
+            //顾客来源
             app.memberEcharts.memberSourceList(memberData);
             //会员末到店
             app.memberEcharts.memberLeaveDataList(memberData);
@@ -121,7 +121,7 @@ app.memberEcharts = {
         }
         var option = {
             title: {
-                text: '客户来源分析',
+                text: '顾客来源分析',
                 x: 'center'
             },
             // legend: {
@@ -135,7 +135,7 @@ app.memberEcharts = {
             //     formatter: "{a} <br/>{b} : {c}"
             // },
             series: [{
-                name: '客户来源分析',
+                name: '顾客来源分析',
                 type: 'pie',
                 radius: '65vw',
                 height: '60vh',
@@ -182,7 +182,7 @@ app.memberEcharts = {
         // 指定图表的配置项和数据
         var option = {
             title: {
-                text: '客户末到店情况',
+                text: '顾客末到店情况',
                 subtext: '从今天开始向前推30天~1年',
                 x: 'center'
             },
@@ -218,7 +218,7 @@ app.memberEcharts = {
         // 指定图表的配置项和数据
         var option = {
             title: {
-                text: '客户到店频次情况',
+                text: '顾客到店频次情况',
                 subtext: '当月1号到至今',
                 x: 'center'
             },
