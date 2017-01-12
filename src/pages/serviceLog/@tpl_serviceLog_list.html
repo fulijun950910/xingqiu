@@ -19,7 +19,7 @@
                     <div class="left"></div>
                     <div class="serviceLine"></div>
                     <div flex="90" class="right margin-right" layout="row" layout-align="start center">
-                        <img src="{%=app.filePath + o[i].member.avatarId %}" onerror="this.src='/images/default_female.png'" style="width:14vw;height:14vw;border-radius:100%;margin-right:2vw;" alt="" />
+                        <img class="memberImg" data-id="{%=o[i].member.id %}" src="{%=app.filePath + o[i].member.avatarId %}" onerror="this.src='/images/default_female.png'" style="width:14vw;height:14vw;border-radius:100%;margin-right:2vw;" alt="" />
                         <div style="margin-top:2vw;">
                             <div>{%=o[i].member.name%} <span class="phone">{%=o[i].member.mobile %}</span>
                                 <!--% if(o[i].member.gender==1){ %-->
@@ -54,7 +54,7 @@
                             <!--% if(o[i].photo){ %-->
                             <div class="remark">{%=o[i].photo.remark %}</div>
                             <!--% if(o[i].photo.fileId){ %-->
-                            <img src="{%=app.filePath + o[i].photo.fileId %}" onerror="this.src='/images/404.png'" style="width:100%;display:block;margin:1vw 0;" alt="" />
+                            <img class="clickImg" src="{%=app.filePath + o[i].photo.fileId %}" onerror="this.src='/images/404.png'" style="width:100%;display:block;margin:1vw 0;" alt="" />
                             <!--% }%-->
                             <!--% }%-->
                         </div>

@@ -204,6 +204,7 @@ app.performance.order = {
                             }
                         }
                     };
+                    app.performance.order.memberDetailEvent();
                 },
                 error: function(error) {
                     app.endLoading();
@@ -215,6 +216,10 @@ app.performance.order = {
         app.startLoading();
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
+                //没ordeerid返回list
+                if(!app.performance.order.orderId){
+                    location.href = "/performance-index.html#/order-list"
+                }
                 var data = {
                         orderId: app.performance.order.orderId,
                         type: '',
@@ -270,6 +275,7 @@ app.performance.order = {
                                     }
                                 }
                             }
+                            app.performance.order.memberDetailEvent();
                             //处理详细数据页面滑动问题
                             myScroll = new IScroll('#wrapper', { probeType: 3, mouseWheel: true, tap: true, click: true });
                         }
@@ -278,6 +284,12 @@ app.performance.order = {
             }
         }, function() {});
 
+    },
+    memberDetailEvent:function(){
+        $("#order-scroller .memberImg,#order-detail .memberImg,#order-comment .memberImg").on("click",function(e){
+            e.stopPropagation();
+            app.member.goMembetDetail($(this).attr("data-id"));
+        });
     },
     chooseOrderId: function(order) {
         app.performance.order.currentDay = new Date($('#order-query-date').val());
@@ -335,6 +347,8 @@ app.performance.order = {
                                     $('#order-comment').html(tmplate);
 
                                     app.tools.initTempData("addTagsBtn","order-comment");
+                                    //app.performance.order.memberDetailEvent();
+                                    app.tools.seeImg(".memberImg");
                                 },
                                 error: function() {}
                             });
@@ -356,6 +370,8 @@ app.performance.order = {
                                     $('#order-comment').html(tmplate);
 
                                     app.tools.initTempData("addTagsBtn","order-comment");
+                                    //app.performance.order.memberDetailEvent();
+                                    app.tools.seeImg(".memberImg");
                                 },
                                 error: function() {}
                             });

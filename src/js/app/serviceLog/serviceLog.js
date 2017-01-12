@@ -28,9 +28,13 @@ app.serviceLog = {
                 app.alert("参数错误，请联系管理员")
             }
 
-        })
+        });
+        $("#tpl_serviceLogList .memberImg").tap("",function(){
+            app.serviceLog.goMembetDetail($(this.ele).attr("data-id"));
+        });
+
         app.tools.toTop();
-        app.tools.seeImg();
+        app.tools.seeImg(".clickImg");
     },
     //detail
     initDetail:function(){
@@ -38,7 +42,9 @@ app.serviceLog = {
         this.checkUser();
         //获取memberInfo
         if(app.serviceLog.mdmberInfo){//失败跳回list
-            app.serviceLog.mdmberInfo=JSON.parse(app.serviceLog.mdmberInfo);
+            if(typeof(app.serviceLog.mdmberInfo)=="string"){
+                app.serviceLog.mdmberInfo=JSON.parse(app.serviceLog.mdmberInfo);
+            }
         }else {
             this.goList();
         }
@@ -64,7 +70,10 @@ app.serviceLog = {
         })
     },
     detailEvent:function(){
-        app.tools.seeImg();
+        $("#tpl_serviceLogDetail .memberImg").tap("",function(){
+            app.serviceLog.goMembetDetail($(this.ele).attr("data-id"));
+        });
+        app.tools.seeImg(".clickImg");
     },
     detailToComment:function(ele){
         var data=$(ele).attr("data-data")
@@ -112,6 +121,10 @@ app.serviceLog = {
                 app.serviceLog.initSearch();
             }
         });
+        $("#tpl_serviceLogSearch .memberImg").tap("",function(e){
+            e.stopPropagation();
+            app.serviceLog.goMembetDetail($(this.ele).attr("data-id"));
+        });
         $("#tpl_serviceLogSearch").on("touchstart", ".navInput .sousuoiInput,.sousuoBtn", function (e) {
             app.serviceLog.initSearch();
         });
@@ -134,6 +147,85 @@ app.serviceLog = {
         });
 
     },
+    //会员详情
+    initmemberDetail:function(){
+        app.startLoading();
+        this.checkUser();
+        var employee=localStorage.getItem("employee");
+        if(employee){
+            employee=JSON.parse(employee)
+        }
+        if(employee&&employee.member&&employee.member.id){
+        }else{
+            window.history.back();
+        }
+        app.api.serviceLog.searchMemberDetail({
+            data: {
+                memberId:employee.member.id
+            },
+            success: function(res) {
+                app.endLoading();
+                if(res.success&&res.data){
+                    var html = $('#tmpl_memberDetail').html();
+                    var template = tmpl(html, res.data);
+                    $('#tpl_memberDetail').html(template);
+                }else{
+                    app.alert(res.message)
+                }
+                app.serviceLog.memberDetailEvent();
+                app.serviceLog.queryLastService(employee);
+            },
+            error: function() {}
+        })
+    },
+    queryLastService:function(employee){
+        if(!employee.merchant||!employee.merchant.id){
+            return;
+        }
+        app.api.serviceLog.lastService({
+            data: {
+                memberId:employee.member.id,
+                merchantId:employee.merchant.id
+            },
+            success: function(res) {
+                app.endLoading();
+                if(res.success&&res.data&&res.data.orderItems){
+                    res.data.items="";
+                    res.data.employees="";
+                    //服务项目及技师
+                    $.each(res.data.orderItems,function(i,v){
+                        if(res.data.items){
+                            res.data.items+=", "+v.itemName;
+                        }else{
+                            res.data.items+=v.itemName;
+                        }
+                        if(res.data.orderItems[i].orderEmployees&&res.data.orderItems[i].orderEmployees.length>0){
+                            $.each(res.data.orderItems[i].orderEmployees,function(i2,v2){
+                                if(res.data.employees){
+                                    res.data.employees+=", "+v2.employeeName;
+                                }else{
+                                    res.data.employees+=v2.employeeName;
+                                }
+                            });
+                        }
+                    });
+                    var html = $('#tmpl_lastSerivce').html();
+                    var template = tmpl(html, res.data);
+                    $('#serviceNote').html(template);
+                }else{
+                    app.alert(res.message)
+                }
+            },
+            error: function() {}
+        })
+    },
+    memberDetailEvent:function(){
+        app.tools.seeImg(".clickImg");
+    },
+
+
+
+
 
     goReport: function() {
         location.href = "/main.html#/index";
@@ -143,6 +235,18 @@ app.serviceLog = {
     },
     goDetail: function(mdmberId) {
         location.href = "#/serviceLog_detail"
+    },
+    goMembetDetail: function(id) {
+        var employee=localStorage.getItem("employee")
+        if(employee&&id){
+            employee=JSON.parse(employee)
+            employee.member={
+                id:id
+            }
+            employee=JSON.stringify(employee)
+            localStorage.setItem("employee",employee)
+            location.href = "#/member_detail"
+        }
     },
     goSearch: function() {
         location.href = "#/serviceLog_search";

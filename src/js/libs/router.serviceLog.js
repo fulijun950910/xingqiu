@@ -44,10 +44,32 @@ $(function () {
             app.serviceLog.initSearch();
         }
     };
+    //搜索
+    var tpl_member_detail = {
+        url: '/member_detail',
+        className: 'member_detail',
+        render: function () {
+            return $('#tpl_member_detail').html();
+        },
+        bind: function () {
+            //修复页面置顶效果
+            window.scrollTo(0,0);
+            app.serviceLog.initmemberDetail();
+
+            document.title = "客户详情";
+            var $iframe = $('<iframe src="/favicon.ico"></iframe>');
+            $iframe.on('load', function() {
+                setTimeout(function() {
+                    $iframe.off('load').remove();
+                }, 0);
+            }).appendTo($("body"));
+        }
+    };
 
     router.push(tpl_serviceLog_list)
         .push(tpl_serviceLog_detail)
         .push(tpl_serviceLog_search)
+        .push(tpl_member_detail)
         .init();
     
     if (/Android/gi.test(navigator.userAgent)) {

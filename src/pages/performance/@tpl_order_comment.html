@@ -5,7 +5,7 @@
         <div class="comment_form">
             <div class="inward_box">
                 <div layout="row" layout-align="start center" style="padding: 2vw;">
-                    <img src="{%=app.filePath + o.memberAvatarId %}" onerror="this.src='/images/default_female.png'" style="width:16vw;height:16vw;border-radius:100%;margin-right:2vw;" alt="" />
+                    <img class="memberImg" data-id="{%=o.memberId %}" src="{%=app.filePath + o.memberAvatarId %}" onerror="this.src='/images/default_female.png'" style="width:16vw;height:16vw;border-radius:100%;margin-right:2vw;" alt="" />
                     <ul style="margin-top:2vw;">
                         <li>
                             <div class="label_content"><strong>{%=o.memberName %}</strong> {%=o.mobile %}
