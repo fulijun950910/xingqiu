@@ -26,7 +26,7 @@ app.tools = {
     },
     //显示未查到数据
     show: function(domId) {
-        var html = '<div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 抱歉,暂时没有查到数据...</span></div>';
+        var html = '<div class="errorBox"><i class="ic icon-xiaolian"></i><span class="errorText"> 抱歉,暂时没有查到数据...</span></div>';
         $('#' + domId).html(html);
     },
     // noData(): function() {
@@ -94,7 +94,7 @@ app.tools = {
         }
         return str;
     },
-    substr: function(item,len) {
+    substr: function(item, len) {
         if (!item) {
             return;
         }
@@ -193,10 +193,10 @@ app.tools = {
             autoHeight: true,
             onSlideChangeEnd: function(swiper) {
                 var j = mySwiper.activeIndex;
-                $('.line-animation').css('left', j * leftWidth + 'vw');
-                $('.line').addClass('line-animation');
                 $('.tool-tab li').removeClass('active');
                 $('.tool-tab li').eq(j).addClass('active');
+                $('.line').addClass('line-animation');
+                $('.line-animation').css('left', j * leftWidth + 'vw');
                 mySwiper.slideTo(i, 10, false);
             }
         });
@@ -206,10 +206,10 @@ app.tools = {
             //得到当前索引
             var i = $(this).index();
             mySwiper.slideTo(i, 10, false);
-            $('.line-animation').css('left', i * leftWidth + 'vw');
             $('.line').addClass('line-animation');
             $('.tool-tab li').removeClass('active');
             $(this).addClass('active');
+            $('.line-animation').css('left', i * leftWidth + 'vw');
             mySwiper.slideTo(i, 10, false);
         });
     },
@@ -331,14 +331,14 @@ app.tools = {
             $('#' + idName).find('.stores').removeClass('stores-active');
             $('#' + idName).find('.storeLists .mask').removeClass('mask_show');
         });
-        $('#' + idName).on("touchmove",".mask",function(e){
+        $('#' + idName).on("touchmove", ".mask", function(e) {
             e.preventDefault();
             e.stopPropagation();
         })
     },
     // 自定义弹出层
     initTempData: function(className, idName) {
-        $('.' + className).on("touchstart",function() {
+        $('.' + className).on("touchstart", function() {
             $('#' + idName).find('.tempLists').fadeIn(200);
             $('#' + idName).find('.tempLists .mask').addClass('mask_show');
             $('#' + idName).find('.tempLists .date_menu').addClass('date_menu_active');
@@ -354,7 +354,7 @@ app.tools = {
             $('#' + idName).find('.mask').removeClass('mask_show');
             $('#' + idName).find('.tempLists span').removeClass('active').find('i').remove();
         });
-        $('#' + idName).on("touchmove",".mask",function(e){
+        $('#' + idName).on("touchmove", ".mask", function(e) {
             e.preventDefault();
             e.stopPropagation();
         })
@@ -369,54 +369,54 @@ app.tools = {
             }, 0);
         }).appendTo($body);
     },
-    tagColor:function(i,num){
-        if(!i){
+    tagColor: function(i, num) {
+        if (!i) {
             return 0;
         }
-        i=parseFloat(i);
-        i=parseFloat(i%num)
+        i = parseFloat(i);
+        i = parseFloat(i % num)
         return Math.abs(i);
 
     },
-    toTop:function(){
+    toTop: function() {
         var altHtml = '';
         altHtml += '<div id="toTop" style="display:none;position:fixed;bottom:30vw;right:10vw;width:10vw;height:10vw;border-radius:100%;z-index:15;">';
         altHtml += '<a href="javascript:scroll(0,0)"><i style="color:#04CBC7;font-size:5rem;" class="ic icon-dingbu"></i></a>';
         altHtml += '</div>';
-        if($("#top").length==0){
+        if ($("#top").length == 0) {
             $('body').append(altHtml);
-            $(window).scroll(function(){
-                if($(window).scrollTop()<$(window).height()){
+            $(window).scroll(function() {
+                if ($(window).scrollTop() < $(window).height()) {
                     $("#toTop").hide();
-                }else{
+                } else {
                     $("#toTop").show();
                 }
             });
         }
     },
-    seeImg:function(){
-        $("body img").tap("",function(e){
+    seeImg: function() {
+        $("body img").tap("", function(e) {
             e.stopPropagation();
             e.preventDefault()
-            var src=$(this.ele).attr("src");
+            var src = $(this.ele).attr("src");
             var altHtml = '';
             altHtml += '<div id="imgBlack" layout="row" layout-align="center center" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:99;background:rgba(0,0,0,0.8)">';
-            altHtml += '<img style="width:100%;" src="'+src+'"/>';
+            altHtml += '<img style="width:100%;" src="' + src + '"/>';
             altHtml += '</div>';
             $('body').append(altHtml);
         })
-        $("body").tap("#imgBlack",function(){
+        $("body").tap("#imgBlack", function() {
             $("#imgBlack").remove();
         })
 
-        $("body").on("touchmove","#imgBlack",function(e){
+        $("body").on("touchmove", "#imgBlack", function(e) {
             e.stopPropagation();
             e.preventDefault()
         })
-        $("body img").on("touchstart",function(e){
+        $("body img").on("touchstart", function(e) {
             e.stopPropagation();
         })
-        $("body img").on("touchend",function(e){
+        $("body img").on("touchend", function(e) {
             e.stopPropagation();
         })
     }

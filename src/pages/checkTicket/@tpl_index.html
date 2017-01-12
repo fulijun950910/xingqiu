@@ -1,5 +1,5 @@
 <script type="text/html" id="tpl_checkTitcket">
-    <div class="bd background-sign wrap" style="min-height: 100vh;background:#fff;">
+    <div class="bd background-sign wrap" style="min-height: 100vh;background:#fff;overflow: hidden; ">
         <div id="tmpl-income" class="checkTicket">
             <div class="div-body">
                 <div class="div-img">
@@ -7,7 +7,7 @@
                 </div>
                 <div class="div-input">
                     <i class="ic">&#xe685;</i>
-                    <input type="tel" placeholder="请输入兑换券券号" class="ticketNumber"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                    <input type="tel" placeholder="请输入兑换券券号" class="ticketNumber" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />
                 </div>
                 <div class="messageError">
                     请输入有效的券号

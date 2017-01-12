@@ -60,6 +60,7 @@ app.memberEcharts = {
             var tmplhtml = $('#tmpl-member-model').html();
             var resultTmpl = tmpl(tmplhtml, memberData);
             $('#tmpl-member').html(resultTmpl);
+            app.tools.initSwiper(33);
             $('.data-box').show();
             //顾客来源
             app.memberEcharts.memberSourceList(memberData);
@@ -112,7 +113,7 @@ app.memberEcharts = {
         var dataList = [];
         if (data.memberSourceList && data.memberSourceList.length > 0) {
             for (var i = data.memberSourceList.length - 1; i >= 0; i--) {
-                legendList.push(data.memberSourceList[i].name);
+                legendList.push(data.memberSourceList[i].name + "-" + data.memberSourceList[i].count + "人");
                 dataList.push({
                     value: data.memberSourceList[i].count,
                     name: data.memberSourceList[i].name + "-" + data.memberSourceList[i].count + "人"
@@ -120,38 +121,88 @@ app.memberEcharts = {
             }
         }
         var option = {
-            title: {
-                text: '顾客来源分析',
-                x: 'center'
-            },
-            // legend: {
-            //     orient: 'vertical',
-            //     left: 'left',
-            //     data: legendList
-            // },
             // tooltip: {
             //     trigger: 'item',
-
-            //     formatter: "{a} <br/>{b} : {c}"
+            //     formatter: "{a} <br/>{b}: {c} ({d}%)",
             // },
+            legend: {
+                orient: 'horizontal',
+                align: 'auto',
+                data: legendList,
+                itemWidth: 50,
+                itemGap: 15,
+                bottom: 10
+            },
+            color: ['#ff8c8c', '#fe77a7', '#bf70d1', '#6c90df', '#7bacf6', '#72d6f6', '#8ae18a', '#fce57a', '#ffbe5b', '#c0e570'],
             series: [{
-                name: '顾客来源分析',
+                name: '访问来源',
                 type: 'pie',
-                radius: '65vw',
-                height: '60vh',
-                center: ['50%', '45%'],
-                data: dataList,
-                itemStyle: {
+                radius: ['50%', '70%'],
+                center: ['50%', '40%'],
+                avoidLabelOverlap: false,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
                     emphasis: {
-                        // shadowBlur: 10,
-                        // shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        show: true,
+                        textStyle: {
+                            fontSize: "16",
+                            fontWeight: 'bold'
+                        }
                     }
-                }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data: dataList
             }]
         };
-        // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
+
+        //     var option = {
+        //         title: {
+        //             // text: '顾客来源分析',
+        //             x: 'center'
+        //         },
+        //         avoidLabelOverlap: false,
+        //         color: ['#ff8c8c', '#fe77a7', '#bf70d1', '#6c90df', '#7bacf6', '#72d6f6', '#8ae18a', '#fce57a', '#ffbe5b', '#c0e570'],
+        //         // legend: {
+        //         //     orient: 'vertical',
+        //         //     left: 'left',
+        //         //     data: legendList
+        //         // },
+        //         tooltip: {
+        //             trigger: 'item',
+
+        //             formatter: "{a} <br/>{b} : {c}"
+        //         },
+        //         series: [{
+        //             // name: '顾客来源分析',
+        //             type: 'pie',
+        //             radius: '65vw',
+        //             height: '60vh',
+        //             center: ['50%', '45%'],
+        //             data: dataList,
+        //             itemStyle: {
+        //                 emphasis: {
+        //                     // shadowBlur: 10,
+        //                     // shadowOffsetX: 0,
+        //                     shadowColor: 'rgba(0, 0, 0, 0.5)'
+        //                 }
+        //             },
+        //             labelLine: {
+        //                 normal: {
+        //                     show: false
+        //                 }
+        //             },
+        //         }]
+        //     };
+        //     // 使用刚指定的配置项和数据显示图表。
+        //     myChart.setOption(option);
     },
 
     //会员末到店
@@ -182,21 +233,38 @@ app.memberEcharts = {
         // 指定图表的配置项和数据
         var option = {
             title: {
-                text: '顾客末到店情况',
+                // text: '顾客末到店情况',
                 subtext: '从今天开始向前推30天~1年',
                 x: 'center'
             },
-            //  tooltip: { },
+            tooltip: {},
             xAxis: {
                 data: ["1个月", "2个月", "3个月", "6个月", "12个月"]
             },
             yAxis: {},
+
             series: [{
                 type: 'bar',
                 barWidth: '50%',
                 itemStyle: {
                     normal: {
-                        color: '#8970c4'
+                        color: '#9d7ae5',
+                        // borderColor :"#eaeaea",
+                        // borderType  : "dotted"
+                    }
+                },
+                markPoint: {
+                    lineStyle: {
+                        normal: {
+                            type: "dotted",
+                            color: "#eaeaea"
+                        }
+                    },
+                },
+                lineStyle: {
+                    emphasis: {
+                        type: "dotted",
+                        color: "#eaeaea"
                     }
                 },
                 data: dataList
@@ -218,11 +286,11 @@ app.memberEcharts = {
         // 指定图表的配置项和数据
         var option = {
             title: {
-                text: '顾客到店频次情况',
+                // text: '顾客到店频次情况',
                 subtext: '当月1号到至今',
                 x: 'center'
             },
-            // tooltip: {},
+            tooltip: {},
             xAxis: {
                 data: ["1次", "2次", "3次", "4次", "5次及以上"]
             },
@@ -232,7 +300,7 @@ app.memberEcharts = {
                 barWidth: '50%',
                 itemStyle: {
                     normal: {
-                        color: '#8970c4'
+                        color: '#9d7ae5'
                     }
                 },
                 data: dataList

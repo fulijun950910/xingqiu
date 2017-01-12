@@ -5,25 +5,25 @@
     </div>
     <script type="text/html" id="tmpl-arrivalMember-model">
         <div class="data-list financial-info-list wrap">
-            <div style="height: 5vw"></div>
+            <div style="height: 2.5vw"></div>
             <!--%if(!o.arrivalMemberInfo || o.arrivalMemberInfo.length == 0){ %-->
-            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c">  亲~,还没有到店的会员哦...</span></div>
+            <div class="errorBox"><i class="ic icon-xiaolian"></i><span class="errorText">  亲~,还没有到店的会员哦...</span></div>
             <!--% } else { %-->
             <!--% for (var i=0; i <o.arrivalMemberInfo.length; i++) { %-->
             <div class="financial-item">
                 <div layout="row" layout-align="space-between center">
-                    <div layout="row" flex="75" layout-align="flex-start center">
-                        <div class="logo">
+                    <div layout="row" flex="75" layout-align="start center">
+                        <div class="logo" layout="row" layout-align="center center">
                             <img id="comment-pic" src="{%=app.filePath + o.arrivalMemberInfo[i].avatarId %}" onerror="this.src='images/default_female.png'">
                         </div>
-                        <div class="info" layout="column" style="margin-left: 2vw;" layout-align="space-around start">
+                        <div class="info" layout="column" layout-align="space-around start">
                             <div layout="row">
                                 <span class="name">{%= app.tools.sliceStr(o.arrivalMemberInfo[i].name,8) %}</span>
                                 <span class="phone" style="margin-left: 2vw;">{%= o.arrivalMemberInfo[i].mobile %}</span>
                                 <!--%if(o.arrivalMemberInfo[i].gender==1){ %-->
-                                <i class="ic male-color">&#xe66b;</i>
+                                <i class="ic male-color arrivalMemberInfo ">&#xe66b;</i>
                                 <!--% } else { %-->
-                                <i class="ic female-color">&#xe683;</i>
+                                <i class="ic female-color arrivalMemberInfo">&#xe683;</i>
                                 <!--% } %-->
                             </div>
                                 <!--%if(o.arrivalMemberInfo[i].memberSource){ %-->
@@ -48,7 +48,7 @@
             <!--% } %-->
             <!--% } %-->
         </div>
-        <div style="height: 49px;"></div>
+        <div style="height: 16vw;"></div>
         <!-- 面包 导航-->
         <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
             <div onclick="app.goBack()" flex="33">

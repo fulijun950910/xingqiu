@@ -6,23 +6,43 @@
     <script type="text/html" id="tmpl-member-model">
         <!-- 来源分析 -->
         <div class="box">
-            <!--   <div style="width: 100%;text-align: center;color:#555555; display: none;" class="errorBox"><i class="ic icon-xiaolian" style="font-size: 16vw;"></i><span style="font-size: 4vw; margin-left: 4vw;" class="errorMessage"> 亲~您当前的权限还不能看数据哦~</span></div> -->
-            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw; display:none;" class="errorBox"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c" class="errorMessage">  亲~您当前的权限还不能看数据哦~</span>
+            <!--            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw; display:none;" class="errorBox"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c" class="errorMessage">  亲~您当前的权限还不能看数据哦~</span>
+            </div> -->
+            <div class="errorBox" style="display:none;"><i class="ic icon-xiaolian"></i>
+                <span class="errorText errorMessage">亲~您当前的权限还不能看数据哦~</span>
             </div>
-            <div class="source-box data-box" style="display: none">
-                <div class="source-data data-box" id="memberSourceList">
-                </div>
+            <div class="tool-tab">
+                <ul>
+                    <li class="active">顾客来源</li>
+                    <li>顾客末到店</li>
+                    <li>顾客到店频次</li>
+                </ul>
+                <span class="line"></span>
             </div>
-            <div class="member-shoping-box data-box" style="display: none">
-                <div class="source-data data-box" id="memberLeaveDataList">
-                </div>
-            </div>
-            <div class="member-shoping-box data-box" style="display: none">
-                <div class="source-data data-box" id="memberArrvialTimesList">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide tab-content-1 wrap">
+                        <div class="source-box data-box" style="display: none">
+                            <div class="source-data data-box" id="memberSourceList">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide tab-content-2">
+                        <div class="member-shoping-box data-box" style="display: none">
+                            <div class="source-data data-box" id="memberLeaveDataList">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide tab-content-3">
+                        <div class="member-shoping-box data-box" style="display: none">
+                            <div class="source-data data-box" id="memberArrvialTimesList">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div style="height: 57px;"></div>
+        <div 16vw></div>
         <!-- 面包 导航-->
         <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
             <div onclick="app.goBack()" flex="50">

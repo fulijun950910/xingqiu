@@ -39,17 +39,17 @@
     //     display:inline-block;
     // }
     .header {
-          background: url(../images/bg1.png) no-repeat;
-        //background: #c12ee6;
+          // background: url(../images/bg.png) no-repeat;
+        background: #c12ee6;
         height: 50vw;
         background-size: 100% 100%;
         color: #fff;
         font-family: '微软雅黑';
         position: relative;
         .top-bar {
-            height: 36px;
-            line-height: 36px;
-            font-size: 16px;
+            height: 10vw;
+            line-height: 10vw;
+            font-size: 1.2rem;
             position: relative;
             padding-top: 2vw;
             .storeList {
@@ -64,8 +64,8 @@
             .employeeRoleList {
                 position: absolute;
                 right: -10px;
-                width: 30px;
-                height: 30px;
+                width: 10vw;
+                height: 10vw;
                 text-align: center;
                 padding: 0 2vw;
             }
@@ -79,11 +79,11 @@
                 display: block;
                 top: 15vw;
                 // background: #9e54cf;
-                border-radius: 25px 0 0 25px;
+                border-radius: 1.8rem 0 0 1.8rem;
                 width: 12vw;
                 text-align: center;
-                height: 30px;
-                line-height: 30px;
+                height: 10vw;
+                line-height: 10vw;
                 opacity: .7;
                 i {
                     font-size: 4.5vw;
@@ -93,10 +93,10 @@
                     background: rgba(255, 255, 255, .4);
                     border-radius: 100%;
                     display: block;
-                    width: 14px;
-                    height: 14px;
-                    line-height: 14px;
-                    font-size: 8pt;
+                    width: 1.1rem;
+                    height: 1.1rem;
+                    line-height: 1.1rem;
+                    font-size: .7rem;
                     position: absolute;
                     top: 0;
                     right: 2vw;
@@ -104,7 +104,7 @@
             }
         }
         .performance {
-            height: 28vw;
+            // height: 210vw;
             display: -webkit-flex;
             display: flex;
             justify-content: center;
@@ -121,33 +121,33 @@
                 flex-basis: 45%;
                 -webkit-flex-basis: 45%;
                 .title {
-                    font-size: 12px;
+                    font-size: .9rem;
                 }
                 .price {
-                    font-size: 8vw;
+                    font-size: 10vw;
                 }
             }
             .vs {
-                font-size: 12px;
+                font-size: .9rem;
                 background: rgba( 255, 255, 255, .4);
                 border-radius: 100%;
-                width: 30px;
-                height: 30px;
+                width: 10vw;
+                height: 10vw;
                 text-align: center;
-                line-height: 30px;
+                line-height: 10vw;
                 font-weight: bold;
                 // margin: 0 5vw;
             }
         }
-        .bg-fixed {
-            position: absolute;
-            background: #fff;
-            width: 92vw;
-            height: 13vw;
-            opacity: .1;
-            border-radius: 36px;
-            bottom: 4vh;
-        }
+        // .bg-fixed {
+        //     position: absolute;
+        //     background: #fff;
+        //     width: 92vw;
+        //     height: 13vw;
+        //     opacity: .1;
+        //     border-radius: 10vw;
+        //     bottom: 4vh;
+        // }
     }
     .sub-bar {
         // height: 12vw;
@@ -157,18 +157,18 @@
         // background: rgba( 255, 255, 255, .4);
         // border-radius: 35px;
         background: #fff;
-        margin: 16px auto;
+        margin: 1.2rem auto;
         height: 15vw;
         border-radius: 5px;
         .box-shadow;
         .item {
             color: @font-primary-color;
             .count {
-                font-size: 14px;
+                font-size: 1.1rem;
                 color: @primary-color;
             }
             .text,.title {
-                font-size: 12px;
+                font-size: .9rem;
             }
         }
         .item-line {
@@ -192,7 +192,7 @@
         align-items: center;
         -webkit-flex-wrap: wrap;
         flex-wrap: wrap;
-        margin-top: 16px;
+        margin-top: 1.2rem;
         border-radius: 5px;
         .box-shadow;
         a {
@@ -214,7 +214,7 @@
         }
         .item {
             i {
-                font-size: 24px;
+                font-size: 1.8rem;
             }
         }
         .item-1,
@@ -246,7 +246,7 @@
         .wrap;
         a {
             color: #333 !important;
-            margin: 16px 0;
+            margin: 1.2rem 0;
             display: -webkit-flex;
             display: flex;
             -webkit-justify-content: space-between;
@@ -261,7 +261,7 @@
         }
         .card-box {
             i {
-                font-size: 24px;
+                font-size: 1.8rem;
             }
         }
         .card-box-1 {
@@ -295,16 +295,16 @@
                 margin-top: 1vw;
             }
             .item {
-                font-size: 25px;
+                font-size: 1.8rem;
                 .price {
-                    font-size: 40px;
+                    font-size: 3rem;
                 }
             }
         }
         .sub-bar {
             .item {
                 .title {
-                    font-size: 10pt;
+                    font-size: .8rem;
                 }
             }
         }
@@ -318,7 +318,7 @@
         align-items: center;
         -webkit-flex-wrap: wrap;
         flex-wrap: wrap;
-        margin-top: 16px;
+        margin-top: 1.2rem;
         border-radius: 5px;
         background: none;
         .item {
@@ -358,20 +358,20 @@
         }
     }
     .font-size-9 {
-        font-size: 9pt;
+        font-size: .7rem;
         color: #666;
     }
     .font-size-10 {
-        font-size: 10pt;
+        font-size: .8rem;
     }
     .font-size-18 {
-        font-size: 18px;
+        font-size: 1.35rem;
     }
     .font-size-12 {
-        font-size: 12px;
+        font-size: .9rem;
     }
     .margin-top-8 {
-        margin-top: -8vw;
-        font-size: 12px;
+        margin-top: -10vw;
+        font-size: .9rem;
     }
 }

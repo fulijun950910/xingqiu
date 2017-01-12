@@ -18,7 +18,7 @@
                     <div class="swiper-slide tab-content-1">
                         <div id="scroller">
                             <!--%if(!o  || o.achievementList.length==0){ %-->
-                            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c">  亲~,该门店暂时还没有排名...</span></div>
+                            <div class="errorBox"><i class="ic icon-xiaolian"></i><span class="errorText">  亲~,该门店暂时还没有排名...</span></div>
                             <!--% } else { %-->
                             <div class="weui_cells" style="margin: 0;">
                                 <!--% for (var i=0,len=o.achievementList.length; i <len; i++) { %-->
@@ -40,7 +40,7 @@
                     <div class="swiper-slide tab-content-2">
                         <div id="scroller">
                             <!--%if(!o || o.cardConsumeList.length==0){ %-->
-                            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c">  亲~,该门店暂时还没有排名...</span></div>
+                            <div class="errorBox"><i class="ic icon-xiaolian"></i><span class="errorText">  亲~,该门店暂时还没有排名...</span></div>
                             <!--% } else { %-->
                             <div class="weui_cells" style="margin: 0;">
                                 <!--% for (var i=0,len=o.cardConsumeList.length; i <len; i++) { %-->
@@ -64,7 +64,7 @@
                 </div>
             </div>
         </div>
-        <div style="height: 57px;"></div>
+        <div 16vw></div>
         <!-- 面包 导航-->
         <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
             <div onclick="app.goBack()" flex="50">

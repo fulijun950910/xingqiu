@@ -18,13 +18,20 @@
     </div>
     <script type="text/html" id="tmpl-appointment-list">
         <!--%if(!o.bookingLInfo || o.bookingLInfo.length == 0){ %-->
-        <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据~</span></div>
+        <div class="errorBox"><i class="ic icon-xiaolian"></i>
+            <span class="errorText">  亲~抱歉,暂时没有查到数据~</span></div>
         <!--% } else { %-->
         <!--% for(var i=0;i<o.bookingLInfo.length;i++) { %-->
         <div class="bookingList">
             <div class="bookinglist9">
                 <div class="bookingClientName" layout="row" layout-align="space-between center">
-                    <div style="margin-top:4vw;"><span>{%=o.bookingLInfo[i].appointmentName %}</span>&nbsp;&nbsp;<span>{%=o.bookingLInfo[i].mobile %}</span></div>
+                    <div style="margin-top:4vw;"  layout="row" layout-align="space-between center">
+                        <div class="member-img">
+                            <img id="comment-pic" src="{%=app.filePath + o.bookingLInfo[i].memberAvatarId %}" onerror="this.src='images/default_female.png'">
+                        </div>
+                        <span >{%=o.bookingLInfo[i].appointmentName %}</span>&nbsp;&nbsp;
+                        <span>{%=o.bookingLInfo[i].mobile %}</span>
+                    </div>
                 </div>
                 <div class="radiu-boder">
                     <div class="left-radiu radiu"></div>
@@ -34,11 +41,11 @@
                 <div layout="row" layout-align="space-around center">
                     <div flex="80">
                         <div class="bookingordertime">
-                            <i class="ic primary-color margin-right-5">&#xe615;</i><span class="font-gay">{%=o.bookingLInfo[i].startTime %}</span>
+                            <i class="ic primary-color margin-right-5">&#xe615;</i><span class="font-gay font-default-size ">{%=o.bookingLInfo[i].startTime %}</span>
                         </div>
                         <!--% if(o.bookingLInfo[i].employeeName){ %-->
                         <div class="">
-                            <i class="ic primary-color margin-right-5">&#xe648;</i><span class="font-gay">{%=o.bookingLInfo[i].employeeName %}</span>
+                            <i class="ic primary-color margin-right-5">&#xe648;</i><span class="font-gay font-default-size">{%=o.bookingLInfo[i].employeeName %}</span>
                         </div>
                         <!--% } %-->
                         <!-- 订单内容 -->
@@ -47,16 +54,14 @@
                             <!--% for(var j=0;j<o.bookingLInfo[i].itemVoList.length;j++ ){ %-->
                             <!--% if(j==0){ %-->
                             <li>
-                                <i class="ic primary-color margin-right-5">&#xe678;</i>
-                                <span>{%=o.bookingLInfo[i].itemVoList[j].name %}</span>
-                            </li>
+                                <i class="ic primary-color margin-right-5">&#xe678;</i><span class="font-default-size">{%=o.bookingLInfo[i].itemVoList[j].name %}</span></li>
                             <!--% }else if(j==(o.bookingLInfo[i].itemVoList.length-1)){ %-->
                             <li>
                                 <div class="leftorder"></div>
-                                <span>{%=o.bookingLInfo[i].itemVoList[j].name %}</span>
+                                <span class="font-default-size">{%=o.bookingLInfo[i].itemVoList[j].name %}</span>
                             </li>
                             <!--% }else{ %-->
-                            <li><span>{%=o.bookingLInfo[i].itemVoList[j].itemName %}</span></li>
+                            <li><span class="font-default-size">{%=o.bookingLInfo[i].itemVoList[j].itemName %}</span></li>
                             <!--% } %-->
                             <!--% } %-->
                             <!--%  } %-->
@@ -83,13 +88,13 @@
                 </div>
                 <!-- 服务评价内容 -->
                 <div class="evaluatebox">
-                    <div class="evaluate">备注:<span>{%=o.bookingLInfo[i].information %}</span></div>
+                    <div class="evaluate font-default-size">备注:<span>{%=o.bookingLInfo[i].information %}</span></div>
                 </div>
             </div>
         </div>
         <!--% } %-->
         <!--% } %-->
-        <div style="height: 57px;"></div>
+        <div style="height: 16vw"></div>
         <!-- 面包 导航-->
         <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
             <div onclick="app.goBack()" flex="{%=o.flex%}">
