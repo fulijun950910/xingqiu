@@ -27,7 +27,7 @@
                 <div class="bookingClientName" layout="row" layout-align="space-between center">
                     <div style="margin-top:4vw;"  layout="row" layout-align="space-between center">
                         <div class="member-img">
-                            <img id="comment-pic" src="{%=app.filePath + o.bookingLInfo[i].memberAvatarId %}" onerror="this.src='images/default_female.png'">
+                            <img class="memberImg" data-id="{%=o.bookingLInfo[i].memberId %}" id="comment-pic" src="{%=app.filePath + o.bookingLInfo[i].memberAvatarId %}" onerror="this.src='images/default_female.png'">
                         </div>
                         <span >{%=o.bookingLInfo[i].appointmentName %}</span>&nbsp;&nbsp;
                         <span>{%=o.bookingLInfo[i].mobile %}</span>

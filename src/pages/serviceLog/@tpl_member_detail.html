@@ -114,7 +114,13 @@
             </p>
             <p class="font-smile">
                 <span class="font-gay">服务人员：</span>
-                <span class="">{%=o.employees %}</span>
+                <span class="">
+                    <!--% if(o.taboos&&o.taboos.length>0){ %-->
+                    {%=o.employees %}
+                    <!--% }else{ %-->
+                    未指定服务人员
+                    <!--% } %-->
+                </span>
             </p>
             <p class="font-smile">
                 <span class="font-gay">服务项目：</span>

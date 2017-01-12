@@ -213,7 +213,7 @@ app.serviceLog = {
                     var template = tmpl(html, res.data);
                     $('#serviceNote').html(template);
                 }else{
-                    app.alert(res.message)
+                    //app.alert(res.message)
                 }
             },
             error: function() {}
