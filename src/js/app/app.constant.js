@@ -35,7 +35,7 @@ app.constant = {
     ],
     //券状态
     TICKET_STATUS: [
-        { name: '末验券', code: 1 },
+        { name: '未验券', code: 1 },
         { name: '不可用', code: 2 },
         { name: '已过期', code: 3 },
         { name: '已使用', code: 4 }
@@ -94,7 +94,7 @@ app.constant = {
         { name: '补卡', code: "70" },
         { name: '已付款', code: "20" },
         { name: '待付款-上钟', code: "12" },
-        { name: '待付款-末上钟', code: "11" },
+        { name: '待付款-未上钟', code: "11" },
         { name: '待付款-服务结束', code: "13" }
     ]
 }

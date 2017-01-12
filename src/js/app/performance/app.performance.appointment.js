@@ -158,6 +158,7 @@ app.performance.appointment = {
             var template = tmpl(html, bookingList);
             //console.info($('#scroller'));
             $('#order-scroller').html(template);
+            app.tools.changeTitle('预约列表');
             app.performance.appointment.initDate(bookingList.dataType); //初始化时间
             app.performance.appointment.initStoreList(); //初始化门店
             app.performance.appointment.initCystomDate(bookingList.dataType); //初始化自定义时间       

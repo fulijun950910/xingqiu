@@ -23,7 +23,7 @@
                         <div class="weui_cells">
                             <div class="financial-list">
                                 <!--%if(!o.financialInfoData || o.financialInfoData.length == 0){ %-->
-                                <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
+                                <div class="errorBox"><i class="ic icon-xiaolian"></i><span class="errorText"> 亲~抱歉,暂时没有查到数据...~</span></div>
                                 <!--% } else  if(o.financialInfoData.length > 2){ %-->
                                 <!--% for (var i=0; i <o.financialInfoData.length; i++) { %-->
                                 <div class="financial-item" onclick="app.financial.financialInfo({%= o.financialInfoData[i].id %})">
@@ -89,7 +89,7 @@
                         <div class="weui_cells">
                             <div class="financial-list">
                                 <!--%if(!o.dzpList || o.dzpList.length == 0){ %-->
-                                <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
+                                <div class="errorBox"><i class="ic icon-xiaolian"></i><span class="errorText"> 亲~抱歉,暂时没有查到数据...~</span></div>
                                 <!--% } else  if(o.dzpList.length > 2){ %-->
                                 <!--% for (var i=0; i <o.dzpList.length; i++) { %-->
                                 <div class="financial-item" onclick="app.financial.financialInfo({%= o.dzpList[i].id %})">
@@ -155,7 +155,7 @@
                         <div class="weui_cells">
                             <div class="financial-list">
                                 <!--%if(!o.fxList || o.fxList.length == 0){ %-->
-                                <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
+                                <div class="errorBox"><i class="ic icon-xiaolian"></i><span class="errorText"> 亲~抱歉,暂时没有查到数据...~</span></div>
                                 <!--% } else  if(o.fxList.length > 2){ %-->
                                 <!--% for (var i=0; i <o.fxList.length; i++) { %-->
                                 <div class="financial-item" onclick="app.financial.financialInfo({%= o.fxList[i].id %})">
@@ -220,7 +220,7 @@
                         <div class="weui_cells">
                             <div class="financial-list">
                                 <!--%if(!o.tgList || o.tgList.length == 0){ %-->
-                                <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据...~</span></div>
+                                <div class="errorBox"><i class="ic icon-xiaolian"></i><span class="errorText"> 亲~抱歉,暂时没有查到数据...~</span></div>
                                 <!--% } else  if(o.tgList.length > 2){ %-->
                                 <!--% for (var i=0; i <o.tgList.length; i++) { %-->
                                 <div class="financial-item" onclick="app.financial.financialInfo({%= o.tgList[i].id %})">
@@ -282,7 +282,7 @@
                     </div>
                 </div>
             </div>
-            <div style="height: 57px;"></div>
+            <div 16vw></div>
             <!-- 面包 导航-->
             <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
                 <a href="/main.html#/index" flex="50" class="border-right">

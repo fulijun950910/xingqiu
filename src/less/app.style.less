@@ -9,11 +9,18 @@
 @border-color: #e5e5e5;
 @female-color: #f7398f; //女生
 @male-color: #4ED9CF; //男生
-@font-small-size: 9pt;
-@font-default-size: 12px;
-@font-priceY-size: 16px;
-@font-priceF-size: 8pt;
+@font-small-size: .8rem;
+@font-default-size: .9rem;
+@font-priceY-size: 1.2rem;
+@font-priceF-size: .7rem;
 @button-height: 12vw;
+body {
+    font-family: "Microsoft YaHei", tahoma, arial, "Hiragino Sans GB", "\5b8b\4f53", sans-serif;
+    font-size: 4vw;
+    width: 100%;
+    height: 100%;
+}
+
 div,
 span,
 i,
@@ -62,7 +69,7 @@ a {
 //面包导航
 .breadCrumbs {
     position: fixed;
-    height: 49px;
+    height: 15vw;
     width: 100vw;
     background: @primary-background-color;
     color: @secondary-color;
@@ -72,7 +79,7 @@ a {
     div,
     a {
         color: @secondary-color;
-        line-height: 49px;
+        line-height: 15vw;
         .text-align-center;
         &:nth-of-type(2) {
             border-left: 1px solid @border-color;
@@ -105,12 +112,12 @@ a {
 //错误error
 .messageError {
     color: red;
-    font-size: 9pt;
+    font-size: .8rem;
     display: none;
 }
 
 .tool-tab {
-    height: 10vh;
+    height: 15vw !important;
     position: relative;
     ul {
         background: #fff;
@@ -122,7 +129,7 @@ a {
             list-style: none;
             width: 50%;
             height: 100%;
-            line-height: 10vh;
+            line-height: 15vw;
             text-align: center;
             &.active {
                 color: @primary-color;
@@ -145,7 +152,7 @@ a {
     display: block;
     position: absolute;
     width: 25vw;
-    height: 2px;
+    height: .5vw;
     background: @primary-color;
     transition: left .1s;
     left: 0;
@@ -169,7 +176,7 @@ a {
     line-height: 15vw;
     text-align: center;
     color: @font-primary-color;
-    font-size: 8pt;
+    font-size: .7rem;
     background: #fff;
     width: 100vw;
 }
@@ -212,6 +219,9 @@ a {
         background: #fff;
         transition: all .1s;
         -webkit-transition: all .1s;
+        .allStore {
+            min-height: 4vw;
+        }
         span {
             padding: 4vw 2vw;
             border-bottom: 1px solid @primary-background-color;
@@ -219,7 +229,7 @@ a {
             display: -webkit-flex;
             -webkit-tap-highlight-color: transparent;
             position: relative;
-            font-size: 14px;
+            font-size: 1.1rem;
             &.active {
                 color: #00cbc7;
                 background: @primary-background-color;
@@ -293,7 +303,7 @@ a {
             border-bottom: 1px solid @primary-background-color;
             -webkit-tap-highlight-color: transparent;
             display: block;
-            font-size: 14px;
+            font-size: 1.1rem;
             &.active {
                 color: #4ED9CF;
             }
@@ -316,8 +326,19 @@ a {
     }
     .title {
         background: @primary-background-color;
-        height: 40px;
+        height: 12vw;
         padding: 0 2vw;
+        .cancelDate,
+        .saveDate {
+            width: 50%;
+            width: 50%;
+            height: 100%;
+            line-height: 12vw;
+            text-align: left;
+        }
+        .saveDate {
+            text-align: right;
+        }
     }
     .date {
         padding: 10vw 2vw;
@@ -326,7 +347,7 @@ a {
     label {
         margin-bottom: 2vw;
         color: #888;
-        font-size: 12px;
+        font-size: .9rem;
     }
     input {
         // box-shadow: none;
@@ -336,7 +357,7 @@ a {
         border-radius: 5px;
         text-align: center;
         width: 43vw;
-        font-size: 8pt !important;
+        font-size: .7rem !important;
     }
 }
 
@@ -362,7 +383,7 @@ a {
     }
     .employeeList_menu {
         .title {
-            font-size: 12px;
+            font-size: .9rem;
             color: #222;
             text-align: center;
             margin-top: 2vw;
@@ -384,8 +405,8 @@ a {
         -webkit-flex-flow: column;
         .employee_item {
             img {
-                width: 50px;
-                height: 50px;
+                width: 15vw;
+                height: 15vw;
                 border-radius: 50%;
             }
             display: flex;
@@ -435,10 +456,10 @@ a {
             -webkit-flex-flow: column;
             margin-left: 3vw;
             .employee_name {
-                font-size: 14px;
+                font-size: 1.1rem;
             }
             .merchant_name {
-                font-size: 9pt;
+                font-size: .8rem;
                 color: @font-primary-color;
             }
         }
@@ -478,11 +499,15 @@ a {
 }
 
 .font-size-14 {
-    font-size: 14px;
+    font-size: 1.1rem;
 }
 
 .font-size-12 {
-    font-size: 12px;
+    font-size: .9rem;
+}
+
+.font-default-size {
+    font-size: 1rem;
 }
 
 .font-size-3vw {
@@ -511,6 +536,21 @@ a {
 
 .text-align-right {
     text-align: right;
+}
+
+.errorBox {
+    width: 100%;
+    text-align: center;
+    color: #8c8c8c;
+    // height: 80vh;
+    line-height: 80vw;
+    .icon-xiaolian {
+        font-size: 6vw;
+    }
+    .errorText {
+        font-size: 4vw;
+        color: #8c8c8c
+    }
 }
 
 [layout="row"] {

@@ -8,7 +8,8 @@
             <div class="orderEmployeeData-box">
                 <div class="data-list wrap">
                     <!--%if(!o.orderEmployeePerformanceList || o.orderEmployeePerformanceList.length == 0){ %-->
-                    <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c">  亲~,该门店还没有员工哦...</span></div>
+                    <div class="errorBox"><i class="ic icon-xiaolian"></i>
+                        <span class="errorText">  亲~,该门店还没有员工哦...</span></div>
                     <!--% } else { %-->
                     <!--% for (var i=0; i <o.orderEmployeePerformanceList.length; i++) { %-->
                     <div class="data-item" layout="row" layout-align="space-between center">
@@ -16,7 +17,7 @@
                             <img id="comment-pic" src="{%=app.filePath + o.orderEmployeePerformanceList[i].employeeImageId %}" onerror="this.src='images/default_female.png'">
                         </div>
                         <div style="padding: 3vw 0;margin-left:2vw" layout="row" flex layout-align="space-around center" class="border-bottom">
-                            <div class="employee-info text-align-left" layout="column"  flex="20">
+                            <div class="employee-info text-align-left" layout="column" flex="20">
                                 <span class="name">{%= app.tools.sliceStr(o.orderEmployeePerformanceList[i].employeeName,8) %}</span>
                                 <span>No.{%= i + 1%}</span>
                             </div>
@@ -37,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <div style="height: 57px;"></div>
+        <div style="height: 17vw;"></div>
         <!-- 面包 导航-->
         <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
             <div onclick="app.goBack()" flex="25">

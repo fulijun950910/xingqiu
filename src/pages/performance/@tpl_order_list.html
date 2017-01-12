@@ -12,6 +12,7 @@
                     </div>
                     <div class="push">提成：<span class="primary-color font-priceF-size" id="total-push">￥<span class="font-priceY-size push-priceY">0</span>.<span class="push-priceF">00</span></span>
                     </div>
+                    
                 </div>
             </div>
             <div id="order-scroller" class="scroller">
@@ -19,44 +20,49 @@
         </div>
     </div>
     <script type="text/html" id="tmpl-order-list">
-        <div style="height:15vw;"></div>
+        <div style="height:16vw;"></div>
+        <div style="height:2vw;"></div>
         <div class="">
             <!--%if(!o.datas || o.datas.length == 0){ %-->
-            <div style="width: 100%;text-align: center;color:#8c8c8c;padding-top: 55vw;"><i class="ic icon-xiaolian" style="font-size: 6vw;"></i><span style="font-size: 4vw;color:#8c8c8c"> 亲~抱歉,暂时没有查到数据~</span></div>
+            <div class="errorBox"><i class="ic icon-xiaolian"></i><span class="errorText"> 亲~抱歉,暂时没有查到数据~</span></div>
             <!--% } else { %-->
             <!--% for(var i=0;i<o.datas.length;i++){ %-->
             <div class="orderList wrap" onclick="app.performance.order.chooseOrderId({%=JSON.stringify(o.datas[i]) %})">
                 <div class="orderList9">
                     <div class="financial-item" style="border-radius:0;">
                         <div layout="row">
-                            <div class="logo text-align-center" flex="25" layout="column" layout-align="space-between center">
+                            <div class="logo text-align-center" flex="25" layout="column" layout-align="center center">
                                 <img class="memberImg" data-id="{%=o.datas[i].memberId %}" src="{%=app.filePath + o.datas[i].memberAvatarId %}" onerror="this.src='/images/default_female.png'" alt="" />
                                 <!--% if(o.datas[i].memberName){ %-->
-                                <span class="font-size-14">{%=app.tools.sliceStr(o.datas[i].memberName,8) %}</span>
+                                <span class="memberName">{%=app.tools.sliceStr(o.datas[i].memberName,8) %}</span>
                                 <!--% } %-->
                                 <!--% if(o.datas[i].mobile){ %-->
-                                <span class="font-size-12">{%=o.datas[i].mobile %}</span>
+                                <span class="moblie">{%=o.datas[i].mobile %}</span>
                                 <!--% } %-->
                             </div>
-                            <div class="info" layout="column" flex="75" style="justify-content: space-around;">
-                                <div layout="column" style="padding-top:3vw;">
-                                    <!--% if(o.datas[i].itemVoList){ %-->
-                                    <!--% for(var j=0;j<o.datas[i].itemVoList.length;j++){ %-->
-                                    <span class="font-size-14 font-primary-color">{%=app.tools.sliceStr(o.datas[i].itemVoList[j].itemName,25 )%}</span>
-                                    <!--% } %-->
-                                    <!--% } %-->
+                            <div class="info" layout="column" flex="75" layout-align="space-between start">
+                                <div layout="row" style="padding-top:3vw;width:100%;" layout-align="space-between start">
+                                    <div layout="column">
+                                        <!--% if(o.datas[i].itemVoList){ %-->
+                                        <!--% for(var j=0;j<o.datas[i].itemVoList.length;j++){ %-->
+                                        <!--% if(j < 2){ %-->
+                                        <span class="memberName font-primary-color">{%=app.tools.sliceStr(o.datas[i].itemVoList[j].itemName,25 )%}</span>
+                                        <!--% }else if(j == 2){ %-->
+                                         <span class="memberName font-primary-color">..........</span>
+                                        <!--% } %-->
+                                        <!--% } %-->
+                                        <!--% } %-->
+                                    </div>
+                                    <span class="primary-color font-priceF-size" id="total-push">￥<span class="font-priceY-size push-priceY">{%=app.tools.changePrice(o.datas[i].realReceivableMoney)[0]%}</span>.<span class="push-priceF">{%=app.tools.changePrice(o.datas[i].realReceivableMoney)[1]%}</span></span>
                                 </div>
-                                <div layout="row" layout-align="space-between center">
+                                <div layout="row" layout-align="space-between center" style="width: 100%;">
                                     <div class="performance">业绩:<span>¥{%=app.tools.toThousands(o.datas[i].performance)%}</span></div>
                                     <div class="push">卡耗:<span>¥{%=app.tools.toThousands(o.datas[i].cardConsume)%}</span></div>
                                     <div class="push">提成:<span>¥{%=app.tools.toThousands(o.datas[i].commission)%}</span></div>
                                 </div>
-                                <div layout="row">
+                                <!--    <div layout="row">
                                     <span>备注:{%=o.datas[i].remark%}</span>
-                                </div>
-                            </div>
-                            <div class="total-price">
-                                <span class="primary-color font-priceF-size" id="total-push">￥<span class="font-priceY-size push-priceY">{%=app.tools.changePrice(o.datas[i].realReceivableMoney)[0]%}</span>.<span class="push-priceF">{%=app.tools.changePrice(o.datas[i].realReceivableMoney)[1]%}</span></span>
+                                </div> -->
                             </div>
                             <!-- <span class="time">{%=app.tools.toDetailDate(o.datas[i].orderDate,o.datas[i].nowDate) %}</span> -->
                             <div class="activeInfo">
@@ -67,11 +73,11 @@
                     </div>
                 </div>
             </div>
-            <div style="height:3vw;"></div>
+            <div style="height:2vw;"></div>
             <!--% } %-->
             <!--% } %-->
         </div>
-        <div style="height:57px;"></div>
+        <div style="height:17vw;"></div>
         <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
             <div onclick="app.goBack()" flex="25">
                 <i class="ic">&#xe68b;</i>
