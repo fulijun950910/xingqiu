@@ -31,17 +31,16 @@
                     </div>
                 </div>
             </div>
-            <div class="memberInfo padding2" layout="row" layout-align="start center">
-                <div>
-                    <div class="tagList">
-                        <ul>
-                            <!--% if(o.member.memberTags){ %-->
-                            <!--% for(var j=0;j<o.member.memberTags.length;j++ ){ %-->
-                            <li  class="li{%=app.tools.tagColor(j,6)%}">{%=o.member.memberTags[j].name %}</li>
-                            <!--% } %-->
-                            <!--% } %-->
-                        </ul>
-                    </div>
+            <div style="padding-top:0;" class="memberInfo padding2" layout="row" layout-align="start center">
+                <div style="width:16vw;margin-right:2vw;" alt="" ></div>
+                <div class="tagList" flex>
+                    <ul>
+                        <!--% if(o.member.memberTags){ %-->
+                        <!--% for(var j=0;j<o.member.memberTags.length;j++ ){ %-->
+                        <li  class="li{%=app.tools.tagColor(j,6)%}">{%=o.member.memberTags[j].name %}</li>
+                        <!--% } %-->
+                        <!--% } %-->
+                    </ul>
                 </div>
             </div>
             <!--% if(o.list&&o.list.length>0){ %-->
