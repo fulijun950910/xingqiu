@@ -219,6 +219,7 @@ app.tools = {
             $('#' + idName).find('.cystomDate .date_menu').removeClass('date_menu_active');
             $('#' + idName).find('.cystomDate .mask').removeClass('mask_show');
             $('#' + idName).find('.dateLists span').removeClass('active').find('i').remove();
+            $('.bd').css({'height':'100vh','overflow':'hidden'});
             if (type) {
                 $('#' + idName).find('.dateLists span').eq(parseInt(type) - 1).addClass('active');
             }
@@ -229,6 +230,7 @@ app.tools = {
             $('#' + idName).find('.cystomDate .date_menu').removeClass('date_menu_active');
             $('#' + idName).find('.cystomDate .mask').removeClass('mask_show');
             $('#' + idName).find('.dateLists span').removeClass('active').find('i').remove();
+            $('.bd').css({'min-height':'100vh','overflow':'scroll'});
             if (type) {
                 $('#' + idName).find('.dateLists span').eq(parseInt(type) - 1).addClass('active');
             }
@@ -241,6 +243,7 @@ app.tools = {
             $('#' + idName).find('.dateLists .mask').addClass('mask_show');
             $('#' + idName).find('.dateLists .date_menu').addClass('date_menu_active');
             $('#' + idName).find('.dateLists .mask').height($('.bd').height());
+            $('.bd').css({'height':'100vh','overflow':'hidden'});
             //判断是否有选中active
             if (!$('#' + idName).find('.dateLists span').hasClass('active')) {
                 $('#' + idName).find('.dateLists span:first').addClass('active');
@@ -253,6 +256,7 @@ app.tools = {
             $('#' + idName).find('.cystomDate .date_menu').removeClass('date_menu_active');
             $('#' + idName).find('.cystomDate .mask').removeClass('mask_show');
             $('#' + idName).find('.dateLists span').removeClass('active').find('i').remove();
+            $('.bd').css({'min-height':'100vh','overflow':'scroll'});
             if (type) {
                 $('#' + idName).find('.dateLists span').eq(parseInt(type) - 1).addClass('active');
             }
@@ -324,10 +328,12 @@ app.tools = {
             $('#' + idName).find('.storeLists .mask').addClass('mask_show');
             $('#' + idName).find('.stores').addClass('stores-active');
             $('#' + idName).find('.mask').height($('.bd').height());
+            $('.bd').css({'height':'100vh','overflow':'hidden'});
         });
         $('#' + idName).find('.storeList').find('.store_name').find('')
             //关闭门店选择
         $('#' + idName).find('.storeLists').on('click', '.mask', function(event) {
+            $('.bd').css({'min-height':'100vh','overflow':'scroll'});
             $('#' + idName).find('.stores').removeClass('stores-active');
             $('#' + idName).find('.storeLists .mask').removeClass('mask_show');
         });
@@ -343,6 +349,7 @@ app.tools = {
             $('#' + idName).find('.tempLists .mask').addClass('mask_show');
             $('#' + idName).find('.tempLists .date_menu').addClass('date_menu_active');
             $('#' + idName).find('.tempLists .mask').height($('.bd').height());
+            $('.bd').css({'height':'100vh','overflow':'hidden'});
             //判断是否有选中active
             if (!$('#' + idName).find('.tempLists span').hasClass('active')) {
                 $('#' + idName).find('.tempLists span:first').addClass('active');
@@ -352,6 +359,7 @@ app.tools = {
         $('#' + idName).find('.tempLists').on('click', '.mask', function() {
             $('#' + idName).find('.date_menu').removeClass('date_menu_active');
             $('#' + idName).find('.mask').removeClass('mask_show');
+            $('.bd').css({'min-height':'100vh','overflow':'scroll'});
             // $('#' + idName).find('.tempLists span').removeClass('active').find('i').remove();
         });
         $('#' + idName).on("touchmove", ".mask", function(e) {
@@ -394,14 +402,14 @@ app.tools = {
             });
         }
     },
-    seeImg:function(dom){
-        $("body img"+dom).tap("",function(e){
+    seeImg: function(dom) {
+        $("body img" + dom).tap("", function(e) {
             e.stopPropagation();
             e.preventDefault()
             var src = $(this.ele).attr("src");
             var altHtml = '';
             altHtml += '<div id="imgBlack" layout="row" layout-align="center center" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:99;background:rgba(0,0,0,0.96)">';
-            altHtml += '<img style="width:100%;" src="'+src+'"/>';
+            altHtml += '<img style="width:100%;" src="' + src + '"/>';
             altHtml += '</div>';
             $('body').append(altHtml);
         })

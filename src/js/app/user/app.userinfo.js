@@ -374,6 +374,7 @@ app.userinfo = {
         }, function() {});
     },
     find: function() {
+        app.startLoading();
         app.userinfo.getEmployee().then(function(employee) {
             var data = {
                 employeeId: employee.id
@@ -384,7 +385,20 @@ app.userinfo = {
                     var template = $('#tmpl-userinfo').html();
                     var resultHtml = tmpl(template, result.data);
                     $('#userinfo-detail').html(resultHtml);
-                    $('select[name="gender"]').val(result.data.gender);
+                    app.endLoading();
+                    // 用户名
+                    if (result.data.name) {
+                        $('.headPic').find('.employee-name').text(result.data.name);
+                        $('.headPic').find('.employee-name').show();
+                    }
+                    //签名
+                    if (result.data.description) {
+                        $('.headPic').find('.employee-description').text(app.tools.sliceStr(result.data.description, 60));
+                        $('.headPic').find('.employee-description').show();
+                    }
+
+                    window.sessionStorage.setItem('userInfo', JSON.stringify(result.data));
+                    // $('select[name="gender"]').val(result.data.gender);
                     if (result.data.avatarFileId)
                         $('#headarticle').prop('src', app.filePath + result.data.avatarFileId);
                     $('#headarticle').on('click', function() {
@@ -400,7 +414,11 @@ app.userinfo = {
             })
         }, function() {})
     },
-    updateEmployee: function() {
+    //用户信息事件
+    editUser: function(type) {
+        window.location.href = "/userinfo.html#/editUserInfo?type=" + type;
+    },
+    updateEmployee: function(userinfo) {
         app.userinfo.getEmployee().then(function(employee) {
             //事件统计
             baiduStatistical.add({
@@ -410,23 +428,23 @@ app.userinfo = {
                 action: 'click'
             });
 
-            var employee = {
-                id: employee.id,
-                name: $('input[name="name"]').val(),
-                gender: $('select[name="gender"]').val(),
-                birthday: $('input[name="birthday"]').val() ? $('input[name="birthday"]').val() + ' 00:00:00' : "",
-                address: $('input[name="address"]').val(),
-                description: $('input[name="description"]').val(),
-                avatarFileId: app.userinfo.fileId
-            };
+            // var employee = {
+            //     id: employee.id,
+            //     name: $('input[name="name"]').val(),
+            //     gender: $('select[name="gender"]').val(),
+            //     birthday: $('input[name="birthday"]').val() ? $('input[name="birthday"]').val() + ' 00:00:00' : "",
+            //     address: $('input[name="address"]').val(),
+            //     description: $('input[name="description"]').val(),
+            //     avatarFileId: app.userinfo.fileId
+            // };
             app.api.userinfo.updateEmployee({
-                data: employee,
+                data: userinfo,
                 success: function(result) {
                     if (result.success)
                     // app.alert('个人信息修改成功', '修改成功');
-                        app.userinfo.alertError('小主，个人信息修改成功');
+                    // app.userinfo.alertError('小主，个人信息修改成功');
                     //清空本地Session
-                    app.userinfo.getEmployee().then(function(employee) {
+                        app.userinfo.getEmployee().then(function(employee) {
                         var e1 = employee;
                         e1.name = employee.name;
                         e1.gender = employee.gender;
@@ -435,7 +453,10 @@ app.userinfo = {
                         e1.description = employee.description;
                         e1.avatarFileId = employee.avatarFileId;
                         localStorage.employee = JSON.stringify(e1);
-                    }, function() {})
+                    }, function() {
+                        app.userinfo.alertError('小主，个人信息修改异常,请稍后尝试');
+                    })
+                    location.href = "/userinfo.html#/";
                 },
                 error: function(a, b, c) {
                     //   app.alert('个人信息修改异常,请稍后尝试', '修改异常');
@@ -585,10 +606,123 @@ app.userinfo = {
             });
         };
     },
-    // clearUserName: function() {
-    //     $('.userInfo').on('click', '.clearUserName', function(event) {
-    //         event.preventDefault();
-    //         $('.userinfo').find('.username').val("");
-    //     });
-    // },
+    //修改用户信息
+    editUserInfo: function() {
+        if (sessionStorage.userInfo && JSON.parse(sessionStorage.userInfo)) {
+            var userinfo = JSON.parse(sessionStorage.userInfo);
+            userinfo.type = window.location.hash.substr(window.location.hash.indexOf('=') + 1);
+            // userinfo.birthday = userinfo.birthday ? userinfo.birthday : moment().format('YYYY-MM-DD');
+            var tmplhtml = $('#tmpl-edit-userInfo-model').html();
+            var resultTmpl = tmpl(tmplhtml, userinfo);
+            $('#tmpl-edit-userInfo').html(resultTmpl);
+            if (userinfo.gender == 2) { //女
+                $('.female-info').addClass('female-active');
+            } else if (userinfo.gender == 1) { //男
+                $('.male-info').addClass('male-active');
+            }
+            //绑定清除文本框事件
+            $('.edit-userInfo .form').on('touchstart', '.clearInfo', function(event) {
+                event.preventDefault();
+                $(this).prev().val("");
+            });
+            //查看密码
+            $('.edit-userInfo .form').on('touchstart', '.getPwd', function(event) {
+                event.preventDefault();
+                if ($(this).prev('input').attr('type') == "text") {
+                    $(this).prev('input').attr('type', 'password');
+                    $(this).replaceWith('<i class="ic font-secondary-color getPwd">&#xe695;</i>');
+                } else {
+                    $(this).prev('input').attr('type', 'text');
+                    $(this).replaceWith('<i class="ic font-secondary-color getPwd">&#xe69d;</i>');
+                }
+            });
+            //修改性别
+            $('.edit-userInfo').on('click', '.gender-info', function(event) {
+                event.preventDefault();
+                if ($(this).hasClass('female-info')) {
+                    $(this).addClass('female-active');
+                    $(this).next().removeClass('male-active');
+                } else {
+                    $(this).addClass('male-active')
+                    $(this).prev().removeClass('female-active');
+                }
+            });
+            //修改用户信息
+            $('.edit-userInfo').on('click', '.save_btn', function(event) {
+                event.preventDefault();
+                switch (parseInt(userinfo.type)) {
+                    case 1: //用户名
+                        if (!$('.edit-userInfo').find('.name').val()) {
+                            app.userinfo.alertError('小主，取个闪亮的名字秀出美美的你吧~');
+                            return;
+                        }
+                        userinfo.name = $('.edit-userInfo').find('.name').val();
+                        break;
+                    case 2: //性别
+                        userinfo.gender = $('.edit-userInfo').find('.gender-info').hasClass('female-active') ? 2 : 1;
+                        break;
+                    case 3: //生日 
+                        userinfo.birthday = $('.edit-userInfo').find('.birthday').val() ? $('.edit-userInfo').find('.birthday').val() + ' 00:00:00' : "";
+                        break;
+                    case 4: //地址
+                        userinfo.address = $('.edit-userInfo').find('.address').val();
+                        break;
+                    case 5: //签名
+                        userinfo.description = $('.edit-userInfo').find('.description').val();
+                        break;
+                    case 6: //修改密码
+                        if (!$('.edit-userInfo').find('.oldPassword').val()) {
+                            app.userinfo.alertError('小主，请输入原密码');
+                            return;
+                        }
+                        if (!$('.edit-userInfo').find('.newPassword').val()) {
+                            app.userinfo.alertError('小主，请输入新密码');
+                            return;
+                        }
+                        if ($('.edit-userInfo').find('.newPassword').val().length < 6) {
+                            app.userinfo.alertError('小主，密码安全性太弱啦~ ');
+                            return;
+                        }
+                        if (!$('.edit-userInfo').find('.newPwd').val()) {
+                            app.userinfo.alertError('小主，请确认密码');
+                            return;
+                        }
+
+                        if ($('.edit-userInfo').find('.newPwd').val() !== $('.edit-userInfo').find('.newPassword').val()) {
+                            app.userinfo.alertError('小主，两次密码输入不正确');
+                            return;
+                        }
+                        var updatePassword = {
+                            userId: userinfo.id,
+                            oldPassword: $('.edit-userInfo').find('.oldPassword').val(),
+                            newPassword: $('.edit-userInfo').find('.newPassword').val()
+                        };
+                        app.api.userinfo.newPassword({
+                            data: updatePassword,
+                            success: function(result) {
+                                if (result.success && result.data) {
+                                    location.href = "/userinfo.html#/";
+                                } else {
+                                    app.userinfo.alertError(result.message);
+                                    return;
+                                }
+                            },
+                            error: function(a, b, c) {
+                                app.userinfo.alertError();
+                                return;
+                            }
+                        });
+                        break;
+                }
+                if (parseInt(userinfo.type) != 3) {
+                    userinfo.birthday = userinfo.birthday ? userinfo.birthday + ' 00:00:00' : "";
+                }
+                //转换格式
+                userinfo.employmentDate = userinfo.employmentDate = userinfo.employmentDate ? userinfo.employmentDate + ' 00:00:00' : "";
+                app.userinfo.updateEmployee(userinfo);
+            });
+        } else {
+            location.href = "/userinfo.html#/";
+        }
+    },
 }

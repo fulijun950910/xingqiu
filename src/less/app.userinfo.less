@@ -26,14 +26,30 @@ input {
         // background-color: red;
         text-align: center;
         .autoImg {
+            position: relative;
             // display: inline;
             // position: relative;
             // margin: auto;
             /*    top: @headimg-heig;*/
             img {
-                width: 25vw;
-                height: 25vw;
+                width: 30vw;
+                height: 30vw;
                 border-radius: 50%;
+            }
+            .xiangji {
+                opacity: .5;
+                background: @secondary-color;
+                width: 8vw;
+                height: 8vw;
+                border-radius: 50%;
+                top: 21vw;
+                right: 2vw;
+                position: absolute;
+                i {
+                    color: @secondary-color;
+                    color: #fff;
+                    font-size: 1.5rem;
+                }
             }
         }
         .employee-name {
@@ -48,7 +64,7 @@ input {
             color: #fff;
             font-size: 1rem;
             margin-top: 2.5vw;
-            width: 92vw;
+            width: 60vw;
         }
     }
     //赂枚脠脣脨脜脧垄脕脨卤铆-鲁拢鹿忙脳脰脤氓脩脮脡芦露篓脪氓
@@ -159,9 +175,13 @@ input {
             background: @secondary-color;
             text-align: center;
             line-height: @button-height;
-            border-radius: 5px;
+            position: fixed;
+            bottom: 0;
+            width: 100vw;
+            // border-radius: 5px;
             a {
                 color: #fff;
+                font-size: 1rem;
             }
         }
         .mei_bind {
@@ -418,9 +438,15 @@ input {
             outline: none;
             color: @font-primary-color;
             font-size: 1rem;
+            margin-right: 1vw;
         }
         i {
             color: #ccc;
+        }
+    }
+    .mei_save {
+        a {
+            font-size: 1rem;
         }
     }
 }

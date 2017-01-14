@@ -2,7 +2,7 @@
  * Created by wzc on 16/7/11.
  */
 app.api.userinfo = {
-    auth: function (settings) {
+    auth: function(settings) {
         app.api.ajax({
             url: '/auth/form',
             type: 'POST',
@@ -11,7 +11,7 @@ app.api.userinfo = {
             data: settings.data
         })
     },
-    authUser: function (settings) {
+    authUser: function(settings) {
         app.api.ajax({
             url: '/authUser/exist/' + settings.data.username,
             type: 'GET',
@@ -19,7 +19,7 @@ app.api.userinfo = {
             error: settings.error,
         })
     },
-    authUserValidate: function (settings) {
+    authUserValidate: function(settings) {
         app.api.ajax({
             url: '/authUser/validate/' + settings.data.authUserId,
             type: 'GET',
@@ -27,7 +27,7 @@ app.api.userinfo = {
             error: settings.error,
         })
     },
-    updatePassword: function (settings) {
+    updatePassword: function(settings) {
         app.api.ajax({
             url: '/authUser/password',
             type: 'PUT',
@@ -36,7 +36,7 @@ app.api.userinfo = {
             data: settings.data
         })
     },
-    listEmployee: function (settings) {
+    listEmployee: function(settings) {
         app.api.ajax({
             url: '/employee/list/account/' + settings.data.userId,
             type: 'GET',
@@ -45,7 +45,7 @@ app.api.userinfo = {
             error: settings.error,
         })
     },
-    login: function (settings) {
+    login: function(settings) {
         app.api.ajax({
             url: '/employee/login/' + settings.data.employeeId,
             type: 'PUT',
@@ -54,7 +54,7 @@ app.api.userinfo = {
             data: settings.data
         })
     },
-    bind: function (settings) {
+    bind: function(settings) {
         app.api.ajax({
             url: '/wechatbusinessassists/bind',
             type: 'POST',
@@ -63,7 +63,7 @@ app.api.userinfo = {
             data: settings.data
         })
     },
-    unbind: function (settings) {
+    unbind: function(settings) {
         app.api.ajax({
             url: '/wechatbusinessassists/unbind',
             type: 'POST',
@@ -72,7 +72,7 @@ app.api.userinfo = {
             data: settings.data
         })
     },
-    find: function (settings) {
+    find: function(settings) {
         app.api.ajax({
             url: '/employee/' + settings.data.employeeId,
             type: 'GET',
@@ -80,7 +80,7 @@ app.api.userinfo = {
             error: settings.error,
         })
     },
-    updateEmployee: function (settings) {
+    updateEmployee: function(settings) {
         app.api.ajax({
             url: '/employee/simple',
             type: 'PUT',
@@ -89,7 +89,7 @@ app.api.userinfo = {
             data: settings.data
         })
     },
-    uploadFile: function(settings){
+    uploadFile: function(settings) {
         app.api.ajax({
             url: '/file',
             type: 'POST',
@@ -98,7 +98,7 @@ app.api.userinfo = {
             data: settings.data
         })
     },
-    listEmployeeStoreList: function(settings){
+    listEmployeeStoreList: function(settings) {
         app.api.ajax({
             url: '/store/list/' + settings.data.merchantId + '/employee/' + settings.data.employeeId,
             type: 'GET',
@@ -107,7 +107,7 @@ app.api.userinfo = {
             error: settings.error,
         })
     },
-    findByOpenId: function(settings){
+    findByOpenId: function(settings) {
         app.api.ajax({
             url: '/wechat/find',
             type: 'GET',
@@ -116,12 +116,21 @@ app.api.userinfo = {
             error: settings.error,
         })
     },
-    emplogin:function(settings){
+    emplogin: function(settings) {
         app.api.ajax({
             url: '/employee/login/' + settings.data.empid,
             type: 'PUT',
             success: settings.success,
             error: settings.error
         });
+    },
+    newPassword: function(settings) {
+        app.api.ajax({
+            url: '/authUser/newPassword',
+            type: 'POST',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
+        })
     }
 }

@@ -1,0 +1,66 @@
+<script type="text/html" id="tpl_edit-userInfo">
+    <div class="bd background-sign userInfo" id="tepm-edit-userInfo" style="min-height: 100vh;background: #f4f4fc;">
+        <div id="tmpl-edit-userInfo" class="edit-userInfo ">
+        </div>
+        <div class="error">
+            <span class="errorText">请输入手机号</span>
+        </div>
+    </div>
+    <!-- 管理员 -->
+    <script type="text/html" id="tmpl-edit-userInfo-model">
+        <div style="height:5vw;"></div>
+        <!--%if(o.type==1){ %-->
+        <div class="form" layout="row" layout-align="space-between center">
+            <input type="text" class="name" value='{%=o.name %}'>
+            <i class="ic font-secondary-color clearInfo">&#xe656;</i>
+        </div>
+        <!--% } else if(o.type==2) { %-->
+        <div class="gender-form" layout="row" layout-align="space-around center">
+            <div class="gender-info female-info" layout="column" layout-align="space-around center">
+                <label class="ic-info"><i class="ic">&#xe683;</i></label>
+                <span>女</span>
+            </div>
+            <div class="gender-info male-info" layout="column" layout-align="space-around center">
+                <label class="ic-info"><i class="ic">&#xe66b;</i></label>
+                <span>男</span>
+            </div>
+        </div>
+        <!--% } else if(o.type==3) { %-->
+        <div class="form" layout="row" layout-align="space-between center">
+            <input type="date" class="birthday" value='{%=o.birthday %}' style="background-color:transparent;">
+            <i class="ic font-secondary-color clearInfo">&#xe656;</i>
+        </div>
+        <!--% } else if(o.type==4) { %-->
+        <div class="form textareaForm" layout="row" layout-align="space-between center">
+            <textarea maxlength=60 class="address">{%=o.address %}</textarea>
+            <i class="ic font-secondary-color clearInfo">&#xe656;</i>
+        </div>
+        <span class="remark">最多输入60个字</span>
+        <!--% } else if(o.type==5) { %-->
+        <div class="form textareaForm" layout="row" layout-align="space-between center">
+            <textarea maxlength=60 class="description">{%=o.description %}</textarea>
+            <i class="ic font-secondary-color clearInfo">&#xe656;</i>
+        </div>
+        <span class="remark">最多输入60个字</span>
+        <!--% } else if(o.type==6) { %-->
+        <div class="form updatePwdForm" layout="row" layout-align="space-between center">
+            <label flex="20">原密码</label>
+            <input type="password" class="oldPassword" placeholder=原密码>
+            <i class="ic font-secondary-color getPwd">&#xe695;</i>
+        </div>
+        <div class="form updatePwdForm" layout="row" layout-align="space-between center">
+            <label flex="20">新密码</label>
+            <input type="password" class="newPassword" placeholder="新密码">
+            <i class="ic font-secondary-color getPwd">&#xe695;</i>
+        </div>
+        <div class="form updatePwdForm" layout="row" layout-align="space-between center">
+            <label flex="20">确认密码</label>
+            <input type="password" class="newPwd" placeholder="确认密码">
+            <i class="ic font-secondary-color getPwd">&#xe695;</i>
+        </div>
+        <!--% } %-->
+        <div class="save_btn">
+            保存
+        </div>
+    </script>
+</script>

@@ -6,87 +6,90 @@
         </div>
         <!-- //隐藏标题 -->
         <div id="hiddenTitle" class="hiddenTitle">个人信息</div>
-        <div id="userinfo-detail" class="userInfo-detail"></div>
-        <!-- 保存信息 -->
-        <div class="userinfo_save" style="margin:5vw auto 0;">
-            <!--  <div class="mei_save" onclick="app.userinfo.updateEmployee()">
-                <a href="javascript:;" class="save">保存</a>
-            </div> -->
-            <div class="mei_save" onclick="app.userinfo.logout()">
-                <a href="javascript:;" class="save">退出登录</a>
-            </div>
-            <!--          <div class="userinfo_btm">
-                <a class="unbind" onclick="app.userinfo.logout()">退出登录</a>
-                 <a class="forgetpwd" href="userinfo.html#/update_pwd">修改密码</a>
-            </div> -->
-        </div>
-    </div>
-    <script type="text/html" id="tmpl-userinfo">
         <div class="headPic" layout="column" flex layout-align="center center">
             <div class="autoImg">
                 <img id="headarticle" src="" onerror="this.src='images/pic_article_1.jpg'">
-                <span id="headerfile" style="width:1px;height:1px" type="file" accept="image/*" onchange="app.userinfo.changeImg(this)">
-                <i class="ic icon-xiangji1"></i>
+                <input id="headerfile" style="width:1px;height:1px" type="file" accept="image/*" onchange="app.userinfo.changeImg(this)">
+                <div class="xiangji">
+                    <i class="ic">&#xe61d;</i>
+                </div>
             </div>
-            <div class="employee-name">
-                     {%= o.name %}
+            <div class="employee-name" style="display: none;">
             </div>
-             <div class="employee-description">
-                    {%=app.tools.sliceStr(o.description,60)%}
+            <div class="employee-description" style="display: none;">
             </div>
         </div>
-        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center">
-            <div layout="row" flex>
-                <label for="" class="mei_label" flex="20" flex-offset="5">用户名
-                    <!-- <i class="ic">&#xe715;</i> --></label>
-                <span name="name"  class="mei_span" >
-                {%= o.name %}
-                </span>
+        <div id="userinfo-detail" class="userInfo-detail"></div>
+        <!-- 保存信息 -->
+        <div class="userinfo_save" style="margin:0;">
+            <!--  <div class="mei_save" onclick="app.userinfo.updateEmployee()">
+                <a href="javascript:;" class="save">保存</a>
+            </div> -->
+            <!--    <div class="userinfo_btm">
+                <a class="unbind" onclick="app.userinfo.logout()">退出登录</a>
+                <a class="forgetpwd" href="userinfo.html#/update_pwd">修改密码</a>
+            </div> -->
+            <div style="height: 12vw;"></div>
+            <div class="mei_save" onclick="app.userinfo.logout()">
+                <a href="javascript:;" class="save">退出登录</a>
             </div>
-            <i class="ic">&#xe717;</i>
+        </div>
+    </div>
+    <script type="text/html" id="tmpl-userinfo">
+        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center" onclick="app.userinfo.editUser(1)">
+            <label for="" class="mei_label" flex="20" flex-offset="5">用户名
+                <!-- <i class="ic">&#xe715;</i> --></label>
+            <div layout="row" flex layout-align="end center">
+                <span>{%=o.name%}</span>
+                <i class="ic">&#xe717;</i>
+            </div>
         </div>
         <!-- 性别 -->
-        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center">
-            <label for="" class="mei_label" flex="20" flex-offset="5">性别</label>
-            <div layout="row" flex>
+        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center" onclick="app.userinfo.editUser(2)">
+            <label for="" class="mei_label" flex="20" flex-offset="5">性别
+                <!-- <i class="ic">&#xe631;</i> --></label>
+            <div layout="row" flex layout-align="end center">
                 <span>{%=app.tools.getConstantByValue(app.constant.EMPLOYEE_GENDER,o.gender)%}</span>
                 <i class="ic">&#xe717;</i>
             </div>
-            <!--  <select class="weui_select" name="gender">
+            <!-- <select class="weui_select" name="gender">
                 <option value="1">男</option>
                 <option value="2">女</option>
             </select>
             <div class="weui_cell_ft"></div> -->
         </div>
         <!-- 生日 -->
-        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center">
-            <label for="user_birthday" class="mei_label" flex="20" flex-offset="5">
-                <!-- <i class="ic">&#xe63b;</i> -->生日</label>
-            <div layout="row" flex>
+        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center" onclick="app.userinfo.editUser(3)">
+            <label for="user_birthday" class="mei_label" flex="20" flex-offset="5">生日
+                <!-- <i class="ic">&#xe63b;</i> --></label>
+            <!--  <input name="birthday" value="{%=o.birthday %}" style="background-color:transparent;" type="date" class="mei_input"> -->
+            <div layout="row" flex layout-align="end center">
                 <span name="birthday" class="mei_span">{%=o.birthday %}</span>
                 <i class="ic">&#xe717;</i>
             </div>
         </div>
         <!-- 地址 -->
-        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center">
+        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center" onclick="app.userinfo.editUser(4)">
             <label for="user_addr" class="mei_label" flex="20" flex-offset="5">地址
                 <!-- <i class="ic">&#xe611;</i> --></label>
-            <div layout="row" flex>
-                <span name="address" class="mei_span">{%=o.address %}</span>
+            <div layout="row" flex layout-align="end center">
+                <span name="address" class="mei_span">{%=app.tools.sliceStr(o.address,30) %}</span>
                 <i class="ic">&#xe717;</i>
             </div>
+            <!--     <input name="address" type="text" class="mei_input" value="{%=o.address %}" placeholder="您的地址"> -->
         </div>
         <!-- 个性签名 -->
-        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center">
-            <label for="user_signature" class="mei_label" flex="20" flex-offset="5">
-                <!-- <i class="ic">&#xe61c;</i> -->签名</label>
-            <div>
+        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center" onclick="app.userinfo.editUser(5)">
+            <label for="user_signature" class="mei_label" flex="20" flex-offset="5">签名
+                <!-- <i class="ic">&#xe61c;</i> --></label>
+            <div layout="row" flex layout-align="end center">
                 <span name="description" class="mei_span">{%=app.tools.sliceStr(o.description,30)%}</span>
                 <i class="ic">&#xe717;</i>
             </div>
+            <!--     <input name="description" type="text" class="mei_input" placeholder="您的个性签名..." value="{%=o.description %}"> -->
         </div>
         <!-- 修改密码 -->
-        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center">
+        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center" onclick="app.userinfo.editUser(6)">
             <label for="user_signature" class="mei_label">
                 <!-- <i class="ic">&#xe61c;</i> -->修改密码</label>
             <i class="ic">&#xe717;</i>

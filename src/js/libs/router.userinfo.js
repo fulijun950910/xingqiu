@@ -12,7 +12,6 @@ function init() {
             $('.userInfo').find('.password').attr('type', 'text');
             $('.userInfo .getPwd').find('i').replaceWith('<i class="ic font-secondary-color">&#xe69d;</i>');
         }
-
     });
     // $('.userInfo').on('touchend', '.getPwd', function(event) {
     //     event.preventDefault();
@@ -35,11 +34,13 @@ $(function() {
             return $('#tpl_user_home').html();
         },
         bind: function() {
+
             app.userinfo.find();
+
         }
     };
 
-    //修改密码
+    //找回密码
     var updatepwd = {
         url: '/update_pwd',
         className: 'update_pwd',
@@ -50,7 +51,7 @@ $(function() {
             init();
             // app.userinfo.updatepwd_init();
         }
-    }
+    };
 
     //登录
     var login = {
@@ -65,11 +66,23 @@ $(function() {
             //localStorage.clear();
             //sessionStorage.clear();
         }
+    };
+    //修改用户信息
+    var editUserInfo = {
+        url: '/editUserInfo?:type',
+        className: 'editUserInfo',
+        render: function() {
+            return $('#tpl_edit-userInfo').html();
+        },
+        bind: function() {
+            app.userinfo.editUserInfo();
+        }
     }
 
     routerUser.push(userinfo)
         .push(updatepwd)
         .push(login)
+        .push(editUserInfo)
         .setDefault('/').init();
 
 

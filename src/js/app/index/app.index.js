@@ -1,6 +1,7 @@
 //初始化身份切换
 function initEemployee() {
     $('.index').on('click', '.employeeRoleList ', function() {
+        $('.bd').css('height', '100vh');
         $('#employeeList').fadeIn(200);
         $('#employeeList .mask').addClass('mask_show');
         $('.employeeList_menu').addClass('employee_menu_active');
@@ -9,6 +10,7 @@ function initEemployee() {
     $('.index #employeeList').on('click', '.mask', function() {
         $('.employeeList_menu').removeClass('employee_menu_active');
         $('#employeeList .mask').removeClass('mask_show');
+        $('.bd').css('min-height', '100vh');
     });
     $('.index #employeeList ').on('click', '.employee_item', function(event) {
         $('#employeeList .employee_item').find('.active').remove();
