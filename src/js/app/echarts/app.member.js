@@ -127,13 +127,14 @@ app.memberEcharts = {
             // },
             legend: {
                 orient: 'horizontal',
-                align: 'auto',
+                align: 'left',
                 data: legendList,
                 itemWidth: 50,
                 itemGap: 15,
-                bottom: 10
+                bottom: 10,
+                selectedMode: false
             },
-            color: ['#ff8c8c', '#fe77a7', '#bf70d1', '#6c90df', '#7bacf6', '#72d6f6', '#8ae18a', '#fce57a', '#ffbe5b', '#c0e570'],
+
             series: [{
                 name: '访问来源',
                 type: 'pie',
@@ -159,7 +160,8 @@ app.memberEcharts = {
                     }
                 },
                 data: dataList
-            }]
+            }],
+            color: ['#ff8c8c', '#fe77a7', '#bf70d1', '#6c90df', '#7bacf6', '#72d6f6', '#8ae18a', '#fce57a', '#ffbe5b', '#c0e570']
         };
         myChart.setOption(option);
 

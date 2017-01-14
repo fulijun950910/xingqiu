@@ -10,8 +10,9 @@
                 <ul>
                     <li class="active">全部</li>
                     <li>大转盘</li>
-                    <li>分享活动</li>
+                    <li>买赠</li>
                     <li>团拼</li>
+                    <li>红包</li>
                 </ul>
                 <span class="line"></span>
             </div>
@@ -255,7 +256,7 @@
                                 <div class="financial-item-small" onclick="app.financial.financialInfo({%= o.tgList[i].id %})">
                                     <div layout="column" layout-align="center start" class="financial-info-small">
                                         <div class="logo" flex>
-                                            <img src="../images/{%= o.tgList[i].type %}.png" alt="活动logo">
+                                            <img src="../images/{%= o.tgList[i].type %}-1.jpg" alt="活动logo">
                                         </div>
                                         <div class="info" flex>
                                             <div layout="row" flex-wrap="wrap">
@@ -280,9 +281,74 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 红包start -->
+                    <div class="swiper-slide tab-content-4">
+                        <div class="weui_cells">
+                            <div class="financial-list">
+                                <!--%if(!o.hbList || o.hbList.length == 0){ %-->
+                                <div class="errorBox"><i class="ic icon-xiaolian"></i><span class="errorText"> 亲~抱歉,暂时没有查到数据...~</span></div>
+                                <!--% } else  if(o.hbList.length > 2){ %-->
+                                <!--% for (var i=0; i <o.hbList.length; i++) { %-->
+                                <div class="financial-item" onclick="app.financial.financialInfo({%= o.hbList[i].id %})">
+                                    <div layout="row" layout-align="space-between center">
+                                        <div class="logo" flex="15">
+                                            <img src="../images/{%= o.hbList[i].type %}.png" alt="活动logo">
+                                        </div>
+                                        <div class="info" layout="column" flex="65">
+                                            <div layout="row">
+                                                <span class="name">{%= app.tools.sliceStr(o.hbList[i].title,18) %}</span>
+                                                <!--%if(o.hbList[i].status=="normal"){ %-->
+                                                <span class="status">{%= app.tools.getConstantByValue(app.constant.PROMOTION_TYPE,o.hbList[i].status) %}</span>
+                                                <!--% } else { %-->
+                                                <span class="status status-disable">{%= app.tools.getConstantByValue(app.constant.PROMOTION_TYPE,o.hbList[i].status) %}</span>
+                                                <!--% } %-->
+                                            </div>
+                                            <div class="date">{%= app.tools.formatDate(o.hbList[i].startDate) %}至{%= app.tools.formatDate(o.hbList[i].endDate) %}</div>
+                                            <div layout="row" layout-align="space-between center">
+                                                <span>点击:<span class="number">{%= o.hbList[i].visitCount %}</span></span>
+                                                <span>转发:<span class="number">{%= o.hbList[i].shareCount %}</span></span>
+                                                <span>成交:<span class="number">{%= o.hbList[i].buyCount %}</span></span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <i class="ic">&#xe717;</i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--% } %-->
+                                <!--% }else{ %-->
+                                <!--% for (var i=0; i <o.hbList.length; i++) { %-->
+                                <div class="financial-item-small" onclick="app.financial.financialInfo({%= o.hbList[i].id %})">
+                                    <div layout="column" layout-align="center start" class="financial-info-small">
+                                        <div class="logo" flex>
+                                            <img src="../images/{%= o.hbList[i].type %}-1.jpg" alt="活动logo">
+                                        </div>
+                                        <div class="info" flex>
+                                            <div layout="row" flex-wrap="wrap">
+                                                <span class="name">{%=o.hbList[i].title %}</span>
+                                                <!--%if(o.hbList[i].status=="normal"){ %-->
+                                                <span class="status">{%= app.tools.getConstantByValue(app.constant.PROMOTION_TYPE,o.hbList[i].status) %}</span>
+                                                <!--% } else { %-->
+                                                <span class="status status-disable">{%= app.tools.getConstantByValue(app.constant.PROMOTION_TYPE,o.hbList[i].status) %}</span>
+                                                <!--% } %-->
+                                            </div>
+                                            <div class="date">{%= app.tools.formatDate(o.hbList[i].startDate) %}至{%= app.tools.formatDate(o.hbList[i].endDate) %}</div>
+                                            <div layout="row" layout-align="space-between center" class="small-count-info">
+                                                <span>点击:<span class="number">{%= o.hbList[i].visitCount %}</span></span>
+                                                <span>转发:<span class="number">{%= o.hbList[i].shareCount %}</span></span>
+                                                <span>成交:<span class="number">{%= o.hbList[i].buyCount %}</span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--% } %-->
+                                <!--% } %-->
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div 16vw></div>
+            <div style="height:16vw;"></div>
             <!-- 面包 导航-->
             <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
                 <a href="/main.html#/index" flex="50" class="border-right">

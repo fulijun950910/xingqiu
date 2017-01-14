@@ -1,7 +1,7 @@
 <script type="text/html" id="tpl_performance_rank">
     <!-- //隐藏标题 -->
     <div id="hiddenTitle" class="hiddenTitle">业绩排名</div>
-    <div class="hd bd performance-rank" id="performance_rank" style="min-height: 100vh;overflow: scroll;">
+    <div class="hd bd performance-rank" id="performance_rank" style="min-height: 100vh;overflow: hidden;">
     </div>
     <script type="text/html" id="tmpl-emp-rank">
         <div class="tool-tab">
@@ -11,9 +11,9 @@
             </ul>
             <span class="line"></span>
         </div>
-        <div style=" z-index: 1; width: 100%;overflow: scroll;">
+        <div style=" z-index: 1; width: 100%;overflow: scroll;height: 90vh;">
             <div class="swiper-container">
-                <div class="swiper-wrapper" style="min-height:88vh;">
+                <div class="swiper-wrapper" style="min-height:85vh;margin-bottom:6vw">
 
                     <div class="swiper-slide tab-content-1">
                         <div id="scroller">
@@ -64,7 +64,6 @@
                 </div>
             </div>
         </div>
-        <div 16vw></div>
         <!-- 面包 导航-->
         <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
             <div onclick="app.goBack()" flex="50">

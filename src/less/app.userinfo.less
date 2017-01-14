@@ -7,7 +7,7 @@ input {
     border: none;
 }
 
-//卤锚脤芒脪镁虏脴
+//headPic
 .hiddenTitle {
     display: none;
 }
@@ -20,21 +20,35 @@ input {
     @user-save-btn-active-color: #aa46bb;
     //脥路脧帽虏驴路脰
     .headPic {
-        width: 100%;
-        height: @headPic-heig;
-        // background:@primary-color ;
+        width: 100vw !important;
+        height: 35vh;
+        background: @primary-color ;
         // background-color: red;
         text-align: center;
         .autoImg {
-            display: inline;
-            position: relative;
-            margin: auto;
-            top: @headimg-heig;
+            // display: inline;
+            // position: relative;
+            // margin: auto;
+            /*    top: @headimg-heig;*/
             img {
-                width: 7em;
-                height: 7em;
+                width: 25vw;
+                height: 25vw;
                 border-radius: 50%;
             }
+        }
+        .employee-name {
+            background: rgba(0, 0, 0, .2);
+            color: #fff;
+            padding: 0.1vw 2vw;
+            border-radius: 25px;
+            font-size: 1rem;
+            margin-top: 2.5vw;
+        }
+        .employee-description {
+            color: #fff;
+            font-size: 1rem;
+            margin-top: 2.5vw;
+            width: 92vw;
         }
     }
     //赂枚脠脣脨脜脧垄脕脨卤铆-鲁拢鹿忙脳脰脤氓脩脮脡芦露篓脪氓
@@ -43,7 +57,7 @@ input {
     @userinfo-font-color: #464646;
     @userinfo-lr-width: 90%;
     .cmn_cell {
-        position: relative;
+        // position: relative;
         width: @userinfo-lr-width;
         margin: auto;
         //border: 0.1em solid @border-color;
@@ -56,7 +70,7 @@ input {
         width: 12%;
         //  line-height: 1.75em;
         //color: @primary-color;
-     //   color: @font-primary-color !important;
+        //   color: @font-primary-color !important;
     }
     //脨脨脛脷脭陋脣脴input脭陋脣脴
     .cmn_input {
@@ -78,8 +92,8 @@ input {
         border-radius: 25px;
     }
     .mei_cmn_input {
-       // height: 2.5em;
-        width:73%;
+        // height: 2.5em;
+        width: 73%;
         //line-height: 1.75em;
         font-size: 1em;
     }
@@ -92,10 +106,16 @@ input {
             .mei_cmn_cell;
             i {
                 .mei_cmn_icon;
-                color:@font-secondary-color;
+                color: @font-secondary-color;
+            }
+            label {
+                display: inline-block;
+                width: 12%;
+                height: 12vw;
             }
             input {
                 .cmn_input;
+                height: 12vw;
             }
             input,
             select {
@@ -130,9 +150,9 @@ input {
     }
     .userinfo_save {
         width: @userinfo-lr-width;
-        position: relative;
+        // position: relative;
         margin: auto;
-        top: 1.5em;
+        // top: 1.5em;
         margin-bottom: 5em;
         .mei_save {
             height: @button-height;
@@ -140,8 +160,8 @@ input {
             text-align: center;
             line-height: @button-height;
             border-radius: 5px;
-            a{
-                color:#fff;
+            a {
+                color: #fff;
             }
         }
         .mei_bind {
@@ -158,11 +178,12 @@ input {
             background-color: @user-save-btn-active-color;
         }
         .userinfo_btm {
-            position: relative;
+            // position: relative;
             width: 100%;
-            margin-bottom: 2em;
-            top: 0.7em;
+            // margin-bottom: 2em;
+            //top: 2.5vw;
             text-align: center;
+            margin-top: 5vw;
             .unbind,
             .forgetpwd {
                 font-size: 1em;
@@ -179,7 +200,7 @@ input {
     //脮脣潞脜掳贸露篓-脨脼赂脛
     .user_account {
         .cmn_cell;
-        top: 20%;
+        // top: 20%;
         .mei_cell {
             .mei_cmn_cell;
             i {
@@ -217,7 +238,7 @@ input {
     }
     .userinfo_bind {
         .userinfo_save;
-        top: 20%;
+        //  top: 20%;
         .userinfo_btm {
             .clause {
                 // font-size: .9em;
@@ -228,10 +249,13 @@ input {
     }
     //脙脌脦脢logo
     .meilogo {
+        // text-align: center;
+        // height: 10%;
+        // position: relative;
+        // top: 15%;
         text-align: center;
-        height: 10%;
-        position: relative;
-        top: 15%;
+        height: 50vw;
+        // margin-top:10vw;
         i {
             font-size: 3em;
             color: @user-save-btn-color;
@@ -364,7 +388,6 @@ input {
         border: none;
         background-color: #FFF;
     }
-
 }
 
 .spacing {
@@ -378,5 +401,26 @@ input {
     }
     .weui_btn_warn {
         background: @secondary-color ;
+    }
+}
+
+.userInfo-detail {
+    .mei_cell {
+        height: 12vw;
+        line-height: 12vw;
+        margin: 0 2vw;
+        .mei_label {
+            margin-left: 3vw;
+            color: #666;
+            font-size: 1rem;
+        }
+        span {
+            outline: none;
+            color: @font-primary-color;
+            font-size: 1rem;
+        }
+        i {
+            color: #ccc;
+        }
     }
 }

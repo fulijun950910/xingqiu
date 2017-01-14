@@ -1,7 +1,7 @@
 
-rd /s/q   D:\workfile2\meiw7-4\fff\dist
-mkdir  D:\workfile2\meiw7-4\fff\dist
-xcopy /s .\dist D:\workfile2\meiw7-4\fff\dist\
+rd /s/q   D:\work\fff\dist
+mkdir  D:\work\fff\dist
+xcopy /s .\dist D:\work\fff\dist\
 
 
 ::暂停

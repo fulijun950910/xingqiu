@@ -80,6 +80,7 @@ app.financial = {
                     tgList: [], //团拼
                     fxList: [], //分享
                     dzpList: [], //大转盘
+                    hbList: [], //红包
                     promotionStatus: app.constant.PROMOTION_TYPE
                 };
                 for (var i = financialInfoData.list.length - 1; i >= 0; i--) {
@@ -96,12 +97,15 @@ app.financial = {
                         case 'at_dzp':
                             data.dzpList.push(financialInfoData.list[i]);
                             break;
+                        case 'at_hb':
+                            data.hbList.push(financialInfoData.list[i]);
+                            break;
                     }
                 }
                 var tmplhtml = $('#tmpl-financial-model').html();
                 var resultTmpl = tmpl(tmplhtml, data);
                 $('#tmpl-financial').html(resultTmpl);
-                app.tools.initSwiper(25);
+                app.tools.initSwiper(20);
                 app.tools.initDate("", app.financial.financialIdName);
                 $('.dateLists').on('click', 'span', function(event) {
                     $('.dateLists span').removeClass('active');

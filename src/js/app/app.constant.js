@@ -11,6 +11,10 @@ app.constant = {
         { name: '收银员', code: 'moneyAdmin' },
         { name: '员工', code: 'employee' }
     ],
+    EMPLOYEE_GENDER: [
+        { name: '男', code: '1' },
+        { name: '女', code: '2' }
+    ],
     /* 预约单状态*/
     APPOINTMENT_STATUS: [
         { name: '已确认', code: '1' },
@@ -89,7 +93,7 @@ app.constant = {
         { name: '尾款', code: "40" },
         { name: '取消', code: "50" },
         { name: '退单', code: "61" },
-        { name: '退卡', code: "62"},
+        { name: '退卡', code: "62" },
         { name: '退款', code: "69" },
         { name: '补卡', code: "70" },
         { name: '已付款', code: "20" },

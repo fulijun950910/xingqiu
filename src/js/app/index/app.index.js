@@ -230,8 +230,8 @@ app.index = {
                 }
                 //业绩、
                 if ((memberData.performanceInfo.income + "").length > 6 || (memberData.performanceInfo.cardConsume + "").length > 6) {
-                    $('.achievementTotalAmount  .price').css('font-size', '12pt');
-                    $('.cardConsumeTotalAmount  .price').css('font-size', '12pt');
+                    $('.achievementTotalAmount  .price').css('font-size', '6vw');
+                    $('.cardConsumeTotalAmount  .price').css('font-size', '6vw');
                 }
                 if (employee.storeList.length == 1) {
                     if (employee.role != "wechat_business_normal") {
@@ -259,7 +259,7 @@ app.index = {
                     }
                 }
                 if (memberData.dataType == 4) {
-                    $('.index  .dateList').css({ 'left': '39vw', 'font-size': '10pt' });
+                    $('.index  .dateList').css({ 'left': '39vw', 'font-size': '.9rem' });
                 }
                 //日期名称
                 $('.dateLists span').eq(parseInt(memberData.dataType) - 1).addClass('active');

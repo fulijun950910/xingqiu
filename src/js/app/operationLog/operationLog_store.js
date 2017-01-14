@@ -191,6 +191,7 @@ app.operationLog = {
                 window.localStorage.setItem("queryInfo", JSON.stringify(app.operationLog.queryInfo));
                 newoperaLog.operationInfo = res.data;
                 app.endLoading();
+                app.tools.changeTitle('系统事件记录');
                 // app.operationLog.dateInte();
                 // if (res.success && res.data && res.data.length > 0) {
                 var html = $('#tmpl-operationLogStore').html();
@@ -280,6 +281,7 @@ app.operationLog = {
                 // } else {
                 //     data = [];
                 // }
+                app.tools.changeTitle('系统事件记录详情');
                 var html = $('#tmpl-operationLogDetail').html();
                 var template = tmpl(html, res.data);
                 $('#tpl-operationLogDetail').html(template);
@@ -436,12 +438,12 @@ app.changeDetail = {
                 if (tempPayMethod.repair && tempPayMethod.payMoney) {
                     tempRepairCousomPayMethodList.push({
                         name: tempPayMethod.payMethodName,
-                        value:'￥' + app.tools.toThousands(tempPayMethod.payMoney)
+                        value: '￥' + app.tools.toThousands(tempPayMethod.payMoney)
                     })
                 } else {
                     self[0].rows.push({
                         name: tempPayMethod.payMethodName,
-                        value:'￥' + app.tools.toThousands(tempPayMethod.payMoney)
+                        value: '￥' + app.tools.toThousands(tempPayMethod.payMoney)
                     })
                 }
 
@@ -478,7 +480,7 @@ app.changeDetail = {
         }
 
         if (tempRepairCousomPayMethodList.length) {
-            tempRepairData.rows=tempRepairData.rows.concat(tempRepairCousomPayMethodList);
+            tempRepairData.rows = tempRepairData.rows.concat(tempRepairCousomPayMethodList);
         }
         self.push(tempRepairData);
         return self;

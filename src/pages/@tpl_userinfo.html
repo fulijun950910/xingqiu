@@ -6,53 +6,90 @@
         </div>
         <!-- //隐藏标题 -->
         <div id="hiddenTitle" class="hiddenTitle">个人信息</div>
-        <div class="headPic">
-            <div class="autoImg">
-                <img id="headarticle" src="" onerror="this.src='images/pic_article_1.jpg'">
-                <input id="headerfile" style="width:1px;height:1px" type="file" accept="image/*" onchange="app.userinfo.changeImg(this)">
-                <i class="icon-uniF3F6"></i>
-            </div>
-        </div>
-        <div id="userinfo-detail" class="userfrom"></div>
+        <div id="userinfo-detail" class="userInfo-detail"></div>
         <!-- 保存信息 -->
-        <div class="userinfo_save">
-            <div class="mei_save" onclick="app.userinfo.updateEmployee()">
+        <div class="userinfo_save" style="margin:5vw auto 0;">
+            <!--  <div class="mei_save" onclick="app.userinfo.updateEmployee()">
                 <a href="javascript:;" class="save">保存</a>
+            </div> -->
+            <div class="mei_save" onclick="app.userinfo.logout()">
+                <a href="javascript:;" class="save">退出登录</a>
             </div>
-            <div class="userinfo_btm">
+            <!--          <div class="userinfo_btm">
                 <a class="unbind" onclick="app.userinfo.logout()">退出登录</a>
-                <a class="forgetpwd" href="userinfo.html#/update_pwd">修改密码</a>
-            </div>
+                 <a class="forgetpwd" href="userinfo.html#/update_pwd">修改密码</a>
+            </div> -->
         </div>
     </div>
     <script type="text/html" id="tmpl-userinfo">
-        <div class="mei_cell">
-            <label for="" class="mei_label"><i class="ic">&#xe715;</i></label>
-            <input name="name" type="text" value="{%=o.name %}" class="mei_input" placeholder="请输入姓名">
+        <div class="headPic" layout="column" flex layout-align="center center">
+            <div class="autoImg">
+                <img id="headarticle" src="" onerror="this.src='images/pic_article_1.jpg'">
+                <span id="headerfile" style="width:1px;height:1px" type="file" accept="image/*" onchange="app.userinfo.changeImg(this)">
+                <i class="ic icon-xiangji1"></i>
+            </div>
+            <div class="employee-name">
+                     {%= o.name %}
+            </div>
+             <div class="employee-description">
+                    {%=app.tools.sliceStr(o.description,60)%}
+            </div>
+        </div>
+        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center">
+            <div layout="row" flex>
+                <label for="" class="mei_label" flex="20" flex-offset="5">用户名
+                    <!-- <i class="ic">&#xe715;</i> --></label>
+                <span name="name"  class="mei_span" >
+                {%= o.name %}
+                </span>
+            </div>
+            <i class="ic">&#xe717;</i>
         </div>
         <!-- 性别 -->
-        <div class="mei_cell">
-            <label for="" class="mei_label"><i class="ic">&#xe631;</i></label>
-            <select class="weui_select" name="gender">
+        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center">
+            <label for="" class="mei_label" flex="20" flex-offset="5">性别</label>
+            <div layout="row" flex>
+                <span>{%=app.tools.getConstantByValue(app.constant.EMPLOYEE_GENDER,o.gender)%}</span>
+                <i class="ic">&#xe717;</i>
+            </div>
+            <!--  <select class="weui_select" name="gender">
                 <option value="1">男</option>
                 <option value="2">女</option>
             </select>
-            <div class="weui_cell_ft"></div>
+            <div class="weui_cell_ft"></div> -->
         </div>
         <!-- 生日 -->
-        <div class="mei_cell">
-            <label for="user_birthday" class="mei_label"><i class="ic">&#xe63b;</i></label>
-            <input name="birthday" value="{%=o.birthday %}" style="background-color:transparent;" type="date" class="mei_input">
+        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center">
+            <label for="user_birthday" class="mei_label" flex="20" flex-offset="5">
+                <!-- <i class="ic">&#xe63b;</i> -->生日</label>
+            <div layout="row" flex>
+                <span name="birthday" class="mei_span">{%=o.birthday %}</span>
+                <i class="ic">&#xe717;</i>
+            </div>
         </div>
         <!-- 地址 -->
-        <div class="mei_cell">
-            <label for="user_addr" class="mei_label"><i class="ic">&#xe611;</i></label>
-            <input name="address" type="text" class="mei_input" value="{%=o.address %}" placeholder="您的地址">
+        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center">
+            <label for="user_addr" class="mei_label" flex="20" flex-offset="5">地址
+                <!-- <i class="ic">&#xe611;</i> --></label>
+            <div layout="row" flex>
+                <span name="address" class="mei_span">{%=o.address %}</span>
+                <i class="ic">&#xe717;</i>
+            </div>
         </div>
         <!-- 个性签名 -->
-        <div class="mei_cell">
-            <label for="user_signature" class="mei_label"><i class="ic">&#xe61c;</i></label>
-            <input name="description" type="text" class="mei_input" placeholder="您的个性签名..." value="{%=o.description %}">
+        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center">
+            <label for="user_signature" class="mei_label" flex="20" flex-offset="5">
+                <!-- <i class="ic">&#xe61c;</i> -->签名</label>
+            <div>
+                <span name="description" class="mei_span">{%=app.tools.sliceStr(o.description,30)%}</span>
+                <i class="ic">&#xe717;</i>
+            </div>
+        </div>
+        <!-- 修改密码 -->
+        <div class="mei_cell  border-bottom" layout="row" flex layout-align="space-between center">
+            <label for="user_signature" class="mei_label">
+                <!-- <i class="ic">&#xe61c;</i> -->修改密码</label>
+            <i class="ic">&#xe717;</i>
         </div>
     </script>
 </script>

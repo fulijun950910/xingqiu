@@ -338,7 +338,7 @@ app.tools = {
     },
     // 自定义弹出层
     initTempData: function(className, idName) {
-        $('.' + className).on("touchstart", function() {
+        $('.' + className).on("click", function() {
             $('#' + idName).find('.tempLists').fadeIn(200);
             $('#' + idName).find('.tempLists .mask').addClass('mask_show');
             $('#' + idName).find('.tempLists .date_menu').addClass('date_menu_active');
@@ -349,10 +349,10 @@ app.tools = {
             }
         });
         //取消
-        $('#' + idName).find('.tempLists').on('touchend', '.mask', function() {
+        $('#' + idName).find('.tempLists').on('click', '.mask', function() {
             $('#' + idName).find('.date_menu').removeClass('date_menu_active');
             $('#' + idName).find('.mask').removeClass('mask_show');
-            $('#' + idName).find('.tempLists span').removeClass('active').find('i').remove();
+            // $('#' + idName).find('.tempLists span').removeClass('active').find('i').remove();
         });
         $('#' + idName).on("touchmove", ".mask", function(e) {
             e.preventDefault();

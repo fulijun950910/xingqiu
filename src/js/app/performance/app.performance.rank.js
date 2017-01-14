@@ -58,6 +58,7 @@ app.performance.rank = {
         }, function() {});
     },
     getEmpRankListInfo: function(storeId) {
+        app.startLoading();
         var employee = null;
         if (JSON.parse(localStorage.employee)) {
             employee = JSON.parse(localStorage.employee);
@@ -76,9 +77,10 @@ app.performance.rank = {
             .then(function(results) {
                 rankList = results.data;
                 rankList.storelist = employee.storeList;
-                app.tools.changeTitle('业绩排名');
+                app.tools.changeTitle('本月排名');
                 var tmplhtml = $('#tmpl-emp-rank').html();
                 var resultTmpl = tmpl(tmplhtml, rankList);
+                app.endLoading();
                 $('#performance_rank').html(resultTmpl);
                 app.performance.rank.initStoreList(); //初始化门店
                 app.tools.initSwiper(50);
@@ -90,6 +92,7 @@ app.performance.rank = {
                     }
                 }
             }, function(error) {
+                app.endLoading();
                 app.alert(error);
             });
     },
