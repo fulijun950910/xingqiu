@@ -10,7 +10,7 @@
             <div class="box detailUser ">
                 <div layout="row" style="padding:2vw 0;" class="border-bottom">
                     <div flex="85" layout="row">
-                        <img src="{%=app.filePath + o.member.avatarId %}" onerror="this.src='/images/default_female.png'" style="width:8vw;height:8vw;border-radius:4vw;margin-right:2vw;margin-top:-1vw;" alt="" />
+                        <img class="memberImg" data-id="{%=o.member.memberId %}" src="{%=app.filePath + o.member.avatarId %}" onerror="this.src='/images/default_female.png'" style="width:8vw;height:8vw;border-radius:4vw;margin-right:2vw;margin-top:-1vw;" alt="" />
                         <span>{%=o.member.memberName%}</span>
                         <!--% if(o.member.memberMobile){ %-->
                         <span>&nbsp;&nbsp;{%=o.member.memberMobile %}</span>

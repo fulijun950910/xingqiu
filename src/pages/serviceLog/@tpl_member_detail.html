@@ -1,0 +1,133 @@
+<script type="text/html" id="tpl_member_detail">
+    <!-- //隐藏标题 -->
+    <div id="hiddenTitle" class="hiddenTitle">预约单列表</div>
+    <div class="bd memberDetail" id="temp-memberDetail" style="min-height: 100vh;">
+        <div class="serviceLogList" id="tpl_memberDetail">
+
+        </div>
+    </div>
+    <script type="text/html" id="tmpl_memberDetail">
+        <div class="memberDetailBox serviceCell">
+            <div class="memberInfo" layout="row" layout-align="start center" style="">
+                <img class="clickImg" src="{%=app.filePath + o.avatarId %}" onerror="this.src='/images/default_female.png'" style="width:16vw;height:16vw;border-radius:100%;margin-right:2vw;" alt="" />
+                <ul flex style="margin-top:2vw;">
+                    <li>
+                        <div class="label_content"><strong>{%=o.name %}</strong> {%=o.mobile %}
+                            <!--% if(o.gender==1){ %-->
+                            <i class="ic icon-nan"></i>
+                            <!--% }else{ %-->
+                            <i class="ic icon-nv"></i>
+                            <!--% }%-->
+                        </div>
+                    </li>
+                    <li>
+                        <div class="storeIcon"><i class="ic icon-shengri1 font-purple"></i>&nbsp;
+                            <!--% if(o.birthday ){ %-->
+                            {%=app.tools.toDate(o.birthday,"MM月dd日")%}
+                            <!--% }else{ %-->
+                            尚未设置生日日期
+                            <!--% } %-->
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="membrRemake font-smile">
+                <p layout="row" layout-align="start start">
+                    <span class="font-gay">钱包余额：</span>
+                    <span class="font-purple">￥{%=app.tools.toThousands(o.balance) %}</span>
+                </p>
+                <p layout="row" layout-align="start start">
+                    <span class="font-gay">持卡数量：</span>
+                    <span class="">{%=o.cardNum?o.cardNum:0 %}</span>
+                </p>
+                <p layout="row" layout-align="start start">
+                    <span class="font-gay">累计消费：</span>
+                    <span class="">{%=app.tools.toThousands(o.totalConsume) %}</span>
+                </p>
+                <p layout="row" layout-align="start start">
+                    <span class="font-gay">入会时间：</span>
+                    <span class="">{%=app.tools.toDate(o.registerDate,"yyyy年MM月dd日")%}</span>
+                </p>
+                <p layout="row" layout-align="start start">
+                    <span class="font-gay">会员等级：</span>
+                    <span class="">
+                        <!--% if(o.grade ){ %-->
+                        {%=o.grade %}
+                        <!--% }else{ %-->
+                        尚未设置会员等级
+                        <!--% }%-->
+                    </span>
+                </p>
+                <p layout="row" layout-align="start start">
+                    <span class="font-gay">所属门店：</span>
+                    <span class="">
+                        <!--% if(o.storeName ){ %-->
+                        {%=o.storeName %}
+                        <!--% }else{ %-->
+                        尚未设置所属门店
+                        <!--% }%-->
+                    </span>
+                </p>
+            </div>
+            <div class="tagList">
+                <p class="font-gay" style="margin-bottom:1vw">个性化标签:</p>
+                <ul class="memberTags">
+                    <!--% if(o.tags&&o.tags.length>0){ %-->
+                    <!--% for(var i=0;i<o.tags.length;i++ ){ %-->
+                    <li class="li{%=app.tools.tagColor(i,6)%}">{%=o.tags[i].name%}</li>
+                    <!--% } %-->
+                    <!--% }else{ %-->
+                    尚未添加个性化标签
+                    <!--% } %-->
+                </ul>
+            </div>
+            <div id="serviceNote"></div>
+
+            <div class="rule">
+                <p class="font-gay" style="margin-bottom:1vw">其他注意事项或禁忌：</p>
+                <!--% if(o.taboos&&o.taboos.length>0){ %-->
+                <!--% for(var i=0;i<o.taboos.length;i++ ){ %-->
+                <p class="font-smile">
+                    {%=i+1%}. {%=o.taboos[i].name%}
+                </p>
+                <!--% } %-->
+                <!--% }else{ %-->
+                尚未添加注意事项或禁忌
+                <!--% } %-->
+            </div>
+        </div>
+        <div style="height: 20vw;"></div>
+        <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
+            <div ontouchstart="window.history.back()" flex="100">
+                <i class="ic">&#xe68b;</i>
+                <span>返回</span>
+            </div>
+        </div>
+    </script>
+    <script type="text/html" id="tmpl_lastSerivce">
+        <div class="serviceNote">
+            <p class="font-gay" style="margin-bottom:1vw">最近一次服务：</p>
+            <p class="font-smile">
+                <span class="font-gay">服务时间：</span>
+                <span class="">{%=app.tools.toDate(o.orderDate,"yyyy-MM-dd hh:mm")%}</span>
+            </p>
+            <p class="font-smile">
+                <span class="font-gay">服务人员：</span>
+                <span class="">
+                    <!--% if(o.taboos&&o.taboos.length>0){ %-->
+                    {%=o.employees %}
+                    <!--% }else{ %-->
+                    未指定服务人员
+                    <!--% } %-->
+                </span>
+            </p>
+            <p class="font-smile">
+                <span class="font-gay">服务项目：</span>
+                <span class="">{%=o.items %}</span>
+            </p>
+
+
+        </div>
+    </script>
+</script>

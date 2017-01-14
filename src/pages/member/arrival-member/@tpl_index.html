@@ -14,7 +14,7 @@
                 <div layout="row" layout-align="space-between center">
                     <div layout="row" flex="75" layout-align="start center">
                         <div class="logo" layout="row" layout-align="center center">
-                            <img id="comment-pic" src="{%=app.filePath + o.arrivalMemberInfo[i].avatarId %}" onerror="this.src='images/default_female.png'">
+                            <img class="memberImg" data-id="{%=o.arrivalMemberInfo[i].memberId %}" id="comment-pic" src="{%=app.filePath + o.arrivalMemberInfo[i].avatarId %}" onerror="this.src='images/default_female.png'">
                         </div>
                         <div class="info" layout="column" layout-align="space-around start">
                             <div layout="row">

@@ -13,6 +13,7 @@
                         </div>
                         <div flex="10" class="sousuoBtn" ontouchstart="app.serviceLog.initSearch()">搜索</div>
                     </div>
+                    <div style="height:13vw;"></div>
 
                     <div class="searchCellBox" >
                         <!--内容区-->
@@ -27,7 +28,7 @@
         <!--% for(var i in o){ %-->
         <div class="searchcell" data-data="{%=JSON.stringify(o[i]) %}">
             <div class="memberInfo padding2" layout="row" layout-align="start center">
-                <img src="{%=app.filePath + o[i].avatarId %}" onerror="this.src='/images/default_female.png'" style="width:12vw;height:12vw;border-radius:100%;margin-right:2vw;" alt="" />
+                <img class="memberImg" data-id="{%= o[i].id %}" src="{%=app.filePath + o[i].avatarId %}" onerror="this.src='/images/default_female.png'" style="width:12vw;height:12vw;border-radius:100%;margin-right:2vw;" alt="" />
                 <div >
                     <div>{%=o[i].name %} <span class="phone">&nbsp;&nbsp;{%=o[i].mobile %}&nbsp;&nbsp;</span>
                         <!--% if(o[i].gender==1){ %-->

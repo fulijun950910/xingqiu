@@ -133,6 +133,7 @@ app.member = {
                 }
                 //日期名称
                 $('.dateLists span').eq(parseInt(newMember.dataType) - 1).addClass('active');
+                app.member.memberDetailEvent();
             },
             function() {})
     },
@@ -219,8 +220,27 @@ app.member = {
                 }
                 //日期名称
                 $('.dateLists span').eq(parseInt(arrivalMember.dataType) - 1).addClass('active');
+                app.member.memberDetailEvent();
             },
             function() {})
+    },
+    memberDetailEvent:function(){
+        $("#tmpl-arrivalMember .memberImg,#tmpl-newMember .memberImg").tap("",function(e){
+            e.stopPropagation();
+            app.member.goMembetDetail($(this.ele).attr("data-id"));
+        });
+    },
+    goMembetDetail: function(id) {
+        var employee=localStorage.getItem("employee")
+        if(employee&&id){
+            employee=JSON.parse(employee)
+            employee.member={
+                id:id
+            }
+            employee=JSON.stringify(employee)
+            localStorage.setItem("employee",employee)
+            location.href = "/serviceLog.html#/member_detail"
+        }
     },
     //验券
     userdata: function() {

@@ -394,14 +394,14 @@ app.tools = {
             });
         }
     },
-    seeImg: function() {
-        $("body img").tap("", function(e) {
+    seeImg:function(dom){
+        $("body img"+dom).tap("",function(e){
             e.stopPropagation();
             e.preventDefault()
             var src = $(this.ele).attr("src");
             var altHtml = '';
-            altHtml += '<div id="imgBlack" layout="row" layout-align="center center" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:99;background:rgba(0,0,0,0.8)">';
-            altHtml += '<img style="width:100%;" src="' + src + '"/>';
+            altHtml += '<div id="imgBlack" layout="row" layout-align="center center" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:99;background:rgba(0,0,0,0.96)">';
+            altHtml += '<img style="width:100%;" src="'+src+'"/>';
             altHtml += '</div>';
             $('body').append(altHtml);
         })

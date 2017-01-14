@@ -13,7 +13,7 @@
         <!--% if(o&&o.member){ %-->
         <div class="serviceCell">
             <div class="memberInfo padding2" layout="row" layout-align="start center">
-                <img src="{%=app.filePath + o.member.avatarId %}" onerror="this.src='/images/default_female.png'" style="width:16vw;height:16vw;border-radius:100%;margin-right:2vw;" alt="" />
+                <img class="memberImg" data-id="{%=o.member.id %}" src="{%=app.filePath + o.member.avatarId %}" onerror="this.src='/images/default_female.png'" style="width:16vw;height:16vw;border-radius:100%;margin-right:2vw;" alt="" />
                 <div style="margin-top:2vw;">
                     <div>{%=o.member.name%} <span class="phone">&nbsp;&nbsp;{%=o.member.mobile %}&nbsp;&nbsp;</span>
                         <!--% if(o.member.gender==1){ %-->
@@ -31,17 +31,16 @@
                     </div>
                 </div>
             </div>
-            <div class="memberInfo padding2" layout="row" layout-align="start center">
-                <div>
-                    <div class="tagList">
-                        <ul>
-                            <!--% if(o.member.memberTags){ %-->
-                            <!--% for(var j=0;j<o.member.memberTags.length;j++ ){ %-->
-                            <li  class="li{%=app.tools.tagColor(j,6)%}">{%=o.member.memberTags[j].name %}</li>
-                            <!--% } %-->
-                            <!--% } %-->
-                        </ul>
-                    </div>
+            <div style="padding-top:0;" class="memberInfo padding2" layout="row" layout-align="start center">
+                <div style="width:16vw;margin-right:2vw;" alt="" ></div>
+                <div class="tagList" flex>
+                    <ul>
+                        <!--% if(o.member.memberTags){ %-->
+                        <!--% for(var j=0;j<o.member.memberTags.length;j++ ){ %-->
+                        <li  class="li{%=app.tools.tagColor(j,6)%}">{%=o.member.memberTags[j].name %}</li>
+                        <!--% } %-->
+                        <!--% } %-->
+                    </ul>
                 </div>
             </div>
             <!--% if(o.list&&o.list.length>0){ %-->
@@ -60,7 +59,7 @@
 
                         <div class="remark">{%=o.list[i].remark %}</div>
                         <!--% if(o.list[i].fileId ){ %-->
-                        <img src="{%=app.filePath + o.list[i].fileId %}" onerror="this.src='/images/404.png'" style="width:100%;display:block;margin:1vw 0;" alt="" />
+                        <img class="clickImg" src="{%=app.filePath + o.list[i].fileId %}" onerror="this.src='/images/404.png'" style="width:100%;display:block;margin:1vw 0;" alt="" />
                         <!--% }%-->
                     </div>
                 </div>

@@ -13,7 +13,7 @@
             <div class="financial-item" layout="row" layout-align="space-between center" flex>
                 <div layout="row" layout-align="start center" flex="75">
                     <div class="logo"  layout-align="center center" layout="row">
-                        <img id="comment-pic" src="{%=app.filePath + o.newMemberInfo[i].avatarId %}" onerror="this.src='images/default_female.png'">
+                        <img id="comment-pic" class="memberImg" data-id="{%=o.newMemberInfo[i].memberId %}" src="{%=app.filePath + o.newMemberInfo[i].avatarId %}" onerror="this.src='images/default_female.png'">
                     </div>
                     <div class="info" layout="column" flex="80" layout-align="space-around start">
                         <div layout="row" >

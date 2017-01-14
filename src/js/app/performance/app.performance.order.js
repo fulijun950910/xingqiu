@@ -44,7 +44,7 @@ app.performance.order = {
         app.tools.initTempData('orderLists', app.performance.order.orderlIstIdName);
         //点击排序
         $('.order-list .tempLists .date_info').on('click', 'span', function(event) {
-            $('.tempLists  .date_info span').removeClass('active').find('i').remove();
+            $('.tempLists span').removeClass('active').find('i').remove();
             $(this).addClass('active');
             $('.order-list  .mask').click();
             app.performance.order.list($(this).attr('data-status'), 'status');
@@ -127,7 +127,7 @@ app.performance.order = {
             endTime: query.endDate,
             orderStatus: query.orderStatus,
             employeeId: employee.id,
-            merchantId: employee.merchantId,
+            merchantId:employee.merchantId,
             storeIds: query.storeIds
         };
         //管理员
@@ -161,7 +161,6 @@ app.performance.order = {
                     orderList.storeList = employee.storeList;
                     orderList.storeId = query.storeIds;
                     orderList.status = query.orderStatus || undefined;
-                    app.tools.changeTitle('订单列表');
                     var html = $('#tmpl-order-list').html();
                     var template = tmpl(html, orderList);
                     $('#order-scroller').html(template);
@@ -205,6 +204,7 @@ app.performance.order = {
                             }
                         }
                     };
+                    app.performance.order.memberDetailEvent();
                 },
                 error: function(error) {
                     app.endLoading();
@@ -216,6 +216,10 @@ app.performance.order = {
         app.startLoading();
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
+                //没ordeerid返回list
+                if(!app.performance.order.orderId){
+                    location.href = "/performance-index.html#/order-list"
+                }
                 var data = {
                         orderId: app.performance.order.orderId,
                         type: '',
@@ -239,7 +243,6 @@ app.performance.order = {
                         data: data,
                         success: function(result) {
                             app.endLoading();
-                            app.tools.changeTitle('订单详情');
                             if (false) {
                                 var cardData = {
                                     cardInstanceIds: [result.data.orderCardItems[0].cardInstanceForm.cardInstanceId],
@@ -272,6 +275,7 @@ app.performance.order = {
                                     }
                                 }
                             }
+                            app.performance.order.memberDetailEvent();
                             //处理详细数据页面滑动问题
                             myScroll = new IScroll('#wrapper', { probeType: 3, mouseWheel: true, tap: true, click: true });
                         }
@@ -280,6 +284,12 @@ app.performance.order = {
             }
         }, function() {});
 
+    },
+    memberDetailEvent:function(){
+        $("#order-scroller .memberImg,#order-detail .memberImg,#order-comment .memberImg").on("click",function(e){
+            e.stopPropagation();
+            app.member.goMembetDetail($(this).attr("data-id"));
+        });
     },
     chooseOrderId: function(order) {
         app.performance.order.currentDay = new Date($('#order-query-date').val());
@@ -298,16 +308,16 @@ app.performance.order = {
         app.performance.order.stop();
     },
     orderComment: function() {
-        if (!app.performance.order.order) { //非订单跳入
-            var commentData = localStorage.getItem("commentData");
-            if (commentData) {
-                commentData = JSON.parse(commentData);
-                app.performance.order.order = commentData;
+        if(!app.performance.order.order){//非订单跳入
+            var commentData=localStorage.getItem("commentData");
+            if(commentData){
+                commentData=JSON.parse(commentData);
+                app.performance.order.order=commentData;
             }
-            app.performance.order.order.commentType = 1; //1 评价技师
-        } else {
+            app.performance.order.order.commentType=1;//1 评价技师
+        }else{
             app.performance.order.order.isEditServer = false;
-            app.performance.order.order.commentType = 0; //0评价订单
+            app.performance.order.order.commentType=0;//0评价订单
         }
 
         app.userinfo.getEmployee().then(function(employee) {
@@ -318,11 +328,11 @@ app.performance.order = {
                     memberId: app.performance.order.order.memberId,
                     merchantId: employee.merchantId
                 }
-                app.api.order.getTag({ //查询标签池
+                app.api.order.getTag({//查询标签池
                     data: data,
                     success: function(result) {
                         var res = result;
-                        if (app.performance.order.order.commentType == 1) { //判断是否评价订单
+                        if(app.performance.order.order.commentType==1){//判断是否评价订单
                             app.api.serviceLog.searchMemberDetail({
                                 data: { memberId: app.performance.order.order.memberId },
                                 success: function(result) {
@@ -336,12 +346,14 @@ app.performance.order = {
                                     var tmplate = tmpl(html, app.performance.order.order);
                                     $('#order-comment').html(tmplate);
 
-                                    app.tools.initTempData("addTagsBtn", "order-comment");
+                                    app.tools.initTempData("addTagsBtn","order-comment");
+                                    //app.performance.order.memberDetailEvent();
+                                    app.tools.seeImg(".memberImg");
                                 },
                                 error: function() {}
                             });
 
-                        } else {
+                        }else{
                             app.api.order.getOrderServer({
                                 data: { orderId: app.performance.order.order.orderId },
                                 success: function(result) {
@@ -357,7 +369,9 @@ app.performance.order = {
                                     var tmplate = tmpl(html, app.performance.order.order);
                                     $('#order-comment').html(tmplate);
 
-                                    app.tools.initTempData("addTagsBtn", "order-comment");
+                                    app.tools.initTempData("addTagsBtn","order-comment");
+                                    //app.performance.order.memberDetailEvent();
+                                    app.tools.seeImg(".memberImg");
                                 },
                                 error: function() {}
                             });
@@ -405,9 +419,9 @@ app.performance.order = {
                     success: function(result) {
                         app.alert('订单评价生成', '操作成功');
                         //跳转到订单列表
-                        if (app.performance.order.order.commentType == 1) { //判断跳转来源
+                        if(app.performance.order.order.commentType==1){//判断跳转来源
                             window.location.href = "serviceLog.html#/serviceLog_list";
-                        } else {
+                        }else{
                             window.location.href = "performance-index.html#/order-list";
                         }
                     },
@@ -441,15 +455,15 @@ app.performance.order = {
                     data: data,
                     success: function(result) {
                         app.endLoading();
-                        if (result.success) {
+                        if(result.success){
                             app.performance.order.order.membertags.push({
-                                id: result.data,
+                                id:result.data,
                                 name: name
                             });
                             app.performance.order.loadTag();
                             app.performance.order.loadCommit();
                             app.performance.order.hideTagBox();
-                        } else {
+                        }else{
                             app.alert(result.message)
                         }
                     },
@@ -461,7 +475,7 @@ app.performance.order = {
         }, function() {});
 
     },
-    hideTagBox: function() {
+    hideTagBox:function(){
         $('#order-comment').find('.date_menu').removeClass('date_menu_active');
         $('#order-comment').find('.mask').removeClass('mask_show');
     },
@@ -478,12 +492,12 @@ app.performance.order = {
     loadCommit: function() {
         $("#order-comment .memberTags").empty();
         $.each(app.performance.order.order.membertags, function(i, v) {
-            $("#order-comment .memberTags").append("<li class='li" + app.tools.tagColor(i, 6) + "' >" + v.name + "<i ontouchstart=\"app.performance.order.merberTagsChange(" + i + ")\"" + "><b ></b></i></span></li>")
+            $("#order-comment .memberTags").append("<li class='li"+app.tools.tagColor(i,6)+"' >" + v.name + "<i ontouchstart=\"app.performance.order.merberTagsChange(" + i + ")\"" + "><b ></b></i></span></li>")
         });
         $("#order-comment .tagList ul").empty();
         $.each(app.performance.order.order.tags, function(i, v) {
-            if (v.name) {
-                $("#order-comment .tagList ul").append("<li class='li" + app.tools.tagColor(i, 6) + "' ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
+            if(v.name){
+                $("#order-comment .tagList ul").append("<li class='li"+app.tools.tagColor(i,6)+"' ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
             }
         });
     },
@@ -500,8 +514,8 @@ app.performance.order = {
                         app.performance.order.order.tags = result.data;
                         $("#order-comment .tagList ul").empty();
                         $.each(app.performance.order.order.tags, function(i, v) {
-                            if (v.name) {
-                                $("#order-comment .tagList ul").append("<li class='li" + app.tools.tagColor(i, 6) + "' ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
+                            if(v.name){
+                                $("#order-comment .tagList ul").append("<li class='li"+app.tools.tagColor(i,6)+"' ontouchstart=\"app.performance.order.tagsChange(" + i + ")\"" + ">" + v.name + "</li>")
                             }
                         });
                     },

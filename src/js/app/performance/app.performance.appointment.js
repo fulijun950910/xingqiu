@@ -73,6 +73,12 @@ app.performance.appointment = {
             app.performance.appointment.queryAppointmentForDate('', 'init');
         }, function() {});
     },
+    memberDetailEvent:function(){
+        $("#order-scroller .memberImg").on("click",function(e){
+            e.stopPropagation();
+            app.member.goMembetDetail($(this).attr("data-id"));
+        });
+    },
     queryAppointmentForDate: function(result, type) {
         var employee = null,
             data = {
@@ -185,6 +191,7 @@ app.performance.appointment = {
                 $('.booking_orderlist .storeList').hide();
                 $('.booking_orderlist .dateList').addClass('border-left');
             }
+            app.performance.appointment.memberDetailEvent();
         }, function() {});
     },
     /*

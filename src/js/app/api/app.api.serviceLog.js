@@ -27,6 +27,7 @@ app.api.serviceLog= {
             data: settings.data
         })
     },
+    //会员详情
     searchMemberDetail: function (settings) {
         app.api.ajax({
             url: '/member/'+settings.data.memberId,
@@ -36,6 +37,15 @@ app.api.serviceLog= {
             data: settings.data
         })
     },
+    lastService: function (settings) {
+        app.api.ajax({
+            url: '/wechatbusinessassists/getMemberLastOrder/'+settings.data.memberId+"/"+settings.data.merchantId,
+            type: 'get',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
+        })
+    }
 
 
 };

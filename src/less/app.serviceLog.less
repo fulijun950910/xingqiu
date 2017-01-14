@@ -16,6 +16,12 @@
         .font-gay{
             color:@font-gay;
         }
+        .font-smile{
+            font-size:@font-smile;
+        }
+        .font-purple{
+            color:@font-purple;
+        }
         .margin-right{
             margin-left:-7vw;
         }
@@ -169,9 +175,12 @@
             }
         }
     }
-
+    //搜索会员列表
     .search{
-        background:#fff;
+        background:@bg-gay;
+        height: 100vh;
+        overflow: scroll;
+        -webkit-overflow-scrolling: touch;
         .nav{
             width: 100vw;
             height: 12vw;
@@ -179,13 +188,17 @@
             padding: 1.2vw 2vw;
             box-sizing: border-box;
             border-bottom: 1px solid #e7e7e7;
+            position: fixed;
+            top: 0;
+            left:0;
+            z-index:10;
         }
         .sousuoBtn{
             color:@font-purple;
-            font-size:1rem;
+            font-size:@font-large;
             text-align:center;
             height: 100%;
-            margin-top: 4vw;
+            margin-top: 2vw;
         }
         .navInput{
             background:@bg-gay;
@@ -207,7 +220,6 @@
                 height:100%;
                 border:0;
                 background:transparent;
-                color:@font-purple;
                 font-size:@font-large;
                 text-align: left;
                 &:focus { outline: none; };
@@ -216,6 +228,7 @@
         //搜索
         .searchCellBox{
             padding:0 2vw;
+            background:#fff;
         }
         .searchcell{
             padding:3vw 0;
@@ -244,12 +257,38 @@
                 .storeIcon{
                     color:@font-gay;
                     margin-top: 1vw;
+                    font-size:@font-smile;
                     i{
                         margin-top: -.2vw;
                     }
                 }
             }
 
+        }
+    }
+    //会员详情
+    .memberDetailBox{
+        position: relative;
+        width:96%;
+        margin: 2vw auto 0;
+        background: #fff;
+        border-radius: 1.2vw;
+        box-shadow: 0 0 2vw #ddd;
+        padding: 2vw 3vw;
+        box-sizing: border-box;
+        min-height: 140vw;
+        .memberInfo,.tagList,.membrRemake,.serviceNote{
+            border-bottom:1px solid @border-color;
+            padding-bottom:4vw !important;
+            margin-bottom:4vw !important;
+        }
+        .memberInfo{
+            padding: 2vw;
+        }
+        .membrRemake,.rule{
+            p{
+                margin-bottom:1vw;
+            }
         }
     }
 }

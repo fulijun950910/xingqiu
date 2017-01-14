@@ -130,7 +130,7 @@ $(function () {
             window.scrollTo(0,0);
             app.performance.order.orderComment();
 
-            document.title = "写小计";
+            document.title = "写小记";
             var $iframe = $('<iframe src="/favicon.ico"></iframe>');
             $iframe.on('load', function() {
                 setTimeout(function() {
