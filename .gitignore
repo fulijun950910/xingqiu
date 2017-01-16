@@ -29,3 +29,4 @@ nbproject
 *.zip
 *.swp
 src/app/**/*.css
+*.bat
