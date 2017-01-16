@@ -701,7 +701,7 @@ app.userinfo = {
                             data: updatePassword,
                             success: function(result) {
                                 if (result.success && result.data) {
-                                    location.href = "/userinfo.html#/";
+                                    location.href = "/userinfo.html#/user_login";
                                 } else {
                                     app.userinfo.alertError(result.message);
                                     return;
