@@ -127,7 +127,7 @@ app.api.userinfo = {
     newPassword: function(settings) {
         app.api.ajax({
             url: '/authUser/newPassword',
-            type: 'POST',
+            type: 'PUT',
             success: settings.success,
             error: settings.error,
             data: settings.data
