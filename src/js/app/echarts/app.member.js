@@ -171,11 +171,13 @@ app.memberEcharts = {
     initResizeContainer: function(data) {
         // 检测当前设备是否为ipad
         var systemIpad = (navigator.userAgent.match(/iPad/i) != null) ? true : false;
-        var height = 74 + data.length % 12 + "vh";
+        var height = 74 + parseInt(data.length / 6) + "vh";
         if (systemIpad) {
             $('.member_echarts .memberSourceList').find('.data-box').css('height', height);
         } else {
-            height = 74 + data.length + "vh";
+            if (data.length > 6) {
+                height = 74 + (data.length + 2) + "vh";
+            }
             $('.member_echarts .memberSourceList').find('.data-box').css('height', height);
         }
     },
