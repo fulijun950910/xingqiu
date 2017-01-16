@@ -25,6 +25,7 @@ public/assets/fonts/roboto_*
 nbproject
 .DS_Store
 .project
+.bat
 *.zip
 *.zip
 *.swp
