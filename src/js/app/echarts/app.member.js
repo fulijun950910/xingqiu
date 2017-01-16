@@ -108,7 +108,7 @@ app.memberEcharts = {
     },
     //会员来源
     memberSourceList: function(data) {
-        var myChart = echarts.init(document.getElementById('memberSourceList'));
+
         var legendList = [];
         var dataList = [];
         if (data.memberSourceList && data.memberSourceList.length > 0) {
@@ -120,6 +120,8 @@ app.memberEcharts = {
                 });
             }
         }
+        //初始化
+        app.memberEcharts.initResizeContainer(dataList);
         var option = {
             // tooltip: {
             //     trigger: 'item',
@@ -127,7 +129,7 @@ app.memberEcharts = {
             // },
             legend: {
                 orient: 'horizontal',
-                align: 'left',
+                align: 'auto',
                 data: legendList,
                 itemWidth: 50,
                 itemGap: 15,
@@ -139,7 +141,7 @@ app.memberEcharts = {
                 name: '访问来源',
                 type: 'pie',
                 radius: ['50%', '70%'],
-                center: ['50%', '40%'],
+                center: ['50%', '35%'],
                 avoidLabelOverlap: false,
                 label: {
                     normal: {
@@ -163,50 +165,20 @@ app.memberEcharts = {
             }],
             color: ['#ff8c8c', '#fe77a7', '#bf70d1', '#6c90df', '#7bacf6', '#72d6f6', '#8ae18a', '#fce57a', '#ffbe5b', '#c0e570']
         };
+        var myChart = echarts.init(document.getElementById('memberSourceList'));
         myChart.setOption(option);
-
-        //     var option = {
-        //         title: {
-        //             // text: '顾客来源分析',
-        //             x: 'center'
-        //         },
-        //         avoidLabelOverlap: false,
-        //         color: ['#ff8c8c', '#fe77a7', '#bf70d1', '#6c90df', '#7bacf6', '#72d6f6', '#8ae18a', '#fce57a', '#ffbe5b', '#c0e570'],
-        //         // legend: {
-        //         //     orient: 'vertical',
-        //         //     left: 'left',
-        //         //     data: legendList
-        //         // },
-        //         tooltip: {
-        //             trigger: 'item',
-
-        //             formatter: "{a} <br/>{b} : {c}"
-        //         },
-        //         series: [{
-        //             // name: '顾客来源分析',
-        //             type: 'pie',
-        //             radius: '65vw',
-        //             height: '60vh',
-        //             center: ['50%', '45%'],
-        //             data: dataList,
-        //             itemStyle: {
-        //                 emphasis: {
-        //                     // shadowBlur: 10,
-        //                     // shadowOffsetX: 0,
-        //                     shadowColor: 'rgba(0, 0, 0, 0.5)'
-        //                 }
-        //             },
-        //             labelLine: {
-        //                 normal: {
-        //                     show: false
-        //                 }
-        //             },
-        //         }]
-        //     };
-        //     // 使用刚指定的配置项和数据显示图表。
-        //     myChart.setOption(option);
     },
-
+    initResizeContainer: function(data) {
+        // 检测当前设备是否为ipad
+        var systemIpad = (navigator.userAgent.match(/iPad/i) != null) ? true : false;
+        var height = 74 + data.length % 12 + "vh";
+        if (systemIpad) {
+            $('.member_echarts .memberSourceList').find('.data-box').css('height', height);
+        } else {
+            height = 74 + data.length + "vh";
+            $('.member_echarts .memberSourceList').find('.data-box').css('height', height);
+        }
+    },
     //会员末到店
     memberLeaveDataList: function(data) {
         var myChart = echarts.init(document.getElementById('memberLeaveDataList'));
@@ -241,32 +213,32 @@ app.memberEcharts = {
             },
             tooltip: {},
             xAxis: {
-                data: ["1个月", "2个月", "3个月", "6个月", "12个月"]
+                data: ["1个月", "2个月", "3个月", "6个月", "12个月"],
+                axisLine: {
+                    lineStyle: {
+                        color: '#888'
+                    }
+                }
             },
-            yAxis: {},
-
+            yAxis: {
+                splitLine: {
+                    lineStyle: {
+                        color: "#eaeaea",
+                        type: "dotted"
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#888'
+                    }
+                }
+            },
             series: [{
                 type: 'bar',
                 barWidth: '50%',
                 itemStyle: {
                     normal: {
                         color: '#9d7ae5',
-                        // borderColor :"#eaeaea",
-                        // borderType  : "dotted"
-                    }
-                },
-                markPoint: {
-                    lineStyle: {
-                        normal: {
-                            type: "dotted",
-                            color: "#eaeaea"
-                        }
-                    },
-                },
-                lineStyle: {
-                    emphasis: {
-                        type: "dotted",
-                        color: "#eaeaea"
                     }
                 },
                 data: dataList
@@ -294,9 +266,26 @@ app.memberEcharts = {
             },
             tooltip: {},
             xAxis: {
-                data: ["1次", "2次", "3次", "4次", "5次及以上"]
+                data: ["1次", "2次", "3次", "4次", "5次及以上"],
+                axisLine: {
+                    lineStyle: {
+                        color: '#888'
+                    }
+                }
             },
-            yAxis: {},
+            yAxis: {
+                splitLine: {
+                    lineStyle: {
+                        color: "#eaeaea",
+                        type: "dotted"
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#888'
+                    }
+                }
+            },
             series: [{
                 type: 'bar',
                 barWidth: '50%',
