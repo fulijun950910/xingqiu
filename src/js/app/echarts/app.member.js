@@ -176,7 +176,7 @@ app.memberEcharts = {
             $('.member_echarts .memberSourceList').find('.data-box').css('height', height);
         } else {
             if (data.length > 6) {
-                height = 74 + (data.length + 2) + "vh";
+                height = 410 + (data.length * 10) + "px";
             }
             $('.member_echarts .memberSourceList').find('.data-box').css('height', height);
         }
