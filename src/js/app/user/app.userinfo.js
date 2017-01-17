@@ -707,7 +707,7 @@ app.userinfo = {
                             return;
                         }
                         var updatePassword = {
-                            userId: userinfo.id,
+                            userId: userinfo.userId,
                             oldPassword: $('.edit-userInfo').find('.oldPassword').val(),
                             newPassword: $('.edit-userInfo').find('.newPassword').val()
                         };
