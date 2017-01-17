@@ -49,6 +49,7 @@ $(function() {
         },
         bind: function() {
             init();
+            app.tools.changeTitle('找回密码');
             // app.userinfo.updatepwd_init();
         }
     };
@@ -61,6 +62,7 @@ $(function() {
             return $('#tpl_user_login').html();
         },
         bind: function() {
+            app.tools.changeTitle('登录');
             init();
             //缓存及cookie清理
             //localStorage.clear();
@@ -75,6 +77,7 @@ $(function() {
             return $('#tpl_edit-userInfo').html();
         },
         bind: function() {
+            app.tools.changeTitle('修改个人信息');
             app.userinfo.editUserInfo();
         }
     }
