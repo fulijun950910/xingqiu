@@ -382,26 +382,27 @@ app.userinfo = {
             app.api.userinfo.find({
                 data: data,
                 success: function(result) {
+                    var userinfo = result.data;
                     var template = $('#tmpl-userinfo').html();
-                    var resultHtml = tmpl(template, result.data);
+                    var resultHtml = tmpl(template, userinfo);
                     $('#userinfo-detail').html(resultHtml);
                     app.endLoading();
                     // 用户名
-                    if (result.data.name) {
-                        $('.headPic').find('.employee-name').text(result.data.name);
+                    if (userinfo.name) {
+                        $('.headPic').find('.employee-name').text(userinfo.name);
                         $('.headPic').find('.employee-name').show();
                     }
                     //签名
-                    if (result.data.description) {
-                        $('.headPic').find('.employee-description').text(app.tools.sliceStr(result.data.description, 60));
+                    if (userinfo.description) {
+                        $('.headPic').find('.employee-description').text(app.tools.sliceStr(userinfo.description, 60));
                         $('.headPic').find('.employee-description').show();
                     }
 
-                    window.sessionStorage.setItem('userInfo', JSON.stringify(result.data));
-                    // $('select[name="gender"]').val(result.data.gender);
-                    if (result.data.avatarFileId)
-                        $('#headarticle').prop('src', app.filePath + result.data.avatarFileId);
-                    $('#headarticle').on('click', function() {
+                    window.sessionStorage.setItem('userInfo', JSON.stringify(userinfo));
+                    // $('select[name="gender"]').val(userinfo.gender);
+                    if (userinfo.avatarFileId)
+                        $('#headarticle').prop('src', app.filePath + userinfo.avatarFileId);
+                        $('#headarticle').on('click', function() {
                         $('#headerfile').click();
                         $('#headerfile').change(function(dom) {
                             app.userinfo.changeImg(dom);
@@ -437,6 +438,9 @@ app.userinfo = {
             //     description: $('input[name="description"]').val(),
             //     avatarFileId: app.userinfo.fileId
             // };
+            //转换格式
+            userinfo.birthday = userinfo.birthday ? userinfo.birthday + ' 00:00:00' : "";
+            userinfo.employmentDate = userinfo.employmentDate = userinfo.employmentDate ? userinfo.employmentDate + ' 00:00:00' : "";
             app.api.userinfo.updateEmployee({
                 data: userinfo,
                 success: function(result) {
@@ -557,8 +561,8 @@ app.userinfo = {
             }
             //事件统计
         baiduStatistical.add({
-            category: '修改密码',
-            label: '用户修改密码',
+            category: '找回密码',
+            label: '用户找回密码',
             val: '',
             action: 'click'
         });
@@ -600,6 +604,9 @@ app.userinfo = {
                         app.userinfo.fileId = result.data;
                         var url = app.filePath + app.userinfo.fileId;
                         $('#headarticle').attr('src', url);
+                        var userinfo = JSON.parse(sessionStorage.userInfo);
+                        userinfo.avatarFileId = result.data;
+                        app.userinfo.updateEmployee(userinfo);
                     }
                 },
                 error: function(a, b, c) {}
@@ -671,6 +678,13 @@ app.userinfo = {
                         userinfo.description = $('.edit-userInfo').find('.description').val();
                         break;
                     case 6: //修改密码
+                        //事件统计
+                        baiduStatistical.add({
+                            category: '找回密码',
+                            label: '用户找回密码',
+                            val: '',
+                            action: 'click'
+                        });
                         if (!$('.edit-userInfo').find('.oldPassword').val()) {
                             app.userinfo.alertError('小主，请输入原密码');
                             return;
@@ -712,13 +726,9 @@ app.userinfo = {
                                 return;
                             }
                         });
-                        break;
+                        return;
                 }
-                if (parseInt(userinfo.type) != 3) {
-                    userinfo.birthday = userinfo.birthday ? userinfo.birthday + ' 00:00:00' : "";
-                }
-                //转换格式
-                userinfo.employmentDate = userinfo.employmentDate = userinfo.employmentDate ? userinfo.employmentDate + ' 00:00:00' : "";
+
                 app.userinfo.updateEmployee(userinfo);
             });
         } else {
