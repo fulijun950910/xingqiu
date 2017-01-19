@@ -179,7 +179,8 @@ app.serviceLog = {
         })
     },
     queryLastService:function(employee){
-        if(!employee.merchant||!employee.merchant.id){
+        if(!employee.merchant||!employee.merchant.id||employee.merchant.id==-1){
+            window.history.back();
             return;
         }
         app.api.serviceLog.lastService({

@@ -232,7 +232,7 @@ app.member = {
     },
     goMembetDetail: function(id) {
         var employee=localStorage.getItem("employee")
-        if(employee&&id){
+        if(employee&&id&&id!=-1){
             employee=JSON.parse(employee)
             employee.member={
                 id:id
