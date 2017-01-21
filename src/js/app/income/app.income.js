@@ -172,6 +172,9 @@ app.income = {
                 app.income.initDate(memberData.dataType); //初始化时间
                 app.income.initStoreList(); //初始化门店
                 app.income.initCystomDate(memberData.dataType); //初始化自定义时间
+                if (employee.storeList.length == 1) {
+                    $('.storeLists span:first').remove();
+                }
                 if (data.storeIds == employee.storeIds) {
                     $('.storeLists span:first').addClass('active').append('<i></i>');
                 } else {
