@@ -386,7 +386,7 @@ app.changeDetail = {
                 }
             },
             error: function() {
-                app.operationLog.goReport();
+                app.operationLog.goUser();
             }
         })
     },

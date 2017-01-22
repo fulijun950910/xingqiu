@@ -146,7 +146,10 @@ app.index = {
                 app.index.getEmployee(JSON.parse(localStorage.employee).userId).then(function(employeeList) {
                     window.sessionStorage.setItem('employeeList', JSON.stringify(employeeList));
                     app.index.performance();
-                }, function() {})
+                }, function() {
+                    //失败重新登录
+                    location.href = "/userinfo.html#/user_login";
+                })
             } else {
                 app.index.performance();
             }
@@ -335,6 +338,8 @@ app.index = {
                 },
                 error: function(error) {
                     //   app.endLoading();
+                    //失败重新登录
+                    location.href = "/userinfo.html#/user_login";
                     console.info(error);
                     reject(error);
                 }
