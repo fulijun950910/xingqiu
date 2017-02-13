@@ -121,6 +121,10 @@ app.serviceLog = {
                 app.serviceLog.initSearch();
             }
         });
+        $("#tpl_serviceLogSearch").on("blur", "#search", function (e) {
+            app.serviceLog.initSearch();
+        });
+
         $("#tpl_serviceLogSearch .memberImg").tap("",function(e){
             e.stopPropagation();
             app.serviceLog.goMembetDetail($(this.ele).attr("data-id"));
