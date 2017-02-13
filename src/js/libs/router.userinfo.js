@@ -1,19 +1,4 @@
 function init() {
-    if(sessionStorage.getItem("logged")){
-        function onBridgeReady(){
-            WeixinJSBridge.call('closeWindow');
-        }
-        if (typeof WeixinJSBridge == "undefined"){
-            if( document.addEventListener ){
-                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-            }else if (document.attachEvent){
-                document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
-                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-            }
-        }else{
-            onBridgeReady();
-        }
-    }
     $('.userInfo').on('touchstart', '.clearUserName', function(event) {
         event.preventDefault();
         $('.userInfo').find('.username').val("");

@@ -314,7 +314,6 @@ app.userinfo = {
                                                     // } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                                                     //     location.href = "/performance-index.html#/performance_emp";
                                                     if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                                                       sessionStorage.setItem("logged","true")//记录是否登录
                                                         location.href = "/main.html#/index";
                                                     } else {
                                                         localStorage.clear();
