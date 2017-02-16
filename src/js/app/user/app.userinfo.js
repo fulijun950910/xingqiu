@@ -314,7 +314,12 @@ app.userinfo = {
                                                     // } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                                                     //     location.href = "/performance-index.html#/performance_emp";
                                                     if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                                                        location.href = "/main.html#/index";
+                                                        if(window.history.replaceState){
+                                                            window.history.replaceState({},"0",'http://'+window.location.host+'/main.html#/index');
+                                                            window.location.reload();
+                                                        }else{
+                                                            location.href = "/main.html#/index";
+                                                        }
                                                     } else {
                                                         localStorage.clear();
                                                         location.href = "/userinfo.html#/user_login";
