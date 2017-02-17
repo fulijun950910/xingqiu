@@ -1,606 +1,667 @@
-    body {
-        background-color: @primary-background-color;
-    }
-    
-    .sign_app {
+body {
+    background-color: @primary-background-color;
+}
+
+.sign_app {
+    width: 100%;
+    height: 35vh;
+    font-family: "微软雅黑";
+    .header_module {
+        position: relative;
         width: 100%;
         height: 35vh;
-        font-family: "微软雅黑";
-        .header_module {
-            position: relative;
-            width: 100%;
-            height: 35vh;
-            background: url('../images/637487861281385685.jpg') no-repeat -123px;
-            .title {
-                padding: 2vw 9vw 0;
-                line-height: 8vw;
-                font-size: 5vw;
-            }
-            .date,
-            .user-info {
-                padding-right: 3vw;
-                text-align: right;
-                div {
-                    color: #fff;
-                }
-                .card_name {
-                    // width: 35vw;
-                    margin-left: 60vw;
-                    word-wrap: break-word;
-                    text-align: left;
-                }
-                .week {
-                    font-size: .7em;
-                }
-                .head_time {
-                    font-size: 2em;
-                }
+        background: url('../images/637487861281385685.jpg') no-repeat -123px;
+        .title {
+            padding: 2vw 9vw 0;
+            line-height: 8vw;
+            font-size: 5vw;
+        }
+        .user-info {
+            color: #fff;
+            font-size: 3.5vw;
+            position: absolute;
+            right: 2vw;
+            top: 19vw;
+            line-height: 8vw;
+            text-align: right;
+            width: 40vw;
+            .time {
+                font-size: 8vw;
             }
         }
+        // .date,
+        // .user-info {
+        //     padding-right: 3vw;
+        //     text-align: right;
+        //     div {
+        //         color: #fff;
+        //     }
+        //     .card_name {
+        //         // width: 35vw;
+        //         margin-left: 60vw;
+        //         word-wrap: break-word;
+        //         text-align: left;
+        //     }
+        //     .week {
+        //         font-size: .7em;
+        //     }
+        //     .head_time {
+        //         font-size: 2em;
+        //     }
+        // }
     }
-    
-    .sign_panel {
+}
+
+.sign_panel {
+    position: relative;
+    .sign_panel_line {
+        background: #d0d0d0;
+        text-align: center;
+        width: 1px;
         position: relative;
-        .sign_panel_line {
+        left: 57vw;
+        top: -27vw;
+        height: 45vw;
+        &:before {
+            content: "";
             background: #d0d0d0;
-            text-align: center;
-            width: 1px;
-            position: relative;
-            left: 57vw;
-            top: -27vw;
-            height: 45vw;
+            width: 5px;
+            height:5px;
+            display: block;
+            position: absolute;
+            left: -0.6vw;
+            border-radius: 50%;
+            // top: -0.5vw;
+            z-index: 11;
+        }
+    }
+    .sign_info {
+        width: 35vw;
+        border: 1px dashed #d0d0d0;
+        background: #d0d0d0;
+        opacity: .8;
+        text-align: center;
+        font-size: .8em;
+        height: 9vw;
+        line-height: 9vw;
+        padding: 1vw 0;
+    }
+    //签到
+    .sign_in {
+        width: 58vw;
+        position: absolute;
+        top: -10vw;
+        left: 20vw;
+        #sign_in_bubble {
+            border: 5vw solid transparent;
+            border-left: 9vw solid #d0d0d0;
+            width: 0;
+            height: 0;
+            display: block;
+            position: absolute;
+            right: 17vw;
+            top: -3vw;
+            transform: rotate(-30deg);
+        }
+    }
+    //签退
+    .sign_after {
+        width: 42vw;
+        position: absolute;
+        top: 4vw;
+        right: -3vw;
+        #sign_after_bubble {
+            border: 5vw solid transparent;
+            border-left: 9vw solid #d0d0d0;
+            width: 0;
+            height: 0;
+            display: block;
+            position: absolute;
+            top: -7vw;
+            left: -5vw;
+            transform: rotate(-120deg);
+        }
+    }
+}
+
+.line_top {
+    position: absolute;
+    width: 5px;
+    height:5px;
+    border: 1px solid #d0d0d0;
+    border-radius: 100%;
+    top: -1.8vw;
+    left: -0.5vw;
+    margin-left: -1px;
+}
+
+.sign_info_list {
+    .sign_in_info-0 {
+        position: relative;
+        width: 57vw;
+        text-align: right;
+        border-right: 1px solid #d0d0d0;
+        &:before {
+            content: "";
+            background: #d0d0d0;
+            width: 5px;
+            height:5px;
+            display: block;
+            position: absolute;
+            left: 56.4vw;
+            border-radius: 50%;
+            top: 6vw;
+            // opacity: 0.7;
+            z-index: 11;
+        }
+        i {
+            font-size: 1.1em;
+            // margin-top: -0.5vw;
         }
         .sign_info {
-            width: 35vw;
-            border: 1px dashed #d0d0d0;
+            font-size: 3vw;
+            word-wrap: break-word;
+            background: #f6f4f5;
+            width: 51vw;
+            padding: 2vw;
+        }
+        .line_sign-0 {
+            top: 5vw;
+            left: 56vw;
+        }
+    }
+    .sign_in_info-1 {
+        margin-left: 57%;
+        text-align: left;
+        border-left: 1px solid #d0d0d0;
+        position: relative;
+        padding-left: 2vw;
+        &:before {
+            content: "";
             background: #d0d0d0;
-            opacity: .8;
-            text-align: center;
-            font-size: .8em;
-            height: 9vw;
-            line-height: 9vw;
-            padding: 1vw 0;
-        }
-        //签到
-        .sign_in {
-            width: 58vw;
+            width: 5px;
+            height:5px;
+            display: block;
             position: absolute;
-            top: -10vw;
-            left: 20vw;
-            #sign_in_bubble {
-                border: 5vw solid transparent;
-                border-left: 9vw solid #d0d0d0;
-                width: 0;
-                height: 0;
-                display: block;
-                position: absolute;
-                right: 17vw;
-                top: -3vw;
-                transform: rotate(-30deg);
-            }
-        }
-        //签退
-        .sign_after {
-            width: 42vw;
-            position: absolute;
+            left: -.855vw;
+            border-radius: 50%;
             top: 10vw;
-            right: -3vw;
-            #sign_after_bubble {
-                border: 5vw solid transparent;
-                border-left: 9vw solid #d0d0d0;
-                width: 0;
-                height: 0;
-                display: block;
-                position: absolute;
-                top: -7vw;
-                left: -5vw;
-                transform: rotate(-120deg);
-            }
+            z-index: 11;
+        }
+        i {
+            font-size: 1.1em;
+            // margin-top: -0.5vw;
+        }
+        .sign_info {
+            padding-top: 6vw;
+            font-size: 3vw;
+            width: 40vw;
+            word-wrap: break-word;
+            // &:before {
+            //     content: "";
+            //     border: 1px solid #d0d0d0;
+            //     width: 2vw;
+            //     height: 2vw;
+            //     display: block;
+            //     position: absolute;
+            //     left: 56vw;
+            //     border-radius: 50%;
+            //     top: 6vw;
+            // }
+        }
+        .line_sign-1 {
+            top: 9vw;
+            left: -3.5%;
         }
     }
-    
-    .line_top {
-        position: absolute;
-        width: 2vw;
-        height: 2vw;
-        border: 1px solid #d0d0d0;
-        border-radius: 100%;
-        top: -2.8vw;
-        left: -1vw;
-        margin-left:-1px;
-    }
-    
-    .sign_info_list {
-        .sign_in_info-0 {
-            position: relative;
-            width: 57vw;
-            text-align: right;
-            border-right: 1px solid #d0d0d0;
-            i {
-                font-size: 1.1em;
-                margin-top: .5vw;
-            }
-            .sign_info {
-                font-size: 7pt;
-                word-wrap: break-word;
-                background: #f6f4f5;
-                width: 51vw;
-                padding: 2vw;
-            }
-            .line_sign-0 {
-                top: 5vw;
-                left: 56vw;
-            }
-        }
-        .sign_in_info-1 {
-            margin-left: 57%;
-            text-align: left;
-            border-left: 1px solid #d0d0d0;
-            position: relative;
-            padding-left: 2vw;
-            i {
-                font-size: 1.1em;
-                margin-top: .5vw;
-            }
-            .sign_info {
-                padding-top: 6vw;
-                font-size: 7pt;
-                width: 40vw;
-                word-wrap: break-word;
-            }
-            .line_sign-1 {
-                top: 9vw;
-                left: -3.5%;
-            }
-        }
-        .sign_date {
-            border: 1px solid #eaeaea;
-            color: #999;
-            font-size: 9pt;
-            width: 20vw;
-            min-width: 80px;
-            margin: 2vw 46vw;
-            text-align: center;
-            height: 7vw;
-            line-height: 7vw;
-        }
-    }
-    
-    //更多信息
-    .more {
+    .sign_date {
+        border: 1px solid #eaeaea;
+        color: #999;
         font-size: 9pt;
-        color: #7d7d7d;
+        width: 20vw;
+        min-width: 80px;
+        margin: .5vw 46vw;
         text-align: center;
-        padding: 2vw;
+        height: 7vw;
+        line-height: 7vw;
     }
-    
-    .login_in {
-        background: #62cda9;
-        color: #fff;
-        padding: .1vw 1vw;
-        border-radius: 5px;
-        font-size: 7pt;
-    }
-    
-    .login_out {
-        background: #bd9060;
-        color: #fff;
-        padding: .1vw 1vw;
-        border-radius: 5px;
-        font-size: 7pt;
-    }
-    
-    //白色背景缓冲
-    // .whitebackground {
-    //     position: relative;
-    //     background-color: #FFF;
-    //     float: left;
-    //     width: 100%;
-    //     height: 5.6em;
-    //     top: 5em;
-    //     z-index: 0;
-    // }
-    //签到卡片
-    // .sign_panel {
-    //     position: relative;
-    //     background-color: #FFF;
-    //     min-height: 65vh;
-    //     .sign_panel_line {
-    //         background: #f5f5f5;
-    //         text-align: center;
-    //         width: 1px;
-    //         position: relative;
-    //         left: 58vw;
-    //         top: -25.5vw;
-    //         height: 15vw;
-    //     }
-    // i {
-    //     font-size: 20px;
-    //     margin-top: -4px;
-    // }
-    // .line_top {
-    //     position: absolute;
-    //     width: 5px;
-    //     height: 5px;
-    //     border: 1px solid #eee;
-    //     border-radius: 100%;
-    //     top: 27px;
-    //     left: -4px;
-    // }
-    // .tag {
-    //     width: 140px;
-    //     height: 45px;
-    //     line-height: 45px;
-    //     border: 1px dashed #fff;
-    //     background: #eaeaea;
-    //     position: absolute;
-    //     opacity: .8;
-    //     text-align: center;
-    //     top: 8vw;
-    //     font-size: .8em;
-    // }
-    //     .sign_in {
-    //         top: -10vw;
-    //         left: 12vw;
-    //         .sign_in_line {
-    //             position: absolute;
-    //             width: 10px;
-    //             height: 10px;
-    //             border: 1px solid #fff;
-    //             border-radius: 100%;
-    //             left: 44.5vw;
-    //             top: -0.5vw;
-    //         }
-    //         #sign_in_bubble {
-    //             border: 15px solid transparent;
-    //             border-left: 35px solid #eaeaea;
-    //             width: 0;
-    //             height: 0;
-    //             display: block;
-    //             position: absolute;
-    //             right: -39px;
-    //             top: -3px;
-    //             transform: rotate(-30deg);
-    //         }
-    //     }
-    //     .sign_after {
-    //         right: 2vw;
-    //         #sign_after_bubble {
-    //             border: 15px solid transparent;
-    //             border-left: 35px solid #eaeaea;
-    //             width: 0;
-    //             height: 0;
-    //             display: block;
-    //             position: absolute;
-    //             top: -24px;
-    //             left: -4vw;
-    //             transform: rotate(-127deg);
-    //         }
-    //     }
-    //     .sign_in_info-0 {
-    //         width: 50%;
-    //         text-align: right;
-    //         border-right: 1px solid #eee;
-    //         padding-left: 7.2vw;
-    //         position: relative;
-    //         margin-top: 3vw;
-    //         i {
-    //             font-size: 1.1em;
-    //             margin-top: .5vw;
-    //         }
-    //         .line_top {
-    //             left: 56.4vw;
-    //         }
-    //         .sign_info {
-    //             padding-right: 2vw;
-    //             padding-top: 6vw;
-    //             font-size: 10pt;
-    //             word-wrap: break-word;
-    //         }
-    //     }
-    //     .sign_in_info-1 {
-    //         margin-left: 57%;
-    //         text-align: left;
-    //         border-left: 1px solid #eee;
-    //         position: relative;
-    //         padding-left: 2vw;
-    //         margin-top: 3vw;
-    //         i {
-    //             font-size: 1.1em;
-    //             margin-top: .5vw;
-    //         }
-    //         .sign_info {
-    //             padding-top: 6vw;
-    //             font-size: 10pt;
-    //             width: 40vw;
-    //             word-wrap: break-word;
-    //         }
-    //     }
-    //     .sign_date {
-    //         position: relative;
-    //         left: 45vw;
-    //         top: -1vw;
-    //         border: 1px solid #eaeaea;
-    //         //padding: 2vw 4vw;
-    //         color: #999;
-    //         font-size: 9pt;
-    //         width: 20vw;
-    //         margin: 2vw;
-    //        // background: #f5f5f5;
-    //         text-align: center;
-    //     }
-    //     .more {
-    //         font-size: 9pt;
-    //         color: #999;
-    //         text-align: center;
-    //         padding: 10px;
-    //     }
-    //     .line_title {
-    //         top: -2.1vw;
-    //         left: -0.8vw;
-    //     }
-    // }
-    // h3 {
-    //     position: relative;
-    //     top: 1em;
-    //     margin-left: 0.5em;
-    //     font-size: 0.9em;
-    //     color: #EAEAF0;
-    //     font-weight: normal;
-    //     line-height: 1px;
-    // }
-    // .week {
-    //     position: relative;
-    //     top: 7em;
-    //     right: -13vw;
-    //     width: 80%;
-    //     text-align: right;
-    //     font-size: .7em;
-    //     color: #EAEAF0;
-    // }
-    // .head_time {
-    //     position: relative;
-    //     top: 2.6em;
-    //     width: 80%;
-    //     right: -17vw;
-    //     text-align: right;
-    //     font-size: 2em;
-    //     text-shadow: #4D1A83 0 1px 2px;
-    //     color: #FFF;
-    // }
-    // }
-    //头像-姓名-职位
-    // .card {
-    //     position: relative;
-    //     width: 100%;
-    //     height: 3em;
-    //     z-index: 3;
-    //     background-color: #FFF;
-    //     .headerimg {
-    //         float: left;
-    //         position: relative;
-    //         display: inline;
-    //         height: 100%;
-    //         width: 30%;
-    //         top: -2.5em;
-    //         width: 5em;
-    //         height: 5em;
-    //         border: 0.3em double #FFF;
-    //         background-color: #FFF;
-    //         border-radius: 50%;
-    //         box-shadow: #EEE 0px 0px 2px;
-    //         margin-left: 2.5em;
-    //         overflow: hidden;
-    //         img {
-    //             width: 5em;
-    //             height: 5em;
-    //             border: 0;
-    //         }
-    //     }
-    //     .card_name {
-    //         position: relative;
-    //         display: inline;
-    //         top: -3.5em;
-    //         right: -67vw;
-    //         color: #F4F1FA;
-    //     }
-    //     .card_role {
-    //         position: relative;
-    //         display: inline;
-    //         color: #fff;
-    //         right: -40vw;
-    //         top: -2em;
-    //     }
-    // }
-    // .workTime {
-    //     position: relative;
-    //     width: 95%;
-    //     height: 2.5em;
-    //     font-size: 1em;
-    //     color: #777777;
-    //     margin-left: 5%;
-    //     line-height: 3.5em;
-    //     text-align: left;
-    //     b {
-    //         position: relative;
-    //         display: inline-block;
-    //         width: 3px;
-    //         height: 1em;
-    //         top: 1px;
-    //         left: -6.6em;
-    //         background-color: #56E4CC;
-    //     }
-    //     span {
-    //         position: relative;
-    //         left: -6.6em;
-    //         margin-left: 2%;
-    //     }
-    // }
-    //签到-签退内容
-    // .sign_info {
-    //     position: relative;
-    //     width: 100%;
-    //     height: 100%;
-    //     background-color: #FFF;
-    //     .lefttime {
-    //         width: 100%;
-    //         height: 100%;
-    //         line-height: 2.5em;
-    //         float: left;
-    //         background-color: #FFF;
-    //         ul {
-    //             li {
-    //                 padding-top: 0.3em;
-    //                 margin-left: 5%;
-    //                 border-top: 1px solid #EEE;
-    //                 b {
-    //                     position: relative;
-    //                     display: inline-block;
-    //                     width: 6px;
-    //                     height: 6px;
-    //                     top: -3px;
-    //                     border-radius: 50%;
-    //                     background-color: #FFF;
-    //                 }
-    //                 .redcolor {
-    //                     background-color: red;
-    //                 }
-    //                 .bluecolor {
-    //                     background-color: #00B7EE;
-    //                 }
-    //                 .greencolor {
-    //                     background-color: #4BDD8E;
-    //                 }
-    //                 span {
-    //                     margin-left: 0.5em;
-    //                     color: #737373;
-    //                 }
-    //                 .late {
-    //                     font-size: 0.5em;
-    //                     color: #C3C3C3;
-    //                     margin-left: 0.8em;
-    //                 }
-    //                 .signaddr {
-    //                     font-size: 0.8em;
-    //                 }
-    //                 button {
-    //                     position: relative;
-    //                     float: right;
-    //                     width: 20%;
-    //                     margin-right: 5%;
-    //                     height: 2.5em;
-    //                     color: #FFF;
-    //                     font-weight: bold;
-    //                 }
-    //                 .signin {
-    //                     border: 2px solid #3DD5E0;
-    //                     background-color: #3DD5E0;
-    //                 }
-    //                 .signexit {
-    //                     border: 2px solid #FF7181;
-    //                     background-color: #FF7181;
-    //                 }
-    //                 & li:first-child {
-    //                     border-top: 1px solid #EEE;
-    //                 }
-    //             }
-    //         }
-    //     }
-    // .sign_after {
-    //     width: 100%;
-    //     height: 100%;
-    //     float: left;
-    //     background-color: #FFF;
-    //     padding-top: 0.4em;
-    //     ul {
-    //         li {
-    //             padding-top: 0.3em;
-    //             margin-left: 5%;
-    //             b {
-    //                 position: relative;
-    //                 display: inline-block;
-    //                 width: 6px;
-    //                 height: 6px;
-    //                 top: -3px;
-    //                 border-radius: 50%;
-    //                 background-color: #FFF;
-    //             }
-    //             .redcolor {
-    //                 background-color: red;
-    //             }
-    //             .bluecolor {
-    //                 background-color: #00B7EE;
-    //             }
-    //             .greencolor {
-    //                 background-color: #4BDD8E;
-    //             }
-    //             span {
-    //                 margin-left: 0.5em;
-    //                 color: #737373;
-    //             }
-    //             .late {
-    //                 font-size: 0.5em;
-    //                 color: #C3C3C3;
-    //                 margin-left: 0.8em;
-    //             }
-    //             .signaddr {
-    //                 font-size: 0.8em;
-    //             }
-    //         }
-    //         & li:first-child {
-    //             border-top: 1px solid #EEE;
-    //         }
-    //         li:last-child {
-    //             span {
-    //                 margin-left: 0.7em;
-    //             }
-    //         }
-    //     }
-    // }
-    // }
-    // }
-    //签到提示
-    .alertSign {
-        position: fixed;
-        display: none;
+}
+
+//更多信息
+.more {
+    font-size: 3vw;
+    color: #7d7d7d;
+    text-align: center;
+    padding: 2vw;
+}
+
+.login_in {
+    background: #62cda9;
+    color: #fff;
+    padding: 2px 1vw;
+    border-radius: 3px;
+    font-size:2.5vw;
+}
+
+.login_out {
+    background: #bd9060;
+    color: #fff;
+    padding: 2px 1vw;
+    border-radius: 3px;
+    font-size:2.5vw;
+}
+
+//白色背景缓冲
+// .whitebackground {
+//     position: relative;
+//     background-color: #FFF;
+//     float: left;
+//     width: 100%;
+//     height: 5.6em;
+//     top: 5em;
+//     z-index: 0;
+// }
+//签到卡片
+// .sign_panel {
+//     position: relative;
+//     background-color: #FFF;
+//     min-height: 65vh;
+//     .sign_panel_line {
+//         background: #f5f5f5;
+//         text-align: center;
+//         width: 1px;
+//         position: relative;
+//         left: 58vw;
+//         top: -25.5vw;
+//         height: 15vw;
+//     }
+// i {
+//     font-size: 20px;
+//     margin-top: -4px;
+// }
+// .line_top {
+//     position: absolute;
+//     width: 5px;
+//     height: 5px;
+//     border: 1px solid #eee;
+//     border-radius: 100%;
+//     top: 27px;
+//     left: -4px;
+// }
+// .tag {
+//     width: 140px;
+//     height: 45px;
+//     line-height: 45px;
+//     border: 1px dashed #fff;
+//     background: #eaeaea;
+//     position: absolute;
+//     opacity: .8;
+//     text-align: center;
+//     top: 8vw;
+//     font-size: .8em;
+// }
+//     .sign_in {
+//         top: -10vw;
+//         left: 12vw;
+//         .sign_in_line {
+//             position: absolute;
+//             width: 10px;
+//             height: 10px;
+//             border: 1px solid #fff;
+//             border-radius: 100%;
+//             left: 44.5vw;
+//             top: -0.5vw;
+//         }
+//         #sign_in_bubble {
+//             border: 15px solid transparent;
+//             border-left: 35px solid #eaeaea;
+//             width: 0;
+//             height: 0;
+//             display: block;
+//             position: absolute;
+//             right: -39px;
+//             top: -3px;
+//             transform: rotate(-30deg);
+//         }
+//     }
+//     .sign_after {
+//         right: 2vw;
+//         #sign_after_bubble {
+//             border: 15px solid transparent;
+//             border-left: 35px solid #eaeaea;
+//             width: 0;
+//             height: 0;
+//             display: block;
+//             position: absolute;
+//             top: -24px;
+//             left: -4vw;
+//             transform: rotate(-127deg);
+//         }
+//     }
+//     .sign_in_info-0 {
+//         width: 50%;
+//         text-align: right;
+//         border-right: 1px solid #eee;
+//         padding-left: 7.2vw;
+//         position: relative;
+//         margin-top: 3vw;
+//         i {
+//             font-size: 1.1em;
+//             margin-top: .5vw;
+//         }
+//         .line_top {
+//             left: 56.4vw;
+//         }
+//         .sign_info {
+//             padding-right: 2vw;
+//             padding-top: 6vw;
+//             font-size: 10pt;
+//             word-wrap: break-word;
+//         }
+//     }
+//     .sign_in_info-1 {
+//         margin-left: 57%;
+//         text-align: left;
+//         border-left: 1px solid #eee;
+//         position: relative;
+//         padding-left: 2vw;
+//         margin-top: 3vw;
+//         i {
+//             font-size: 1.1em;
+//             margin-top: .5vw;
+//         }
+//         .sign_info {
+//             padding-top: 6vw;
+//             font-size: 10pt;
+//             width: 40vw;
+//             word-wrap: break-word;
+//         }
+//     }
+//     .sign_date {
+//         position: relative;
+//         left: 45vw;
+//         top: -1vw;
+//         border: 1px solid #eaeaea;
+//         //padding: 2vw 4vw;
+//         color: #999;
+//         font-size: 9pt;
+//         width: 20vw;
+//         margin: 2vw;
+//        // background: #f5f5f5;
+//         text-align: center;
+//     }
+//     .more {
+//         font-size: 9pt;
+//         color: #999;
+//         text-align: center;
+//         padding: 10px;
+//     }
+//     .line_title {
+//         top: -2.1vw;
+//         left: -0.8vw;
+//     }
+// }
+// h3 {
+//     position: relative;
+//     top: 1em;
+//     margin-left: 0.5em;
+//     font-size: 0.9em;
+//     color: #EAEAF0;
+//     font-weight: normal;
+//     line-height: 1px;
+// }
+// .week {
+//     position: relative;
+//     top: 7em;
+//     right: -13vw;
+//     width: 80%;
+//     text-align: right;
+//     font-size: .7em;
+//     color: #EAEAF0;
+// }
+// .head_time {
+//     position: relative;
+//     top: 2.6em;
+//     width: 80%;
+//     right: -17vw;
+//     text-align: right;
+//     font-size: 2em;
+//     text-shadow: #4D1A83 0 1px 2px;
+//     color: #FFF;
+// }
+// }
+//头像-姓名-职位
+// .card {
+//     position: relative;
+//     width: 100%;
+//     height: 3em;
+//     z-index: 3;
+//     background-color: #FFF;
+//     .headerimg {
+//         float: left;
+//         position: relative;
+//         display: inline;
+//         height: 100%;
+//         width: 30%;
+//         top: -2.5em;
+//         width: 5em;
+//         height: 5em;
+//         border: 0.3em double #FFF;
+//         background-color: #FFF;
+//         border-radius: 50%;
+//         box-shadow: #EEE 0px 0px 2px;
+//         margin-left: 2.5em;
+//         overflow: hidden;
+//         img {
+//             width: 5em;
+//             height: 5em;
+//             border: 0;
+//         }
+//     }
+//     .card_name {
+//         position: relative;
+//         display: inline;
+//         top: -3.5em;
+//         right: -67vw;
+//         color: #F4F1FA;
+//     }
+//     .card_role {
+//         position: relative;
+//         display: inline;
+//         color: #fff;
+//         right: -40vw;
+//         top: -2em;
+//     }
+// }
+// .workTime {
+//     position: relative;
+//     width: 95%;
+//     height: 2.5em;
+//     font-size: 1em;
+//     color: #777777;
+//     margin-left: 5%;
+//     line-height: 3.5em;
+//     text-align: left;
+//     b {
+//         position: relative;
+//         display: inline-block;
+//         width: 3px;
+//         height: 1em;
+//         top: 1px;
+//         left: -6.6em;
+//         background-color: #56E4CC;
+//     }
+//     span {
+//         position: relative;
+//         left: -6.6em;
+//         margin-left: 2%;
+//     }
+// }
+//签到-签退内容
+// .sign_info {
+//     position: relative;
+//     width: 100%;
+//     height: 100%;
+//     background-color: #FFF;
+//     .lefttime {
+//         width: 100%;
+//         height: 100%;
+//         line-height: 2.5em;
+//         float: left;
+//         background-color: #FFF;
+//         ul {
+//             li {
+//                 padding-top: 0.3em;
+//                 margin-left: 5%;
+//                 border-top: 1px solid #EEE;
+//                 b {
+//                     position: relative;
+//                     display: inline-block;
+//                     width: 6px;
+//                     height: 6px;
+//                     top: -3px;
+//                     border-radius: 50%;
+//                     background-color: #FFF;
+//                 }
+//                 .redcolor {
+//                     background-color: red;
+//                 }
+//                 .bluecolor {
+//                     background-color: #00B7EE;
+//                 }
+//                 .greencolor {
+//                     background-color: #4BDD8E;
+//                 }
+//                 span {
+//                     margin-left: 0.5em;
+//                     color: #737373;
+//                 }
+//                 .late {
+//                     font-size: 0.5em;
+//                     color: #C3C3C3;
+//                     margin-left: 0.8em;
+//                 }
+//                 .signaddr {
+//                     font-size: 0.8em;
+//                 }
+//                 button {
+//                     position: relative;
+//                     float: right;
+//                     width: 20%;
+//                     margin-right: 5%;
+//                     height: 2.5em;
+//                     color: #FFF;
+//                     font-weight: bold;
+//                 }
+//                 .signin {
+//                     border: 2px solid #3DD5E0;
+//                     background-color: #3DD5E0;
+//                 }
+//                 .signexit {
+//                     border: 2px solid #FF7181;
+//                     background-color: #FF7181;
+//                 }
+//                 & li:first-child {
+//                     border-top: 1px solid #EEE;
+//                 }
+//             }
+//         }
+//     }
+// .sign_after {
+//     width: 100%;
+//     height: 100%;
+//     float: left;
+//     background-color: #FFF;
+//     padding-top: 0.4em;
+//     ul {
+//         li {
+//             padding-top: 0.3em;
+//             margin-left: 5%;
+//             b {
+//                 position: relative;
+//                 display: inline-block;
+//                 width: 6px;
+//                 height: 6px;
+//                 top: -3px;
+//                 border-radius: 50%;
+//                 background-color: #FFF;
+//             }
+//             .redcolor {
+//                 background-color: red;
+//             }
+//             .bluecolor {
+//                 background-color: #00B7EE;
+//             }
+//             .greencolor {
+//                 background-color: #4BDD8E;
+//             }
+//             span {
+//                 margin-left: 0.5em;
+//                 color: #737373;
+//             }
+//             .late {
+//                 font-size: 0.5em;
+//                 color: #C3C3C3;
+//                 margin-left: 0.8em;
+//             }
+//             .signaddr {
+//                 font-size: 0.8em;
+//             }
+//         }
+//         & li:first-child {
+//             border-top: 1px solid #EEE;
+//         }
+//         li:last-child {
+//             span {
+//                 margin-left: 0.7em;
+//             }
+//         }
+//     }
+// }
+// }
+// }
+//签到提示
+.alertSign {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0em;
+    left: 0em;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    .signMsg {
         width: 100%;
         height: 100%;
-        top: 0em;
-        left: 0em;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-        .signMsg {
-            width: 100%;
-            height: 100%;
-            img {
-                position: relative;
-                width: 20em;
-                height: 9.5em;
-                margin-left: 50%;
-                margin-top: 50%;
-                left: -10em;
-            }
+        img {
+            position: relative;
+            width: 20em;
+            height: 9.5em;
+            margin-left: 50%;
+            margin-top: 50%;
+            left: -10em;
         }
     }
-    
-    .msgcontent {
-        position: fixed;
-        width: 20em;
-        height: 9.5em;
-        z-index: 1000;
-        margin-left: 50%;
-        margin-top: 50%;
-        left: -10em;
-        top: -4.25em;
-        text-align: center;
-        .msgtimes {
-            color: #5A5A5A;
-            margin-top: 10.25em;
-        }
-        .msghint {
-            color: #69DDE5;
-        }
-        .msggohome {
-            color: #FF7887;
-        }
+}
+
+.msgcontent {
+    position: fixed;
+    width: 20em;
+    height: 9.5em;
+    z-index: 1000;
+    margin-left: 50%;
+    margin-top: 50%;
+    left: -10em;
+    top: -4.25em;
+    text-align: center;
+    .msgtimes {
+        color: #5A5A5A;
+        margin-top: 10.25em;
     }
+    .msghint {
+        color: #69DDE5;
+    }
+    .msggohome {
+        color: #FF7887;
+    }
+}

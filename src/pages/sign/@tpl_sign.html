@@ -34,13 +34,21 @@
                     <br>
                     <span>客户赏心悦目</span>
                 </div>
-                <div class="date">
+                <!--                 <div class="date">
                     <div class="week">{%=o.date %} {%=o.week %}</div>
                     <div id="nowMoment" class="head_time">{%=o.moment %}</div>
                 </div>
                 <div class="user-info">
                     <div class="card_name">{%=o.userRole %}/{%=o.username %}</div>
                     <!--    <div class="card_role">{%=o.userRole %}</div> -->
+                <!-- </div>  -->
+                <div class="user-info" >
+                    <span class="date">{%=o.date %} {%=o.week %}</span>
+                    <br>
+                    <span class="time" id="nowMoment">{%=o.moment %}</span>
+                    <br>
+                    <span class="role">{%=o.userRole %}/{%=o.username %}</span>
+                    <br>
                 </div>
             </div>
             <!-- 头像部分 -->
@@ -51,7 +59,7 @@
             <!-- 签到 -->
             <div class="sign_panel">
                 <div class="sign_panel_line">
-                    <span class="line_top"></span>
+                    <!-- <span class="line_top"></span> -->
                 </div>
                 <!-- 上班签到 -->
                 <div class="sign_in" id="signin">
@@ -59,7 +67,7 @@
                         <i class="ic icon-scan"></i>
                         <span>上班签到</span>
                         <em id="sign_in_bubble"></em>
-                        <span class="line_top" style="left: 36vw;"></span>
+                        <!-- <span class="line_top" style="left: 36vw;"></span> -->
                     </div>
                 </div>
                 <!-- 上班签退 -->
@@ -68,32 +76,31 @@
                         <i class="ic icon-scan"></i>
                         <span>下班签退</span>
                         <em id="sign_after_bubble"></em>
-                        <span class="line_top line_title" style=" left: -5vw; top: -7vw;"></span>
+                     <!--    <span class="line_top line_title" style=" left: -5vw; top: -7vw;"></span> -->
                     </div>
                 </div>
             </div>
-            <div style="margin-top:-25vw;"></div>
+            <div style="margin-top:-27vw;"></div>
             <div class="sign_info_list">
                 <!--% for(var i=0;i<app.sign.addDate().length;i++){ %-->
-                <div class="sign_date">{%=app.sign.addDate()[i]%}</div>
                 <!--% for(var j=0;j<o.signInfo.length;j++){ %-->
                 <!--%if(app.sign.addDate()[i] == app.sign.formatDate(o.signInfo[j].signInDate)){ %-->
                 <!-- 上班签到信息 -->
                 <div class="sign_in_info-{%=j % 2%}">
-                    <span class="line_top line_sign-{%=j % 2%}"></span>
+                   <!--  <span class="line_top line_sign-{%=j % 2%}"></span> -->
                     <div class="sign_info">
                         <!--% if(o.signInfo[j].status == "fail"){ %-->
-                        <i class="ic" style="color:#ebeb7b;    font-size: 1.2em;">&#xe679;</i>
+                        <i class="ic" style="color:#ebeb7b;    font-size: 4vw;">&#xe679;</i>
                         <!--% } else { %-->
-                        <i class="ic" style="color: #bfd9d0;    font-size: 1.2em;">&#xe67a;</i>
+                        <i class="ic" style="color: #bfd9d0;    font-size: 4vw;">&#xe67a;</i>
                         <!--% } %-->
                         <span>
                                 {%=app.sign.formatTime(o.signInfo[j].signInDate)%}
                          <!--% if(o.signInfo[j].type == 1){ %-->
                                   <span class="login_in">签到</span>
                         <!--% } else { %-->
-                                <span class="login_out">签退</span>
-                          <!--% } %-->
+                        <span class="login_out">签退</span>
+                        <!--% } %-->
                         </span>
                         <br>
                         <span>{%=o.signInfo[j].address%}</span>
@@ -101,6 +108,7 @@
                 </div>
                 <!--% } %-->
                 <!--% } %-->
+                  <div class="sign_date">{%=app.sign.addDate()[i]%}</div>
                 <!--% } %-->
             </div>
             <div class="more">

@@ -24,7 +24,7 @@ app.sign = {
             app.sign.queryClockInfo(); //初始化打卡信息
             //初始化配置信息
             wx.config({
-                debug: true,
+                debug: false,
                 appId: data.appId, // 必填，公众号的唯一标识
                 timestamp: data.timestamp, // 必填，生成签名的时间戳
                 nonceStr: data.nonceStr, // 必填，生成签名的随机串
@@ -243,7 +243,7 @@ app.sign = {
         var curMonthDays = 6;
         var dateList = [];
         for (var i = curMonthDays; i >= 0; i--) {
-            dateList.push(moment().subtract(curMonthDays - i, 'days').format('YYYY-MM-DD'));
+            dateList.push(moment('2016-12-08').subtract(curMonthDays - i, 'days').format('YYYY-MM-DD'));
         }
         return dateList;
     }
