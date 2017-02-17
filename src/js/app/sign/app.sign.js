@@ -243,7 +243,7 @@ app.sign = {
         var curMonthDays = 6;
         var dateList = [];
         for (var i = curMonthDays; i >= 0; i--) {
-            dateList.push(moment('2016-12-08').subtract(curMonthDays - i, 'days').format('YYYY-MM-DD'));
+            dateList.push(moment().subtract(curMonthDays - i, 'days').format('YYYY-MM-DD'));
         }
         return dateList;
     }
