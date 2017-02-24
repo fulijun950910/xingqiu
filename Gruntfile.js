@@ -37,7 +37,8 @@ module.exports = function(grunt) {
                     'src/js/libs/router.income.js',
                     'src/js/libs/router.checkTicket.js',
                     'src/js/libs/router.financial.js',
-                    'src/js/libs/router.member.js'
+                    'src/js/libs/router.member.js',
+                    // 'src/js/app/sign/app.sign.js'
                 ],
                 libs: [
                     'src/js/libs/tmpl.js'
