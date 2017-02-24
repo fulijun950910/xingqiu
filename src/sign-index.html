@@ -20,19 +20,104 @@
 </head>
 
 <body ontouchstart>
-    <div class="container" id="container"></div>
-    @@include('pages/sign/@tpl_sign.html')
-    <script>
+    <script type="text/html" id="tpl_sign">
+        <div class="bd background-sign">
+            <div id="hiddenTitle" class="hiddenTitle">考勤打卡</div>
+            <div id="tmpl-sign" class="sign_app">
+            </div>
+            <div class="alertSign" id="alertSign">
+                <div class="signMsg">
+                    <img src="images/qiandao.png">
+                </div>
+                <div class="msgcontent">
+                </div>
+            </div>
+        </div>
+        <script type="text/html" id="tmpl-sign-model">
+            <div style=" 
+        max-width: 100vw; overflow-x: hidden;background: #fff;min-height: 100vh;">
+                <div class="header_module">
+                    <div class="title">
+                        <span>你的用心服务</span>
+                        <br>
+                        <span>客户赏心悦目</span>
+                    </div>
+                    <div class="user-info">
+                        <span class="date">{%=o.date %} {%=o.week %}</span>
+                        <br>
+                        <span class="time" id="nowMoment">{%=o.moment %}</span>
+                        <br>
+                        <span class="role">{%=o.userRole %}/{%=o.username %}</span>
+                        <br>
+                    </div>
+                </div>
+                <div class="sign_panel">
+                    <div class="sign_panel_line">
+                    </div>
+                    <div class="sign_in" id="signin">
+                        <div class="sign_in_info sign_info" style="width: 30vw;">
+                            <i class="ic icon-scan"></i>
+                            <span>上班签到</span>
+                            <em id="sign_in_bubble"></em>
+                        </div>
+                    </div>
+                    <div class="sign_after" id="signexit">
+                        <div class="sign_after_info sign_info">
+                            <i class="ic icon-scan"></i>
+                            <span>下班签退</span>
+                            <em id="sign_after_bubble"></em>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:-27vw;"></div>
+                <div class="sign_info_list">
+                    <!--% for(var i=0;i<app.sign.addDate().length;i++){ %-->
+                    <!--% for(var j=0;j<o.signInfo.length;j++){ %-->
+                    <!--%if(app.sign.addDate()[i] == app.sign.formatDate(o.signInfo[j].signInDate)){ %-->
+                    <div class="sign_in_info-{%=j % 2%}">
+                        <div class="sign_info">
+                            <!--% if(o.signInfo[j].status == "fail"){ %-->
+                            <i class="ic" style="color:#ebeb7b;    font-size: 4vw;">&#xe679;</i>
+                            <!--% } else { %-->
+                            <i class="ic" style="color: #bfd9d0;    font-size: 4vw;">&#xe67a;</i>
+                            <!--% } %-->
+                            <span>
+                                {%=app.sign.formatTime(o.signInfo[j].signInDate)%}
+                         <!--% if(o.signInfo[j].type == 1){ %-->
+                                  <span class="login_in">签到</span>
+                            <!--% } else { %-->
+                            <span class="login_out">签退</span>
+                            <!--% } %-->
+                            </span>
+                            <br>
+                            <span>{%=o.signInfo[j].address%}</span>
+                        </div>
+                    </div>
+                    <!--% } %-->
+                    <!--% } %-->
+                    <div class="sign_date">{%=app.sign.addDate()[i]%}</div>
+                    <!--% } %-->
+                </div>
+                <div class="more">
+                    更多考勤信息，请前往saas.mei1.com查看
+                </div>
+            </div>
+        </script>
     </script>
     <script src="js/jquery.min.js"></script>
     <script src="js/moment.min.js"></script>
-    <script src="js/router.min.js"></script>
+    <!-- <script src="js/router.min.js"></script> -->
     <script src="js/libs.js"></script>
-    <script src="js/router.sign.js"></script>
+    <!-- <script src="js/router.sign.js"></script> -->
     <script src="js/jweixin-1.0.0.js"></script>
     <!-- <script src="js/jweixin-1.2.0.js"></script> -->
     <script src="js/app.js"></script>
     <script type="text/javascript" src="js/tmpl.js"></script>
+    <script>
+    $(function() {
+        app.sign.init();
+    });
+    </script>
 </body>
 
 </html>
