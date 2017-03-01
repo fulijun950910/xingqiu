@@ -63,7 +63,7 @@ app.sign = {
                 maxResult: maxResult
             }
             app.sign.queryClockin(data).then(function(data) {
-                app.changeTitle('签到考勤');
+                // app.changeTitle('签到考勤');
                 //打开信息
                 // userdata.signIn = null;
                 // userdata.signExit = null;
@@ -91,8 +91,13 @@ app.sign = {
                         //调用扫一扫
                         app.sign.openWxsao1sao(1);
                     } else {
+
                         setTimeout(function() {
-                            app.sign.openWxsao1sao(1);
+                            if (app.sign.latitude && app.sign.longitude) {
+                                app.sign.openWxsao1sao(1);
+                            } else {
+                                app.userinfo.alertError();
+                            }
                         }, 2000);
                         // app.alert('为了签到成功,请允许我们获取您的位置信息!');
                         //app.userinfo.alertError();
@@ -107,8 +112,13 @@ app.sign = {
                         //调用扫一扫
                         app.sign.openWxsao1sao(0);
                     } else {
+                        app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!');
                         setTimeout(function() {
-                            app.sign.openWxsao1sao(0);
+                            if (app.sign.latitude && app.sign.longitude) {
+                                app.sign.openWxsao1sao(0);
+                            } else {
+                                app.userinfo.alertError();
+                            }
                         }, 2000);
                         // app.alert('为了签到成功,请允许我们获取您的位置信息!');
                         // app.userinfo.alertError();
