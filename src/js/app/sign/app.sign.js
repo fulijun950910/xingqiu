@@ -18,7 +18,8 @@ app.sign = {
 
     },
     init: function() {
-        app.startLoading();
+        var screenHeight = window.screen.height;
+        $('body').css('height', screenHeight + 'px');
         app.sign.querySignature().then(function(data) {
             //初始化配置信息
             wx.config({
@@ -43,12 +44,9 @@ app.sign = {
         }, function(error) {
             console.info('获取认证失败~,请重新跳转');
         });
-        var screenHeight = window.screen.height;
-        $('body').css('height', screenHeight + 'px');
         app.sign.queryClockInfo(); //初始化打卡信息
     },
     queryClockInfo: function(firstResult, maxResult) {
-        app.changeTitle('签到考勤');
         app.startLoading();
         //展示模板数据
         //var userdata = app.sign.udata();
@@ -65,6 +63,7 @@ app.sign = {
                 maxResult: maxResult
             }
             app.sign.queryClockin(data).then(function(data) {
+                app.changeTitle('签到考勤');
                 //打开信息
                 // userdata.signIn = null;
                 // userdata.signExit = null;
@@ -92,8 +91,11 @@ app.sign = {
                         //调用扫一扫
                         app.sign.openWxsao1sao(1);
                     } else {
+                        setTimeout(function() {
+                            app.sign.openWxsao1sao(1);
+                        }, 2000);
                         // app.alert('为了签到成功,请允许我们获取您的位置信息!');
-                        app.userinfo.alertError();
+                        //app.userinfo.alertError();
                     }
                 });
 
@@ -105,8 +107,11 @@ app.sign = {
                         //调用扫一扫
                         app.sign.openWxsao1sao(0);
                     } else {
+                        setTimeout(function() {
+                            app.sign.openWxsao1sao(0);
+                        }, 2000);
                         // app.alert('为了签到成功,请允许我们获取您的位置信息!');
-                        app.userinfo.alertError();
+                        // app.userinfo.alertError();
                     }
                 })
                 app.endLoading();
