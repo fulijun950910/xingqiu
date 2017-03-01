@@ -22,7 +22,7 @@ app.sign = {
         app.sign.querySignature().then(function(data) {
             //初始化配置信息
             wx.config({
-                debug: false,
+                debug: true,
                 appId: data.appId, // 必填，公众号的唯一标识
                 timestamp: data.timestamp, // 必填，生成签名的时间戳
                 nonceStr: data.nonceStr, // 必填，生成签名的随机串
