@@ -96,7 +96,13 @@ app.sign = {
                             if (app.sign.latitude && app.sign.longitude) {
                                 app.sign.openWxsao1sao(1);
                             } else {
-                                app.userinfo.alertError();
+                                setTimeout(function() {
+                                    if (app.sign.latitude && app.sign.longitude) {
+                                        app.sign.openWxsao1sao(1);
+                                    } else {
+                                        app.userinfo.alertError('小主，当前网络不给力，请再试一次');
+                                    }
+                                }, 1000);
                             }
                         }, 1000);
                         // app.alert('为了签到成功,请允许我们获取您的位置信息!');
@@ -117,7 +123,13 @@ app.sign = {
                             if (app.sign.latitude && app.sign.longitude) {
                                 app.sign.openWxsao1sao(0);
                             } else {
-                                app.userinfo.alertError();
+                                setTimeout(function() {
+                                    if (app.sign.latitude && app.sign.longitude) {
+                                        app.sign.openWxsao1sao(0);
+                                    } else {
+                                        app.userinfo.alertError('小主，当前网络不给力，请再试一次');
+                                    }
+                                }, 1000);
                             }
                         }, 1000);
                         // app.alert('为了签到成功,请允许我们获取您的位置信息!');
