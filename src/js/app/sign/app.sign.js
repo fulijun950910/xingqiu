@@ -18,10 +18,7 @@ app.sign = {
 
     },
     init: function() {
-        var screenHeight = window.screen.height;
-        $('body').css('height', screenHeight + 'px');
         app.sign.querySignature().then(function(data) {
-            app.sign.queryClockInfo(); //初始化打卡信息
             //初始化配置信息
             wx.config({
                 debug: false,
@@ -39,13 +36,15 @@ app.sign = {
                     success: function(res) {
                         app.sign.latitude = res.latitude;
                         app.sign.longitude = res.longitude;
-
                     }
                 });
             })
         }, function(error) {
             console.info('获取认证失败~,请重新跳转');
         });
+        var screenHeight = window.screen.height;
+        $('body').css('height', screenHeight + 'px');
+        app.sign.queryClockInfo(); //初始化打卡信息
     },
     queryClockInfo: function(firstResult, maxResult) {
         //展示模板数据
@@ -90,7 +89,7 @@ app.sign = {
                         //调用扫一扫
                         app.sign.openWxsao1sao(1);
                     } else {
-                        app.alert('为了签到成功,请允许我们获取您的位置信息!');
+                        // app.alert('为了签到成功,请允许我们获取您的位置信息!');
                     }
 
                 });
@@ -248,4 +247,3 @@ app.sign = {
         return dateList;
     }
 }
-
