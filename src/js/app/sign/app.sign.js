@@ -22,7 +22,7 @@ app.sign = {
         app.sign.querySignature().then(function(data) {
             //初始化配置信息
             wx.config({
-                debug: true,
+                debug: false,
                 appId: data.appId, // 必填，公众号的唯一标识
                 timestamp: data.timestamp, // 必填，生成签名的时间戳
                 nonceStr: data.nonceStr, // 必填，生成签名的随机串
@@ -48,6 +48,7 @@ app.sign = {
         app.sign.queryClockInfo(); //初始化打卡信息
     },
     queryClockInfo: function(firstResult, maxResult) {
+        app.changeTitle('签到考勤');
         app.startLoading();
         //展示模板数据
         //var userdata = app.sign.udata();
@@ -77,6 +78,7 @@ app.sign = {
                 //     }
                 // }
                 userdata.signInfo = data.rows;
+
                 var tmplhtml = $('#tmpl-sign-model').html();
                 var resultTmpl = tmpl(tmplhtml, userdata);
                 $('#tmpl-sign').html(resultTmpl);
@@ -91,6 +93,7 @@ app.sign = {
                         app.sign.openWxsao1sao(1);
                     } else {
                         // app.alert('为了签到成功,请允许我们获取您的位置信息!');
+                        app.userinfo.alertError();
                     }
                 });
 
@@ -102,7 +105,8 @@ app.sign = {
                         //调用扫一扫
                         app.sign.openWxsao1sao(0);
                     } else {
-                        //app.alert('为了签到成功,请允许我们获取您的位置信息!');
+                        // app.alert('为了签到成功,请允许我们获取您的位置信息!');
+                        app.userinfo.alertError();
                     }
                 })
                 app.endLoading();

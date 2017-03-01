@@ -314,10 +314,10 @@ app.userinfo = {
                                                     // } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                                                     //     location.href = "/performance-index.html#/performance_emp";
                                                     if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                                                        if(window.history.replaceState){
-                                                            window.history.replaceState({},"0",'http://'+window.location.host+'/main.html#/index');
+                                                        if (window.history.replaceState) {
+                                                            window.history.replaceState({}, "0", 'http://' + window.location.host + '/main.html#/index');
                                                             window.location.reload();
-                                                        }else{
+                                                        } else {
                                                             location.href = "/main.html#/index";
                                                         }
                                                     } else {
@@ -407,7 +407,7 @@ app.userinfo = {
                     // $('select[name="gender"]').val(userinfo.gender);
                     if (userinfo.avatarFileId)
                         $('#headarticle').prop('src', app.filePath + userinfo.avatarFileId);
-                        $('#headarticle').on('click', function() {
+                    $('#headarticle').on('click', function() {
                         $('#headerfile').click();
                         $('#headerfile').change(function(dom) {
                             app.userinfo.changeImg(dom);
@@ -446,6 +446,10 @@ app.userinfo = {
             //转换格式
             userinfo.birthday = userinfo.birthday ? userinfo.birthday + ' 00:00:00' : "";
             userinfo.employmentDate = userinfo.employmentDate = userinfo.employmentDate ? userinfo.employmentDate + ' 00:00:00' : "";
+            var avatarFileId = employee.avatarFileId;
+            if (sessionStorage.userInfo) {
+                avatarFileId = JSON.parse(sessionStorage.userInfo).avatarFileId;
+            }
             app.api.userinfo.updateEmployee({
                 data: userinfo,
                 success: function(result) {
@@ -460,7 +464,7 @@ app.userinfo = {
                         e1.birthday = employee.birthday;
                         e1.address = employee.address;
                         e1.description = employee.description;
-                        e1.avatarFileId = employee.avatarFileId;
+                        e1.avatarFileId = avatarFileId;
                         localStorage.employee = JSON.stringify(e1);
                     }, function() {
                         app.userinfo.alertError('小主，个人信息修改异常,请稍后尝试');
@@ -611,6 +615,7 @@ app.userinfo = {
                         $('#headarticle').attr('src', url);
                         var userinfo = JSON.parse(sessionStorage.userInfo);
                         userinfo.avatarFileId = result.data;
+                        sessionStorage.setItem('userInfo', JSON.stringify(userinfo));
                         app.userinfo.updateEmployee(userinfo);
                     }
                 },

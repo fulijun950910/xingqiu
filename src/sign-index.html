@@ -20,7 +20,10 @@
 </head>
 
 <body ontouchstart>
-    <section id="tpl_sign">
+    <section id="tpl_sign" class="userInfo">
+        <div class="error">
+            <span class="errorText">小主，当前网络好像不给力，我们正在为你拼命加载</span>
+        </div>
         <div class="bd background-sign">
             <div id="hiddenTitle" class="hiddenTitle">考勤打卡</div>
             <div id="tmpl-sign" class="sign_app">
@@ -36,7 +39,7 @@
     </section>
     <script type="text/html" id="tmpl-sign-model">
         <div style=" 
-        max-width: 100vw; overflow-x: hidden;background: #fff;min-height: 100vh;">
+        max-width: 100vw; overflow-x: hidden;background: #fff;min-height: 92vh;">
             <div class="header_module">
                 <div class="title">
                     <span>你的用心服务</span>
@@ -99,9 +102,9 @@
                 <div class="sign_date">{%=app.sign.addDate()[i]%}</div>
                 <!--% } %-->
             </div>
-            <div class="more">
-                更多考勤信息，请前往saas.mei1.com查看
-            </div>
+        </div>
+        <div class="more">
+            更多考勤信息，请前往saas.mei1.com查看
         </div>
     </script>
     <script src="js/jquery.min.js"></script>
