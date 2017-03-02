@@ -112,7 +112,7 @@ app.userinfo = {
     },
     alertError: function(text, second) {
         var text = text || "小主，您当前的网络不给力,请稍后再试";
-        var second = second || 2000;
+        var second = second || 2500;
         $('.userInfo').find('.error').addClass('active');
         $('.errorText').text(text);
         setTimeout(function() {

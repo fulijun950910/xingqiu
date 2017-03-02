@@ -105,7 +105,7 @@ app.sign = {
                                 }, 1000);
                             }
                         }, 1000);
-                        // app.alert('为了签到成功,请允许我们获取您的位置信息!');
+                        // app.userinfo.alertErro('为了签到成功,请允许我们获取您的位置信息!');
                         //app.userinfo.alertError();
                     }
                 });
@@ -132,14 +132,14 @@ app.sign = {
                                 }, 1000);
                             }
                         }, 1000);
-                        // app.alert('为了签到成功,请允许我们获取您的位置信息!');
+                        // app.userinfo.alertErro('为了签到成功,请允许我们获取您的位置信息!');
                         // app.userinfo.alertError();
                     }
                 })
                 app.endLoading();
             }, function(error) {
                 app.endLoading();
-                app.alert(error);
+                app.userinfo.alertErro(error);
             });
 
         });
@@ -223,7 +223,7 @@ app.sign = {
                         }
                     }
                     if (employee.storeId != theRequest['storeId']) {
-                        app.alert('您在当前门店没有权限签到！请回您所属门店签到！！');
+                        app.userinfo.alertErro('您在当前门店没有权限签到！请回您所属门店签到！！');
                         return;
                     }
                     $.ajax({
@@ -237,11 +237,11 @@ app.sign = {
                                 app.sign.alertSign(app.tools.getMoment(), type);
 
                             } else {
-                                app.alert(results.message);
+                                app.userinfo.alertErro(results.message);
                             }
                         },
                         error: function(error) {
-                            app.alert('打卡失败~请重新登录');
+                            app.userinfo.alertErro('打卡失败~请重新登录');
                         }
                     });
                 }, function() {})
@@ -249,7 +249,7 @@ app.sign = {
             },
             error: function(error) {
                 console.info(error);
-                app.alert('打卡失败~');
+                app.userinfo.alertErro('打卡失败~');
             }
         });
     },
