@@ -170,7 +170,9 @@ app.sign = {
     querySignature: function() {
         return new Promise(function(resolve, reject) {
             app.api.sign.queryWxSignInfo({
-                data: {},
+                data: {
+                    url: encodeURIComponent(window.location.href.split('#')[0])
+                },
                 success: function(results) {
                     if (results.success) {
                         resolve(results.data);
