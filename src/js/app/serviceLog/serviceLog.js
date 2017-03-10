@@ -5,7 +5,8 @@ app.serviceLog = {
         this.checkUser();
         app.api.serviceLog.getServiceList({
             data: {
-                merchantId:app.serviceLog.employee.merchantId
+                merchantId:app.serviceLog.employee.merchantId,
+                employeeId:app.serviceLog.employee.id
             },
             success: function(res) {
                 app.endLoading();
@@ -51,7 +52,8 @@ app.serviceLog = {
         app.api.serviceLog.getMemberServiceList({
             data: {
                 merchantId:app.serviceLog.employee.merchantId,
-                memberId:app.serviceLog.mdmberInfo.id
+                memberId:app.serviceLog.mdmberInfo.id,
+                employeeId:app.serviceLog.employee.id
             },
             success: function(res) {
                 if(res.success&&res.data&&res.data.rows){
@@ -121,10 +123,6 @@ app.serviceLog = {
                 app.serviceLog.initSearch();
             }
         });
-        $("#tpl_serviceLogSearch").on("blur", "#search", function (e) {
-            app.serviceLog.initSearch();
-        });
-
         $("#tpl_serviceLogSearch .memberImg").tap("",function(e){
             e.stopPropagation();
             app.serviceLog.goMembetDetail($(this.ele).attr("data-id"));
