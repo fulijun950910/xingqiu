@@ -507,7 +507,7 @@ ul {
                 .storeIcon {
                     color: @font-gay;
                     margin-top: 1vw;
-                    font-size:@font-smile;
+                    font-size: @font-smile;
                     i {
                         margin-top: -.2vw;
                     }
@@ -1343,6 +1343,26 @@ ul {
                     width: 8vw;
                 }
             }
+            .order-count {
+                position: absolute;
+                top: 0;
+                right: 0;
+                font-size: .7rem;
+                margin-left: 5vw;
+                span {
+                    padding: .5vw;
+                    color: #fff;
+                }
+                .overTimeCount {
+                    background: #13a59e;
+                }
+                .clockCount {
+                    background: #eeab03;
+                }
+                .wheeledCount {
+                    background: #db9060;
+                }
+            }
         }
         .lisetHead {
             color: #000;
@@ -1594,6 +1614,10 @@ ul {
     }
     .orderInfo {
         font-size: 3.2vw;
+        .isappint {
+            // color: @font-secondary-color;
+            font-size: .8rem;
+        }
         .head {
             //  border-bottom: 1px solid #eee;
             color: #aaa;
@@ -1746,8 +1770,8 @@ ul {
         display: block;
         ul {
             margin-top: 0;
-            width:100vw;
-            height:15vw;
+            width: 100vw;
+            height: 15vw;
         }
         .line {
             width: 50vw;

@@ -1,9 +1,8 @@
 <script type="text/html" id="tpl_order_list">
     <!-- //隐藏标题 -->
     <div id="hiddenTitle" class="hiddenTitle">考勤打卡</div>
-    <div class="bd performance-order-list financial" id="temp-performance-order-list" style="min-height: 100vh;max-width: 100vw;overflow-x: hidden;" 
-        <!-- 订单列表 -->
-        <div class="bd orderlist-wrapper " id="order-wrapper">
+    <div class="bd performance-order-list financial" id="temp-performance-order-list" style="min-height: 100vh;max-width: 100vw;overflow-x: hidden;" <!-- 订单列表 -->
+        <div class="bd orderlist-wrapper" id="order-wrapper">
             <div class="orderlist-headerFence" style="z-index:3;position:fixed;">
                 <div class="headerPerformance9" layout="row" layout-align="space-between center">
                     <!-- <div class="performance">业绩汇总：<strong id="total-performance">￥0.00</strong></div>
@@ -12,7 +11,6 @@
                     </div>
                     <div class="push">提成：<span class="primary-color font-priceF-size" id="total-push">￥<span class="font-priceY-size push-priceY">0</span>.<span class="push-priceF">00</span></span>
                     </div>
-                    
                 </div>
             </div>
             <div id="order-scroller" class="scroller">
@@ -47,7 +45,7 @@
                                         <!--% if(j < 2){ %-->
                                         <span class="memberName font-primary-color">{%=app.tools.sliceStr(o.datas[i].itemVoList[j].itemName,25 )%}</span>
                                         <!--% }else if(j == 2){ %-->
-                                         <span class="memberName font-primary-color">..........</span>
+                                        <span class="memberName font-primary-color">..........</span>
                                         <!--% } %-->
                                         <!--% } %-->
                                         <!--% } %-->
@@ -67,6 +65,14 @@
                             <div class="activeInfo">
                                 <span class="active"></span>
                                 <span class="buyStatus"><span>{%=app.tools.substr( app.tools.getConstantByValue(app.constant.ORDER_TYPE,o.datas[i].status),2) %}</span></span>
+                            </div>
+                            <div class="order-count">
+                                <!--% if(o.datas[i].overTimeCount && o.datas[i].overTimeCount > 0){ %-->
+                                <span class="overTimeCount">加钟&times;{%=o.datas[i].overTimeCount %}</span>
+                                <!--% } %-->
+                                <!--% if(o.datas[i].clockCount && o.datas[i].clockCount > 0){ %-->
+                                <span class="clockCount">点钟&times;{%=o.datas[i].clockCount %}</span>
+                                <!--% } %-->
                             </div>
                         </div>
                     </div>
@@ -94,7 +100,7 @@
             </div>
             <div flex="25" class="orderLists">
                 <span style="display:none" data-status="{%=o.status%}" class="date_name"></span>
-                <i class="ic "> &#xe75d;</i>
+                <i class="ic"> &#xe75d;</i>
                 <span>筛选</span>
             </div>
         </div>

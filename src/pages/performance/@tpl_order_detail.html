@@ -5,9 +5,9 @@
         </div>
     </div>
     <script type="text/html" id="tmpl-order-detail">
-        <div class="bd wrap " style="padding-bottom: 5vw;">
+        <div class="bd wrap" style="padding-bottom: 5vw;">
             <div style="height: 2vw;"></div>
-            <div class="box detailUser ">
+            <div class="box detailUser">
                 <div layout="row" style="padding:2vw 0;" class="border-bottom">
                     <div flex="85" layout="row">
                         <img class="memberImg" data-id="{%=o.member.memberId %}" src="{%=app.filePath + o.member.avatarId %}" onerror="this.src='/images/default_female.png'" style="width:8vw;height:8vw;border-radius:4vw;margin-right:2vw;margin-top:-1vw;" alt="" />
@@ -50,7 +50,8 @@
                     <div class="orderItem">
                         <div class="itemCell" layout="row" layout-align="space-between start">
                             <div layout="column" flex="80">
-                                <div flex class="font-size-12">{%=o.orderItems[i].itemName %} &times; {%=o.orderItems[i].amount %}</div>
+                                <div flex class="font-size-12">{%=o.orderItems[i].itemName %}<!--% if(o.orderItems[i].overtime){ %--><span class="isappint">(加钟)</span><!--% } %-->
+                                    &times; {%=o.orderItems[i].amount %}</div>
                                 <div layout="row" layout-align="space-between center">
                                     <!-- <div style="margin-right:2vw;">数量:</div> -->
                                     <div layout="row" flex flex-wrap="wrap" class="font-size-3vw" layout-align="start center">
@@ -75,7 +76,7 @@
                         <div class="itemEmployee text-align-left">
                             <!--% if(o.orderItems[i].orderEmployees&&o.orderItems[i].orderEmployees.length>0){ %-->
                             <!--% for(var j=0;j<o.orderItems[i].orderEmployees.length;j++){ %-->
-                            <div layout="row" layout-align="space-between center" flex>{%=o.orderItems[i].orderEmployees[j].employeeName %}
+                            <div layout="row" layout-align="space-between center" flex>{%=o.orderItems[i].orderEmployees[j].employeeName %}({%=app.tools.getConstantByValue(app.constant.IS_APPOINT,o.orderItems[i].orderEmployees[j].isAppoint)%})
                                 <!--% if(o.orderItems[i].orderEmployees[j].orderEmployeePerformances.length>0){ %-->
                                 <span>业绩:￥{%=app.tools.toThousands(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].achievementTotalAmount) %}</span>
                                 <span>卡耗:￥{%=app.tools.toThousands(o.orderItems[i].orderEmployees[j].orderEmployeePerformances[0].cardConsumeTotalAmount) %}</span>
@@ -259,12 +260,11 @@
                 </div>
             </div>
             <!--% } %-->
- 
             <!--% if(o.serviceSubtota){ %-->
             <div class="box orderNo">
                 <div class="border-top" style="margin:2vw 0;">
                     <p style="color:#aaa">服务小记</p>
-                   <span style="margin-left:2vw;">{%=o.serviceSubtota %}</span> 
+                    <span style="margin-left:2vw;">{%=o.serviceSubtota %}</span>
                 </div>
                 <div style="margin-left:2vw;"><img src="{%=app.filePath + o.serviceSubtotaFileId%}" onerror="this.src='/images/upimg.png'" style="width:40vw;margin-right:2vw;" alt="" /></div>
             </div>

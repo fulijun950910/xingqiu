@@ -100,5 +100,10 @@ app.constant = {
         { name: '待付款-上钟', code: "12" },
         { name: '待付款-未上钟', code: "11" },
         { name: '待付款-服务结束', code: "13" }
-    ]
+    ],
+    //
+    IS_APPOINT: [
+        { name: '点钟', code: 1 },
+        { name: '轮牌', code: 2 }
+    ],
 }
