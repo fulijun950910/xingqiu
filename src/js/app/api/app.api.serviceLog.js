@@ -2,7 +2,7 @@ app.api.serviceLog= {
     //小计列表
     getServiceList: function (settings) {
         app.api.ajax({
-            url: '/photo/getMembersPhoto/'+settings.data.merchantId,
+            url: '/photo/getMembersPhoto/'+settings.data.merchantId+"/"+settings.data.employeeId,
             type: 'get',
             success: settings.success,
             error: settings.error,
@@ -11,7 +11,7 @@ app.api.serviceLog= {
     },
     getMemberServiceList: function (settings) {
         app.api.ajax({
-            url: '/photo/list/'+settings.data.merchantId+"/"+settings.data.memberId,
+            url: '/photo/list/'+settings.data.merchantId+"/"+settings.data.memberId+"/"+settings.data.employeeId,
             type: 'get',
             success: settings.success,
             error: settings.error,
