@@ -16,7 +16,7 @@ app.api.sign = {
     queryWxSignInfo:function(settings){
         app.api.ajax({
             async: true,
-            url: '/wechat/signature',
+            url: '/wechat/signature?url='+settings.data.url,
             type: 'GET',
             success: settings.success,
             error: settings.error,
