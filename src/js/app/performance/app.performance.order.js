@@ -303,9 +303,11 @@ app.performance.order = {
             selDate = app.performance.order.currentDay;
         }
         app.performance.order.currentDay = selDate;
-        app.performance.order.order = order;
+        app.performance.order.commentFileId=null;
         location.href = "#/order-comment";
         app.performance.order.stop();
+        //重置写小计FIle
+        app.performance.order.order = order;
     },
     orderComment: function() {
         if(!app.performance.order.order){//非订单跳入
