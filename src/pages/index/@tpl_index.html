@@ -212,7 +212,7 @@
                         <i class="ic">&#xe63f;</i>
                     </div> -->
                     <div class="employeeRoleList" style="display:none;">
-                        <i class="ic" style="font-size: 1.4em;" >&#xe64e;</i>
+                        <i class="ic" style="font-size: 1.4em;">&#xe64e;</i>
                         <!-- <span class="title">切换身份</span>
                         <div class="go-right" style=" border-bottom: 1px solid #fff;border-left: 1px solid #fff;"></div> -->
                     </div>
@@ -244,6 +244,18 @@
                 <span class="title">卡耗</span>
                 <span class="price-icon primary-color">￥<span class="price">{%= app.tools.changePrice(o.performanceInfo.cardConsumeTotalAmount)[0] %}</span><span class="font-size-10 primary-color">.{%= app.tools.changePrice(o.performanceInfo.cardConsumeTotalAmount)[1] %}</span></span>
             </div>
+            <span class="item-line"></span>
+            <div class="item" layout="column" layout-align="center center" flex="50">
+                <span class="title">点钟</span>
+                <span class="price-icon primary-color">
+                <span class="price">{%=o.performanceInfo.employeeClockCount  || 0%}</span>
+            </div>
+            <span class="item-line"></span>
+            <div class="item" layout="column" layout-align="center center" flex="50">
+                <span class="title">加钟</span>
+                <span class="price-icon primary-color">
+                <span class="price">{%=o.performanceInfo.employeeOverTimeCount   || 0 %}</span>
+            </div>
         </div>
         <div class="main">
             <div class="wrap main-info">
@@ -268,7 +280,7 @@
                     <i class="ic">&#xe619;</i>
                     <span class="margin-top-8">案例分享</span>
                 </a>
-                <a href="/serviceLog.html#/serviceLog_list"  class="item item-3 border-right">
+                <a href="/serviceLog.html#/serviceLog_list" class="item item-3 border-right">
                     <i class="ic">&#xe647;</i>
                     <span class="margin-top-8">服务小记</span>
                 </a>
