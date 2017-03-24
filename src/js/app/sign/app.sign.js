@@ -105,7 +105,7 @@ app.sign = {
                                 }, 1000);
                             }
                         }, 1000);
-                        // app.userinfo.alertErro('为了签到成功,请允许我们获取您的位置信息!');
+                        // app.userinfo.alertError('为了签到成功,请允许我们获取您的位置信息!');
                         //app.userinfo.alertError();
                     }
                 });
@@ -132,14 +132,14 @@ app.sign = {
                                 }, 1000);
                             }
                         }, 1000);
-                        // app.userinfo.alertErro('为了签到成功,请允许我们获取您的位置信息!');
+                        // app.userinfo.alertError('为了签到成功,请允许我们获取您的位置信息!');
                         // app.userinfo.alertError();
                     }
                 })
                 app.endLoading();
             }, function(error) {
                 app.endLoading();
-                app.userinfo.alertErro(error);
+                app.userinfo.alertError(error);
             });
 
         });
@@ -225,7 +225,7 @@ app.sign = {
                         }
                     }
                     if (employee.storeId != theRequest['storeId']) {
-                        app.userinfo.alertErro('您在当前门店没有权限签到！请回您所属门店签到！！');
+                        app.userinfo.alertError('您在当前门店没有权限签到！请回您所属门店签到！！');
                         return;
                     }
                     $.ajax({
@@ -239,11 +239,11 @@ app.sign = {
                                 app.sign.alertSign(app.tools.getMoment(), type);
 
                             } else {
-                                app.userinfo.alertErro(results.message);
+                                app.userinfo.alertError(results.message);
                             }
                         },
                         error: function(error) {
-                            app.userinfo.alertErro('打卡失败~请重新登录');
+                            app.userinfo.alertError('打卡失败~请重新登录');
                         }
                     });
                 }, function() {})
@@ -251,7 +251,7 @@ app.sign = {
             },
             error: function(error) {
                 console.info(error);
-                app.userinfo.alertErro('打卡失败~');
+                app.userinfo.alertError('打卡失败~');
             }
         });
     },
