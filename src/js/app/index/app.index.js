@@ -141,6 +141,9 @@ app.index = {
         if (!localStorage.employee || !JSON.parse(localStorage.employee)) {
             location.href = "/userinfo.html#/user_login";
         }
+        if (JSON.parse(localStorage.employee).merchant&&JSON.parse(localStorage.employee).merchant.functionVersion==4){
+            location.href = "/lite/index.html";
+        }
         app.index.userdata().then(function(userDate) {
             if (!sessionStorage.getItem("employeeList")) {
                 app.index.getEmployee(JSON.parse(localStorage.employee).userId).then(function(employeeList) {
