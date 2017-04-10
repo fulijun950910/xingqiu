@@ -268,7 +268,7 @@ input {
         }
     }
     .registerBox{
-        position:fixed;
+        position:absolute;
         bottom:2rem;
         left:0;
         width:100%;
@@ -295,7 +295,9 @@ input {
     @media screen and (max-width: 421px) {
         .meiapp {
             width: 100%;
-            height: 41em;
+            height: 46rem;
+            max-height:100vh;
+            position: relative;
         }
         .user_account .mei_cell .mei_send2 {
             margin-left: 5%;
