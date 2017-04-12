@@ -177,13 +177,14 @@
                 <div class="title">请选择您的身份</div>
                 <div class="employeeList_info">
                     <!--% for (var i=0; i <o.employeeList.length; i++) { %-->
-                    <div class="employee_item" data-merchantId="{%= o.employeeList[i].merchant.id %}" data-employeeId="{%= o.employeeList[i].id %}" data-userId="{%= o.employeeList[i].userId %}">
+                    <div class="employee_item" data-disabled="{%=o.employeeList[i].loginStatus %}" data-merchantId="{%= o.employeeList[i].merchant.id %}" data-employeeId="{%= o.employeeList[i].id %}" data-userId="{%= o.employeeList[i].userId %}">
                         <img id="comment-pic" src="{%=app.filePath + o.employeeList[i].avatarFileId %}" onerror="this.src='images/default_female.png'">
                         <div class="employee_info">
                             <span class="employee_name">{%= o.employeeList[i].name %}
                                <!--% if(o.employeeList[i].store){ %-->
                                 -{%= o.employeeList[i].store.name %}
                                 <!--% } %-->
+                                {%=o.employeeList[i].loginStatus %}
                             </span>
                             <span class="merchant_name">{%= o.employeeList[i].merchant.name %}</span>
                         </div>

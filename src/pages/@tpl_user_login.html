@@ -61,10 +61,12 @@
                         <!--% if(o.datas[i].store){ %-->
                         {%=o.datas[i].store.name %}-
                         <!--% } %-->
-                        {%=o.datas[i].name %}</p>
+                        {%=o.datas[i].name %}
+                        {%=o.datas[i].loginStatus %}
+                    </p>
                 </div>
                 <div class="weui_cell_ft">
-                    <input type="radio" class="weui_check" data-employee="{%=o.datas[i].jsonData %}" name="emp_data" id="{%=o.datas[i].id %}">
+                    <input type="radio" <!--% if(o.datas[i].loginStatus){ %-->disabled<!--% } %--> class="weui_check" data-employee="{%=o.datas[i].jsonData %}" name="emp_data" id="{%=o.datas[i].id %}">
                     <span class="weui_icon_checked"></span>
                 </div>
             </label>
