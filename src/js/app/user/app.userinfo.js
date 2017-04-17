@@ -224,7 +224,7 @@ app.userinfo = {
                         }else{
                             resultEmployeeList.data[i].loginStatus='';
                         }
-                        if(!resultEmployeeList.data[i].store&&!resultEmployeeList.data[i].organization){//与saas登陆保持一致
+                        if((!resultEmployeeList.data[i].store&&!resultEmployeeList.data[i].organization)||!resultEmployeeList.data[i].merchantRole){//与saas登陆保持一致
                             resultEmployeeList.data.splice(i,1);
                             i--;
                         }
