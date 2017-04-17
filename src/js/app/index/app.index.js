@@ -13,6 +13,9 @@ function initEemployee() {
         $('.bd').css('min-height', '100vh');
     });
     $('.index #employeeList ').on('click', '.employee_item', function(event) {
+        if($(this).attr('data-disabled')){
+            return;
+        }
         $('#employeeList .employee_item').find('.active').remove();
         $(this).append('<span class="active"><i class="ic">&#xe659;</i></span>');
         $('.index #employeeList .mask').click();
@@ -141,10 +144,16 @@ app.index = {
         if (!localStorage.employee || !JSON.parse(localStorage.employee)) {
             location.href = "/userinfo.html#/user_login";
         }
+        if (JSON.parse(localStorage.employee).merchant&&JSON.parse(localStorage.employee).merchant.functionVersion==4){
+            location.href = "/lite/index.html";
+        }
         app.index.userdata().then(function(userDate) {
             if (!sessionStorage.getItem("employeeList")) {
-                app.index.getEmployee(JSON.parse(localStorage.employee).userId).then(function(employeeList) {
-                    window.sessionStorage.setItem('employeeList', JSON.stringify(employeeList));
+                var userInfo = {
+                    userId: JSON.parse(localStorage.employee).userId
+                };
+                app.userinfo.getMerchanntList(userInfo).then(function(employeeList) {
+                    window.sessionStorage.setItem('employeeList', JSON.stringify(employeeList.data));
                     app.index.performance();
                 }, function() {
                     //失败重新登录

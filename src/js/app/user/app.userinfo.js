@@ -7,7 +7,11 @@ app.userinfo = {
                 // } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                 //     location.href = "/performance-index.html#/performance_emp";
                 if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                    location.href = "/main.html#/index";
+                    if(employee.merchant&&employee.merchant.functionVersion==4) { //营销版
+                        location.href = "/lite/index.html";
+                    }else{
+                        location.href = "/main.html#/index";
+                    };
                 } else {
                     location.href = "/userinfo.html#/user_login";
                     // app.alert('未查到您的身份,请登录美问saas平台设置您的员工身份!!', '操作失败');
@@ -174,46 +178,70 @@ app.userinfo = {
                     app.endLoading();
                     return;
                 }
-                app.api.userinfo.listEmployee({
-                    data: accountParam,
-                    success: function(resultEmployeeList) {
-                        if (!resultEmployeeList || !resultEmployeeList.success || !resultEmployeeList.data || resultEmployeeList.data.length <= 0) {
-                            //app.alert('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息。', '登录异常');
-                            app.userinfo.alertError('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息', 3000);
-                            app.endLoading();
-                            return;
-                        }
-
-                        for (var i in resultEmployeeList.data) {
-                            resultEmployeeList.data[i].jsonData = JSON.stringify(resultEmployeeList.data[i]);
-                        }
-                        var data = {
-                            datas: resultEmployeeList.data
-                        };
-                        var template = $('#tmpl-employee-list').html();
-                        var result = tmpl(template, data);
-                        $('#show_employe_list').html(result);
-
-                        // 如果只有一个员工，默认登录该员工并且绑定，否则显示员工列表让用户选择
-                        if (resultEmployeeList.data.length == 1) {
-                            $('#show_employe_list label:first').click();
-                            app.userinfo.loginEmployee();
-
-                        } else {
-                            $('#select_shade').show();
-                            $('#show_employe_list label:first').click();
-                        }
-                        app.endLoading();
-                    },
-                    error: function(a, b, c) {
-
+                app.userinfo.getMerchanntList(accountParam).then(function(resultEmployeeList){
+                    for (var i in resultEmployeeList.data) {
+                        resultEmployeeList.data[i].jsonData = JSON.stringify(resultEmployeeList.data[i]);
                     }
-                })
+                    var data = {
+                        datas: resultEmployeeList.data
+                    };
+                    var template = $('#tmpl-employee-list').html();
+                    var result = tmpl(template, data);
+                    $('#show_employe_list').html(result);
+
+                    // 如果只有一个员工，默认登录该员工并且绑定，否则显示员工列表让用户选择
+                    if (resultEmployeeList.data.length == 1) {
+                        $('#show_employe_list label:first').click();
+                        app.userinfo.loginEmployee();
+
+                    } else {
+                        $('#select_shade').show();
+                        $('#show_employe_list label:first').click();
+                    }
+                });
             },
             error: function(a, b, c, d) {
 
             }
         })
+
+    },
+    getMerchanntList: function(userObj){
+        return new Promise(function(resolve, reject) {
+            app.api.userinfo.listEmployee({
+                data: userObj,
+                success: function(resultEmployeeList) {
+                    if (!resultEmployeeList || !resultEmployeeList.success || !resultEmployeeList.data || resultEmployeeList.data.length <= 0) {
+                        //app.alert('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息。', '登录异常');
+                        app.userinfo.alertError('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息', 3000);
+                        app.endLoading();
+                        return;
+                    }
+                    // 判断账号状态
+                    for (var i=0;i<resultEmployeeList.data.length;i++) {
+                        if(resultEmployeeList.data[i].merchant&&resultEmployeeList.data[i].merchant.status==2){
+                            resultEmployeeList.data[i].loginStatus='----锁定';
+                        }else{
+                            resultEmployeeList.data[i].loginStatus='';
+                        }
+                        if((!resultEmployeeList.data[i].store&&!resultEmployeeList.data[i].organization)||!resultEmployeeList.data[i].merchantRole){//与saas登陆保持一致
+                            resultEmployeeList.data.splice(i,1);
+                            i--;
+                        }
+                    }
+                    if (resultEmployeeList.data.length <= 0) {
+                        app.userinfo.alertError('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息', 3000);
+                        return;
+                    }
+                    //
+                    resolve(resultEmployeeList);
+                    app.endLoading();
+                },
+                error: function(a, b, c) {
+                    reject();
+                }
+            })
+        });
 
     },
     base64Encode: function(str) {
@@ -314,12 +342,16 @@ app.userinfo = {
                                                     // } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                                                     //     location.href = "/performance-index.html#/performance_emp";
                                                     if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                                                        if (window.history.replaceState) {
-                                                            window.history.replaceState({}, "0", 'http://' + window.location.host + '/main.html#/index');
-                                                            window.location.reload();
-                                                        } else {
-                                                            location.href = "/main.html#/index";
-                                                        }
+                                                        if(employee.merchant&&employee.merchant.functionVersion==4){ //营销版
+                                                            location.href = "/lite/index.html";
+                                                        }else{ //专业版
+                                                            if (window.history.replaceState) {
+                                                                window.history.replaceState({}, "0", 'http://' + window.location.host + '/main.html#/index');
+                                                                window.location.reload();
+                                                            } else {
+                                                                location.href = "/main.html#/index";
+                                                            }
+                                                        };
                                                     } else {
                                                         localStorage.clear();
                                                         location.href = "/userinfo.html#/user_login";
