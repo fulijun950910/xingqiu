@@ -15,12 +15,12 @@ app.api.sign = {
     //查询后台签名信息
     queryWxSignInfo:function(settings){
         app.api.ajax({
-            async: true,
-            url: '/wechat/signature?url='+settings.data.url,
-            type: 'GET',
-            success: settings.success,
-            error: settings.error,
-            data: settings.data
+                async: true,
+                url: '/wechat/signature?url='+settings.data.url,
+                type: 'GET',
+                success: settings.success,
+                error: settings.error,
+                data: settings.data
         });
     }
 }
