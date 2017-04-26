@@ -3,6 +3,19 @@ app.api = {
     url: app.url + '/api',
     ajax: function(options) {
         var url = app.api.url + options.url;
+        function error(res){
+            switch (res.status) {
+                case 401:
+                case 403:
+                    window.location.href = window.location.origin + "/userinfo.html#/user_login";
+                    break;
+                case 404:
+                    break;
+                default:
+                    options.error(res)
+                    break;
+            }
+        }
         var settings = {
             url: url,
             async: options.async || true,
@@ -14,7 +27,7 @@ app.api = {
             },
             dataType: 'json',
             success: options.success,
-            error: options.error
+            error: error
         };
 
         if (options.success && options.code == 302 && options.data) {
