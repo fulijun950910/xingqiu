@@ -64,6 +64,7 @@ $(function() {
         bind: function() {
             app.tools.changeTitle('登录');
             init();
+            app.userinfo.initEvent();
             //缓存及cookie清理
             //localStorage.clear();
             //sessionStorage.clear();

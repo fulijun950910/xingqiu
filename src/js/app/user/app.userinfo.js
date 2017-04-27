@@ -21,6 +21,36 @@ app.userinfo = {
         }, function() {});
         //if (app.userinfo.getEmployee())
     },
+    initEvent: function(){
+        $('.userInfo').on('change', '.username', function(event) {
+            if($(this).val()){
+                $.ajax({
+                    type: "get",
+                    url: "/api/auth/captcha/"+$(this).val(),
+                    data: null,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    success: function(result) {
+                        if(result && result.length>0){
+                            $('#yzPwd img').attr('src',result)
+                            $('#yzPwd').show()
+                            $('#yzPwd').addClass("show")
+                        }else{
+                            $('#yzPwd').hide()
+                            $('#yzPwd').removeClass("show")
+                        }
+                    },
+                    error: function(err) {
+                        alert('服务器正在开小差。。。');
+                    }
+                });
+            }else{
+                $('#yzPwd').hide()
+            }
+
+        });
+    },
     getEmployee: function() {
         return new Promise(function(resolve, reject) {
             if (localStorage.employee && localStorage.employee != 'null') {
@@ -164,11 +194,28 @@ app.userinfo = {
                 password: app.userinfo.base64Encode($('input[name="password"]').val()),
                 rememberMe: true
             }
+        if($("#yzPwd").hasClass("show")&&$(".yzPwd").val()){
+            param.captcha=$(".yzPwd").val();
+        }
             //查询用户
         app.api.userinfo.auth({
             data: param,
             success: function(resultUser) {
-
+                if(resultUser.code==120010){
+                    app.userinfo.alertError('小主，用户名或密码错误', 3000);
+                    app.endLoading();
+                    $('.userInfo .username').change();
+                    return;
+                }else if(resultUser.code==120011){
+                    app.userinfo.alertError('您的账号已被锁定'+resultUser.message+'分钟，可通过找回密码登陆！', 3000);
+                    app.endLoading();
+                    $('.userInfo .username').change();
+                    return;
+                }else if(resultUser.code==120012){
+                    app.userinfo.alertError('验证码输入错误！', 3000);
+                    app.endLoading();
+                    return;
+                }
                 var accountParam = {
                     userId: resultUser.data
                 }
