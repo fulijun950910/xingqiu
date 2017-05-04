@@ -20,7 +20,7 @@
                     <!-- 请输入手机号 -->
                     <div class="mei_cell" style="width: 96%;">
                         <label for="user_mobileTel" class="mei_label"><i class="ic primary-color">&#xe715;</i></label>
-                        <input name="username" type="text" class="mei_input username" placeholder="请输入用户名/手机号">
+                        <input name="username" id="username" type="text" class="mei_input username" placeholder="请输入用户名/手机号">
                         <label for="user_pwd" class="mei_label clearUserName"><i class="ic font-secondary-color">&#xe656;</i></label>
                     </div>
                     <div class="mei_cell" style="width: 96%;">
@@ -28,10 +28,15 @@
                         <input name="password" type="password" class="mei_input password" placeholder="请输入密码">
                         <label for="user_pwd" class="mei_label getPwd"><i class="ic font-secondary-color" >&#xe695;</i></label>
                     </div>
+                    <!-- 图片验证码-->
                     <div class="mei_cell" style="width: 96%;display:none" id="yzPwd" layout="row" layout-align="start center">
-                        <img src=""  style="height:50%;margin-left:1vw;" alt=""/>
+                        <img src=""  style="height:50%;margin-left:1vw;" alt="" onclick="app.userinfo.captcha({username:username.value,type:'image'})"/>
                         &nbsp;&nbsp;
                         <input flex name="text" type="text" class="mei_input yzPwd" placeholder="请输验证码">
+                    </div>
+                    <div class="mei_cell" style="width: 96%;display:none" id="messagePwd" layout="row" layout-align="start center">
+                        <input style="margin-left:3vw;" flex name="text" type="text" class="mei_input messagePwd" placeholder="请输验证码">
+                        <button onclick="app.userinfo.messageTime(this,{username:username.value,type:'message'})" >获取验证码</button>
                     </div>
                 </div>
                 <!-- 绑定信息 -->

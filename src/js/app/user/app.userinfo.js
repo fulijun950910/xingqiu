@@ -1,4 +1,5 @@
 app.userinfo = {
+    wait: 60,
     init: function() {
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
@@ -24,32 +25,56 @@ app.userinfo = {
     initEvent: function(){
         $('.userInfo').on('change', '.username', function(event) {
             if($(this).val()){
-                $.ajax({
-                    type: "get",
-                    url: "/api/auth/captcha/"+$(this).val(),
-                    data: null,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    success: function(result) {
-                        if(result && result.length>0){
-                            $('#yzPwd img').attr('src',result)
-                            $('#yzPwd').show()
-                            $('#yzPwd').addClass("show")
-                        }else{
-                            $('#yzPwd').hide()
-                            $('#yzPwd').removeClass("show")
-                        }
-                    },
-                    error: function(err) {
-                        alert('服务器正在开小差。。。');
-                    }
-                });
+                app.userinfo.captcha({username:$(this).val()});
             }else{
-                $('#yzPwd').hide()
+                $('#yzPwd').hide();
+                $('#messagePwd').hide();
             }
 
         });
+    },
+    messageTime: function(o,data){
+        if (this.wait == 60 && data) {
+            app.userinfo.captcha(data);
+        }
+        if (this.wait == 0) {
+            o.removeAttribute("disabled");
+            //o.removeAttribute("style");
+            o.innerHTML = "获取验证码";
+            this.wait = 60;
+        } else {
+            o.setAttribute("disabled", true);
+            //o.setAttribute("style", "background:#f5f5f5;");
+            o.innerHTML = "重新发送(" + this.wait + ")";
+            this.wait--;
+            setTimeout(function() {
+                app.userinfo.messageTime(o)
+            }, 1000);
+        }
+    },
+    captcha:function(data){
+        app.api.userinfo.captcha({
+            data: data,
+            success: function(result) {
+                if(result && result.data && result.data.type == 'image'){
+                    $('#yzPwd img').attr('src',result.data.value);
+                    $('#yzPwd').show();
+                    $('#yzPwd').addClass("show");
+                }else if(result && result.data && result.data.type == 'message'){
+                    $('#messagePwd').show();
+                    $('#messagePwd').addClass("show");
+                }else{
+                    $('#yzPwd').hide();
+                    $('#yzPwd').removeClass("show");
+                    $('#messagePwd').hide();
+                    $('#messagePwd').removeClass("show")
+                }
+            },
+            error: function(err) {
+                alert('服务器正在开小差。。。');
+            }
+        });
+
     },
     getEmployee: function() {
         return new Promise(function(resolve, reject) {
@@ -196,6 +221,8 @@ app.userinfo = {
             }
         if($("#yzPwd").hasClass("show")&&$(".yzPwd").val()){
             param.captcha=$(".yzPwd").val();
+        }else if($("#messagePwd").hasClass("show")&&$(".messagePwd").val()){
+            param.captcha=$(".messagePwd").val();
         }
             //查询用户
         app.api.userinfo.auth({

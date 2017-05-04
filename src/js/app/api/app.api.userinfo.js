@@ -19,6 +19,20 @@ app.api.userinfo = {
             error: settings.error,
         })
     },
+    captcha: function(settings) {
+        var url='';
+        if (settings.data.type){
+            url = '/auth/captcha/' + settings.data.username + '/' + settings.data.type
+        }else{
+            url = '/auth/captcha/' + settings.data.username
+        }
+        app.api.ajax({
+            url: url,
+            type: 'GET',
+            success: settings.success,
+            error: settings.error,
+        })
+    },
     authUserValidate: function(settings) {
         app.api.ajax({
             url: '/authUser/validate/' + settings.data.authUserId,
