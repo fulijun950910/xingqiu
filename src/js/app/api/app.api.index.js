@@ -20,6 +20,22 @@ app.api.index = {
             data: settings.data
         })
     },
+    queryGroupTotal: function(settings) {
+        app.api.ajax({
+            url: '/wechatBusinessMarketing/interveneGroupTotal/' + settings.data,
+            type: 'get',
+            success: settings.success,
+            error: settings.error
+        })
+    },
+    promotionCustomerBuy: function(settings) {
+        app.api.ajax({
+            url: '/wechatBusinessMarketing/promotionCustomerBuy/' + settings.data,
+            type: 'get',
+            success: settings.success,
+            error: settings.error
+        })
+    },
     getIncomeSource: function(settings) {
         app.api.ajax({
             url: '/wechatbusinessassists/getIncomeSource',

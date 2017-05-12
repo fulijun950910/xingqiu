@@ -232,6 +232,8 @@ app.index = {
                 app.index.initStoreList();
                 app.index.initDate(memberData.dataType);
                 app.index.initCystomDate(memberData.dataType);
+                app.index.showGroupTotal();// 显示干预团
+
                 if (memberData.employeeList.length > 1) {
                     initEemployee();
                     $('.index .employeeRoleList').show();
@@ -283,6 +285,34 @@ app.index = {
             function() {
                 location.href = "/userinfo.html#/user_login";
             })
+    },
+    //产看可干预团数
+    showGroupTotal: function(){
+        app.api.index.queryGroupTotal({
+            data: employee.merchantId,
+            success: function(res) {
+                if(res &&res.success){
+                    $('#groupTotal').html(res.data);
+                }
+            },
+            error: function(error) {
+            }
+        });
+        app.api.index.promotionCustomerBuy({
+            data: employee.merchantId,
+            success: function(res) {
+                if(res &&res.success && res.data){
+                    var str='';
+                    for(var i=0;i<res.data.length; i++){
+                        str+='<img style="height:2rem;width: 2rem;border-radius: 50%;vertical-align:middle" src=\''+app.filePath+res.data[i].avatarFileId+'\' onerror="this.src=\'images/default_female.png\'"/>&nbsp;&nbsp;又一个客户'+res.data[i].nickName+'购买了你的服务,'+ res.data[i].price / 100+'元'+'&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;'
+                    }
+
+                    $('#promotionCustomerBuy').html(str);
+                }
+            },
+            error: function(error) {
+            }
+        });
     },
     //获取业绩看板数据
     performanceReport: function(data, type) {
