@@ -33,6 +33,9 @@ app.userinfo = {
 
         });
     },
+    goRegistered: function(){
+        location.href=location.origin+'/activity/registered/index.html?applyType=4'
+    },
     messageTime: function(o,data){
         if (this.wait == 60 && data) {
             app.userinfo.captcha(data);
