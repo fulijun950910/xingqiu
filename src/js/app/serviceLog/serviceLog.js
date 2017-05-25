@@ -95,10 +95,22 @@ app.serviceLog = {
         }
     },
     //search
+    initSearchQuery:function(){
+        this.initSearch();
+        this.initSearchEvent();
+    },
     initSearch:function(){
         app.startLoading();
         this.checkUser();
         var text=$("#search").val();
+        if(text == ''){
+            var html = $('#tmpl_serviceLogSearch').html();
+            var template = tmpl(html, []);
+            $('#tpl_serviceLogSearch .searchCellBox').html(template);
+            app.endLoading();
+            app.serviceLog.searchEvent();
+            return;
+        }
         app.api.serviceLog.searchMember({
             data: {
                 merchantId:app.serviceLog.employee.merchantId,
@@ -107,28 +119,35 @@ app.serviceLog = {
             success: function(res) {
                 app.endLoading();
                 if(res.success&&res.data){
+                    $.each(res.data,function(i,v){
+                        if(v.mobile){
+                            v.mobile= v.mobile.slice(0,3)+'****'+v.mobile.slice(7);
+                        }
+                    });
                     var html = $('#tmpl_serviceLogSearch').html();
                     var template = tmpl(html, res.data);
                     $('#tpl_serviceLogSearch .searchCellBox').html(template);
+                    app.serviceLog.searchEvent();
                 }
-                app.serviceLog.searchEvent();
             },
             error: function() {}
         })
     },
-    searchEvent:function(){
-        app.tools.toTop();//返回顶部
+    initSearchEvent:function(){
         $("#tpl_serviceLogSearch").on("keydown", "#search", function (e) {
             if(e.keyCode==13){
                 app.serviceLog.initSearch();
             }
         });
+        $("#tpl_serviceLogSearch").on("touchstart", ".navInput .sousuoiInput,.sousuoBtn", function (e) {
+            app.serviceLog.initSearch();
+        });
+    },
+    searchEvent:function(){
+        app.tools.toTop();//返回顶部
         $("#tpl_serviceLogSearch .memberImg").tap("",function(e){
             e.stopPropagation();
             app.serviceLog.goMembetDetail($(this.ele).attr("data-id"));
-        });
-        $("#tpl_serviceLogSearch").on("touchstart", ".navInput .sousuoiInput,.sousuoBtn", function (e) {
-            app.serviceLog.initSearch();
         });
         $("#tpl_serviceLogSearch").tap(".searchCellBox .searchcell", function (e) {
             var data=$(this.ele).attr("data-data")
