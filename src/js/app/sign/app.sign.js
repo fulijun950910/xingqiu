@@ -59,11 +59,10 @@ app.sign = {
             // 弹出打卡选择
             app.confirmSel({
                 title: '打卡操作',
-                // msg: '请选择您的操作',
+                msg: '',
                 callback: function (result) {
                     // 打开加载提示
                     if (result == 'startWork') {
-                        alert(result);
                         if (app.sign.latitude && app.sign.longitude) {
                             // 调用签到接口
                             checkInOrOut(1);
@@ -72,7 +71,6 @@ app.sign = {
                             app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!');
                         }
                     } else if (result == 'endWork') {
-                        alert(result);
                         if (app.sign.latitude && app.sign.longitude) {
                             // 签退
                             checkInOrOut(0);
