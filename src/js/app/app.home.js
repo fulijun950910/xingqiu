@@ -169,8 +169,12 @@ app.changeTitle = function(title) {
     }).appendTo($body);
 }
 
-app.getParameter = function (key) {
+app.getParameter = function (key, url) {
+
     var href = window.location.href;
+    if (url) {
+        href = url;
+    }
     var index = href.indexOf('?');
     var param = href.substr(index + 1);
     param = param.split('&');

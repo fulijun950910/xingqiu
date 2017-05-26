@@ -326,18 +326,10 @@ app.sign = {
     checkInOrOut(type) {
         var apiUri = window.location.origin + '/api/wechatbusinessassists/attendance?';
         apiUri += 'merchantId=' + app.global_merchantId + '&storeId=' + app.global_storeId;
-        alert('准备获取员工信息');
         app.userinfo.getEmployee().then(function(employee) {
             var url = apiUri + "&latitude=" + app.sign.latitude + "&employeeId=" + employee.id + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId + "&type=" + type + "&attendanceWay=1";
-            var theRequest = new Object();
-            if (url.indexOf("?") != -1) {
-                var str = url.substr(1);
-                strs = str.split("&");
-                for (var i = 0; i < strs.length; i++) {
-                    theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
-                }
-            }
-            if (employee.storeId != theRequest['storeId']) {
+            var storeId = app.getParameter('storeId');
+            if (employee.storeId != storeId) {
                 app.userinfo.alertError('您在当前门店没有权限签到！请回您所属门店签到！！');
                 return;
             }
