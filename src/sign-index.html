@@ -38,7 +38,7 @@
         </div>
     </section>
     <script type="text/html" id="tmpl-sign-model">
-        <div style=" 
+        <div style="
         max-width: 100vw; overflow-x: hidden;background: #fff;min-height: 92vh;">
             <div class="header_module">
                 <div class="title">
@@ -118,7 +118,36 @@
     <script type="text/javascript" src="js/tmpl.js"></script>
     <script type="text/javascript">
     $(function() {
-        app.sign.init();
+        //微信confirm问询窗
+        app.confirmSel = function(obj) {
+            var msg = obj.msg;
+            var title = obj.title;
+            var confirmHtml = '';
+            confirmHtml += '<div class="weui_dialog_confirm" id="dialog1" style="display: none;">';
+            confirmHtml += '<div class="weui_mask"></div>';
+            confirmHtml += '<div class="weui_dialog">';
+            confirmHtml += '<div class="weui_dialog_hd"><strong class="weui_dialog_title">' + title + '</strong></div>';
+            confirmHtml += '<div class="weui_dialog_bd">' + msg + '</div>';
+            confirmHtml += '<div class="weui_dialog_ft">';
+            confirmHtml += '<a id="startWork" href="javascript:;" class="weui_btn_dialog primary">上班签到</a>';
+            confirmHtml += '<a id="endWork" href="javascript:;" class="weui_btn_dialog primary">下班打卡</a>';
+            confirmHtml += '</div></div></div>';
+            $('body').append(confirmHtml);
+            $('#dialog1').show();
+            $('#dialog1').on('click', '#startWork', function () {
+                $('#dialog1').off('click').hide();
+                $('#dialog1').remove();
+                obj.callback('startWork');
+            });
+            $('#dialog1').on('click', '#endWork', function () {
+                $('#dialog1').off('click').hide();
+                $('#dialog1').remove();
+                obj.callback('endWork');
+            });
+        }
+        // 读取签到信息
+        var openid = app.getParameter('openid');
+        app.sign.init(openid);
     })
     </script>
 </body>

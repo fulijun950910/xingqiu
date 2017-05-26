@@ -1,3 +1,6 @@
+// 判断用户是否已经开始扫码
+app.startQrcode = -1;
+app.automaticQrcode = -1;
 /**
  * Created by wzc on 16/7/8.
  */
@@ -17,7 +20,7 @@ app.sign = {
         });
 
     },
-    init: function() {
+    init: function(punchCard) {
         var screenHeight = window.screen.height;
         $('body').css('height', screenHeight + 'px');
         app.sign.querySignature().then(function(data) {
@@ -38,6 +41,12 @@ app.sign = {
                     success: function(res) {
                         app.sign.latitude = res.latitude;
                         app.sign.longitude = res.longitude;
+                        // 如果已经点击过扫码则直接唤起扫码功能
+                        if (app.automaticQrcode > -1) {
+                            app.sign.checkInOrOut(app.automaticQrcode);
+                        }else if (app.startQrcode > -1) {
+                            app.sign.openWxsao1sao(app.startQrcode);
+                        }
                     }
                 });
             })
@@ -45,6 +54,34 @@ app.sign = {
             console.info('获取认证失败~,请重新跳转');
         });
         app.sign.queryClockInfo(); //初始化打卡信息
+        // 判断是否是扫码打卡操作，如果直接微信扫码打开，需弹出选择打开按钮
+        if (punchCard) {
+            // 弹出打卡选择
+            app.confirmSel({
+                title: '打卡',
+                msg: '请选择您的操作',
+                callback: function (result) {
+                    // 打开加载提示
+                    if (result == 'startWork') {
+                        if (app.sign.latitude && app.sign.longitude) {
+                            // 调用签到接口
+                            checkInOrOut(1);
+                        } else {
+                            app.automaticQrcode = 1;
+                            app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!');
+                        }
+                    } else if (result == 'endWork') {
+                        if (app.sign.latitude && app.sign.longitude) {
+                            // 签退
+                            checkInOrOut(0);
+                        } else {
+                            app.automaticQrcode = 0;
+                            app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!');
+                        }
+                    }
+                }
+            });
+        }
     },
     queryClockInfo: function(firstResult, maxResult) {
         app.startLoading();
@@ -92,19 +129,20 @@ app.sign = {
                         app.sign.openWxsao1sao(1);
                     } else {
                         app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!');
-                        setTimeout(function() {
-                            if (app.sign.latitude && app.sign.longitude) {
-                                app.sign.openWxsao1sao(1);
-                            } else {
-                                setTimeout(function() {
-                                    if (app.sign.latitude && app.sign.longitude) {
-                                        app.sign.openWxsao1sao(1);
-                                    } else {
-                                        app.userinfo.alertError('小主，当前网络不给力，请再试一次');
-                                    }
-                                }, 1000);
-                            }
-                        }, 1000);
+                        app.startQrcode = 1;
+                        // setTimeout(function() {
+                        //     if (app.sign.latitude && app.sign.longitude) {
+                        //         app.sign.openWxsao1sao(1);
+                        //     } else {
+                        //         setTimeout(function() {
+                        //             if (app.sign.latitude && app.sign.longitude) {
+                        //                 app.sign.openWxsao1sao(1);
+                        //             } else {
+                        //                 app.userinfo.alertError('小主，当前网络不给力，请再试一次');
+                        //             }
+                        //         }, 1000);
+                        //     }
+                        // }, 1000);
                         // app.userinfo.alertError('为了签到成功,请允许我们获取您的位置信息!');
                         //app.userinfo.alertError();
                     }
@@ -119,19 +157,20 @@ app.sign = {
                         app.sign.openWxsao1sao(0);
                     } else {
                         app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!');
-                        setTimeout(function() {
-                            if (app.sign.latitude && app.sign.longitude) {
-                                app.sign.openWxsao1sao(0);
-                            } else {
-                                setTimeout(function() {
-                                    if (app.sign.latitude && app.sign.longitude) {
-                                        app.sign.openWxsao1sao(0);
-                                    } else {
-                                        app.userinfo.alertError('小主，当前网络不给力，请再试一次');
-                                    }
-                                }, 1000);
-                            }
-                        }, 1000);
+                        app.startQrcode = 0;
+                        // setTimeout(function() {
+                        //     if (app.sign.latitude && app.sign.longitude) {
+                        //         app.sign.openWxsao1sao(0);
+                        //     } else {
+                        //         setTimeout(function() {
+                        //             if (app.sign.latitude && app.sign.longitude) {
+                        //                 app.sign.openWxsao1sao(0);
+                        //             } else {
+                        //                 app.userinfo.alertError('小主，当前网络不给力，请再试一次');
+                        //             }
+                        //         }, 1000);
+                        //     }
+                        // }, 1000);
                         // app.userinfo.alertError('为了签到成功,请允许我们获取您的位置信息!');
                         // app.userinfo.alertError();
                     }
@@ -268,7 +307,6 @@ app.sign = {
     formatTime: function(time) {
         return moment(time).format('HH:mm:ss');
     },
-
     //7天数据
     addDate: function(firstResult) {
         var d = new Date();
@@ -279,5 +317,42 @@ app.sign = {
             dateList.push(moment().subtract(curMonthDays - i, 'days').format('YYYY-MM-DD'));
         }
         return dateList;
+    },
+    // 微信扫码签到或签退
+    checkInOrOut(type) {
+        var apiUri = window.location.origin + '/api/wechatbusinessassists/attendance';
+        console.info(url);
+        app.userinfo.getEmployee().then(function(employee) {
+            var url = apiUri + "&latitude=" + app.sign.latitude + "&employeeId=" + employee.id + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId + "&type=" + type + "&attendanceWay=1";
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+                }
+            }
+            if (employee.storeId != theRequest['storeId']) {
+                app.userinfo.alertError('您在当前门店没有权限签到！请回您所属门店签到！！');
+                return;
+            }
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(results) {
+                    if (results) {
+                        //重新加载签到信息
+                        app.sign.queryClockInfo();
+                        //签到成功
+                        app.sign.alertSign(app.tools.getMoment(), type);
+                    } else {
+                        app.userinfo.alertError(results.message);
+                    }
+                },
+                error: function(error) {
+                    app.userinfo.alertError('打卡失败~请重新登录');
+                }
+            });
+        }, function() {})
     }
 }

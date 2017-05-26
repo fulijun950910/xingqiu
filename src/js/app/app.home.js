@@ -168,3 +168,20 @@ app.changeTitle = function(title) {
         }, 0);
     }).appendTo($body);
 }
+
+app.getParameter = function (key) {
+    var href = window.location.href;
+    var index = href.indexOf('?');
+    var param = href.substr(index + 1);
+    param = param.split('&');
+    if (param.length > 0) {
+        for (var i = 0; i < param.length; i++) {
+            var kv = param[i];
+            kv = kv.split('=');
+            if (kv[0] == key) {
+                return kv[1];
+            }
+        }
+    }
+    return '';
+}
