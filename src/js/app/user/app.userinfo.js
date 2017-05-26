@@ -180,6 +180,12 @@ app.userinfo = {
         setTimeout(function() {
             $('.userInfo').find('.error').removeClass('active');
         }, second);
+        var close = function () {
+            $('.userInfo').find('.error').removeClass('active');
+        }
+        return {
+            close: close
+        };
     },
     login: function() {
         app.startLoading();
@@ -787,7 +793,7 @@ app.userinfo = {
                     case 2: //性别
                         userinfo.gender = $('.edit-userInfo').find('.gender-info').hasClass('female-active') ? 2 : 1;
                         break;
-                    case 3: //生日 
+                    case 3: //生日
                         userinfo.birthday = $('.edit-userInfo').find('.birthday').val() ? $('.edit-userInfo').find('.birthday').val() + ' 00:00:00' : "";
                         break;
                     case 4: //地址

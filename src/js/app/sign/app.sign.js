@@ -3,6 +3,7 @@ app.startQrcode = -1;
 app.automaticQrcode = -1;
 app.global_merchantId = null;
 app.global_storeId = null;
+app.closeFun = null;
 /**
  * Created by wzc on 16/7/8.
  */
@@ -72,7 +73,7 @@ app.sign = {
                             checkInOrOut(1);
                         } else {
                             app.automaticQrcode = 1;
-                            app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!');
+                            app.closeFun = app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!', 9999);
                         }
                     } else if (result == 'endWork') {
                         if (app.sign.latitude && app.sign.longitude) {
@@ -80,7 +81,7 @@ app.sign = {
                             checkInOrOut(0);
                         } else {
                             app.automaticQrcode = 0;
-                            app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!');
+                            app.closeFun = app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!', 9999);
                         }
                     }
                 }
@@ -259,15 +260,8 @@ app.sign = {
             success: function(res) {
                 app.userinfo.getEmployee().then(function(employee) {
                     var url = res.resultStr + "&latitude=" + app.sign.latitude + "&employeeId=" + employee.id + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId + "&type=" + type + "&attendanceWay=1";
-                    var theRequest = new Object();
-                    if (url.indexOf("?") != -1) {
-                        var str = url.substr(1);
-                        strs = str.split("&");
-                        for (var i = 0; i < strs.length; i++) {
-                            theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
-                        }
-                    }
-                    if (employee.storeId != theRequest['storeId']) {
+                    var storeId = app.getParameter('storeId');
+                    if (employee.storeId != storeId) {
                         app.userinfo.alertError('您在当前门店没有权限签到！请回您所属门店签到！！');
                         return;
                     }
@@ -326,6 +320,8 @@ app.sign = {
     checkInOrOut(type) {
         var apiUri = window.location.origin + '/api/wechatbusinessassists/attendance?';
         apiUri += 'merchantId=' + app.global_merchantId + '&storeId=' + app.global_storeId;
+        // 关闭获取信息
+        app.closeFun.close();
         app.userinfo.getEmployee().then(function(employee) {
             var url = apiUri + "&latitude=" + app.sign.latitude + "&employeeId=" + employee.id + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId + "&type=" + type + "&attendanceWay=1";
             var storeId = app.getParameter('storeId');
