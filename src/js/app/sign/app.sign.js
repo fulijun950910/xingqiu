@@ -260,7 +260,7 @@ app.sign = {
             success: function(res) {
                 app.userinfo.getEmployee().then(function(employee) {
                     var url = res.resultStr + "&latitude=" + app.sign.latitude + "&employeeId=" + employee.id + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId + "&type=" + type + "&attendanceWay=1";
-                    var storeId = app.getParameter('storeId');
+                    var storeId = app.getParameter('storeId', url);
                     if (employee.storeId != storeId) {
                         app.userinfo.alertError('您在当前门店没有权限签到！请回您所属门店签到！！');
                         return;
