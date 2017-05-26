@@ -147,7 +147,8 @@
         }
         // 读取签到信息
         var merchantId = app.getParameter('merchantId');
-        app.sign.init(merchantId);
+        var storeId = app.getParameter('storeId');
+        app.sign.init(merchantId, storeId);
     })
     </script>
 </body>

@@ -1,6 +1,8 @@
 // 判断用户是否已经开始扫码
 app.startQrcode = -1;
 app.automaticQrcode = -1;
+app.global_merchantId = null;
+app.global_storeId = null;
 /**
  * Created by wzc on 16/7/8.
  */
@@ -20,7 +22,7 @@ app.sign = {
         });
 
     },
-    init: function(punchCard) {
+    init: function(merchantId, storeId) {
         var screenHeight = window.screen.height;
         $('body').css('height', screenHeight + 'px');
         app.sign.querySignature().then(function(data) {
@@ -55,7 +57,9 @@ app.sign = {
         });
         app.sign.queryClockInfo(); //初始化打卡信息
         // 判断是否是扫码打卡操作，如果直接微信扫码打开，需弹出选择打开按钮
-        if (punchCard) {
+        if (merchantId) {
+            app.global_merchantId = merchantId;
+            app.global_storeId = storeId;
             // 弹出打卡选择
             app.confirmSel({
                 title: '打卡操作',
@@ -320,8 +324,9 @@ app.sign = {
     },
     // 微信扫码签到或签退
     checkInOrOut(type) {
-        var apiUri = window.location.origin + '/api/wechatbusinessassists/attendance';
-        console.info(url);
+        var apiUri = window.location.origin + '/api/wechatbusinessassists/attendance?';
+        apiUri += 'merchantId=' + app.global_merchantId + '&storeId=' + app.global_storeId;
+        alert('准备获取员工信息');
         app.userinfo.getEmployee().then(function(employee) {
             var url = apiUri + "&latitude=" + app.sign.latitude + "&employeeId=" + employee.id + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId + "&type=" + type + "&attendanceWay=1";
             var theRequest = new Object();
