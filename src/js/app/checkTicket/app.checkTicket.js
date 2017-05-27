@@ -1,11 +1,11 @@
- var employee = null;
- if (localStorage.employee && JSON.parse(localStorage.employee)) {
-     employee = JSON.parse(localStorage.employee);
- }
  app.checkTicket = {
      ticketDetailInfo: null,
      checkTicketIdName: "tmpl-verifyTicketInstance",
+     verifyCouponVersion4Location:'/lite/index.html#/couponVerify/',
      checkTicket: function() {
+         // 跳转及权限判断
+         this.checkEmployeeLogin();
+         // 事件绑定
          window.localStorage.setItem("ticketInfo", "");
          $('.container').css('background-color', '#fff ');
          $('#container').html($('#tpl_checkTitcket').html());
@@ -20,6 +20,16 @@
          }).keyup(function() {
              $(this).triggerHandler('blur');
          });
+     },
+     checkEmployeeLogin:function(){
+         if (employee && employee.merchant) {
+             if(employee.merchant.functionVersion == 4) {
+                 var ticketNo=app.getParameter('ticketNo');
+                 location.href = this.verifyCouponVersion4Location + ticketNo;
+             }
+         } else {
+             location.href = "/userinfo.html#/user_login";
+         }
      },
      //获取券信息
      getTicketDetailInfo: function() {

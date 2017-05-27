@@ -46,3 +46,8 @@ app.api = {
         $.ajax(settings);
     }
 };
+// employee项目多次使用，所以前提
+var employee = null;
+if (localStorage.employee && JSON.parse(localStorage.employee)) {
+     employee = JSON.parse(localStorage.employee);
+}

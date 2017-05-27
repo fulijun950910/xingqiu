@@ -171,7 +171,7 @@ app.changeTitle = function(title) {
 
 app.getParameter = function (key, url) {
 
-    var href = window.location.href;
+    var href = window.location.search;
     if (url) {
         href = url;
     }
