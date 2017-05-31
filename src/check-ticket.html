@@ -9,7 +9,13 @@
     <link rel="stylesheet" href="css/weui.min.css" />
     <link rel="stylesheet" href="css/app.min.css" />
     <link rel="stylesheet" href="css/swiper.css">
+    <script type="text/javascript" src="js/fastclick.min.js"></script>
     <script>
+        if ('addEventListener' in document) {
+            document.addEventListener('DOMContentLoaded', function() {
+                FastClick.attach(document.body);
+            }, false);
+        }
     //百度代码统计
     var _hmt = _hmt || [];
     (function() {
@@ -28,6 +34,7 @@
     <script src="js/jquery.min.js"></script>
    <!--  <script src="js/moment.min.js"></script> -->
     <script src="js/router.min.js"></script>
+    <script src="js/jweixin-1.0.0.js"></script>
     <script src="js/libs.js"></script>
     <script src="js/router.checkTicket.js"></script>
     <script type="text/javascript" src="js/tmpl.js"></script>

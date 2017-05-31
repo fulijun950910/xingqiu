@@ -155,6 +155,58 @@ app.initDate = function(fn) {
             // app.index.performance(parseInt($(this).attr('data-type')), 'date');
         }
     });
+};
+//jssdk
+app.JSSignature = {
+    getJSSignature: function(settings) {
+        app.api.sign.queryWxSignInfo({
+            data: {
+                url: encodeURIComponent(window.location.href.split('#')[0])
+            },
+            success: function(results) {
+                if (results.success) {
+                    if (results.success) {
+                        wx.config({
+                            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                            appId: results.data.appId, // 必填，公众号的唯一标识
+                            timestamp: results.data.timestamp, // 必填，生成签名的时间戳
+                            nonceStr: results.data.nonceStr, // 必填，生成签名的随机串
+                            signature: results.data.signature, // 必填，签名
+                            jsApiList: [
+                                "onMenuShareTimeline", //分享朋友圈
+                                "onMenuShareAppMessage", //分享朋友
+                                "openLocation", //使用微信内置地图查看位置
+                                "chooseWXPay", //发起一个微信支付请求
+                                "hideMenuItems", //隐藏的菜单项
+                                "getLocation",
+                                "scanQRCode",
+                            ]
+                        });
+                    } else {
+                        settings.error();
+                    }
+                    wx.error(function(res) {
+
+                    });
+                    wx.ready(function() {
+                        settings.success();
+                    });
+                } else {
+                    settings.error();
+                }
+            },
+            error: function(error) {
+                settings.error()
+            }
+        });
+    },
+    scanQRCode:function(){
+        wx.scanQRCode({
+            needResult: 0,
+            scanType: ["qrCode","barCode"] // 可以指定扫二维码还是一维码，默认二者都有
+        });
+    }
+
 }
 
 app.changeTitle = function(title) {

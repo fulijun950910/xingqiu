@@ -16,6 +16,7 @@ module.exports = function(grunt) {
                 weiui: [
                     'src/js/libs/router.min.js',
                     'src/js/libs/jquery.min.js',
+                    'src/js/libs/fastclick.min.js',
                     'src/js/libs/jquery.min.map',
                     'src/js/libs/example.js',
                     'src/js/libs/router.bind.js',

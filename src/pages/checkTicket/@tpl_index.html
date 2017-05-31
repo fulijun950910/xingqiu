@@ -2,31 +2,48 @@
     <div id="tmpl-income" class="bd background-sign checkTicket" layout="column" layout-align="space-between center">
         <div class="imgBox" layout="column" layout-align="center center">
             <div class="wrap">
-                <div>券号：</div>
+                <div class="couponTitle">券号：</div>
                 <div class="couponInput" layout="row" layout-align="space-between center">
-                    <div></div>
-                    <div class="scanBtn" layout="row" layout-align="space-between center">
+                    <div layout="row" layout-align="start center">
+                        <div class="inputCell"></div>
+                        <div id="payMoney"></div>
+                    </div>
+
+                    <div class="scanBtn" layout="row" layout-align="center center">
                         <i class="ic icon-saoma"></i>
                     </div>
                 </div>
             </div>
         </div>
         <div flex></div>
-        <div>
-            123
+        <div class="keyWord">
+            <p>美问 Mei1.com</p>
+            <div style="height:90%">
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td data-key="1">1</td>
+                        <td data-key="2">2</td>
+                        <td data-key="3">3</td>
+                        <td data-key="delete">
+                            <img src="/images/delete_03.png" alt=""/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-key="4">4</td>
+                        <td data-key="5">5</td>
+                        <td data-key="6">6</td>
+                        <td data-key="submit" id="centerPay" rowspan="3">查<br>询</td>
+                    </tr>
+                    <tr>
+                        <td data-key="7">7</td>
+                        <td data-key="8">8</td>
+                        <td data-key="9">9</td>
+                    </tr>
+                    <tr>
+                        <td data-key="0" colspan="3">0</td>
+                    </tr>
+                </table>
+            </div>
         </div>
-        <!--<div class="div-body">-->
-            <!--<div class="div-img">-->
-                <!--<img src="../images/checkTicket.jpg" width="100%" class="couponsImg" />-->
-            <!--</div>-->
-            <!--<div class="div-input">-->
-                <!--<i class="ic">&#xe685;</i>-->
-                <!--<input type="tel" placeholder="请输入兑换券券号" class="ticketNumber" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" />-->
-            <!--</div>-->
-            <!--<div class="messageError">-->
-                <!--请输入有效的券号-->
-            <!--</div>-->
-            <!--<span id="select" name="select" class="btnSelect" onclick="app.checkTicket.getTicketDetailInfo();">查询</span>-->
-        <!--</div>-->
     </div>
 </script>
