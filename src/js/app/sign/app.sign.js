@@ -69,6 +69,7 @@ app.sign = {
                     // 打开加载提示
                     if (result == 'startWork') {
                         if (app.sign.latitude && app.sign.longitude) {
+                            alert('开始调用接口');
                             // 调用签到接口
                             checkInOrOut(1);
                         } else {
@@ -322,6 +323,7 @@ app.sign = {
         apiUri += 'merchantId=' + app.global_merchantId + '&storeId=' + app.global_storeId;
         // 关闭获取信息
         app.closeFun.close();
+        alert('准备获取员工信息');
         app.userinfo.getEmployee().then(function(employee) {
             var url = apiUri + "&latitude=" + app.sign.latitude + "&employeeId=" + employee.id + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId + "&type=" + type + "&attendanceWay=1";
             var storeId = app.getParameter('storeId');
@@ -346,6 +348,8 @@ app.sign = {
                     app.userinfo.alertError('打卡失败~请重新登录');
                 }
             });
-        }, function() {})
+        }, function() {
+            alert('签到出错啦~');
+        })
     }
 }
