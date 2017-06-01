@@ -9,6 +9,7 @@ var callback = function(result) {
     // 打开加载提示
     if (result == 'startWork') {
         if (app.sign.latitude && app.sign.longitude) {
+            alert('调用签到接口');
             // 调用签到接口
             app.sign.checkInOrOut(1);
         } else {
