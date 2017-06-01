@@ -8,7 +8,7 @@
          // 事件绑定
          window.localStorage.setItem("ticketInfo", "");
          $('.container').css('background-color', '#fff ');
-         $('#container').html($('#tpl_checkTitcket').html());
+         $('#container').html($('#tpl_checkTitcketMain').html());
          this.checkTicketInitEvent();
      },
      checkTicketInitEvent: function(){

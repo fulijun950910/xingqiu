@@ -20,7 +20,7 @@ $(function() {
                 } else {
                     app.checkTicket.checkTicket();
                     if(ticketNo){
-                        this.getTicketDetailInfo(ticketNo);
+                        app.checkTicket.getTicketDetailInfo(ticketNo);
                     }
                 }
             } else {
