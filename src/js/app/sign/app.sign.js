@@ -4,6 +4,30 @@ app.automaticQrcode = -1;
 app.global_merchantId = null;
 app.global_storeId = null;
 app.closeFun = null;
+// 选择打卡回调
+var callback = function(result) {
+    alert('我回调了');
+    // 打开加载提示
+    if (result == 'startWork') {
+        if (app.sign.latitude && app.sign.longitude) {
+            alert('开始调用接口');
+            // 调用签到接口
+            checkInOrOut(1);
+        } else {
+            app.automaticQrcode = 1;
+            app.closeFun = app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!', 9999);
+        }
+    } else if (result == 'endWork') {
+        if (app.sign.latitude && app.sign.longitude) {
+            // 签退
+            checkInOrOut(0);
+        } else {
+            app.automaticQrcode = 0;
+            app.closeFun = app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!', 9999);
+        }
+    }
+}
+
 /**
  * Created by wzc on 16/7/8.
  */
@@ -65,28 +89,7 @@ app.sign = {
             app.confirmSel({
                 title: '打卡操作',
                 msg: '',
-                callback: function (result) {
-                    alert('我回调了');
-                    // 打开加载提示
-                    if (result == 'startWork') {
-                        if (app.sign.latitude && app.sign.longitude) {
-                            alert('开始调用接口');
-                            // 调用签到接口
-                            checkInOrOut(1);
-                        } else {
-                            app.automaticQrcode = 1;
-                            app.closeFun = app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!', 9999);
-                        }
-                    } else if (result == 'endWork') {
-                        if (app.sign.latitude && app.sign.longitude) {
-                            // 签退
-                            checkInOrOut(0);
-                        } else {
-                            app.automaticQrcode = 0;
-                            app.closeFun = app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!', 9999);
-                        }
-                    }
-                }
+                callback: callback
             });
         }
     },
