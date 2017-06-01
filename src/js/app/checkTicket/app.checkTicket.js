@@ -5,8 +5,6 @@
      paymoney:'',
      regular_t1:/[\d]{0,20}/,
      checkTicket: function() {
-         // 跳转及权限判断
-         this.checkEmployeeLogin();
          this.checkTicketInitEvent();
          // 事件绑定
          window.localStorage.setItem("ticketInfo", "");

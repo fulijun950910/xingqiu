@@ -12,6 +12,8 @@ $(function() {
             return $('#tpl_checkTitcket').html();
         },
         bind: function() {
+            // 跳转及权限判断
+            app.checkTicket.checkEmployeeLogin();
             app.checkTicket.checkTicket();
         }
     };
