@@ -4,28 +4,7 @@ app.automaticQrcode = -1;
 app.global_merchantId = null;
 app.global_storeId = null;
 app.closeFun = null;
-// 选择打卡回调
-var callback = function(result) {
-    // 打开加载提示
-    if (result == 'startWork') {
-        if (app.sign.latitude && app.sign.longitude) {
-            alert('调用签到接口');
-            // 调用签到接口
-            app.sign.checkInOrOut(1);
-        } else {
-            app.automaticQrcode = 1;
-            app.closeFun = app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!', 9999);
-        }
-    } else if (result == 'endWork') {
-        if (app.sign.latitude && app.sign.longitude) {
-            // 签退
-            app.sign.checkInOrOut(0);
-        } else {
-            app.automaticQrcode = 0;
-            app.closeFun = app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!', 9999);
-        }
-    }
-}
+
 
 /**
  * Created by wzc on 16/7/8.
@@ -355,5 +334,27 @@ app.sign = {
         }, function() {
             alert('签到出错啦~');
         })
+    }
+}
+
+// 选择打卡回调
+function callback(result) {
+    // 打开加载提示
+    if (result == 'startWork') {
+        if (app.sign.latitude && app.sign.longitude) {
+            // 调用签到接口
+            app.sign.checkInOrOut(1);
+        } else {
+            app.automaticQrcode = 1;
+            app.closeFun = app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!', 9999);
+        }
+    } else if (result == 'endWork') {
+        if (app.sign.latitude && app.sign.longitude) {
+            // 签退
+            app.sign.checkInOrOut(0);
+        } else {
+            app.automaticQrcode = 0;
+            app.closeFun = app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!', 9999);
+        }
     }
 }
