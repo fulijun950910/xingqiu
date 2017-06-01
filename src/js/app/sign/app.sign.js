@@ -66,6 +66,7 @@ app.sign = {
                 title: '打卡操作',
                 msg: '',
                 callback: function (result) {
+                    alert('我回调了');
                     // 打开加载提示
                     if (result == 'startWork') {
                         if (app.sign.latitude && app.sign.longitude) {
