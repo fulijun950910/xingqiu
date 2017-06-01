@@ -5,23 +5,6 @@
      paymoney:'',
      regular_t1:/[\d]{0,20}/,
      checkTicket: function() {
-         // 跳转及权限判断
-         if (employee && employee.merchant) {
-             var ticketNo=app.getParameter('ticketNo');
-             if(employee.merchant.functionVersion == 4) {
-                 location.href = this.verifyCouponVersion4Location + ticketNo;
-                 return;
-             } else {
-                 if(ticketNo){
-                     this.getTicketDetailInfo(ticketNo);
-                     return;
-                 }
-             }
-         } else {
-             location.href = "/userinfo.html#/user_login";
-             return;
-         }
-
          // 事件绑定
          window.localStorage.setItem("ticketInfo", "");
          $('.container').css('background-color', '#fff ');
