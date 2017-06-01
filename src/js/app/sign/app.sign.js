@@ -6,13 +6,11 @@ app.global_storeId = null;
 app.closeFun = null;
 // 选择打卡回调
 var callback = function(result) {
-    alert('我回调了');
     // 打开加载提示
     if (result == 'startWork') {
         if (app.sign.latitude && app.sign.longitude) {
-            alert('开始调用接口');
             // 调用签到接口
-            checkInOrOut(1);
+            app.sign.checkInOrOut(1);
         } else {
             app.automaticQrcode = 1;
             app.closeFun = app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!', 9999);
@@ -20,7 +18,7 @@ var callback = function(result) {
     } else if (result == 'endWork') {
         if (app.sign.latitude && app.sign.longitude) {
             // 签退
-            checkInOrOut(0);
+            app.sign.checkInOrOut(0);
         } else {
             app.automaticQrcode = 0;
             app.closeFun = app.userinfo.alertError('小主，我们正在获取您当前的位置，请稍等!', 9999);
@@ -327,7 +325,6 @@ app.sign = {
         apiUri += 'merchantId=' + app.global_merchantId + '&storeId=' + app.global_storeId;
         // 关闭获取信息
         app.closeFun.close();
-        alert('准备获取员工信息');
         app.userinfo.getEmployee().then(function(employee) {
             var url = apiUri + "&latitude=" + app.sign.latitude + "&employeeId=" + employee.id + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId + "&type=" + type + "&attendanceWay=1";
             var storeId = app.getParameter('storeId');
