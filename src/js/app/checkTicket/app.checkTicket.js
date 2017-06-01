@@ -26,12 +26,12 @@
 
      },
      checkTicketInitEvent: function(){
-        $('body').on('touchstart','.keyWord table td',function(e){
-            app.checkTicket.startClick(this);
-        });
-        $('body').on('touchstart','.scanBtn',function(){
-            app.checkTicket.openScanQRCode();
-        });
+         $('body').on('touchstart','.keyWord table td',function(e){
+             app.checkTicket.startClick(this);
+         });
+         $('body').on('touchstart','.scanBtn',function(){
+             app.checkTicket.openScanQRCode();
+         });
      },
      startClick: function(el){
          this.addClass(el,'keyDown');
@@ -102,7 +102,7 @@
      getTicketDetailInfo: function(id) {
          //判断错误信息是否隐藏
          var data = {
-             ticketNo: id ? id: $('#payMoney').val(),
+             ticketNo: id ? id: $('#payMoney').html(),
              merchantId: employee.merchantId
          }
          app.checkTicket.getTicket(data).then(function(results) {
