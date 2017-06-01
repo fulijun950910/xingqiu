@@ -325,7 +325,9 @@ app.sign = {
         apiUri += 'merchantId=' + app.global_merchantId + '&storeId=' + app.global_storeId;
         // 关闭获取信息
         app.closeFun.close();
+        alert('查询员工信息');
         app.userinfo.getEmployee().then(function(employee) {
+            alert('获取员工信息成功');
             var url = apiUri + "&latitude=" + app.sign.latitude + "&employeeId=" + employee.id + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId + "&type=" + type + "&attendanceWay=1";
             var storeId = app.getParameter('storeId');
             if (employee.storeId != storeId) {
