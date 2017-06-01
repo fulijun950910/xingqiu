@@ -6,10 +6,24 @@
      regular_t1:/[\d]{0,20}/,
      checkTicket: function() {
          // 事件绑定
-         window.localStorage.setItem("ticketInfo", "");
-         $('.container').css('background-color', '#fff ');
-         $('#container').html($('#tpl_checkTitcketMain').html());
-         this.checkTicketInitEvent();
+         // 跳转及权限判断
+         if (employee && employee.merchant) {
+             var ticketNo=app.getParameter('ticketNo');
+             if(employee.merchant.functionVersion == 4) {
+                 location.href = app.checkTicket.verifyCouponVersion4Location + ticketNo;
+             } else {
+                 window.localStorage.setItem("ticketInfo", "");
+                 $('.container').css('background-color', '#fff ');
+                 $('#container').html($('#tpl_checkTitcketMain').html());
+                 this.checkTicketInitEvent();
+                 if(ticketNo){
+                     app.checkTicket.getTicketDetailInfo(ticketNo);
+                 }
+             }
+         } else {
+             location.href = "/userinfo.html#/user_login";
+         }
+
      },
      checkTicketInitEvent: function(){
         $('body').on('touchstart','.keyWord table td',function(e){

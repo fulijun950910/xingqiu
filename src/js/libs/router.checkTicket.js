@@ -12,20 +12,7 @@ $(function() {
             return $('#tpl_checkTitcket').html();
         },
         bind: function() {
-            // 跳转及权限判断
-            if (employee && employee.merchant) {
-                var ticketNo=app.getParameter('ticketNo');
-                if(employee.merchant.functionVersion == 4) {
-                    location.href = this.verifyCouponVersion4Location + ticketNo;
-                } else {
-                    app.checkTicket.checkTicket();
-                    if(ticketNo){
-                        app.checkTicket.getTicketDetailInfo(ticketNo);
-                    }
-                }
-            } else {
-                location.href = "/userinfo.html#/user_login";
-            }
+            app.checkTicket.checkTicket();
         }
     };
     var tpl_verifyTicketInstance = {
