@@ -5,12 +5,28 @@
      paymoney:'',
      regular_t1:/[\d]{0,20}/,
      checkTicket: function() {
-         this.checkTicketInitEvent();
+         // 跳转及权限判断
+         if (employee && employee.merchant) {
+             var ticketNo=app.getParameter('ticketNo');
+             if(employee.merchant.functionVersion == 4) {
+                 location.href = this.verifyCouponVersion4Location + ticketNo;
+                 return;
+             } else {
+                 if(ticketNo){
+                     this.getTicketDetailInfo(ticketNo);
+                     return;
+                 }
+             }
+         } else {
+             location.href = "/userinfo.html#/user_login";
+             return;
+         }
+
          // 事件绑定
          window.localStorage.setItem("ticketInfo", "");
          $('.container').css('background-color', '#fff ');
          $('#container').html($('#tpl_checkTitcket').html());
-
+         this.checkTicketInitEvent();
      },
      checkTicketInitEvent: function(){
         $('body').on('touchstart','.keyWord table td',function(e){
@@ -74,20 +90,6 @@
          var classes = e.getAttribute('class');
          if (classes && classes.indexOf(cls) > -1) {
              classes = classes.replace(cls, ""); e.setAttribute('class', classes);
-         }
-     },
-     checkEmployeeLogin:function(){
-         if (employee && employee.merchant) {
-             var ticketNo=app.getParameter('ticketNo');
-             if(employee.merchant.functionVersion == 4) {
-                 location.href = this.verifyCouponVersion4Location + ticketNo;
-             } else {
-                 if(ticketNo){
-                     this.getTicketDetailInfo(ticketNo);
-                 }
-             }
-         } else {
-             location.href = "/userinfo.html#/user_login";
          }
      },
      openScanQRCode: function(){
