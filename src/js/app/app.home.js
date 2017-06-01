@@ -222,13 +222,12 @@ app.changeTitle = function(title) {
 }
 
 app.getParameter = function (key, url) {
-
     var href = window.location.search;
     if (url) {
         href = url;
     }
     var index = href.indexOf('?');
-    var param = href.substr(index + 1);
+    var param = href.substring(index + 1);
     param = param.split('&');
     if (param.length > 0) {
         for (var i = 0; i < param.length; i++) {
