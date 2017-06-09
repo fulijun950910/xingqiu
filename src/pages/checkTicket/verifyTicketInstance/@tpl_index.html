@@ -9,9 +9,9 @@
                 <div>券号：{%= o.ticketNo%}</div>
                 <span class="ticketStatus">{%= app.tools.getConstantByValue(app.constant.TICKET_STATUS,o.status) %}</span>
             </div>
-            <div class="div-box" layout="row" layout-align="space-between center" layout="row">
-                <div>活动适用门店</div>
-                <div class="storeList">
+            <div class="div-box storeList" layout="row" layout-align="space-between center" layout="row">
+                <div>验券门店</div>
+                <div class="">
                     <span class="store_name" data-storeId="{%=o.storeId%}"></span>
                 </div>
             </div>

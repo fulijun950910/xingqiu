@@ -136,9 +136,14 @@
              ticketInfo.storeId = storeId;
              if (storeId) {
                  storeIdActive = storeId;
-             } else {
+             } else if(ticketInfo.employeeInfo.storeId){
                  storeIdActive = ticketInfo.employeeInfo.storeId;
                  ticketInfo.storeId = ticketInfo.employeeInfo.storeId;
+             }else{
+                 if(ticketInfo.employeeInfo.storeList&&ticketInfo.employeeInfo.storeList.length>0){
+                     storeIdActive = ticketInfo.employeeInfo.storeList[0].id;
+                     ticketInfo.storeId = ticketInfo.employeeInfo.storeList[0].id;
+                 }
              }
              app.tools.changeTitle('券信息');
              var tmplhtml = $('#tmpl-verifyTicketInstance-model').html();
