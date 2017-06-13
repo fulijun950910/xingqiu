@@ -1,0 +1,199 @@
+/* Var
+-------------------------- */
+
+@base: 75;
+@base-rem: unit(@base, rem);
+@save-mb: (50+36*1.6 + @l8*3);
+/* Colors
+-------------------------- */
+
+//主色调
+@color-primary: #854399; //主色
+@color-primary-dark: #742B8A; //
+// 中性色
+@color-black: #000; //黑色
+@extra-black: #151515; //黑色二
+@extra-light-black: #333333; //字体黑 主标题
+@extra-dark-gray: #424242; //深灰
+@white: #FFFFFF; //白色
+@bg-gray: #F5F5F5; //背景色
+@card-gray: #EDEDED; //
+@gray: #6A6A6A; //灰色 副标题、正文
+@dark-gray: #919191; //浅灰  时间、标签
+@extra-light-gray: #c1c1c1; //浅灰2  注释性文字
+@extra-shadow: #ccc; //阴影色
+//辅助色
+@color-green: #A5D688; //绿色
+@extra-green: #FDFFFB; //淡绿色
+@extra-yellow: #eea637; //黄色
+@extra-pink: #EAB5D7; //粉红
+@dark-green: #A5D687; //跳色
+@color-success: #13CE66; //完成
+@color-warning: #F0B70A; //警告
+@color-danger: #FF4949; //禁止
+// other
+@border-gay: #EDEDED;
+@border-input: #ddd;
+@color-bg: #f5f5f5;
+//font-color
+@font-white: rgba(255, 255, 255, 0.8);
+//
+@line-split-color:rgba(255,255,255,0.2);
+
+/* font size
+-------------------------- */
+
+@fs16: 16;
+@fs20: 20;
+@fs24: 24;
+@fs28: 28;
+@fs32: 32;
+@fs36: 36;
+@fs40: 40;
+
+/* layout
+-------------------------- */
+
+@l8: 8;
+@l24: 24;
+@l32: 32;
+@l40: 40;
+@l80: 80;
+
+/* icon
+-------------------------- */
+
+@i60: 60;
+@i40: 40;
+
+/* Tools
+-------------------------- */
+
+// font-size
+.FS(@s) {
+    font-size: @s/@base-rem;
+}
+// padding
+.P(@l) {
+    padding: @l/@base-rem;
+}
+.P(@l, @i) {
+    padding: @l/@base-rem @i/@base-rem;
+}
+.P(@l, @i, @j, @k) {
+    padding: @l/@base-rem @i/@base-rem @j/@base-rem @k/@base-rem;
+}
+.PL(@l) {
+    padding-left: @l/@base-rem;
+}
+.PR(@l) {
+    padding-right: @l/@base-rem;
+}
+.PT(@l) {
+    padding-top: @l/@base-rem;
+}
+.PB(@l) {
+    padding-bottom: @l/@base-rem;
+}
+.PTB(@l) {
+    .PT(@l);
+    .PB(@l);
+}
+.PTB(@l, @i) {
+    .PT(@l);
+    .PB(@i);
+}
+.PLR(@l) {
+    .PL(@l);
+    .PR(@l);
+}
+.PLR(@l, @i) {
+    .PL(@l);
+    .PR(@i);
+}
+// margin
+.M(@l) {
+    margin: @l/@base-rem;
+}
+.M(@l, @i) {
+    margin: @l/@base-rem @i/@base-rem;
+}
+.M(@l, @i, @j, @k) {
+    margin: @l/@base-rem @i/@base-rem @j/@base-rem @k/@base-rem;
+}
+.ML(@l) {
+    margin-left: @l/@base-rem;
+}
+.MR(@l) {
+    margin-right: @l/@base-rem;
+}
+.MT(@l) {
+    margin-top: @l/@base-rem;
+}
+.MB(@l) {
+    margin-bottom: @l/@base-rem;
+}
+.MTB(@l) {
+    .MT(@l);
+    .MB(@l);
+}
+.MTB(@l, @i) {
+    .MT(@l);
+    .MB(@i);
+}
+.MLR(@l) {
+    .ML(@l);
+    .MR(@l);
+}
+.MLR(@l, @i) {
+    .ML(@l);
+    .MR(@i);
+}
+.BR(@l) {
+    border-radius: @l/@base-rem;
+}
+.W(@l) {
+    width: @l/@base-rem;
+}
+.H(@l) {
+    height: @l/@base-rem;
+}
+.LH(@l) {
+    line-height: @l/@base-rem;
+}
+.MINW(@l) {
+    min-width: @l/@base-rem;
+}
+.MINH(@l) {
+    min-height: @l/@base-rem;
+}
+.MAXW(@l) {
+    max-width: @l/@base-rem;
+}
+.MAXH(@l) {
+    max-height: @l/@base-rem;
+}
+.TRBL(@l) {
+    top: @l / @base-rem;
+    right: @l / @base-rem;
+    bottom: @l / @base-rem;
+    left: @l / @base-rem;
+}
+.TRBL(@l: 0, @i: auto, @j: auto, @k: auto) {
+    & when (isnumber(@l)) {
+        top: @l / @base-rem;
+    }
+    & when (isnumber(@i)) {
+        right: @i / @base-rem;
+    }
+    & when (isnumber(@j)) {
+        bottom: @j / @base-rem;
+    }
+    & when (isnumber(@k)) {
+        left: @k / @base-rem;
+    }
+}
+.mint-radio-core::after {
+    width: 10px;
+    height: 10px;
+}

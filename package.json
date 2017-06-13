@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "美问店务助手",
   "author": "wzc",
+  "scripts": {
+    "dev": "cooking watch -p",
+    "dist": "cooking build -p",
+    "prod": "cooking build lite -p",
+    "deploy": "cooking build --no-color"
+  },
   "license": "ISC",
   "devDependencies": {
     "grunt": "^0.4.5",
@@ -23,6 +29,19 @@
     "grunt-include-replace": "",
     "grunt-open": "",
     "grunt-replace": "",
-    "grunt-shell": ""
+    "grunt-shell": "",
+    "babel-plugin-component": "0.9.1",
+    "cooking-vue2": "*",
+    "weixin-js-sdk": "1.2.0",
+    "babel-polyfill": "*",
+    "fastclick": "1.0.6",
+    "q": "1.5.0",
+    "vue": "2.2.2",
+    "vue-resource": "1.2.1",
+    "vue-router": "2.3.0",
+    "vue-template-compiler": "2.2.2",
+    "vuex": "2.2.1"
+  },
+  "dependencies": {
   }
 }
