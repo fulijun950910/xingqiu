@@ -14,7 +14,7 @@ cooking.set({
     dist: './dist/service-subtotal',
     template: './index.tpl',
     devServer: {
-        port: 8100,
+        port: 8200,
         publicPath: '/',
         host: '0.0.0.0',
         proxy: { 
