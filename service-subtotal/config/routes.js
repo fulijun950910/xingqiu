@@ -9,13 +9,13 @@ export default [{
         component: null
     }, {
         path: 'accountReplenish/:type/:orderId',
-        component: accountReplenish,
+        component: staffActivity,
         children: [{
             path: '',
             component: null
         }, {
             path: 'itemEdit/:itemId',
-            component: itemEdit
+            component: staffActivity
         }]
     }]
 }, {

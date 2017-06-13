@@ -9,9 +9,9 @@ var env = require(`./config/${tempPath}`);
 
 cooking.set({
     entry: {
-        app: ['./src/main.js']
+        app: ['./service-subtotal/main.js']
     },
-    dist: './dist',
+    dist: './dist/service-subtotal',
     template: './index.tpl',
     devServer: {
         port: 8100,
@@ -38,21 +38,21 @@ cooking.set({
     urlLoaderLimit: 10000,
     extractCSS: '[name].[contenthash:7].css',
     alias: {
-        'src': path.join(__dirname, 'src'),
-        'assets': path.join(__dirname, 'src/assets'),
-        'components': path.join(__dirname, 'src/components'),
-        'config': path.join(__dirname, 'src/config'),
-        'directives': path.join(__dirname, 'src/directives'),
-        'filter': path.join(__dirname, 'src/filter'),
-        'services': path.join(__dirname, 'src/services'),
-        'styles': path.join(__dirname, 'src/styles'),
-        'vendor': path.join(__dirname, 'src/vendor'),
-        'pages': path.join(__dirname, 'src/pages'),
-        'store': path.join(__dirname, 'src/store'),
+        'service-subtotal': path.join(__dirname, 'service-subtotal'),
+        'assets': path.join(__dirname, 'service-subtotal/assets'),
+        'components': path.join(__dirname, 'service-subtotal/components'),
+        'config': path.join(__dirname, 'service-subtotal/config'),
+        'directives': path.join(__dirname, 'service-subtotal/directives'),
+        'filter': path.join(__dirname, 'service-subtotal/filter'),
+        'services': path.join(__dirname, 'service-subtotal/services'),
+        'styles': path.join(__dirname, 'service-subtotal/styles'),
+        'vendor': path.join(__dirname, 'service-subtotal/vendor'),
+        'pages': path.join(__dirname, 'service-subtotal/pages'),
+        'store': path.join(__dirname, 'service-subtotal/store'),
         'signPath': path.join(__dirname, `config/${tempPath}`)
     },
     extends: ['vue2', 'lint', 'less', 'autoprefixer'],
-    static: 'src/static'
+    static: 'service-subtotal/static'
 });
 
 module.exports = cooking.resolve();
