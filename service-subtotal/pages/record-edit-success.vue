@@ -1,8 +1,7 @@
 <template>
     <div>
-        <p><span @click="$router.push({name:'record-s'})">服务跟踪评价</span></p>
-
-        <p><span @click="$router.push({name:'record-c'})">客户关怀/回访</span></p>
+        编辑成功
+        <p>{{JSON.stringify($route.query)}}</p>
     </div>
 </template>
 <script>
