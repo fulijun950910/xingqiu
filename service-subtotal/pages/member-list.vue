@@ -1,11 +1,11 @@
 <template>
     <div>
-        <!-- 数据查看页面 -->
+        <!-- 我的客户 -->
     </div>
 </template>
 <script>
 export default {
-    name: 'data-view',
+    name: 'member-list',
     components: {},
     data() {
         return {};

@@ -1,11 +1,11 @@
 <template>
     <div>
-        <!-- 数据查看页面 -->
+        <!-- 记录完成页 -->
     </div>
 </template>
 <script>
 export default {
-    name: 'data-view',
+    name: 'record-finish',
     components: {},
     data() {
         return {};

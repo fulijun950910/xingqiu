@@ -1,11 +1,11 @@
 <template>
     <div>
-        <!-- 数据查看页面 -->
+        <!-- 服务记录编辑 -->
     </div>
 </template>
 <script>
 export default {
-    name: 'data-view',
+    name: 'service-record-edit',
     components: {},
     data() {
         return {};
