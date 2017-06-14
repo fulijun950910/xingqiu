@@ -4,9 +4,9 @@ require('babel-polyfill');
 
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
-
 import routes from 'config/routes';
 import FastClick from 'fastclick';
+import store from './store';
 import 'styles/_style.less';
 import 'filter/filter';
 import 'directives/directive';
@@ -42,5 +42,6 @@ router.beforeEach(({ meta, path }, from, next) => {
 
 new Vue({
     router,
+    store,
     render: h => h(App)
 }).$mount('#app');
