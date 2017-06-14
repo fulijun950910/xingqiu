@@ -7,7 +7,6 @@
 <script>
     export default {
         components: {
-            'record-edit': require('pages/module/record-edit')
         },
         data() {
             return {
