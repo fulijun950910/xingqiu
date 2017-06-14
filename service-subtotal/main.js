@@ -22,7 +22,7 @@ Vue.use(VueRouter);
 Vue.use(VueResource);
 
 const router = new VueRouter({
-    routes: routes
+    routes
 });
 
 router.beforeEach(({ meta, path }, from, next) => {
