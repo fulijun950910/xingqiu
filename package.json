@@ -11,10 +11,9 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "babel-plugin-component": "0.9.1",
+    "babel-plugin-component": "^0.9.1",
     "babel-polyfill": "*",
     "cooking-vue2": "*",
-    "fastclick": "1.0.6",
     "grunt": "^0.4.5",
     "grunt-connect-proxy": "^0.2.0",
     "grunt-contrib-clean": "",
