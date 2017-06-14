@@ -2,7 +2,6 @@
 @import './_agile';
 @import './_flex';
 html {
-    .FS(75);
     font-family: Helvetica Neue, Tahoma, Arial, PingFangSC-Regular, Hiragino Sans GB, Microsoft Yahei, sans-serif;
     line-height: 1.6;
     background-color: @color-bg;
@@ -19,9 +18,7 @@ html {
     -ms-text-size-adjust: none;
     text-size-adjust: none;
 }
-body {
-    .FS(@fs28);
-}
+
 html,
 body {
     width: 100%;
@@ -68,36 +65,15 @@ textarea,
 keygen,
 select,
 button {
-    .fs24;
     font-family: Helvetica Neue, Tahoma, Arial, PingFangSC-Regular, Hiragino Sans GB, Microsoft Yahei, sans-serif;
 }
 a {
     color: @color-primary;
     text-decoration: none;
 }
-p {
-    .FS(@fs28);
-}
+
 img {
     width: 100%;
-}
-.fs20 {
-    .FS(@fs20);
-}
-.fs24 {
-    .FS(@fs24);
-}
-.fs28 {
-    .FS(@fs28);
-}
-.fs32 {
-    .FS(@fs32);
-}
-.fs36 {
-    .FS(@fs36);
-}
-.fs40 {
-    .FS(@fs40);
 }
 .text-right {
     text-align: right;
@@ -107,272 +83,4 @@ img {
 }
 .text-center {
     text-align: center;
-}
-//全局样式
-.cell {
-    .PTB(24);
-}
-.cell-box {
-    .PLR(32);
-}
-.font-gay {
-    color: @gray;
-}
-.border-bottom {
-    border-bottom: 1px solid @border-gay;
-}
-.border-top {
-    border-top: 1px solid @border-gay;
-}
-.mtcp {
-    color: @color-primary;
-}
-.melg {
-    color: @extra-light-gray;
-}
-.mceb {
-    color: @extra-black;
-}
-.mcg {
-    color: @color-green;
-}
-.mcd {
-    color: @color-danger;
-}
-.m-save-panel {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    .FS(@fs36);
-    .PTB(@l24);
-    text-align: center;
-    background-color: @color-primary;
-    color: @white;
-    .line {
-        width: 1px;
-        background-color: #f5f5f5;
-    }
-}
-.m-mark-tag {
-    .FS(16);
-    .PLR(@l8);
-    border-radius: 2px;
-    white-space: nowrap;
-    border: 1px solid #EBEBEB;
-    background-color: @color-bg;
-    color: @dark-gray;
-}
-.m-scroll {
-    -webkit-overflow-scrolling: touch;
-}
-
-/* 路由动画*/
-
-@animateSpeed: .3s;
-
-/*move*/
-
-.bounce-enter-active {
-    animation: bounce-in @animateSpeed;
-    position: fixed;
-    width: 100%;
-    z-index: 2
-}
-.bounce-leave-active {
-    animation: bounce-out @animateSpeed/2;
-    position: fixed;
-    width: 100%;
-    z-index: 1
-}
-@keyframes bounce-in {
-    0% {
-        transform: scale(.9) translate(0, 1500/@base-rem);
-    }
-    85% {
-        transform: scale(.9) translate(0, 0);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-@keyframes bounce-out {
-    0% {
-        transform: translate(0, 0%);
-    }
-    100% {
-        transform: translate(0, 1500/@base-rem);
-    }
-}
-
-/*move*/
-
-.move-enter-active {
-    animation: move-in @animateSpeed;
-    position: fixed;
-    width: 100%;
-    z-index: 1
-}
-.move-leave-active {
-    animation: move-out @animateSpeed;
-    position: fixed;
-    width: 100%;
-    z-index: 1
-}
-.move-enter {
-    animation: move-in @animateSpeed;
-    position: fixed;
-    width: 100%;
-    z-index: 2
-}
-.move-leave-to {
-    animation: move-out @animateSpeed;
-    position: fixed;
-    width: 100%;
-    z-index: 2
-}
-@keyframes move-in {
-    0% {
-        transform: translate(100%, 0);
-    }
-    100% {
-        transform: translate(0%, 0);
-    }
-}
-@keyframes move-out {
-    0% {
-        transform: translate(0%, 0);
-    }
-    100% {
-        transform: translate(100%, 0);
-    }
-}
-
-/****/
-
-// TODO: mint-ui 重写样式
-//button
-.mint-button {
-    .FS(26) !important;
-}
-button[class*="mint-button"] {
-    height: auto!important;
-    .P(12, 18) !important;
-    .FS(26) !important;
-}
-//button type
-//loading
-.mint-indicator-wrapper {
-    .P(20) !important;
-    .mint-spinner-snake {
-        .W(75);
-        .H(75);
-    }
-}
-// messagebox
-.mint-msgbox-confirm {
-    color: @color-primary !important;
-}
-//mint-toast
-.mint-toast {
-    .P(20) !important;
-    .FS(@fs28) !important;
-    .mint-toast-text {
-        .FS(@fs28) !important;
-    }
-}
-//cell
-.mint-cell {
-    min-height: 96/@base-rem !important;
-}
-.mint-cell-wrapper {
-    .P(0) !important;
-    .FS(@fs28) !important;
-    .mint-cell-text {
-        .FS(@fs28) !important;
-    }
-    .mint-cell-title {
-        .PL(@l32) !important;
-    }
-    .mint-cell-value {
-        .PR(@l32) !important;
-    }
-    //filed
-    .mint-cell-label {
-        .FS(@fs28) !important;
-        color: @extra-light-black;
-    }
-}
-// radio
-.mint-radio-input:checked + .mint-radio-core {
-    background-color: @color-green !important;
-    border-color: @color-green !important;
-}
-// indicator
-.mint-indicator {
-    position: relative;
-}
-// msgbox
-.mint-msgbox {
-    .mint-msgbox-header .mint-msgbox-title {
-        .FS(@fs32) !important;
-    }
-    .mint-msgbox-content {
-        .mint-msgbox-message {
-            line-height: 1.3 !important;
-            .FS(@fs28) !important;
-        }
-        .mint-msgbox-input {
-            .PT(@fs28) !important;
-        }
-        .mint-msgbox-input {
-            input {
-                .FS(@fs28) !important;
-                .PTB(16) !important;
-                box-sizing: border-box !important;
-            }
-        }
-    }
-    .mint-msgbox-btns {
-        .H(80);
-        line-height: 80 / @base-rem;
-    }
-}
-//mint-swipe
-.mint-swipe-indicator.is-active {
-    opacity: 1 !important;
-    background: @color-green !important;
-}
-.mint-swipe-indicators {
-    bottom: 0 !important;
-    background: rgba(0, 0, 0, 0.03);
-    width: 100%;
-    text-align: center;
-    .H(40);
-    .mint-swipe-indicator {
-        border-radius: 0;
-        .MLR(8);
-        .H(6);
-        .MT(6);
-        .MB(8);
-        .W(20);
-    }
-}
-.mint-toast {
-    z-index: 2003 !important;
-}
-.mint-actionsheet {
-    z-index: 2002 !important;
-}
-.mint-indicator {
-    z-index: 2002 !important;
-}
-.mint-msgbox-wrapper {
-    z-index: 2002 !important;
-}
-.mint-popup {
-    z-index: 2002 !important;
-}
-.v-modal {
-    z-index: 2001 !important;
 }
