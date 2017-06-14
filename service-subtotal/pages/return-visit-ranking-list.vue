@@ -1,11 +1,11 @@
 <template>
     <div>
-        <!-- 数据查看页面 -->
+        <!-- 客户关怀统计 -->
     </div>
 </template>
 <script>
 export default {
-    name: 'data-view',
+    name: 'return-visit-ranking-list',
     components: {},
     data() {
         return {};

@@ -1,49 +1,50 @@
 /**
  * 路由配置
  */
-const staffActivity = resolve => require(['pages/activity'], resolve);
+const dataView = resolve => require(['pages/data-view'], resolve);
+const returnVisitEdit = resolve => require(['pages/return-visit-edit'], resolve);
+const memberList = resolve => require(['pages/member-list'], resolve);
+const returnVisitRankingList = resolve => require(['pages/return-visit-ranking-list'], resolve);
+const memberMaintain = resolve => require(['pages/member-maintain'], resolve);
+const serviceRecordEdit = resolve => require(['pages/service-record-edit'], resolve);
+const serviceRecordList = resolve => require(['pages/service-record-list'], resolve);
+const recordFinish = resolve => require(['pages/record-finish'], resolve);
+const unrecordedServiceList = resolve => require(['pages/unrecorded-service-list'], resolve);
 
 export default [{
-    path: '/activity',
-    name: 'activity',
-    component: staffActivity
+    path: '/data-view',
+    name: 'data-view',
+    component: dataView
 }, {
-    path: '/record',
-    name: 'record',
-    component: resolve => require(['pages/record-view'], resolve)
+    path: '/return-visit-edit',
+    name: 'return-visit-edit',
+    component: returnVisitEdit
 }, {
-    path: '/record/c',
-    name: 'record-c',
-    component: resolve => require(['pages/record-c'], resolve)
+    path: '/member-list',
+    name: 'member-list',
+    component: memberList
 }, {
-    path: '/record-c/:recordId/edit',
-    name: 'record-c-edit',
-    component: resolve => require(['pages/record-c-edit'], resolve)
+    path: '/return-visit-ranking-list',
+    name: 'return-visit-ranking-list',
+    component: returnVisitRankingList
 }, {
-    path: '/record/s',
-    name: 'record-s',
-    component: resolve => require(['pages/record-s'], resolve)
+    path: '/member-maintain',
+    name: 'member-maintain',
+    component: memberMaintain
 }, {
-    path: '/record-s/:recordId/edit',
-    name: 'record-s-edit',
-    component: resolve => require(['pages/record-s-edit'], resolve)
+    path: '/service-record-edit',
+    name: 'service-record-edit',
+    component: serviceRecordEdit
 }, {
-    path: '/data',
-    name: 'data',
-    component: resolve => require(['pages/data-view'], resolve)
+    path: '/service-record-list',
+    name: 'service-record-list',
+    component: serviceRecordList
 }, {
-    path: '/data/c',
-    name: 'data-c',
-    component: resolve => require(['pages/data-c'], resolve)
+    path: '/record-finish',
+    name: 'record-finish',
+    component: recordFinish
 }, {
-    path: '/data/s',
-    name: 'data-s',
-    component: resolve => require(['pages/data-s'], resolve)
-}, {
-    path: '/record-edit-success',
-    name: 'record-edit-success',
-    component: resolve => require(['pages/record-edit-success'], resolve)
-}, {
-    path: '*',
-    component: staffActivity
+    path: '/unrecorded-service-list',
+    name: 'unrecorded-service-list',
+    component: unrecordedServiceList
 }];

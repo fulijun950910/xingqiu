@@ -1,11 +1,11 @@
 <template>
     <div>
-        <!-- 数据查看页面 -->
+        <!-- 未记录服务 -->
     </div>
 </template>
 <script>
 export default {
-    name: 'data-view',
+    name: 'unrecorded-service-list',
     components: {},
     data() {
         return {};

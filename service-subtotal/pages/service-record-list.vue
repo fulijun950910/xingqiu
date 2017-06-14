@@ -1,11 +1,11 @@
 <template>
     <div>
-        <!-- 数据查看页面 -->
+        <!-- 服务小计记列表 -->
     </div>
 </template>
 <script>
 export default {
-    name: 'data-view',
+    name: 'service-record-list',
     components: {},
     data() {
         return {};
