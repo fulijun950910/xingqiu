@@ -1,6 +1,9 @@
 <template>
     <div>
-        编辑
+        <hr>
+        <p>编辑项1</p>
+        <p>编辑项2</p>
+         <hr>
     </div>
 </template>
 <script>
