@@ -17,5 +17,5 @@
     };
 </script>
 <style lang="less">
-    @import '~styles/_style.less';
+    @import '~styles/_agile.less';
 </style>

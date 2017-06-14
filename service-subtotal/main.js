@@ -6,6 +6,7 @@ import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 import routes from 'config/routes';
 import FastClick from 'fastclick';
+import touch from 'directives/touch';
 import store from './store';
 import 'styles/_style.less';
 import 'filter/filter';
@@ -17,7 +18,7 @@ if ('addEventListener' in document) {
         FastClick.attach(document.body);
     }, false);
 }
-
+Vue.use(touch);
 Vue.use(VueRouter);
 Vue.use(VueResource);
 

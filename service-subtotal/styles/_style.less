@@ -18,7 +18,6 @@ html {
     -ms-text-size-adjust: none;
     text-size-adjust: none;
 }
-
 html,
 body {
     width: 100%;
@@ -37,6 +36,7 @@ h3,
 ul {
     margin: 0;
     padding: 0;
+    word-wrap: break-word;
 }
 .icon {
     /* 通过设置 font-size 来改变图标大小 */
@@ -84,6 +84,28 @@ img {
 .text-center {
     text-align: center;
 }
-p{
-    word-wrap: break-word;
+
+// ----------- jczzq --------------
+*{
+    box-sizing: border-box;
 }
+div.vertical-line{
+    display: inline-block;
+    width: 1px;
+    height: 100%;
+    background-color: #ccc;
+    border: none;
+    overflow: hidden;
+}
+div.horizontal-line{
+    height: 1px;
+    background-color: #ccc;
+    border: none;
+    overflow: hidden;
+}
+.no-wrap{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+// ----------- jczzq --------------
