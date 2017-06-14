@@ -4,15 +4,13 @@ require('babel-polyfill');
 
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
-import Q from 'q';
 
 import routes from 'config/routes';
-// import Api from 'services/api';
 import FastClick from 'fastclick';
 import 'styles/_style.less';
 import 'filter/filter';
 import 'directives/directive';
-// import 'styles/fonts/iconfont';
+import 'styles/fonts/iconfont';
 
 if ('addEventListener' in document) {
     document.addEventListener('DOMContentLoaded', function() {
@@ -22,9 +20,6 @@ if ('addEventListener' in document) {
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
-
-// Vue.prototype.$q = Q;
-// Vue.prototype.$api = Api;
 
 const router = new VueRouter({
     routes: routes

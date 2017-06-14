@@ -24,14 +24,14 @@ cooking.set({
     sourceMap: true,
     minimize: true,
     chunk: true, // see https://cookingjs.github.io/zh-cn/configuration.html#chunk
-    postcss: [
+    postcss: function(webpack) {
         return [
             require('postcss-px2rem')({
                 remUnit: 75,
                 remPrecision: 6
             })
         ];
-    ],
+    },
     publicPath: '/',
     assetsPath: 'static',
     urlLoaderLimit: 10000,
@@ -47,8 +47,7 @@ cooking.set({
         'styles': path.join(__dirname, 'service-subtotal/styles'),
         'vendor': path.join(__dirname, 'service-subtotal/vendor'),
         'pages': path.join(__dirname, 'service-subtotal/pages'),
-        'store': path.join(__dirname, 'service-subtotal/store'),
-        'signPath': path.join(__dirname, `config/${tempPath}`)
+        'store': path.join(__dirname, 'service-subtotal/store')
     },
     extends: ['vue2', 'lint', 'less', 'autoprefixer'],
     static: 'service-subtotal/static'
