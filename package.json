@@ -43,5 +43,6 @@
     "vuex": "2.2.1"
   },
   "dependencies": {
+    "postcss-px2rem": "^0.3.0"
   }
 }

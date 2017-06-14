@@ -17,7 +17,7 @@ cooking.set({
         port: 8100,
         publicPath: '/',
         host: '0.0.0.0',
-        proxy: { 
+        proxy: {
             '/api': {
                 target: 'http://saas.test.mei1.info',
                 changeOrigin: true
@@ -31,7 +31,12 @@ cooking.set({
     minimize: true,
     chunk: true, // see https://cookingjs.github.io/zh-cn/configuration.html#chunk
     postcss: [
-        // require('...')
+        return [
+            require('postcss-px2rem')({
+                remUnit: 75,
+                remPrecision: 6
+            })
+        ];
     ],
     publicPath: env.publicPath,
     assetsPath: 'static',
