@@ -96,18 +96,17 @@
                 newdiv2.innerText = '正在上传...';
                 self.$refs[key][0].appendChild(newdiv2);
                 api_file.uploadImage(img).then(res => {
-                    // self.contractFileIds[j] 上传成功
-                    self.contractFileIds[idx].content = null;
-                    self.contractFileIds[idx].base64 = null;
-                    self.contractFileIds[idx].id = res.data;
-                    self.merchant.contractFileIds.splice(idx, 1, res.data);
+                    // 上传成功
+                    self.pictures[idx].content = null;
+                    self.pictures[idx].base64 = null;
+                    self.pictures[idx].id = res.data;
                     newdiv2.innerText = '上传成功！';
                     newdiv2.style.height = '35px';
                 }, res => {
-                    // self.contractFileIds[i] 上传失败
+                    // 上传失败
                     newdiv2.innerText = '上传失败！';
-                    self.contractFileIds[idx].content = null;
-                    self.contractFileIds[idx].base64 = null;
+                    self.pictures[idx].content = null;
+                    self.pictures[idx].base64 = null;
                     window.setTimeout(() => {
                         newdiv2.style.height = '35px';
                     }, 1500);
@@ -203,7 +202,20 @@
     }
 
     .c-picture{
-
+        .img-loading{
+            transition: height .3s ease-in;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.51);
+            width: 100%;
+            height: 100%;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+        }
     }
     
 </style>
