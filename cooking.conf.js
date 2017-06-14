@@ -1,11 +1,5 @@
 var path = require('path');
 var cooking = require('cooking');
-var config = require('./config');
-var tempPath = config.dev;
-if (process.env.NODE_ENV === 'production' && process.argv[2] == 'lite') {
-    tempPath = config.prod;
-}
-var env = require(`./config/${tempPath}`);
 
 cooking.set({
     entry: {
@@ -38,7 +32,7 @@ cooking.set({
             })
         ];
     ],
-    publicPath: env.publicPath,
+    publicPath: '/',
     assetsPath: 'static',
     urlLoaderLimit: 10000,
     extractCSS: '[name].[contenthash:7].css',
