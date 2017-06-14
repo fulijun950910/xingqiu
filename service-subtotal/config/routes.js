@@ -1,5 +1,5 @@
 // 懒加载
-const staffActivity = resolve => require(['pages/staff-activity'], resolve);
+const staffActivity = resolve => require(['pages/activity'], resolve);
 
 export default [{
     path: '/staff-activity',

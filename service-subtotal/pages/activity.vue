@@ -1,12 +1,13 @@
 <template>
     <div>
-        服务小计
+        员工动态圈
         <record-edit></record-edit>
     </div>
 </template>
 <script>
     export default {
         components: {
+            'record-edit': require('pages/module/record-edit')
         },
         data() {
             return {

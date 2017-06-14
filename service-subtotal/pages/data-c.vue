@@ -1,13 +1,11 @@
 <template>
     <div>
-        服务小计
-        <record-edit></record-edit>
+        查看员工关怀
     </div>
 </template>
 <script>
     export default {
         components: {
-            'record-edit': require('pages/module/record-edit')
         },
         data() {
             return {

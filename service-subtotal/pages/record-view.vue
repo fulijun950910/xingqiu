@@ -1,7 +1,6 @@
 <template>
     <div>
-        服务小计
-        <record-edit></record-edit>
+        客户关怀/服务小计
     </div>
 </template>
 <script>
