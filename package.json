@@ -11,6 +11,10 @@
   },
   "license": "ISC",
   "devDependencies": {
+    "babel-plugin-component": "0.9.1",
+    "babel-polyfill": "*",
+    "cooking-vue2": "*",
+    "fastclick": "1.0.6",
     "grunt": "^0.4.5",
     "grunt-connect-proxy": "^0.2.0",
     "grunt-contrib-clean": "",
@@ -30,19 +34,17 @@
     "grunt-open": "",
     "grunt-replace": "",
     "grunt-shell": "",
-    "babel-plugin-component": "0.9.1",
-    "cooking-vue2": "*",
-    "weixin-js-sdk": "1.2.0",
-    "babel-polyfill": "*",
-    "fastclick": "1.0.6",
-    "q": "1.5.0",
-    "vue": "2.2.2",
-    "vue-resource": "1.2.1",
-    "vue-router": "2.3.0",
-    "vue-template-compiler": "2.2.2",
-    "vuex": "2.2.1"
+    "postcss-px2rem": "^0.3.0",
+    "vue-template-compiler": "^2.3.4"
   },
   "dependencies": {
-    "postcss-px2rem": "^0.3.0"
+    "fastclick": "^1.0.6",
+    "mint-ui": "^2.2.7",
+    "q": "^1.5.0",
+    "vue": "^2.3.4",
+    "vue-resource": "^1.3.4",
+    "vue-router": "^2.5.3",
+    "vuex": "^2.2.1",
+    "weixin-js-sdk": "^1.2.0"
   }
 }
