@@ -17,7 +17,7 @@ export default {
     methods: {
         handleResize() {
             var w = document.documentElement.clientWidth;
-            document.getElementsByTagName('html')[0].style['font-size'] = Math.min((w / 10).toFixed(1), this.$GlobalMaxScale / 10) + 'px';
+            document.getElementsByTagName('html')[0].style['font-size'] = Math.min((w / 10).toFixed(1), 540 / 10) + 'px';
         }
     }
 };
