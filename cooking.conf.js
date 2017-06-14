@@ -13,7 +13,7 @@ cooking.set({
         host: '0.0.0.0',
         proxy: {
             '/api': {
-                target: 'http://saas.test.mei1.info',
+                target: 'http://wxtest.mei1.info',
                 changeOrigin: true
             }
         }
