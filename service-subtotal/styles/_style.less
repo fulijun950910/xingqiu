@@ -98,10 +98,10 @@ img {
 }
 
 // ----------- jczzq --------------
-*{
+* {
     box-sizing: border-box;
 }
-div.vertical-line{
+div.vertical-line {
     display: inline-block;
     width: 1px;
     height: 100%;
@@ -109,15 +109,36 @@ div.vertical-line{
     border: none;
     overflow: hidden;
 }
-div.horizontal-line{
+div.horizontal-line {
     height: 1px;
     background-color: #ccc;
     border: none;
     overflow: hidden;
 }
-.no-wrap{
+// 单行不换 eg:XXXX...
+.no-wrap {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+// 细体
+.ft-light {
+    font-family: 'Microsoft Yahei Light','PingFangSC-Light';
+    font-weight: normal;
+}
+// 常规
+.ft-normal {
+    font-family: 'PingFangSC-Medium','Microsoft Yahei';
+    font-weight: normal;
+}
+// 粗体
+.ft-bold {
+    font-family: 'PingFangSC-Medium','Microsoft Yahei';
+    font-weight: bold;
+}
+// 缩进两个字符
+.tidt2 {
+    text-indent:2em;
+}
+
 // ----------- jczzq --------------
