@@ -156,7 +156,7 @@
     }
     .c-card{
         background-color: white;
-        font-size: @fs14;
+        font-size: @fs28;
         padding: @l16;
         border-bottom: 1px solid #ccc;
         .c-card-content{
@@ -173,12 +173,12 @@
                 font-size: @fs24;
             }
             .c-card-subtitle{
-                font-size: @fs12;
+                font-size: @fs24;
                 height: @fs20;
                 line-height: @fs20;
                 color: @dark-gray;
                 span{
-                    font-size: @fs18;
+                    font-size: @fs36;
                     color: @color-main; 
                 }
             }
