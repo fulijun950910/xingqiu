@@ -2,14 +2,17 @@
     <div class="record-edit">
         <!-- 头部名片 -->
         <div class="c-card" layout="row" layout-align="space-between stretch">
-            <div layout="row" layout-align="space-between center">
-                <img src="" alt="">
-                <div>
-                    <p class="c-card-title">王女士</p>
-                    <p class="c-card-subtitle">美白基础护理</p>
+            <div class="c-card-content " flex="70" layout="row" layout-align="space-between center">
+                <img src="http://img1.imgtn.bdimg.com/it/u=1022133726,1565700479&fm=214&gp=0.jpg" alt="">
+                <div flex="75">
+                    <p class="c-card-title no-wrap">王女士王女士王女士王女士</p>
+                    <p class="c-card-subtitle no-wrap">
+                        <span>●</span> 黄金会员
+                        <span>●</span> 持卡3张
+                    </p>
                 </div>
             </div>
-            <div class="c-card-call">
+            <div class="c-card-call"  flex="30">
                 联系Ta
             </div>
         </div>
@@ -58,8 +61,9 @@
 
         <!-- 日期提醒 -->
         <div class="c-warn">
-            添加预约提醒 
-            <mt-switch v-model="value"></mt-switch>
+            <mt-cell title="添加预约提醒">
+                <mt-switch v-model="value"></mt-switch>
+            </mt-cell>
         </div>
 
         <!-- 完成记录 -->
@@ -69,12 +73,13 @@
     </div>
 </template>
 <script>
-    import { Switch } from 'mint-ui';
+    import { Switch, Cell } from 'mint-ui';
     import api_file from 'services/api.file';
     export default {
         components: {
             'file': require('components/file-slice'),
-            [Switch.name]: Switch
+            [Switch.name]: Switch,
+            [Cell.name]: Cell
         },
         data() {
             return {
@@ -152,18 +157,31 @@
     .c-card{
         background-color: white;
         font-size: @fs14;
-        padding: @l8;
+        padding: @l16;
         border-bottom: 1px solid #ccc;
-        img {
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-        }
-        .c-card-title{
-            font-size: @fs18;
-        }
-        .c-card-subtitle{
-            color: @dark-gray;
+        .c-card-content{
+            padding: 10px 0;
+            img {
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+            }
+            .c-card-title{
+                width: 100%;
+                height: @fs32;
+                line-height: @fs32;
+                font-size: @fs24;
+            }
+            .c-card-subtitle{
+                font-size: @fs12;
+                height: @fs20;
+                line-height: @fs20;
+                color: @dark-gray;
+                span{
+                    font-size: @fs18;
+                    color: @color-main; 
+                }
+            }
         }
         .c-card-call{
             padding: 10px 20px;
@@ -218,8 +236,8 @@
         background-color:white;
         .c-picture-item {
             position:relative;
-            border: 1px solid @border-gay;
-            box-shadow:0 5px 15px @border-gay;
+            border: 1px solid @card-gray;
+            box-shadow:0 5px 15px @card-gray;
             color:fade(@color-primary,50%);
             width:30vw;
             height:30vw;
