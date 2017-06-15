@@ -1,12 +1,15 @@
 <template>
     <div>
         <!-- 客户关怀编辑 -->
+        <record-edit></record-edit>
     </div>
 </template>
 <script>
 export default {
     name: 'return-visit-edit',
-    components: {},
+    components: {
+        'record-edit': require('./module/record-edit.vue')
+    },
     data() {
         return {};
     },
