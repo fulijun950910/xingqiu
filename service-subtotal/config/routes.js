@@ -10,6 +10,7 @@ const serviceRecordEdit = resolve => require(['pages/service-record-edit'], reso
 const serviceRecordList = resolve => require(['pages/service-record-list'], resolve);
 const recordFinish = resolve => require(['pages/record-finish'], resolve);
 const unrecordedServiceList = resolve => require(['pages/unrecorded-service-list'], resolve);
+const serviceDynamics = resolve => require(['pages/service-dynamics'], resolve);
 
 export default [{
     path: '/data-view',
@@ -47,4 +48,8 @@ export default [{
     path: '/unrecorded-service-list',
     name: 'unrecorded-service-list',
     component: unrecordedServiceList
+}, {
+    path: '/service-dynamics',
+    name: 'service-dynamics',
+    component: serviceDynamics
 }];
