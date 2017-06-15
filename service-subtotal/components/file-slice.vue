@@ -31,6 +31,7 @@
  immediatelyUpload：false 是否直接上传 false  ture
  屏幕旋转暂未调试
 * */
+import { Indicator } from 'mint-ui';
 import sumitBtn from 'components/fixed-submit-btn';
 export default {
     name: '',
@@ -87,7 +88,8 @@ export default {
         }
     },
     components: {
-        'sumit-btn': sumitBtn
+        'sumit-btn': sumitBtn,
+        [Indicator.name]: Indicator
     },
     beforeDestroy() {
         document.removeEventListener('touchmove', this.preventDefault, false);
@@ -118,10 +120,10 @@ export default {
                 };
 
                 let showView = ()=> {
-                    this.$indicator.open();
+                    Indicator.open();
                     this.loadImg();
                     setTimeout(()=> {
-                        this.$indicator.close();
+                        Indicator.close();
                         this.state = 2;
                         this.$nextTick(function() {
                             this.file2SizePosition();

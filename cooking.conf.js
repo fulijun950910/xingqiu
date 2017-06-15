@@ -27,7 +27,7 @@ cooking.set({
     postcss: function(webpack) {
         return [
             require('postcss-px2rem')({
-                remUnit: 75,
+                remUnit: 37.5,
                 remPrecision: 6
             })
         ];

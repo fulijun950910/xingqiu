@@ -1,12 +1,15 @@
 <template>
     <div>
         <!-- 服务记录编辑 -->
+        <record-edit></record-edit>
     </div>
 </template>
 <script>
 export default {
     name: 'service-record-edit',
-    components: {},
+    components: {
+        'record-edit': require('./module/record-edit.vue')
+    },
     data() {
         return {};
     },

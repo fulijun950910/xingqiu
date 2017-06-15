@@ -1,15 +1,13 @@
 <template>
     <div>
-        <!-- 服务小计记列表 -->
-        <record-edit></record-edit>
+    5555
+        <!-- 服务动态页面 -->
     </div>
 </template>
 <script>
 export default {
-    name: 'service-record-list',
-    components: {
-        'record-edit': require('./module/record-edit.vue')
-    },
+    name: 'service-dynamics',
+    components: {},
     data() {
         return {};
     },
