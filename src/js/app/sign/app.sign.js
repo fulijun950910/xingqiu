@@ -42,7 +42,7 @@ app.sign = {
             });
             wx.ready(function() {
                 wx.getLocation({
-                    type: 'wgs84',
+                    type: 'gcj02',
                     success: function(res) {
                         app.sign.latitude = res.latitude;
                         app.sign.longitude = res.longitude;
