@@ -3,7 +3,7 @@
         <!-- 头部名片 -->
         <div class="c-card" layout="row" layout-align="space-between end">
             <div class="c-card-content " flex="70" layout="row" layout-align="space-between center">
-                <img src="http://img1.imgtn.bdimg.com/it/u=1022133726,1565700479&fm=214&gp=0.jpg" alt="">
+                <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1904751778,1640431221&fm=117&gp=0.jpg" alt="">
                 <div flex="75">
                     <p class="c-card-title " layout="row" layout-align="start center">
                         <span class="c-card-name no-wrap">王女士王女士王女士</span>
@@ -102,7 +102,7 @@
 
         <!-- 完成记录 -->
         <div class="c-btn-success">
-            <a class="btn-finish">完成记录</a>
+            <a class="btn-finish" @click="recordFinish">完成记录</a>
         </div>
     </div>
 </template>
@@ -180,6 +180,10 @@
             // 添加图片
             addPicture() {
 
+            },
+            // 完成记录
+            recordFinish() {
+                this.$router.push({name: 'record-finish'});
             }
         }
     };
@@ -246,7 +250,7 @@
             padding: 5px;
             color: @extra-light-black;
             .btn{
-                border: 1px solid @extra-light-black;
+                border: 1px solid #979797;
             }
         }
     }
@@ -403,7 +407,7 @@
             width: 150px;
             height: 45px;
             line-height: 45px;
-            font-size: @fs28;
+            font-size: @fs32;
             border-radius: 25px;
             color: white;
             text-align: center;
