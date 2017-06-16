@@ -177,7 +177,7 @@ app.tools = {
             return null;
         }
         for (var i = constant.length - 1; i >= 0; i--) {
-            if (constant[i].code == value) {
+            if (constant[i].code.split(",").includes(value)) {
                 constantName = constant[i].name;
                 break;
             }

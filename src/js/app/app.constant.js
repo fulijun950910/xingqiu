@@ -97,9 +97,8 @@ app.constant = {
         { name: '退款', code: "69" },
         { name: '补卡', code: "70" },
         { name: '已付款', code: "20" },
-        //{ name: '待付款-上钟', code: "12" },
-        //{ name: '待付款-未上钟', code: "11" },
-        //{ name: '待付款-服务结束', code: "13" }
+        // 2017-6-16 jczzq [上钟,未上钟,服务结束]前端归一种状态
+        { name: '待付款', code: "12,11,13" }
     ],
     //
     IS_APPOINT: [

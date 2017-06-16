@@ -86,7 +86,7 @@ app.performance.order = {
             query.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
         }
         var status = $('.order-list .orderLists .date_name').attr('data-status');
-        query.orderStatus = status || undefined;
+        query.orderStatus = status || app.constant.ORDER_TYPE.map(function(x) {return x.code}).join(',');
         switch (type) {
             case 'storeIds':
                 query.storeIds = results;
