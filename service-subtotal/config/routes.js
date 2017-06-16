@@ -13,31 +13,31 @@ const unrecordedServiceList = resolve => require(['pages/unrecorded-service-list
 const serviceDynamics = resolve => require(['pages/service-dynamics'], resolve);
 
 export default [{
-    path: '/data-view',
+    path: '/data-view', // 数据查看页面
     name: 'data-view',
     component: dataView
 }, {
-    path: '/return-visit-edit',
+    path: '/return-visit-edit/:recordId',   // 数据查看页面
     name: 'return-visit-edit',
     component: returnVisitEdit
 }, {
-    path: '/member-list',
+    path: '/member-list',   // 会员列表
     name: 'member-list',
     component: memberList
 }, {
-    path: '/return-visit-ranking-list',
+    path: '/return-visit-ranking-list',     // 查看客户关怀（查看服务小计页面缺失）
     name: 'return-visit-ranking-list',
     component: returnVisitRankingList
 }, {
-    path: '/member-maintain',
+    path: '/member-maintain',   // 客户维护
     name: 'member-maintain',
     component: memberMaintain
 }, {
-    path: '/service-record-edit',
+    path: '/service-record-edit/:recordId',     // 服务小计 编辑
     name: 'service-record-edit',
     component: serviceRecordEdit
 }, {
-    path: '/service-record-list',
+    path: '/service-record-list',       // 服务小计 列表
     name: 'service-record-list',
     component: serviceRecordList
 }, {
@@ -49,7 +49,7 @@ export default [{
     name: 'unrecorded-service-list',
     component: unrecordedServiceList
 }, {
-    path: '/service-dynamics',
+    path: '/service-dynamics',      // 服务动态（首页）
     name: 'service-dynamics',
     component: serviceDynamics
 }];
