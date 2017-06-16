@@ -11,9 +11,9 @@
                 </div>
             </div>
             <div layout="row" layout-align="space-between stretch" class="ctrl">
-                <div class="back" flex="30" @click="back" layout="column" layout-align="center center">取消</div>
-                <div class="rotate" @click="rotateChange" flex="30" layout="column" layout-align="center center">旋转</div>
-                <div class="submit" flex="30" @click="submitFile" layout="column" layout-align="center center">确认</div>
+                <div class="back" flex="33" @click="back" layout="column" layout-align="center center">取消</div>
+                <div class="rotate" @click="rotateChange" flex="33" layout="column" layout-align="center center">旋转</div>
+                <div class="submit" flex="33" @click="submitFile" layout="column" layout-align="center center">确认</div>
             </div>
         </div>
     </div>
@@ -477,15 +477,19 @@ export default {
             background:@extra-light-gray;
         }
         .ctrl{
+            div {
+                border: 1px solid fade(white,10%);
+                background:fade(white,10%);
+            }
             position:absolute;
             bottom:0;
             left:0;
             z-index:5;
             width:100%;
             text-align:center;
-            font-size: 32px;
+            font-size: 16px;
             color:@white;
-            height: 100px;
+            height: 50px;
         }
     }
     input.path{

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import App from './app';
 require('babel-polyfill');
+require('vendor/polyfill');
 
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
@@ -12,6 +13,8 @@ import 'styles/_style.less';
 import 'filter/filter';
 import 'directives/directive';
 import 'styles/fonts/iconfont';
+import knife from 'vendor/knife';
+Vue.prototype.$knife = knife;
 
 if ('addEventListener' in document) {
     document.addEventListener('DOMContentLoaded', function() {
