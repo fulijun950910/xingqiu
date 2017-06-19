@@ -1,7 +1,5 @@
 import Vue from 'vue';
-import {
-    BASE_IMG_PATH
-} from 'config/mixins';
+
 /**
  *
  * 12345 => $12,345.00
@@ -61,14 +59,4 @@ Vue.filter('date', function(_date, fmt = 'yyyy-MM-dd hh:mm:ss') {
         };
     };
     return fmt;
-});
-
-Vue.filter('fileSrc', function(value) {
-    if (value) {
-        if (value.base64) {
-            return value.base64;
-        } else if (value.id) {
-            return BASE_IMG_PATH + value.id;
-        }
-    }
 });
