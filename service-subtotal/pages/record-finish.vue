@@ -2,16 +2,16 @@
     <div class="record-finish">
         <!-- 展示图 -->
         <div class="record-finish-img text-center">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1904751778,1640431221&fm=117&gp=0.jpg" alt="">
+            <img :src="require('assets/imgs/record-finish.png')" alt="">
         </div>
 
         <!-- 再记录一笔 -->
-        <div class="c-btn-success">
-            <a class="btn-finish" @click="$router.push({name:''})">再记录一笔</a>
+        <div class="once-again">
+            <a class="btn-finish" @click="goList">再记录一笔</a>
         </div>
-        <!-- 再记录一笔 -->
-        <div class="c-btn-success">
-            <a class="btn-finish bg-transparent" @click="">查看我的记录</a>
+        <!-- 查看我的记录 -->
+        <div class="my-record">
+            <a class="btn-finish bg-transparent" @click="$router.push({name: 'service-dynamics'})">查看我的记录</a>
         </div>
     </div>
 </template>
@@ -22,18 +22,31 @@ export default {
     data() {
         return {};
     },
-    methods: {}
+    methods: {
+        goList() {
+            let type = this.$route.query.type;
+            let toName = type == 1 ? 'service-record-list' : 'member-list';
+            this.$router.push({name: toName});
+        }
+    }
 };
 </script>
 <style lang="less">
 @import '~styles/_agile.less';
 .record-finish{
-    .record-finish-img{
-        border: 1px solid #616161;
-        height: 60vh;
-        margin: 30px 0;
+    background-color: white;
+    height: 100vh;
+    padding-top: 10px;
+    .record-finish-img {
+        img {
+            margin: 50px auto;
+            width: 80vw;
+        }
     }
-    .c-btn-success{
+    .my-record,
+    .once-again{
+        margin: 20px;
+        text-align: center;
         .bg-transparent{
             border: 1px solid #616161;
             color: #616161;

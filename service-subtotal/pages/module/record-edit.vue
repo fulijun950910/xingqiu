@@ -30,17 +30,8 @@
         </div>
 
         <!-- Ta的标签 -->
-        <div class="c-tag">
-            <p class="c-tag-title" layout="row" layout-align="space-between center">
-                Ta的标签 
-                <span>更多 <svg class="icon" aria-hidden="true"><use xlink:href="#icon-right"></use></svg> </span>
-            </p>
-            <div class="c-tag-box" flex-wrap="wrap" layout="row" layout-align="start center">
-                <div class="c-tag-item no-wrap choose" 
-                v-for="item in 8">开朗健谈</div>
-            </div>
-        </div>
-
+        <m-tag></m-tag>
+        
         <!-- 评价正文 -->
         <div class="c-content">
             <textarea rows="5" maxlength="200" placeholder="输入客人的要求和习惯"></textarea>
@@ -92,7 +83,7 @@
                     <mt-cell title="选择提示时间" is-link :value="warnDate.formatDate('yyyy-MM-dd hh:mm')" @click.native="$refs.warnTimer.open()">
                     </mt-cell>
                 </div>
-                </transition>
+            </transition>
             <mt-datetime-picker
                 ref="warnTimer"
                 type="datetime"
@@ -101,7 +92,7 @@
         </div>
 
         <!-- 完成记录 -->
-        <div class="c-btn-success">
+        <div class="c-btn-radius">
             <a class="btn-finish" @click="recordFinish">完成记录</a>
         </div>
     </div>
@@ -109,9 +100,19 @@
 <script>
     import { Switch, Cell, DatetimePicker, Popup } from 'mint-ui';
     import api_file from 'services/api.file';
+    /**
+    * type:编辑类型（1：服务小计   2：客户维护）
+    */
     export default {
+        props: {
+            type: {
+                type: Number,
+                default: 1
+            }
+        },
         components: {
             'file': require('components/file-slice'),
+            'm-tag': require('components/m-tag'),
             [Switch.name]: Switch,
             [Cell.name]: Cell,
             [DatetimePicker.name]: DatetimePicker,
@@ -183,19 +184,15 @@
             },
             // 完成记录
             recordFinish() {
-                this.$router.push({name: 'record-finish'});
+                this.$router.push({name: 'record-finish', query: {type: this.type}});
             }
         }
     };
 </script>
 <style lang="less">
     @import '~styles/_agile.less';
-    @import '~styles/_flex.less';
     .mgb{
         margin-bottom: @l16 ;
-    }
-    [flex="75"] {
-        .flex-percentge(75%);
     }
     .record-edit{
         width: 100%;
@@ -258,32 +255,6 @@
     // Ta的标签
     .c-tag{
         .mgb;
-        background-color: white;
-        font-size: @fs28;
-        padding: @l32;
-        .c-tag-title{
-            span{
-                color: @color-main !important;
-            }
-        }
-        .c-tag-box{
-            .c-tag-item{
-                .flex-percentge(21%);
-                margin: 5% 5% 0 0;
-                border: 1px solid @dark-gray;
-                padding: 2px 5px;
-                text-align: center;
-                border-radius: 2px;
-                font-size: @fs24;
-                &.choose{
-                    color: @color-primary;
-                    border: 1px solid @color-primary;
-                }
-            }
-            .c-tag-item:nth-child(4n+0){
-                margin-right:0;
-            }
-        }
     }
 
     // 评价正文
@@ -399,31 +370,8 @@
     }
 
     // 完成记录
-    .c-btn-success{
+    .c-btn-radius{
         margin: 20px;
         text-align: center;
-        .btn-finish{
-            display: inline-block;
-            width: 150px;
-            height: 45px;
-            line-height: 45px;
-            font-size: @fs32;
-            border-radius: 25px;
-            color: white;
-            text-align: center;
-            background-color: @color-main;
-        }
-    }
-
-    // cubic-bezier(1.0, 0.5, 0.8, 1.0);
-    .slide-fade-enter-active {
-        transition: all .3s ease;
-    }
-    .slide-fade-leave-active {
-        transition: all .3s ease;
-    }
-    .slide-fade-enter, .slide-fade-leave-active {
-        transform: translateY(-10px);
-        opacity: 0;
     }
 </style>

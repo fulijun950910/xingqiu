@@ -195,4 +195,26 @@ div.horizontal-line {
     background-origin: border-box;
     background-size: cover;
 }
+// 过渡动画 cubic-bezier(1.0, 0.5, 0.8, 1.0);
+.slide-fade-enter-active {
+    transition: all .3s ease;
+}
+.slide-fade-leave-active {
+    transition: all .3s ease;
+}
+.slide-fade-enter, .slide-fade-leave-active {
+    transform: translateY(-10px);
+    opacity: 0;
+}
+.btn-finish{
+    display: inline-block;
+    width: 150px;
+    height: 45px;
+    line-height: 45px;
+    font-size: @fs32;
+    border-radius: 25px;
+    color: white;
+    text-align: center;
+    background-color: @color-main;
+}
 // ----------- jczzq --------------
