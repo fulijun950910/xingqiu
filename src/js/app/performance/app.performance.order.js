@@ -573,8 +573,8 @@ app.performance.order = {
             return;
         var files = $(file)[0].files[0];
         $("#comment-file").localResizeIMG({
-            width: 300,
-            quality: .8,
+            width: 800,
+            quality: .9,
             ele: file,
             success: function(result) {
                 var content = result.clearBase64;
