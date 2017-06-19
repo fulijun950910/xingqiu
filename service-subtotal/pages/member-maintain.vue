@@ -1,13 +1,13 @@
 <template>
-    <div layout="column" layout-align="start center" class="maintain" @click="$router.push({name:'service-record-list'})">
-        <div class="maintain-box service background-contain" layout="column" layout-align="center center">
-            <div class="icon-box">
-            </div>
+    <div layout="column" layout-align="start center" class="maintain" >
+        <div class="maintain-box service background-contain" 
+        layout="column" layout-align="center center"
+        @click="$router.push({name:'service-record-list'})">
         </div>
 
-        <div class="maintain-box member background-contain" layout="column" layout-align="center center">
-            <div class="icon-box">
-            </div>
+        <div class="maintain-box member background-contain" 
+        layout="column" layout-align="center center"
+        @click="$router.push({name:'member-list'})">
         </div>
     </div>
 </template>

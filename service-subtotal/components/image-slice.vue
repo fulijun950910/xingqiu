@@ -59,10 +59,6 @@ export default {
         value: {
             type: Object
         },
-        keyfield: {
-            type: String,
-            default: ''
-        },
         proportion: {
             type: Object,
             default: function() { // 比例
@@ -368,7 +364,7 @@ export default {
             this.$set(this.currentValue, 'base64', base64);
             // this.currentValue.content = base64.split(',')[1];    不需要
             this.currentValue.id = null;
-            this.$emit('click', this.currentValue, this.keyfield);
+            this.$emit('click', this.currentValue);
         },
         uploadCanvas() { // 不裁剪，直接上传
             let imgWidth = this.filRealitySize.width;
@@ -386,7 +382,7 @@ export default {
             this.$set(this.currentValue, 'base64', base64);
             // this.currentValue.content = base64.split(',')[1]; 不需要
             this.currentValue.id = null;
-            this.$emit('click', this.currentValue, this.keyfield);
+            this.$emit('click', this.currentValue);
         },
         end() {
             this.top = null ;

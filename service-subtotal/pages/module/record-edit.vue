@@ -20,8 +20,8 @@
                     </p>
                 </div>
             </div>
-            <div class="c-card-call text-right"  flex="30">
-                <span class="btn btn-sm">
+            <div class="c-card-call text-right ft-light"  flex="30">
+                <span class="btn btn-xs">
                     <svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-tel-alt"></use>
                     </svg> 联系Ta
@@ -30,7 +30,7 @@
         </div>
 
         <!-- Ta的标签 -->
-        <m-tag></m-tag>
+        <m-tags :tags="tagList" @add="addTag" @remove="removeTag"></m-tags>
         
         <!-- 评价正文 -->
         <div class="c-content">
@@ -38,36 +38,7 @@
         </div>
 
         <!-- 配图 -->
-        <div class="c-picture">
-            <div layout="row" layout-align="start center" flex-wrap="wrap">
-                <div class="c-picture-item" :class="['picture'+cid]" 
-                    v-for="(item,cid) in pictures" :key="cid" 
-                    :ref="'picture_'+cid">
-                    <!-- 合同图片 -->
-                    <div class="ava"  layout="column" layout-align="center center">
-                        <img class="img-content" :src="item | fileSrc" v-show="item.base64 ||item.id" alt="">
-                        <file v-model="pictures[cid]" 
-                        :keyfield="'picture_'+cid" 
-                        @click="submitPicture" 
-                        :proportion="{w:1, h:1}"></file>
-                    </div>
-                    <!-- 移除 合同图片 -->
-                    <p class="remove-btn" @click.stop="removePicture(cid, item)">
-                        <svg class="icon" aria-hidden="true">
-                            <use xlink:href="#icon-yichu"></use>
-                        </svg>
-                    </p>
-                </div>
-                <div class="c-picture-item c-picture-item-add" @click="addPicture">
-                    <div class="ava"  layout="column" layout-align="center center">
-                        <svg class="icon" aria-hidden="true">
-                            <use xlink:href="#icon-add"></use>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            <p class="txt-tips">{{pictures.length}} / 9张</p>
-        </div>
+        <m-pictures class="c-picture" :pictures="pictureList" @remove="removePicture"></m-pictures>
 
         <!-- 日期提醒 -->
         <div class="c-warn">
@@ -99,7 +70,6 @@
 </template>
 <script>
     import { Switch, Cell, DatetimePicker, Popup } from 'mint-ui';
-    import api_file from 'services/api.file';
     /**
     * type:编辑类型（1：服务小计   2：客户维护）
     */
@@ -111,8 +81,8 @@
             }
         },
         components: {
-            'file': require('components/file-slice'),
-            'm-tag': require('components/m-tag'),
+            'm-tags': require('components/m-tags'),
+            'm-pictures': require('components/m-pictures'),
             [Switch.name]: Switch,
             [Cell.name]: Cell,
             [DatetimePicker.name]: DatetimePicker,
@@ -121,7 +91,7 @@
         data() {
             return {
                 // 图片列表
-                pictures: [{
+                pictureList: [{
                     base64: null,
                     id: null
                 }, {
@@ -134,57 +104,29 @@
                     base64: null,
                     id: null
                 }],
+                tagList: [],
                 isWran: false,
                 warnDate: new Date().formatDate('yyyy-MM-dd hh:mm')
             };
         },
         methods: {
-            // 上传图片
-            submitPicture(img, key) {
-                var self = this;
-                let idx = key.split('_')[1];
-                var newdiv2;
-                if (this.$refs[key][0].lastElementChild.className == 'img-loading') {
-                    newdiv2 = self.$refs[key][0].lastElementChild;
-                } else {
-                    newdiv2 = document.createElement('div');
-                    newdiv2.className = 'img-loading';
-                }
-                newdiv2.style.height = '100%';
-                newdiv2.innerText = '正在上传...';
-                self.$refs[key][0].appendChild(newdiv2);
-                api_file.uploadImage(img).then(res => {
-                    // 上传成功
-                    self.pictures[idx].content = null;
-                    self.pictures[idx].base64 = null;
-                    self.pictures[idx].id = res.data;
-                    newdiv2.innerText = '上传成功！';
-                    newdiv2.style.height = '24px';
-                }, res => {
-                    // 上传失败
-                    newdiv2.innerText = '上传失败！';
-                    self.pictures[idx].content = null;
-                    self.pictures[idx].base64 = null;
-                    window.setTimeout(() => {
-                        newdiv2.style.height = '24px';
-                    }, 1500);
-                });
-            },
-            // 删除图片
-            removePicture(cid, item) {
-                var successTips = document.getElementsByClassName('img-loading');
-                for (var i = 0; successTips.length > 0;) {
-                    successTips[i].parentNode.removeChild(successTips[i]);
-                }
-                this.pictures = this.pictures.filter(x => {return x.id !== item.id;});
-            },
-            // 添加图片
-            addPicture() {
-
-            },
             // 完成记录
             recordFinish() {
                 this.$router.push({name: 'record-finish', query: {type: this.type}});
+            },
+            // 删除图片
+            removePicture(cid) {
+                this.pictureList.splice(cid, 1);
+            },
+            // 添加标签
+            addTag(tag) {
+                if (!this.tagList.map(x => {return x.value;}).includes(tag.value)) {
+                    this.tagList.push(tag);
+                }
+            },
+            // 移除标签
+            removeTag(tag) {
+                this.tagList = this.tagList.filter(x => {return x.value !== tag.value;});
             }
         }
     };
@@ -273,79 +215,6 @@
     .c-picture{
         .mgb;
         background-color:white;
-        .c-picture-item {
-            position:relative;
-            border: 1px solid @card-gray;
-            box-shadow:0 0 5px 1px @color-bg;
-            color:fade(@gray,50%);
-            width:28vw;
-            height:28vw;
-            margin: 4vw 0 0 4vw;
-            &:nth-child(3n+1){
-                margin-right: 0;
-            }
-            display: inline-block;
-            background-color:white;
-            &.c-picture-item-add{
-                background-color: #f8f8f8;
-                border: 1px dashed #ccc;
-            }
-            .ava {
-                width:100%;
-                height:100%;
-                box-sizing: border-box;
-                overflow: hidden;
-                text-align: center;
-                .icon {
-                    font-size:40px;
-                    color: fade(@gray,30%);
-                }
-                img {
-                    width: 100%;
-                    height: 100%;
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                }
-                img[src=""] {
-                    opacity: 0;
-                }
-            }
-            .remove-btn{
-                width:24px;
-                height:24px;
-                line-height:24px;
-                font-size: @fs32;
-                position:absolute;
-                right:0;
-                top:0;
-                z-index:5;
-                text-align:center;
-                background-color:fade(black,50%);
-                .icon{
-                    color:white;
-                }
-            }
-            .img-loading{
-                transition: height .3s ease-in;
-                position: absolute;
-                top: 0;
-                left: 0;
-                background-color: rgba(0, 0, 0, 0.51);
-                width: 100%;
-                height: 100%;
-                color: white;
-                display: -webkit-box;
-                display: -webkit-flex;
-                display: flex;
-                -webkit-justify-content: center;
-                -webkit-align-items: center;
-                justify-content: center;
-                align-items: center;
-                font-size: 12px;
-                z-index:6;
-            }
-        }
     }
 
     // 预约提醒
