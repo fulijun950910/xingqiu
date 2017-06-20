@@ -94,7 +94,7 @@ app.constant = {
         //{ name: '取消', code: "50" },
         { name: '退单', code: "61" },
         //{ name: '退卡', code: "62" },
-        { name: '退款', code: "69" },
+        //{ name: '退款', code: "69" },
         { name: '补卡', code: "70" },
         { name: '已付款', code: "20" },
         // 2017-6-16 jczzq [上钟,未上钟,服务结束]前端归一种状态
