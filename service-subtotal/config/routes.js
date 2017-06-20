@@ -41,15 +41,19 @@ export default [{
     name: 'service-record-list',
     component: serviceRecordList
 }, {
-    path: '/record-finish',
+    path: '/record-finish',     // 记录完成
     name: 'record-finish',
     component: recordFinish
 }, {
-    path: '/unrecorded-service-list',
+    path: '/unrecorded-service-list',   // 未记录服务
     name: 'unrecorded-service-list',
     component: unrecordedServiceList
 }, {
     path: '/service-dynamics',      // 服务动态（首页）
+    name: 'service-dynamics',
+    component: serviceDynamics
+}, {
+    path: '*',      // 服务动态（默认）
     name: 'service-dynamics',
     component: serviceDynamics
 }];
