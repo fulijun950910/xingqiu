@@ -1,19 +1,26 @@
 <template>
     <div class="container">
-        <div class="mask" v-if="!vm.search.statu">
+        <div class="mask" v-if="!vm.search.statu" v-on:click="searchStatu()">
         </div>
         <div class="top-bar">
             <div layout="row" layout-align="start center" flex v-if="vm.search.statu">
-                <a class="bar-btn border-r" layout="row" layout-align="center center" flex v-on:click="searchStatu()">
-                    <div v-if="!vm.search.statu">
+                <a class="bar-btn border-r" layout="row" layout-align="center center" flex>
+                    <div v-if="!vm.search.main" v-on:click="searchStatu()">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-search2"></use>
                         </svg>
                         <span class="bar-text">搜索</span>
                     </div>
-                    <span v-if="vm.search.main">{{vm.search.main}}</span>
+                    <span v-if="vm.search.main" flex class="text-center"> 
+                    {{vm.search.main}}
+                     </span>
+                    <span v-on:click="searchStatu()" v-if="vm.search.main">
+                    <svg class="icon icon-close-grey icon-margin" aria-hidden="true">
+                        <use xlink:href="#icon-close"></use>
+                    </svg>                         
+                     </span>
                 </a>
-                <a class="bar-btn" layout="row" layout-align="center center" flex>
+                <a class="bar-btn see-data" layout="row" layout-align="center center" flex>
                     <svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-shuju"></use>
                     </svg>
@@ -43,7 +50,9 @@
             <div class="div-box">
                 <div class="title" layout="row" layout-align="space-between center">
                     <div class="user" layout="row" layout-align="center center">
-                        <span class="view"></span>
+                        <span class="view">
+                            <img src="" alt="">
+                        </span>
                         <div>
                             <h3>NO:007</h3>
                             <h3>告示的话</h3>
@@ -63,17 +72,31 @@
                 <div class="main-text" flex>
                     客户服务不错
                 </div>
-                <div class="main-img">
-                    
+                <div class="main-img" layout="row" layout-align="space-between center" flex-wrap="wrap">
+                    <span flex="30"></span>
+                    <span flex="30"></span>
+                    <span flex="30"></span>
+                    <span flex="30"></span>
+                    <span flex="30"></span>
+                    <span flex="30"></span>
+                </div>
+                <div class="box-bottom" flex layout="row" layout-align="start center">
+                    <span>昨天05：00 PM</span>
+                    <span flex></span>
+                    <a>查看详情</a>
                 </div>
             </div>
         </div>
     </div>
 </template>
+    <bottom-menu></bottom-menu>
 <script>
+import bottom_menu from 'components/bottom-menu';
 export default {
     name: 'service-dynamics',
-    components: {},
+    components: {
+        'bottom-menu': bottom_menu
+    },
     data() {
         return {
             vm: {
@@ -99,7 +122,7 @@ export default {
                 search: {
                     statu: true,
                     text: '测试文字',
-                    main: '1243124'
+                    main: ''
                 }
             }
 
@@ -137,6 +160,13 @@ export default {
         background: @white;
         .bar-btn {
             padding: @l16 * 2 0;
+            color: @extra-light-black;
+            .icon-close-grey {
+                color: @dark-gray;
+            }
+        }
+        .see-data {
+            color: @color-primary;
         }
         .border-r {
             border-right: 1px solid @border;
@@ -185,7 +215,6 @@ export default {
         background: @white;
     }
     .dynamics {
-        min-height: 600px;
         background: @bg-gray;
         .div-box {
             background: @white;
@@ -194,7 +223,6 @@ export default {
             margin-bottom: 2 * @l16;
             position: relative;
             .title {
-                padding-bottom: @l16 * 2;
                 position: relative;
                 .view {
                     display: block;
@@ -204,6 +232,12 @@ export default {
                     border-radius: 100%;
                     overflow: hidden;
                     margin-right: @l16;
+                    img {
+                        max-width: 100%;
+                        max-height: 100%;
+                        min-height: 100%;
+                        max-width: 100%;
+                    }
                 }
                 h3 {
                     font-size: @fs24;
@@ -219,15 +253,35 @@ export default {
             .main-text {
                 font-size: @fs24;
                 color: @gray;
+                margin: @l16 * 2 0;
+            }
+            .main-img {
+                span {
+                    width: 106.5px;
+                    height: 110.95px;
+                    background: #000;
+                    margin-bottom: 2 * @l16;
+                    flex-wrap: wrap;
+                    overflow: hidden;
+                }
             }
             .text-type {
-                width: 75px;
-                height: 26.5px;
                 border: 1px solid @border;
                 border-radius: 5px;
                 right: 0;
-                .span {
+                padding: @l8;
+                span {
                     font-size: @fs24;
+                    color: @gray;
+                }
+            }
+            .box-bottom {
+                padding-bottom: 2 * @l16;
+                span {
+                    color: @extra-light-gray;
+                }
+                a {
+                    color: #4E4B73;
                 }
             }
         }

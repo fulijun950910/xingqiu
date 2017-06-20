@@ -1,8 +1,8 @@
 <template>
     <div layout="row" layout-align="center center" class="fiexd-bottom">
-        <a @click="link" v-for="item in clickAble" flex="{{flex}}">
+        <a:flex="{{flex}}" @click="link" v-for="item in clickAble">
             <svg class="icon" aria-hidden="true">
-                <use xlink:href="#{{item.name}}"></use>
+                <use xlink:href="#icon-left"></use>
             </svg>
             {{text}}
         </a>
@@ -12,7 +12,7 @@
 export default {
     name: '',
     data() {
-        return {}
+        return {};
     },
     props: {
         clickAble: {
@@ -41,8 +41,7 @@ export default {
             this.$emit('click', evt);
         }
     }
-
-}
+};
 </script>
 <style lang="less">
 @import '../styles/_agile';
@@ -51,6 +50,8 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    .icon {color: }
+    .icon {
+        color: @color-blue;
+    }
 }
 </style>
