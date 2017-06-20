@@ -39,10 +39,10 @@ app.constant = {
     ],
     //券状态
     TICKET_STATUS: [
-        { name: '未验券', code: 1 },
-        { name: '不可用', code: 2 },
-        { name: '已过期', code: 3 },
-        { name: '已使用', code: 4 }
+        { name: '未验券', code: '1' },
+        { name: '不可用', code: '2' },
+        { name: '已过期', code: '3' },
+        { name: '已使用', code: '4' }
         // { name: '', code: "" }
     ],
     //订单状态
