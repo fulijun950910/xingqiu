@@ -86,7 +86,7 @@ app.performance.order = {
             query.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
         }
         var status = $('.order-list .orderLists .date_name').attr('data-status');
-        query.orderStatus = status || app.constant.ORDER_TYPE.map(function(x) {return x.code}).join(',');
+        query.orderStatus = status || '20';
         switch (type) {
             case 'storeIds':
                 query.storeIds = results;
@@ -199,7 +199,7 @@ app.performance.order = {
                         for (var i = 0, len = app.constant.ORDER_TYPE.length; i < len; i++) {
                             var orderStatus = app.constant.ORDER_TYPE[i].code;
                             if (orderStatus == query.orderStatus || orderStatus == parseInt(query.orderStatus)) {
-                                $('.order-list .tempLists .date_info span').eq(i + 1).addClass('active').append('<i></i>');
+                                $('.order-list .tempLists .date_info span').eq(i).addClass('active').append('<i></i>');
                                 break;
                             }
                         }

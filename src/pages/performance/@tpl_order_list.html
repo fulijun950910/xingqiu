@@ -157,12 +157,11 @@
             <div class="date_menu">
                 <div class="date_info">
                     <!--%if(app.constant.ORDER_TYPE && app.constant.ORDER_TYPE.length > 0){ %-->
-                    <span>全部</span>
-                    <!--% for (var i=0; i <app.constant.ORDER_TYPE.length; i++) { %-->
-                    <!--%if(app.constant.ORDER_TYPE[i].code !=""){ %-->
-                    <span data-status="{%=app.constant.ORDER_TYPE[i].code%}">{%= app.constant.ORDER_TYPE[i].name %}</span>
-                    <!--% } %-->
-                    <!--% } %-->
+                        <!--% for (var i=0; i <app.constant.ORDER_TYPE.length; i++) { %-->
+                            <!--%if(app.constant.ORDER_TYPE[i].code !=""){ %-->
+                            <span data-status="{%=app.constant.ORDER_TYPE[i].code%}">{%= app.constant.ORDER_TYPE[i].name %}</span>
+                            <!--% } %-->
+                        <!--% } %-->
                     <!--% } %-->
                 </div>
             </div>
