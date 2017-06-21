@@ -133,7 +133,9 @@
         margin-bottom: @l16 ;
     }
     .record-edit{
+        background-color: @color-bg;
         width: 100%;
+        min-height: 100vh;
         padding: 0;
         margin: 0;
     }
@@ -231,7 +233,7 @@
 
     // 完成记录
     .c-btn-radius{
-        margin: 20px;
+        padding: 20px;
         text-align: center;
     }
 </style>
