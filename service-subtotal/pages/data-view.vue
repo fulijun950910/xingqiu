@@ -25,7 +25,7 @@
         <span class="b-line"></span>
         <div layout="row" layout-align="space-between center" class="record fs32">
             <p class="c4">
-                <m-icon xlink="#icon-close"></m-icon>
+                <m-icon xlink="#icon-fuwu"></m-icon>
                 全部服务数
             </p>
             <p class="color-primary fwb ff-number">{{vm.record | currency('', 0)}}</p>
@@ -33,14 +33,14 @@
         <div layout="row" layout-align="space-around center" class="link-panel">
             <div class="link-btn no-line-panel">
                 <p>
-                    <m-icon xlink="#icon-close"></m-icon>
+                    <m-icon xlink="#icon-yipingjia"></m-icon>
                     {{vm.valued | currency('', 0)}}
                 </p>
                 <p>已记录</p>
             </div>
             <div class="link-btn" @click="$router.push({name:'service-record-list'})">
                 <p>
-                    <m-icon xlink="#icon-close"></m-icon>
+                    <m-icon xlink="#icon-weipingjia"></m-icon>
                     {{vm.unvalued | currency('', 0)}}
                 </p>
                 <p layout="row" layout-align="space-between center">
@@ -49,12 +49,17 @@
                 </p>
             </div>
         </div>
+        <bottom-menu @click="toolbarClick" :flex="1" :click-able="clickAble"></bottom-menu>
     </div>
 </template>
 <script>
+import bottomMenu from 'components/bottom-menu';
+
 export default {
     name: 'data-view',
-    components: {},
+    components: {
+        bottomMenu
+    },
     data() {
         return {
             vm: {
@@ -67,12 +72,34 @@ export default {
                 record: 3321,
                 valued: 3213,
                 unvalued: 3511
-            }
+            },
+            clickAble: [{
+                name: '返回',
+                icon: '#icon-left-bold'
+            }, {
+                name: '门店',
+                icon: '#icon-fangzi-copy'
+            }, {
+                name: '时间',
+                icon: '#icon-shijian'
+            }]
         };
     },
     methods: {
         loadData() {
             // TODO: 加载数据
+        },
+        toolbarClick(index) {
+            // TODO: change
+            switch (index) {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+
+            }
         }
     }
 };
@@ -120,7 +147,7 @@ export default {
         }
     }
     .link-panel {
-        padding-bottom: @l40;
+        padding-bottom: 49 + @l40;
         p:first-child {
             .c4;
             font-size: @fs28;
@@ -140,7 +167,8 @@ export default {
             width: 268px / 2;
             padding: @l24 @l32;
             border-radius: 10px;
-            border: 1px solid #E8E8E8;/*no*/
+            border: 1px solid #E8E8E8;
+            /*no*/
             box-shadow: 0 2px 4px 0 rgba(221, 221, 221, 0.5);
         }
     }
@@ -154,7 +182,8 @@ export default {
     }
     .b-line {
         .ml-40;
-        height: 1px;/*no*/
+        height: 1px;
+        /*no*/
         display: block;
         background-color: #E4E4E4;
     }
