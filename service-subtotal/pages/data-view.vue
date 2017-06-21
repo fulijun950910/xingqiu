@@ -9,9 +9,9 @@
         </div>
         <span class="b-line"></span>
         <div layout="row" class="pie-panel">
-            <div flex="50" layout="row" layout-align="center center" class="pie">
+            <div flex="50" layout="row" layout-align="center center" class="pie text-center">
                 <img :src="require('assets/imgs/huan.png')">
-                <span class="vh-center fs40 text-center color-primary">{{vm.returnVisit | currency('', 0)}}<br>
+                <span class="vh-center fs40 text-center color-primary fwb ff-number">{{vm.returnVisit | currency('', 0)}}<br>
                     <span class="fs20 c1">条</span>
                 </span>
             </div>
@@ -28,7 +28,7 @@
                 <m-icon xlink="#icon-close"></m-icon>
                 全部服务数
             </p>
-            <p class="color-primary">{{vm.record | currency('', 0)}}</p>
+            <p class="color-primary fwb ff-number">{{vm.record | currency('', 0)}}</p>
         </div>
         <div layout="row" layout-align="space-around center" class="link-panel">
             <div class="link-btn no-line-panel">
@@ -87,17 +87,17 @@ export default {
         padding-bottom: @l40;
     }
     .pie-panel {
-        position: relative;
-        padding-top: @l8 * 8;
-        padding-right: @l8 * 6;
-        padding-bottom: @l8 * 8;
+        padding: @l8 * 8 @l8 * 6 @l8 * 8 @l40;
         .pie {
             height: 130px;
+            position: relative;
             img {
+                left: 50%;
                 z-index: 1;
                 width: 130px;
                 height: 130px;
                 position: absolute;
+                margin-left: -130px / 2;
             }
             .vh-center {
                 max-width: 130px;
@@ -110,7 +110,7 @@ export default {
             font-size: @fs28;
             line-height: @l8 * 8;
             border-radius: @l8 * 2.5;
-            background-color: @color-blue;
+            background-color: @color-tiffany-blue;
         }
     }
     .record {
@@ -140,7 +140,7 @@ export default {
             width: 268px / 2;
             padding: @l24 @l32;
             border-radius: 10px;
-            border: 1px solid #E8E8E8;
+            border: 1px solid #E8E8E8;/*no*/
             box-shadow: 0 2px 4px 0 rgba(221, 221, 221, 0.5);
         }
     }
@@ -149,12 +149,12 @@ export default {
             .c2;
         }
         p:first-child .icon {
-            color: @color-blue;
+            color: @color-tiffany-blue;
         }
     }
     .b-line {
         .ml-40;
-        height: 1px;
+        height: 1px;/*no*/
         display: block;
         background-color: #E4E4E4;
     }

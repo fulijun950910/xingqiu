@@ -51,7 +51,7 @@ export default {
     left: 0;
     right: 0;
     .icon {
-        color: @color-blue;
+        color: @color-tiffany-blue;
     }
 }
 </style>

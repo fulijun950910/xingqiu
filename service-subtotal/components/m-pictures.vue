@@ -180,7 +180,7 @@
         .c-picture-item {
             display: inline-block;
             position:relative;
-            border: 1px solid @card-gray;
+            border: 1px solid @light-gray;
             box-shadow:0 0 5px 1px @color-bg;
             color:fade(@gray,50%);
             clear: both;
@@ -241,11 +241,11 @@
             margin: 4vw 0 0 4vw;
         }
         .txt-tips{
-            color: @extra-light-gray;
+            color: @light-gray;
             text-align: left;
             padding: 10px @l32;
             .add-pic{
-                color: @color-main;
+                color: @color-tiffany-blue;
             }
         }
     }

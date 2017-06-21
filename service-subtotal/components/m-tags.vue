@@ -119,7 +119,7 @@
         padding: @l32;
         .c-tag-title {
             .more-tag {
-                color: @color-main;
+                color: @color-tiffany-blue;
             }
         }
         .c-tag-box {

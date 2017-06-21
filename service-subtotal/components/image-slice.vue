@@ -470,7 +470,7 @@ export default {
             z-index:4;
         }
         .back.fixed-sumbit-btn.primary{
-            background:@extra-light-gray;
+            background:@light-gray;
         }
         .ctrl{
             div {

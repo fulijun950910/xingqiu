@@ -156,7 +156,7 @@
                 height: 100%;
                 line-height: 100%;
                 font-size: @fs36;
-                color: @color-main;
+                color: @color-tiffany-blue;
             }
             .c-card-title{
                 width: 100%;
@@ -216,8 +216,8 @@
             font-size: @fs32;
         }
         .mint-switch-input:checked + .mint-switch-core {
-            border-color: @color-main;
-            background-color: @color-main;
+            border-color: @color-tiffany-blue;
+            background-color: @color-tiffany-blue;
         }
         .c-warn-content{
             border-top: 1px solid #e4e4e4;

@@ -155,7 +155,7 @@ export default {
 @import '~styles/_agile.less';
 .container {
     min-height: 100vh;
-    background: @bg-gray;
+    background: @color-bg;
     .mask {
         position: fixed;
         top: 0;
@@ -167,7 +167,7 @@ export default {
         z-index: 2;
     }
     .top-bar {
-        border-bottom: 1px solid @border;
+        border-bottom: 1px solid @light-gray;
         position: relative;
         z-index: 3;
         background: @white;
@@ -182,7 +182,7 @@ export default {
             color: @color-primary;
         }
         .border-r {
-            border-right: 1px solid @border;
+            border-right: 1px solid @light-gray;
         }
         .icon {
             font-size: @fs36;
@@ -211,7 +211,7 @@ export default {
             left: 0;
             right: 0;
             background: @white;
-            border-top: 1px solid @border;
+            border-top: 1px solid @light-gray;
             max-height: 220px;
             overflow-y: scroll;
             overflow-x: hidden;
@@ -220,7 +220,7 @@ export default {
             padding: @l16 * 2;
             color: @color-black;
             font-size: @fs28;
-            border-bottom: 1px solid @border;
+            border-bottom: 1px solid @light-gray;
         }
     }
     .placeholder {
@@ -228,7 +228,7 @@ export default {
         background: @white;
     }
     .dynamics {
-        background: @bg-gray;
+        background: @color-bg;
         .div-box {
             background: @white;
             padding: 0 @l16;
@@ -279,7 +279,7 @@ export default {
                 }
             }
             .text-type {
-                border: 1px solid @border;
+                border: 1px solid @light-gray;
                 border-radius: 5px;
                 right: 0;
                 padding: @l8;
@@ -291,7 +291,7 @@ export default {
             .box-bottom {
                 padding-bottom: 2 * @l16;
                 span {
-                    color: @extra-light-gray;
+                    color: @light-gray;
                 }
                 a {
                     color: #4E4B73;
@@ -326,9 +326,9 @@ export default {
             height: 10vw;
             line-height: 10vw;
             width: 10vw;
-            background-color: @extra-shadow;
+            background-color: @light-gray;
             color: white;
-            box-shadow: 0 0 15px 1px @extra-shadow;
+            box-shadow: 0 0 15px 1px @light-gray;
         }
     }
 }
