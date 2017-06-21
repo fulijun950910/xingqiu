@@ -52,12 +52,12 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background: @bg-gray;
+    background: @color-bg;
     z-index: 1;
     a {
         height: 49px;
-        color: @color-blue;
-        border-right: 1px solid @extra-light-gray;
+        color: @color-tiffany-blue;
+        border-right: 1px solid @light-gray;
         font-size: @fs16 * 2;
     }
     a:last-child {
