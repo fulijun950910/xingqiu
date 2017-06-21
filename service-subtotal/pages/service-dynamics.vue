@@ -84,7 +84,7 @@
                 </div>
             </div>
         </div>
-        <bottom-menu @click="link" :click-able="employeeList" :flex="vm.flex"></bottom-menu>
+        <bottom-menu @click="link" :flex="vm.flex"></bottom-menu>
         <!-- 编辑 -->
         <div class="btn-fixed btn-edit" @click="$router.push({name:'member-maintain'})">
             <svg class="icon" aria-hidden="true">
@@ -178,7 +178,7 @@ export default {
         },
         // 点击返回顶部
         toTop() {
-            $('.container').animate({
+            $('body,html').animate({
                 scrollTop: 0
             }, 500);
         },
