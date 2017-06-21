@@ -5,7 +5,8 @@
         "indent": ["error", 4, { "SwitchCase": 1 }],
         "eqeqeq": "off",
         "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": false}],
-        "handle-callback-err": 0
+        "handle-callback-err": 0,
+        'no-debugger': 0
     },
     "env": { "es6": true }
 }
