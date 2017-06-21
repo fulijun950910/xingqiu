@@ -24,6 +24,7 @@ body {
 html,
 body {
     width: 100%;
+    height: 100%;
     min-height: 100%;
     overflow-x: hidden;
 }
@@ -102,6 +103,55 @@ img {
 .pull-left {
     float: left;
 }
+
+/* font size
+-------------------------- */
+.fs16 {
+    font-size: @fs16;
+}
+
+.fs20 {
+    font-size: @fs20;
+}
+
+.fs24 {
+    font-size: @fs24;
+}
+
+.fs28 {
+    font-size: @fs28;
+}
+
+.fs32 {
+    font-size: @fs32;
+}
+
+.fs36 {
+    font-size: @fs36;
+}
+
+.fs40 {
+    font-size: @fs40;
+}
+
+.fs48 {
+    font-size: @fs48;
+}
+
+.fwb {
+    font-weight: bold;
+}
+
+/* Colors
+-------------------------- */
+.color-primary {
+    color: @color-primary;
+}
+
+.color-tiffany-blue {
+    color: @color-main;
+}
+
 // ----------- jczzq --------------
 * {
     box-sizing: border-box;
@@ -188,6 +238,17 @@ div.horizontal-line {
     display: block;
     width: 100%;
 }
+.btn-finish{
+    display: inline-block;
+    width: 150px;
+    height: 45px;
+    line-height: 45px;
+    font-size: @fs32;
+    border-radius: 25px;
+    color: white;
+    text-align: center;
+    background-color: @color-main;
+}
 .background-contain {
     background-repeat: no-repeat;
     background-position: center;
@@ -211,15 +272,6 @@ div.horizontal-line {
     transform: translateY(-10px);
     opacity: 0;
 }
-.btn-finish{
-    display: inline-block;
-    width: 150px;
-    height: 45px;
-    line-height: 45px;
-    font-size: @fs32;
-    border-radius: 25px;
-    color: white;
-    text-align: center;
-    background-color: @color-main;
-}
+
 // ----------- jczzq --------------
+
