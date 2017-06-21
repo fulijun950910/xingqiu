@@ -33,7 +33,7 @@ cooking.set({
         ];
     },
     publicPath: '/',
-    assetsPath: 'static',
+    // assetsPath: 'static',
     urlLoaderLimit: 10000,
     extractCSS: '[name].[contenthash:7].css',
     alias: {

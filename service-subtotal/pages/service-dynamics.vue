@@ -1,11 +1,11 @@
 <template>
     <div class="container">
-        <div class="mask" v-if="!vm.search.statu" v-on:click="searchStatu()">
+        <div class="mask" v-if="vm.mask" v-on:click="searchStatu()">
         </div>
         <div class="top-bar">
             <div layout="row" layout-align="start center" flex v-if="vm.search.statu">
-                <a class="bar-btn border-r" layout="row" layout-align="center center" flex>
-                    <div v-if="!vm.search.main" v-on:click="searchStatu()">
+                <a class="bar-btn border-r" layout="row" layout-align="center center" flex v-on:click="searchStatu()">
+                    <div v-if="!vm.search.main">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-search2"></use>
                         </svg>
@@ -14,7 +14,7 @@
                     <span v-if="vm.search.main" flex class="text-center"> 
                     {{vm.search.main}}
                      </span>
-                    <span v-on:click="searchStatu()" v-if="vm.search.main">
+                    <span v-on:click.stop="clearSearch()" v-if="vm.search.main">
                     <svg class="icon icon-close-grey icon-margin" aria-hidden="true">
                         <use xlink:href="#icon-close"></use>
                     </svg>                         
@@ -47,11 +47,11 @@
         <div class="placeholder" flex>
         </div>
         <div class="dynamics">
-            <div class="div-box">
+            <div class="div-box" v-for="i in 10">
                 <div class="title" layout="row" layout-align="space-between center">
                     <div class="user" layout="row" layout-align="center center">
                         <span class="view">
-                            <img src="" alt="">
+                            <img  src="../assets/imgs/service.png" alt="">
                         </span>
                         <div>
                             <h3>NO:007</h3>
@@ -73,12 +73,9 @@
                     客户服务不错
                 </div>
                 <div class="main-img" layout="row" layout-align="space-between center" flex-wrap="wrap">
-                    <span flex="30"></span>
-                    <span flex="30"></span>
-                    <span flex="30"></span>
-                    <span flex="30"></span>
-                    <span flex="30"></span>
-                    <span flex="30"></span>
+                    <span flex="30">
+                        <img  src="../assets/imgs/huan.png" height="296" width="288" alt="">
+                    </span>
                 </div>
                 <div class="box-bottom" flex layout="row" layout-align="start center">
                     <span>昨天05：00 PM</span>
@@ -87,28 +84,35 @@
                 </div>
             </div>
         </div>
-
+        <bottom-menu @click="link" :click-able="employeeList" :flex="vm.flex"></bottom-menu>
         <!-- 编辑 -->
         <div class="btn-fixed btn-edit" @click="$router.push({name:'member-maintain'})">
             <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-edit"></use>
             </svg>
         </div>
-        <div class="btn-fixed btn-go-top">
+        <div class="btn-fixed btn-go-top" v-on:click="toTop">
             <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-top"></use>
             </svg>
         </div>
     </div>
 </template>
-    <bottom-menu></bottom-menu>
 <script>
-import bottom_menu from 'components/bottom-menu';
+// 引用底部的菜单
+import Vue from 'vue';
+import $ from 'jquery';
+import {
+    Lazyload
+} from 'mint-ui';
+import bottomMenu from 'components/bottom-menu';
+Vue.use(Lazyload);
 export default {
     name: 'service-dynamics',
     components: {
-        'bottom-menu': bottom_menu
+        bottomMenu
     },
+
     data() {
         return {
             vm: {
@@ -135,27 +139,71 @@ export default {
                     statu: true,
                     text: '测试文字',
                     main: ''
-                }
+                },
+                flex: 25,
+                mask: false,
+                scroll: ''
             }
 
         };
     },
     methods: {
-        searchStatu: function() { // 显示/隐藏搜索详情
+        // 显示/隐藏搜索详情
+        searchStatu() {
             this.vm.search.statu = !this.vm.search.statu;
+            this.vm.mask = !this.vm.mask;
         },
-        backMain: function(item) {
+        backMain(item) {
             this.vm.search.main = item.name;
             this.searchStatu();
+        },
+        link(index) {
+            switch (index) {
+                case 0:
+                    this.$router.back();
+                    break;
+                case 1:
+                    this.$router.back();
+                    break;
+                case 2:
+                    this.$router.back();
+                    break;
+                case 3:
+                    this.$router.back();
+            }
+        },
+        // 清除显示的员工
+        clearSearch() {
+            this.vm.search.main = null;
+        },
+        // 点击返回顶部
+        toTop() {
+            $('.container').animate({
+                scrollTop: 0
+            }, 500);
+        },
+        // container的scrollTop
+        containerScrollTop() {
+            this.vm.scroll = $('.container').scrollTop;
+            // if (this.vm.scroll > $(window).height) {
+            alert(this.vm.scroll);
+            // };
         }
+    },
+    mounted() {
+        window.addEventListener('vm.scroll', this.containerScrollTop);
     }
 };
 </script>
 <style lang="less">
 @import '~styles/_agile.less';
 .container {
-    min-height: 100vh;
+    min-height: 100%;
     background: @bg-gray;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     .mask {
         position: fixed;
         top: 0;
@@ -215,6 +263,7 @@ export default {
             max-height: 220px;
             overflow-y: scroll;
             overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
         }
         .employee-list li {
             padding: @l16 * 2;
@@ -229,6 +278,7 @@ export default {
     }
     .dynamics {
         background: @bg-gray;
+        padding-bottom: 59px;
         .div-box {
             background: @white;
             padding: 0 @l16;
@@ -245,7 +295,7 @@ export default {
                     border-radius: 100%;
                     overflow: hidden;
                     margin-right: @l16;
-                    img {
+                    img[lazy=loading] {
                         max-width: 100%;
                         max-height: 100%;
                         min-height: 100%;
@@ -257,7 +307,7 @@ export default {
                     font-weight: normal;
                     color: @extra-light-black;
                 }
-                img {
+                img[lazy=loading] {
                     display: block;
                     max-height: 100%;
                     max-width: 100%;
@@ -272,10 +322,13 @@ export default {
                 span {
                     width: 106.5px;
                     height: 110.95px;
-                    background: #000;
                     margin-bottom: 2 * @l16;
                     flex-wrap: wrap;
                     overflow: hidden;
+                    img {
+                        max-width: 100%;
+                        max-height: 100%;
+                    }
                 }
             }
             .text-type {
@@ -302,13 +355,12 @@ export default {
             }
         }
     }
-    
-    .btn-fixed{
+    .btn-fixed {
         position: fixed;
         border-radius: 50%;
         text-align: center;
-        z-index: 10086;
-        &.btn-edit{
+        z-index: 1;
+        &.btn-edit {
             bottom: 40vw;
             right: 5vw;
             height: 14vw;
@@ -319,7 +371,7 @@ export default {
             color: white;
             box-shadow: 0 0 15px 1px fade(@color-primary, 50%);
         }
-        &.btn-go-top{
+        &.btn-go-top {
             font-size: @fs40;
             bottom: 25vw;
             right: 7vw;
