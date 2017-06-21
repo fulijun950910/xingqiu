@@ -22,9 +22,7 @@
             </div>
             <div class="c-card-call text-right ft-light"  flex="30">
                 <span class="btn btn-xs ft-light">
-                    <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-tel-alt"></use>
-                    </svg> 联系Ta
+                    <m-icon xlink="#icon-tel-alt"></m-icon> 联系Ta
                 </span>
             </div>
         </div>
@@ -46,7 +44,7 @@
             <mt-cell title="添加预约提醒">
                 <mt-switch v-model="isWran"></mt-switch>
             </mt-cell>
-            <transition name="slide-fade">
+            <transition name="slide-up">
                 <div v-show="isWran" class="c-warn-content">
                     <textarea rows="3" maxlength="200" 
                     placeholder="请输入要提醒自己的话。
@@ -84,6 +82,7 @@
         components: {
             'm-tags': require('components/m-tags'),
             'm-pictures': require('components/m-pictures'),
+            'm-icon': require('components/m-icon'),
             [Switch.name]: Switch,
             [Cell.name]: Cell,
             [DatetimePicker.name]: DatetimePicker,
