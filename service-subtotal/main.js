@@ -19,7 +19,9 @@ import 'filter/filter';
 import 'directives/directive';
 import 'styles/fonts/iconfont';
 import knife from 'vendor/knife';
+import mIcon from 'components/m-icon';
 Vue.prototype.$knife = knife;
+Vue.component('m-icon', mIcon);
 
 if ('addEventListener' in document) {
     document.addEventListener('DOMContentLoaded', function() {
