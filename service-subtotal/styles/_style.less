@@ -263,16 +263,54 @@ div.horizontal-line {
     background-size: cover;
 }
 // 过渡动画 cubic-bezier(1.0, 0.5, 0.8, 1.0);
-.slide-fade-enter-active {
+// 下出上入
+.slide-toggle-enter-active, 
+.slide-toggle-leave-active {
     transition: all .3s ease;
 }
-.slide-fade-leave-active {
-    transition: all .3s ease;
-}
-.slide-fade-enter, .slide-fade-leave-active {
+.slide-toggle-enter {
     transform: translateY(-10px);
     opacity: 0;
 }
-
+.slide-toggle-leave-active {
+    transform: translateY(10px);
+    opacity: 0;
+}
+// 上出上入
+.slide-up-enter-active, 
+.slide-up-leave-active {
+    transition: all .3s ease;
+}
+.slide-up-enter ,
+.slide-up-leave-active {
+    transform: translateY(-10px);
+    opacity: 0;
+}
+// 左出右入
+.slide-left-enter-active, 
+.slide-left-leave-active {
+    transition: all .3s ease;
+}
+.slide-left-enter {
+    transform: translateX(10px);
+    opacity: 0;
+}
+.slide-left-leave-active {
+    transform: translateX(-10px);
+    opacity: 0;
+}
+// 右出左入
+.slide-right-enter-active, 
+.slide-right-leave-active {
+    transition: all .3s ease;
+}
+.slide-right-enter {
+    transform: translateX(-10px);
+    opacity: 0;
+}
+.slide-right-leave-active {
+    transform: translateX(10px);
+    opacity: 0;
+}
 // ----------- jczzq --------------
 

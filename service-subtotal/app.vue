@@ -1,5 +1,5 @@
 <template>
-    <transition name="slide-fade" mode="out-in">
+    <transition :name="transitionName" mode="out-in">
         <keep-alive>
             <router-view></router-view>
         </keep-alive>
@@ -9,7 +9,20 @@
 export default {
     name: 'app',
     data() {
-        return {};
+        return {
+            transitionName: 'slide-right'
+        };
+    },
+    watch: {
+        '$route'(to, from) {
+            const toLevel = to.meta.level;
+            const fromLevel = from.meta.level;
+            if (fromLevel < toLevel) {
+                this.transitionName = 'slide-left';
+            } else {
+                this.transitionName = 'slide-right';
+            }
+        }
     },
     mounted() {
         window.addEventListener('resize', this.handleResize);
