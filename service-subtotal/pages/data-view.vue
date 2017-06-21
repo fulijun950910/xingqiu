@@ -19,7 +19,7 @@
                 <p class="fs32 mb-32 fwb c4">客户关怀 条数</p>
                 <p class="c3">记录所有员工主动联系</p>
                 <p class="mb-24 c3">客户后的备注</p>
-                <button class="check-btn">查看</button>
+                <button class="check-btn" @click="$router.push({name:'member-list'})">查看</button>
             </div>
         </div>
         <span class="b-line"></span>
@@ -38,16 +38,17 @@
                 </p>
                 <p>已记录</p>
             </div>
-            <div class="link-btn">
+            <div class="link-btn" @click="$router.push({name:'service-record-list'})">
                 <p>
                     <m-icon xlink="#icon-close"></m-icon>
                     {{vm.unvalued | currency('', 0)}}
                 </p>
-                <p>未记录</p>
+                <p layout="row" layout-align="space-between center">
+                    未记录
+                    <m-icon xlink="#icon-right-bold"></m-icon>
+                </p>
             </div>
         </div>
-        <!--         <p @click="$router.push({name:'member-list'})">客户关怀数据</p>
-        <p @click="$router.push({name:'service-record-list'})">服务小计数据</p> -->
     </div>
 </template>
 <script>
@@ -131,6 +132,9 @@ export default {
         :nth-child(2) {
             .c5;
             font-size: @fs24;
+            .icon {
+                .c6;
+            }
         }
         .link-btn {
             width: 268px / 2;
