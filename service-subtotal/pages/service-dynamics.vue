@@ -310,7 +310,7 @@ export default {
         z-index: 10086;
         &.btn-edit{
             bottom: 40vw;
-            right: 7vw;
+            right: 5vw;
             height: 14vw;
             line-height: 14vw;
             width: 14vw;
@@ -322,7 +322,7 @@ export default {
         &.btn-go-top{
             font-size: @fs40;
             bottom: 25vw;
-            right: 10vw;
+            right: 7vw;
             height: 10vw;
             line-height: 10vw;
             width: 10vw;

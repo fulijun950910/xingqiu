@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="c-card-call text-right ft-light"  flex="30">
-                <span class="btn btn-xs">
+                <span class="btn btn-xs ft-light">
                     <svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-tel-alt"></use>
                     </svg> 联系Ta
