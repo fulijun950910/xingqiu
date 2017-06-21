@@ -2,8 +2,8 @@
     <div>
         <!-- 数据查看页面 -->
         数据查看页面
-        <p @click="$router.push({name:'member-list'})">客户关怀数据</p>
-        <p @click="$router.push({name:'service-record-list'})">服务小计数据</p>
+        <p @click="$router.push({name:'return-visit-ranking-list'})">客户关怀数据</p>
+        <p @click="$router.push({name:'unrecorded-service-list'})">服务小计数据</p>
     </div>
 </template>
 <script>

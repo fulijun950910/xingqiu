@@ -12,7 +12,7 @@
                             <span class="ft-light">12345</span>
                         </span>
                     </p>
-                    <p class="c-card-subtitle ft-light" layout="row" layout-align="start center">
+                    <p class="c-card-subtitle" layout="row" layout-align="start center">
                         <span class="dian" flex="10">●</span> 
                         <span class="ft-light no-wrap" flex="40">黄金黄金会员会员</span>&nbsp;&nbsp;
                         <span class="dian" flex="10">●</span> 
