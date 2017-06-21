@@ -25,6 +25,7 @@ has-counter | 是否需要底部状态栏 | Number | false  | true
 event
 事件名 | 描述 |参数
 ---- |------ |----
+add | 添加某张图片 | pic：要添加的图片, index：插入指定的下标）
 remove | 移除某张图片 | imgId：图片在列表中的下标
 
 ### m-tags ###
@@ -36,7 +37,8 @@ tags | 标签列表  | Array | true  | [ ]
 event
 事件名 | 描述 |参数
 ---- |------ |----
-remove | 移除某个标签 | tagId：标签下标
+add | 添加某个标签 | tag:要添加的标签对象
+remove | 移除某个标签 | tag:要移除的标签对象
 
 ### m-picture ###
 API

@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="c-card-call text-right ft-light"  flex="30">
-                <span class="btn btn-xs">
+                <span class="btn btn-xs ft-light">
                     <svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-tel-alt"></use>
                     </svg> 联系Ta
@@ -38,7 +38,8 @@
         </div>
 
         <!-- 配图 -->
-        <m-pictures class="c-picture" :pictures="pictureList" @remove="removePicture"></m-pictures>
+        <m-pictures class="c-picture" :column="3" :pictures="pictureList" 
+        @add="pictureAdd" @remove="pictureRemove"></m-pictures>
 
         <!-- 日期提醒 -->
         <div class="c-warn">
@@ -91,19 +92,7 @@
         data() {
             return {
                 // 图片列表
-                pictureList: [{
-                    base64: null,
-                    id: null
-                }, {
-                    base64: null,
-                    id: null
-                }, {
-                    base64: null,
-                    id: null
-                }, {
-                    base64: null,
-                    id: null
-                }],
+                pictureList: [],
                 tagList: [],
                 isWran: false,
                 warnDate: new Date().formatDate('yyyy-MM-dd hh:mm')
@@ -115,8 +104,16 @@
                 this.$router.push({name: 'record-finish', query: {type: this.type}});
             },
             // 删除图片
-            removePicture(cid) {
+            pictureRemove(cid) {
                 this.pictureList.splice(cid, 1);
+            },
+            // 添加图片（pic：要添加的图片, index：插入指定的下标）
+            pictureAdd(pic, index) {
+                if (index === null) {
+                    this.pictureList.push(pic);
+                } else {
+                    this.pictureList.splice(index + 1, 0, pic);
+                }
             },
             // 添加标签
             addTag(tag) {
@@ -140,11 +137,6 @@
         width: 100%;
         padding: 0;
         margin: 0;
-    }
-    .txt-tips{
-        color: @extra-light-gray;
-        text-align: right;
-        padding: 10px @l32;
     }
     // 头部名片
     .c-card{
