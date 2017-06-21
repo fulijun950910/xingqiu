@@ -1,7 +1,7 @@
 <template>
     <!-- 图片 -->
     <div class="ava"  layout="column" layout-align="center center">
-        {{ index + 1}}
+        <svg class="icon" aria-hidden="true">  <use xlink:href="#icon-image"></use>  </svg>
         <img class="img-content" :src="picture | fileSrc" v-show="picture.base64 || picture.id" alt="">
         <image-slice v-model="picture"  @click="submitPicture"  :proportion="proportion"></image-slice>
     </div>

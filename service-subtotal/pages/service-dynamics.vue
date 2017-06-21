@@ -20,7 +20,7 @@
                     </svg>                         
                      </span>
                 </a>
-                <a class="bar-btn see-data" layout="row" layout-align="center center" flex>
+                <a class="bar-btn see-data" layout="row" layout-align="center center" flex @click="$router.push({name: 'data-view'})">
                     <svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-shuju"></use>
                     </svg>
@@ -87,6 +87,18 @@
                 </div>
             </div>
         </div>
+
+        <!-- 编辑 -->
+        <div class="btn-fixed btn-edit" @click="$router.push({name:'member-maintain'})">
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-edit"></use>
+            </svg>
+        </div>
+        <div class="btn-fixed btn-go-top">
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-top"></use>
+            </svg>
+        </div>
     </div>
 </template>
     <bottom-menu></bottom-menu>
@@ -142,6 +154,7 @@ export default {
 <style lang="less">
 @import '~styles/_agile.less';
 .container {
+    min-height: 100vh;
     background: @bg-gray;
     .mask {
         position: fixed;
@@ -220,7 +233,7 @@ export default {
             background: @white;
             padding: 0 @l16;
             padding-top: @l16 * 2;
-            margin-bottom: 2 * @l16;
+            margin-top: 2 * @l16;
             position: relative;
             .title {
                 position: relative;
@@ -284,6 +297,38 @@ export default {
                     color: #4E4B73;
                 }
             }
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+    }
+    
+    .btn-fixed{
+        position: fixed;
+        border-radius: 50%;
+        text-align: center;
+        z-index: 10086;
+        &.btn-edit{
+            bottom: 40vw;
+            right: 5vw;
+            height: 14vw;
+            line-height: 14vw;
+            width: 14vw;
+            font-size: @fs48;
+            background-color: @color-primary;
+            color: white;
+            box-shadow: 0 0 15px 1px fade(@color-primary, 50%);
+        }
+        &.btn-go-top{
+            font-size: @fs40;
+            bottom: 25vw;
+            right: 7vw;
+            height: 10vw;
+            line-height: 10vw;
+            width: 10vw;
+            background-color: @extra-shadow;
+            color: white;
+            box-shadow: 0 0 15px 1px @extra-shadow;
         }
     }
 }
