@@ -1,6 +1,6 @@
 <template>
     <mt-popup v-model="currentValue" position="bottom" class="picker-panel">
-        <mt-picker :show-toolbar="true" :slots="slots" @change="onValuesChange">
+        <mt-picker :show-toolbar="true" :slots="slots" @change="onValuesChange" :value-key="valueKey">
             <div layout="row" layout-align="space-between center" class="toolbar">
                 <a class="steel-gray picker-btn" @click="currentValue = false;">取消</a>
                 <a class="picker-btn" @click="confirm">确定</a>
@@ -30,14 +30,15 @@ export default {
             default: []
         },
         value: Boolean,
-        selectedItem: null
+        selectedItem: null,
+        valueKey: null
     },
     methods: {
         onValuesChange(picker, values) {
             this.changeItem = values;
         },
         confirm() {
-            this.$emit('update:selectedItem', this.$knife.deepCopy(this.changeItem, []));
+            this.$emit('change', this.$knife.deepCopy(this.changeItem, []));
             this.currentValue = false;
         }
     },
