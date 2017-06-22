@@ -36,6 +36,8 @@ const router = new VueRouter({
     routes
 });
 
+store.commit('UPDATE_LOCAL');
+
 router.beforeEach(({ meta, path }, from, next) => {
     // if 登录页 或者 注册页 || 已登录 并且 营销版
     // else 跳转登录页
