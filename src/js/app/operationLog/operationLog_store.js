@@ -418,6 +418,16 @@ app.changeDetail = {
                 { name: "附加费", value: '￥' + app.tools.toThousands(data.otherIncome) },
             ]
         }, {
+            name: "客次客数统计",
+            rows: [
+                { name: "客次", value: data.allCustomer + '人' },
+                { name: "客数", value: data.personCount + '人' },
+                { name: "会员客次", value: data.allMemberCustomer + '人' },
+                { name: "散客客次", value: data.allCustomer - data.allMemberCustomer + '人' },
+                { name: "新增会员持卡", value: data.newMemberHasCard + '张' },
+                { name: "新增会员无卡", value: data.newMemberNoCard + '张' },
+            ]
+        }, {
             name: "收入来源分析",
             rows: [
                 { name: "项目数量", value: data.itemCounts + '个' },

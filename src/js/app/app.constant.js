@@ -39,10 +39,10 @@ app.constant = {
     ],
     //券状态
     TICKET_STATUS: [
-        { name: '未验券', code: 1 },
-        { name: '不可用', code: 2 },
-        { name: '已过期', code: 3 },
-        { name: '已使用', code: 4 }
+        { name: '未验券', code: '1' },
+        { name: '不可用', code: '2' },
+        { name: '已过期', code: '3' },
+        { name: '已使用', code: '4' }
         // { name: '', code: "" }
     ],
     //订单状态
@@ -94,12 +94,11 @@ app.constant = {
         //{ name: '取消', code: "50" },
         { name: '退单', code: "61" },
         //{ name: '退卡', code: "62" },
-        { name: '退款', code: "69" },
+        //{ name: '退款', code: "69" },
         { name: '补卡', code: "70" },
         { name: '已付款', code: "20" },
-        //{ name: '待付款-上钟', code: "12" },
-        //{ name: '待付款-未上钟', code: "11" },
-        //{ name: '待付款-服务结束', code: "13" }
+        // 2017-6-16 jczzq [上钟,未上钟,服务结束]前端归一种状态
+        { name: '待付款', code: "12,11,13" }
     ],
     //
     IS_APPOINT: [

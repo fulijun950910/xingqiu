@@ -173,6 +173,7 @@ app.index = {
         var data = {
             'merchantId': employee.merchantId,
             'employeeId': employee.id,
+            'orderStatus': '20'
         }
         var memberData = {
             //门店列表

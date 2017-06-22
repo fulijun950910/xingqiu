@@ -123,6 +123,7 @@ app.employeeEcharts = {
         }
         results.storeId = orderPerformanceList.storeId;
         results.storeList = employee.storeList;
+        results.storeList.unshift({id:'-1', name:'全部门店'})
         results.orderbyType = orderPerformanceList.orderByType;
         results.orderBy = orderPerformanceList.orderBy;
         app.tools.changeTitle('员工业绩分析');
@@ -177,8 +178,12 @@ app.employeeEcharts = {
     orderEmployeePerformance: function(data) {
         return new Promise(function(resolve, reject) {
             app.startLoading();
+            var data_copy = JSON.parse(JSON.stringify(data));
+            if (data_copy && data_copy.storeId == -1){
+                delete data_copy.storeId;
+            }
             app.api.echarts.orderEmployeePerformanceList({
-                data: data,
+                data: data_copy,
                 success: function(results) {
                     app.endLoading();
                     if (results.success) {
