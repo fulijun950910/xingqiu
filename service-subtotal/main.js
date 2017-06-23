@@ -14,13 +14,16 @@ import routes from 'config/routes';
 import FastClick from 'fastclick';
 import touch from 'directives/touch';
 import store from './store';
+import moment from 'moment';
 import 'styles/_style.less';
 import 'filter/filter';
+import 'filter/moment-filter';
 import 'directives/directive';
 import 'styles/fonts/iconfont';
 import knife from 'vendor/knife';
 import mIcon from 'components/m-icon';
 Vue.prototype.$knife = knife;
+Vue.prototype.$moment = moment;
 Vue.component('m-icon', mIcon);
 
 if ('addEventListener' in document) {
