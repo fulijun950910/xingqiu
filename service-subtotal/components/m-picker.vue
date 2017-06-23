@@ -38,7 +38,7 @@ export default {
             this.changeItem = values;
         },
         confirm() {
-            this.$emit('change', this.$knife.deepCopy(this.changeItem, []));
+            this.$emit('confirm', this.$knife.deepCopy(this.changeItem, []));
             this.currentValue = false;
         }
     },

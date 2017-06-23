@@ -50,7 +50,7 @@
             </div>
         </div>
         <bottom-menu class="bottom-menu" @click="toolbarClick" :flex="1" :click-able="clickAble"></bottom-menu>
-        <m-picker v-model="popupVisible" :slots="slots" :selected-item.sync="selectedStore" value-key="name" @change="changeStore"></m-picker>
+        <m-picker v-model="popupVisible" :slots="slots" :selected-item.sync="selectedStore" value-key="name" @confirm="changeStore"></m-picker>
     </div>
 </template>
 <script>
@@ -125,7 +125,6 @@ export default {
             this.loadData();
         },
         toolbarClick(index, item) {
-            console.log(item.value);
             // TODO: change
             switch (item.value) {
                 case '1':
