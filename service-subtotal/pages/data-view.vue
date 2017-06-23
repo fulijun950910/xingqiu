@@ -3,8 +3,8 @@
         <div class="header">
             <p class="text-center fs32 extra-light-black">{{selectedStore.name}}</p>
             <div layout="row" layout-align="center center" class="fs28 color-gray">
-                <p class="mr-40">{{vm.timeInterval.startDate}}</p>
-                <p>{{vm.timeInterval.endDate}}</p>
+                <p class="mr-40">{{vm.timeInterval.startDate | amDateFormat('YYYY-MM-DD')}}</p>
+                <p>{{vm.timeInterval.endDate | amDateFormat('YYYY-MM-DD')}}</p>
             </div>
         </div>
         <span class="b-line"></span>
@@ -51,13 +51,20 @@
         </div>
         <bottom-menu class="bottom-menu" @click="toolbarClick" :flex="1" :click-able="clickAble"></bottom-menu>
         <m-picker v-model="storePickerVisible" :slots="slots" :selected-item.sync="selectedStore" value-key="name" @confirm="changeStore"></m-picker>
+        <mt-actionsheet :actions="actions" v-model="sheetVisible" cancel-text=""></mt-actionsheet>
         <m-date-range-picker v-model="dateRangeVisible" :start-date.sync="vm.timeInterval.startDate" :end-date.sync="vm.timeInterval.endDate" @confirm="changeDateRange"></m-date-range-picker>
     </div>
 </template>
 <script>
+import Vue from 'vue';
+import {
+    Actionsheet
+} from 'mint-ui';
+Vue.component(Actionsheet.name, Actionsheet);
 import mPicker from 'components/m-picker';
 import bottomMenu from 'components/bottom-menu';
 import mDateRangePicker from 'components/m-date-range-picker';
+
 export default {
     name: 'data-view',
     components: {
@@ -67,10 +74,12 @@ export default {
     },
     data() {
         return {
-            storePickerVisible: false,
-            dateRangeVisible: false,
             slots: [],
+            actions: [],
             selectedStore: {},
+            sheetVisible: false,
+            dateRangeVisible: false,
+            storePickerVisible: false,
             vm: {
                 selectedStoreId: this.$route.query.storeId,
                 timeInterval: {
@@ -97,7 +106,7 @@ export default {
             }]
         };
     },
-    created() {
+    mounted() {
         var tempStores = this.$store.state.storeList;
         var tempIndex = 0;
         if (tempStores.length) {
@@ -118,10 +127,45 @@ export default {
             textAlign: 'center',
             defaultIndex: tempIndex
         });
+        var tempFormat = 'YYYY-MM-DD HH:mm:ss';
+        this.actions = [{
+            name: '今日',
+            method: this.selectedDateRange,
+            value: {
+                startDate: this.$moment().startOf('day').format(tempFormat),
+                endDate: this.$moment().endOf('day').format(tempFormat)
+            }
+        }, {
+            name: '本周',
+            method: this.selectedDateRange,
+            value: {
+                startDate: this.$moment().startOf('isoWeek').format(tempFormat),
+                endDate: this.$moment().endOf('isoWeek').format(tempFormat)
+            }
+        }, {
+            name: '本月',
+            method: this.selectedDateRange,
+            value: {
+                startDate: this.$moment().startOf('month').format(tempFormat),
+                endDate: this.$moment().endOf('month').format(tempFormat)
+            }
+        }, {
+            name: '自定义',
+            method: this.selectedDateRange
+        }];
     },
     methods: {
         loadData() {
             // TODO: 加载数据
+        },
+        selectedDateRange(item) {
+            var tempItem = item.value;
+            if (tempItem) {
+                this.vm.timeInterval = tempItem;
+                this.loadData();
+            } else {
+                this.dateRangeVisible = true;
+            }
         },
         changeStore(item) {
             this.selectedStore = item[0];
@@ -139,7 +183,7 @@ export default {
                     this.storePickerVisible = true;
                     break;
                 case '3':
-                    this.dateRangeVisible = true;
+                    this.sheetVisible = true;
                     break;
             }
         }
