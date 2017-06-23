@@ -161,6 +161,7 @@ export default {
         selectedDateRange(item) {
             var tempItem = item.value;
             if (tempItem) {
+                debugger;
                 this.vm.timeInterval = tempItem;
                 this.loadData();
             } else {
