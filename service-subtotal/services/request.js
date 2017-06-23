@@ -19,6 +19,9 @@ export default function(url, data, method, messageFlag = true) {
             case 401:
             case 403:
                 break;
+            case 404:
+                // window.router.push({name: 'error', params: {code: 404}});
+                break;
             default:
                 deferred.reject(error);
                 break;

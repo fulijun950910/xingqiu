@@ -6,9 +6,9 @@
                 <a class="picker-btn" @click="confirm">确定</a>
             </div>
             <div layout="row" layout-align="space-around center" class="date-content">
-                <mt-button @click="showRangeDate('start_date')" plain>2000-01-01</mt-button>
+                <mt-button @click="showRangeDate('start_date')" plain>{{start_date | amDateFormat(format)}}</mt-button>
                 <span>-</span>
-                <mt-button @click="showRangeDate('end_date')" plain>2000-01-01</mt-button>
+                <mt-button @click="showRangeDate('end_date')" plain>{{end_date | amDateFormat(format)}}</mt-button>
             </div>
         </mt-popup>
         <mt-datetime-picker ref="start_date" v-model="start_date" type="date" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日" @confirm="confirmRangeDate">
@@ -30,30 +30,41 @@ Vue.component(Picker.name, Picker);
 Vue.component(Button.name, Button);
 Vue.component(DatetimePicker.name, DatetimePicker);
 
+/**
+ * sample:
+ * <m-date-range-picker v-model="dateRangeVisible" :start-date.sync="startDate" :end-date.sync="endDate" @confirm="confirm"></m-date-range-picker>
+ */
 export default {
-    name: 'm-picker',
+    name: 'm-date-range-picker',
     data() {
         return {
             changeType: null,
-            start_date: this.startDate,
-            end_date: this.endDate
+            start_date: this.$moment(this.startDate).toDate(),
+            end_date: this.$moment(this.endDate).toDate()
         };
     },
     props: {
         value: Boolean,
         startDate: null,
-        endDate: null
+        endDate: null,
+        format: {
+            type: String,
+            default: 'YYYY-MM-DD'
+        }
     },
     methods: {
         onValuesChange(picker, values) {
             this.changeItem = values;
         },
         confirmRangeDate(item) {
-            this[this.changeType] = item;
+            this[this.changeType] = this.$moment(item).toDate();
         },
         confirm() {
-            this.$emit('update:startDate', this.start_date);
-            this.$emit('update:endDate', this.end_date);
+            var tempStartDate = this.$moment(this.start_date).format(this.format);
+            var tempEndDate = this.$moment(this.end_date).format(this.format);
+            this.$emit('confirm', tempStartDate, tempEndDate);
+            this.$emit('update:startDate', tempStartDate);
+            this.$emit('update:endDate', tempEndDate);
             this.currentValue = false;
         },
         showRangeDate(picker) {

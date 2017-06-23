@@ -3,11 +3,11 @@
         <div class="header">
             <p class="text-center fs32 extra-light-black">{{selectedStore.name}}</p>
             <div layout="row" layout-align="center center" class="fs28 color-gray">
-                <p class="mr-40">{{vm.timeInterval.startDate}}</p>
-                <p>{{vm.timeInterval.endDate}}</p>
+                <p class="mr-40">{{vm.timeInterval.startDate | amDateFormat('YYYY-MM-DD')}}</p>
+                <p>{{vm.timeInterval.endDate | amDateFormat('YYYY-MM-DD')}}</p>
             </div>
         </div>
-        <span class="b-line"></span>
+        <span class="ml-40 h-line"></span>
         <div layout="row" class="pie-panel">
             <div flex="50" layout="row" layout-align="center center" class="pie text-center">
                 <img :src="require('assets/imgs/huan.png')">
@@ -22,7 +22,7 @@
                 <button class="check-btn" @click="$router.push({name:'member-list'})">查看</button>
             </div>
         </div>
-        <span class="b-line"></span>
+        <span class="ml-40 h-line"></span>
         <div layout="row" layout-align="space-between center" class="record fs32">
             <p class="extra-light-black">
                 <m-icon xlink="#icon-fuwu"></m-icon>
@@ -50,29 +50,41 @@
             </div>
         </div>
         <bottom-menu class="bottom-menu" @click="toolbarClick" :flex="1" :click-able="clickAble"></bottom-menu>
-        <m-picker v-model="popupVisible" :slots="slots" :selected-item.sync="selectedStore" value-key="name" @confirm="changeStore"></m-picker>
+        <m-picker v-model="storePickerVisible" :slots="slots" :selected-item.sync="selectedStore" value-key="name" @confirm="changeStore"></m-picker>
+        <mt-actionsheet :actions="actions" v-model="sheetVisible" cancel-text=""></mt-actionsheet>
+        <m-date-range-picker v-model="dateRangeVisible" :start-date.sync="vm.timeInterval.startDate" :end-date.sync="vm.timeInterval.endDate" @confirm="changeDateRange"></m-date-range-picker>
     </div>
 </template>
 <script>
+import Vue from 'vue';
+import {
+    Actionsheet
+} from 'mint-ui';
+Vue.component(Actionsheet.name, Actionsheet);
 import mPicker from 'components/m-picker';
 import bottomMenu from 'components/bottom-menu';
+import mDateRangePicker from 'components/m-date-range-picker';
 
 export default {
     name: 'data-view',
     components: {
         mPicker,
-        bottomMenu
+        bottomMenu,
+        mDateRangePicker
     },
     data() {
         return {
-            popupVisible: false,
             slots: [],
+            actions: [],
             selectedStore: {},
+            sheetVisible: false,
+            dateRangeVisible: false,
+            storePickerVisible: false,
             vm: {
                 selectedStoreId: this.$route.query.storeId,
                 timeInterval: {
-                    startDate: '2017-02-08',
-                    endDate: '2017-05-08'
+                    startDate: this.$moment().format('YYYY-MM-DD HH:mm:ss'),
+                    endDate: this.$moment().format('YYYY-MM-DD HH:mm:ss')
                 },
                 returnVisit: 321321,
                 record: 3321,
@@ -94,7 +106,7 @@ export default {
             }]
         };
     },
-    created() {
+    mounted() {
         var tempStores = this.$store.state.storeList;
         var tempIndex = 0;
         if (tempStores.length) {
@@ -115,25 +127,63 @@ export default {
             textAlign: 'center',
             defaultIndex: tempIndex
         });
+        var tempFormat = 'YYYY-MM-DD HH:mm:ss';
+        this.actions = [{
+            name: '今日',
+            method: this.selectedDateRange,
+            value: {
+                startDate: this.$moment().startOf('day').format(tempFormat),
+                endDate: this.$moment().endOf('day').format(tempFormat)
+            }
+        }, {
+            name: '本周',
+            method: this.selectedDateRange,
+            value: {
+                startDate: this.$moment().startOf('isoWeek').format(tempFormat),
+                endDate: this.$moment().endOf('isoWeek').format(tempFormat)
+            }
+        }, {
+            name: '本月',
+            method: this.selectedDateRange,
+            value: {
+                startDate: this.$moment().startOf('month').format(tempFormat),
+                endDate: this.$moment().endOf('month').format(tempFormat)
+            }
+        }, {
+            name: '自定义',
+            method: this.selectedDateRange
+        }];
     },
     methods: {
         loadData() {
             // TODO: 加载数据
         },
+        selectedDateRange(item) {
+            var tempItem = item.value;
+            if (tempItem) {
+                this.vm.timeInterval = tempItem;
+                this.loadData();
+            } else {
+                this.dateRangeVisible = true;
+            }
+        },
         changeStore(item) {
             this.selectedStore = item[0];
             this.loadData();
         },
+        changeDateRange() {
+            this.loadData();
+        },
         toolbarClick(index, item) {
-            // TODO: change
             switch (item.value) {
                 case '1':
                     this.$router.go(-1);
                     break;
                 case '2':
-                    this.popupVisible = true;
+                    this.storePickerVisible = true;
                     break;
                 case '3':
+                    this.sheetVisible = true;
                     break;
             }
         }
@@ -215,13 +265,6 @@ export default {
     }
     .bottom-menu {
         z-index: 999;
-    }
-    .b-line {
-        .ml-40;
-        height: 1px;
-        /*no*/
-        display: block;
-        background-color: #E4E4E4;
     }
     .mr-40 {
         margin-right: @l40;
