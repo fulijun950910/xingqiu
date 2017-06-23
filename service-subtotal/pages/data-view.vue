@@ -50,29 +50,32 @@
             </div>
         </div>
         <bottom-menu class="bottom-menu" @click="toolbarClick" :flex="1" :click-able="clickAble"></bottom-menu>
-        <m-picker v-model="popupVisible" :slots="slots" :selected-item.sync="selectedStore" value-key="name" @confirm="changeStore"></m-picker>
+        <m-picker v-model="storePickerVisible" :slots="slots" :selected-item.sync="selectedStore" value-key="name" @confirm="changeStore"></m-picker>
+        <m-date-range-picker v-model="dateRangeVisible" :start-date.sync="vm.timeInterval.startDate" :end-date.sync="vm.timeInterval.endDate" @confirm="changeDateRange"></m-date-range-picker>
     </div>
 </template>
 <script>
 import mPicker from 'components/m-picker';
 import bottomMenu from 'components/bottom-menu';
-
+import mDateRangePicker from 'components/m-date-range-picker';
 export default {
     name: 'data-view',
     components: {
         mPicker,
-        bottomMenu
+        bottomMenu,
+        mDateRangePicker
     },
     data() {
         return {
-            popupVisible: false,
+            storePickerVisible: false,
+            dateRangeVisible: false,
             slots: [],
             selectedStore: {},
             vm: {
                 selectedStoreId: this.$route.query.storeId,
                 timeInterval: {
-                    startDate: '2017-02-08',
-                    endDate: '2017-05-08'
+                    startDate: this.$moment().format('YYYY-MM-DD HH:mm:ss'),
+                    endDate: this.$moment().format('YYYY-MM-DD HH:mm:ss')
                 },
                 returnVisit: 321321,
                 record: 3321,
@@ -124,16 +127,19 @@ export default {
             this.selectedStore = item[0];
             this.loadData();
         },
+        changeDateRange() {
+            this.loadData();
+        },
         toolbarClick(index, item) {
-            // TODO: change
             switch (item.value) {
                 case '1':
                     this.$router.go(-1);
                     break;
                 case '2':
-                    this.popupVisible = true;
+                    this.storePickerVisible = true;
                     break;
                 case '3':
+                    this.dateRangeVisible = true;
                     break;
             }
         }
