@@ -7,7 +7,7 @@
                 <p>{{vm.timeInterval.endDate | amDateFormat('YYYY-MM-DD')}}</p>
             </div>
         </div>
-        <span class="b-line"></span>
+        <span class="ml-40 h-line"></span>
         <div layout="row" class="pie-panel">
             <div flex="50" layout="row" layout-align="center center" class="pie text-center">
                 <img :src="require('assets/imgs/huan.png')">
@@ -22,7 +22,7 @@
                 <button class="check-btn" @click="$router.push({name:'member-list'})">查看</button>
             </div>
         </div>
-        <span class="b-line"></span>
+        <span class="ml-40 h-line"></span>
         <div layout="row" layout-align="space-between center" class="record fs32">
             <p class="extra-light-black">
                 <m-icon xlink="#icon-fuwu"></m-icon>
@@ -265,13 +265,6 @@ export default {
     }
     .bottom-menu {
         z-index: 999;
-    }
-    .b-line {
-        .ml-40;
-        height: 1px;
-        /*no*/
-        display: block;
-        background-color: #E4E4E4;
     }
     .mr-40 {
         margin-right: @l40;
