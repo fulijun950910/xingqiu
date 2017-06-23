@@ -195,6 +195,7 @@ export default {
 .data-view {
     min-height: 100%;
     background-color: @white;
+    padding-bottom: 49 + @l40;
     .header {
         padding-top: @l40;
         padding-bottom: @l40;
