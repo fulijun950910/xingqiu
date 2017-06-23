@@ -1,8 +1,8 @@
 <template>
     <div v-title="'服务数据统计'" class="data-view">
         <div class="header">
-            <p class="text-center fs32 c4">{{vm.selectedStoreId}}</p>
-            <div layout="row" layout-align="center center" class="fs28 c2">
+            <p class="text-center fs32 extra-light-black">{{selectedStore.name}}</p>
+            <div layout="row" layout-align="center center" class="fs28 color-gray">
                 <p class="mr-40">{{vm.timeInterval.startDate}}</p>
                 <p>{{vm.timeInterval.endDate}}</p>
             </div>
@@ -12,19 +12,19 @@
             <div flex="50" layout="row" layout-align="center center" class="pie text-center">
                 <img :src="require('assets/imgs/huan.png')">
                 <span class="vh-center fs40 text-center color-primary fwb ff-number">{{vm.returnVisit | currency('', 0)}}<br>
-                    <span class="fs20 c1">条</span>
+                    <span class="fs20 steel-gray">条</span>
                 </span>
             </div>
             <div flex="50" class="text-right">
-                <p class="fs32 mb-32 fwb c4">客户关怀 条数</p>
-                <p class="c3">记录所有员工主动联系</p>
-                <p class="mb-24 c3">客户后的备注</p>
+                <p class="fs32 mb-32 fwb extra-light-black">客户关怀 条数</p>
+                <p class="dark-gray">记录所有员工主动联系</p>
+                <p class="mb-24 dark-gray">客户后的备注</p>
                 <button class="check-btn" @click="$router.push({name:'member-list'})">查看</button>
             </div>
         </div>
         <span class="b-line"></span>
         <div layout="row" layout-align="space-between center" class="record fs32">
-            <p class="c4">
+            <p class="extra-light-black">
                 <m-icon xlink="#icon-fuwu"></m-icon>
                 全部服务数
             </p>
@@ -49,21 +49,27 @@
                 </p>
             </div>
         </div>
-        <bottom-menu @click="toolbarClick" :flex="1" :click-able="clickAble"></bottom-menu>
+        <bottom-menu class="bottom-menu" @click="toolbarClick" :flex="1" :click-able="clickAble"></bottom-menu>
+        <m-picker v-model="popupVisible" :slots="slots" :selected-item.sync="selectedStore" value-key="name" @change="changeStore"></m-picker>
     </div>
 </template>
 <script>
+import mPicker from 'components/m-picker';
 import bottomMenu from 'components/bottom-menu';
 
 export default {
     name: 'data-view',
     components: {
+        mPicker,
         bottomMenu
     },
     data() {
         return {
+            popupVisible: false,
+            slots: [],
+            selectedStore: {},
             vm: {
-                selectedStoreId: '全部门店',
+                selectedStoreId: this.$route.query.storeId,
                 timeInterval: {
                     startDate: '2017-02-08',
                     endDate: '2017-05-08'
@@ -75,30 +81,61 @@ export default {
             },
             clickAble: [{
                 name: '返回',
+                value: '1',
                 icon: '#icon-left-bold'
             }, {
                 name: '门店',
+                value: '2',
                 icon: '#icon-fangzi-copy'
             }, {
                 name: '时间',
+                value: '3',
                 icon: '#icon-shijian'
             }]
         };
+    },
+    created() {
+        var tempStores = this.$store.state.storeList;
+        var tempIndex = 0;
+        if (tempStores.length) {
+            tempStores.forEach((val, index) => {
+                if (val.id == this.vm.selectedStoreId) {
+                    tempIndex = index;
+                    this.selectedStore = val;
+                }
+            });
+            if (!this.selectedStore || !this.selectedStore.name) {
+                this.selectedStore = tempStores[0];
+            }
+        }
+        this.slots.push({
+            flex: 1,
+            values: tempStores,
+            className: 'slot1',
+            textAlign: 'center',
+            defaultIndex: tempIndex
+        });
     },
     methods: {
         loadData() {
             // TODO: 加载数据
         },
-        toolbarClick(index) {
+        changeStore(item) {
+            this.selectedStore = item[0];
+            this.loadData();
+        },
+        toolbarClick(index, item) {
+            console.log(item.value);
             // TODO: change
-            switch (index) {
-                case 0:
+            switch (item.value) {
+                case '1':
+                    this.$router.go(-1);
                     break;
-                case 1:
+                case '2':
+                    this.popupVisible = true;
                     break;
-                case 2:
+                case '3':
                     break;
-
             }
         }
     }
@@ -147,20 +184,20 @@ export default {
         }
     }
     .link-panel {
-        padding-bottom: 49 + @l40;
+        // padding-bottom: 300px;
         p:first-child {
-            .c4;
             font-size: @fs28;
             margin-bottom: @l8;
+            color: @extra-light-black;
             .icon {
                 color: @color-primary-dark;
             }
         }
         :nth-child(2) {
-            .c5;
+            color: @gray;
             font-size: @fs24;
             .icon {
-                .c6;
+                color: @gray;
             }
         }
         .link-btn {
@@ -173,12 +210,12 @@ export default {
         }
     }
     .no-line-panel {
-        :nth-child(2) {
-            .c2;
-        }
         p:first-child .icon {
             color: @color-tiffany-blue;
         }
+    }
+    .bottom-menu {
+        z-index: 999;
     }
     .b-line {
         .ml-40;
@@ -198,24 +235,6 @@ export default {
     }
     .mb-24 {
         margin-bottom: @l24;
-    }
-    .c1 {
-        color: #88889C;
-    }
-    .c2 {
-        color: @gray;
-    }
-    .c3 {
-        color: #7C7C7C;
-    }
-    .c4 {
-        color: @extra-light-black;
-    }
-    .c5 {
-        color: #555555;
-    }
-    .c6 {
-        color: #D3D3D3;
     }
 }
 </style>
