@@ -32,7 +32,7 @@ Vue.component(DatetimePicker.name, DatetimePicker);
 
 /**
  * sample:
- * <m-date-range-picker v-model="dateRangeVisible" :start-date.sync="startDate" :end-date.sync="endDate"></m-date-range-picker>
+ * <m-date-range-picker v-model="dateRangeVisible" :start-date.sync="startDate" :end-date.sync="endDate" @confirm="confirm"></m-date-range-picker>
  */
 export default {
     name: 'm-date-range-picker',
@@ -60,8 +60,11 @@ export default {
             this[this.changeType] = this.$moment(item).toDate();
         },
         confirm() {
-            this.$emit('update:startDate', this.$moment(this.start_date).format(this.format));
-            this.$emit('update:endDate', this.$moment(this.end_date).format(this.format));
+            var tempStartDate = this.$moment(this.start_date).format(this.format);
+            var tempEndDate = this.$moment(this.end_date).format(this.format);
+            this.$emit('confirm', tempStartDate, tempEndDate);
+            this.$emit('update:startDate', tempStartDate);
+            this.$emit('update:endDate', tempEndDate);
             this.currentValue = false;
         },
         showRangeDate(picker) {
