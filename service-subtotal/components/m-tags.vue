@@ -124,7 +124,7 @@
         }
         .c-tag-box {
             .no-tag {
-                padding-top : 10px;
+                padding: @l16;
                 color: #BABABA;
             }
             .c-tag-item{
@@ -158,7 +158,7 @@
 
         .tag-popup {
             width: 100%;
-            padding: 15px 15px 30px 15px;
+            padding: @l32;
             color: #6a6a6a;
             .tag-input{
                 padding: 5px 0;
