@@ -1,9 +1,11 @@
 <template>
-    <div class="container">
+    <div class="container" :class="{active:vm.mask}">
         <div class="mask" v-if="vm.mask" v-on:click="searchStatu()">
         </div>
-        <div class="top-bar">
-            <div layout="row" layout-align="start center" flex v-if="vm.search.statu">
+        <div class="mask" v-if="swipe.show" v-on:click="imgHide()">
+        </div>
+        <div class="top-bar" :class="{active:swipe.show}">
+            <div layout="row" layout-align="start center" flex v-if="vm.search.show">
                 <a class="bar-btn border-r" layout="row" layout-align="center center" flex v-on:click="searchStatu()">
                     <div v-if="!vm.search.main">
                         <svg class="icon" aria-hidden="true">
@@ -27,7 +29,7 @@
                     <span class="bar-text">查看数据</span>
                 </a>
             </div>
-            <div class="search-input bar-btn" v-if="!vm.search.statu">
+            <div class="search-input bar-btn" v-if="vm.search.statu">
                 <div layout="row" layout-align="start center" flex class="search-main">
                     <svg class="icon icon-margin" aria-hidden="true" flex>
                         <use xlink:href="#icon-search2"></use>
@@ -51,7 +53,7 @@
                 <div class="title" layout="row" layout-align="space-between center">
                     <div class="user" layout="row" layout-align="center center">
                         <span class="view">
-                            <img  src="../assets/imgs/service.png" alt="">
+                            <img  :src="require('assets/imgs/service.png')" alt="">
                         </span>
                         <div>
                             <h3>NO:007</h3>
@@ -72,19 +74,32 @@
                 <div class="main-text" flex>
                     客户服务不错
                 </div>
-                <div class="main-img" layout="row" layout-align="space-between center" flex-wrap="wrap">
-                    <span flex="30">
-                        <img  src="../assets/imgs/huan.png" height="296" width="288" alt="">
+                <div class="main-img" layout="row" layout-align="start center" flex-wrap="wrap">
+                    <span flex="30" v-for="(index,i) in 3" :key="index" v-on:click="scaleImg(index)">
+                        <img  :src="require('assets/imgs/huan.png')" alt="">
                     </span>
                 </div>
                 <div class="box-bottom" flex layout="row" layout-align="start center">
-                    <span>昨天05：00 PM</span>
+                    <span>{{vm.testTime | fromnow}}</span>
                     <span flex></span>
                     <a>查看详情</a>
                 </div>
             </div>
         </div>
         <bottom-menu @click="link" :flex="vm.flex"></bottom-menu>
+        <!-- 图片放大 -->
+        <mt-swipe :auto="0" v-if="swipe.show" :showIndicators="false" :continuous="false" :defaultIndex="swipe.index" v-on:click="scaleImg(index)">
+            <mt-swipe-item v-for="(i,index) in 6" :key="index">{{index}}</mt-swipe-item>
+        </mt-swipe>
+        <!-- 下部时间选择 -->
+        <template>
+            <mt-datetime-picker ref="picker" type="datetime" v-model="vm.pickerValue" @confirm="handleConfirm">
+            </mt-datetime-picker>
+        </template>
+        <!-- 底部门店显示 -->
+        <m-picker v-model="storePickerVisible" :slots="slots" :selected-item.sync="selectedStore" value-key="name" @confirm="changeStore"></m-picker>
+        <!-- 底部状态显示 -->
+        <m-picker v-model="statusPickerVisible" :slots="status" :selected-item.sync="selectedstatus" value-key="name" @confirm="changestatus"></m-picker>
         <!-- 编辑 -->
         <div class="btn-fixed btn-edit" @click="$router.push({name:'member-maintain'})">
             <svg class="icon" aria-hidden="true">
@@ -96,25 +111,57 @@
                 <use xlink:href="#icon-top"></use>
             </svg>
         </div>
+
     </div>
 </template>
 <script>
 // 引用底部的菜单
 import Vue from 'vue';
 import $ from 'jquery';
+import moment from 'moment';
+import {
+    DatetimePicker
+} from 'mint-ui';
 import {
     Lazyload
 } from 'mint-ui';
 import bottomMenu from 'components/bottom-menu';
+import mPicker from 'components/m-picker';
 Vue.use(Lazyload);
+import {
+    Swipe,
+    SwipeItem
+} from 'mint-ui';
 export default {
     name: 'service-dynamics',
     components: {
-        bottomMenu
+        bottomMenu,
+        mPicker,
+        [DatetimePicker.name]: DatetimePicker,
+        [Swipe.name]: Swipe,
+        [SwipeItem.name]: SwipeItem
     },
 
     data() {
         return {
+            storePickerVisible: false,
+            statusPickerVisible: false,
+            slots: [],
+            selectedStore: {},
+            selectedstatus: {},
+            status: [{
+                flex: 1,
+                values: [{
+                    name: '客户关怀',
+                    value: 1
+                }, {
+                    name: '服务小计',
+                    value: 2
+                }],
+                className: 'slot1',
+                textAlign: 'center',
+                defaultIndex: 0
+            }],
             vm: {
                 employeeList: [{
                     name: '赵辉',
@@ -136,40 +183,51 @@ export default {
                     id: 87654321
                 }],
                 search: {
-                    statu: true,
+                    statu: false,
+                    show: true,
                     text: '测试文字',
                     main: ''
                 },
                 flex: 25,
                 mask: false,
-                scroll: ''
+                pickerValue: '',
+                testTime: moment('2017-06-23 13:59:30')
+            },
+            swipe: {
+                index: '',
+                show: false
             }
-
         };
     },
     methods: {
         // 显示/隐藏搜索详情
         searchStatu() {
-            this.vm.search.statu = !this.vm.search.statu;
             this.vm.mask = !this.vm.mask;
+            this.vm.search.statu = !this.vm.search.statu;
+            this.vm.search.show = !this.vm.search.show;
+        },
+        maskHide() {
+            this.vm.mask = false;
+            this.vm.search.statu = false;
+            this.vm.search.show = false;
         },
         backMain(item) {
             this.vm.search.main = item.name;
             this.searchStatu();
         },
-        link(index) {
+        link(index, item) {
             switch (index) {
                 case 0:
-                    this.$router.back();
+                    this.$router.go(-1);
                     break;
                 case 1:
-                    this.$router.back();
+                    this.storePickerVisible = true;
                     break;
                 case 2:
-                    this.$router.back();
+                    this.openPicker();
                     break;
                 case 3:
-                    this.$router.back();
+                    this.statusPickerVisible = true;
             }
         },
         // 清除显示的员工
@@ -178,20 +236,44 @@ export default {
         },
         // 点击返回顶部
         toTop() {
-            $('body,html').animate({
+            $('.container').animate({
                 scrollTop: 0
             }, 500);
         },
-        // container的scrollTop
-        containerScrollTop() {
-            this.vm.scroll = $('.container').scrollTop;
-            // if (this.vm.scroll > $(window).height) {
-            alert(this.vm.scroll);
-            // };
+        openPicker() {
+            this.$refs.picker.open();
+        },
+        imgHide() {
+            this.vm.mask = false;
+            this.swipe.show = false;
+
+        },
+        scaleImg(index) {
+            this.swipe.show = !this.swipe.show;
+            this.swipe.index = index;
+        },
+        handleConfirm(date) {
+            console.log(moment(date).fromNow());
+        },
+        changeStore(item) {
+            this.selectedStore = item[0];
+            // this.loadData();
+        },
+        changestatus(item) {
+            this.selectedstatus = item[0];
+            console.log(item);
         }
     },
     mounted() {
-        window.addEventListener('vm.scroll', this.containerScrollTop);
+        let tempStores = this.$store.state.storeList;
+        let tempIndex = 0;
+        this.slots.push({
+            flex: 1,
+            values: tempStores,
+            className: 'slot1',
+            textAlign: 'center',
+            defaultIndex: tempIndex
+        });
     }
 };
 </script>
@@ -203,6 +285,7 @@ export default {
     height: 100%;
     width: 100%;
     overflow-x: hidden;
+    position: relative;
     -webkit-overflow-scrolling: touch;
     .mask {
         position: fixed;
@@ -272,6 +355,9 @@ export default {
             border-bottom: 1px solid @light-gray;
         }
     }
+    .active {
+        z-index: 1;
+    }
     .placeholder {
         height: @l24;
         background: @white;
@@ -281,7 +367,7 @@ export default {
         padding-bottom: 59px;
         .div-box {
             background: @white;
-            padding: 0 @l16;
+            padding: 0 @l16 * 2;
             padding-top: @l16 * 2;
             margin-top: 2 * @l16;
             position: relative;
@@ -325,10 +411,14 @@ export default {
                     margin-bottom: 2 * @l16;
                     flex-wrap: wrap;
                     overflow: hidden;
+                    margin-right: 5%;
                     img {
                         max-width: 100%;
                         max-height: 100%;
                     }
+                }
+                span:nth-of-type(3n) {
+                    margin-right: 0;
                 }
             }
             .text-type {
@@ -383,5 +473,19 @@ export default {
             box-shadow: 0 0 15px 1px @light-gray;
         }
     }
+    .mint-swipe {
+        height: 300px;
+        position: fixed;
+        background: @color-black;
+        z-index: 3;
+        width: 100%;
+        color: #fff;
+        top: 50%;
+        margin-top: -150px;
+    }
+}
+
+.active {
+    overflow-y: hidden;
 }
 </style>
