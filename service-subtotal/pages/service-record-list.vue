@@ -1,6 +1,7 @@
 <template>
-    <div v-title="'服务记录'" class="service-record-list">
+    <div v-title="'服务记录'" class="service-record-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
         <div class="header">
+            <img :src="require('assets/imgs/service-header.png')" class="bg-img">
             <div class="text-center">
                 <p class="top-title">本周服务</p>
             </div>
@@ -16,37 +17,69 @@
                 </div>
             </div>
         </div>
-        <!-- <ul @click="goEdit($event)">
-            <li title="1">服务小计列表项1</li>
-            <li title="2">服务小计列表项2</li>
-        </ul> -->
+        <div>
+            <service-record-cell v-for="(item, index) in dataList" :key="index" @click.native="editClick(item)"></service-record-cell>
+            <m-load-more :loading="!scrollDisabled"></m-load-more>
+        </div>
     </div>
 </template>
 <script>
+import Vue from 'vue';
+import {
+    InfiniteScroll
+} from 'mint-ui';
+Vue.use(InfiniteScroll);
+import mLoadMore from 'components/m-load-more';
+import serviceRecordCell from 'pages/module/service-record-cell';
+
 export default {
     name: 'service-record-list',
-    components: {},
+    components: {
+        mLoadMore,
+        serviceRecordCell
+    },
     data() {
         return {
             query: {
                 type: 1
-            }
+            },
+            dataList: [],
+            loading: false,
+            scrollDisabled: false
         };
     },
-    mounted() {},
+    mounted() {
+        this.loadData();
+    },
     methods: {
         loadData() {
             // TODO: 加载数据
+            this.loading = true;
+            setTimeout(() => {
+                for (var i = 10; i >= 0; i--) {
+                    this.dataList.push({
+                        id: i + '2313'
+                    });
+                }
+                this.loading = false;
+            }, 1000);
+        },
+        loadMore() {
+            this.loadData();
         },
         changeType(type) {
+            this.dataList = [];
             this.query.type = type;
             this.loadData();
         },
-        goEdit(event) {
+        editClick(item) {
+            if (this.query.type != 1) {
+                return;
+            }
             this.$router.push({
                 name: 'service-record-edit',
                 params: {
-                    recordId: event.target.title
+                    recordId: item.id
                 }
             });
         }
@@ -56,11 +89,15 @@ export default {
 <style lang="less">
 @import '~styles/_agile';
 .service-record-list {
-    min-height: 100%;
-    background-color: @color-bg;
     .header {
-        background-image: linear-gradient(-135deg, #943FD2 4%, #C700CB 82%);
+        position: relative;
+        .bg-img {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
         .top-title {
+            z-index: 1;
             color: @white;
             line-height: 1;
             font-size: @fs28;
@@ -89,6 +126,8 @@ export default {
         .option-panel {
             color: @white;
             font-size: @fs32;
+            position: relative;
+            z-index: 1;
             div {
                 padding: @l32 0;
             }
