@@ -161,6 +161,7 @@ export default {
         selectedDateRange(item) {
             var tempItem = item.value;
             if (tempItem) {
+                debugger;
                 this.vm.timeInterval = tempItem;
                 this.loadData();
             } else {
@@ -193,8 +194,8 @@ export default {
 <style lang="less">
 @import '~styles/_agile';
 .data-view {
-    min-height: 100%;
     background-color: @white;
+    padding-bottom: 49 + @l40;
     .header {
         padding-top: @l40;
         padding-bottom: @l40;
@@ -233,7 +234,6 @@ export default {
         }
     }
     .link-panel {
-        // padding-bottom: 300px;
         p:first-child {
             font-size: @fs28;
             margin-bottom: @l8;
