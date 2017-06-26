@@ -6,7 +6,6 @@
     </div>
 </template>
 <script>
-
 /**
  * loading 加载动画
  */

@@ -1,7 +1,7 @@
 <template>
     <div class="file-slice">
         <div v-show="state==1">
-            <input class="path"  @change="imageChange" ref="path" accept="image/*" type="file"/>
+            <input class="path"  @change="imageChange" ref="path" accept="image/*" type="file">
         </div>
         <div v-show="state==2" ref="fileView" class="file-view" v-touch:move="move" v-touch:end="end" v-touch:scale="scale">
             <img class="file" ref="file" :src="url" alt="">
@@ -40,7 +40,7 @@ export default {
             state: 1, // 截图状态
             top: null, // 初始移动Y
             left: null, // 初始移动X
-            url: null,  // 图片地址
+            url: null, // 图片地址
             img: new Image(),
             maxSize: 3, // 最大缩放比
             initViewWidth: 74 / 100, // 初始截取区宽度比例

@@ -100,6 +100,8 @@
         <m-picker v-model="storePickerVisible" :slots="slots" :selected-item.sync="selectedStore" value-key="name" @confirm="changeStore"></m-picker>
         <!-- 底部状态显示 -->
         <m-picker v-model="statusPickerVisible" :slots="status" :selected-item.sync="selectedstatus" value-key="name" @confirm="changestatus"></m-picker>
+        <mt-actionsheet :actions="actions" v-model="sheetVisible" cancel-text=""></mt-actionsheet>
+        <m-date-range-picker v-model="dateRangeVisible" :start-date.sync="vm.timeInterval.startDate" :end-date.sync="vm.timeInterval.endDate" @confirm="changeDateRange"></m-date-range-picker>
         <!-- 编辑 -->
         <div class="btn-fixed btn-edit" @click="$router.push({name:'member-maintain'})">
             <svg class="icon" aria-hidden="true">
@@ -111,7 +113,6 @@
                 <use xlink:href="#icon-top"></use>
             </svg>
         </div>
-
     </div>
 </template>
 <script>
@@ -127,10 +128,14 @@ import {
 } from 'mint-ui';
 import bottomMenu from 'components/bottom-menu';
 import mPicker from 'components/m-picker';
+import mDateRangePicker from 'components/m-date-range-picker';
 Vue.use(Lazyload);
 import {
     Swipe,
     SwipeItem
+} from 'mint-ui';
+import {
+    Actionsheet
 } from 'mint-ui';
 export default {
     name: 'service-dynamics',
@@ -139,7 +144,9 @@ export default {
         mPicker,
         [DatetimePicker.name]: DatetimePicker,
         [Swipe.name]: Swipe,
-        [SwipeItem.name]: SwipeItem
+        [SwipeItem.name]: SwipeItem,
+        [Actionsheet.name]: Actionsheet,
+        mDateRangePicker
     },
 
     data() {
@@ -149,6 +156,8 @@ export default {
             slots: [],
             selectedStore: {},
             selectedstatus: {},
+            sheetVisible: false,
+            dateRangeVisible: false,
             status: [{
                 flex: 1,
                 values: [{
@@ -162,6 +171,7 @@ export default {
                 textAlign: 'center',
                 defaultIndex: 0
             }],
+            actions: [],
             vm: {
                 employeeList: [{
                     name: '赵辉',
@@ -191,7 +201,17 @@ export default {
                 flex: 25,
                 mask: false,
                 pickerValue: '',
-                testTime: moment('2017-06-23 13:59:30')
+                testTime: moment('2017-06-23 13:59:30'),
+                // 以下不用刹车农户
+                selectedStoreId: this.$route.query.storeId,
+                timeInterval: {
+                    startDate: this.$moment().format('YYYY-MM-DD HH:mm:ss'),
+                    endDate: this.$moment().format('YYYY-MM-DD HH:mm:ss')
+                },
+                returnVisit: 321321,
+                record: 3321,
+                valued: 3213,
+                unvalued: 3511
             },
             swipe: {
                 index: '',
@@ -224,7 +244,7 @@ export default {
                     this.storePickerVisible = true;
                     break;
                 case 2:
-                    this.openPicker();
+                    this.sheetVisible = true;
                     break;
                 case 3:
                     this.statusPickerVisible = true;
@@ -262,6 +282,18 @@ export default {
         changestatus(item) {
             this.selectedstatus = item[0];
             console.log(item);
+        },
+        changeDateRange() {
+            // this.loadData();
+        },
+        selectedDateRange(item) {
+            var tempItem = item.value;
+            if (tempItem) {
+                this.vm.timeInterval = tempItem;
+                // this.loadData();
+            } else {
+                this.dateRangeVisible = true;
+            }
         }
     },
     mounted() {
@@ -274,6 +306,32 @@ export default {
             textAlign: 'center',
             defaultIndex: tempIndex
         });
+        let tempFormat = 'YYYY-MM-DD HH:mm:ss';
+        this.actions = [{
+            name: '今日',
+            method: this.selectedDateRange,
+            value: {
+                startDate: this.$moment().startOf('day').format(tempFormat),
+                endDate: this.$moment().endOf('day').format(tempFormat)
+            }
+        }, {
+            name: '本周',
+            method: this.selectedDateRange,
+            value: {
+                startDate: this.$moment().startOf('isoWeek').format(tempFormat),
+                endDate: this.$moment().endOf('isoWeek').format(tempFormat)
+            }
+        }, {
+            name: '本月',
+            method: this.selectedDateRange,
+            value: {
+                startDate: this.$moment().startOf('month').format(tempFormat),
+                endDate: this.$moment().endOf('month').format(tempFormat)
+            }
+        }, {
+            name: '自定义',
+            method: this.selectedDateRange
+        }];
     }
 };
 </script>
