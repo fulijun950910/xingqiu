@@ -1,4 +1,10 @@
 import Vue from 'vue';
+import store from 'store';
+
+import {
+    BASE_IMG_PATH,
+    GENDERS as _genders
+} from 'config/mixins';
 
 /**
  *
@@ -24,42 +30,6 @@ Vue.filter('currency', function(value, currency, decimals) {
         _float;
 });
 
-/**
- *
- * yyyy/MM/dd => yyyy-MM-dd hh:mm:ss(默认)
- *
- * @param {String} _date
- * @param {String} fmt
- */
-Vue.filter('date', function(_date, fmt = 'yyyy-MM-dd hh:mm:ss') {
-    if (_date === null || !_date) {
-        return;
-    };
-
-    var date = _date;
-    if (typeof _date != 'object') {
-        _date = _date.replace(/-/ig, '/');
-        date = new Date(_date);
-    }
-    var o = {
-        'M+': date.getMonth() + 1, // 月份
-        'd+': date.getDate(), // 日
-        'h+': date.getHours(), // 小时
-        'm+': date.getMinutes(), // 分
-        's+': date.getSeconds(), // 秒
-        'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
-        'S': date.getMilliseconds() // 毫秒
-    };
-    if (/(y+)/.test(fmt)) {
-        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
-    };
-    for (var k in o) {
-        if (new RegExp('(' + k + ')').test(fmt)) {
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));
-        };
-    };
-    return fmt;
-});
 /*
  *1 服务小计 2客户关怀
  */
@@ -74,4 +44,48 @@ Vue.filter('messageType', (value) => {
             break;
     }
     return text;
+});
+
+/**
+ * 性别过滤器
+ */
+Vue.filter('mGender', function(value) {
+    if (value) {
+        var item = _genders.find(function(v) {
+            return value == v.value;
+        });
+        if (item) {
+            return item.name;
+        }
+    }
+    return value;
+});
+
+/**
+ * 图片过滤器
+ */
+Vue.filter('mSrc', function(value, def) {
+    if (value) {
+        if (isNaN(Number(value))) {
+            return value;
+        } else {
+            return BASE_IMG_PATH + value;
+        }
+    }
+    return def;
+});
+
+/**
+ * 门店名称过滤器
+ */
+Vue.filter('mStoreName', function(value) {
+    if (value) {
+        var item = store.state.storeList.find(function(v) {
+            return value == v.id;
+        });
+        if (item) {
+            return item.name;
+        }
+    }
+    return value;
 });
