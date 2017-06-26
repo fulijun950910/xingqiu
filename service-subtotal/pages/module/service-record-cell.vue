@@ -26,21 +26,22 @@ export default {
 <style lang="less">
 @import '~styles/_agile';
 .service-record-cell {
-    padding: @l32;
+    @avatar_w_h: 40px;
+    padding: @l24;
     position: relative;
     .avatar {
-        width: 50 / 2px;
-        height: 50 / 2px;
-        border-radius: 50 / 2px;
+        width: @avatar_w_h;
+        height: @avatar_w_h;
+        border-radius: @avatar_w_h;
     }
     .content {
-        padding-left: @l32;
+        padding-left: @l24;
         padding-right: @l16;
     }
     .h-line {
         right: 0;
         bottom: 0;
-        left: 24 + @l32*2;
+        left: @avatar_w_h + @l24*2;
         position: absolute;
     }
 }

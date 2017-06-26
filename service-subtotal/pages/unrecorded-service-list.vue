@@ -1,6 +1,6 @@
 <template>
     <div v-title="'未记录服务'" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
-        <m-top-search v-model="query.keyword" placeholder="搜索我要回访/维护的客户" @search="search"></m-top-search>
+        <m-top-search v-model="query.keyword" placeholder="搜索员工" @search="search"></m-top-search>
         <div>
             <service-record-cell v-for="(item, index) in dataList" :key="index" @click.native="editClick(item)"></service-record-cell>
             <m-load-more :loading="!scrollDisabled"></m-load-more>
