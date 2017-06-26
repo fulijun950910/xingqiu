@@ -42,18 +42,13 @@ const router = new VueRouter({
 store.commit('UPDATE_LOCAL');
 
 router.beforeEach(({ meta, path }, from, next) => {
-    // if 登录页 或者 注册页 || 已登录 并且 营销版
-    // else 跳转登录页
-    next();
-    // if ((path == '/sign' || path == '/register')) {
-    //     next();
-    // } else {
-    //     if (Vue.prototype.$signLocation == '#/sign') {
-    //         next({ path: '/sign' });
-    //     } else {
-    //         window.location.href = Vue.prototype.$signLocation;
-    //     }
-    // }
+    if (path == '/sign-in' || store.getters.isLogin) {
+        next();
+    } else {
+        next({name: 'sign-in'});
+        // TODO: 调整登录页
+        // window.location.href = '';
+    }
 });
 
 new Vue({
