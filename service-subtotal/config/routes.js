@@ -19,7 +19,7 @@ export default [{
     component: dataView,
     meta: { auth: true, level: 2 }
 }, {
-    path: '/return-visit/:memberId/create', // 客户关怀 编辑
+    path: '/return-visit/:memberId/create', // 客户关怀 新增
     name: 'return-visit-edit',
     component: returnVisitEdit,
     meta: { auth: true, level: 4 }
