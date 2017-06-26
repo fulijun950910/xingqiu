@@ -60,3 +60,18 @@ Vue.filter('date', function(_date, fmt = 'yyyy-MM-dd hh:mm:ss') {
     };
     return fmt;
 });
+/*
+ *1 服务小计 2客户关怀
+ */
+Vue.filter('messageType', (value) => {
+    let text = null;
+    switch (value) {
+        case 1:
+            text = '服务小计';
+            break;
+        case 2:
+            text = '客户关怀';
+            break;
+    }
+    return text;
+});
