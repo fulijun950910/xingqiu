@@ -24,5 +24,30 @@ export default {
     employeeList: function(data) {
         let url = '/api/wechatbusinessassists/serviceNoteUpdate';
         return request(url, data, 'post');
+    },
+    /**
+     * 服务动态查询
+     * 说明：根据权限，员工看自己，管理员券全部员工
+     */
+    messageServiceList(parameter) {
+        let url = 'api/messageServiceList';
+        return request(url, parameter, 'post');
+    },
+    /**
+     *缩略图
+     *width 缩略图最大宽度
+     *height 缩略图最大高度
+     */
+    getThumbnails(id, width, height) {
+        let url = 'api/image/' + id + '/' + width + '/' + height;
+        return request(url, 'get');
+    },
+    /**
+     *压缩图
+     *quality 新图的图片质量。取值范围为1-100，如75
+     */
+    getCompression(id, quality) {
+        let url = 'api/image/' + id + '/' + quality;
+        return request(url, 'get');
     }
 };
