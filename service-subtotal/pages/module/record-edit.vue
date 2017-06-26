@@ -32,7 +32,7 @@
         
         <!-- 评价正文 -->
         <div class="c-content">
-            <textarea rows="5" maxlength="200" placeholder="输入客人的要求和习惯"></textarea>
+            <textarea rows="5" maxlength="200" placeholder="输入客人的要求和习惯" v-model="model.content"></textarea>
         </div>
 
         <!-- 配图 -->
@@ -46,14 +46,20 @@
             </mt-cell>
             <transition name="slide-up">
                 <div v-show="isWran" class="c-warn-content">
-                    <textarea rows="3" maxlength="200" 
-                    placeholder="请输入要提醒自己的话。
-    例如：今天要通知客户来电服务~">
-                    </textarea>
+                    <mt-cell title="选择提醒事项" is-link :value="warnContent" @click.native="warnVisible = true">
+                    </mt-cell>
                     <mt-cell title="选择提示时间" is-link :value="warnDate.formatDate('yyyy-MM-dd hh:mm')" @click.native="$refs.warnTimer.open()">
                     </mt-cell>
                 </div>
             </transition>
+            <!-- 提醒事项 弹出框 -->
+            <mt-popup class="popup-bottom" v-model="warnVisible" position="bottom">
+                <p> 提醒项列表： </p>
+                <p class="no-wrap" v-for="(item, index) in warnItems" 
+                @click="chooseWarnItem(item)" 
+                :key="item.value" v-text="item.name"></p>
+            </mt-popup>
+            <!-- 提醒时间 弹出框 -->
             <mt-datetime-picker
                 ref="warnTimer"
                 type="datetime"
@@ -68,15 +74,22 @@
     </div>
 </template>
 <script>
-    import { Switch, Cell, DatetimePicker, Popup } from 'mint-ui';
+    import { Switch, Cell, DatetimePicker, Popup, Checklist } from 'mint-ui';
+    import { WARN_ITEMS } from 'config/mixins';
+    import api_tag from 'services/api.tag';
     /**
     * type:编辑类型（1：服务小计   2：客户维护）
     */
     export default {
+        name: 'record-edit',
         props: {
             type: {
                 type: Number,
                 default: 1
+            },
+            model: {
+                type: Object,
+                default: null
             }
         },
         components: {
@@ -86,7 +99,8 @@
             [Switch.name]: Switch,
             [Cell.name]: Cell,
             [DatetimePicker.name]: DatetimePicker,
-            [Popup.name]: Popup
+            [Popup.name]: Popup,
+            [Checklist.name]: Checklist
         },
         data() {
             return {
@@ -94,10 +108,38 @@
                 pictureList: [],
                 tagList: [],
                 isWran: false,
-                warnDate: new Date().formatDate('yyyy-MM-dd hh:mm')
+                warnDate: new Date().formatDate('yyyy-MM-dd hh:mm'),
+                warnValue: null,
+                warnItems: WARN_ITEMS,
+                warnVisible: false
             };
         },
+        computed: {
+            warnContent() {
+                if (this.model.remindContent && this.model.remindContent != '') {
+                    let obj = this.warnItems.find(x => {return x.value == this.model.remindContent.toString();});
+                    return obj ? obj.name : '请选择';
+                } else {
+                    return '请选择';
+                }
+            }
+        },
         methods: {
+            // 初始化标签
+            initTagList() {
+                let merchantId = '';
+                let memberId = '';
+                api_tag.getMemberTagList(merchantId, memberId).then(res => {
+
+                }, err => {
+
+                });
+            },
+            // 选择提醒事项
+            chooseWarnItem(item) {
+                this.warnVisible = false;
+                this.model.remindContent = item.value;
+            },
             // 完成记录
             recordFinish() {
                 this.$router.push({name: 'record-finish', query: {type: this.type}});
@@ -129,7 +171,33 @@
 </script>
 <style lang="less">
     @import '~styles/_agile.less';
-    .mgb{
+
+    // mint-ui 样式覆盖
+    .mint-cell-value {
+        max-width: 60%;
+        span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+    .popup-bottom {
+        height: auto;
+        width: 100%;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        p {
+            padding: 8px 10px;
+            font-size: @fs32;
+            border-top: 1px solid #eee;
+            &.no-wrap {
+                text-indent: 1em;
+                color: @dark-gray;
+            }
+        }
+        
+    }
+    .mgb {
         margin-bottom: @l16 ;
     }
     .record-edit{
@@ -221,7 +289,6 @@
             background-color: @color-tiffany-blue;
         }
         .c-warn-content{
-            border-top: 1px solid #e4e4e4;
             textarea{
                 font-size: @fs32;
                 width: 100%;
