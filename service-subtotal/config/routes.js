@@ -19,7 +19,7 @@ export default [{
     component: dataView,
     meta: { auth: true, level: 2 }
 }, {
-    path: '/return-visit-edit/:recordId', // 客户关怀 编辑
+    path: '/return-visit/:memberId/create', // 客户关怀 编辑
     name: 'return-visit-edit',
     component: returnVisitEdit,
     meta: { auth: true, level: 4 }
@@ -39,7 +39,12 @@ export default [{
     component: memberMaintain,
     meta: { auth: true, level: 2 }
 }, {
-    path: '/service-record-edit/:recordId', // 服务小计 编辑
+    path: '/service-record/:recordId/create', // 服务小计 编辑
+    name: 'service-record-create',
+    component: serviceRecordEdit,
+    meta: { auth: true, level: 4 }
+}, {
+    path: '/service-record/:recordId/edit', // 服务小计 编辑
     name: 'service-record-edit',
     component: serviceRecordEdit,
     meta: { auth: true, level: 4 }

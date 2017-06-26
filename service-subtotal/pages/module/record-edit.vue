@@ -124,15 +124,20 @@
                 }
             }
         },
+        mounted() {
+            this.initTagList();
+        },
         methods: {
             // 初始化标签
             initTagList() {
-                let merchantId = '';
-                let memberId = '';
+                let merchantId = 138239242342;
+                let memberId = 2;
+                this.$indicator.open();
                 api_tag.getMemberTagList(merchantId, memberId).then(res => {
-
+                    this.$indicator.close();
+                    this.tagList = res.data.tagLib;
                 }, err => {
-
+                    this.$indicator.close();
                 });
             },
             // 选择提醒事项
