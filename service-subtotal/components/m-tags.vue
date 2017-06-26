@@ -11,12 +11,20 @@
             </span>
         </p>
         
-        <div class="c-tag-box ft-light" flex-wrap="wrap" layout="row" layout-align="start center">
+        <div class="c-tag-box bdb ft-light" flex-wrap="wrap" layout="row" layout-align="start center">
             <div class="no-tag" v-if="!tags.length">
                 暂无任何标签...
             </div>
             <div v-else class="c-tag-item no-wrap" @click="chooseTagOut(item)" v-for="item in tags">
-                {{item.name}}
+                {{item.tagName}}
+            </div>
+        </div>
+        <div class="c-tag-box ft-light" flex-wrap="wrap" layout="row" layout-align="start center">
+            <div class="no-tag" v-if="!tags.length">
+                暂无任何标签...
+            </div>
+            <div v-else class="c-tag-item no-wrap" @click="chooseTagOut(item)" v-for="item in memberTag">
+                {{item.tagName}}
             </div>
         </div>
         <mt-popup class="tag-popup" v-model="tagVisible" position="bottom">
@@ -51,6 +59,7 @@
     export default {
         name: 'm-tags',
         props: {
+            memberTag: Array,
             tags: {
                 type: Array,
                 default() {
@@ -121,6 +130,10 @@
             .more-tag {
                 color: @color-tiffany-blue;
             }
+        }
+        .bdb {
+            padding-bottom: 4vw;
+            border-bottom: 1px solid #eee;
         }
         .c-tag-box {
             .no-tag {
