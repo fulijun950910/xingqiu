@@ -12,9 +12,11 @@ export default function(url, data, method, messageFlag = true) {
         if (res.data && res.data.success) {
             deferred.resolve(res.data);
         } else {
+            Vue.prototype.$indicator.close();
             deferred.reject(res.data);
         }
     }, function(error) {
+        Vue.prototype.$indicator.close();
         switch (error.status) {
             case 401:
             case 403:

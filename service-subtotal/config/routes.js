@@ -11,6 +11,7 @@ const serviceRecordList = resolve => require(['pages/service-record-list'], reso
 const recordFinish = resolve => require(['pages/record-finish'], resolve);
 const unrecordedServiceList = resolve => require(['pages/unrecorded-service-list'], resolve);
 const serviceDynamics = resolve => require(['pages/service-dynamics'], resolve);
+const signIn = resolve => require(['pages/sign-in'], resolve);
 
 export default [{
     path: '/data-view', // 数据查看页面
@@ -65,4 +66,8 @@ export default [{
 }, {
     path: '*', // 服务动态（默认）
     redirect: '/service-dynamics'
+}, {
+    path: '/sign-in',
+    name: 'sign-in',
+    component: signIn
 }];

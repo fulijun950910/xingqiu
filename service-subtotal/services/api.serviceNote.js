@@ -1,5 +1,5 @@
 import request from './request.js';
-import Q from 'q';
+// import Q from 'q';
 
 export default {
     /**
@@ -17,5 +17,35 @@ export default {
     updateServiceNote: function(data) {
         let url = '/api/wechatbusinessassists/serviceNoteUpdate';
         return request(url, data, 'post');
+    },
+    /**
+     * 会员列表查询
+     */
+    queryMembers(data) {
+        let url = '/api/wechatbusinessassists/members';
+        return request(url, data, 'post');
+    },
+    /**
+     * 服务记录列表查询
+     */
+    queryServiceRecord(data) {
+        let url = '/api/wechatbusinessassists/serviceRecord';
+        return request(url, data, 'post');
+    },
+    /**
+     * 员工查询列表
+     * 说明：通用接口，包含员工搜索查询
+     */
+    employeeList: function(data) {
+        let url = '/api/wechatbusinessassists/serviceNoteUpdate';
+        return request(url, data, 'post');
+    },
+    /**
+     * 服务动态查询
+     * 说明：根据权限，员工看自己，管理员券全部员工
+     */
+    messageServiceList(parameter) {
+        let url = 'api/messageServiceList';
+        return request(url, parameter, 'post');
     }
 };
