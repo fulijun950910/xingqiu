@@ -36,7 +36,7 @@ export default {
             query: {
                 page: 1,
                 rows: 20,
-                storeIds: this.$store.getters.storeId,
+                storeIds: this.$store.getters.storeIds,
                 merchantId: this.$store.getters.merchantId,
                 memberName: ''
             },
