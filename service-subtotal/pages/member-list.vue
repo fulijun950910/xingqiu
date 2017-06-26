@@ -84,7 +84,7 @@ export default {
             this.$router.push({
                 name: 'return-visit-edit',
                 params: {
-                    recordId: event.target.title
+                    memberId: item.id
                 }
             });
         }
