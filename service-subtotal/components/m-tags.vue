@@ -11,37 +11,35 @@
             </span>
         </p>
         
-        <div class="c-tag-box bdb ft-light" flex-wrap="wrap" layout="row" layout-align="start center">
-            <div class="no-tag" v-if="!tags.length">
-                暂无任何标签...
-            </div>
-            <div v-else class="c-tag-item no-wrap" @click="chooseTagOut(item)" v-for="item in tags">
+        <!-- 平台标签 -->
+        <div class="c-tag-box ft-light" :class="{'bdb': tagArr2.length!=0}" flex-wrap="wrap" layout="row" layout-align="start center">
+            <div class="c-tag-item no-wrap" :class="{choose: tagArr.includes(item.id.toString())}" 
+             v-for="item in tagLib" @click="chooseTagLib(item.id)">
                 {{item.tagName}}
             </div>
         </div>
         <div class="c-tag-box ft-light" flex-wrap="wrap" layout="row" layout-align="start center">
-            <div class="no-tag" v-if="!tags.length">
-                暂无任何标签...
-            </div>
-            <div v-else class="c-tag-item no-wrap" @click="chooseTagOut(item)" v-for="item in memberTag">
+            <div class="c-tag-item no-wrap" @click="chooseTagOut(item.id)" v-for="item in tagArr2">
                 {{item.tagName}}
             </div>
         </div>
+
+        <!-- 商户标签 -->
         <mt-popup class="tag-popup" v-model="tagVisible" position="bottom">
             <div class="tag-input" layout="row" layout-align="space-between center">
-                <input flex="75" type="text" class="tag-name"  @keyup.enter="addTagList" v-model="tagName" placeholder="花粉过敏、开朗健谈...">
-                <span flex="20" class="add-tag text-center" @click="addTagList">添加</span>
+                <input flex="75" type="text" class="tag-name"  @keyup.enter="createTag" v-model="tagName" placeholder="花粉过敏、开朗健谈...">
+                <span flex="20" class="add-tag text-center" @click="createTag">添加</span>
             </div>
             <div class="tag-title">
                 <svg class="icon" aria-hidden="true"><use xlink:href="#icon-hot-tag-alt"></use></svg>
                  热门标签
             </div>
             <div class="c-tag-box ft-light hot-tags" flex-wrap="wrap" layout="row" layout-align="start center">
-                <div class="no-tag" v-if="!tagList20.length">
+                <div class="no-tag" v-if="!merchantTagLib.length">
                     暂无任何标签...
                 </div>
-                <div v-else class="c-tag-item no-wrap" @click="chooseTagIn(item)" v-for="item in tagList20">
-                    {{item.name}}
+                <div v-else class="c-tag-item no-wrap" @click="chooseTagIn(item.id)" v-for="item in merchantTagLib">
+                    {{item.tagName}}
                 </div>
             </div>
         </mt-popup>
@@ -50,6 +48,7 @@
 
 <script>
     import { Popup } from 'mint-ui';
+    import api_tag from 'services/api.tag';
     /** 标签组件
     * tags：标签列表
     *
@@ -59,12 +58,9 @@
     export default {
         name: 'm-tags',
         props: {
-            memberTag: Array,
             tags: {
-                type: Array,
-                default() {
-                    return [];
-                }
+                type: String,
+                default: ''
             }
         },
         components: {
@@ -72,44 +68,78 @@
         },
         data() {
             return {
-                tagLists: [{
-                    name: '开朗健谈',
-                    value: 0
-                }, {
-                    name: '花粉过敏',
-                    value: 1
-                }, {
-                    name: '阿斯顿',
-                    value: 2
-                }],
+                memberTag: [], // 会员的标签
+                merchantTagLib: [], // 商户级标签
+                tagLib: [], // 平台标签
                 tagVisible: false,
                 tagName: ''
             };
         },
+        mounted() {
+            this.initTagList();
+        },
         computed: {
-            tagList20() {
-                return this.tagLists.slice(0, 40);
+            // 用户的平台级标签
+            tagArr() {
+                return this.tags.split(',').filter(x => {
+                    return this.tagLib.map(y => {return y.id.toString();}).includes(x);
+                }).slice(0, 4);
+            },
+            // 用户的商户级标签
+            tagArr2() {
+                return this.merchantTagLib.filter(x => {
+                    return this.tags.split(',').includes(x.id.toString());
+                });
             }
         },
         methods: {
-            // 选中标签
-            chooseTagIn(tag) {
-                this.$emit('add', tag);
+            // 初始化标签
+            initTagList() {
+                let merchantId = 138239242342;
+                let memberId = 2;
+                api_tag.getMemberTagList(merchantId, memberId).then(res => {
+                    this.tagLib = res.data.tagLib.slice(0, 8);
+                    this.merchantTagLib = res.data.merchantTagLib.slice(0, 20);
+                    this.memberTag = res.data.memberTag.slice(0, 20);
+                });
             },
-            // 选除标签
-            chooseTagOut(tag) {
-                this.$emit('remove', tag);
+            // 选中平台标签
+            chooseTagLib(tagId) {
+                tagId = tagId.toString();
+                if (this.tagArr.includes(tagId)) {
+                    this.$emit('remove', tagId);
+                } else {
+                    if (this.tagArr.length < 4) {
+                        this.$emit('add', tagId);
+                    }
+                }
+            },
+            // 选中商户标签
+            chooseTagIn(tagId) {
+                tagId = tagId.toString();
+                if (this.tagArr2.length < 4 && !this.tagArr2.map(x => {return x.id.toString();}).includes(tagId)) {
+                    this.$emit('add', tagId);
+                }
+            },
+            // 选除商户标签
+            chooseTagOut(tagId) {
+                this.$emit('remove', tagId.toString());
             },
             // 立flag
-            addTagList() {
+            createTag() {
                 if (this.tagName.trim().length > 0) {
-                    var obj = {
-                        name: this.tagName.trim(),
-                        value: this.tagLists.length + 1
+                    var tag = {
+                        merchantId: 138239242342,
+                        tagLevel: 2, // 1=平台级，2=商户级
+                        tagType: 2, // 1=门店标签，2=会员标签，3=员工标签， 4=技师标签
+                        tagName: this.tagName.trim()
                     };
-                    this.tagLists.push(obj);
-                    this.chooseTagIn(obj);
-                    this.tagName = '';
+                    api_tag.createMemberTag(tag).then(res => {
+                        this.tagName = '';
+                        this.initTagList();
+                    }, err => {
+                        this.$toast('网络延迟，请稍后重试~ ╮(╯▽╰)╭');
+                    });
                 }
             }
         }
