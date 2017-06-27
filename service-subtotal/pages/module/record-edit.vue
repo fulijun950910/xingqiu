@@ -1,7 +1,7 @@
 <template>
     <div class="record-edit">
         <!-- Ta的标签 -->
-        <m-tags :tags="model.tags" @add="addTag" @remove="removeTag"></m-tags>
+        <m-tags :tags="tagList" @add="addTag" @remove="removeTag"></m-tags>
         
         <!-- 评价正文 -->
         <div class="c-content">
@@ -78,6 +78,7 @@
             return {
                 // 图片列表
                 pictureList: [],
+                tagList: [],
                 isWran: false,
                 warnDate: new Date().formatDate('yyyy-MM-dd hh:mm:ss'),
                 warnItems: WARN_ITEMS,
@@ -107,6 +108,11 @@
             // 提醒时间
             warnDate(val, oldVal) {
                 this.model.remindTime = this.warnDate.formatDate('yyyy-MM-dd hh:mm:ss');
+            },
+            // 标签
+            tagList(val, oldVal) {
+                this.model.tags = val.join(',');
+                console.log(val, this.model.tags);
             }
         },
         methods: {
@@ -116,6 +122,8 @@
                 this.isWran = this.model.remind === 1;
                 // 提醒时间
                 this.warnDate = this.model.remindTime.formatDate('yyyy-MM-dd hh:mm');
+                // 标签列表
+                this.tagList = this.model.tags.includes(',') ? this.model.tags.split(',') : [];
                 // 图片
                 if (this.model.imageIds !== '') {
                     this.pictureList = this.model.imageIds.split(',').map(x => {
@@ -159,14 +167,11 @@
             },
             // 移除标签
             addTag(tagId) {
-                let arr = this.model.tags.split(',');
-                arr.push(tagId);
-                this.model.tags = arr.join(',');
+                this.tagList.push(tagId);
             },
             // 移除标签
             removeTag(tagId) {
-                let tagArr = this.model.tags.split(',').filter(x => {return x != tagId;});
-                this.model.tags = tagArr.join(',');
+                this.tagList = this.tagList.filter(x => {return x != tagId;});
             }
         }
     };

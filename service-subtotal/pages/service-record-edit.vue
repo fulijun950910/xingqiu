@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-title="'服务小计'">
         <!-- 头部名片 -->
         <div class="c-card" layout="row" layout-align="space-between end">
             <div class="c-card-content " flex="70" layout="row" layout-align="space-between center">
@@ -21,9 +21,9 @@
                 </div>
             </div>
             <div class="c-card-call text-right ft-light"  flex="30">
-                <span class="btn btn-xs ft-light">
+                <a :href="'tel:'+dataModel.merchantId" class="btn btn-xs ft-light">
                     <m-icon xlink="#icon-tel-alt"></m-icon> 联系Ta
-                </span>
+                </a>
             </div>
         </div>
         <!-- 服务小计编辑 -->
@@ -62,7 +62,7 @@ export default {
         // 完成记录
         saveRecord() {
             console.log(JSON.stringify(this.dataModel));
-            this.$router.push({name: 'record-finish', query: {type: this.type}});
+            this.$router.push({name: 'record-finish', query: {type: this.dataModel.type}});
         }
     }
 };
@@ -110,7 +110,7 @@ export default {
         }
         .c-card-call{
             height: 100%;
-            padding: 5px;
+            padding: 5px 0;
             color: @extra-light-black;
             .btn{
                 border: 1px solid #979797;
