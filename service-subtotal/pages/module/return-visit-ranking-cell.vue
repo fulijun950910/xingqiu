@@ -1,14 +1,16 @@
 <template>
-    <div class="service-record-cell" layout="row" layout-align="center center">
+    <div class="return-visit-ranking-cell" layout="row" layout-align="center center">
+        <div layout="row" layout-align="center center" class="index-panel">
+            <span>{{index}}</span>
+            <m-icon xlink="#icon-TOP" class="dark-gray" v-if="index < 4"></m-icon>
+        </div>
         <img :src="mData.employeeAvatarId | mSrc(require('assets/imgs/avatar.png'))" class="avatar">
         <div flex class="content">
-            <span class="fs24 dark-gray">{{mData.employeeNo}} {{mData.employeeName}}</span>
-            <p class="extra-light-black">{{mData.serviceSmallNote.item | getNames('itemName')}}</p>
+            <span class="fs24 dark-gray">{{mData.code}}</span>
+            <p class="extra-light-black">{{mData.employeeName}}</p>
         </div>
-        <div>
-            <!-- <p class="fs24 gray">{{mData.createTime | fromnow}}</p> -->
-            <p class="dark-gray">{{mData.createTime | amCalendar}}</p>
-        </div>
+        <p class="steel-gray fs32">{{mData.total}}条</p>
+        <m-icon xlink="#icon-right-bold" class="dark-gray"></m-icon>
         <span class="h-line"></span>
     </div>
 </template>
@@ -16,8 +18,8 @@
 import Vue from 'vue';
 
 export default {
-    name: 'service-record-cell',
-    props: ['mData'],
+    name: 'return-visit-ranking-cell',
+    props: ['mData', 'index'],
     data() {
         return {};
     },
@@ -38,10 +40,23 @@ export default {
 </script>
 <style lang="less">
 @import '~styles/_agile';
-.service-record-cell {
+.return-visit-ranking-cell {
     @avatar_w_h: 40px;
     padding: @l24;
     position: relative;
+    .index-panel {
+        width: 30px;
+        height: 30px;
+        margin-right: @l24;
+        .icon {
+            position: absolute;
+            font-size: 30px;
+        }
+        span {
+            z-index: 2;
+            position: relative;
+        }
+    }
     .avatar {
         width: @avatar_w_h;
         height: @avatar_w_h;
@@ -54,7 +69,7 @@ export default {
     .h-line {
         right: 0;
         bottom: 0;
-        left: @avatar_w_h + @l24*2;
+        left: 0;
         position: absolute;
     }
 }

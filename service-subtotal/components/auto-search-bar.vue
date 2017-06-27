@@ -1,5 +1,5 @@
 <template>
-    <div v-if="searchvisiable">
+    <div v-if="visiable">
         <div class="serchBar-mask" v-on:click="clearHide()">
         </div>
         <div class="searchBar-main" flex>
@@ -7,7 +7,7 @@
                 <svg class="icon icon-margin" aria-hidden="true" flex>
                     <use xlink:href="#icon-search2"></use>
                 </svg>
-                <input flex="70" type="text" name="search-text" placeholder="搜索员工/工号" v-model="searchText" @change="change()">
+                <input flex="70" type="text" name="search-text" placeholder="搜索员工/工号" v-model="keyword" @keyup.enter="change">
                 <span flex v-on:click="clearHide()">
                       <svg class="icon icon-close icon-margin" aria-hidden="true">
                         <use xlink:href="#icon-close"></use>
@@ -22,9 +22,11 @@
 </template>
 <script>
 export default {
-    name: 'searchBar',
+    name: 'auto-search-bar',
     data() {
-        return {};
+        return {
+            keyword: this.searchText
+        };
     },
     /*
      *Visiable 搜素框出现
@@ -32,7 +34,7 @@ export default {
      *employeeList 员工列表
      */
     props: {
-        searchvisiable: {
+        visiable: {
             type: Boolean,
             default: false
         },
@@ -42,21 +44,20 @@ export default {
         },
         employeeList: {
             type: Array,
-            default() {
-                return [];
-            }
+            default: []
         }
     },
     methods: {
         change() {
-            this.$emit('change');
+            this.$emit('change', this.keyword);
         },
         click(item) {
-            this.searchText = item.name;
+            this.$emit('update:visiable', false);
+            this.$emit('itemClick', item);
         },
         clearHide() {
-            this.searchvisiable = false;
-            this.searchText = '';
+            this.$emit('update:visiable', false);
+            this.$emit('update:searchText', '');
         }
     }
 };
@@ -91,6 +92,23 @@ export default {
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
     }
-    .search-main {}
+    .search-main {
+        .icon {
+            font-size: @fs36;
+            color: @color-primary;
+        }
+        .icon-margin {
+            margin: 0 @l16*2;
+        }
+        .icon-close {
+            color: @color-black;
+        }
+    }
+    .employee-list li {
+        padding: @l16 * 2;
+        color: @color-black;
+        font-size: @fs28;
+        border-bottom: 1px solid @light-gray;
+    }
 }
 </style>
