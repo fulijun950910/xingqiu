@@ -61,7 +61,7 @@
                     if (value.base64) {
                         return value.base64;
                     } else if (value.id) {
-                        return BASE_IMG_PATH + value.id;
+                        return `${BASE_IMG_PATH + value.id}/120/120`;
                     }
                 }
             }

@@ -1,32 +1,5 @@
 <template>
     <div class="record-edit">
-        <!-- 头部名片 -->
-        <div class="c-card" layout="row" layout-align="space-between end">
-            <div class="c-card-content " flex="70" layout="row" layout-align="space-between center">
-                <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1904751778,1640431221&fm=117&gp=0.jpg" alt="">
-                <div flex="75">
-                    <p class="c-card-title " layout="row" layout-align="start center">
-                        <span class="c-card-name no-wrap">王女士王女士王女士</span>
-                        <span class="c-card-number no-wrap text-center" flex="30">
-                            <span class="dian">●</span> 
-                            <span class="ft-light">12345</span>
-                        </span>
-                    </p>
-                    <p class="c-card-subtitle" layout="row" layout-align="start center">
-                        <span class="dian" flex="10">●</span> 
-                        <span class="ft-light no-wrap" flex="40">黄金黄金会员会员</span>&nbsp;&nbsp;
-                        <span class="dian" flex="10">●</span> 
-                        <span class="ft-light no-wrap" flex="40">持卡3254145张</span>
-                    </p>
-                </div>
-            </div>
-            <div class="c-card-call text-right ft-light"  flex="30">
-                <span class="btn btn-xs ft-light">
-                    <m-icon xlink="#icon-tel-alt"></m-icon> 联系Ta
-                </span>
-            </div>
-        </div>
-
         <!-- Ta的标签 -->
         <m-tags :tags="model.tags" @add="addTag" @remove="removeTag"></m-tags>
         
@@ -37,7 +10,7 @@
 
         <!-- 配图 -->
         <m-pictures class="c-picture" :column="3" :pictures="pictureList" 
-        @add="pictureAdd" @remove="pictureRemove"></m-pictures>
+        @add="pictureAdd" @remove="pictureRemove" @update="updateImageIds"></m-pictures>
 
         <!-- 日期提醒 -->
         <div class="c-warn">
@@ -48,7 +21,7 @@
                 <div v-show="isWran" class="c-warn-content">
                     <mt-cell title="选择提醒事项" is-link :value="warnContent" @click.native="warnVisible = true">
                     </mt-cell>
-                    <mt-cell title="选择提示时间" is-link :value="warnDate.formatDate('yyyy-MM-dd hh:mm')" @click.native="$refs.warnTimer.open()">
+                    <mt-cell title="选择提示时间" is-link :value="warnDate.formatDate('yyyy-MM-dd hh:mm:ss')" @click.native="$refs.warnTimer.open()">
                     </mt-cell>
                 </div>
             </transition>
@@ -77,15 +50,11 @@
     import { Switch, Cell, DatetimePicker, Popup, Checklist } from 'mint-ui';
     import { WARN_ITEMS } from 'config/mixins';
     /**
-    * type:编辑类型（1：服务小计   2：客户维护）
+    * model: 数据
     */
     export default {
         name: 'record-edit',
         props: {
-            type: {
-                type: Number,
-                default: 1
-            },
             model: {
                 type: Object,
                 default: null
@@ -101,18 +70,22 @@
             [Popup.name]: Popup,
             [Checklist.name]: Checklist
         },
+        mounted() {
+            // 初始化
+            this.initData();
+        },
         data() {
             return {
                 // 图片列表
                 pictureList: [],
                 isWran: false,
-                warnDate: new Date().formatDate('yyyy-MM-dd hh:mm'),
-                warnValue: null,
+                warnDate: new Date().formatDate('yyyy-MM-dd hh:mm:ss'),
                 warnItems: WARN_ITEMS,
                 warnVisible: false
             };
         },
         computed: {
+            // 提醒事项
             warnContent() {
                 if (this.model.remindContent && this.model.remindContent != '') {
                     let obj = this.warnItems.find(x => {return x.value == this.model.remindContent.toString();});
@@ -122,7 +95,39 @@
                 }
             }
         },
+        watch: {
+            // 是否提醒
+            isWran(val, oldVal) {
+                if (val) {
+                    this.model.remind = 1;
+                } else {
+                    this.model.remind = 0;
+                }
+            },
+            // 提醒时间
+            warnDate(val, oldVal) {
+                this.model.remindTime = this.warnDate.formatDate('yyyy-MM-dd hh:mm:ss');
+            }
+        },
         methods: {
+            // 初始化
+            initData() {
+                // 是否提醒
+                this.isWran = this.model.remind === 1;
+                // 提醒时间
+                this.warnDate = this.model.remindTime.formatDate('yyyy-MM-dd hh:mm');
+                // 图片
+                if (this.model.imageIds !== '') {
+                    this.pictureList = this.model.imageIds.split(',').map(x => {
+                        return {
+                            id: x,
+                            base64: null
+                        };
+                    });
+                } else {
+                    this.pictureList = [];
+                }
+            },
             // 选择提醒事项
             chooseWarnItem(item) {
                 this.warnVisible = false;
@@ -130,11 +135,13 @@
             },
             // 完成记录
             recordFinish() {
-                this.$router.push({name: 'record-finish', query: {type: this.type}});
+                // 提交
+                this.$emit('click');
             },
             // 删除图片
             pictureRemove(cid) {
                 this.pictureList.splice(cid, 1);
+                this.updateImageIds();
             },
             // 添加图片（pic：要添加的图片, index：插入指定的下标）
             pictureAdd(pic, index) {
@@ -144,18 +151,22 @@
                     this.pictureList.splice(index + 1, 0, pic);
                 }
             },
+            // 更新图片属性
+            updateImageIds() {
+                this.model.imageIds = this.pictureList.map(x => {
+                    return x.id;
+                }).join(',');
+            },
             // 移除标签
             addTag(tagId) {
                 let arr = this.model.tags.split(',');
                 arr.push(tagId);
                 this.model.tags = arr.join(',');
-                console.log(this.model.tags);
             },
             // 移除标签
             removeTag(tagId) {
                 let tagArr = this.model.tags.split(',').filter(x => {return x != tagId;});
                 this.model.tags = tagArr.join(',');
-                console.log(this.model.tags);
             }
         }
     };
@@ -198,53 +209,7 @@
         padding: 0;
         margin: 0;
     }
-    // 头部名片
-    .c-card{
-        background-color: white;
-        font-size: @fs28;
-        padding: @l32;
-        border-bottom: 1px solid #e4e4e4;
-        .c-card-content{
-            padding: 5px 0;
-            img {
-                border-radius: 50%;
-                width: 52px;
-                height: 52px;
-            }
-            .dian {
-                text-align: left;
-                height: 100%;
-                line-height: 100%;
-                font-size: @fs36;
-                color: @color-tiffany-blue;
-            }
-            .c-card-title{
-                width: 100%;
-                height: 34px;
-                line-height: 34px;
-                font-size: @fs24;
-                .c-card-name{
-                    min-width: 20%;
-                    max-width: 70%;
-                    font-size: @fs40;
-                }
-            }
-            .c-card-subtitle{
-                font-size: @fs24;
-                height: 20px;
-                line-height: 20px;
-                color: @dark-gray;
-            }
-        }
-        .c-card-call{
-            height: 100%;
-            padding: 5px;
-            color: @extra-light-black;
-            .btn{
-                border: 1px solid #979797;
-            }
-        }
-    }
+    
 
     // Ta的标签
     .c-tag{
