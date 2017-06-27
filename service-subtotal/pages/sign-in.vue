@@ -9,7 +9,7 @@
         </div>
         <mt-popup v-model="popupVisible" position="bottom">
             <div class="employeeCell">
-                <div v-for="(item, index) in employeeList" v-on:click="select(index)">
+                <div v-for="(item, index) in employeeList" v-on:click="select(index)" :key="index">
                     <mt-cell :title="item.name" :label="item.store ? item.store.name : ''"></mt-cell>
                 </div>
             </div>
@@ -41,8 +41,8 @@ export default {
     name: 'sign',
     data() {
         return {
-            user: null,
-            pwd: null,
+            user: '17602131253',
+            pwd: '9C92GgvNpur5',
             employeeList: null,
             popupVisible: false
         };

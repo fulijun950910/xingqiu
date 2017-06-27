@@ -3,7 +3,7 @@
         <m-top-search v-model="query.memberName" placeholder="搜索我要回访/维护的客户" @search="search"></m-top-search>
         <div>
             <div layout="row" layout-align="center center" v-for="(item, index) in dataList" :key="index" @click="editClick(item)" class="member-cell">
-                <img :src="item.avatarId | mSrc(require('assets/imgs/avatar.png'))" class="avatar">
+                <img :src="item.avatarId | mSrc(40,40,require('assets/imgs/avatar.png'))" class="avatar">
                 <div class="content" flex>
                     <p class="fs24 dark-gray">{{item.memberNo}}</p>
                     <p class="fs28 extra-light-black">{{item.name}}</p>

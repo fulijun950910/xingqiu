@@ -1,7 +1,7 @@
 <template>
     <!-- 图片上传 -->
     <div class="m-pictures">
-        <transition-group name="slide-fade" tag="div" mode="out-in">
+        <transition-group name="slide-up" tag="div" mode="out-in">
             <div :class="['c-picture-item', ('c-picture-item-'+column)]" 
                 v-for="(item,cid) in pictures" :key="cid" :ref="'picture_'+cid">
                 <!-- 合同图片 -->
@@ -101,6 +101,7 @@
                     // 上传成功
                     self.pictures[idx].base64 = null;
                     self.pictures[idx].id = res.data;
+                    this.$emit('update');
                     newDiv.innerText = '上传成功！';
                     newDiv.style.height = '24px';
                     window.setTimeout(() => {

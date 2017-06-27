@@ -1,22 +1,23 @@
 <template>
     <div class="container" :class="{active:vm.mask}">
-<!--         <div class="mask" v-if="vm.mask" v-on:click="searchStatu()">
+        <!--         <div class="mask" v-if="vm.mask" v-on:click="searchStatu()">
         </div> -->
         <div class="mask" v-if="swipe.show" v-on:click="imgHide()">
         </div>
         <div class="top-bar" :class="{active:swipe.show}">
             <div layout="row" layout-align="start center" flex v-if="!vm.search.show">
-                <a class="bar-btn border-r" layout="row" layout-align="center center" flex v-on:click="getEmployeeList()">
-                    <div v-if="!vm.search.main">
+                <a class="bar-btn border-r" layout="row" layout-align="center center" flex v-on:click="searchStatu()">
+                    <div v-if="!vm.search.text">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-search2"></use>
                         </svg>
                         <span class="bar-text">搜索</span>
                     </div>
-                    <span v-if="vm.search.main" flex class="text-center"> 
-                    {{vm.search.main.name}}
+                    <span v-if="vm.search.text" flex class="text-center"> 
+                    {{vm.search.text}}
                      </span>
-                    <span v-on:click.stop="clearSearch()" v-if="vm.search.main">
+                    <span v-if="!admin">{{user.name}}</span>
+                    <span v-on:click.stop="clearSearch()" v-if="vm.search.text">
                     <svg class="icon icon-close-grey icon-margin" aria-hidden="true">
                         <use xlink:href="#icon-close"></use>
                     </svg>                         
@@ -30,7 +31,7 @@
                 </a>
             </div>
             <!--搜索框begin-->
-            <auto-Searchbar :searchvisiable="vm.search.show" :employeeList="vm.employeeList" @change="getEmployeeList()"></auto-Searchbar>
+            <auto-searchbar :visiable.sync="vm.search.show" :employeeList="vm.employeeList" @change="getEmployeeList" @itemClick="messageServiceList" :searchText="vm.search.text"></auto-searchbar>
             <!-- 搜索框end -->
         </div>
         <div class="placeholder" flex>
@@ -116,8 +117,9 @@ import {
 import {
     Lazyload
 } from 'mint-ui';
+import mLoadMore from 'components/m-load-more';
 import bottomMenu from 'components/bottom-menu';
-import autoSearchbar from 'components/auto-searchBar';
+import autoSearchbar from 'components/auto-search-bar';
 import mPicker from 'components/m-picker';
 import mDateRangePicker from 'components/m-date-range-picker';
 import service from 'services/api.serviceNote';
@@ -139,6 +141,7 @@ export default {
         bottomMenu,
         autoSearchbar,
         mPicker,
+        mLoadMore,
         [DatetimePicker.name]: DatetimePicker,
         [Swipe.name]: Swipe,
         [SwipeItem.name]: SwipeItem,
@@ -148,6 +151,7 @@ export default {
 
     data() {
         return {
+            admin: this.$store.getters.admin,
             storePickerVisible: false,
             statusPickerVisible: false,
             slots: [],
@@ -245,9 +249,8 @@ export default {
     methods: {
         // 显示/隐藏搜索详情
         searchStatu() {
-            this.vm.mask = !this.vm.mask;
-            this.vm.search.statu = !this.vm.search.statu;
             this.vm.search.show = !this.vm.search.show;
+            this.getEmployeeList();
         },
         maskHide() {
             this.vm.mask = false;
@@ -280,7 +283,7 @@ export default {
         },
         // 清除显示的员工
         clearSearch() {
-            this.vm.search.main = null;
+            this.vm.search.text = null;
         },
         // 点击返回顶部
         toTop() {
@@ -334,11 +337,12 @@ export default {
             };
         },
         // 获取员工列表
-        getEmployeeList() {
+        getEmployeeList(text) {
+            this.vm.search.text = text;
             let self = this;
-            self.vm.mask = !this.vm.mask;
-            self.vm.search.statu = !this.vm.search.statu;
-            self.vm.search.show = !this.vm.search.show;
+            // self.vm.mask = !this.vm.mask;
+            // self.vm.search.statu = !this.vm.search.statu;
+            // self.vm.search.show = !this.vm.search.show;
             let parameter = {
                 merchantId: self.merchantId,
                 storeIds: self.storeIds.join(','),
@@ -353,7 +357,7 @@ export default {
                 console.log('网络错误！');
             });
         },
-        messageServiceList() {
+        messageServiceList(item) {
             let self = this;
             let parameter = {
                 merchantId: self.merchantId,
@@ -368,8 +372,9 @@ export default {
             if (self.selectedstatus) {
                 parameter.type = self.selectedstatus.value;
             };
-            if (self.vm.search.main) {
-                parameter.employeeId = self.vm.search.main.id;
+            if (item) {
+                self.vm.search.text = item.name;
+                parameter.employeeId = item.id;
             };
             if (self.vm.timeInterval.startDate) {
                 parameter.startDate = self.vm.timeInterval.startDate;
