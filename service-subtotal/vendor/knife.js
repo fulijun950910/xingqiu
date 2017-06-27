@@ -82,6 +82,9 @@ export default {
         var type = typeof value;
         return !!value && (type == 'object' || type == 'function');
     },
+    isArray(value) {
+        return Object.prototype.toString.call(value) == '[object Array]';
+    },
     toNumber(value) {
       if (typeof value == 'number') {
         return value;
