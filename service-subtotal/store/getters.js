@@ -10,5 +10,15 @@ export default {
             storeIds.push(state.storeList[i].id);
         }
         return storeIds.toString();
+    },
+    admin: state => {
+        try {
+            if (state.merchantRole.permissionPackage.permissions.indexOf('wechat_business_admin') != -1) {
+                return true;
+            }
+        } catch (e) {
+            return false;
+        }
+        return false;
     }
 };
