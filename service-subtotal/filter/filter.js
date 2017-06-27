@@ -62,14 +62,28 @@ Vue.filter('mGender', function(value) {
 });
 
 /**
- * 图片过滤器
+ * 图片路径过滤（宽高）
  */
-Vue.filter('mSrc', function(value, def) {
+Vue.filter('mSrc', function(value, w, h, def) {
     if (value) {
         if (isNaN(Number(value))) {
             return value;
         } else {
-            return BASE_IMG_PATH + value;
+            return `${BASE_IMG_PATH + value}/${w}/${h}`;
+        }
+    }
+    return def;
+});
+
+/**
+ * 图片路径过滤（清晰度）
+ */
+Vue.filter('qSrc', function(value, q, def) {
+    if (value) {
+        if (isNaN(Number(value))) {
+            return value;
+        } else {
+            return `${BASE_IMG_PATH + value}/${q}`;
         }
     }
     return def;
