@@ -37,7 +37,7 @@ export default {
      * 说明：通用接口，包含员工搜索查询
      */
     employeeList: function(data) {
-        let url = '/api/wechatbusinessassists/serviceNoteUpdate';
+        let url = '/api/wechatbusinessassists/employeeList';
         return request(url, data, 'post');
     },
     /**
@@ -45,7 +45,7 @@ export default {
      * 说明：根据权限，员工看自己，管理员券全部员工
      */
     messageServiceList(parameter) {
-        let url = 'api/messageServiceList';
+        let url = '/api/wechatbusinessassists/messageServiceList';
         return request(url, parameter, 'post');
     }
 };
