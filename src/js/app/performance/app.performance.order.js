@@ -86,7 +86,7 @@ app.performance.order = {
             query.endDate = moment().format('YYYY-MM-DD HH:mm:ss');
         }
         var status = $('.order-list .orderLists .date_name').attr('data-status');
-        query.orderStatus = status || '20';
+        query.orderStatus = status || '';
         switch (type) {
             case 'storeIds':
                 query.storeIds = results;
@@ -125,11 +125,13 @@ app.performance.order = {
             size: app.performance.order.page.size,
             startTime: query.startDate,
             endTime: query.endDate,
-            orderStatus: query.orderStatus,
             employeeId: employee.id,
             merchantId:employee.merchantId,
             storeIds: query.storeIds
         };
+        if(query.orderStatus){
+            data.orderStatus = query.orderStatus;
+        }
         //管理员
         if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
             data.type = 1;
