@@ -97,6 +97,9 @@ export default {
             font-size: @fs36;
             color: @color-primary;
         }
+        .icon-margin {
+            margin: 0 @l16*2;
+        }
         .icon-close {
             color: @color-black;
         }
