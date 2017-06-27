@@ -1,12 +1,12 @@
 <template>
     <div class="container" :class="{active:vm.mask}">
-        <div class="mask" v-if="vm.mask" v-on:click="searchStatu()">
-        </div>
+<!--         <div class="mask" v-if="vm.mask" v-on:click="searchStatu()">
+        </div> -->
         <div class="mask" v-if="swipe.show" v-on:click="imgHide()">
         </div>
         <div class="top-bar" :class="{active:swipe.show}">
-            <div layout="row" layout-align="start center" flex v-if="vm.search.show">
-                <a class="bar-btn border-r" layout="row" layout-align="center center" flex v-on:click="searchStatu()">
+            <div layout="row" layout-align="start center" flex v-if="!vm.search.show">
+                <a class="bar-btn border-r" layout="row" layout-align="center center" flex v-on:click="getEmployeeList()">
                     <div v-if="!vm.search.main">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-search2"></use>
@@ -14,7 +14,7 @@
                         <span class="bar-text">搜索</span>
                     </div>
                     <span v-if="vm.search.main" flex class="text-center"> 
-                    {{vm.search.main}}
+                    {{vm.search.main.name}}
                      </span>
                     <span v-on:click.stop="clearSearch()" v-if="vm.search.main">
                     <svg class="icon icon-close-grey icon-margin" aria-hidden="true">
@@ -29,67 +29,58 @@
                     <span class="bar-text">查看数据</span>
                 </a>
             </div>
-            <div class="search-input bar-btn" v-if="vm.search.statu">
-                <div layout="row" layout-align="start center" flex class="search-main">
-                    <svg class="icon icon-margin" aria-hidden="true" flex>
-                        <use xlink:href="#icon-search2"></use>
-                    </svg>
-                    <input flex="70" type="text" name="search-text" placeholder="搜索员工/工号" v-model="vm.search.text">
-                    <span flex v-on:click="searchStatu()">
-                      <svg class="icon icon-close icon-margin" aria-hidden="true">
-                        <use xlink:href="#icon-close"></use>
-                    </svg>                        
-                    </span>
-                </div>
-                <ul class="employee-list">
-                    <li v-for="item in vm.employeeList" v-on:click="backMain(item)">{{item.name}}</li>
-                </ul>
-            </div>
+            <!--搜索框begin-->
+            <auto-Searchbar :searchvisiable="vm.search.show" :employeeList="vm.employeeList" @change="getEmployeeList()"></auto-Searchbar>
+            <!-- 搜索框end -->
         </div>
         <div class="placeholder" flex>
         </div>
-        <div class="dynamics">
-            <div class="div-box" v-for="i in 10">
+        <div class="dynamics" :v-infinite-scroll="messageServiceList" :infinite-scroll-disabled="!scrollDisabled" infinite-scroll-distance="10" :infinite-scroll-immediate-check="scrollDisabled">
+            <div class="div-box" v-for="(item,pIndex) in dataList">
                 <div class="title" layout="row" layout-align="space-between center">
                     <div class="user" layout="row" layout-align="center center">
                         <span class="view">
-                            <img  :src="require('assets/imgs/service.png')" alt="">
+                            <img alt="">
                         </span>
                         <div>
-                            <h3>NO:007</h3>
-                            <h3>告示的话</h3>
+                            <h3>NO:{{item.employeeNo}}</h3>
+                            <h3>{{item.employeeName}}</h3>
                         </div>
                     </div>
                     <div flex>
                     </div>
                     <div class="text-type" layout="row" layout-align="center center">
                         <svg class="icon" aria-hidden="true">
-                            <use xlink:href="#icon-fuwu-copy"></use>
+                            <use xlink:href="#icon-fuwu-copy" v-if="item.type == 1"></use>
+                            <use xlink:href="#icon-dianhua" v-if="item.type == 2"></use>
                         </svg>
-                        <span>服务小计</span>
+                        <span>{{item.type | messageType}}</span>
                     </div>
                     <div>
                     </div>
                 </div>
                 <div class="main-text" flex>
-                    客户服务不错
+                    {{item.content}}
                 </div>
                 <div class="main-img" layout="row" layout-align="start center" flex-wrap="wrap">
-                    <span flex="30" v-for="(index,i) in 3" :key="index" v-on:click="scaleImg(index)">
-                        <img  :src="require('assets/imgs/huan.png')" alt="">
+                    <span flex="30" v-for="(img,index) in item.imageIds" v-on:click="scaleImg(pIndex,index)">
+                        <img  :src="img | mSrc" alt="">
                     </span>
                 </div>
                 <div class="box-bottom" flex layout="row" layout-align="start center">
-                    <span>{{vm.testTime | fromnow}}</span>
+                    <span>{{item.recordTime ? item.recordTime : item.createTime | fromnow}}</span>
                     <span flex></span>
-                    <a>查看详情</a>
+                    <a v-if="item.status == 1">客户：{{item.memberName}}</a>
+                    <a v-if="item.status == 0">编辑</a>
                 </div>
             </div>
+            <m-load-more :loading="!scrollDisabled"></m-load-more>
         </div>
         <bottom-menu @click="link" :flex="vm.flex"></bottom-menu>
         <!-- 图片放大 -->
         <mt-swipe :auto="0" v-if="swipe.show" :showIndicators="false" :continuous="false" :defaultIndex="swipe.index" v-on:click="scaleImg(index)">
-            <mt-swipe-item v-for="(i,index) in 6" :key="index">{{index}}</mt-swipe-item>
+            <mt-swipe-item v-for="(i,index) in outerImg" :key="index">
+                <img :src="i | mSrc" alt=""></mt-swipe-item>
         </mt-swipe>
         <!-- 下部时间选择 -->
         <template>
@@ -119,7 +110,6 @@
 // 引用底部的菜单
 import Vue from 'vue';
 import $ from 'jquery';
-import moment from 'moment';
 import {
     DatetimePicker
 } from 'mint-ui';
@@ -127,9 +117,10 @@ import {
     Lazyload
 } from 'mint-ui';
 import bottomMenu from 'components/bottom-menu';
+import autoSearchbar from 'components/auto-searchBar';
 import mPicker from 'components/m-picker';
 import mDateRangePicker from 'components/m-date-range-picker';
-Vue.use(Lazyload);
+import service from 'services/api.serviceNote';
 import {
     Swipe,
     SwipeItem
@@ -137,10 +128,16 @@ import {
 import {
     Actionsheet
 } from 'mint-ui';
+import {
+    InfiniteScroll
+} from 'mint-ui';
+Vue.use(Lazyload);
+Vue.use(InfiniteScroll);
 export default {
     name: 'service-dynamics',
     components: {
         bottomMenu,
+        autoSearchbar,
         mPicker,
         [DatetimePicker.name]: DatetimePicker,
         [Swipe.name]: Swipe,
@@ -158,6 +155,7 @@ export default {
             selectedstatus: {},
             sheetVisible: false,
             dateRangeVisible: false,
+            outerImg: [],
             status: [{
                 flex: 1,
                 values: [{
@@ -173,41 +171,18 @@ export default {
             }],
             actions: [],
             vm: {
-                employeeList: [{
-                    name: '赵辉',
-                    id: 12345678
-                }, {
-                    name: '金超',
-                    id: 87654321
-                }, {
-                    name: '现伟',
-                    id: 87654321
-                }, {
-                    name: '子轩',
-                    id: 87654321
-                }, {
-                    name: '金超',
-                    id: 87654321
-                }, {
-                    name: '金超',
-                    id: 87654321
-                }],
+                employeeList: [],
                 search: {
                     statu: false,
-                    show: true,
-                    text: '测试文字',
+                    show: false,
+                    text: '',
                     main: ''
                 },
                 flex: 25,
                 mask: false,
                 pickerValue: '',
-                testTime: moment('2017-06-23 13:59:30'),
-                // 以下不用刹车农户
                 selectedStoreId: this.$route.query.storeId,
-                timeInterval: {
-                    startDate: this.$moment().format('YYYY-MM-DD HH:mm:ss'),
-                    endDate: this.$moment().format('YYYY-MM-DD HH:mm:ss')
-                },
+                timeInterval: {},
                 returnVisit: 321321,
                 record: 3321,
                 valued: 3213,
@@ -216,92 +191,25 @@ export default {
             swipe: {
                 index: '',
                 show: false
-            }
+            },
+            dataList: [],
+            merchantId: this.$store.state.merchant.id,
+            store: this.$store.state.storeList,
+            storeIds: [],
+            page: 1,
+            rows: 20,
+            user: this.$store.state.user,
+            scrollDisabled: false
         };
     },
-    methods: {
-        // 显示/隐藏搜索详情
-        searchStatu() {
-            this.vm.mask = !this.vm.mask;
-            this.vm.search.statu = !this.vm.search.statu;
-            this.vm.search.show = !this.vm.search.show;
-        },
-        maskHide() {
-            this.vm.mask = false;
-            this.vm.search.statu = false;
-            this.vm.search.show = false;
-        },
-        backMain(item) {
-            this.vm.search.main = item.name;
-            this.searchStatu();
-        },
-        link(index, item) {
-            switch (index) {
-                case 0:
-                    this.$router.go(-1);
-                    break;
-                case 1:
-                    this.storePickerVisible = true;
-                    break;
-                case 2:
-                    this.sheetVisible = true;
-                    break;
-                case 3:
-                    this.statusPickerVisible = true;
-            }
-        },
-        // 清除显示的员工
-        clearSearch() {
-            this.vm.search.main = null;
-        },
-        // 点击返回顶部
-        toTop() {
-            $('.container').animate({
-                scrollTop: 0
-            }, 500);
-        },
-        openPicker() {
-            this.$refs.picker.open();
-        },
-        imgHide() {
-            this.vm.mask = false;
-            this.swipe.show = false;
-
-        },
-        scaleImg(index) {
-            this.swipe.show = !this.swipe.show;
-            this.swipe.index = index;
-        },
-        handleConfirm(date) {
-            console.log(moment(date).fromNow());
-        },
-        changeStore(item) {
-            this.selectedStore = item[0];
-            // this.loadData();
-        },
-        changestatus(item) {
-            this.selectedstatus = item[0];
-            console.log(item);
-        },
-        changeDateRange() {
-            // this.loadData();
-        },
-        selectedDateRange(item) {
-            var tempItem = item.value;
-            if (tempItem) {
-                this.vm.timeInterval = tempItem;
-                // this.loadData();
-            } else {
-                this.dateRangeVisible = true;
-            }
-        }
-    },
     mounted() {
-        let tempStores = this.$store.state.storeList;
+        for (let i = 0; i < this.store.length; i++) {
+            this.storeIds.push(this.store[i].id);
+        };
         let tempIndex = 0;
         this.slots.push({
             flex: 1,
-            values: tempStores,
+            values: this.store,
             className: 'slot1',
             textAlign: 'center',
             defaultIndex: tempIndex
@@ -332,6 +240,157 @@ export default {
             name: '自定义',
             method: this.selectedDateRange
         }];
+        this.messageServiceList();
+    },
+    methods: {
+        // 显示/隐藏搜索详情
+        searchStatu() {
+            this.vm.mask = !this.vm.mask;
+            this.vm.search.statu = !this.vm.search.statu;
+            this.vm.search.show = !this.vm.search.show;
+        },
+        maskHide() {
+            this.vm.mask = false;
+            this.vm.search.statu = false;
+            this.vm.search.show = false;
+        },
+        backMain(item) {
+            this.vm.search.main = item;
+            this.searchStatu();
+            this.messageServiceList();
+        },
+        link(index, item) {
+            switch (index) {
+                case 0:
+                    this.$router.go(-1);
+                    break;
+                case 1:
+                    this.storePickerVisible = true;
+                    break;
+                case 2:
+                    this.vm.timeInterval = {
+                        startDate: this.$moment().format('YYYY-MM-DD HH:mm:ss'),
+                        endDate: this.$moment().format('YYYY-MM-DD HH:mm:ss')
+                    };
+                    this.sheetVisible = true;
+                    break;
+                case 3:
+                    this.statusPickerVisible = true;
+            }
+        },
+        // 清除显示的员工
+        clearSearch() {
+            this.vm.search.main = null;
+        },
+        // 点击返回顶部
+        toTop() {
+            $('.container').animate({
+                scrollTop: 0
+            }, 500);
+        },
+        openPicker() {
+            this.$refs.picker.open();
+        },
+        imgHide() {
+            this.vm.mask = false;
+            this.swipe.show = false;
+
+        },
+        scaleImg(pIndex, index) {
+            this.swipe.show = !this.swipe.show;
+            this.outerImg = this.dataList[pIndex].imageIds;
+            this.swipe.index = index;
+        },
+        handleConfirm(date) {
+            let self = this;
+            let parameter = {
+                merchantId: self.merchantId,
+                storeIds: self.storeIds.join(',')
+            };
+            console.log(parameter);
+        },
+        changeStore(item) {
+            this.selectedStore = item[0];
+            this.messageServiceList();
+        },
+        changestatus(item) {
+            this.selectedstatus = item[0];
+            this.messageServiceList();
+        },
+        changeDateRange(start, end) {
+            this.vm.timeInterval = {
+                startDate: this.$moment(start).format('YYYY-MM-DD HH:mm:ss'),
+                endDate: this.$moment(end).format('YYYY-MM-DD HH:mm:ss')
+            };
+            this.messageServiceList();
+        },
+        selectedDateRange(item) {
+            var tempItem = item.value;
+            if (tempItem) {
+                this.vm.timeInterval = tempItem;
+                this.messageServiceList();
+            } else {
+                this.dateRangeVisible = true;
+            };
+        },
+        // 获取员工列表
+        getEmployeeList() {
+            let self = this;
+            self.vm.mask = !this.vm.mask;
+            self.vm.search.statu = !this.vm.search.statu;
+            self.vm.search.show = !this.vm.search.show;
+            let parameter = {
+                merchantId: self.merchantId,
+                storeIds: self.storeIds.join(','),
+                employeeId: self.user.id
+            };
+            if (self.vm.search.text) {
+                parameter.employeeName = self.vm.search.text;
+            }
+            service.employeeList(parameter).then(function(res) {
+                self.vm.employeeList = res.data;
+            }, function(erro) {
+                console.log('网络错误！');
+            });
+        },
+        messageServiceList() {
+            let self = this;
+            let parameter = {
+                merchantId: self.merchantId,
+                storeIds: self.storeIds.join(','),
+                employeeId: self.user.id,
+                page: self.page,
+                rows: self.rows
+            };
+            if (self.selectedStore) {
+                parameter.storeIds = self.selectedStore.id;
+            };
+            if (self.selectedstatus) {
+                parameter.type = self.selectedstatus.value;
+            };
+            if (self.vm.search.main) {
+                parameter.employeeId = self.vm.search.main.id;
+            };
+            if (self.vm.timeInterval.startDate) {
+                parameter.startDate = self.vm.timeInterval.startDate;
+            };
+            if (self.vm.timeInterval.endDate) {
+                parameter.endtDate = self.vm.timeInterval.endDate;
+            };
+            service.messageServiceList(parameter).then(function(res) {
+                for (let i = 0; i < res.data.rows.length; i++) {
+                    res.data.rows[i].imageIds = res.data.rows[i].imageIds.split(',');
+                };
+                if (res.data.rows.length < self.rows) {
+                    self.scrollDisabled = true;
+                } else {
+                    self.scrollDisabled = false;
+                }
+                self.dataList = self.dataList.concat(res.data.rows);
+            }, function(erro) {
+                console.log('网络错误！');
+            });
+        }
     }
 };
 </script>
@@ -534,7 +593,6 @@ export default {
     .mint-swipe {
         height: 300px;
         position: fixed;
-        background: @color-black;
         z-index: 3;
         width: 100%;
         color: #fff;
