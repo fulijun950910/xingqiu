@@ -1,8 +1,8 @@
 <template>
     <div v-title="'未记录服务'" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
-        <m-top-search v-model="query.keyword" placeholder="搜索员工" @search="search"></m-top-search>
+        <!-- <m-top-search v-model="query.keyword" placeholder="搜索员工" @search="search"></m-top-search> -->
         <div>
-            <service-record-cell v-for="(item, index) in dataList" :key="index" @click.native="editClick(item)"></service-record-cell>
+            <service-record-cell :m-data="item" v-for="(item, index) in dataList" :key="index" @click.native="editClick(item)"></service-record-cell>
             <m-load-more :loading="!scrollDisabled"></m-load-more>
         </div>
     </div>
@@ -15,6 +15,7 @@ import {
 Vue.use(InfiniteScroll);
 import mLoadMore from 'components/m-load-more';
 import mTopSearch from 'components/m-top-search';
+import api_service_note from 'services/api.serviceNote';
 import serviceRecordCell from 'pages/module/service-record-cell';
 
 export default {
@@ -27,7 +28,15 @@ export default {
     data() {
         return {
             query: {
-                keyword: ''
+                merchantId: this.$store.getters.merchantId,
+                storeIds: this.$store.getters.storeIds,
+                employeeId: '',
+                startDate: '',
+                endDate: '',
+                status: 2,
+                type: 1,
+                page: 1,
+                rows: 20
             },
             dataList: [],
             loading: false,
@@ -39,18 +48,23 @@ export default {
     },
     methods: {
         loadData() {
-            // TODO: 加载数据
             this.loading = true;
-            setTimeout(() => {
-                for (var i = 10; i >= 0; i--) {
-                    this.dataList.push({
-                        id: i + '2313'
-                    });
+            api_service_note.queryServiceRecord(this.getQuery()).then(res => {
+                if (res.data.rows.length < this.query.rows) {
+                    this.scrollDisabled = true;
+                } else {
+                    this.scrollDisabled = false;
                 }
+                this.dataList = this.dataList.concat(res.data.rows);
                 this.loading = false;
-            }, 1000);
+                this.query.page++;
+            }, err => {
+                this.loading = false;
+            });
         },
-
+        getQuery() {
+            return this.query;
+        },
         loadMore() {
             this.loadData();
         },

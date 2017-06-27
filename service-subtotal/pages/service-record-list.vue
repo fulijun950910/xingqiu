@@ -6,13 +6,13 @@
                 <p class="top-title">本周服务</p>
             </div>
             <div layout="row" class="option-panel">
-                <div class="text-center" :class="{ 'option-selected': query.type == 1 }" flex @click="changeType(1)">
-                    <p>45</p>
+                <div class="text-center" :class="{ 'option-selected': query.status == 1 }" flex @click="changeStatus(1)">
+                    <p>{{this.unrecordedModel.total}}</p>
                     <p>待记录</p>
                 </div>
                 <span class="interval-line"></span>
-                <div class="text-center" :class="{ 'option-selected': query.type == 2 }" flex @click="changeType(2)">
-                    <p>45</p>
+                <div class="text-center" :class="{ 'option-selected': query.status == 2 }" flex @click="changeStatus(2)">
+                    <p>{{this.recordedModel.total}}</p>
                     <p>已记录</p>
                 </div>
             </div>
@@ -30,6 +30,7 @@ import {
 } from 'mint-ui';
 Vue.use(InfiniteScroll);
 import mLoadMore from 'components/m-load-more';
+import api_service_note from 'services/api.serviceNote';
 import serviceRecordCell from 'pages/module/service-record-cell';
 
 export default {
@@ -41,39 +42,95 @@ export default {
     data() {
         return {
             query: {
-                type: 1
+                merchantId: this.$store.getters.merchantId,
+                storeIds: this.$store.getters.storeIds,
+                startDate: '',
+                endDate: '',
+                employeeId: '',
+                status: -1,
+                type: 1,
+                page: 1,
+                rows: 20
+            },
+            unrecordedModel: {
+                list: [],
+                page: 1,
+                total: 0
+            },
+            recordedModel: {
+                list: [],
+                page: 2,
+                total: 0
             },
             dataList: [],
+            activeModel: null,
             loading: false,
             scrollDisabled: false
         };
     },
     mounted() {
-        this.loadData();
+        this.query.startDate = this.$moment().startOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
+        this.query.endDate = this.$moment().endOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
+
+        this.changeStatus(1);
     },
     methods: {
         loadData() {
-            // TODO: 加载数据
             this.loading = true;
-            setTimeout(() => {
-                for (var i = 10; i >= 0; i--) {
-                    this.dataList.push({
-                        id: i + '2313'
-                    });
+            api_service_note.queryServiceRecord(this.getQuery()).then(res => {
+                if (res.data.rows.length < this.query.rows) {
+                    this.scrollDisabled = true;
+                } else {
+                    this.scrollDisabled = false;
                 }
+                this.dataList = this.dataList.concat(res.data.rows);
+                this.activeModel.total = res.data.total;
+                this.activeModel.page++;
                 this.loading = false;
-            }, 1000);
+            }, err => {
+                this.loading = false;
+            });
+        },
+        loadCount() {
+            api_service_note.serviceRecordCount(this.getQuery()).then(res => {
+                this.unrecordedModel.total = res.data.waitCount;
+                this.recordedModel.total = res.data.recordCount;
+            });
+        },
+        getQuery() {
+            return this.query;
+        },
+        resetQuery() {
+            this.query.page = 1;
+            this.scrollDisabled = false;
+            this.dataList = [];
         },
         loadMore() {
             this.loadData();
         },
-        changeType(type) {
-            this.dataList = [];
-            this.query.type = type;
-            this.loadData();
+        changeStatus(status) {
+            if (this.loading) {
+                return;
+            }
+            if (this.query.status == status) {
+                this.resetQuery();
+                this.loadData();
+            } else {
+                if (status == 1) {
+                    this.activeModel = this.unrecordedModel;
+                } else if (status == 2) {
+                    this.activeModel = this.recordedModel;
+                }
+                this.query.status = status;
+                this.dataList = this.activeModel.list;
+                this.query.page = this.activeModel.page;
+                if (!this.dataList.length) {
+                    this.loadData();
+                }
+            }
         },
         editClick(item) {
-            if (this.query.type != 1) {
+            if (this.query.status != 1) {
                 return;
             }
             this.$router.push({

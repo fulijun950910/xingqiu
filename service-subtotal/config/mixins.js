@@ -1,5 +1,5 @@
 /* 图片基础路径 */
-export const BASE_IMG_PATH = '/api/file/';
+export const BASE_IMG_PATH = '/api/image/';
 
 /* 性别 */
 export const GENDERS = [

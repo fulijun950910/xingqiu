@@ -16,11 +16,13 @@
             <div class="c-tag-item no-wrap" :class="{choose: tagArr.includes(item.id.toString())}" 
              v-for="item in tagLib" @click="chooseTagLib(item.id)">
                 {{item.tagName}}
+                <svg v-show="tagArr.includes(item.id.toString())" class="icon" aria-hidden="true"><use xlink:href="#icon-choose-on"></use></svg>
             </div>
         </div>
         <div class="c-tag-box ft-light" flex-wrap="wrap" layout="row" layout-align="start center">
-            <div class="c-tag-item no-wrap" @click="chooseTagOut(item.id)" v-for="item in tagArr2">
+            <div class="c-tag-item no-wrap choose" @click="chooseTagOut(item.id)" v-for="item in tagArr2">
                 {{item.tagName}}
+                <svg class="icon" aria-hidden="true"><use xlink:href="#icon-choose-on"></use></svg>
             </div>
         </div>
 
@@ -59,8 +61,10 @@
         name: 'm-tags',
         props: {
             tags: {
-                type: String,
-                default: ''
+                type: Array,
+                default() {
+                    return [];
+                }
             }
         },
         components: {
@@ -81,15 +85,23 @@
         computed: {
             // 用户的平台级标签
             tagArr() {
-                return this.tags.split(',').filter(x => {
-                    return this.tagLib.map(y => {return y.id.toString();}).includes(x);
-                }).slice(0, 4);
+                if (this.tags) {
+                    return this.tags.filter(x => {
+                        return this.tagLib.map(y => {return y.id.toString();}).includes(x);
+                    }).slice(0, 4);
+                } else {
+                    return [];
+                }
             },
             // 用户的商户级标签
             tagArr2() {
-                return this.merchantTagLib.filter(x => {
-                    return this.tags.split(',').includes(x.id.toString());
-                });
+                if (this.tags) {
+                    return this.merchantTagLib.filter(x => {
+                        return this.tags.includes(x.id.toString());
+                    });
+                } else {
+                    return [];
+                }
             }
         },
         methods: {
@@ -177,11 +189,17 @@
                 color: #333;
                 padding: 2px 5px;
                 text-align: center;
-                border-radius: 2px;
                 font-size: @fs24;
                 &.choose{
                     color: @color-primary;
                     border: 1px solid @color-primary;
+                    position: relative;
+                    .icon {
+                        position: absolute;
+                        top: -1px;
+                        right: -1px;
+                        font-size: @fs32;
+                    }
                 }
             }
             .c-tag-item:nth-child(4n+0){

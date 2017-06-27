@@ -47,5 +47,12 @@ export default {
     messageServiceList(parameter) {
         let url = '/api/wechatbusinessassists/messageServiceList';
         return request(url, parameter, 'post');
+    },
+    /**
+     * 已评价未评价总数
+     */
+    serviceRecordCount(data) {
+        let url = '/api/wechatbusinessassists/serviceRecordCount';
+        return request(url, data, 'post');
     }
 };

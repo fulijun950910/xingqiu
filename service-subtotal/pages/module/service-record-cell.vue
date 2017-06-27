@@ -1,26 +1,40 @@
 <template>
     <div class="service-record-cell" layout="row" layout-align="center center">
-        <img :src="require('assets/imgs/avatar.png')" class="avatar">
+        <img :src="mData.employeeAvatarId | mSrc(require('assets/imgs/avatar.png'))" class="avatar">
         <div flex class="content">
-            <span class="fs24 dark-gray">No.321 张三丰</span>
-            <p class="extra-light-black">美白基础护理</p>
+            <span class="fs24 dark-gray">{{mData.employeeNo}} {{mData.employeeName}}</span>
+            <p class="extra-light-black">{{mData.serviceSmallNote.item | getNames('itemName')}}</p>
         </div>
         <div>
-            <p class="fs24 gray">今天</p>
-            <p class="dark-gray">20:00</p>
+            <!-- <p class="fs24 gray">{{mData.createTime | fromnow}}</p> -->
+            <p class="dark-gray">{{mData.createTime | amCalendar}}</p>
         </div>
         <span class="h-line"></span>
     </div>
 </template>
 <script>
+import Vue from 'vue';
+
 export default {
     name: 'service-record-cell',
-    props: ['value'],
+    props: ['mData'],
     data() {
         return {};
     },
     mounted() {},
-    methods: {}
+    methods: {},
+    filters: {
+        getNames(value, key) {
+            // this.$emit('update:mData', {});
+            if (Vue.prototype.$knife.isArray(value)) {
+                var temp = [];
+                for (var i = 0, len = value.length; i < len; i++) {
+                    temp.push(value[i][key]);
+                }
+                return temp.toString();
+            }
+        }
+    }
 };
 </script>
 <style lang="less">
