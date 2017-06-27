@@ -50,7 +50,6 @@ export default {
     },
     methods: {
         loadData() {
-            // TODO: 加载数据
             this.loading = true;
             api_service_note.queryMembers(this.getQuery()).then(res => {
                 if (res.data.rows.length < this.query.rows) {
