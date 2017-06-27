@@ -45,7 +45,14 @@ export default {
      * 说明：根据权限，员工看自己，管理员券全部员工
      */
     messageServiceList(parameter) {
-        let url = 'api/messageServiceList';
+        let url = '/api/messageServiceList';
         return request(url, parameter, 'post');
+    },
+    /**
+     * 已评价未评价总数
+     */
+    serviceRecordCount(data) {
+        let url = '/api/wechatbusinessassists/serviceRecordCount';
+        return request(url, data, 'post');
     }
 };
