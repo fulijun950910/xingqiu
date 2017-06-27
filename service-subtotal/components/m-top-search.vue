@@ -1,7 +1,7 @@
 <template>
     <div class="m-top-search">
         <div class="input-panel" layout="row" layout-align="center center">
-            <input type="text" class="fs28" :placeholder="placeholder" v-model="currentValue" flex @keyup.enter="submit">
+            <input type="text" class="fs28" :placeholder="placeholder" v-model="currentValue" flex @keyup.enter="submit" :readonly="type == 2">
             <div class="icon-panel" @click="submit">
                 <m-icon xlink="#icon-search2"></m-icon>
             </div>
@@ -19,7 +19,17 @@ export default {
     components: {
         mIcon
     },
-    props: ['placeholder', 'value'],
+    props: {
+        placeholder: {
+            type: String,
+            default: '搜索'
+        },
+        value: null,
+        type: {
+            type: String,
+            default: 1
+        }
+    },
     methods: {
         submit() {
             this.$emit('search', this.currentValue);
