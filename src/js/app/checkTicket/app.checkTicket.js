@@ -2,8 +2,6 @@
      ticketDetailInfo: null,
      checkTicketIdName: "tmpl-verifyTicketInstance",
      verifyCouponVersion4Location:'/lite/index.html#/couponVerify/',
-     paymoney:'',
-     regular_t1:/[\d]{0,20}/,
      checkTicket: function() {
          // 事件绑定
          // 跳转及权限判断
@@ -26,69 +24,22 @@
 
      },
      checkTicketInitEvent: function(){
-         $('body').on('touchstart','.keyWord table td',function(e){
-             app.checkTicket.startClick(this);
-         });
+         $('#payMoney').focus();
+
          $('body').on('touchstart','.scanBtn',function(){
              app.checkTicket.openScanQRCode();
          });
-     },
-     startClick: function(el){
-         this.addClass(el,'keyDown');
-         setTimeout(function() {
-             app.checkTicket.removeClass(el, 'keyDown');
-         },150);
-         var key = el.getAttribute('data-key');
-         if(key == 'delete'){
-             this.keyDown.deleteMonery();
-             this.keyDown.insertMoney();
-         }else if(key == 'submit'){
-             this.getTicketDetailInfo();
-         }else{
-             this.paymoney += key;
-             this.keyDown.insertMoney();
-         }
-     },
-     keyDown: {
-         insertMoney: function() {
-             if (!app.checkTicket.paymoney) {
-                 document.getElementById('payMoney').innerHTML =  app.checkTicket.paymoney;
-                 return;
+         $('body').on('keyup','#payMoney',function(){
+             $(this).val($(this).val().replace(/\D/g,'').replace(/....(?!$)/g,'$& '));
+             if($(this).val()){
+                 $(".subBtn").attr('disabled',false)
+             }else{
+                 $(".subBtn").attr('disabled',true)
+
              }
-             var swapSpace = '';
-             if (app.checkTicket.regular_t1.test( app.checkTicket.paymoney)) {
-                 swapSpace =  app.checkTicket.paymoney;
-                 app.checkTicket.paymoney = swapSpace.match(app.checkTicket.regular_t1).toString();
-                 document.getElementById('payMoney').innerHTML= app.checkTicket.paymoney;
-             } else {
-                 document.getElementById('payMoney').innerHTML= app.checkTicket.paymoney;
-             }
-             app.checkTicket.keyDown.isSubmit();
-         },
-         deleteMonery: function() {
-             if ( app.checkTicket.paymoney.length > 0) {
-                  app.checkTicket.paymoney =  app.checkTicket.paymoney.substr(0, app.checkTicket.paymoney.length-1);
-             }
-         },
-         isSubmit: function() {
-             if (parseFloat( app.checkTicket.paymoney) > 0) {
-                 addClass(document.getElementById('centerPay'), "submit");
-             } else {
-                 removeClass(document.getElementById('centerPay'), "submit");
-             }
-         }
+         });
      },
-     addClass: function(e, cls){
-         var classes = e.getAttribute('class');
-         classes = classes == null ? '' : classes + ' '; classes += cls;
-         e.setAttribute('class', classes);
-     },
-     removeClass: function(e, cls){
-         var classes = e.getAttribute('class');
-         if (classes && classes.indexOf(cls) > -1) {
-             classes = classes.replace(cls, ""); e.setAttribute('class', classes);
-         }
-     },
+
      openScanQRCode: function(){
          app.startLoading();
          app.JSSignature.getJSSignature({
@@ -102,7 +53,7 @@
      getTicketDetailInfo: function(id) {
          //判断错误信息是否隐藏
          var data = {
-             ticketNo: id ? id: $('#payMoney').html(),
+             ticketNo: id ? id: $('#payMoney').val()?$('#payMoney').val().replace(/\s/g,''):'',
              merchantId: employee.merchantId
          }
          app.checkTicket.getTicket(data).then(function(results) {
