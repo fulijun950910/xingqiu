@@ -1,15 +1,15 @@
 <template>
-    <div v-title="'服务小计'">
+    <div v-title="'服务小计'" class="min-height-100 bg-gray">
         <!-- 头部名片 -->
         <div class="c-card" layout="row" layout-align="space-between end">
             <div class="c-card-content " flex="70" layout="row" layout-align="space-between center">
-                <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1904751778,1640431221&fm=117&gp=0.jpg" alt="">
+                <img :src="avatarId|mSrc(90,90,require('assets/imgs/avatar.png'))" alt="">
                 <div flex="75">
                     <p class="c-card-title " layout="row" layout-align="start center">
-                        <span class="c-card-name no-wrap"></span>
-                        <span class="c-card-number no-wrap text-center" flex="30">
+                        <span class="c-card-name no-wrap">{{serviceName}}</span>&nbsp;&nbsp;
+                        <span class="c-card-number no-wrap text-center" flex="50">
                             <span class="dian">●</span> 
-                            <span class="ft-light">12345</span>
+                            <span class="ft-light">{{dataModel.memberId}}</span>
                         </span>
                     </p>
                     <p class="c-card-subtitle" layout="row" layout-align="start center">
@@ -40,22 +40,24 @@ export default {
     data() {
         return {
             dataModel: {
-                id: 138239242342,
-                merchantId: 138239242342,
-                storeId: 123322333547,
-                content: '土豪的客户',
-                imageIds: '6605438994151606,6605438677816735,6605438270877938',
+                id: this.$route.params.serviceId,
+                merchantId: this.$store.getters.merchantId,
+                storeId: this.$store.getters.storeId,
+                content: '',
+                imageIds: '',
                 type: 1, // 1=小计，2=客户关怀
                 employeeId: 138239242342,
-                employeeName: '张及时',
-                memberId: 19344397394,
+                employeeName: 'jczzq',
+                memberId: 138239242342,
                 memberName: '李老板',
                 orderId: 19344397394,
-                tags: '107,106',
-                remind: 1, // 0=不提醒，1=提醒
-                remindTime: '2017-07-01 00:10:00', // remind=1时必传
-                remindContent: '2' // remind=1时必传
-            }
+                tags: '',
+                remind: 0, // 0=不提醒，1=提醒
+                remindTime: '2017-5-01 00:00:00', // remind=1时必传
+                remindContent: '1' // remind=1时必传
+            },
+            serviceName: '护理',
+            avatarId: '6605483877807029'
         };
     },
     methods: {
@@ -70,6 +72,9 @@ export default {
 <style lang="less">
     @import '~styles/_agile.less';
 
+    .bg-gray {
+        background-color: @color-bg;
+    }
     // 头部名片
     .c-card{
         background-color: white;
@@ -113,6 +118,7 @@ export default {
             padding: 5px 0;
             color: @extra-light-black;
             .btn{
+                color: @extra-light-black;
                 border: 1px solid #979797;
             }
         }

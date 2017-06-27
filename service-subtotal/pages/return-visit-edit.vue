@@ -1,5 +1,5 @@
 <template>
-    <div v-title="'客户关怀'">
+    <div v-title="'客户关怀'" class="min-height-100 bg-gray">
         <!-- 头部名片 -->
         <div class="c-card" layout="row" layout-align="space-between end">
             <div class="c-card-content" flex="75" layout="row" layout-align="space-between center">
@@ -32,8 +32,7 @@
 </template>
 <script>
 import recordEdit from './module/record-edit.vue';
-
-// import api_serviceNote from 'services/api.serviceNote';
+import api_member from 'services/api.member';
 export default {
     name: 'return-visit-edit',
     components: {
@@ -63,10 +62,15 @@ export default {
     },
     methods: {
         // 初始化信息
+        initData() {
+            this.getMemberInfo();
+        },
         // 获取会员信息
         getMemberInfo() {
-            // let memberId = this.dataModel.id;
-            // api_serviceNote.
+            let memberId = this.dataModel.id;
+            api_member.getMemberById(memberId).then(res => {
+                console.log(res);
+            });
         },
         // 提交客户关怀
         saveRecord() {
@@ -79,7 +83,9 @@ export default {
 
 <style lang="less">
     @import '~styles/_agile.less';
-
+    .bg-gray {
+        background-color: @color-bg;
+    }
     // 头部名片
     .c-card{
         background-color: white;

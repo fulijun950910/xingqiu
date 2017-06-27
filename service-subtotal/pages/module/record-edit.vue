@@ -112,7 +112,6 @@
             // 标签
             tagList(val, oldVal) {
                 this.model.tags = val.join(',');
-                console.log(val, this.model.tags);
             }
         },
         methods: {
@@ -208,9 +207,7 @@
         margin-bottom: @l16 ;
     }
     .record-edit{
-        background-color: @color-bg;
         width: 100%;
-        min-height: 100vh;
         padding: 0;
         margin: 0;
     }
