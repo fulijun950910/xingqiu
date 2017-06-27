@@ -25,7 +25,6 @@ export default {
     methods: {},
     filters: {
         getNames(value, key) {
-            // this.$emit('update:mData', {});
             if (Vue.prototype.$knife.isArray(value)) {
                 var temp = [];
                 for (var i = 0, len = value.length; i < len; i++) {

@@ -16,7 +16,7 @@ import {
 Vue.use(InfiniteScroll);
 import mLoadMore from 'components/m-load-more';
 import mTopSearch from 'components/m-top-search';
-import autoSearchBar from 'components/auto-searchBar';
+import autoSearchBar from 'components/auto-search-bar';
 import api_service_note from 'services/api.serviceNote';
 import returnVisitRankingCell from 'pages/module/return-visit-ranking-cell';
 
