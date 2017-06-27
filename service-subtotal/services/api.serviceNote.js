@@ -54,5 +54,12 @@ export default {
     serviceRecordCount(data) {
         let url = '/api/wechatbusinessassists/serviceRecordCount';
         return request(url, data, 'post');
+    },
+    /**
+     * 客户关怀排行
+     */
+    returnVisitRankingList(data) {
+        let url = '/api/wechatbusinessassists/customerConcernRanking';
+        return request(url, data, 'post');
     }
 };
