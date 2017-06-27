@@ -24,13 +24,19 @@
 
      },
      checkTicketInitEvent: function(){
-         $('#payMoney').focus();
-
          $('body').on('touchstart','.scanBtn',function(){
              app.checkTicket.openScanQRCode();
          });
          $('body').on('keyup','#payMoney',function(){
              $(this).val($(this).val().replace(/\D/g,'').replace(/....(?!$)/g,'$& '));
+             if($(this).val()){
+                 $(".subBtn").attr('disabled',false)
+             }else{
+                 $(".subBtn").attr('disabled',true)
+
+             }
+         });
+         $('body').on('change','#payMoney',function(){
              if($(this).val()){
                  $(".subBtn").attr('disabled',false)
              }else{
