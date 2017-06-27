@@ -1,52 +1,26 @@
 <script type="text/html" id="tpl_checkTitcket">
-<script type="text/html" id="tpl_checkTitcketMain">
+    <script type="text/html" id="tpl_checkTitcketMain">
 
-    <div id="tmpl-income" class="bd background-sign checkTicket" layout="column" layout-align="space-between center">
-        <div class="imgBox" layout="column" layout-align="center center">
-            <div class="wrap">
-                <div class="couponTitle">券号：</div>
-                <div class="couponInput" layout="row" layout-align="space-between center">
-                    <div layout="row" layout-align="start center">
-                        <div class="inputCell"></div>
-                        <div id="payMoney"></div>
-                    </div>
+        <div id="tmpl-income" class="bd background-sign checkTicket">
+            <div class="imgBox" layout="column" layout-align="center center">
+                <div class="wrap">
+                    <div class="couponInput" layout="row" layout-align="space-between stretch">
+                        <div layout="row" layout-align="center center" flex>
+                            <input placeholder="请输入券号" id="payMoney" onkeyup=""/>
+                        </div>
 
-                    <div class="scanBtn" layout="row" layout-align="center center">
-                        <i class="ic icon-saoma"></i>
+                        <div class="scanBtn" layout="row" layout-align="center center">
+                            <i class="ic icon-scan"></i>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div flex></div>
-        <div class="keyWord">
-            <p>美问 Mei1.com</p>
-            <div style="height:90%">
-                <table cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td data-key="1">1</td>
-                        <td data-key="2">2</td>
-                        <td data-key="3">3</td>
-                        <td data-key="delete">
-                            <img src="/images/delete_03.png" alt=""/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td data-key="4">4</td>
-                        <td data-key="5">5</td>
-                        <td data-key="6">6</td>
-                        <td data-key="submit" id="centerPay" rowspan="3">查<br>询</td>
-                    </tr>
-                    <tr>
-                        <td data-key="7">7</td>
-                        <td data-key="8">8</td>
-                        <td data-key="9">9</td>
-                    </tr>
-                    <tr>
-                        <td data-key="0" colspan="3">0</td>
-                    </tr>
-                </table>
+            <div flex >
+                <div><img style="width: 30%;display: block;margin: 20vw auto 0;" src="images/821515655913708092.png" alt=""/></div>
+            </div>
+            <div class="keyWord">
+                <button class="subBtn" disabled onclick="app.checkTicket.getTicketDetailInfo()">查询</button>
             </div>
         </div>
-    </div>
 </script>
 </script>
