@@ -28,7 +28,7 @@
         </div>
 
         <!-- Ta的标签 -->
-        <m-tags :tags="tagList" @add="addTag" @remove="removeTag"></m-tags>
+        <m-tags :tags="model.tags" @add="addTag" @remove="removeTag"></m-tags>
         
         <!-- 评价正文 -->
         <div class="c-content">
@@ -76,7 +76,6 @@
 <script>
     import { Switch, Cell, DatetimePicker, Popup, Checklist } from 'mint-ui';
     import { WARN_ITEMS } from 'config/mixins';
-    import api_tag from 'services/api.tag';
     /**
     * type:编辑类型（1：服务小计   2：客户维护）
     */
@@ -106,7 +105,6 @@
             return {
                 // 图片列表
                 pictureList: [],
-                tagList: [],
                 isWran: false,
                 warnDate: new Date().formatDate('yyyy-MM-dd hh:mm'),
                 warnValue: null,
@@ -124,22 +122,7 @@
                 }
             }
         },
-        mounted() {
-            this.initTagList();
-        },
         methods: {
-            // 初始化标签
-            initTagList() {
-                let merchantId = 138239242342;
-                let memberId = 2;
-                this.$indicator.open();
-                api_tag.getMemberTagList(merchantId, memberId).then(res => {
-                    this.$indicator.close();
-                    this.tagList = res.data.tagLib;
-                }, err => {
-                    this.$indicator.close();
-                });
-            },
             // 选择提醒事项
             chooseWarnItem(item) {
                 this.warnVisible = false;
@@ -161,15 +144,18 @@
                     this.pictureList.splice(index + 1, 0, pic);
                 }
             },
-            // 添加标签
-            addTag(tag) {
-                if (!this.tagList.map(x => {return x.value;}).includes(tag.value)) {
-                    this.tagList.push(tag);
-                }
+            // 移除标签
+            addTag(tagId) {
+                let arr = this.model.tags.split(',');
+                arr.push(tagId);
+                this.model.tags = arr.join(',');
+                console.log(this.model.tags);
             },
             // 移除标签
-            removeTag(tag) {
-                this.tagList = this.tagList.filter(x => {return x.value !== tag.value;});
+            removeTag(tagId) {
+                let tagArr = this.model.tags.split(',').filter(x => {return x != tagId;});
+                this.model.tags = tagArr.join(',');
+                console.log(this.model.tags);
             }
         }
     };
