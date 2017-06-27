@@ -92,6 +92,20 @@ export default {
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
     }
-    .search-main {}
+    .search-main {
+        .icon {
+            font-size: @fs36;
+            color: @color-primary;
+        }
+        .icon-close {
+            color: @color-black;
+        }
+    }
+    .employee-list li {
+        padding: @l16 * 2;
+        color: @color-black;
+        font-size: @fs28;
+        border-bottom: 1px solid @light-gray;
+    }
 }
 </style>
