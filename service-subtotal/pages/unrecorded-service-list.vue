@@ -77,6 +77,11 @@ export default {
         getQuery() {
             return this.query;
         },
+        resetQuery() {
+            this.query.page = 1;
+            this.scrollDisabled = false;
+            this.dataList = [];
+        },
         loadMore() {
             this.loadData();
         },
@@ -102,8 +107,12 @@ export default {
             }
         },
         clearSearch() {
-            this.query.employeeId = '';
-            this.query.employee = {};
+            if (this.query.employeeId) {
+                this.query.employeeId = '';
+                this.employee = {};
+                this.resetQuery();
+            }
+            this.loadData();
         },
         editClick(item) {
             this.$router.push({
