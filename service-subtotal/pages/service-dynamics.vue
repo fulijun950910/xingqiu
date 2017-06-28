@@ -39,7 +39,7 @@
         </div>
         <div class="placeholder" flex>
         </div>
-        <div class="dynamics" v-infinite-scroll="messageServiceList" infinite-scroll-disabled="true" infinite-scroll-distance="10" :infinite-scroll-immediate-check="true">
+        <div class="dynamics" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="scrollDisabled" infinite-scroll-distance="10" :infinite-scroll-immediate-check="true">
             <div class="div-box" v-for="(item,pIndex) in dataList">
                 <div class="title" layout="row" layout-align="space-between center">
                     <div class="user" layout="row" layout-align="center center">
@@ -71,7 +71,7 @@
                         <img  :src="img | mSrc(200,200)" alt="">
                     </span>
                 </div>
-                <div flex layout="row" layout-align="start center" flex-wrap="wrap" class="project">
+                <div flex layout="row" layout-align="start center" flex-wrap="wrap" class="project" v-if="item.type == 1">
                     <svg class="icon xiangmu" aria-hidden="true">
                         <use xlink:href="#icon-xiangmu"></use>
                     </svg>
@@ -308,7 +308,9 @@ export default {
         // 清除显示的员工
         clearSearch() {
             this.vm.search.main = null;
+            this.routerEmployee = null;
             this.messageServiceList('item');
+
         },
         // 点击返回顶部
         toTop() {
@@ -452,6 +454,13 @@ export default {
                     memberId: item.memberId
                 }
             });
+        },
+        touchUpdate() {
+            if (this.routerEmployee) {
+                this.messageServiceList(this.routerEmployee);
+            } else {
+                this.messageServiceList('item');
+            }
         }
     }
 };
