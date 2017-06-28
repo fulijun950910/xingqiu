@@ -37,11 +37,11 @@
             <auto-searchbar :visiable.sync="vm.search.show" :employeeList="vm.employeeList" @change="getEmployeeList" @itemClick="messageServiceList" :searchText="vm.search.text"></auto-searchbar>
             <!-- 搜索框end -->
         </div>
-        <div class="placeholder" flex>
+        <div class="placeholder" :class="{active1:noData}" flex>
         </div>
         <div class="dynamics" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="scrollDisabled" infinite-scroll-distance="10" :infinite-scroll-immediate-check="true">
+            <no-Data :visible="noData"></no-Data>
             <div class="div-box" v-for="(item,pIndex) in dataList">
-                <no-Data :visible="noData"></no-Data>
                 <div class="title" layout="row" layout-align="space-between center">
                     <div class="user" layout="row" layout-align="center center">
                         <span class="view">
@@ -87,7 +87,7 @@
                     <a class="link" v-if="item.status == 0 && !admin" v-on:click="addServiceNote(item)">添加一条服务小计</a>
                 </div>
             </div>
-            <m-load-more :loading="!scrollDisabled"></m-load-more>
+            <m-load-more :loading="!scrollDisabled" v-if="!noData"></m-load-more>
         </div>
         <bottom-menu @click="link" :flex="vm.flex"></bottom-menu>
         <!-- 图片放大 -->
@@ -432,7 +432,8 @@ export default {
                         }
                     };
                 } else {
-                    this.noData = true;
+                    debugger;
+                    self.noData = true;
                 };
                 if (res.data.rows.length < self.rows) {
                     self.scrollDisabled = true;
@@ -533,6 +534,9 @@ export default {
     .placeholder {
         height: @l24;
         background: @white;
+    }
+    .active1 {
+        background: @color-bg;
     }
     .dynamics {
         background: @color-bg;
