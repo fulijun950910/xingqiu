@@ -1,7 +1,7 @@
 <template>
     <!-- 图片上传 -->
     <div class="m-pictures">
-        <transition-group name="slide-up" tag="div" mode="out-in">
+        <transition-group name="slide-up" tag="div" mode="out-in" layout="row" layout-align="start start" flex-wrap="wrap">
             <div :class="['c-picture-item', ('c-picture-item-'+column)]" 
                 v-for="(item,cid) in pictures" :key="cid" :ref="'picture_'+cid">
                 <!-- 合同图片 -->
@@ -14,14 +14,21 @@
                     </svg>
                 </p>
             </div>
+            <div v-show="pictures.length<maxCount" @click="addPicture(null)" class="c-picture-item c-picture-item-add" s
+            :class="[('c-picture-item-'+column)]" layout="column" layout-align="center center"  :key="maxCount" >
+                <!-- 添加 合同图片 -->
+                <svg class="icon" aria-hidden="true">  <use xlink:href="#icon-image"></use> </svg>
+                <p>上传图片</p>
+            </div>
         </transition-group>
-        <p v-if="hasCounter" class="txt-tips">
+
+        <!--<p v-if="hasCounter" class="txt-tips">
             <span class="add-pic" @click="addPicture(null)">
                 <svg class="icon" aria-hidden="true">  <use xlink:href="#icon-add"></use>  </svg>
                 传图片
             </span>
-            <span class="pull-right">{{pictures.length}} / {{maxCount}}张</span>
-        </p>
+            <span>{{pictures.length}} / {{maxCount}}张</span>
+        </p>-->
     </div>
 </template>
 
@@ -178,13 +185,15 @@
     @import '~styles/_agile.less';
     // 配图
     .m-pictures{
+        max-height: 372px;
+        overflow-y: hidden;
+        padding-bottom: 12px;
         .c-picture-item {
             display: inline-block;
             position:relative;
             border: 1px solid @light-gray;
             box-shadow:0 0 5px 1px @color-bg;
             color:fade(@gray,50%);
-            clear: both;
             .remove-btn{
                 width:24px;
                 height:24px;
@@ -225,15 +234,22 @@
         .c-picture-item-add{
             background-color: #f8f8f8;
             border: 1px dashed #ccc;
+            color:fade(@gray,50%);
+            text-align: center;
+            .icon {
+                font-size: 50px;
+                margin-top: 10px;
+            }
+            p { margin-top: 8px; }
         }
         .c-picture-item-1 {
             width:92vw;
-            height:28vw;
+            height:92vw;
             margin: 4vw 0 0 4vw;
         }
         .c-picture-item-2 {
             width:44vw;
-            height:28vw;
+            height:44vw;
             margin: 4vw 0 0 4vw;
         }
         .c-picture-item-3 {
@@ -243,7 +259,7 @@
         }
         .txt-tips{
             color: @dark-gray;
-            text-align: left;
+            text-align: right;
             padding: 10px @l32;
             .add-pic{
                 color: @color-tiffany-blue;

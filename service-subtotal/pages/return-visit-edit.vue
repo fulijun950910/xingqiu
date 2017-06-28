@@ -3,16 +3,20 @@
         <!-- 头部名片 -->
         <div class="c-card" layout="row" layout-align="space-between end">
             <div class="c-card-content" flex="75" layout="row" layout-align="space-between center">
-                <img :src="dataModel.avatarId|mSrc(90,90,require('assets/imgs/avatar.png'))" alt="">
+                <img :src="dataModel.avatarId|mSrc(60,60,require('assets/imgs/avatar.png'))" alt="">
                 <div flex="75">
                     <p class="c-card-title " layout="row" layout-align="start center">
                         <span class="c-card-name no-wrap">{{dataModel.memberName}}</span>
+                        <span flex="10"></span>
+                        <span class="c-card-no no-wrap" flex="40">
+                            <span class="dian" flex="10">●</span> {{dataModel.memberNo}}
+                        </span>
                     </p>
                     <p class="c-card-subtitle" layout="row" layout-align="start center">
                         <span class="dian" flex="10">●</span> 
-                        <span class="ft-light no-wrap" flex="40">{{dataModel.gradeName?dataModel.gradeName:'无'}}</span>&nbsp;&nbsp;
+                        <span class="ft-light no-wrap" flex="40">{{dataModel.gradeName?dataModel.gradeName:'无会员等级'}}</span>&nbsp;&nbsp;
                         <span class="dian" flex="10">●</span> 
-                        <span class="ft-light no-wrap" flex="40">{{dataModel.memberNo}}</span>
+                        <span class="ft-light no-wrap" flex="40">持卡 {{dataModel.hasCard?dataModel.hasCard:0}} 张</span>
                     </p>
                 </div>
             </div>
@@ -50,6 +54,7 @@ export default {
                 employeeName: this.$store.getters.employeeName,
                 memberId: this.$route.params.memberId,
                 memberName: '',
+                hasCard: 0,
                 orderId: null,
                 tags: '',
                 remind: 0, // 0=不提醒，1=提醒
@@ -87,7 +92,8 @@ export default {
                 this.$indicator.close();
                 this.$router.push({name: 'record-finish', query: {type: this.dataModel.type}});
             }, err => {
-                console.log(err);
+                this.$indicator.close();
+                this.$toast(err.message);
             });
         }
     }
@@ -128,6 +134,9 @@ export default {
                     min-width: 20%;
                     max-width: 70%;
                     font-size: @fs40;
+                }
+                .c-card-no {
+                    font-size: @fs28;
                 }
             }
             .c-card-subtitle{
