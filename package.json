@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "cooking watch -p",
     "dist": "cooking build -p",
-    "prod": "cooking build lite -p",
     "deploy": "cooking build --no-color"
   },
   "license": "ISC",
