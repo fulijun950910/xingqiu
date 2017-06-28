@@ -57,7 +57,6 @@ export default {
         },
         clearHide() {
             this.$emit('update:visiable', false);
-            this.$emit('update:searchText', '');
         }
     }
 };

@@ -2,22 +2,22 @@
     <div class="container" :class="{active:vm.mask}">
         <!--         <div class="mask" v-if="vm.mask" v-on:click="searchStatu()">
         </div> -->
-        <div class="mask" v-if="swipe.show" v-on:click="imgHide()">
+        <div class="mask" v-if="swipe.show" v-on:click="imgHide">
         </div>
         <div class="top-bar" :class="{active:swipe.show}">
             <div layout="row" layout-align="start center" flex v-if="!vm.search.show">
                 <a class="bar-btn border-r" layout="row" layout-align="center center" v-if="admin" flex v-on:click="searchStatu()">
-                    <div v-if="!vm.search.text">
+                    <div v-if="!vm.search.main">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-search2"></use>
                         </svg>
                         <span class="bar-text">搜索</span>
                     </div>
-                    <span v-if="vm.search.text" flex class="text-center"> 
-                    {{vm.search.text}}
+                    <span v-if="vm.search.main" flex class="text-center"> 
+                    {{vm.search.main}}
                      </span>
                     <span v-if="!admin">{{user.name}}</span>
-                    <span v-on:click.stop="clearSearch()" flex v-if="vm.search.text">
+                    <span v-on:click.stop="clearSearch()" flex="20" v-if="vm.search.text">
                     <svg class="icon icon-close-grey icon-margin" aria-hidden="true">
                         <use xlink:href="#icon-close"></use>
                     </svg>                         
@@ -87,7 +87,7 @@
         <!-- 图片放大 -->
         <mt-swipe :auto="0" v-if="swipe.show" :showIndicators="false" :continuous="false" :defaultIndex="swipe.index" v-on:click="scaleImg(index)">
             <mt-swipe-item v-for="(i,index) in outerImg" :key="index">
-                <img :src="i | mSrc" alt=""></mt-swipe-item>
+                <img :src="i | mSrc" alt="" :click="imgHide"></mt-swipe-item>
         </mt-swipe>
         <!-- 下部时间选择 -->
         <template>
@@ -377,6 +377,7 @@ export default {
                 parameter.type = self.selectedstatus.value;
             };
             if (item) {
+                self.vm.search.main = item.name;
                 self.vm.search.text = item.name;
                 parameter.employeeId = item.id;
             };
