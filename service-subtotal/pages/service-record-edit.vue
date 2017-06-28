@@ -55,10 +55,15 @@ export default {
                 tags: '',
                 remind: 0, // 0=不提醒，1=提醒
                 remindTime: new Date().formatDate('yyyy-MM-dd hh:mm:ss'), // remind=1时必传
-                remindContent: '1' // remind=1时必传
-            },
-            serviceName: ''
+                remindContent: '1', // remind=1时必传
+                serviceSmallNote: null
+            }
         };
+    },
+    computed: {
+        serviceName() {
+            return this.dataModel.serviceSmallNote ? this.dataModel.serviceSmallNote.item.map(x => {return x.itemName;}).join('+') : '无项目';
+        }
     },
     methods: {
         // 初始化信息
@@ -69,27 +74,44 @@ export default {
         getServiceNoteInfo() {
             api_serviceNote.recordDetail(this.dataModel.id).then(res => {
                 let serviceNote = res.data;
-                this.serviceName = serviceNote.serviceSmallNote ? serviceNote.serviceSmallNote.item.map(x => {return x.itemName;}).join('+') : '无项目';
-                this.dataModel.merchantId = serviceNote.merchantId;
-                this.dataModel.orderId = serviceNote.orderId;
-                this.dataModel.storeId = serviceNote.storeId;
-                this.dataModel.employeeId = serviceNote.storeId;
-                this.dataModel.employeeNo = serviceNote.employeeNo;
-                this.dataModel.employeeName = serviceNote.storeId;
-                this.dataModel.memberId = serviceNote.memberId;
-                this.dataModel.memberName = serviceNote.memberName;
-                this.dataModel.employeeAvatarId = serviceNote.employeeAvatarId;
-                this.dataModel.memberAvatarId = serviceNote.memberAvatarId;
+                let serviceNoteKeys = Object.keys(serviceNote);
+                Object.keys(this.dataModel).forEach(x => {
+                    if (serviceNoteKeys.includes(x)) {
+                        this.dataModel[x] = serviceNote[x];
+                    }
+                });
+                this.remind = this.dataModel.serviceSmallNote.remind;
             });
+        },
+        // 验证
+        checkData() {
         },
         // 完成记录
         saveRecord() {
-            api_serviceNote.createServiceNote(this.dataModel).then(res => {
-                console.log(res);
-            }, err => {
-                console.log(err);
-            });
-            this.$router.push({name: 'record-finish', query: {type: this.dataModel.type}});
+            this.checkData();
+            if (this.$route.name === 'service-record-create') {
+                this.$indicator.open();
+                api_serviceNote.createServiceNote(this.dataModel).then(res => {
+                    this.$indicator.close();
+                    this.$toast('记录成功！');
+                    this.$router.push({name: 'record-finish', query: {type: this.dataModel.type}});
+                }, err => {
+                    this.$indicator.close();
+                    this.$toast(err.message);
+                });
+            } else if (this.$route.name === 'service-record-edit') {
+                this.$indicator.open();
+                api_serviceNote.createServiceNote(this.dataModel).then(res => {
+                    this.$indicator.close();
+                    this.$toast('修改成功！');
+                    this.$router.push({name: 'record-finish', query: {type: this.dataModel.type}});
+                }, err => {
+                    this.$indicator.close();
+                    this.$toast(err.message);
+                });
+            } else {
+                this.$toast('稍后重试吧~ ╮(╯▽╰)╭');
+            }
         }
     }
 };
