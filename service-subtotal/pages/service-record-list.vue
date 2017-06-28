@@ -50,7 +50,7 @@ export default {
                 status: -1,
                 type: 1,
                 page: 1,
-                rows: 3
+                rows: 20
             },
             unrecordedModel: {
                 list: [],
