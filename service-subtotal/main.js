@@ -43,9 +43,12 @@ router.beforeEach(({ meta, path }, from, next) => {
     if (path == '/sign-in' || store.getters.isLogin) {
         next();
     } else {
-        next({name: 'sign-in'});
-        // TODO: 调整登录页
-        // window.location.href = '';
+        if (process.env.NODE_ENV === 'development') {
+            next({ name: 'sign-in' });
+        } else {
+            window.location.href = '/userinfo.html#/user_login';
+        }
+
     }
 });
 

@@ -32,8 +32,8 @@ cooking.set({
             })
         ];
     },
-    publicPath: '/',
-    // assetsPath: 'static',
+    publicPath: '/service-subtotal/',
+    assetsPath: 'static',
     urlLoaderLimit: 10000,
     extractCSS: '[name].[contenthash:7].css',
     alias: {
