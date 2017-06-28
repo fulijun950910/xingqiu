@@ -1,6 +1,6 @@
 <template>
     <div class="member-list" v-title="'我的客户'" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
-        <m-top-search v-model="query.memberName" placeholder="搜索我要回访/维护的客户" @search="search"></m-top-search>
+        <m-top-search v-model="query.memberName" placeholder="搜索我要回访/维护的客户" @iconClick="search" @search="search"></m-top-search>
         <div>
             <div layout="row" layout-align="center center" v-for="(item, index) in dataList" :key="index" @click="editClick(item)" class="member-cell">
                 <img :src="item.avatarId | mSrc(40,40,require('assets/imgs/avatar.png'))" class="avatar">
