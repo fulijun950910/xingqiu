@@ -41,6 +41,7 @@
         </div>
         <div class="dynamics" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="scrollDisabled" infinite-scroll-distance="10" :infinite-scroll-immediate-check="true">
             <div class="div-box" v-for="(item,pIndex) in dataList">
+                <no-Data :visible="noData"></no-Data>
                 <div class="title" layout="row" layout-align="space-between center">
                     <div class="user" layout="row" layout-align="center center">
                         <span class="view">
@@ -94,11 +95,6 @@
             <mt-swipe-item v-for="(i,index) in outerImg" :key="index">
                 <img :src="i | mSrc(800,800)" alt="" :click="imgHide"></mt-swipe-item>
         </mt-swipe>
-        <!-- 下部时间选择 -->
-        <template>
-            <mt-datetime-picker ref="picker" type="datetime" v-model="vm.pickerValue" @confirm="handleConfirm">
-            </mt-datetime-picker>
-        </template>
         <!-- 底部门店显示 -->
         <m-picker v-model="storePickerVisible" :slots="slots" :selected-item.sync="selectedStore" value-key="name" @confirm="changeStore"></m-picker>
         <!-- 底部状态显示 -->
@@ -142,6 +138,7 @@ import {
 import {
     InfiniteScroll
 } from 'mint-ui';
+import noData from 'components/no-data';
 Vue.use(Lazyload);
 Vue.use(InfiniteScroll);
 export default {
@@ -151,6 +148,7 @@ export default {
         autoSearchbar,
         mPicker,
         mLoadMore,
+        noData,
         [DatetimePicker.name]: DatetimePicker,
         [Swipe.name]: Swipe,
         [SwipeItem.name]: SwipeItem,
@@ -173,10 +171,10 @@ export default {
                 flex: 1,
                 values: [{
                     name: '客户关怀',
-                    value: 1
+                    value: 2
                 }, {
                     name: '服务小计',
-                    value: 2
+                    value: 1
                 }],
                 className: 'slot1',
                 textAlign: 'center',
@@ -214,10 +212,16 @@ export default {
             user: this.$store.state.user,
             scrollDisabled: false,
             scroll: false,
-            routerEmployee: this.$route.query
+            routerEmployee: this.$route.query,
+            noData: false
         };
     },
     mounted() {
+        // 清楚默认筛选条件
+        this.selectedStore = null;
+        this.selectedstatus = null;
+        this.vm.timeInterval.startDate = null;
+        this.vm.timeInterval.endDate = null;
         for (let i = 0; i < this.store.length; i++) {
             this.storeIds.push(this.store[i].id);
         };
@@ -345,14 +349,14 @@ export default {
         },
         changestatus(item) {
             this.selectedstatus = item[0];
-            this.messageServiceList('item');
+            this.messageServiceList(this.routerEmployee);
         },
         changeDateRange(start, end) {
             this.vm.timeInterval = {
                 startDate: this.$moment(start).format('YYYY-MM-DD HH:mm:ss'),
                 endDate: this.$moment(end).format('YYYY-MM-DD HH:mm:ss')
             };
-            this.messageServiceList('item');
+            this.messageServiceList(this.routerEmployee);
         },
         selectedDateRange(item) {
             var tempItem = item.value;
@@ -418,7 +422,7 @@ export default {
                 parameter.startDate = self.vm.timeInterval.startDate;
             };
             if (self.vm.timeInterval.endDate) {
-                parameter.endtDate = self.vm.timeInterval.endDate;
+                parameter.endDate = self.vm.timeInterval.endDate;
             };
             service.messageServiceList(parameter).then(res => {
                 if (res.data.rows.length > 0) {
@@ -427,6 +431,8 @@ export default {
                             res.data.rows[i].imageIds = res.data.rows[i].imageIds.split(',');
                         }
                     };
+                } else {
+                    this.noData = true;
                 };
                 if (res.data.rows.length < self.rows) {
                     self.scrollDisabled = true;
