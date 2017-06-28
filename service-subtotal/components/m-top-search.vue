@@ -27,7 +27,7 @@ export default {
         value: null,
         type: {
             type: String,
-            default: 1
+            default: '1'
         }
     },
     methods: {

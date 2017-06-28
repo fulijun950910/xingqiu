@@ -81,10 +81,11 @@ export default {
         },
         editClick(item) {
             this.$router.push({
-                name: 'return-visit-edit',
+                name: 'return-visit-create',
                 params: {
                     memberId: item.id
-                }
+                },
+                query: item
             });
         }
     }

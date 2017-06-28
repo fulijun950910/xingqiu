@@ -19,6 +19,20 @@ export default {
         return request(url, data, 'post');
     },
     /**
+     * 客户关怀添加
+     */
+    createCustomerConcern: function(data) {
+        let url = '/api/wechatbusinessassists/customerConcern';
+        return request(url, data, 'post');
+    },
+    /**
+     * 修改客户关怀
+     */
+    updateCustomerConcern: function(data) {
+        let url = '/api/wechatbusinessassists/customerConcernUpdate';
+        return request(url, data, 'post');
+    },
+    /**
      * 会员列表查询
      */
     queryMembers(data) {
