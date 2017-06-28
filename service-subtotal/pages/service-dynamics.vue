@@ -39,7 +39,7 @@
         </div>
         <div class="placeholder" flex>
         </div>
-        <div class="dynamics" :v-infinite-scroll="messageServiceList" :infinite-scroll-disabled="!scrollDisabled" infinite-scroll-distance="10" :infinite-scroll-immediate-check="scrollDisabled">
+        <div class="dynamics" v-infinite-scroll="messageServiceList" infinite-scroll-disabled="true" infinite-scroll-distance="10" :infinite-scroll-immediate-check="true">
             <div class="div-box" v-for="(item,pIndex) in dataList">
                 <div class="title" layout="row" layout-align="space-between center">
                     <div class="user" layout="row" layout-align="center center">
@@ -213,7 +213,8 @@ export default {
             rows: 20,
             user: this.$store.state.user,
             scrollDisabled: false,
-            scroll: false
+            scroll: false,
+            routerEmployee: this.$route.query
         };
     },
     mounted() {
@@ -262,7 +263,11 @@ export default {
                 this.scroll = false;
             }
         };
-        this.messageServiceList();
+        if (this.routerEmployee) {
+            this.messageServiceList(this.routerEmployee);
+        } else {
+            this.messageServiceList('item');
+        }
     },
     methods: {
         // 显示/隐藏搜索详情
@@ -391,9 +396,20 @@ export default {
                 parameter.type = self.selectedstatus.value;
             };
             if (item) {
-                self.vm.search.main = item.name;
-                self.vm.search.text = item.name;
-                parameter.employeeId = item.id;
+                if (item.employeeName) {
+                    self.vm.search.main = item.employeeName;
+                    self.vm.search.text = item.employeeName;
+                };
+                if (item.employeeId) {
+                    parameter.employeeId = item.employeeId;
+                };
+                if (item.name) {
+                    self.vm.search.main = item.name;
+                    self.vm.search.text = item.name;
+                };
+                if (item.id) {
+                    parameter.employeeId = item.id;
+                };
             };
             if (self.vm.timeInterval.startDate) {
                 parameter.startDate = self.vm.timeInterval.startDate;
@@ -418,6 +434,7 @@ export default {
                     self.dataList = res.data.rows;
                 } else {
                     self.dataList = self.dataList.concat(res.data.rows);
+                    self.page++;
                 }
 
             }, erro => {
