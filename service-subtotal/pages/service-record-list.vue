@@ -6,19 +6,19 @@
                 <p class="top-title">本周服务</p>
             </div>
             <div layout="row" class="option-panel">
-                <div class="text-center" :class="{ 'option-selected': query.status == 1 }" flex @click="changeStatus(1)">
+                <div class="text-center" :class="{ 'option-selected': query.status == 0 }" flex @click="changeStatus(0)">
                     <p>{{this.unrecordedModel.total}}</p>
                     <p>待记录</p>
                 </div>
                 <span class="interval-line"></span>
-                <div class="text-center" :class="{ 'option-selected': query.status == 2 }" flex @click="changeStatus(2)">
+                <div class="text-center" :class="{ 'option-selected': query.status == 1 }" flex @click="changeStatus(1)">
                     <p>{{this.recordedModel.total}}</p>
                     <p>已记录</p>
                 </div>
             </div>
         </div>
         <div>
-            <service-record-cell v-for="(item, index) in dataList" :key="index" @click.native="editClick(item)"></service-record-cell>
+            <service-record-cell v-for="(item, index) in dataList" :key="index" :mData="item" @click.native="editClick(item)"></service-record-cell>
             <m-load-more :loading="!scrollDisabled"></m-load-more>
         </div>
     </div>
@@ -55,12 +55,14 @@ export default {
             unrecordedModel: {
                 list: [],
                 page: 1,
-                total: 0
+                total: 0,
+                scrollDisabled: false
             },
             recordedModel: {
                 list: [],
                 page: 2,
-                total: 0
+                total: 0,
+                scrollDisabled: false
             },
             dataList: [],
             activeModel: null,
@@ -72,7 +74,7 @@ export default {
         this.query.startDate = this.$moment().startOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
         this.query.endDate = this.$moment().endOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
 
-        this.changeStatus(1);
+        this.changeStatus(0);
     },
     methods: {
         loadData() {
@@ -84,8 +86,11 @@ export default {
                     this.scrollDisabled = false;
                 }
                 this.dataList = this.dataList.concat(res.data.rows);
+                this.activeModel.scrollDisabled = this.scrollDisabled;
                 this.activeModel.total = res.data.total;
+                this.activeModel.list = this.dataList;
                 this.activeModel.page++;
+
                 this.loading = false;
             }, err => {
                 this.loading = false;
@@ -116,29 +121,33 @@ export default {
                 this.resetQuery();
                 this.loadData();
             } else {
-                if (status == 1) {
+                if (status == 0) {
                     this.activeModel = this.unrecordedModel;
-                } else if (status == 2) {
+                } else if (status == 1) {
                     this.activeModel = this.recordedModel;
                 }
                 this.query.status = status;
                 this.dataList = this.activeModel.list;
                 this.query.page = this.activeModel.page;
+                this.scrollDisabled = this.activeModel.scrollDisabled;
                 if (!this.dataList.length) {
                     this.loadData();
                 }
             }
         },
         editClick(item) {
-            if (this.query.status != 1) {
-                return;
-            }
-            this.$router.push({
-                name: 'service-record-edit',
-                params: {
-                    recordId: item.id
+            if (item && item.id) {
+                let routeName = 'service-record-create';
+                if (item.status == 1) {
+                    routeName = 'service-record-edit';
                 }
-            });
+                this.$router.push({
+                    name: routeName,
+                    params: {
+                        serviceId: item.id
+                    }
+                });
+            }
         }
     }
 };
