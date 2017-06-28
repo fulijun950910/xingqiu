@@ -197,6 +197,7 @@ export default {
         },
         changeStore(item) {
             this.selectedStore = item[0];
+            this.query.storeIds = this.selectedStore.id;
             this.loadData();
         },
         changeDateRange() {

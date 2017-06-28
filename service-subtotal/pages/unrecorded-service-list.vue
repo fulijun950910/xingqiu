@@ -32,11 +32,11 @@ export default {
         return {
             query: {
                 merchantId: this.$store.getters.merchantId,
-                storeIds: this.$store.getters.storeIds,
+                storeIds: this.$route.query.storeIds,
                 employeeId: '',
                 startDate: this.$route.query.startDate,
                 endDate: this.$route.query.endDate,
-                status: 2,
+                status: 0,
                 type: 1,
                 page: 1,
                 rows: 20
