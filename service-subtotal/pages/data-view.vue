@@ -3,15 +3,15 @@
         <div class="header">
             <p class="text-center fs32 extra-light-black">{{selectedStore.name}}</p>
             <div layout="row" layout-align="center center" class="fs28 color-gray">
-                <p class="mr-40">{{vm.timeInterval.startDate | amDateFormat('YYYY-MM-DD')}}</p>
-                <p>{{vm.timeInterval.endDate | amDateFormat('YYYY-MM-DD')}}</p>
+                <p class="mr-40">{{query.startDate | amDateFormat('YYYY-MM-DD')}}</p>
+                <p>{{query.endDate | amDateFormat('YYYY-MM-DD')}}</p>
             </div>
         </div>
         <span class="ml-40 h-line"></span>
         <div layout="row" class="pie-panel">
             <div flex="50" layout="row" layout-align="center center" class="pie text-center">
                 <img :src="require('assets/imgs/huan.png')">
-                <span class="vh-center fs40 text-center color-primary fwb ff-number">{{vm.returnVisit | currency('', 0)}}<br>
+                <span class="vh-center fs40 text-center color-primary fwb ff-number">{{showModel.concernCount | currency('', 0)}}<br>
                     <span class="fs20 steel-gray">条</span>
                 </span>
             </div>
@@ -19,7 +19,7 @@
                 <p class="fs32 mb-32 fwb extra-light-black">客户关怀 条数</p>
                 <p class="dark-gray">记录所有员工主动联系</p>
                 <p class="mb-24 dark-gray">客户后的备注</p>
-                <button class="check-btn" @click="$router.push({name:'member-list'})">查看</button>
+                <button class="check-btn" @click="memberList">查看</button>
             </div>
         </div>
         <span class="ml-40 h-line"></span>
@@ -28,20 +28,20 @@
                 <m-icon xlink="#icon-fuwu"></m-icon>
                 全部服务数
             </p>
-            <p class="color-primary fwb ff-number">{{vm.record | currency('', 0)}}</p>
+            <p class="color-primary fwb ff-number">{{showModel.allCount | currency('', 0)}}</p>
         </div>
         <div layout="row" layout-align="space-around center" class="link-panel">
             <div class="link-btn no-line-panel">
                 <p>
                     <m-icon xlink="#icon-yipingjia"></m-icon>
-                    {{vm.valued | currency('', 0)}}
+                    {{showModel.recordCount | currency('', 0)}}
                 </p>
                 <p>已记录</p>
             </div>
             <div class="link-btn" @click="$router.push({name:'service-record-list'})">
                 <p>
                     <m-icon xlink="#icon-weipingjia"></m-icon>
-                    {{vm.unvalued | currency('', 0)}}
+                    {{showModel.waitCount | currency('', 0)}}
                 </p>
                 <p layout="row" layout-align="space-between center">
                     未记录
@@ -52,17 +52,23 @@
         <bottom-menu class="bottom-menu" @click="toolbarClick" :flex="1" :click-able="clickAble"></bottom-menu>
         <m-picker v-model="storePickerVisible" :slots="slots" :selected-item.sync="selectedStore" value-key="name" @confirm="changeStore"></m-picker>
         <mt-actionsheet :actions="actions" v-model="sheetVisible" cancel-text=""></mt-actionsheet>
-        <m-date-range-picker v-model="dateRangeVisible" :start-date.sync="vm.timeInterval.startDate" :end-date.sync="vm.timeInterval.endDate" @confirm="changeDateRange"></m-date-range-picker>
+        <m-date-range-picker v-model="dateRangeVisible" :start-date.sync="query.startDate" :end-date.sync="query.endDate" @confirm="changeDateRange"></m-date-range-picker>
     </div>
 </template>
 <script>
 import Vue from 'vue';
 import {
-    Actionsheet
+    Actionsheet,
+    Popup,
+    Picker
 } from 'mint-ui';
+
+Vue.component(Popup.name, Popup);
+Vue.component(Picker.name, Picker);
 Vue.component(Actionsheet.name, Actionsheet);
 import mPicker from 'components/m-picker';
 import bottomMenu from 'components/bottom-menu';
+import api_service_note from 'services/api.serviceNote';
 import mDateRangePicker from 'components/m-date-range-picker';
 
 export default {
@@ -75,21 +81,24 @@ export default {
     data() {
         return {
             slots: [],
+            query: {
+                merchantId: this.$store.getters.merchantId,
+                storeIds: this.$store.getters.storeIds,
+                employeeId: this.$store.state.user.id,
+                startDate: '',
+                endDate: '',
+                status: 2
+            },
             actions: [],
             selectedStore: {},
             sheetVisible: false,
             dateRangeVisible: false,
             storePickerVisible: false,
-            vm: {
-                selectedStoreId: this.$route.query.storeId,
-                timeInterval: {
-                    startDate: this.$moment().format('YYYY-MM-DD HH:mm:ss'),
-                    endDate: this.$moment().format('YYYY-MM-DD HH:mm:ss')
-                },
-                returnVisit: 321321,
-                record: 3321,
-                valued: 3213,
-                unvalued: 3511
+            showModel: {
+                allCount: 0,
+                concernCount: 0,
+                recordCount: 0,
+                waitCount: 0
             },
             clickAble: [{
                 name: '返回',
@@ -107,11 +116,18 @@ export default {
         };
     },
     mounted() {
-        var tempStores = this.$store.state.storeList;
+        var tempStores = [];
+        this.$knife.deepCopy(this.$store.state.storeList, tempStores);
+        if (tempStores.length > 1) {
+            tempStores.unshift({
+                id: this.$store.getters.storeIds,
+                name: '全部门店'
+            });
+        }
         var tempIndex = 0;
         if (tempStores.length) {
             tempStores.forEach((val, index) => {
-                if (val.id == this.vm.selectedStoreId) {
+                if (val.id == this.query.storeIds) {
                     tempIndex = index;
                     this.selectedStore = val;
                 }
@@ -153,16 +169,28 @@ export default {
             name: '自定义',
             method: this.selectedDateRange
         }];
+        this.selectedDateRange(this.actions[0]);
     },
     methods: {
         loadData() {
-            // TODO: 加载数据
+            this.$indicator.open();
+            api_service_note.queryStatistics(this.getQuery()).then(res => {
+                this.showModel = res.data;
+                this.$indicator.close();
+            });
+        },
+        getQuery() {
+            return this.query;
+        },
+        resetQuery() {
+            this.query.page = 1;
+            this.scrollDisabled = false;
+            this.dataList = [];
         },
         selectedDateRange(item) {
-            var tempItem = item.value;
-            if (tempItem) {
-                debugger;
-                this.vm.timeInterval = tempItem;
+            if (item.value) {
+                this.query.startDate = item.value.startDate;
+                this.query.endDate = item.value.endDate;
                 this.loadData();
             } else {
                 this.dateRangeVisible = true;
@@ -175,13 +203,23 @@ export default {
         changeDateRange() {
             this.loadData();
         },
+        memberList() {
+            this.$router.push({
+                name: 'member-list',
+                query: this.query
+            });
+        },
         toolbarClick(index, item) {
             switch (item.value) {
                 case '1':
                     this.$router.go(-1);
                     break;
                 case '2':
-                    this.storePickerVisible = true;
+                    if (this.$store.state.storeList.length > 1) {
+                        this.storePickerVisible = true;
+                    } else {
+                        this.$toast('无可切换门店');
+                    }
                     break;
                 case '3':
                     this.sheetVisible = true;
