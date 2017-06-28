@@ -46,7 +46,7 @@ router.beforeEach(({ meta, path }, from, next) => {
         if (process.env.NODE_ENV === 'development') {
             next({ name: 'sign-in' });
         } else {
-            window.location.href = '/';
+            window.location.href = '/userinfo.html#/user_login';
         }
 
     }
