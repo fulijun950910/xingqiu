@@ -114,6 +114,7 @@ export default {
         },
         resetQuery() {
             this.activeModel.page = 1;
+            this.activeModel.scrollDisabled = false;
             this.scrollDisabled = false;
             this.dataList = [];
         },
