@@ -331,24 +331,24 @@ export default {
         },
         changeStore(item) {
             this.selectedStore = item[0];
-            this.messageServiceList();
+            this.messageServiceList('item');
         },
         changestatus(item) {
             this.selectedstatus = item[0];
-            this.messageServiceList();
+            this.messageServiceList('item');
         },
         changeDateRange(start, end) {
             this.vm.timeInterval = {
                 startDate: this.$moment(start).format('YYYY-MM-DD HH:mm:ss'),
                 endDate: this.$moment(end).format('YYYY-MM-DD HH:mm:ss')
             };
-            this.messageServiceList();
+            this.messageServiceList('item');
         },
         selectedDateRange(item) {
             var tempItem = item.value;
             if (tempItem) {
                 this.vm.timeInterval = tempItem;
-                this.messageServiceList();
+                this.messageServiceList('item');
             } else {
                 this.dateRangeVisible = true;
             };
