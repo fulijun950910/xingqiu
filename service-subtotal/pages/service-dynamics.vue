@@ -75,7 +75,9 @@
                     <svg class="icon xiangmu" aria-hidden="true">
                         <use xlink:href="#icon-xiangmu"></use>
                     </svg>
-                    <span v-for="project in item.serviceSmallNote.item">{{project.itemName}}</span>
+                    <template v-if="item.serviceSmallNote">
+                        <span v-for="project in item.serviceSmallNote.item">{{project.itemName}}</span>
+                    </template>
                 </div>
                 <div class="box-bottom" flex layout="row" layout-align="start center">
                     <span>{{item.recordTime ? item.recordTime : item.createTime | amCalendar}}</span>
