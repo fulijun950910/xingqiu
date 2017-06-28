@@ -49,8 +49,8 @@ cooking.set({
         'pages': path.join(__dirname, 'service-subtotal/pages'),
         'store': path.join(__dirname, 'service-subtotal/store')
     },
-    extends: ['vue2', 'lint', 'less', 'autoprefixer'],
-    static: 'service-subtotal/static'
+    extends: ['vue2', 'lint', 'less', 'autoprefixer']
+    // static: 'service-subtotal/static'
 });
 
 module.exports = cooking.resolve();
