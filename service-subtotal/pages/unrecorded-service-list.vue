@@ -116,11 +116,13 @@ export default {
         },
         editClick(item) {
             this.$router.push({
-                name: 'service-record-edit',
+                name: 'service-record-create',
                 params: {
-                    recordId: item.id
+                    serviceId: item.id
                 },
-                query: item
+                query: {
+                    memberId: item.memberId
+                }
             });
         }
     }

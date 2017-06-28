@@ -51,6 +51,7 @@
 <script>
     import { Popup } from 'mint-ui';
     import api_tag from 'services/api.tag';
+    import Q from 'q';
     /** 标签组件
     * tags：标签列表
     *
@@ -60,6 +61,9 @@
     export default {
         name: 'm-tags',
         props: {
+            memberId: {
+                default: null
+            },
             tags: {
                 type: Array,
                 default() {
@@ -106,14 +110,20 @@
         },
         methods: {
             // 初始化标签
-            initTagList() {
-                let merchantId = 138239242342;
-                let memberId = 2;
+            initTagList(func) {
+                let deferred = Q.defer();
+                let merchantId = this.$store.getters.merchantId;
+                let memberId = this.memberId;
                 api_tag.getMemberTagList(merchantId, memberId).then(res => {
                     this.tagLib = res.data.tagLib.slice(0, 8);
                     this.merchantTagLib = res.data.merchantTagLib.slice(0, 20);
                     this.memberTag = res.data.memberTag.slice(0, 20);
-                });
+                    deferred.resolve(res.data);
+                    return deferred.promise;
+                }, err => {
+                    deferred.reject(err);
+                    return deferred.promise;
+                }).then(resp => {func(resp);});
             },
             // 选中平台标签
             chooseTagLib(tagId) {
@@ -141,14 +151,18 @@
             createTag() {
                 if (this.tagName.trim().length > 0) {
                     var tag = {
-                        merchantId: 138239242342,
+                        merchantId: this.$store.getters.merchantId,
                         tagLevel: 2, // 1=平台级，2=商户级
                         tagType: 2, // 1=门店标签，2=会员标签，3=员工标签， 4=技师标签
                         tagName: this.tagName.trim()
                     };
                     api_tag.createMemberTag(tag).then(res => {
                         this.tagName = '';
-                        this.initTagList();
+                        console.log('res', res);
+                        // 更新标签库 => 选中标签
+                        this.initTagList(resp => {
+                            this.chooseTagIn(res.data);
+                        });
                     }, err => {
                         this.$toast('网络延迟，请稍后重试~ ╮(╯▽╰)╭');
                     });

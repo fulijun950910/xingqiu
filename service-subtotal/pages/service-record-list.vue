@@ -146,7 +146,9 @@ export default {
                     params: {
                         serviceId: item.id
                     },
-                    query: item
+                    query: {
+                        memberId: item.memberId
+                    }
                 });
             }
         }

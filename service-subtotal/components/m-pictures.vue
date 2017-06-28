@@ -242,7 +242,7 @@
             margin: 4vw 0 0 4vw;
         }
         .txt-tips{
-            color: @light-gray;
+            color: @dark-gray;
             text-align: left;
             padding: 10px @l32;
             .add-pic{

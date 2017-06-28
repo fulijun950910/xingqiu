@@ -3,7 +3,7 @@
         <!-- 头部名片 -->
         <div class="c-card" layout="row" layout-align="space-between end">
             <div class="c-card-content " flex="70" layout="row" layout-align="space-between center">
-                <img :src="dataModel.employeeAvatarId|mSrc(90,90,require('assets/imgs/avatar.png'))" alt="">
+                <img :src="dataModel.memberAvatarId|mSrc(90,90,require('assets/imgs/avatar.png'))" alt="">
                 <div flex="75">
                     <p class="c-card-title " layout="row" layout-align="start center">
                         <span class="c-card-name no-wrap">{{serviceName}}</span>
@@ -48,15 +48,14 @@ export default {
                 employeeNo: null,
                 employeeAvatarId: null,
                 employeeName: '',
-                memberId: null,
+                memberId: this.$route.query.memberId,
+                memberAvatarId: null,
                 memberName: '',
                 orderId: null,
                 tags: '',
                 remind: 0, // 0=不提醒，1=提醒
                 remindTime: new Date().formatDate('yyyy-MM-dd hh:mm:ss'), // remind=1时必传
-                remindContent: '1', // remind=1时必传
-                memberNo: '',
-                gradeName: ''
+                remindContent: '1' // remind=1时必传
             },
             serviceName: ''
         };
@@ -65,19 +64,23 @@ export default {
         // 初始化信息
         initData() {
             this.getServiceNoteInfo();
-            this.getMemberInfo(this.dataModel.memberId);
         },
         // 获取服务小计信息
         getServiceNoteInfo() {
-            let serviceNote = this.$route.query;
-            this.serviceName = serviceNote.serviceSmallNote ? serviceNote.serviceSmallNote.item.map(x => {return x.name;}).join('+') : '无项目';
-            this.dataModel.merchantId = serviceNote.merchantId;
-            this.dataModel.storeId = serviceNote.storeId;
-            this.dataModel.employeeId = serviceNote.storeId;
-            this.dataModel.employeeNo = serviceNote.employeeNo;
-            this.dataModel.employeeName = serviceNote.storeId;
-            this.dataModel.memberId = serviceNote.memberId;
-            this.dataModel.memberName = serviceNote.memberName;
+            api_serviceNote.recordDetail(this.dataModel.id).then(res => {
+                let serviceNote = res.data;
+                this.serviceName = serviceNote.serviceSmallNote ? serviceNote.serviceSmallNote.item.map(x => {return x.itemName;}).join('+') : '无项目';
+                this.dataModel.merchantId = serviceNote.merchantId;
+                this.dataModel.orderId = serviceNote.orderId;
+                this.dataModel.storeId = serviceNote.storeId;
+                this.dataModel.employeeId = serviceNote.storeId;
+                this.dataModel.employeeNo = serviceNote.employeeNo;
+                this.dataModel.employeeName = serviceNote.storeId;
+                this.dataModel.memberId = serviceNote.memberId;
+                this.dataModel.memberName = serviceNote.memberName;
+                this.dataModel.employeeAvatarId = serviceNote.employeeAvatarId;
+                this.dataModel.memberAvatarId = serviceNote.memberAvatarId;
+            });
         },
         // 完成记录
         saveRecord() {

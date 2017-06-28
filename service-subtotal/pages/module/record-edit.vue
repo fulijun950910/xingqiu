@@ -1,11 +1,12 @@
 <template>
     <div class="record-edit">
         <!-- Ta的标签 -->
-        <m-tags :tags="tagList" @add="addTag" @remove="removeTag"></m-tags>
+        <m-tags :member-id="model.memberId" :tags="tagList" @add="addTag" @remove="removeTag"></m-tags>
         
         <!-- 评价正文 -->
         <div class="c-content">
-            <textarea rows="5" maxlength="200" placeholder="输入客人的要求和习惯" v-model="model.content"></textarea>
+            <textarea rows="5" maxlength="120" placeholder="输入客人的要求和习惯" v-model="model.content"></textarea>
+            <p> <span>{{model.content.length}}/120字</span></p>
         </div>
 
         <!-- 配图 -->
@@ -223,6 +224,11 @@
     .c-content{
         .mgb;
         background-color: white;
+        p {
+            color: @dark-gray;
+            text-align: right;
+            padding: @l16 @l32;
+        }
         textarea{
             font-size: @fs32;
             width: 100%;
