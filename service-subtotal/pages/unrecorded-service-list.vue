@@ -60,6 +60,9 @@ export default {
     },
     methods: {
         loadData() {
+            if (this.scrollDisabled) {
+                return;
+            }
             this.loading = true;
             api_service_note.queryServiceRecord(this.getQuery()).then(res => {
                 if (res.data.rows.length < this.query.rows) {

@@ -84,7 +84,6 @@ export default {
             query: {
                 merchantId: this.$store.getters.merchantId,
                 storeIds: this.$store.getters.storeIds,
-                employeeId: this.$store.state.user.id,
                 startDate: '',
                 endDate: '',
                 status: 2

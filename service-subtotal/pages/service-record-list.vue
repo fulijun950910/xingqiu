@@ -50,7 +50,7 @@ export default {
                 status: -1,
                 type: 1,
                 page: 1,
-                rows: 20
+                rows: 3
             },
             unrecordedModel: {
                 list: [],
@@ -60,7 +60,7 @@ export default {
             },
             recordedModel: {
                 list: [],
-                page: 2,
+                page: 1,
                 total: 0,
                 scrollDisabled: false
             },
@@ -73,11 +73,14 @@ export default {
     mounted() {
         this.query.startDate = this.$moment().startOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
         this.query.endDate = this.$moment().endOf('isoWeek').format('YYYY-MM-DD HH:mm:ss');
-
         this.changeStatus(0);
+        this.loadCount();
     },
     methods: {
         loadData() {
+            if (this.activeModel.scrollDisabled) {
+                return;
+            }
             this.loading = true;
             api_service_note.queryServiceRecord(this.getQuery()).then(res => {
                 if (res.data.rows.length < this.query.rows) {
@@ -97,16 +100,20 @@ export default {
             });
         },
         loadCount() {
-            api_service_note.serviceRecordCount(this.getQuery()).then(res => {
+            var temp = {};
+            this.$knife.deepCopy(this.query, temp);
+            temp.status = undefined;
+            api_service_note.serviceRecordCount(temp).then(res => {
                 this.unrecordedModel.total = res.data.waitCount;
                 this.recordedModel.total = res.data.recordCount;
             });
         },
         getQuery() {
+            this.query.page = this.activeModel.page;
             return this.query;
         },
         resetQuery() {
-            this.query.page = 1;
+            this.activeModel.page = 1;
             this.scrollDisabled = false;
             this.dataList = [];
         },
@@ -128,7 +135,6 @@ export default {
                 }
                 this.query.status = status;
                 this.dataList = this.activeModel.list;
-                this.query.page = this.activeModel.page;
                 this.scrollDisabled = this.activeModel.scrollDisabled;
                 if (!this.dataList.length) {
                     this.loadData();
