@@ -1,6 +1,7 @@
 <template>
-    <div v-title="'未记录服务'" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
-        <!-- <m-top-search v-model="query.keyword" placeholder="搜索员工" @search="search"></m-top-search> -->
+    <div class="unrecorded-service-list" v-title="'未记录服务'" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
+        <m-top-search v-show="!searchVisiable" :icon="employee.name ? '#icon-close' : '#icon-search2'" v-model="employee.name" placeholder="搜索员工" @iconClick="clearSearch" type="2" @searchClick="showSearchBar"></m-top-search>
+        <auto-search-bar :visiable.sync="searchVisiable" :search-text="employeeQuery.employeeName" :employee-list="employeeList" @itemClick="selectedEmployee" @change="searchEmployees"></auto-search-bar>
         <div>
             <service-record-cell :m-data="item" v-for="(item, index) in dataList" :key="index" @click.native="editClick(item)"></service-record-cell>
             <m-load-more :loading="!scrollDisabled"></m-load-more>
@@ -15,6 +16,7 @@ import {
 Vue.use(InfiniteScroll);
 import mLoadMore from 'components/m-load-more';
 import mTopSearch from 'components/m-top-search';
+import autoSearchBar from 'components/auto-search-bar';
 import api_service_note from 'services/api.serviceNote';
 import serviceRecordCell from 'pages/module/service-record-cell';
 
@@ -23,6 +25,7 @@ export default {
     components: {
         mLoadMore,
         mTopSearch,
+        autoSearchBar,
         serviceRecordCell
     },
     data() {
@@ -38,8 +41,17 @@ export default {
                 page: 1,
                 rows: 20
             },
+            employeeQuery: {
+                merchantId: this.$store.getters.merchantId,
+                storeIds: this.$store.getters.storeIds,
+                employeeId: this.$store.state.user.id,
+                employeeName: ''
+            },
+            employee: {},
             dataList: [],
             loading: false,
+            employeeList: [],
+            searchVisiable: !this.$store.getters.admin,
             scrollDisabled: false
         };
     },
@@ -68,8 +80,30 @@ export default {
         loadMore() {
             this.loadData();
         },
-        search(keyword) {
+        search() {
             this.loadData();
+        },
+        searchEmployees(keyword) {
+            this.employeeQuery.employeeName = keyword;
+            api_service_note.employeeList(this.employeeQuery).then(res => {
+                this.employeeList = res.data;
+            }, err => {
+
+            });
+        },
+        selectedEmployee(item) {
+            this.employee = item;
+            this.query.employeeId = item.id;
+        },
+        showSearchBar() {
+            this.searchVisiable = true;
+            if (!this.employeeList.length) {
+                this.searchEmployees();
+            }
+        },
+        clearSearch() {
+            this.query.employeeId = '';
+            this.query.employee = {};
         },
         editClick(item) {
             this.$router.push({
@@ -84,4 +118,7 @@ export default {
 </script>
 <style lang="less">
 @import '~styles/_agile';
+.unrecorded-service-list {
+    .searchBar-main {}
+}
 </style>

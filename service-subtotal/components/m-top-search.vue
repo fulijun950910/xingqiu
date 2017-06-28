@@ -1,9 +1,9 @@
 <template>
-    <div class="m-top-search">
+    <div class="m-top-search" @click="searchClick">
         <div class="input-panel" layout="row" layout-align="center center">
             <input type="text" class="fs28" :placeholder="placeholder" v-model="currentValue" flex @keyup.enter="submit" :readonly="type == 2">
-            <div class="icon-panel" @click="submit">
-                <m-icon xlink="#icon-search2"></m-icon>
+            <div class="icon-panel" @click.stop="iconClick">
+                <m-icon :xlink="icon"></m-icon>
             </div>
         </div>
     </div>
@@ -28,11 +28,21 @@ export default {
         type: {
             type: String,
             default: 1
+        },
+        icon: {
+            type: String,
+            default: '#icon-search2'
         }
     },
     methods: {
         submit() {
             this.$emit('search', this.currentValue);
+        },
+        iconClick() {
+            this.$emit('iconClick');
+        },
+        searchClick() {
+            this.$emit('searchClick');
         }
     },
     computed: {
