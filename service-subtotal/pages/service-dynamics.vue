@@ -68,7 +68,7 @@
                 </div>
                 <div class="main-img" layout="row" layout-align="start center" flex-wrap="wrap" v-if="item.status == 1">
                     <span flex="30" v-for="(img,index) in item.imageIds" v-on:click="scaleImg(pIndex,index)">
-                        <img  :src="img | mSrc" alt="">
+                        <img  :src="img | mSrc(200,200)" alt="">
                     </span>
                 </div>
                 <div flex layout="row" layout-align="start center" flex-wrap="wrap" class="project">
@@ -88,9 +88,9 @@
         </div>
         <bottom-menu @click="link" :flex="vm.flex"></bottom-menu>
         <!-- 图片放大 -->
-        <mt-swipe :auto="0" v-if="swipe.show" :showIndicators="false" :continuous="false" :defaultIndex="swipe.index" v-on:click="scaleImg(index)">
+        <mt-swipe :auto="0" v-if="swipe.show" :showIndicators="true" :continuous="false" :defaultIndex="swipe.index" v-on:click="scaleImg(index)">
             <mt-swipe-item v-for="(i,index) in outerImg" :key="index">
-                <img :src="i | mSrc" alt="" :click="imgHide"></mt-swipe-item>
+                <img :src="i | mSrc(800,800)" alt="" :click="imgHide"></mt-swipe-item>
         </mt-swipe>
         <!-- 下部时间选择 -->
         <template>
@@ -109,7 +109,7 @@
                 <use xlink:href="#icon-edit"></use>
             </svg>
         </div>
-        <div class="btn-fixed btn-go-top" v-on:click="toTop">
+        <div class="btn-fixed btn-go-top" v-on:click="toTop" v-if="scroll">
             <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-top"></use>
             </svg>
@@ -210,7 +210,8 @@ export default {
             page: 1,
             rows: 20,
             user: this.$store.state.user,
-            scrollDisabled: false
+            scrollDisabled: false,
+            scroll: false
         };
     },
     mounted() {
@@ -251,6 +252,14 @@ export default {
             name: '自定义',
             method: this.selectedDateRange
         }];
+        window.onscroll = () => {
+            var scrolltop = document.documentElement.scrollTop || document.body.scrollTop;
+            if (scrolltop > 100) {
+                this.scroll = true;
+            } else {
+                this.scroll = false;
+            }
+        };
         this.messageServiceList();
     },
     methods: {
@@ -291,11 +300,11 @@ export default {
         // 清除显示的员工
         clearSearch() {
             this.vm.search.main = null;
-            this.messageServiceList();
+            this.messageServiceList('item');
         },
         // 点击返回顶部
         toTop() {
-            $('.container').animate({
+            $('body,html').animate({
                 scrollTop: 0
             }, 500);
         },
@@ -309,7 +318,7 @@ export default {
         },
         scaleImg(pIndex, index) {
             this.swipe.show = !this.swipe.show;
-            this.outerImg = this.dataList[pIndex].imageIds;
+            this.$knife.deepCopy(this.dataList[pIndex].imageIds, this.outerImg);
             this.swipe.index = index;
         },
         handleConfirm(date) {
@@ -433,8 +442,8 @@ export default {
     background: @color-bg;
     min-height: 100%;
     height: 100%;
-    width: 100%;
-    overflow-x: hidden;
+    // width: 100%;
+    // overflow-x: hidden;
     position: relative;
     -webkit-overflow-scrolling: touch;
     .mask {
@@ -444,7 +453,6 @@ export default {
         left: 0;
         right: 0;
         background: @color-black;
-        opacity: .5;
         z-index: 2;
     }
     .top-bar {
