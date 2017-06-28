@@ -20,7 +20,7 @@ export default [{
     meta: { auth: true, level: 2 }
 }, {
     path: '/return-visit/:memberId/create', // 客户关怀 新增
-    name: 'return-visit-edit',
+    name: 'return-visit-create',
     component: returnVisitEdit,
     meta: { auth: true, level: 4 }
 }, {
@@ -44,7 +44,7 @@ export default [{
     component: serviceRecordEdit,
     meta: { auth: true, level: 4 }
 }, {
-    path: '/service-record/:recordId/edit', // 服务小计 编辑
+    path: '/service-record/:serviceId/edit', // 服务小计 编辑
     name: 'service-record-edit',
     component: serviceRecordEdit,
     meta: { auth: true, level: 4 }
