@@ -84,7 +84,6 @@ export default {
             query: {
                 merchantId: this.$store.getters.merchantId,
                 storeIds: this.$store.getters.storeIds,
-                employeeId: this.$store.state.user.id,
                 startDate: '',
                 endDate: '',
                 status: 2
@@ -206,7 +205,11 @@ export default {
         memberList() {
             this.$router.push({
                 name: 'return-visit-ranking-list',
-                query: this.query
+                query: {
+                    storeIds: this.query.storeIds,
+                    startDate: this.query.startDate,
+                    endDate: this.query.endDate
+                }
             });
         },
         toolbarClick(index, item) {

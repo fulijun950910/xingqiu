@@ -1,8 +1,8 @@
 <template>
     <div class="service-record-cell" layout="row" layout-align="center center">
-        <img :src="mData.employeeAvatarId | mSrc(40, 40, require('assets/imgs/avatar.png'))" class="avatar">
+        <img :src="mData.memberAvatarId | mSrc(40, 40, require('assets/imgs/avatar.png'))" class="avatar">
         <div flex class="content">
-            <span class="fs24 dark-gray">{{mData.employeeNo}} {{mData.employeeName}}</span>
+            <span class="fs24 dark-gray">{{mData.memberNo}} {{mData.memberName}}</span>
             <p class="extra-light-black" v-if="mData.serviceSmallNote && mData.serviceSmallNote.item">{{mData.serviceSmallNote.item | getNames('itemName')}}</p>
             <p v-else>无项目</p>
         </div>

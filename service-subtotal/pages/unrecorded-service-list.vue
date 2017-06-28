@@ -34,8 +34,8 @@ export default {
                 merchantId: this.$store.getters.merchantId,
                 storeIds: this.$store.getters.storeIds,
                 employeeId: '',
-                startDate: '',
-                endDate: '',
+                startDate: this.$route.query.startDate,
+                endDate: this.$route.query.endDate,
                 status: 2,
                 type: 1,
                 page: 1,
@@ -60,6 +60,9 @@ export default {
     },
     methods: {
         loadData() {
+            if (this.scrollDisabled) {
+                return;
+            }
             this.loading = true;
             api_service_note.queryServiceRecord(this.getQuery()).then(res => {
                 if (res.data.rows.length < this.query.rows) {
@@ -97,8 +100,10 @@ export default {
             });
         },
         selectedEmployee(item) {
+            this.resetQuery();
             this.employee = item;
             this.query.employeeId = item.id;
+            this.loadData();
         },
         showSearchBar() {
             this.searchVisiable = true;
