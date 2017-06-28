@@ -3,20 +3,14 @@
         <!-- 头部名片 -->
         <div class="c-card" layout="row" layout-align="space-between end">
             <div class="c-card-content " flex="70" layout="row" layout-align="space-between center">
-                <img :src="avatarId|mSrc(90,90,require('assets/imgs/avatar.png'))" alt="">
+                <img :src="dataModel.memberAvatarId|mSrc(90,90,require('assets/imgs/avatar.png'))" alt="">
                 <div flex="75">
                     <p class="c-card-title " layout="row" layout-align="start center">
-                        <span class="c-card-name no-wrap">{{serviceName}}</span>&nbsp;&nbsp;
-                        <span class="c-card-number no-wrap text-center" flex="50">
-                            <span class="dian">●</span> 
-                            <span class="ft-light">{{dataModel.memberId}}</span>
-                        </span>
+                        <span class="c-card-name no-wrap">{{serviceName}}</span>
                     </p>
                     <p class="c-card-subtitle" layout="row" layout-align="start center">
                         <span class="dian" flex="10">●</span> 
-                        <span class="ft-light no-wrap" flex="40">{{dataModel.memberName}}</span>&nbsp;&nbsp;
-                        <span class="dian" flex="10">●</span> 
-                        <span class="ft-light no-wrap" flex="40">{{dataModel.memberId}}</span>
+                        <span class="ft-light no-wrap" flex="40">{{dataModel.memberName}}</span>
                     </p>
                 </div>
             </div>
@@ -32,38 +26,69 @@
 </template>
 <script>
 import recordEdit from './module/record-edit.vue';
+import api_serviceNote from 'services/api.serviceNote';
 export default {
     name: 'service-record-edit',
     components: {
         recordEdit
     },
+    mounted() {
+        this.initData();
+    },
     data() {
         return {
             dataModel: {
                 id: this.$route.params.serviceId,
-                merchantId: this.$store.getters.merchantId,
-                storeId: this.$store.getters.storeId,
+                merchantId: null,
+                storeId: null,
                 content: '',
                 imageIds: '',
                 type: 1, // 1=小计，2=客户关怀
-                employeeId: 138239242342,
-                employeeName: 'jczzq',
-                memberId: 138239242342,
-                memberName: '李老板',
-                orderId: 19344397394,
+                employeeId: null,
+                employeeNo: null,
+                employeeAvatarId: null,
+                employeeName: '',
+                memberId: this.$route.query.memberId,
+                memberAvatarId: null,
+                memberName: '',
+                orderId: null,
                 tags: '',
                 remind: 0, // 0=不提醒，1=提醒
-                remindTime: '2017-5-01 00:00:00', // remind=1时必传
+                remindTime: new Date().formatDate('yyyy-MM-dd hh:mm:ss'), // remind=1时必传
                 remindContent: '1' // remind=1时必传
             },
-            serviceName: '护理',
-            avatarId: '6605483877807029'
+            serviceName: ''
         };
     },
     methods: {
+        // 初始化信息
+        initData() {
+            this.getServiceNoteInfo();
+        },
+        // 获取服务小计信息
+        getServiceNoteInfo() {
+            api_serviceNote.recordDetail(this.dataModel.id).then(res => {
+                let serviceNote = res.data;
+                this.serviceName = serviceNote.serviceSmallNote ? serviceNote.serviceSmallNote.item.map(x => {return x.itemName;}).join('+') : '无项目';
+                this.dataModel.merchantId = serviceNote.merchantId;
+                this.dataModel.orderId = serviceNote.orderId;
+                this.dataModel.storeId = serviceNote.storeId;
+                this.dataModel.employeeId = serviceNote.storeId;
+                this.dataModel.employeeNo = serviceNote.employeeNo;
+                this.dataModel.employeeName = serviceNote.storeId;
+                this.dataModel.memberId = serviceNote.memberId;
+                this.dataModel.memberName = serviceNote.memberName;
+                this.dataModel.employeeAvatarId = serviceNote.employeeAvatarId;
+                this.dataModel.memberAvatarId = serviceNote.memberAvatarId;
+            });
+        },
         // 完成记录
         saveRecord() {
-            console.log(JSON.stringify(this.dataModel));
+            api_serviceNote.createServiceNote(this.dataModel).then(res => {
+                console.log(res);
+            }, err => {
+                console.log(err);
+            });
             this.$router.push({name: 'record-finish', query: {type: this.dataModel.type}});
         }
     }

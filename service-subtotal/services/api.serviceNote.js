@@ -33,6 +33,14 @@ export default {
         return request(url, data, 'post');
     },
     /**
+     * 2.7. 编辑页面时查询某个记录或关怀详情
+     */
+    recordDetail: function(recordId) {
+        let url = `/api/wechatbusinessassists/messageCenterDetail/${recordId}`;
+        return request(url);
+    },
+
+    /**
      * 会员列表查询
      */
     queryMembers(data) {

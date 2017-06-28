@@ -3,20 +3,16 @@
         <!-- 头部名片 -->
         <div class="c-card" layout="row" layout-align="space-between end">
             <div class="c-card-content" flex="75" layout="row" layout-align="space-between center">
-                <img :src="avatarId|mSrc(90,90,require('assets/imgs/avatar.png'))" alt="">
+                <img :src="dataModel.avatarId|mSrc(90,90,require('assets/imgs/avatar.png'))" alt="">
                 <div flex="75">
                     <p class="c-card-title " layout="row" layout-align="start center">
-                        <span class="c-card-name no-wrap">{{dataModel.memberName}}</span>&nbsp;&nbsp;
-                        <span class="c-card-number no-wrap text-center" flex="50">
-                            <span class="dian">●</span> 
-                            <span class="ft-light">{{dataModel.memberId}}</span>
-                        </span>
+                        <span class="c-card-name no-wrap">{{dataModel.memberName}}</span>
                     </p>
                     <p class="c-card-subtitle" layout="row" layout-align="start center">
                         <span class="dian" flex="10">●</span> 
-                        <span class="ft-light no-wrap" flex="40">{{}}</span>&nbsp;&nbsp;
+                        <span class="ft-light no-wrap" flex="40">{{dataModel.gradeName?dataModel.gradeName:'无'}}</span>&nbsp;&nbsp;
                         <span class="dian" flex="10">●</span> 
-                        <span class="ft-light no-wrap" flex="40">持卡{{}}张</span>
+                        <span class="ft-light no-wrap" flex="40">{{dataModel.memberNo}}</span>
                     </p>
                 </div>
             </div>
@@ -33,31 +29,36 @@
 <script>
 import recordEdit from './module/record-edit.vue';
 import api_member from 'services/api.member';
+import api_serviceNote from 'services/api.serviceNote';
 export default {
     name: 'return-visit-edit',
     components: {
         recordEdit
     },
+    mounted() {
+        this.initData();
+    },
     data() {
         return {
             dataModel: {
-                id: this.$route.params.memberId,
                 merchantId: this.$store.getters.merchantId,
                 storeId: this.$store.getters.storeId,
                 content: '',
                 imageIds: '',
                 type: 2, // 1=小计，2=客户关怀
-                employeeId: 138239242342,
-                employeeName: 'jczzq',
+                employeeId: this.$store.getters.employeeId,
+                employeeName: this.$store.getters.employeeName,
                 memberId: this.$route.params.memberId,
-                memberName: '李老板',
-                orderId: 19344397394,
+                memberName: '',
+                orderId: null,
                 tags: '',
                 remind: 0, // 0=不提醒，1=提醒
-                remindTime: '2017-5-01 00:00:00', // remind=1时必传
-                remindContent: '2' // remind=1时必传
-            },
-            avatarId: '6605483877807029'
+                remindTime: new Date().formatDate('yyyy-MM-dd hh:mm:ss'), // remind=1时必传
+                remindContent: '1', // remind=1时必传
+                memberNo: '',
+                gradeName: '',
+                avatarId: ''
+            }
         };
     },
     methods: {
@@ -67,15 +68,27 @@ export default {
         },
         // 获取会员信息
         getMemberInfo() {
-            let memberId = this.dataModel.id;
+            let memberId = this.dataModel.memberId;
             api_member.getMemberById(memberId).then(res => {
-                console.log(res);
+                this.dataModel.memberName = res.data.name;
+                this.dataModel.merchantId = res.data.merchantId;
+                this.dataModel.avatarId = res.data.avatarId;
+                this.dataModel.gradeName = res.data.gradeName;
+                this.dataModel.memberNo = res.data.memberNo;
             });
+        },
+        // 验证
+        checkData() {
         },
         // 提交客户关怀
         saveRecord() {
-            console.log(JSON.stringify(this.dataModel));
-            this.$router.push({name: 'record-finish', query: {type: this.dataModel.type}});
+            this.$indicator.open();
+            api_serviceNote.createCustomerConcern(this.dataModel).then(res => {
+                this.$indicator.close();
+                this.$router.push({name: 'record-finish', query: {type: this.dataModel.type}});
+            }, err => {
+                console.log(err);
+            });
         }
     }
 };
