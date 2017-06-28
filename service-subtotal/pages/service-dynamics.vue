@@ -68,7 +68,7 @@
                 </div>
                 <div class="main-img" layout="row" layout-align="start center" flex-wrap="wrap" v-if="item.status == 1">
                     <span flex="30" v-for="(img,index) in item.imageIds" v-on:click="scaleImg(pIndex,index)">
-                        <img  :src="img | mSrc" alt="">
+                        <img  :src="img | mSrc(200,200)" alt="">
                     </span>
                 </div>
                 <div flex layout="row" layout-align="start center" flex-wrap="wrap" class="project">
