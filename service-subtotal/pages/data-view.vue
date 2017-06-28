@@ -1,5 +1,5 @@
 <template>
-    <div v-title="'服务数据统计'" class="data-view">
+    <div v-title="'服务数据统计'" class="data-view min-height-100">
         <div class="header">
             <p class="text-center fs32 extra-light-black">{{selectedStore.name}}</p>
             <div layout="row" layout-align="center center" class="fs28 color-gray">
@@ -38,7 +38,7 @@
                 </p>
                 <p>已记录</p>
             </div>
-            <div class="link-btn" @click="$router.push({name:'service-record-list'})">
+            <div class="link-btn" @click="$router.push({name:'unrecorded-service-list', query: query})">
                 <p>
                     <m-icon xlink="#icon-weipingjia"></m-icon>
                     {{showModel.waitCount | currency('', 0)}}
