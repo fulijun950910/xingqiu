@@ -1,7 +1,7 @@
 <template>
     <div class="return-visit-ranking-list" v-title="'客户关怀统计'" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
-        <!-- <m-top-search v-model="keyword" placeholder="搜索员工" @search="search" type="2" @click.native="showSearchBar"></m-top-search> -->
-        <!-- <auto-search-bar :searchvisiable="searchVisiable" :search-text="keyword" :employee-list="employeeList"></auto-search-bar> -->
+        <m-top-search v-show="!searchVisiable" :icon="employee.name ? '#icon-close' : '#icon-search2'" v-model="employee.name" placeholder="搜索员工" @iconClick="clearSearch" type="2" @searchClick="showSearchBar"></m-top-search>
+        <auto-search-bar :visiable.sync="searchVisiable" :search-text="employeeQuery.employeeName" :employee-list="employeeList" @itemClick="selectedEmployee" @change="searchEmployees"></auto-search-bar>
         <div>
             <return-visit-ranking-cell :m-data="item" v-for="(item, index) in dataList" :key="index" :index="index+1" @click.native="editClick(item)"></return-visit-ranking-cell>
             <m-load-more :loading="!scrollDisabled"></m-load-more>
@@ -33,17 +33,25 @@ export default {
             query: {
                 merchantId: this.$store.getters.merchantId,
                 storeIds: this.$route.query.storeIds,
-                employeeId: '',
+                employeeId: this.$route.query.employeeId,
                 startDate: this.$route.query.startDate,
                 endDate: this.$route.query.endDate,
+                status: 1,
+                type: 2,
                 page: 1,
                 rows: 20
             },
-            keyword: '',
+            employeeQuery: {
+                merchantId: this.$store.getters.merchantId,
+                storeIds: this.$store.getters.storeIds,
+                employeeId: this.$store.state.user.id,
+                employeeName: ''
+            },
+            employee: {},
             dataList: [],
             loading: false,
             employeeList: [],
-            searchVisiable: false,
+            searchVisiable: !this.$store.getters.admin,
             scrollDisabled: false
         };
     },
@@ -69,14 +77,42 @@ export default {
         getQuery() {
             return this.query;
         },
+        resetQuery() {
+            this.scrollDisabled = false;
+            this.dataList = [];
+        },
         loadMore() {
             this.loadData();
         },
         search(keyword) {
             this.loadData();
         },
+        searchEmployees(keyword) {
+            this.employeeQuery.employeeName = keyword;
+            api_service_note.employeeList(this.employeeQuery).then(res => {
+                this.employeeList = res.data;
+            }, err => {
+
+            });
+        },
+        selectedEmployee(item) {
+            this.employee = item;
+            this.query.employeeId = item.id;
+            this.loadData();
+        },
         showSearchBar() {
             this.searchVisiable = true;
+            if (!this.employeeList.length) {
+                this.searchEmployees();
+            }
+        },
+        clearSearch() {
+            if (this.query.employeeId) {
+                this.query.employeeId = '';
+                this.employee = {};
+                this.resetQuery();
+            }
+            this.loadData();
         },
         editClick(item) {
             this.$router.push({

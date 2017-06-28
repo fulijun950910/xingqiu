@@ -205,7 +205,7 @@ export default {
         },
         memberList() {
             this.$router.push({
-                name: 'member-list',
+                name: 'return-visit-ranking-list',
                 query: this.query
             });
         },
