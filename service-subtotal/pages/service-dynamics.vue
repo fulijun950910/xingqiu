@@ -17,7 +17,7 @@
                     {{vm.search.main}}
                      </span>
                     <span v-if="!admin">{{user.name}}</span>
-                    <span v-on:click.stop="clearSearch()" flex="20" v-if="vm.search.text">
+                    <span v-on:click.stop="clearSearch()" flex="20" v-if="vm.search.main">
                     <svg class="icon icon-close-grey icon-margin" aria-hidden="true">
                         <use xlink:href="#icon-close"></use>
                     </svg>                         
@@ -44,7 +44,7 @@
                 <div class="title" layout="row" layout-align="space-between center">
                     <div class="user" layout="row" layout-align="center center">
                         <span class="view">
-                            <img alt="" :src="item.employeeAvatarId | mSrc">
+                            <img alt="" :src="item.employeeAvatarId | mSrc(40, 40, require('assets/imgs/avatar.png'))">
                         </span>
                         <div>
                             <h3>NO:{{item.employeeNo}}</h3>
@@ -63,22 +63,25 @@
                     <div>
                     </div>
                 </div>
-                <div class="main-text" flex>
+                <div class="main-text" flex v-if="item.status == 1">
                     {{item.content}}
                 </div>
-                <div class="main-img" layout="row" layout-align="start center" flex-wrap="wrap">
+                <div class="main-img" layout="row" layout-align="start center" flex-wrap="wrap" v-if="item.status == 1">
                     <span flex="30" v-for="(img,index) in item.imageIds" v-on:click="scaleImg(pIndex,index)">
                         <img  :src="img | mSrc" alt="">
                     </span>
                 </div>
                 <div flex layout="row" layout-align="start center" flex-wrap="wrap" class="project">
-                    <span></span>
+                    <svg class="icon xiangmu" aria-hidden="true">
+                        <use xlink:href="#icon-xiangmu"></use>
+                    </svg>
+                    <span v-for="project in item.serviceSmallNote.item">{{project.itemName}}</span>
                 </div>
                 <div class="box-bottom" flex layout="row" layout-align="start center">
                     <span>{{item.recordTime ? item.recordTime : item.createTime | amCalendar}}</span>
                     <span flex></span>
                     <a v-if="item.status == 1">客户：{{item.memberName}}</a>
-                    <a v-if="item.status == 0">编辑</a>
+                    <a class="link" v-if="item.status == 0" v-on:click="addServiceNote(item)">添加一条服务小计</a>
                 </div>
             </div>
             <m-load-more :loading="!scrollDisabled"></m-load-more>
@@ -287,7 +290,8 @@ export default {
         },
         // 清除显示的员工
         clearSearch() {
-            this.vm.search.text = null;
+            this.vm.search.main = null;
+            this.messageServiceList();
         },
         // 点击返回顶部
         toTop() {
@@ -366,7 +370,6 @@ export default {
             let parameter = {
                 merchantId: self.merchantId,
                 storeIds: self.storeIds.join(','),
-                employeeId: self.user.id,
                 page: self.page,
                 rows: self.rows
             };
@@ -388,8 +391,12 @@ export default {
                 parameter.endtDate = self.vm.timeInterval.endDate;
             };
             service.messageServiceList(parameter).then(res => {
-                for (let i = 0; i < res.data.rows.length; i++) {
-                    res.data.rows[i].imageIds = res.data.rows[i].imageIds.split(',');
+                if (res.data.rows.length > 0) {
+                    for (let i = 0; i < res.data.rows.length; i++) {
+                        if (res.data.rows[i].imageIds) {
+                            res.data.rows[i].imageIds = res.data.rows[i].imageIds.split(',');
+                        }
+                    };
                 };
                 if (res.data.rows.length < self.rows) {
                     self.scrollDisabled = true;
@@ -404,6 +411,17 @@ export default {
 
             }, erro => {
                 console.log('网络错误！');
+            });
+        },
+        addServiceNote(item) {
+            this.$router.push({
+                name: 'service-record-create',
+                params: {
+                    serviceId: item.id
+                },
+                query: {
+                    memberId: item.memberId
+                }
             });
         }
     }
@@ -488,7 +506,6 @@ export default {
                     display: block;
                     width: 50.5px;
                     height: 50.5px;
-                    background: @color-black;
                     border-radius: 100%;
                     overflow: hidden;
                     margin-right: @l16;
@@ -534,9 +551,14 @@ export default {
                 border-bottom:1px solid @light-gray;
             }
             .project {
+                margin-top: @l16;
                 span {
-                    margin-right: @l24;
-                    margin-bottom: @l24;
+                    font-size: @fs24;
+                    color: @gray;
+                }
+                .xiangmu {
+                    color: @light-gray;
+                    margin-right: 5px;
                 }
             }
             .text-type {
@@ -552,10 +574,13 @@ export default {
             .box-bottom {
                 padding: 2 * @l16 0;
                 span {
-                    color: @light-gray;
+                    color: @gray;
                 }
                 a {
-                    color: #4E4B73;
+                    color: @gray;
+                }
+                .link {
+                    color: @color-tiffany-blue;
                 }
             }
             &:first-child {
