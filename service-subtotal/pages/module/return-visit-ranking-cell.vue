@@ -48,9 +48,11 @@ export default {
         width: 30px;
         height: 30px;
         margin-right: @l24;
+        position: relative;
         .icon {
             position: absolute;
             font-size: 30px;
+            left: 0;
         }
         span {
             z-index: 2;

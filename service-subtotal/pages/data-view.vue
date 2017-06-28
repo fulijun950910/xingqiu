@@ -206,7 +206,11 @@ export default {
         memberList() {
             this.$router.push({
                 name: 'return-visit-ranking-list',
-                query: this.query
+                query: {
+                    storeIds: this.query.storeIds,
+                    startDate: this.query.startDate,
+                    endDate: this.query.endDate
+                }
             });
         },
         toolbarClick(index, item) {

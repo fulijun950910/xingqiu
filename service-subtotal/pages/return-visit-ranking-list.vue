@@ -78,6 +78,7 @@ export default {
             return this.query;
         },
         resetQuery() {
+            this.query.page = 1;
             this.scrollDisabled = false;
             this.dataList = [];
         },
@@ -96,6 +97,7 @@ export default {
             });
         },
         selectedEmployee(item) {
+            this.resetQuery();
             this.employee = item;
             this.query.employeeId = item.id;
             this.loadData();
