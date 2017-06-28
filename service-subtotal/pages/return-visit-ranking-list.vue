@@ -116,9 +116,10 @@ export default {
         },
         editClick(item) {
             this.$router.push({
-                name: 'service-record-edit',
-                params: {
-                    recordId: item.id
+                name: 'service-dynamics',
+                query: {
+                    employeeId: item.employeeId,
+                    employeeName: item.employeeName
                 }
             });
         }

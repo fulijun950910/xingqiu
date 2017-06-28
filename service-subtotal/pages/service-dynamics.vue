@@ -83,7 +83,7 @@
                     <span>{{item.recordTime ? item.recordTime : item.createTime | amCalendar}}</span>
                     <span flex></span>
                     <a v-if="item.status == 1">客户：{{item.memberName}}</a>
-                    <a class="link" v-if="item.status == 0" v-on:click="addServiceNote(item)">添加一条服务小计</a>
+                    <a class="link" v-if="item.status == 0 && !admin" v-on:click="addServiceNote(item)">添加一条服务小计</a>
                 </div>
             </div>
             <m-load-more :loading="!scrollDisabled"></m-load-more>
@@ -213,7 +213,8 @@ export default {
             rows: 20,
             user: this.$store.state.user,
             scrollDisabled: false,
-            scroll: false
+            scroll: false,
+            routerEmployee: this.$router.query
         };
     },
     mounted() {
@@ -262,7 +263,12 @@ export default {
                 this.scroll = false;
             }
         };
-        this.messageServiceList();
+        if (this.routerEmployee) {
+            this.messageServiceList(this.routerEmployee);
+            this.vm.search.main = this.routerEmployee.employeeName;
+        } else {
+            this.messageServiceList('item');
+        };
     },
     methods: {
         // 显示/隐藏搜索详情
