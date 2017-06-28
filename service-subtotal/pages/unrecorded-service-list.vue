@@ -4,8 +4,9 @@
         <auto-search-bar :visiable.sync="searchVisiable" :search-text="employeeQuery.employeeName" :employee-list="employeeList" @itemClick="selectedEmployee" @change="searchEmployees"></auto-search-bar>
         <div>
             <service-record-cell :m-data="item" v-for="(item, index) in dataList" :key="index" @click.native="editClick(item)"></service-record-cell>
-            <m-load-more :loading="!scrollDisabled"></m-load-more>
+            <m-load-more :loading="!scrollDisabled" v-show="dataList.length != 0"></m-load-more>
         </div>
+        <no-data :visible="dataList.length == 0"></no-data>
     </div>
 </template>
 <script>
@@ -14,6 +15,7 @@ import {
     InfiniteScroll
 } from 'mint-ui';
 Vue.use(InfiniteScroll);
+import noData from 'components/no-data';
 import mLoadMore from 'components/m-load-more';
 import mTopSearch from 'components/m-top-search';
 import autoSearchBar from 'components/auto-search-bar';
@@ -23,6 +25,7 @@ import serviceRecordCell from 'pages/module/service-record-cell';
 export default {
     name: 'unrecorded-service-list',
     components: {
+        noData,
         mLoadMore,
         mTopSearch,
         autoSearchBar,

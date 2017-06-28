@@ -2,7 +2,7 @@
     <div v-if="visible" class="text-center no-datacon">
         <h3><m-icon class="no-data" :xlink="iconName"></m-icon></h3>
         <p>暂时没有记录哦！！</p>
-        <a :click="back">返回上一页</a>
+        <a @click="back">返回上一页</a>
     </div>
 </template>
 <script>
