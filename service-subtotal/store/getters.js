@@ -20,5 +20,7 @@ export default {
             return false;
         }
         return false;
-    }
+    },
+    employeeId: state => state.user.id,
+    employeeName: state => state.user.name
 };

@@ -2,26 +2,29 @@
     <div class="container" :class="{active:vm.mask}">
         <!--         <div class="mask" v-if="vm.mask" v-on:click="searchStatu()">
         </div> -->
-        <div class="mask" v-if="swipe.show" v-on:click="imgHide()">
+        <div class="mask" v-if="swipe.show" v-on:click="imgHide">
         </div>
         <div class="top-bar" :class="{active:swipe.show}">
             <div layout="row" layout-align="start center" flex v-if="!vm.search.show">
-                <a class="bar-btn border-r" layout="row" layout-align="center center" flex v-on:click="searchStatu()">
-                    <div v-if="!vm.search.text">
+                <a class="bar-btn border-r" layout="row" layout-align="center center" v-if="admin" flex v-on:click="searchStatu()">
+                    <div v-if="!vm.search.main">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-search2"></use>
                         </svg>
                         <span class="bar-text">搜索</span>
                     </div>
-                    <span v-if="vm.search.text" flex class="text-center"> 
-                    {{vm.search.text}}
+                    <span v-if="vm.search.main" flex class="text-center"> 
+                    {{vm.search.main}}
                      </span>
                     <span v-if="!admin">{{user.name}}</span>
-                    <span v-on:click.stop="clearSearch()" v-if="vm.search.text">
+                    <span v-on:click.stop="clearSearch()" flex="20" v-if="vm.search.text">
                     <svg class="icon icon-close-grey icon-margin" aria-hidden="true">
                         <use xlink:href="#icon-close"></use>
                     </svg>                         
                      </span>
+                </a>
+                <a class="bar-btn border-r" layout="row" layout-align="center center" flex v-if="!admin">
+                    {{user.name}}
                 </a>
                 <a class="bar-btn see-data" layout="row" layout-align="center center" flex @click="$router.push({name: 'data-view'})">
                     <svg class="icon" aria-hidden="true">
@@ -41,7 +44,7 @@
                 <div class="title" layout="row" layout-align="space-between center">
                     <div class="user" layout="row" layout-align="center center">
                         <span class="view">
-                            <img alt="">
+                            <img alt="" :src="item.employeeAvatarId | mSrc">
                         </span>
                         <div>
                             <h3>NO:{{item.employeeNo}}</h3>
@@ -68,8 +71,11 @@
                         <img  :src="img | mSrc" alt="">
                     </span>
                 </div>
+                <div flex layout="row" layout-align="start center" flex-wrap="wrap" class="project">
+                    <span></span>
+                </div>
                 <div class="box-bottom" flex layout="row" layout-align="start center">
-                    <span>{{item.recordTime ? item.recordTime : item.createTime | fromnow}}</span>
+                    <span>{{item.recordTime ? item.recordTime : item.createTime | amCalendar}}</span>
                     <span flex></span>
                     <a v-if="item.status == 1">客户：{{item.memberName}}</a>
                     <a v-if="item.status == 0">编辑</a>
@@ -81,7 +87,7 @@
         <!-- 图片放大 -->
         <mt-swipe :auto="0" v-if="swipe.show" :showIndicators="false" :continuous="false" :defaultIndex="swipe.index" v-on:click="scaleImg(index)">
             <mt-swipe-item v-for="(i,index) in outerImg" :key="index">
-                <img :src="i | mSrc" alt=""></mt-swipe-item>
+                <img :src="i | mSrc" alt="" :click="imgHide"></mt-swipe-item>
         </mt-swipe>
         <!-- 下部时间选择 -->
         <template>
@@ -112,9 +118,7 @@
 import Vue from 'vue';
 import $ from 'jquery';
 import {
-    DatetimePicker
-} from 'mint-ui';
-import {
+    DatetimePicker,
     Lazyload
 } from 'mint-ui';
 import mLoadMore from 'components/m-load-more';
@@ -373,6 +377,7 @@ export default {
                 parameter.type = self.selectedstatus.value;
             };
             if (item) {
+                self.vm.search.main = item.name;
                 self.vm.search.text = item.name;
                 parameter.employeeId = item.id;
             };
@@ -382,7 +387,7 @@ export default {
             if (self.vm.timeInterval.endDate) {
                 parameter.endtDate = self.vm.timeInterval.endDate;
             };
-            service.messageServiceList(parameter).then(function(res) {
+            service.messageServiceList(parameter).then(res => {
                 for (let i = 0; i < res.data.rows.length; i++) {
                     res.data.rows[i].imageIds = res.data.rows[i].imageIds.split(',');
                 };
@@ -390,9 +395,14 @@ export default {
                     self.scrollDisabled = true;
                 } else {
                     self.scrollDisabled = false;
+                };
+                if (item) {
+                    self.dataList = res.data.rows;
+                } else {
+                    self.dataList = self.dataList.concat(res.data.rows);
                 }
-                self.dataList = self.dataList.concat(res.data.rows);
-            }, function(erro) {
+
+            }, erro => {
                 console.log('网络错误！');
             });
         }
@@ -454,27 +464,6 @@ export default {
             input {
                 font-size: @fs28;
             }
-        }
-        .icon-margin {
-            margin: 0 @l16*2;
-        }
-        .employee-list {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: @white;
-            border-top: 1px solid @light-gray;
-            max-height: 220px;
-            overflow-y: scroll;
-            overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
-        }
-        .employee-list li {
-            padding: @l16 * 2;
-            color: @color-black;
-            font-size: @fs28;
-            border-bottom: 1px solid @light-gray;
         }
     }
     .active {
@@ -542,6 +531,13 @@ export default {
                 span:nth-of-type(3n) {
                     margin-right: 0;
                 }
+                border-bottom:1px solid @light-gray;
+            }
+            .project {
+                span {
+                    margin-right: @l24;
+                    margin-bottom: @l24;
+                }
             }
             .text-type {
                 border: 1px solid @light-gray;
@@ -554,7 +550,7 @@ export default {
                 }
             }
             .box-bottom {
-                padding-bottom: 2 * @l16;
+                padding: 2 * @l16 0;
                 span {
                     color: @light-gray;
                 }

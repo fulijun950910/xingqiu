@@ -57,7 +57,6 @@ export default {
         },
         clearHide() {
             this.$emit('update:visiable', false);
-            this.$emit('update:searchText', '');
         }
     }
 };
@@ -78,7 +77,6 @@ export default {
 .searchBar-main {
     position: relative;
     z-index: 3;
-    padding: @l16 * 2 0;
     background: @white;
     .employee-list {
         position: absolute;
@@ -102,6 +100,9 @@ export default {
         }
         .icon-close {
             color: @color-black;
+        }
+        input {
+            padding: @l16 * 2 0;
         }
     }
     .employee-list li {
