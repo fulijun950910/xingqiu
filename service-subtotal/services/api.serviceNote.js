@@ -75,5 +75,12 @@ export default {
     returnVisitRankingList(data) {
         let url = '/api/wechatbusinessassists/customerConcernRanking';
         return request(url, data, 'post');
+    },
+    /**
+     * 统计数据
+     */
+    queryStatistics(data) {
+        let url = '/api/wechatbusinessassists/statistics';
+        return request(url, data, 'post');
     }
 };
