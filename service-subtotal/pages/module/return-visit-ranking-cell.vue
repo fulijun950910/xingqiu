@@ -1,10 +1,10 @@
 <template>
     <div class="return-visit-ranking-cell" layout="row" layout-align="center center">
-        <div layout="row" layout-align="center center" class="index-panel">
+        <div layout="row" layout-align="center center" class="index-panel" :class="[`icon-${this.index}`]">
             <span>{{index}}</span>
-            <m-icon xlink="#icon-TOP" class="dark-gray" v-if="index < 4"></m-icon>
+            <m-icon xlink="#icon-medal" v-if="index < 4"></m-icon>
         </div>
-        <img :src="mData.employeeAvatarId | mSrc(require('assets/imgs/avatar.png'))" class="avatar">
+        <img :src="mData.employeeAvatarId | mSrc(80, 80, require('assets/imgs/avatar.png'))" class="avatar">
         <div flex class="content">
             <span class="fs24 dark-gray">{{mData.code}}</span>
             <p class="extra-light-black">{{mData.employeeName}}</p>
@@ -55,6 +55,27 @@ export default {
         span {
             z-index: 2;
             position: relative;
+            padding-bottom: 2px;
+        }
+    }
+    .icon- {
+        &1 {
+            color: @white;
+            .icon {
+                color: #FC5D51;
+            }
+        }
+        &2 {
+            color: @white;
+            .icon {
+                color: #F6A623;
+            }
+        }
+        &3 {
+            color: @white;
+            .icon {
+                color: #D0D0D0;
+            }
         }
     }
     .avatar {
