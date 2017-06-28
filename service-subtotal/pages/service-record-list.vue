@@ -145,7 +145,8 @@ export default {
                     name: routeName,
                     params: {
                         serviceId: item.id
-                    }
+                    },
+                    query: item
                 });
             }
         }

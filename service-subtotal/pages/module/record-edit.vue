@@ -35,7 +35,8 @@
             <!-- 提醒时间 弹出框 -->
             <mt-datetime-picker
                 ref="warnTimer"
-                type="datetime"
+                type="datetime" 
+                :startDate = "new Date()" 
                 v-model="warnDate">
             </mt-datetime-picker>
         </div>

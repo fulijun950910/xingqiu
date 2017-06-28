@@ -119,7 +119,8 @@ export default {
                 name: 'service-record-edit',
                 params: {
                     recordId: item.id
-                }
+                },
+                query: item
             });
         }
     }
