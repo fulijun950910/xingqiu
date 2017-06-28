@@ -5,8 +5,8 @@
         
         <!-- 评价正文 -->
         <div class="c-content">
-            <textarea rows="5" maxlength="120" placeholder="输入客人的要求和习惯" v-model="model.content"></textarea>
-            <p> <span>{{model.content.length}}/120字</span></p>
+            <textarea rows="5" maxlength="300" placeholder="输入客人的要求和习惯" v-model="model.content"></textarea>
+            <p> <span>{{model.content && model.content.length}}/300字</span></p>
         </div>
 
         <!-- 配图 -->
@@ -72,14 +72,11 @@
             [Popup.name]: Popup,
             [Checklist.name]: Checklist
         },
-        mounted() {
-            // 初始化
-            this.initData();
-        },
         data() {
             return {
                 // 图片列表
                 pictureList: [],
+                remindContent: '1',
                 tagList: [],
                 isWran: false,
                 warnDate: new Date().formatDate('yyyy-MM-dd hh:mm:ss'),
@@ -96,6 +93,12 @@
                 } else {
                     return '请选择';
                 }
+            },
+            imageIds() {
+                return this.model.imageIds;
+            },
+            serviceSmallNote() {
+                return this.model.serviceSmallNote;
             }
         },
         watch: {
@@ -109,25 +112,20 @@
             },
             // 提醒时间
             warnDate(val, oldVal) {
-                this.model.remindTime = this.warnDate.formatDate('yyyy-MM-dd hh:mm:ss');
+                if (val) {
+                    this.model.remindTime = this.warnDate.formatDate('yyyy-MM-dd hh:mm:ss');
+                }
+            },
+            remindContent(val) {
+                this.model.remindContent = val;
             },
             // 标签
             tagList(val, oldVal) {
                 this.model.tags = val.join(',');
-            }
-        },
-        methods: {
-            // 初始化
-            initData() {
-                // 是否提醒
-                this.isWran = this.model.remind === 1;
-                // 提醒时间
-                this.warnDate = this.model.remindTime.formatDate('yyyy-MM-dd hh:mm');
-                // 标签列表
-                this.tagList = this.model.tags.includes(',') ? this.model.tags.split(',') : [];
-                // 图片
-                if (this.model.imageIds !== '') {
-                    this.pictureList = this.model.imageIds.split(',').map(x => {
+            },
+            imageIds(val) {
+                if (val && val != '') {
+                    this.pictureList = val.split(',').map(x => {
                         return {
                             id: x,
                             base64: null
@@ -137,6 +135,19 @@
                     this.pictureList = [];
                 }
             },
+            serviceSmallNote(val) {
+                if (val) {
+                    // 是否提醒
+                    this.isWran = val.remind === 1;
+                    // 提醒时间
+                    this.warnDate = val.remindTime ? val.remindTime.formatDate('yyyy-MM-dd hh:mm') : new Date().formatDate('yyyy-MM-dd hh:mm:ss');
+                    this.remindContent = val.remindContent;
+                    // 标签列表
+                    this.tagList = (val.tags && val.tags != '') ? val.tags.split(',') : [];
+                }
+            }
+        },
+        methods: {
             // 选择提醒事项
             chooseWarnItem(item) {
                 this.warnVisible = false;
@@ -214,7 +225,6 @@
         margin: 0;
     }
     
-
     // Ta的标签
     .c-tag{
         .mgb;
@@ -231,8 +241,9 @@
         }
         textarea{
             font-size: @fs32;
+            letter-spacing: 1px;
             width: 100%;
-            padding: @l32;
+            padding: @l32 @l32 0 @l32;
             resize: none;
         }
     }
