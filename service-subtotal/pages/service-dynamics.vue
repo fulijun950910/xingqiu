@@ -432,7 +432,6 @@ export default {
                         }
                     };
                 } else {
-                    debugger;
                     self.noData = true;
                 };
                 if (res.data.rows.length < self.rows) {
