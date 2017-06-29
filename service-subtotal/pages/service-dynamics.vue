@@ -39,7 +39,7 @@
         </div>
         <div class="placeholder" :class="{active1:noData}" flex>
         </div>
-        <div class="dynamics" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="scrollDisabled" infinite-scroll-distance="10" :infinite-scroll-immediate-check="true">
+        <div class="dynamics" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
             <no-Data :visible="noData"></no-Data>
             <div class="div-box" v-for="(item,pIndex) in dataList">
                 <div class="title" layout="row" layout-align="space-between center">
@@ -84,7 +84,7 @@
                     <span>{{item.recordTime ? item.recordTime : item.createTime | amCalendar}}</span>
                     <span flex></span>
                     <a v-if="item.status == 1">客户：{{item.memberName}}</a>
-                    <a class="link" v-if="item.status == 0 && !admin" v-on:click="addServiceNote(item)">添加一条服务小计</a>
+                    <a class="link" v-if="item.status == 0 && !admin" v-on:click="addServiceNote(item)">添加一条服务小计<m-icon :xlink="'#icon-right-bold'"></m-icon></a>
                 </div>
             </div>
             <m-load-more :loading="!scrollDisabled" v-if="!noData"></m-load-more>
@@ -213,7 +213,8 @@ export default {
             scrollDisabled: false,
             scroll: false,
             routerEmployee: this.$route.query,
-            noData: false
+            noData: false,
+            loading: false
         };
     },
     mounted() {
@@ -424,6 +425,10 @@ export default {
             if (self.vm.timeInterval.endDate) {
                 parameter.endDate = self.vm.timeInterval.endDate;
             };
+            if (self.scrollDisabled) {
+                return;
+            };
+            this.loading = true;
             service.messageServiceList(parameter).then(res => {
                 if (res.data.rows.length > 0) {
                     for (let i = 0; i < res.data.rows.length; i++) {
@@ -431,21 +436,22 @@ export default {
                             res.data.rows[i].imageIds = res.data.rows[i].imageIds.split(',');
                         }
                     };
-                } else {
-                    self.noData = true;
+                };
+                if (res.total == 0) {
+                    this.noData = true;
                 };
                 if (res.data.rows.length < self.rows) {
                     self.scrollDisabled = true;
                 } else {
                     self.scrollDisabled = false;
                 };
-                if (item) {
+                if (item.length) {
                     self.dataList = res.data.rows;
                 } else {
                     self.dataList = self.dataList.concat(res.data.rows);
                     self.page++;
                 }
-
+                self.loading = false;
             }, erro => {
                 console.log('网络错误！');
             });
@@ -627,6 +633,7 @@ export default {
                 }
                 .link {
                     color: @color-tiffany-blue;
+                    font-size: @fs24;
                 }
             }
             &:first-child {
