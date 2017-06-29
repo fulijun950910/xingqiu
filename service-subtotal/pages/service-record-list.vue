@@ -19,8 +19,9 @@
         </div>
         <div>
             <service-record-cell v-for="(item, index) in dataList" :key="index" :mData="item" @click.native="editClick(item)"></service-record-cell>
-            <m-load-more :loading="!scrollDisabled"></m-load-more>
+            <m-load-more :loading="!scrollDisabled" v-show="dataList.length != 0"></m-load-more>
         </div>
+        <no-data :visible="dataList.length == 0" :showButton="false"></no-data>
     </div>
 </template>
 <script>
@@ -29,6 +30,7 @@ import {
     InfiniteScroll
 } from 'mint-ui';
 Vue.use(InfiniteScroll);
+import noData from 'components/no-data';
 import mLoadMore from 'components/m-load-more';
 import api_service_note from 'services/api.serviceNote';
 import serviceRecordCell from 'pages/module/service-record-cell';
@@ -36,6 +38,7 @@ import serviceRecordCell from 'pages/module/service-record-cell';
 export default {
     name: 'service-record-list',
     components: {
+        noData,
         mLoadMore,
         serviceRecordCell
     },
