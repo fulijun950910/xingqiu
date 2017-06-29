@@ -131,7 +131,7 @@ export default {
                 });
             } else if (this.$route.name === 'service-record-edit') {
                 this.$indicator.open();
-                api_serviceNote.createServiceNote(this.dataModel).then(res => {
+                api_serviceNote.updateServiceNote(this.dataModel).then(res => {
                     this.$indicator.close();
                     this.$toast('修改成功！');
                     this.$router.push({name: 'record-finish', query: {type: this.dataModel.type}});
