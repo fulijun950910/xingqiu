@@ -1,5 +1,5 @@
 <template>
-    <div class="container" :class="{active:vm.mask}">
+    <div class="container" :class="{active:vm.mask}" v-title="服务动态">
         <!--         <div class="mask" v-if="vm.mask" v-on:click="searchStatu()">
         </div> -->
         <div class="mask" v-if="swipe.show" v-on:click="imgHide">
