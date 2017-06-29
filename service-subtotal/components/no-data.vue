@@ -1,7 +1,7 @@
 <template>
     <div v-if="visible" class="text-center no-datacon">
         <h3><m-icon class="no-data" :xlink="iconName"></m-icon></h3>
-        <p>暂时没有记录哦！！</p>
+        <p>{{message}}</p>
         <a @click="back" v-show="showButton">返回上一页</a>
     </div>
 </template>
@@ -21,6 +21,10 @@ export default {
         showButton: {
             type: Boolean,
             default: true
+        },
+        message: {
+            type: String,
+            default: '暂时没有数据哦~'
         }
     },
     methods: {

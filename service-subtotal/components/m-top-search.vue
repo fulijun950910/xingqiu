@@ -14,10 +14,18 @@
  * <m-top-search v-model="keyword" @search="search"></m-top-search>
  */
 import mIcon from 'components/m-icon';
+import _ from 'lodash';
+
 export default {
     name: 'm-top-search',
     components: {
         mIcon
+    },
+    data() {
+        return {
+            keywordIsDirty: false,
+            isCalculating: false
+        };
     },
     props: {
         placeholder: {
@@ -34,6 +42,10 @@ export default {
             default: '#icon-search2'
         },
         disabled: {
+            type: Boolean,
+            default: false
+        },
+        autoCallback: {
             type: Boolean,
             default: false
         }
@@ -56,6 +68,18 @@ export default {
                 return;
             }
             this.$emit('searchClick');
+        },
+        expensiveOperation: _.debounce(function() {
+            setTimeout(function() {
+                this.$emit('search', this.currentValue);
+            }.bind(this), 0);
+        }, 500)
+    },
+    watch: {
+        currentValue() {
+            if (this.autoCallback) {
+                this.expensiveOperation();
+            }
         }
     },
     computed: {
