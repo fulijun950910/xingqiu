@@ -99,7 +99,7 @@
         <!-- 图片放大 -->
         <mt-swipe :auto="0" v-if="swipe.show" :showIndicators="true" :continuous="false" :defaultIndex="swipe.index" v-on:click="scaleImg(index)">
             <mt-swipe-item v-for="(i,index) in outerImg" :key="index">
-                <img :src="i | mSrc(800,800)" alt="" :click="imgHide"></mt-swipe-item>
+                <img :src="i | mSrc(500,300)" alt="" :click="imgHide"></mt-swipe-item>
         </mt-swipe>
         <!-- 底部门店显示 -->
         <m-picker v-model="storePickerVisible" :slots="slots" :selected-item.sync="selectedStore" value-key="name" @confirm="changeStore"></m-picker>
@@ -681,13 +681,13 @@ export default {
         }
     }
     .mint-swipe {
-        height: 300px;
+        height: 100vw;
         position: fixed;
         z-index: 3;
         width: 100%;
         color: #fff;
         top: 50%;
-        margin-top: -150px;
+        margin-top: -50vw;
     }
 }
 
