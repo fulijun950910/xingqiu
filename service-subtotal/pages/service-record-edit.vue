@@ -27,6 +27,7 @@
 <script>
 import recordEdit from './module/record-edit.vue';
 import api_serviceNote from 'services/api.serviceNote';
+import Validator from 'plugin/Validator';
 export default {
     name: 'service-record-edit',
     components: {
@@ -73,9 +74,10 @@ export default {
         // 获取服务小计信息
         getServiceNoteInfo() {
             api_serviceNote.recordDetail(this.dataModel.id).then(res => {
-                let serviceNote = res.data;
+                let serviceNote = res.data || {};
+                let dm = this.dataModel || {};
                 let serviceNoteKeys = Object.keys(serviceNote);
-                Object.keys(this.dataModel).forEach(x => {
+                Object.keys(dm).forEach(x => {
                     if (serviceNoteKeys.includes(x)) {
                         this.dataModel[x] = serviceNote[x];
                     }
@@ -85,10 +87,38 @@ export default {
         },
         // 验证
         checkData() {
+            // 验证器
+            const validator = new Validator();
+            validator.add(this.dataModel.content || '', [{
+                strategy: 'isNonEmpty',
+                errorMsg: '关怀内容不能为空'
+            }, {
+                strategy: 'minLength:5',
+                errorMsg: '关怀内容至少5个字'
+            }]);
+            if (this.dataModel.remind == 1) {
+                validator.add(this.dataModel.remindTime || '', [{
+                    strategy: 'isNonEmpty',
+                    errorMsg: '请选择提醒时间'
+                }]);
+                validator.add(this.dataModel.remindContent || '', [{
+                    strategy: 'isNonEmpty',
+                    errorMsg: '请选择提醒事项'
+                }]);
+            }
+            // 开始验证
+            let errorMsg = validator.work();
+            if (errorMsg) {
+                this.$toast(errorMsg);
+                return false;
+            }
+            return true;
         },
         // 完成记录
         saveRecord() {
-            this.checkData();
+            if (!this.checkData()) {
+                return;
+            }
             if (this.$route.name === 'service-record-create') {
                 this.$indicator.open();
                 api_serviceNote.createServiceNote(this.dataModel).then(res => {
@@ -97,17 +127,17 @@ export default {
                     this.$router.push({name: 'record-finish', query: {type: this.dataModel.type}});
                 }, err => {
                     this.$indicator.close();
-                    this.$toast(err.message);
+                    this.$toast(err.message || '服务繁忙请稍后重试吧');
                 });
             } else if (this.$route.name === 'service-record-edit') {
                 this.$indicator.open();
-                api_serviceNote.createServiceNote(this.dataModel).then(res => {
+                api_serviceNote.updateServiceNote(this.dataModel).then(res => {
                     this.$indicator.close();
                     this.$toast('修改成功！');
                     this.$router.push({name: 'record-finish', query: {type: this.dataModel.type}});
                 }, err => {
                     this.$indicator.close();
-                    this.$toast(err.message);
+                    this.$toast(err.message || '服务繁忙请稍后重试吧');
                 });
             } else {
                 this.$toast('稍后重试吧~ ╮(╯▽╰)╭');
@@ -149,8 +179,7 @@ export default {
                 font-size: @fs24;
                 .c-card-name{
                     min-width: 20%;
-                    max-width: 70%;
-                    font-size: @fs40;
+                    font-size: @fs36;
                 }
             }
             .c-card-subtitle{

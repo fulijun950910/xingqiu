@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="c-card-call text-right ft-light"  flex="20">
-                <a :href="'tel:'+dataModel.merchantId" class="btn btn-xs ft-light">
+                <a :href="'tel:'+dataModel.mobile" class="btn btn-xs ft-light">
                     <m-icon xlink="#icon-tel-alt"></m-icon> 联系Ta
                 </a>
             </div>
@@ -34,6 +34,7 @@
 import recordEdit from './module/record-edit.vue';
 import api_member from 'services/api.member';
 import api_serviceNote from 'services/api.serviceNote';
+import Validator from 'plugin/Validator';
 export default {
     name: 'return-visit-edit',
     components: {
@@ -62,7 +63,8 @@ export default {
                 remindContent: '1', // remind=1时必传
                 memberNo: '',
                 gradeName: '',
-                avatarId: ''
+                avatarId: '',
+                mobile: ''
             }
         };
     },
@@ -80,16 +82,48 @@ export default {
                 this.dataModel.avatarId = res.data.avatarId;
                 this.dataModel.gradeName = res.data.gradeName;
                 this.dataModel.memberNo = res.data.memberNo;
+                this.dataModel.mobile = res.data.mobile;
+                this.dataModel.hasCard = res.data.hasCard;
             });
         },
         // 验证
         checkData() {
+            // 验证器
+            const validator = new Validator();
+            validator.add(this.dataModel.content || '', [{
+                strategy: 'isNonEmpty',
+                errorMsg: '关怀内容不能为空'
+            }, {
+                strategy: 'minLength:5',
+                errorMsg: '关怀内容至少5个字'
+            }]);
+            if (this.dataModel.remind == 1) {
+                validator.add(this.dataModel.remindTime || '', [{
+                    strategy: 'isNonEmpty',
+                    errorMsg: '请选择提醒时间'
+                }]);
+                validator.add(this.dataModel.remindContent || '', [{
+                    strategy: 'isNonEmpty',
+                    errorMsg: '请选择提醒事项'
+                }]);
+            }
+            // 开始验证
+            let errorMsg = validator.work();
+            if (errorMsg) {
+                this.$toast(errorMsg);
+                return false;
+            }
+            return true;
         },
         // 提交客户关怀
         saveRecord() {
+            if (!this.checkData()) {
+                return;
+            }
             this.$indicator.open();
             api_serviceNote.createCustomerConcern(this.dataModel).then(res => {
                 this.$indicator.close();
+                this.$toast('记录成功！');
                 this.$router.push({name: 'record-finish', query: {type: this.dataModel.type}});
             }, err => {
                 this.$indicator.close();
@@ -133,7 +167,7 @@ export default {
                 .c-card-name{
                     min-width: 20%;
                     max-width: 70%;
-                    font-size: @fs40;
+                    font-size: @fs36;
                 }
                 .c-card-no {
                     font-size: @fs28;
