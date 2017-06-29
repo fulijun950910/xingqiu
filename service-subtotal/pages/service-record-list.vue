@@ -46,7 +46,7 @@ export default {
         return {
             query: {
                 merchantId: this.$store.getters.merchantId,
-                storeIds: this.$store.getters.storeIds,
+                storeIds: this.$store.getters.queryStoreIds,
                 startDate: '',
                 endDate: '',
                 employeeId: this.$store.state.user.id,
