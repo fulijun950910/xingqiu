@@ -1,5 +1,5 @@
 <template>
-    <div class="return-visit-ranking-cell" layout="row" layout-align="center center">
+    <div class="return-visit-ranking-cell" layout="row" layout-align="center center" @click="cellClick">
         <div layout="row" layout-align="center center" class="index-panel" :class="[`icon-${this.index}`]">
             <span>{{index}}</span>
             <m-icon xlink="#icon-medal" v-if="index < 4"></m-icon>
@@ -10,7 +10,8 @@
             <p class="extra-light-black">{{mData.employeeName}}</p>
         </div>
         <p class="steel-gray fs32">{{mData.total}}条</p>
-        <m-icon xlink="#icon-right-bold" class="dark-gray"></m-icon>
+        <m-icon xlink="#icon-right-bold" class="dark-gray" v-if="mode != 'none'"></m-icon>
+        <span v-else class="arr"></span>
         <span class="h-line"></span>
     </div>
 </template>
@@ -19,12 +20,19 @@ import Vue from 'vue';
 
 export default {
     name: 'return-visit-ranking-cell',
-    props: ['mData', 'index'],
+    props: ['mData', 'index', 'mode'],
     data() {
         return {};
     },
     mounted() {},
-    methods: {},
+    methods: {
+        cellClick() {
+            if (this.mode == 'none') {
+                return;
+            }
+            this.$emit('cellClick', this.mData);
+        }
+    },
     filters: {
         getNames(value, key) {
             if (Vue.prototype.$knife.isArray(value)) {
@@ -94,6 +102,9 @@ export default {
         bottom: 0;
         left: 0;
         position: absolute;
+    }
+    .arr {
+        width: @fs28;
     }
 }
 </style>
