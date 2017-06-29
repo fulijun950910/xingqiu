@@ -22,7 +22,7 @@ Vue.filter('amCalendar', (value, format = 'YYYY-MM-DD', shortFormat = 'MM-DD HH:
             lastWeek: 'YYYY-MM-DD HH:mm:ss',
             sameElse: 'YYYY-MM-DD HH:mm:ss'
         });
-        if (moment(tempDate, 'YYYY-MM-DD HH:mm:ss').isValid()) {
+        if (moment(tempDate, 'YYYY-MM-DD HH:mm:ss', true).isValid()) {
             if (tempValue.isSame(moment(), 'year')) {
                 return tempValue.format(shortFormat);
             }
