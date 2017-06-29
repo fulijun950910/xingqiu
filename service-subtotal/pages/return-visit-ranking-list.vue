@@ -1,9 +1,15 @@
 <template>
     <div class="return-visit-ranking-list" v-title="'客户关怀统计'" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
-        <m-top-search v-show="!searchVisiable" :icon="employee.name ? '#icon-close' : '#icon-search2'" v-model="employee.name" placeholder="搜索员工" @iconClick="clearSearch" type="2" @searchClick="showSearchBar"></m-top-search>
-        <auto-search-bar :visiable.sync="searchVisiable" :search-text="employeeQuery.employeeName" :employee-list="employeeList" @itemClick="selectedEmployee" @change="searchEmployees"></auto-search-bar>
+        <div v-if="admin">
+            <m-top-search v-show="!searchVisiable" :icon="employee.name ? '#icon-close' : '#icon-search2'" v-model="employee.name" placeholder="搜索员工" @iconClick="clearSearch" type="2" @searchClick="showSearchBar"></m-top-search>
+            <auto-search-bar :visiable.sync="searchVisiable" :search-text="employeeQuery.employeeName" :employee-list="employeeList" @itemClick="selectedEmployee" @change="searchEmployees"></auto-search-bar>
+        </div>
+        <div v-else>
+            <return-visit-ranking-cell class="employee-info" :m-data="employeeInfo.info" :index="employeeInfo.index" @cellClick="editClick"></return-visit-ranking-cell>
+            <div></div>
+        </div>
         <div>
-            <return-visit-ranking-cell :m-data="item" v-for="(item, index) in dataList" :key="index" :index="index+1" @click.native="editClick(item)"></return-visit-ranking-cell>
+            <return-visit-ranking-cell :m-data="item" v-for="(item, index) in dataList" :key="index" :index="index+1" :mode="cellMode" @cellClick="editClick"></return-visit-ranking-cell>
             <m-load-more :loading="!scrollDisabled"></m-load-more>
         </div>
     </div>
@@ -33,26 +39,35 @@ export default {
             query: {
                 merchantId: this.$store.getters.merchantId,
                 storeIds: this.$route.query.storeIds,
-                employeeId: this.$route.query.employeeId,
                 startDate: this.$route.query.startDate,
                 endDate: this.$route.query.endDate,
                 status: 1,
                 type: 2,
                 page: 1,
-                rows: 20
+                rows: 2000
             },
             employeeQuery: {
-                merchantId: this.$store.getters.merchantId,
-                storeIds: this.$store.getters.storeIds,
+                employeeName: '',
                 employeeId: this.$store.state.user.id,
-                employeeName: ''
+                storeIds: this.$store.getters.storeIds,
+                merchantId: this.$store.getters.merchantId
             },
             employee: {},
             dataList: [],
             loading: false,
             employeeList: [],
-            searchVisiable: !this.$store.getters.admin,
-            scrollDisabled: false
+            employeeInfo: {
+                info: {
+                    code: this.$store.state.user.code,
+                    employeeId: this.$store.state.user.id,
+                    employeeName: this.$store.state.user.name,
+                    employeeAvatarId: this.$store.state.user.avatarFileId
+                }
+            },
+            searchVisiable: false,
+            scrollDisabled: false,
+            admin: this.$store.getters.admin,
+            cellMode: this.$store.getters.admin ? '' : 'none'
         };
     },
     mounted() {
@@ -70,6 +85,7 @@ export default {
                 this.dataList = this.dataList.concat(res.data.rows);
                 this.loading = false;
                 this.query.page++;
+                this.loadSelfInfo();
             }, err => {
                 this.loading = false;
             });
@@ -92,9 +108,7 @@ export default {
             this.employeeQuery.employeeName = keyword;
             api_service_note.employeeList(this.employeeQuery).then(res => {
                 this.employeeList = res.data;
-            }, err => {
-
-            });
+            }, err => {});
         },
         selectedEmployee(item) {
             this.resetQuery();
@@ -109,12 +123,26 @@ export default {
             }
         },
         clearSearch() {
+            if (!this.admin) {
+                return;
+            }
             if (this.query.employeeId) {
                 this.query.employeeId = '';
                 this.employee = {};
                 this.resetQuery();
             }
             this.loadData();
+        },
+        loadSelfInfo() {
+            if (!this.admin) {
+                for (var i = 0, len = this.dataList.length; i < len; i++) {
+                    if (this.dataList[i].employeeId == this.employeeInfo.info.employeeId) {
+                        this.employeeInfo.info = this.dataList[i];
+                        this.employeeInfo.index = i + 1;
+                        break;
+                    }
+                }
+            }
         },
         editClick(item) {
             this.$router.push({
@@ -130,5 +158,16 @@ export default {
 </script>
 <style lang="less">
 @import '~styles/_agile';
-.return-visit-ranking-list {}
+.return-visit-ranking-list {
+    .employee-info+div {
+        width: 100%;
+        height: @l16;
+        background-color: @color-bg;
+    }
+    .employee-info {
+        .h-line {
+            display: none;
+        }
+    }
+}
 </style>

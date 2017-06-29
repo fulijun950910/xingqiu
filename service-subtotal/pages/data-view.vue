@@ -83,7 +83,7 @@ export default {
             slots: [],
             query: {
                 merchantId: this.$store.getters.merchantId,
-                storeIds: this.$store.getters.storeIds,
+                storeIds: this.$store.getters.queryStoreIds,
                 startDate: '',
                 endDate: '',
                 status: 2
@@ -119,7 +119,7 @@ export default {
         this.$knife.deepCopy(this.$store.state.storeList, tempStores);
         if (tempStores.length > 1) {
             tempStores.unshift({
-                id: this.$store.getters.storeIds,
+                id: this.$store.getters.queryStoreIds,
                 name: '全部门店'
             });
         }
@@ -209,7 +209,8 @@ export default {
                 query: {
                     storeIds: this.query.storeIds,
                     startDate: this.query.startDate,
-                    endDate: this.query.endDate
+                    endDate: this.query.endDate,
+                    employeeId: this.$store.state.user.id
                 }
             });
         },

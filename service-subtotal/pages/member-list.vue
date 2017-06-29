@@ -11,8 +11,9 @@
                 <m-icon xlink="#icon-right-bold" class="dark-gray"></m-icon>
                 <span class="h-line"></span>
             </div>
-            <m-load-more :loading="!scrollDisabled"></m-load-more>
+            <m-load-more :loading="!scrollDisabled" v-show="dataList.length != 0"></m-load-more>
         </div>
+        <no-data :visible="dataList.length == 0"></no-data>
     </div>
 </template>
 <script>
@@ -21,6 +22,7 @@ import {
     InfiniteScroll
 } from 'mint-ui';
 Vue.use(InfiniteScroll);
+import noData from 'components/no-data';
 import mLoadMore from 'components/m-load-more';
 import mTopSearch from 'components/m-top-search';
 import api_service_note from 'services/api.serviceNote';
@@ -28,6 +30,7 @@ import api_service_note from 'services/api.serviceNote';
 export default {
     name: 'member-list',
     components: {
+        noData,
         mLoadMore,
         mTopSearch
     },
@@ -36,7 +39,7 @@ export default {
             query: {
                 page: 1,
                 rows: 20,
-                storeIds: this.$store.getters.storeIds,
+                storeIds: this.$store.getters.queryStoreIds,
                 merchantId: this.$store.getters.merchantId,
                 memberName: ''
             },

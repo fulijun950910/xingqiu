@@ -1,8 +1,8 @@
 <template>
     <div class="m-top-search" @click="searchClick">
         <div class="input-panel" layout="row" layout-align="center center">
-            <input type="text" class="fs28" :placeholder="placeholder" v-model="currentValue" flex @keyup.enter="submit" :readonly="type == 2">
-            <div class="icon-panel" @click.stop="iconClick">
+            <input type="text" class="fs28" :placeholder="placeholder" v-model="currentValue" flex @keyup.enter="submit" :readonly="type == 2" :disabled="disabled">
+            <div class="icon-panel" @click.stop="iconClick" v-show="!disabled">
                 <m-icon :xlink="icon"></m-icon>
             </div>
         </div>
@@ -32,16 +32,29 @@ export default {
         icon: {
             type: String,
             default: '#icon-search2'
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         }
     },
     methods: {
         submit() {
+            if (this.disabled) {
+                return;
+            }
             this.$emit('search', this.currentValue);
         },
         iconClick() {
+            if (this.disabled) {
+                return;
+            }
             this.$emit('iconClick');
         },
         searchClick() {
+            if (this.disabled) {
+                return;
+            }
             this.$emit('searchClick');
         }
     },
