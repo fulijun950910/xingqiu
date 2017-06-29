@@ -13,7 +13,7 @@
             </div>
             <m-load-more :loading="!scrollDisabled" v-show="dataList.length != 0"></m-load-more>
         </div>
-        <no-data :visible="dataList.length == 0"></no-data>
+        <no-data :visible="dataList.length == 0" :showButton="false"></no-data>
     </div>
 </template>
 <script>
