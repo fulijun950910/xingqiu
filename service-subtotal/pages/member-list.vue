@@ -1,6 +1,6 @@
 <template>
     <div class="member-list" v-title="'我的客户'" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
-        <m-top-search v-model="query.memberName" placeholder="搜索我要回访/维护的客户" @iconClick="search" @search="search"></m-top-search>
+        <m-top-search v-model="query.memberName" placeholder="搜索我要回访/维护的客户" @iconClick="search" @search="search" :auto-callback="true"></m-top-search>
         <div>
             <div layout="row" layout-align="center center" v-for="(item, index) in dataList" :key="index" @click="editClick(item)" class="member-cell">
                 <img :src="item.avatarId | mSrc(40,40,require('assets/imgs/avatar.png'))" class="avatar">
@@ -11,9 +11,9 @@
                 <m-icon xlink="#icon-right-bold" class="dark-gray"></m-icon>
                 <span class="h-line"></span>
             </div>
-            <m-load-more :loading="!scrollDisabled" v-show="dataList.length != 0"></m-load-more>
+            <m-load-more :loading="!scrollDisabled" v-show="!scrollDisabled && dataList.length == 0"></m-load-more>
         </div>
-        <no-data :visible="dataList.length == 0" :showButton="false"></no-data>
+        <no-data :visible="dataList.length == 0 && !loading" :showButton="false"></no-data>
     </div>
 </template>
 <script>
