@@ -43,7 +43,7 @@
 
         <!-- 完成记录 -->
         <div class="c-btn-radius">
-            <a class="btn-finish" @click="recordFinish">完成记录</a>
+            <span class="btn-finish" @click="recordFinish">完成记录</span>
         </div>
     </div>
 </template>
