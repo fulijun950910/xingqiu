@@ -16,7 +16,7 @@
                         <span class="dian" flex="10">●</span> 
                         <span class="ft-light no-wrap" flex="40">{{dataModel.gradeName?dataModel.gradeName:'无会员等级'}}</span>&nbsp;&nbsp;
                         <span class="dian" flex="10">●</span> 
-                        <span class="ft-light no-wrap" flex="40">持卡 {{dataModel.hasCard?dataModel.hasCard:0}} 张</span>
+                        <span class="ft-light no-wrap" flex="40">持卡 {{dataModel.cardCount?dataModel.cardCount:0}} 张</span>
                     </p>
                 </div>
             </div>
@@ -55,7 +55,7 @@ export default {
                 employeeName: this.$store.getters.employeeName,
                 memberId: this.$route.params.memberId,
                 memberName: '',
-                hasCard: 0,
+                cardCount: 0,
                 orderId: null,
                 tags: '',
                 remind: 0, // 0=不提醒，1=提醒
@@ -83,7 +83,7 @@ export default {
                 this.dataModel.gradeName = res.data.gradeName;
                 this.dataModel.memberNo = res.data.memberNo;
                 this.dataModel.mobile = res.data.mobile;
-                this.dataModel.hasCard = res.data.hasCard;
+                this.dataModel.cardCount = res.data.cardCount;
             });
         },
         // 验证
