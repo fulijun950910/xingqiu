@@ -6,7 +6,7 @@
         <!-- 评价正文 -->
         <div class="c-content">
             <textarea rows="5" maxlength="300" placeholder="输入客人的要求和习惯" v-model="model.content"></textarea>
-            <p> <span>{{model.content && model.content.length}}/300字</span></p>
+            <p> <span>{{model.content?model.content.length:0}} / 300字</span></p>
         </div>
 
         <!-- 配图 -->
@@ -15,14 +15,14 @@
 
         <!-- 日期提醒 -->
         <div class="c-warn">
-            <mt-cell title="添加预约提醒">
+            <mt-cell title="添加日期提醒">
                 <mt-switch v-model="isWran"></mt-switch>
             </mt-cell>
             <transition name="slide-up">
                 <div v-show="isWran" class="c-warn-content">
                     <mt-cell title="选择提醒事项" is-link :value="warnContent" @click.native="warnVisible = true">
                     </mt-cell>
-                    <mt-cell title="选择提示时间" is-link :value="warnDate.formatDate('yyyy-MM-dd hh:mm:ss')" @click.native="$refs.warnTimer.open()">
+                    <mt-cell title="选择提示时间" is-link :value="warnDate?warnDate.formatDate('yyyy-MM-dd hh:mm:ss'):'请选择'" @click.native="$refs.warnTimer.open()">
                     </mt-cell>
                 </div>
             </transition>
@@ -37,7 +37,6 @@
             <mt-datetime-picker
                 ref="warnTimer"
                 type="datetime" 
-                :startDate = "new Date()" 
                 v-model="warnDate">
             </mt-datetime-picker>
         </div>
@@ -79,7 +78,7 @@
                 remindContent: '1',
                 tagList: [],
                 isWran: false,
-                warnDate: new Date().formatDate('yyyy-MM-dd hh:mm:ss'),
+                warnDate: new Date(),
                 warnItems: WARN_ITEMS,
                 warnVisible: false
             };
@@ -140,7 +139,9 @@
                     // 是否提醒
                     this.isWran = val.remind === 1;
                     // 提醒时间
-                    this.warnDate = val.remindTime ? val.remindTime.formatDate('yyyy-MM-dd hh:mm') : new Date().formatDate('yyyy-MM-dd hh:mm:ss');
+                    if (val.remindTime && val.remindTime != '') {
+                        this.warnDate = val.remindTime;
+                    }
                     this.remindContent = val.remindContent;
                     // 标签列表
                     this.tagList = (val.tags && val.tags != '') ? val.tags.split(',') : [];

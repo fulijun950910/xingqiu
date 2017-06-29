@@ -104,7 +104,9 @@
                 newDiv.style.height = '100%';
                 newDiv.innerText = '正在上传...';
                 self.$refs[key][0].appendChild(newDiv);
+                this.$indicator.open();
                 api_file.uploadImage(img).then(res => {
+                    this.$indicator.close();
                     // 上传成功
                     self.pictures[idx].base64 = null;
                     self.pictures[idx].id = res.data;
@@ -119,6 +121,7 @@
                         });
                     }, 3000);
                 }, res => {
+                    this.$indicator.close();
                     // 上传失败
                     self.pictures[idx].base64 = null;
                     newDiv.innerText = '上传失败！';
