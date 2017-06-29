@@ -2,8 +2,8 @@
     <div>
         <mt-popup v-model="currentValue" position="bottom" class="datepicker-panel">
             <div layout="row" layout-align="space-between center" class="toolbar">
-                <a class="steel-gray picker-btn" @click="currentValue = false;">取消</a>
-                <a class="picker-btn" @click="confirm">确定</a>
+                <a class="steel-gray picker-btn" flex @click="currentValue = false;">取消</a>
+                <a class="picker-btn text-right" flex @click="confirm">确定</a>
             </div>
             <div layout="row" layout-align="space-around center" class="date-content">
                 <mt-button @click="showRangeDate('start_date')" plain>{{start_date | amDateFormat(format)}}</mt-button>
@@ -96,7 +96,10 @@ export default {
         border-bottom: 1px solid #eee;
         /*no*/
         .picker-btn {
-            padding: @l16 @l32;
+            padding: 0 @l32;
+            line-height: 40px;
+            display: block;
+            height: 40px;
         }
     }
     .date-content {
