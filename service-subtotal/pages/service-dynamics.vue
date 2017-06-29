@@ -34,7 +34,7 @@
                 </a>
             </div>
             <!--搜索框begin-->
-            <auto-searchbar :visiable.sync="vm.search.show" :employeeList="vm.employeeList" @change="getEmployeeList" @itemClick="messageServiceList" :searchText="vm.search.text"></auto-searchbar>
+            <auto-searchbar :visiable.sync="vm.search.show" :employeeList="vm.employeeList" @change="getEmployeeList" @itemClick="employeeClick" :searchText="vm.search.text"></auto-searchbar>
             <!-- 搜索框end -->
         </div>
         <div class="placeholder" :class="{active1:noData}" flex>
@@ -321,7 +321,6 @@ export default {
             this.vm.search.main = null;
             this.routerEmployee = null;
             this.messageServiceList('item');
-
         },
         // 点击返回顶部
         toTop() {
@@ -374,6 +373,9 @@ export default {
                 this.dateRangeVisible = true;
             };
         },
+        employeeClick(item) {
+            this.messageServiceList(item);
+        },
         // 获取员工列表
         getEmployeeList(text) {
             this.vm.search.text = text;
@@ -410,6 +412,7 @@ export default {
                 parameter.type = self.selectedstatus.value;
             };
             if (item) {
+                parameter.page = 1;
                 if (item.employeeName) {
                     self.vm.search.main = item.employeeName;
                     self.vm.search.text = item.employeeName;
@@ -431,9 +434,6 @@ export default {
             if (self.vm.timeInterval.endDate) {
                 parameter.endDate = self.vm.timeInterval.endDate;
             };
-            if (self.scrollDisabled) {
-                return;
-            };
             this.loading = true;
             service.messageServiceList(parameter).then(res => {
                 if (res.data.rows.length > 0) {
@@ -451,9 +451,11 @@ export default {
                 } else {
                     self.scrollDisabled = false;
                 };
-                if (item.length) {
+                if (item) {
+                    debugger;
                     self.dataList = res.data.rows;
                 } else {
+                    debugger;
                     self.dataList = self.dataList.concat(res.data.rows);
                     self.page++;
                 }
