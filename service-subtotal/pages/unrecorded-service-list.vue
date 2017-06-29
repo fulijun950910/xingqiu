@@ -6,9 +6,9 @@
         </div>
         <div>
             <service-record-cell :m-data="item" v-for="(item, index) in dataList" :key="index" @click.native="editClick(item)"></service-record-cell>
-            <m-load-more :loading="!scrollDisabled" v-show="dataList.length != 0"></m-load-more>
+            <m-load-more :loading="!scrollDisabled" v-show="!scrollDisabled && dataList.length == 0"></m-load-more>
         </div>
-        <no-data :visible="dataList.length == 0"></no-data>
+        <no-data :visible="dataList.length == 0 && !loading" :showButton="false"></no-data>
     </div>
 </template>
 <script>
@@ -56,8 +56,8 @@ export default {
             dataList: [],
             loading: false,
             employeeList: [],
-            admin: this.$store.getters.admin,
-            searchVisiable: !this.$store.getters.admin,
+            admin: true,
+            searchVisiable: !true,
             scrollDisabled: false
         };
     },

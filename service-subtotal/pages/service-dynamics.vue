@@ -39,7 +39,7 @@
         </div>
         <div class="placeholder" :class="{active1:noData}" flex>
         </div>
-        <div class="dynamics" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="scrollDisabled" infinite-scroll-distance="10" :infinite-scroll-immediate-check="true">
+        <div class="dynamics" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
             <no-Data :visible="noData"></no-Data>
             <div class="div-box" v-for="(item,pIndex) in dataList">
                 <div class="title" layout="row" layout-align="space-between center">
@@ -67,6 +67,13 @@
                 <div class="main-text" flex v-if="item.status == 1">
                     {{item.content}}
                 </div>
+                <div class="no-edit" flex v-if="item.status == 0" layout="row" layout-align="center center">
+                    <span>
+                        未进行记录
+                    </span>
+                    <span flex></span>
+                    <a class="link" v-if="item.status == 0 && !admin" v-on:click="addServiceNote(item)">点此进行记录<m-icon :xlink="'#icon-right-bold'"></m-icon></a>
+                </div>
                 <div class="main-img" layout="row" layout-align="start center" flex-wrap="wrap" v-if="item.status == 1">
                     <span flex="30" v-for="(img,index) in item.imageIds" v-on:click="scaleImg(pIndex,index)">
                         <img  :src="img | mSrc(200,200)" alt="">
@@ -77,14 +84,13 @@
                         <use xlink:href="#icon-xiangmu"></use>
                     </svg>
                     <template v-if="item.serviceSmallNote">
-                        <span v-for="project in item.serviceSmallNote.item">{{project.itemName}}</span>
+                        <span v-for="project in item.serviceSmallNote.item">{{project.itemName}}<i v-if="item.serviceSmallNote.item.length > 1">,</i></span>
                     </template>
                 </div>
                 <div class="box-bottom" flex layout="row" layout-align="start center">
                     <span>{{item.recordTime ? item.recordTime : item.createTime | amCalendar}}</span>
                     <span flex></span>
-                    <a v-if="item.status == 1">客户：{{item.memberName}}</a>
-                    <a class="link" v-if="item.status == 0 && !admin" v-on:click="addServiceNote(item)">添加一条服务小计</a>
+                    <a>客户：{{item.memberName}}</a>
                 </div>
             </div>
             <m-load-more :loading="!scrollDisabled" v-if="!noData"></m-load-more>
@@ -93,7 +99,7 @@
         <!-- 图片放大 -->
         <mt-swipe :auto="0" v-if="swipe.show" :showIndicators="true" :continuous="false" :defaultIndex="swipe.index" v-on:click="scaleImg(index)">
             <mt-swipe-item v-for="(i,index) in outerImg" :key="index">
-                <img :src="i | mSrc(800,800)" alt="" :click="imgHide"></mt-swipe-item>
+                <img :src="i | mSrc(500,300)" alt="" :click="imgHide"></mt-swipe-item>
         </mt-swipe>
         <!-- 底部门店显示 -->
         <m-picker v-model="storePickerVisible" :slots="slots" :selected-item.sync="selectedStore" value-key="name" @confirm="changeStore"></m-picker>
@@ -213,7 +219,8 @@ export default {
             scrollDisabled: false,
             scroll: false,
             routerEmployee: this.$route.query,
-            noData: false
+            noData: false,
+            loading: false
         };
     },
     mounted() {
@@ -424,6 +431,10 @@ export default {
             if (self.vm.timeInterval.endDate) {
                 parameter.endDate = self.vm.timeInterval.endDate;
             };
+            if (self.scrollDisabled) {
+                return;
+            };
+            this.loading = true;
             service.messageServiceList(parameter).then(res => {
                 if (res.data.rows.length > 0) {
                     for (let i = 0; i < res.data.rows.length; i++) {
@@ -431,21 +442,22 @@ export default {
                             res.data.rows[i].imageIds = res.data.rows[i].imageIds.split(',');
                         }
                     };
-                } else {
-                    self.noData = true;
+                };
+                if (res.total == 0) {
+                    this.noData = true;
                 };
                 if (res.data.rows.length < self.rows) {
                     self.scrollDisabled = true;
                 } else {
                     self.scrollDisabled = false;
                 };
-                if (item) {
+                if (item.length) {
                     self.dataList = res.data.rows;
                 } else {
                     self.dataList = self.dataList.concat(res.data.rows);
                     self.page++;
                 }
-
+                self.loading = false;
             }, erro => {
                 console.log('网络错误！');
             });
@@ -546,6 +558,15 @@ export default {
             padding-top: @l16 * 2;
             margin-top: 2 * @l16;
             position: relative;
+            .no-edit {
+                padding: @l16 * 3 0;
+                a {
+                    color: @color-tiffany-blue;
+                }
+                span {
+                    color: @gray;
+                }
+            }
             .title {
                 position: relative;
                 .view {
@@ -574,9 +595,10 @@ export default {
                 }
             }
             .main-text {
-                font-size: @fs24;
-                color: @gray;
+                font-size: @fs28;
+                color: @extra-light-black;
                 margin: @l16 * 2 0;
+                line-height: @fs24 * 2;
             }
             .main-img {
                 span {
@@ -627,6 +649,7 @@ export default {
                 }
                 .link {
                     color: @color-tiffany-blue;
+                    font-size: @fs24;
                 }
             }
             &:first-child {
@@ -663,13 +686,13 @@ export default {
         }
     }
     .mint-swipe {
-        height: 300px;
+        height: 100vw;
         position: fixed;
         z-index: 3;
         width: 100%;
         color: #fff;
         top: 50%;
-        margin-top: -150px;
+        margin-top: -50vw;
     }
 }
 
