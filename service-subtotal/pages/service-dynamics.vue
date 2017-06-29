@@ -560,7 +560,12 @@ export default {
             position: relative;
             .no-edit {
                 padding: @l16 * 3 0;
-                a {color:@color-tiffany-blue;}
+                a {
+                    color: @color-tiffany-blue;
+                }
+                span {
+                    color: @gray;
+                }
             }
             .title {
                 position: relative;
@@ -590,8 +595,8 @@ export default {
                 }
             }
             .main-text {
-                font-size: @fs24;
-                color: @gray;
+                font-size: @fs28;
+                color: @extra-light-black;
                 margin: @l16 * 2 0;
                 line-height: @fs24 * 2;
             }
