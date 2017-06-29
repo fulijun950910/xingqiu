@@ -7,7 +7,7 @@
                 <svg class="icon icon-margin" aria-hidden="true" flex>
                     <use xlink:href="#icon-search2"></use>
                 </svg>
-                <input flex="70" type="text" name="search-text" placeholder="搜索员工/工号" v-model="keyword" @keyup.enter="change">
+                <input flex="70" type="text" name="search-text" placeholder="搜索员工/工号" v-model="keyword" @input="change">
                 <span flex v-on:click="clearHide()">
                       <svg class="icon icon-close icon-margin" aria-hidden="true">
                         <use xlink:href="#icon-close"></use>
@@ -21,6 +21,7 @@
     </div>
 </template>
 <script>
+import _ from 'lodash';
 export default {
     name: 'auto-search-bar',
     data() {
@@ -45,11 +46,15 @@ export default {
         employeeList: {
             type: Array,
             default: []
+        },
+        autoCallback: {
+            type: Boolean,
+            default: true
         }
     },
     methods: {
         change() {
-            this.$emit('change', this.keyword);
+            this.expensiveOperation();
         },
         click(item) {
             this.$emit('update:visiable', false);
@@ -57,7 +62,12 @@ export default {
         },
         clearHide() {
             this.$emit('update:visiable', false);
-        }
+        },
+        expensiveOperation: _.debounce(function() {
+            setTimeout(function() {
+                this.$emit('change', this.keyword);
+            }.bind(this), 0);
+        }, 500)
     }
 };
 </script>
