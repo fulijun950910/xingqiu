@@ -39,8 +39,8 @@ export default {
     data() {
         return {
             changeType: null,
-            start_date: this.$moment(this.startDate).toDate(),
-            end_date: this.$moment(this.endDate).toDate()
+            start_date: null,
+            end_date: null
         };
     },
     props: {
@@ -51,6 +51,10 @@ export default {
             type: String,
             default: 'YYYY-MM-DD'
         }
+    },
+    mounted() {
+        this.start_date = this.$moment(this.startDate ? this.startDate : undefined).toDate();
+        this.end_date = this.$moment(this.endDate ? this.endDate : undefined).toDate();
     },
     methods: {
         onValuesChange(picker, values) {
