@@ -47,7 +47,8 @@ cooking.set({
         'styles': path.join(__dirname, 'service-subtotal/styles'),
         'vendor': path.join(__dirname, 'service-subtotal/vendor'),
         'pages': path.join(__dirname, 'service-subtotal/pages'),
-        'store': path.join(__dirname, 'service-subtotal/store')
+        'store': path.join(__dirname, 'service-subtotal/store'),
+        'plugin': path.join(__dirname, 'service-subtotal/plugin')
     },
     extends: ['vue2', 'lint', 'less', 'autoprefixer']
     // static: 'service-subtotal/static'
