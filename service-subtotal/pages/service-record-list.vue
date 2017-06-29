@@ -46,7 +46,7 @@ export default {
                 storeIds: this.$store.getters.storeIds,
                 startDate: '',
                 endDate: '',
-                employeeId: '',
+                employeeId: this.$store.state.user.id,
                 status: -1,
                 type: 1,
                 page: 1,
