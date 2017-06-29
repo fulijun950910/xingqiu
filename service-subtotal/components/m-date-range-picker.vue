@@ -64,8 +64,8 @@ export default {
             this[this.changeType] = this.$moment(item).toDate();
         },
         confirm() {
-            var tempStartDate = this.$moment(this.start_date).format(this.format);
-            var tempEndDate = this.$moment(this.end_date).format(this.format);
+            var tempStartDate = this.$moment(this.start_date).format('YYYY-MM-DD HH:mm:ss');
+            var tempEndDate = this.$moment(this.end_date).format('YYYY-MM-DD HH:mm:ss');
             this.$emit('confirm', tempStartDate, tempEndDate);
             this.$emit('update:startDate', tempStartDate);
             this.$emit('update:endDate', tempEndDate);

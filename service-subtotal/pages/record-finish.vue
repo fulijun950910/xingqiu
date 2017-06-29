@@ -7,11 +7,11 @@
 
         <!-- 再记录一笔 -->
         <div class="once-again">
-            <a class="btn-finish" @click="goList">再记录一笔</a>
+            <span class="btn-finish" @click="goList">再记录一笔</span>
         </div>
         <!-- 查看我的记录 -->
         <div class="my-record">
-            <a class="btn-finish bg-transparent" @click="$router.push({name: 'service-dynamics'})">查看我的记录</a>
+            <span class="btn-finish bg-transparent" @click="$router.push({name: 'service-dynamics'})">查看我的记录</span>
         </div>
     </div>
 </template>
