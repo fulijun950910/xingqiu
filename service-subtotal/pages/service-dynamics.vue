@@ -443,19 +443,19 @@ export default {
                         }
                     };
                 };
-                if (res.total == 0) {
+                if (res.data.total == 0) {
                     this.noData = true;
-                };
+                } else {
+                    this.noData = false;
+                }
                 if (res.data.rows.length < self.rows) {
                     self.scrollDisabled = true;
                 } else {
                     self.scrollDisabled = false;
                 };
                 if (item) {
-                    debugger;
                     self.dataList = res.data.rows;
                 } else {
-                    debugger;
                     self.dataList = self.dataList.concat(res.data.rows);
                     self.page++;
                 }
