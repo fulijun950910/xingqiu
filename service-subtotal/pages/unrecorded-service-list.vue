@@ -1,7 +1,9 @@
 <template>
     <div class="unrecorded-service-list" v-title="'未记录服务'" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
-        <m-top-search v-show="!searchVisiable" :icon="employee.name ? '#icon-close' : '#icon-search2'" v-model="employee.name" placeholder="搜索员工" @iconClick="clearSearch" type="2" @searchClick="showSearchBar"></m-top-search>
-        <auto-search-bar :visiable.sync="searchVisiable" :search-text="employeeQuery.employeeName" :employee-list="employeeList" @itemClick="selectedEmployee" @change="searchEmployees"></auto-search-bar>
+        <div v-if="admin">
+            <m-top-search v-show="!searchVisiable" :icon="employee.name ? '#icon-close' : '#icon-search2'" v-model="employee.name" placeholder="搜索员工" @iconClick="clearSearch" type="2" @searchClick="showSearchBar"></m-top-search>
+            <auto-search-bar :visiable.sync="searchVisiable" :search-text="employeeQuery.employeeName" :employee-list="employeeList" @itemClick="selectedEmployee" @change="searchEmployees"></auto-search-bar>
+        </div>
         <div>
             <service-record-cell :m-data="item" v-for="(item, index) in dataList" :key="index" @click.native="editClick(item)"></service-record-cell>
             <m-load-more :loading="!scrollDisabled" v-show="dataList.length != 0"></m-load-more>
@@ -54,11 +56,15 @@ export default {
             dataList: [],
             loading: false,
             employeeList: [],
+            admin: this.$store.getters.admin,
             searchVisiable: !this.$store.getters.admin,
             scrollDisabled: false
         };
     },
     mounted() {
+        if (!this.admin) {
+            this.query.employeeId = this.$store.state.user.id;
+        }
         this.loadData();
     },
     methods: {
@@ -123,6 +129,9 @@ export default {
             this.loadData();
         },
         editClick(item) {
+            if (item.id != this.$store.state.user.id) {
+                return;
+            }
             this.$router.push({
                 name: 'service-record-create',
                 params: {
