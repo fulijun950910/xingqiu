@@ -39,7 +39,7 @@
         </div>
         <div class="placeholder" :class="{active1:noData}" flex>
         </div>
-        <div class="dynamics" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
+        <div class="dynamics" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="true" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
             <no-Data :visible="noData"></no-Data>
             <div class="div-box" v-for="(item,pIndex) in dataList">
                 <div class="title" layout="row" layout-align="space-between center">
@@ -176,6 +176,8 @@ export default {
             status: [{
                 flex: 1,
                 values: [{
+                    name: '全部'
+                }, {
                     name: '客户关怀',
                     value: 2
                 }, {
@@ -218,7 +220,7 @@ export default {
             user: this.$store.state.user,
             scrollDisabled: false,
             scroll: false,
-            routerEmployee: this.$route.query,
+            routerEmployee: null,
             noData: false,
             loading: false
         };
@@ -233,15 +235,27 @@ export default {
             this.storeIds.push(this.store[i].id);
         };
         let tempIndex = 0;
+        var tempStores = [];
+        this.$knife.deepCopy(this.$store.state.storeList, tempStores);
+        if (tempStores.length > 1) {
+            tempStores.unshift({
+                id: this.$store.getters.queryStoreIds,
+                name: '全部门店'
+            });
+        }
         this.slots.push({
             flex: 1,
-            values: this.store,
+            values: tempStores,
             className: 'slot1',
             textAlign: 'center',
             defaultIndex: tempIndex
         });
         let tempFormat = 'YYYY-MM-DD HH:mm:ss';
         this.actions = [{
+            name: '重置',
+            method: this.selectedDateRange,
+            value: {}
+        }, {
             name: '今日',
             method: this.selectedDateRange,
             value: {
@@ -274,7 +288,16 @@ export default {
                 this.scroll = false;
             }
         };
-        if (this.routerEmployee) {
+
+        let tempEmployee = {};
+        if (this.$route.query.employeeName) {
+            tempEmployee.employeeName = this.$route.query.employeeName;
+        }
+        if (this.$route.query.employeeId) {
+            tempEmployee.employeeId = this.$route.query.employeeId;
+        }
+        this.routerEmployee = tempEmployee;
+        if (this.routerEmployee.length > 0) {
             this.messageServiceList(this.routerEmployee);
         } else {
             this.messageServiceList('item');
@@ -415,8 +438,7 @@ export default {
             if (self.selectedstatus) {
                 parameter.type = self.selectedstatus.value;
             };
-            if (item) {
-                parameter.page = 1;
+            if (item && typeof (item) == Object) {
                 if (item.employeeName) {
                     self.vm.search.main = item.employeeName;
                     self.vm.search.text = item.employeeName;
@@ -461,8 +483,8 @@ export default {
                     self.dataList = res.data.rows;
                 } else {
                     self.dataList = self.dataList.concat(res.data.rows);
-                    self.page++;
                 }
+                self.page++;
                 self.loading = false;
             }, erro => {
                 console.log('网络错误！');
@@ -480,7 +502,7 @@ export default {
             });
         },
         touchUpdate() {
-            if (this.routerEmployee) {
+            if (this.routerEmployee.length > 0) {
                 this.messageServiceList(this.routerEmployee);
             } else {
                 this.messageServiceList('item');
@@ -489,7 +511,7 @@ export default {
         toData() {
             this.$router.push({
                 name: 'data-view',
-                params: {
+                query: {
                     storeIds: this.selectedStore ? this.selectedStore.id : '',
                     startDate: this.vm.timeInterval ? this.vm.timeInterval.startDate : '',
                     endDate: this.vm.timeInterval ? this.vm.timeInterval.endDate : '',
