@@ -39,7 +39,7 @@
         </div>
         <div class="placeholder" :class="{active1:noData}" flex>
         </div>
-        <div class="dynamics" :class="{active1:noData}"  v-infinite-scroll="touchUpdate" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="50">
+        <div class="dynamics" :class="{active1:noData}" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="50">
             <no-Data :visible="noData"></no-Data>
             <div class="div-box" v-for="(item,pIndex) in dataList">
                 <div class="title" layout="row" layout-align="space-between center">
@@ -300,6 +300,12 @@ export default {
         if (this.$route.query.type) {
             tempEmployee.type = this.$route.query.type;
         }
+        if (this.$route.query.startDate) {
+            tempEmployee.startDate = this.$route.query.startDate;
+        }
+        if (this.$route.query.endDate) {
+            tempEmployee.endDate = this.$route.query.endDate;
+        }
         // 判断是否是其他页面带参数跳转
         this.routerEmployee = tempEmployee;
         if (this.routerEmployee) {
@@ -479,6 +485,18 @@ export default {
             if (self.selectedstatus) {
                 parameter.type = self.selectedstatus.value;
             };
+            if (self.mainEmployee) {
+                parameter.employeeId = self.mainEmployee.id;
+            }
+            if (self.vm.timeInterval.startDate) {
+                parameter.startDate = self.vm.timeInterval.startDate;
+            };
+            if (self.vm.timeInterval.endDate) {
+                parameter.endDate = self.vm.timeInterval.endDate;
+            };
+            if (self.scrollDisabled) {
+                return;
+            };
             if (item) {
                 if (item.employeeName) {
                     self.vm.search.main = item.employeeName;
@@ -496,19 +514,14 @@ export default {
                 };
                 if (item.type) {
                     parameter.type = item.type;
-                }
-            };
-            if (self.mainEmployee) {
-                parameter.employeeId = self.mainEmployee.id;
-            }
-            if (self.vm.timeInterval.startDate) {
-                parameter.startDate = self.vm.timeInterval.startDate;
-            };
-            if (self.vm.timeInterval.endDate) {
-                parameter.endDate = self.vm.timeInterval.endDate;
-            };
-            if (self.scrollDisabled) {
-                return;
+                };
+                if (item.startDate) {
+                    parameter.startDate = item.startDate;
+                };
+                if (item.endDate) {
+                    parameter.endDate = item.endDate;
+                };
+
             };
             service.messageServiceList(parameter).then(res => {
                 if (res.data.rows.length > 0) {
@@ -758,8 +771,8 @@ export default {
             }
         }
     }
-    .dynamics.active1{
-         background: @white;
+    .dynamics.active1 {
+        background: @white;
     }
     .btn-fixed {
         position: fixed;
