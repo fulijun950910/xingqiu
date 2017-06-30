@@ -149,7 +149,8 @@ export default {
                 name: 'service-dynamics',
                 query: {
                     employeeId: item.employeeId,
-                    employeeName: item.employeeName
+                    employeeName: item.employeeName,
+                    type: 2
                 }
             });
         }
