@@ -6,7 +6,7 @@
         </div>
         <div>
             <service-record-cell :m-data="item" v-for="(item, index) in dataList" :key="index" @click.native="editClick(item)"></service-record-cell>
-            <m-load-more :loading="!scrollDisabled" v-show="!scrollDisabled && dataList.length == 0"></m-load-more>
+            <m-load-more :loading="!scrollDisabled" v-show="dataList.length != 0 || loading"></m-load-more>
         </div>
         <no-data :visible="dataList.length == 0 && !loading" :showButton="false"></no-data>
     </div>

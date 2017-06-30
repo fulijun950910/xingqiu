@@ -11,7 +11,7 @@
                 <m-icon xlink="#icon-right-bold" class="dark-gray"></m-icon>
                 <span class="h-line"></span>
             </div>
-            <m-load-more :loading="!scrollDisabled" v-show="!scrollDisabled && dataList.length == 0"></m-load-more>
+            <m-load-more :loading="!scrollDisabled" v-show="dataList.length != 0 || loading"></m-load-more>
         </div>
         <no-data :visible="dataList.length == 0 && !loading" :showButton="false"></no-data>
     </div>

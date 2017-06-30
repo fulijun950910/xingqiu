@@ -19,9 +19,9 @@
         </div>
         <div>
             <service-record-cell v-for="(item, index) in dataList" :key="index" :mData="item" @click.native="editClick(item)"></service-record-cell>
-            <m-load-more :loading="!scrollDisabled" v-show="dataList.length != 0"></m-load-more>
+            <m-load-more :loading="!scrollDisabled" v-show="dataList.length != 0 || loading"></m-load-more>
         </div>
-        <no-data :visible="dataList.length == 0" :showButton="false"></no-data>
+        <no-data :visible="dataList.length == 0 && !loading" :showButton="false"></no-data>
     </div>
 </template>
 <script>
