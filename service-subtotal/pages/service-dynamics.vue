@@ -220,7 +220,7 @@ export default {
             user: this.$store.state.user,
             scrollDisabled: false,
             scroll: false,
-            routerEmployee: null,
+            routerEmployee: '',
             noData: false,
             loading: false,
             mainEmployee: ''
@@ -356,9 +356,9 @@ export default {
         },
         // 清除显示的员工
         clearSearch() {
-            this.vm.search.main = null;
-            this.routerEmployee = null;
-            this.mainEmployee = null;
+            this.vm.search.main = '';
+            this.routerEmployee = '';
+            this.mainEmployee = '';
             this.page = 1;
             this.loading = false;
             this.scrollDisabled = false;
@@ -392,6 +392,7 @@ export default {
             console.log(parameter);
         },
         changeStore(item) {
+            debugger;
             this.selectedStore = item[0];
             this.page = 1;
             this.scrollDisabled = false;
@@ -418,6 +419,7 @@ export default {
 
         },
         changeDateRange(start, end) {
+            debugger;
             this.vm.timeInterval = {
                 startDate: this.$moment(start).startOf('day').format('YYYY-MM-DD HH:mm:ss'),
                 endDate: this.$moment(end).endOf('day').format('YYYY-MM-DD HH:mm:ss')
