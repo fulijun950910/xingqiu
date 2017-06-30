@@ -564,10 +564,9 @@ export default {
                 name: 'data-view',
                 query: {
                     storeIds: this.selectedStore ? this.selectedStore.id : '',
-                    startDate: this.vm.timeInterval ? this.vm.timeInterval.startDate : '',
-                    endDate: this.vm.timeInterval ? this.vm.timeInterval.endDate : '',
+                    startDate: (this.vm.timeInterval && this.vm.timeInterval.startDate) ? this.vm.timeInterval.startDate : '',
+                    endDate: (this.vm.timeInterval && this.vm.timeInterval.endDate) ? this.vm.timeInterval.endDate : '',
                     employeeId: this.vm.search.main ? this.vm.search.main.id : this.user.id
-
                 }
             });
         }
