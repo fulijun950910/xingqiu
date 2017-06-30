@@ -39,7 +39,7 @@
         </div>
         <div class="placeholder" :class="{active1:noData}" flex>
         </div>
-        <div class="dynamics" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="50">
+        <div class="dynamics" :class="{active1:noData}"  v-infinite-scroll="touchUpdate" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="50">
             <no-Data :visible="noData"></no-Data>
             <div class="div-box" v-for="(item,pIndex) in dataList">
                 <div class="title" layout="row" layout-align="space-between center">
@@ -647,7 +647,7 @@ export default {
         background: @white;
     }
     .active1 {
-        background: @color-bg;
+        background: @white;
     }
     .dynamics {
         background: @color-bg;
@@ -757,6 +757,9 @@ export default {
                 margin-top: 0;
             }
         }
+    }
+    .dynamics.active1{
+         background: @white;
     }
     .btn-fixed {
         position: fixed;
