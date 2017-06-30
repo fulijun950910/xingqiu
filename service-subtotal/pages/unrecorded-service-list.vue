@@ -129,7 +129,7 @@ export default {
             this.loadData();
         },
         editClick(item) {
-            if (item.id != this.$store.state.user.id) {
+            if (item.employeeId != this.$store.state.user.id) {
                 return;
             }
             this.$router.push({

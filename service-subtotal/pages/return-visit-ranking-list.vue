@@ -149,6 +149,8 @@ export default {
                 name: 'service-dynamics',
                 query: {
                     employeeId: item.employeeId,
+                    endDate: this.query.endDate,
+                    startDate: this.query.startDate,
                     employeeName: item.employeeName,
                     type: 2
                 }
