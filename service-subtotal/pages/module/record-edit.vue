@@ -6,7 +6,7 @@
         <!-- 评价正文 -->
         <div class="c-content">
             <textarea rows="5" maxlength="300" placeholder="输入客人的要求和习惯" v-model="model.content"></textarea>
-            <p> <span>{{model.content?model.content.length:0}} / 300字</span></p>
+            <p> <span style="color:#333;">{{model.content?model.content.length:0}}</span> / 300字</p>
         </div>
 
         <!-- 配图 -->
@@ -199,6 +199,8 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            font-size: @fs28;
+            color: #6a6a6a;
         }
     }
     .popup-bottom {
@@ -236,7 +238,7 @@
         .mgb;
         background-color: white;
         p {
-            color: @dark-gray;
+            color: #6a6a6a;
             text-align: right;
             padding: @l16 @l32;
         }
