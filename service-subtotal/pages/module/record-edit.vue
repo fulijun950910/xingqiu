@@ -88,7 +88,7 @@
             warnContent() {
                 if (this.model.remindContent && this.model.remindContent != '') {
                     let obj = this.warnItems.find(x => {return x.value == this.model.remindContent.toString();});
-                    return obj ? obj.name : '请选择';
+                    return obj ? obj.name : '1';
                 } else {
                     return '请选择';
                 }
@@ -111,12 +111,10 @@
             },
             // 提醒时间
             warnDate(val, oldVal) {
-                if (val) {
-                    this.model.remindTime = this.warnDate.formatDate('yyyy-MM-dd hh:mm:ss');
-                }
+                this.model.remindTime = val ? val.formatDate('yyyy-MM-dd hh:mm:ss') : new Date().formatDate('yyyy-MM-dd hh:mm:ss');
             },
             remindContent(val) {
-                this.model.remindContent = val;
+                this.model.remindContent = val ? val : '1';
             },
             // 标签
             tagList(val, oldVal) {
