@@ -39,7 +39,7 @@
         </div>
         <div class="placeholder" :class="{active1:noData}" flex>
         </div>
-        <div class="dynamics" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="true" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
+        <div class="dynamics" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="50">
             <no-Data :visible="noData"></no-Data>
             <div class="div-box" v-for="(item,pIndex) in dataList">
                 <div class="title" layout="row" layout-align="space-between center">
@@ -176,7 +176,7 @@ export default {
             status: [{
                 flex: 1,
                 values: [{
-                    name: '全部'
+                    name: '全部状态'
                 }, {
                     name: '客户关怀',
                     value: 2
@@ -296,11 +296,12 @@ export default {
         if (this.$route.query.employeeId) {
             tempEmployee.employeeId = this.$route.query.employeeId;
         }
+        // 判断是否是其他页面带参数跳转
         this.routerEmployee = tempEmployee;
         if (this.routerEmployee.length > 0) {
             this.messageServiceList(this.routerEmployee);
         } else {
-            this.messageServiceList('item');
+            this.messageServiceList();
         }
 
     },
@@ -438,7 +439,7 @@ export default {
             if (self.selectedstatus) {
                 parameter.type = self.selectedstatus.value;
             };
-            if (item && typeof (item) == Object) {
+            if (item) {
                 if (item.employeeName) {
                     self.vm.search.main = item.employeeName;
                     self.vm.search.text = item.employeeName;
@@ -460,7 +461,6 @@ export default {
             if (self.vm.timeInterval.endDate) {
                 parameter.endDate = self.vm.timeInterval.endDate;
             };
-            this.loading = true;
             service.messageServiceList(parameter).then(res => {
                 if (res.data.rows.length > 0) {
                     for (let i = 0; i < res.data.rows.length; i++) {
@@ -469,11 +469,13 @@ export default {
                         }
                     };
                 };
+                // 空页面是否出现
                 if (res.data.total == 0) {
                     this.noData = true;
                 } else {
                     this.noData = false;
                 }
+                // 是否出现加载动画
                 if (res.data.rows.length < self.rows) {
                     self.scrollDisabled = true;
                 } else {
@@ -482,10 +484,14 @@ export default {
                 if (item) {
                     self.dataList = res.data.rows;
                 } else {
-                    self.dataList = self.dataList.concat(res.data.rows);
+                    if (res.data.rows.length > 0) {
+                        self.dataList = self.dataList.concat(res.data.rows);
+                        self.page++;
+                    } else {
+                        self.loading = true;
+                        self.page = 1;
+                    }
                 }
-                self.page++;
-                self.loading = false;
             }, erro => {
                 console.log('网络错误！');
             });
@@ -505,7 +511,7 @@ export default {
             if (this.routerEmployee.length > 0) {
                 this.messageServiceList(this.routerEmployee);
             } else {
-                this.messageServiceList('item');
+                this.messageServiceList();
             }
         },
         toData() {
