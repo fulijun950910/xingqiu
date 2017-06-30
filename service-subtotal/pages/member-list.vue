@@ -5,7 +5,7 @@
             <div layout="row" layout-align="center center" v-for="(item, index) in dataList" :key="index" @click="editClick(item)" class="member-cell">
                 <img :src="item.avatarId | mSrc(40,40,require('assets/imgs/avatar.png'))" class="avatar">
                 <div class="content" flex>
-                    <p class="fs24 dark-gray">NO:{{item.memberNo}}</p>
+                    <p class="fs24 dark-gray">No.{{item.memberNo}}</p>
                     <p class="fs28 extra-light-black">{{item.name}}</p>
                 </div>
                 <m-icon xlink="#icon-right-bold" class="dark-gray"></m-icon>

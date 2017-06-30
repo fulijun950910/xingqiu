@@ -48,7 +48,7 @@
                             <img alt="" :src="item.employeeAvatarId | mSrc(40, 40, require('assets/imgs/avatar.png'))">
                         </span>
                         <div>
-                            <h3>NO:{{item.employeeNo}}</h3>
+                            <h3>No.{{item.employeeNo}}</h3>
                             <h3>{{item.employeeName}}</h3>
                         </div>
                     </div>
