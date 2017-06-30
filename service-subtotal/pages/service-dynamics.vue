@@ -48,7 +48,7 @@
                             <img alt="" :src="item.employeeAvatarId | mSrc(40, 40, require('assets/imgs/avatar.png'))">
                         </span>
                         <div>
-                            <h3>NO:{{item.employeeNo}}</h3>
+                            <h3>No.{{item.employeeNo}}</h3>
                             <h3>{{item.employeeName}}</h3>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                         未进行记录
                     </span>
                     <span flex></span>
-                    <a class="link" v-if="item.status == 0 && !admin" v-on:click="addServiceNote(item)">点此进行记录<m-icon :xlink="'#icon-right-bold'"></m-icon></a>
+                    <a class="link" v-if="item.status == 0 && item.employeeId == user.id" v-on:click="addServiceNote(item)">点此进行记录<m-icon :xlink="'#icon-right-bold'"></m-icon></a>
                 </div>
                 <div class="main-img" layout="row" layout-align="start center" flex-wrap="wrap" v-if="item.status == 1">
                     <span flex="30" v-for="(img,index) in item.imageIds" v-on:click="scaleImg(pIndex,index)">
@@ -222,7 +222,8 @@ export default {
             scroll: false,
             routerEmployee: null,
             noData: false,
-            loading: false
+            loading: false,
+            mainEmployee: ''
         };
     },
     mounted() {
@@ -298,7 +299,7 @@ export default {
         }
         // 判断是否是其他页面带参数跳转
         this.routerEmployee = tempEmployee;
-        if (this.routerEmployee.length > 0) {
+        if (this.routerEmployee) {
             this.messageServiceList(this.routerEmployee);
         } else {
             this.messageServiceList();
@@ -348,7 +349,10 @@ export default {
         clearSearch() {
             this.vm.search.main = null;
             this.routerEmployee = null;
-            this.messageServiceList('item');
+            this.mainEmployee = null;
+            this.page = 1;
+            this.loading = false;
+            this.messageServiceList();
         },
         // 点击返回顶部
         toTop() {
@@ -379,10 +383,12 @@ export default {
         },
         changeStore(item) {
             this.selectedStore = item[0];
+            this.page = 1;
             this.messageServiceList('item');
         },
         changestatus(item) {
             this.selectedstatus = item[0];
+            this.page = 1;
             this.messageServiceList(this.routerEmployee);
         },
         changeDateRange(start, end) {
@@ -390,18 +396,23 @@ export default {
                 startDate: this.$moment(start).format('YYYY-MM-DD HH:mm:ss'),
                 endDate: this.$moment(end).format('YYYY-MM-DD HH:mm:ss')
             };
+            this.page = 1;
             this.messageServiceList(this.routerEmployee);
         },
         selectedDateRange(item) {
             var tempItem = item.value;
             if (tempItem) {
                 this.vm.timeInterval = tempItem;
+                this.page = 1;
                 this.messageServiceList('item');
             } else {
                 this.dateRangeVisible = true;
             };
         },
         employeeClick(item) {
+            this.loading = false;
+            this.page = 1;
+            this.mainEmployee = item;
             this.messageServiceList(item);
         },
         // 获取员工列表
@@ -455,6 +466,9 @@ export default {
                     parameter.employeeId = item.id;
                 };
             };
+            if (self.mainEmployee) {
+                parameter.employeeId = self.mainEmployee.id;
+            }
             if (self.vm.timeInterval.startDate) {
                 parameter.startDate = self.vm.timeInterval.startDate;
             };
@@ -471,9 +485,9 @@ export default {
                 };
                 // 空页面是否出现
                 if (res.data.total == 0) {
-                    this.noData = true;
+                    self.noData = true;
                 } else {
-                    this.noData = false;
+                    self.noData = false;
                 }
                 // 是否出现加载动画
                 if (res.data.rows.length < self.rows) {
@@ -483,6 +497,7 @@ export default {
                 };
                 if (item) {
                     self.dataList = res.data.rows;
+                    self.page++;
                 } else {
                     if (res.data.rows.length > 0) {
                         self.dataList = self.dataList.concat(res.data.rows);
@@ -508,11 +523,16 @@ export default {
             });
         },
         touchUpdate() {
-            if (this.routerEmployee.length > 0) {
-                this.messageServiceList(this.routerEmployee);
+            if (this.routerEmployee) {
+                if (this.routerEmployee.length > 0) {
+                    this.messageServiceList(this.routerEmployee);
+                } else {
+                    this.messageServiceList();
+                }
             } else {
                 this.messageServiceList();
             }
+
         },
         toData() {
             this.$router.push({
@@ -521,7 +541,7 @@ export default {
                     storeIds: this.selectedStore ? this.selectedStore.id : '',
                     startDate: this.vm.timeInterval ? this.vm.timeInterval.startDate : '',
                     endDate: this.vm.timeInterval ? this.vm.timeInterval.endDate : '',
-                    employeeId: this.vm.search.main.id ? this.vm.search.main.id : this.user.id
+                    employeeId: this.vm.search.main ? this.vm.search.main.id : this.user.id
 
                 }
             });
@@ -676,13 +696,14 @@ export default {
                 }
             }
             .text-type {
-                border: 1px solid @light-gray;
+                // border: 1px solid @light-gray;
                 border-radius: 5px;
                 right: 0;
                 padding: @l8;
+                font-size: @fs28;
                 span {
-                    font-size: @fs24;
                     color: @gray;
+                    margin-left: 5px;
                 }
             }
             .box-bottom {
@@ -709,7 +730,7 @@ export default {
         text-align: center;
         z-index: 1;
         &.btn-edit {
-            bottom: 40vw;
+            bottom: 25vw;
             right: 5vw;
             height: 14vw;
             line-height: 14vw;
@@ -721,7 +742,7 @@ export default {
         }
         &.btn-go-top {
             font-size: @fs40;
-            bottom: 25vw;
+            bottom: 40vw;
             right: 7vw;
             height: 10vw;
             line-height: 10vw;

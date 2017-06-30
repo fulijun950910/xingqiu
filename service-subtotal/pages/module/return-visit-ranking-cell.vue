@@ -6,7 +6,7 @@
         </div>
         <img :src="mData.employeeAvatarId | mSrc(80, 80, require('assets/imgs/avatar.png'))" class="avatar">
         <div flex class="content">
-            <span class="fs24 dark-gray">{{mData.code}}</span>
+            <span class="fs24 dark-gray">No.{{mData.code}}</span>
             <p class="extra-light-black">{{mData.employeeName}}</p>
         </div>
         <p class="steel-gray fs32">{{mData.total}}条</p>
