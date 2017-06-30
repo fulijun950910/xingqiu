@@ -83,9 +83,10 @@ export default {
             slots: [],
             query: {
                 merchantId: this.$store.getters.merchantId,
-                storeIds: this.$store.getters.queryStoreIds,
-                startDate: '',
-                endDate: '',
+                storeIds: this.$route.query.storeIds ? this.$route.query.storeIds : this.$store.getters.queryStoreIds,
+                employeeId: this.$route.query.employeeId ? this.$route.query.employeeId : this.$store.getters.employeeId,
+                startDate: this.$route.query.startDate ? this.$route.query.startDate : '',
+                endDate: this.$route.query.endDate ? this.$route.query.endDate : '',
                 status: 2
             },
             actions: [],
@@ -142,6 +143,7 @@ export default {
             textAlign: 'center',
             defaultIndex: tempIndex
         });
+
         var tempFormat = 'YYYY-MM-DD HH:mm:ss';
         this.actions = [{
             name: '今日',
@@ -168,7 +170,12 @@ export default {
             name: '自定义',
             method: this.selectedDateRange
         }];
-        this.selectedDateRange(this.actions[0]);
+        if (this.query.startDate && this.query.endDate) {
+            this.loadData();
+        } else {
+            this.selectedDateRange(this.actions[0]);
+        }
+
     },
     methods: {
         loadData() {

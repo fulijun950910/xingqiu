@@ -6,7 +6,7 @@
         <!-- 评价正文 -->
         <div class="c-content">
             <textarea rows="5" maxlength="300" placeholder="输入客人的要求和习惯" v-model="model.content"></textarea>
-            <p> <span>{{model.content?model.content.length:0}} / 300字</span></p>
+            <p> <span style="color:#333;">{{model.content?model.content.length:0}}</span> / 300字</p>
         </div>
 
         <!-- 配图 -->
@@ -88,7 +88,7 @@
             warnContent() {
                 if (this.model.remindContent && this.model.remindContent != '') {
                     let obj = this.warnItems.find(x => {return x.value == this.model.remindContent.toString();});
-                    return obj ? obj.name : '请选择';
+                    return obj ? obj.name : '1';
                 } else {
                     return '请选择';
                 }
@@ -111,12 +111,10 @@
             },
             // 提醒时间
             warnDate(val, oldVal) {
-                if (val) {
-                    this.model.remindTime = this.warnDate.formatDate('yyyy-MM-dd hh:mm:ss');
-                }
+                this.model.remindTime = val ? val.formatDate('yyyy-MM-dd hh:mm:ss') : new Date().formatDate('yyyy-MM-dd hh:mm:ss');
             },
             remindContent(val) {
-                this.model.remindContent = val;
+                this.model.remindContent = val ? val : '1';
             },
             // 标签
             tagList(val, oldVal) {
@@ -199,6 +197,8 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            font-size: @fs28;
+            color: #6a6a6a;
         }
     }
     .popup-bottom {
@@ -236,7 +236,7 @@
         .mgb;
         background-color: white;
         p {
-            color: @dark-gray;
+            color: #6a6a6a;
             text-align: right;
             padding: @l16 @l32;
         }
