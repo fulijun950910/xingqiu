@@ -297,6 +297,9 @@ export default {
         if (this.$route.query.employeeId) {
             tempEmployee.employeeId = this.$route.query.employeeId;
         }
+        if (this.$route.query.type) {
+            tempEmployee.type = this.$route.query.type;
+        }
         // 判断是否是其他页面带参数跳转
         this.routerEmployee = tempEmployee;
         if (this.routerEmployee) {
@@ -352,6 +355,7 @@ export default {
             this.mainEmployee = null;
             this.page = 1;
             this.loading = false;
+            this.scrollDisabled = false;
             this.messageServiceList();
         },
         // 点击返回顶部
@@ -384,12 +388,23 @@ export default {
         changeStore(item) {
             this.selectedStore = item[0];
             this.page = 1;
-            this.messageServiceList('item');
+            this.scrollDisabled = false;
+            if (this.routerEmployee) {
+                this.messageServiceList(this.routerEmployee);
+            } else {
+                this.messageServiceList('item');
+            }
         },
         changestatus(item) {
             this.selectedstatus = item[0];
             this.page = 1;
-            this.messageServiceList(this.routerEmployee);
+            this.scrollDisabled = false;
+            if (this.routerEmployee.length > 0) {
+                this.messageServiceList(this.routerEmployee);
+            } else {
+                this.messageServiceList('item');
+            }
+
         },
         changeDateRange(start, end) {
             this.vm.timeInterval = {
@@ -397,6 +412,7 @@ export default {
                 endDate: this.$moment(end).format('YYYY-MM-DD HH:mm:ss')
             };
             this.page = 1;
+            this.scrollDisabled = false;
             this.messageServiceList(this.routerEmployee);
         },
         selectedDateRange(item) {
@@ -404,6 +420,7 @@ export default {
             if (tempItem) {
                 this.vm.timeInterval = tempItem;
                 this.page = 1;
+                this.scrollDisabled = false;
                 this.messageServiceList('item');
             } else {
                 this.dateRangeVisible = true;
@@ -411,6 +428,7 @@ export default {
         },
         employeeClick(item) {
             this.loading = false;
+            this.scrollDisabled = false;
             this.page = 1;
             this.mainEmployee = item;
             this.messageServiceList(item);
@@ -465,6 +483,9 @@ export default {
                 if (item.id) {
                     parameter.employeeId = item.id;
                 };
+                if (item.type) {
+                    parameter.type = item.type;
+                }
             };
             if (self.mainEmployee) {
                 parameter.employeeId = self.mainEmployee.id;
@@ -475,6 +496,10 @@ export default {
             if (self.vm.timeInterval.endDate) {
                 parameter.endDate = self.vm.timeInterval.endDate;
             };
+            if (self.scrollDisabled) {
+                return;
+            };
+            debugger;
             service.messageServiceList(parameter).then(res => {
                 if (res.data.rows.length > 0) {
                     for (let i = 0; i < res.data.rows.length; i++) {
