@@ -362,7 +362,7 @@ export default {
             this.page = 1;
             this.loading = false;
             this.scrollDisabled = false;
-            this.messageServiceList();
+            this.messageServiceList('item');
         },
         // 点击返回顶部
         toTop() {
@@ -419,12 +419,19 @@ export default {
         },
         changeDateRange(start, end) {
             this.vm.timeInterval = {
-                startDate: this.$moment(start).format('YYYY-MM-DD HH:mm:ss'),
-                endDate: this.$moment(end).format('YYYY-MM-DD HH:mm:ss')
+                startDate: this.$moment(start).startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+                endDate: this.$moment(end).endOf('day').format('YYYY-MM-DD HH:mm:ss')
             };
             this.page = 1;
             this.scrollDisabled = false;
-            this.messageServiceList(this.routerEmployee);
+            if (typeof (this.routerEmployee) == 'object') {
+                this.routerEmployee.type = '';
+                this.messageServiceList(this.routerEmployee);
+            } else if (typeof (this.mainEmployee) == 'object') {
+                this.messageServiceList(this.mainEmployee);
+            } else {
+                this.messageServiceList('item');
+            }
         },
         selectedDateRange(item) {
             var tempItem = item.value;
@@ -524,6 +531,7 @@ export default {
 
             };
             service.messageServiceList(parameter).then(res => {
+                debugger;
                 if (res.data.rows.length > 0) {
                     for (let i = 0; i < res.data.rows.length; i++) {
                         if (res.data.rows[i].imageIds) {
