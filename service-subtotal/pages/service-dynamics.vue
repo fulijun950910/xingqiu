@@ -389,8 +389,10 @@ export default {
             this.selectedStore = item[0];
             this.page = 1;
             this.scrollDisabled = false;
-            if (typeof (this.routerEmployee) == Object) {
+            if (typeof (this.routerEmployee) == 'object') {
                 this.messageServiceList(this.routerEmployee);
+            } else if (typeof (this.mainEmployee) == 'object') {
+                this.messageServiceList(this.mainEmployee);
             } else {
                 this.messageServiceList('item');
             }
@@ -399,8 +401,11 @@ export default {
             this.selectedstatus = item[0];
             this.page = 1;
             this.scrollDisabled = false;
-            if (this.routerEmployee.length > 0) {
+            if (typeof (this.routerEmployee) == 'object') {
+                this.routerEmployee.type = '';
                 this.messageServiceList(this.routerEmployee);
+            } else if (typeof (this.mainEmployee) == 'object') {
+                this.messageServiceList(this.mainEmployee);
             } else {
                 this.messageServiceList('item');
             }
@@ -421,7 +426,13 @@ export default {
                 this.vm.timeInterval = tempItem;
                 this.page = 1;
                 this.scrollDisabled = false;
-                this.messageServiceList('item');
+                if (typeof (this.routerEmployee) == 'object') {
+                    this.messageServiceList(this.routerEmployee);
+                } else if (typeof (this.mainEmployee) == 'object') {
+                    this.messageServiceList(this.mainEmployee);
+                } else {
+                    this.messageServiceList('item');
+                }
             } else {
                 this.dateRangeVisible = true;
             };
