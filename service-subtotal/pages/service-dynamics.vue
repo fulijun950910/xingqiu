@@ -222,7 +222,8 @@ export default {
             scroll: false,
             routerEmployee: null,
             noData: false,
-            loading: false
+            loading: false,
+            mainEmployee: ''
         };
     },
     mounted() {
@@ -298,7 +299,7 @@ export default {
         }
         // 判断是否是其他页面带参数跳转
         this.routerEmployee = tempEmployee;
-        if (this.routerEmployee.length > 0) {
+        if (this.routerEmployee) {
             this.messageServiceList(this.routerEmployee);
         } else {
             this.messageServiceList();
@@ -348,6 +349,9 @@ export default {
         clearSearch() {
             this.vm.search.main = null;
             this.routerEmployee = null;
+            this.mainEmployee = null;
+            this.loading = false;
+            this.page = 1;
             this.messageServiceList('item');
         },
         // 点击返回顶部
@@ -402,6 +406,10 @@ export default {
             };
         },
         employeeClick(item) {
+            debugger;
+            this.loading = false;
+            this.page = 1;
+            this.mainEmployee = item;
             this.messageServiceList(item);
         },
         // 获取员工列表
@@ -455,6 +463,9 @@ export default {
                     parameter.employeeId = item.id;
                 };
             };
+            if (self.mainEmployee) {
+                parameter.employeeId = self.mainEmployee.id;
+            }
             if (self.vm.timeInterval.startDate) {
                 parameter.startDate = self.vm.timeInterval.startDate;
             };
@@ -471,9 +482,9 @@ export default {
                 };
                 // 空页面是否出现
                 if (res.data.total == 0) {
-                    this.noData = true;
+                    self.noData = true;
                 } else {
-                    this.noData = false;
+                    self.noData = false;
                 }
                 // 是否出现加载动画
                 if (res.data.rows.length < self.rows) {
@@ -676,13 +687,14 @@ export default {
                 }
             }
             .text-type {
-                border: 1px solid @light-gray;
+                // border: 1px solid @light-gray;
                 border-radius: 5px;
                 right: 0;
                 padding: @l8;
+                font-size: @fs28;
                 span {
-                    font-size: @fs24;
                     color: @gray;
+                    margin-left: 5px;
                 }
             }
             .box-bottom {
@@ -709,7 +721,7 @@ export default {
         text-align: center;
         z-index: 1;
         &.btn-edit {
-            bottom: 40vw;
+            bottom: 25vw;
             right: 5vw;
             height: 14vw;
             line-height: 14vw;
@@ -721,7 +733,7 @@ export default {
         }
         &.btn-go-top {
             font-size: @fs40;
-            bottom: 25vw;
+            bottom: 40vw;
             right: 7vw;
             height: 10vw;
             line-height: 10vw;
