@@ -97,11 +97,11 @@ export default {
                 errorMsg: '关怀内容至少5个字'
             }]);
             if (this.dataModel.remind == 1) {
-                validator.add(this.dataModel.remindTime.formatDate('yyyy-MM-dd hh:mm:ss') || '', [{
+                validator.add(this.dataModel.remindTime || '', [{
                     strategy: 'isNonEmpty',
                     errorMsg: '请选择提醒时间'
                 }]);
-                validator.add(this.dataModel.remindContent.formatDate('yyyy-MM-dd hh:mm:ss') || '', [{
+                validator.add(this.dataModel.remindContent || '', [{
                     strategy: 'isNonEmpty',
                     errorMsg: '请选择提醒事项'
                 }]);
