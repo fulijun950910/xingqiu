@@ -26,7 +26,7 @@
                 <a class="bar-btn border-r" layout="row" layout-align="center center" flex v-if="!admin">
                     {{user.name}}
                 </a>
-                <a class="bar-btn see-data" layout="row" layout-align="center center" flex @click="$router.push({name: 'data-view'})">
+                <a class="bar-btn see-data" layout="row" layout-align="center center" flex @click="toData">
                     <svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-shuju"></use>
                     </svg>
@@ -303,7 +303,11 @@ export default {
                     this.$router.go(-1);
                     break;
                 case 1:
-                    this.storePickerVisible = true;
+                    if (this.$store.state.storeList.length > 1) {
+                        this.storePickerVisible = true;
+                    } else {
+                        this.$toast('无可切换门店');
+                    }
                     break;
                 case 2:
                     this.vm.timeInterval = {
@@ -481,6 +485,18 @@ export default {
             } else {
                 this.messageServiceList('item');
             }
+        },
+        toData() {
+            this.$router.push({
+                name: 'data-view',
+                params: {
+                    storeIds: this.selectedStore ? this.selectedStore.id : '',
+                    startDate: this.vm.timeInterval ? this.vm.timeInterval.startDate : '',
+                    endDate: this.vm.timeInterval ? this.vm.timeInterval.endDate : '',
+                    employeeId: this.vm.search.main.id ? this.vm.search.main.id : this.user.id
+
+                }
+            });
         }
     }
 };
