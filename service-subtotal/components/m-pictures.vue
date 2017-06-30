@@ -117,7 +117,7 @@
                         $(newDiv).animate({
                             width: 0
                         }, 300, function() {
-                            $(this).remove();
+                            $(newDiv).remove();
                         });
                     }, 3000);
                 }, res => {
@@ -130,7 +130,7 @@
                         $(newDiv).animate({
                             width: 0
                         }, 300, function() {
-                            $(this).remove();
+                            $(newDiv).remove();
                         });
                     }, 3000);
                 });

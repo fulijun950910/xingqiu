@@ -42,13 +42,13 @@
         </div>
 
         <!-- 完成记录 -->
-        <div class="c-btn-radius">
-            <span class="btn-finish" @click="recordFinish">完成记录</span>
+        <div class="c-btn-radius" >
+            <mt-button @click.native="recordFinish">完成记录</mt-button>
         </div>
     </div>
 </template>
 <script>
-    import { Switch, Cell, DatetimePicker, Popup, Checklist } from 'mint-ui';
+    import { Switch, Cell, DatetimePicker, Popup, Checklist, Button } from 'mint-ui';
     import { WARN_ITEMS } from 'config/mixins';
     /**
     * model: 数据
@@ -69,13 +69,14 @@
             [Cell.name]: Cell,
             [DatetimePicker.name]: DatetimePicker,
             [Popup.name]: Popup,
-            [Checklist.name]: Checklist
+            [Checklist.name]: Checklist,
+            [Button.name]: Button
         },
         data() {
             return {
                 // 图片列表
                 pictureList: [],
-                remindContentId: 1,
+                remindContentId: null,
                 tagList: [],
                 isWran: false,
                 warnDate: new Date(),
@@ -159,7 +160,7 @@
             // 完成记录
             recordFinish() {
                 // 提交
-                this.$emit('click');
+                this.$emit('save');
             },
             // 删除图片
             pictureRemove(cid) {
@@ -283,5 +284,12 @@
     .c-btn-radius{
         padding: 20px;
         text-align: center;
+        .mint-button {
+            background-color: @color-tiffany-blue;
+            color: white;
+            height: 50px;
+            width: 150px;
+            border-radius: 50px; 
+        }
     }
 </style>

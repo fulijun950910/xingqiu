@@ -27,7 +27,7 @@
             </div>
         </div>
         <!-- 客户关怀编辑 -->
-        <record-edit :model="dataModel" :type="2" @click="saveRecord"></record-edit>
+        <record-edit :model="dataModel" @save="saveRecord"></record-edit>
     </div>
 </template>
 <script>
@@ -90,7 +90,7 @@ export default {
         // 验证
         checkData() {
             // 验证器
-            const validator = new Validator();
+            let validator = new Validator();
             validator.add(this.dataModel.content || '', [{
                 strategy: 'isNonEmpty',
                 errorMsg: '关怀内容不能为空'
