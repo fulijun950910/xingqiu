@@ -54,6 +54,7 @@ export default {
     right: 0;
     background: @color-bg;
     z-index: 1;
+    border-top: 1px solid @light-gray;
     .icon {
         margin-right: @l8;
     }
@@ -61,7 +62,6 @@ export default {
         height: 49px;
         color: @color-tiffany-blue;
         border-right: 1px solid @light-gray;
-        font-size: @fs16 * 2;
     }
     a:last-child {
         border-right: none;

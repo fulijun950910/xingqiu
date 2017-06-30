@@ -39,7 +39,7 @@
         </div>
         <div class="placeholder" :class="{active1:noData}" flex>
         </div>
-        <div class="dynamics" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="true" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
+        <div class="dynamics" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="50">
             <no-Data :visible="noData"></no-Data>
             <div class="div-box" v-for="(item,pIndex) in dataList">
                 <div class="title" layout="row" layout-align="space-between center">
@@ -72,7 +72,7 @@
                         未进行记录
                     </span>
                     <span flex></span>
-                    <a class="link" v-if="item.status == 0 && !admin" v-on:click="addServiceNote(item)">点此进行记录<m-icon :xlink="'#icon-right-bold'"></m-icon></a>
+                    <a class="link" v-if="item.status == 0 && item.employeeId == user.id" v-on:click="addServiceNote(item)">点此进行记录<m-icon :xlink="'#icon-right-bold'"></m-icon></a>
                 </div>
                 <div class="main-img" layout="row" layout-align="start center" flex-wrap="wrap" v-if="item.status == 1">
                     <span flex="30" v-for="(img,index) in item.imageIds" v-on:click="scaleImg(pIndex,index)">
@@ -176,7 +176,7 @@ export default {
             status: [{
                 flex: 1,
                 values: [{
-                    name: '全部'
+                    name: '全部状态'
                 }, {
                     name: '客户关怀',
                     value: 2
@@ -222,7 +222,8 @@ export default {
             scroll: false,
             routerEmployee: null,
             noData: false,
-            loading: false
+            loading: false,
+            mainEmployee: ''
         };
     },
     mounted() {
@@ -296,11 +297,12 @@ export default {
         if (this.$route.query.employeeId) {
             tempEmployee.employeeId = this.$route.query.employeeId;
         }
+        // 判断是否是其他页面带参数跳转
         this.routerEmployee = tempEmployee;
-        if (this.routerEmployee.length > 0) {
+        if (this.routerEmployee) {
             this.messageServiceList(this.routerEmployee);
         } else {
-            this.messageServiceList('item');
+            this.messageServiceList();
         }
 
     },
@@ -347,7 +349,10 @@ export default {
         clearSearch() {
             this.vm.search.main = null;
             this.routerEmployee = null;
-            this.messageServiceList('item');
+            this.mainEmployee = null;
+            this.page = 1;
+            this.loading = false;
+            this.messageServiceList();
         },
         // 点击返回顶部
         toTop() {
@@ -378,10 +383,12 @@ export default {
         },
         changeStore(item) {
             this.selectedStore = item[0];
+            this.page = 1;
             this.messageServiceList('item');
         },
         changestatus(item) {
             this.selectedstatus = item[0];
+            this.page = 1;
             this.messageServiceList(this.routerEmployee);
         },
         changeDateRange(start, end) {
@@ -389,18 +396,23 @@ export default {
                 startDate: this.$moment(start).format('YYYY-MM-DD HH:mm:ss'),
                 endDate: this.$moment(end).format('YYYY-MM-DD HH:mm:ss')
             };
+            this.page = 1;
             this.messageServiceList(this.routerEmployee);
         },
         selectedDateRange(item) {
             var tempItem = item.value;
             if (tempItem) {
                 this.vm.timeInterval = tempItem;
+                this.page = 1;
                 this.messageServiceList('item');
             } else {
                 this.dateRangeVisible = true;
             };
         },
         employeeClick(item) {
+            this.loading = false;
+            this.page = 1;
+            this.mainEmployee = item;
             this.messageServiceList(item);
         },
         // 获取员工列表
@@ -438,7 +450,7 @@ export default {
             if (self.selectedstatus) {
                 parameter.type = self.selectedstatus.value;
             };
-            if (item && typeof (item) == Object) {
+            if (item) {
                 if (item.employeeName) {
                     self.vm.search.main = item.employeeName;
                     self.vm.search.text = item.employeeName;
@@ -454,13 +466,15 @@ export default {
                     parameter.employeeId = item.id;
                 };
             };
+            if (self.mainEmployee) {
+                parameter.employeeId = self.mainEmployee.id;
+            }
             if (self.vm.timeInterval.startDate) {
                 parameter.startDate = self.vm.timeInterval.startDate;
             };
             if (self.vm.timeInterval.endDate) {
                 parameter.endDate = self.vm.timeInterval.endDate;
             };
-            this.loading = true;
             service.messageServiceList(parameter).then(res => {
                 if (res.data.rows.length > 0) {
                     for (let i = 0; i < res.data.rows.length; i++) {
@@ -469,11 +483,13 @@ export default {
                         }
                     };
                 };
+                // 空页面是否出现
                 if (res.data.total == 0) {
-                    this.noData = true;
+                    self.noData = true;
                 } else {
-                    this.noData = false;
+                    self.noData = false;
                 }
+                // 是否出现加载动画
                 if (res.data.rows.length < self.rows) {
                     self.scrollDisabled = true;
                 } else {
@@ -481,11 +497,16 @@ export default {
                 };
                 if (item) {
                     self.dataList = res.data.rows;
+                    self.page++;
                 } else {
-                    self.dataList = self.dataList.concat(res.data.rows);
+                    if (res.data.rows.length > 0) {
+                        self.dataList = self.dataList.concat(res.data.rows);
+                        self.page++;
+                    } else {
+                        self.loading = true;
+                        self.page = 1;
+                    }
                 }
-                self.page++;
-                self.loading = false;
             }, erro => {
                 console.log('网络错误！');
             });
@@ -502,11 +523,16 @@ export default {
             });
         },
         touchUpdate() {
-            if (this.routerEmployee.length > 0) {
-                this.messageServiceList(this.routerEmployee);
+            if (this.routerEmployee) {
+                if (this.routerEmployee.length > 0) {
+                    this.messageServiceList(this.routerEmployee);
+                } else {
+                    this.messageServiceList();
+                }
             } else {
-                this.messageServiceList('item');
+                this.messageServiceList();
             }
+
         },
         toData() {
             this.$router.push({
@@ -515,7 +541,7 @@ export default {
                     storeIds: this.selectedStore ? this.selectedStore.id : '',
                     startDate: this.vm.timeInterval ? this.vm.timeInterval.startDate : '',
                     endDate: this.vm.timeInterval ? this.vm.timeInterval.endDate : '',
-                    employeeId: this.vm.search.main.id ? this.vm.search.main.id : this.user.id
+                    employeeId: this.vm.search.main ? this.vm.search.main.id : this.user.id
 
                 }
             });
@@ -670,13 +696,14 @@ export default {
                 }
             }
             .text-type {
-                border: 1px solid @light-gray;
+                // border: 1px solid @light-gray;
                 border-radius: 5px;
                 right: 0;
                 padding: @l8;
+                font-size: @fs28;
                 span {
-                    font-size: @fs24;
                     color: @gray;
+                    margin-left: 5px;
                 }
             }
             .box-bottom {
@@ -703,7 +730,7 @@ export default {
         text-align: center;
         z-index: 1;
         &.btn-edit {
-            bottom: 40vw;
+            bottom: 25vw;
             right: 5vw;
             height: 14vw;
             line-height: 14vw;
@@ -715,7 +742,7 @@ export default {
         }
         &.btn-go-top {
             font-size: @fs40;
-            bottom: 25vw;
+            bottom: 40vw;
             right: 7vw;
             height: 10vw;
             line-height: 10vw;

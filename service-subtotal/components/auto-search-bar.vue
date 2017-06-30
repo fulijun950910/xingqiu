@@ -121,5 +121,8 @@ export default {
         font-size: @fs28;
         border-bottom: 1px solid @light-gray;
     }
+    input {
+        font-size: @l32;
+    }
 }
 </style>
