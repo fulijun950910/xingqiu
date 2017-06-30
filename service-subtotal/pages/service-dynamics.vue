@@ -389,7 +389,7 @@ export default {
             this.selectedStore = item[0];
             this.page = 1;
             this.scrollDisabled = false;
-            if (this.routerEmployee) {
+            if (typeof (this.routerEmployee) == Object) {
                 this.messageServiceList(this.routerEmployee);
             } else {
                 this.messageServiceList('item');
@@ -499,7 +499,6 @@ export default {
             if (self.scrollDisabled) {
                 return;
             };
-            debugger;
             service.messageServiceList(parameter).then(res => {
                 if (res.data.rows.length > 0) {
                     for (let i = 0; i < res.data.rows.length; i++) {

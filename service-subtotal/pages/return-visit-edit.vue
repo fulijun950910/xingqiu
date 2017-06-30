@@ -60,7 +60,8 @@ export default {
                 tags: '',
                 remind: 0, // 0=不提醒，1=提醒
                 remindTime: new Date().formatDate('yyyy-MM-dd hh:mm:ss'), // remind=1时必传
-                remindContent: '1', // remind=1时必传
+                remindContentId: '1', // remind=1时必传
+                remindContent: '',
                 memberNo: '',
                 gradeName: '',
                 avatarId: '',
@@ -98,9 +99,13 @@ export default {
                 errorMsg: '关怀内容至少5个字'
             }]);
             if (this.dataModel.remind == 1) {
-                validator.add(this.dataModel.remindTime || '', [{
-                    strategy: 'isNonEmpty',
+                validator.add(this.dataModel.remindTime, [{
+                    strategy: 'isDateTime',
                     errorMsg: '请选择提醒时间'
+                }]);
+                validator.add(this.dataModel.remindContentId, [{
+                    strategy: 'isNull',
+                    errorMsg: '请选择提醒事项'
                 }]);
                 validator.add(this.dataModel.remindContent || '', [{
                     strategy: 'isNonEmpty',

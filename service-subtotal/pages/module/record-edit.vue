@@ -75,7 +75,7 @@
             return {
                 // 图片列表
                 pictureList: [],
-                remindContent: '1',
+                remindContentId: 1,
                 tagList: [],
                 isWran: false,
                 warnDate: new Date(),
@@ -86,9 +86,9 @@
         computed: {
             // 提醒事项
             warnContent() {
-                if (this.model.remindContent && this.model.remindContent != '') {
-                    let obj = this.warnItems.find(x => {return x.value == this.model.remindContent.toString();});
-                    return obj ? obj.name : '1';
+                if (this.remindContentId) {
+                    let obj = this.warnItems.find(x => {return x.value === this.remindContentId;});
+                    return obj ? obj.name : '';
                 } else {
                     return '请选择';
                 }
@@ -113,8 +113,12 @@
             warnDate(val, oldVal) {
                 this.model.remindTime = val ? val.formatDate('yyyy-MM-dd hh:mm:ss') : new Date().formatDate('yyyy-MM-dd hh:mm:ss');
             },
-            remindContent(val) {
-                this.model.remindContent = val ? val : '1';
+            warnContent(val, oldVal) {
+                this.model.remindContent = val;
+            },
+            // 提醒事项编号
+            remindContentId(val) {
+                this.model.remindContentId = val;
             },
             // 标签
             tagList(val, oldVal) {
@@ -140,7 +144,7 @@
                     if (val.remindTime && val.remindTime != '') {
                         this.warnDate = val.remindTime;
                     }
-                    this.remindContent = val.remindContent;
+                    this.remindContentId = val.remindContentId;
                     // 标签列表
                     this.tagList = (val.tags && val.tags != '') ? val.tags.split(',') : [];
                 }
@@ -150,7 +154,7 @@
             // 选择提醒事项
             chooseWarnItem(item) {
                 this.warnVisible = false;
-                this.model.remindContent = item.value;
+                this.remindContentId = item.value;
             },
             // 完成记录
             recordFinish() {

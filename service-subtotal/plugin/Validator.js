@@ -3,6 +3,24 @@
  * void 0 === undefined
  */
 const ValidRules = {
+    // 是否为 null
+    isNull(value, errorMsg) {
+        return value === null ? errorMsg : void 0;
+    },
+    // 是否为 undefined
+    isUndefined(value, errorMsg) {
+        return value === void 0 ? errorMsg : void 0;
+    },
+    // 是否为 undefined || null
+    isNullOrUndefined(value, errorMsg) {
+        return value == void 0 ? errorMsg : void 0;
+    },
+    // 是否为 日期 时间格式
+    isDateTime(value, errorMsg) {
+        var reg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/;
+        var r = value.match(reg);
+        return r == null ? errorMsg : void 0;
+    },
     // 空字符串
     isNonEmpty(value, errorMsg) {
         if (value.length !== void 0) {
