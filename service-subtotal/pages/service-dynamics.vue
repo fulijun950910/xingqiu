@@ -72,7 +72,7 @@
                         未进行记录
                     </span>
                     <span flex></span>
-                    <a class="link" v-if="item.status == 0 && !admin" v-on:click="addServiceNote(item)">点此进行记录<m-icon :xlink="'#icon-right-bold'"></m-icon></a>
+                    <a class="link" v-if="item.status == 0 && item.employeeId == user.id" v-on:click="addServiceNote(item)">点此进行记录<m-icon :xlink="'#icon-right-bold'"></m-icon></a>
                 </div>
                 <div class="main-img" layout="row" layout-align="start center" flex-wrap="wrap" v-if="item.status == 1">
                     <span flex="30" v-for="(img,index) in item.imageIds" v-on:click="scaleImg(pIndex,index)">
@@ -350,9 +350,9 @@ export default {
             this.vm.search.main = null;
             this.routerEmployee = null;
             this.mainEmployee = null;
-            this.loading = false;
             this.page = 1;
-            this.messageServiceList('item');
+            this.loading = false;
+            this.messageServiceList();
         },
         // 点击返回顶部
         toTop() {
@@ -406,7 +406,6 @@ export default {
             };
         },
         employeeClick(item) {
-            debugger;
             this.loading = false;
             this.page = 1;
             this.mainEmployee = item;
@@ -494,6 +493,7 @@ export default {
                 };
                 if (item) {
                     self.dataList = res.data.rows;
+                    self.page++;
                 } else {
                     if (res.data.rows.length > 0) {
                         self.dataList = self.dataList.concat(res.data.rows);
@@ -519,11 +519,16 @@ export default {
             });
         },
         touchUpdate() {
-            if (this.routerEmployee.length > 0) {
-                this.messageServiceList(this.routerEmployee);
+            if (this.routerEmployee) {
+                if (this.routerEmployee.length > 0) {
+                    this.messageServiceList(this.routerEmployee);
+                } else {
+                    this.messageServiceList();
+                }
             } else {
                 this.messageServiceList();
             }
+
         },
         toData() {
             this.$router.push({
@@ -532,7 +537,7 @@ export default {
                     storeIds: this.selectedStore ? this.selectedStore.id : '',
                     startDate: this.vm.timeInterval ? this.vm.timeInterval.startDate : '',
                     endDate: this.vm.timeInterval ? this.vm.timeInterval.endDate : '',
-                    employeeId: this.vm.search.main.id ? this.vm.search.main.id : this.user.id
+                    employeeId: this.vm.search.main ? this.vm.search.main.id : this.user.id
 
                 }
             });
