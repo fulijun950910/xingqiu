@@ -76,7 +76,7 @@
             return {
                 // 图片列表
                 pictureList: [],
-                remindContentId: 1,
+                remindContentId: null,
                 tagList: [],
                 isWran: false,
                 warnDate: new Date(),
