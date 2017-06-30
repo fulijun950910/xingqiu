@@ -383,10 +383,12 @@ export default {
         },
         changeStore(item) {
             this.selectedStore = item[0];
+            this.page = 1;
             this.messageServiceList('item');
         },
         changestatus(item) {
             this.selectedstatus = item[0];
+            this.page = 1;
             this.messageServiceList(this.routerEmployee);
         },
         changeDateRange(start, end) {
@@ -394,12 +396,14 @@ export default {
                 startDate: this.$moment(start).format('YYYY-MM-DD HH:mm:ss'),
                 endDate: this.$moment(end).format('YYYY-MM-DD HH:mm:ss')
             };
+            this.page = 1;
             this.messageServiceList(this.routerEmployee);
         },
         selectedDateRange(item) {
             var tempItem = item.value;
             if (tempItem) {
                 this.vm.timeInterval = tempItem;
+                this.page = 1;
                 this.messageServiceList('item');
             } else {
                 this.dateRangeVisible = true;
