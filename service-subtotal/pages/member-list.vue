@@ -90,8 +90,7 @@ export default {
                 name: 'return-visit-create',
                 params: {
                     memberId: item.id
-                },
-                query: item
+                }
             });
         }
     }
