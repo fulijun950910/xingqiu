@@ -84,7 +84,7 @@ export default {
             query: {
                 merchantId: this.$store.getters.merchantId,
                 storeIds: this.$route.query.storeIds ? this.$route.query.storeIds : this.$store.getters.queryStoreIds,
-                employeeId: this.$route.query.employeeId ? this.$route.query.employeeId : this.$store.getters.employeeId,
+                employeeId: '',
                 startDate: this.$route.query.startDate ? this.$route.query.startDate : '',
                 endDate: this.$route.query.endDate ? this.$route.query.endDate : '',
                 status: 2
