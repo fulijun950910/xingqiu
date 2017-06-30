@@ -1,6 +1,6 @@
 <template>
     <mt-popup v-model="currentValue" position="bottom" class="picker-panel">
-        <mt-picker :show-toolbar="true" :slots="slots" @change="onValuesChange" :value-key="valueKey">
+        <mt-picker ref="m_picker" :show-toolbar="true" :slots="slots" @change="onValuesChange" :value-key="valueKey">
             <div layout="row" layout-align="space-between center" class="toolbar">
                 <a class="steel-gray picker-btn" @click="currentValue = false;">取消</a>
                 <a class="picker-btn" @click="confirm">确定</a>
@@ -33,13 +33,35 @@ export default {
         selectedItem: null,
         valueKey: null
     },
+    mounted() {},
+    watch: {
+        slots: function(val, oldVal) {
+            if (!this.$knife.isArray(val)) {
+                return;
+            }
+            var _val = val;
+            setTimeout(() => {
+                try {
+                    _val.forEach((value, index) => {
+                        this.$refs.m_picker.setSlotValue(index, value.values[0]);
+                    });
+                } catch (e) {
+                    console.error(e);
+                }
+            }, 0);
+        }
+    },
     methods: {
         onValuesChange(picker, values) {
             this.changeItem = values;
         },
         confirm() {
-            this.$emit('confirm', this.$knife.deepCopy(this.changeItem, []));
-            this.currentValue = false;
+            if (this.changeItem) {
+                this.$emit('confirm', this.$knife.deepCopy(this.changeItem, []));
+                this.currentValue = false;
+            } else {
+                console.error('m-picker change error');
+            }
         }
     },
     computed: {
