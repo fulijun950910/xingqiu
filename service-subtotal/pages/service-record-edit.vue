@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="c-card-call text-right ft-light"  flex="30">
-                <a :href="'tel:'+dataModel.merchantId" class="btn btn-xs ft-light">
+                <a :href="'tel:'+dataModel.memberMobile" class="btn btn-xs ft-light">
                     <m-icon xlink="#icon-tel-alt"></m-icon> 联系Ta
                 </a>
             </div>
@@ -52,6 +52,7 @@ export default {
                 memberId: this.$route.query.memberId,
                 memberAvatarId: null,
                 memberName: '',
+                memberMobile: '',
                 orderId: null,
                 tags: '',
                 remind: 0, // 0=不提醒，1=提醒
