@@ -47,6 +47,7 @@
     */
     import $ from 'jquery';
     import api_file from 'services/api.file';
+    import mPicture from 'components/m-picture';
     export default {
         name: 'm-pictures',
         props: {
@@ -83,7 +84,7 @@
             }
         },
         components: {
-            'm-picture': require('components/m-picture')
+            mPicture
         },
         data() {
             return {
