@@ -126,7 +126,11 @@ import Vue from 'vue';
 import $ from 'jquery';
 import {
     DatetimePicker,
-    Lazyload
+    Lazyload,
+    Swipe,
+    SwipeItem,
+    Actionsheet,
+    InfiniteScroll
 } from 'mint-ui';
 import mLoadMore from 'components/m-load-more';
 import bottomMenu from 'components/bottom-menu';
@@ -134,16 +138,6 @@ import autoSearchbar from 'components/auto-search-bar';
 import mPicker from 'components/m-picker';
 import mDateRangePicker from 'components/m-date-range-picker';
 import service from 'services/api.serviceNote';
-import {
-    Swipe,
-    SwipeItem
-} from 'mint-ui';
-import {
-    Actionsheet
-} from 'mint-ui';
-import {
-    InfiniteScroll
-} from 'mint-ui';
 import noData from 'components/no-data';
 Vue.use(Lazyload);
 Vue.use(InfiniteScroll);
@@ -392,7 +386,6 @@ export default {
             console.log(parameter);
         },
         changeStore(item) {
-            debugger;
             this.selectedStore = item[0];
             this.page = 1;
             this.scrollDisabled = false;
@@ -419,7 +412,6 @@ export default {
 
         },
         changeDateRange(start, end) {
-            debugger;
             this.vm.timeInterval = {
                 startDate: this.$moment(start).startOf('day').format('YYYY-MM-DD HH:mm:ss'),
                 endDate: this.$moment(end).endOf('day').format('YYYY-MM-DD HH:mm:ss')
@@ -533,7 +525,6 @@ export default {
 
             };
             service.messageServiceList(parameter).then(res => {
-                debugger;
                 if (res.data.rows.length > 0) {
                     for (let i = 0; i < res.data.rows.length; i++) {
                         if (res.data.rows[i].imageIds) {
