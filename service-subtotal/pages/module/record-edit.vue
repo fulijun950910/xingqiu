@@ -50,6 +50,9 @@
 <script>
     import { Switch, Cell, DatetimePicker, Popup, Checklist, Button } from 'mint-ui';
     import { WARN_ITEMS } from 'config/mixins';
+    import mTags from 'components/m-tags';
+    import mPictures from 'components/m-pictures';
+
     /**
     * model: 数据
     */
@@ -62,9 +65,8 @@
             }
         },
         components: {
-            'm-tags': require('components/m-tags'),
-            'm-pictures': require('components/m-pictures'),
-            'm-icon': require('components/m-icon'),
+            mTags,
+            mPictures,
             [Switch.name]: Switch,
             [Cell.name]: Cell,
             [DatetimePicker.name]: DatetimePicker,
