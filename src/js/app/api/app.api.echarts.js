@@ -17,6 +17,15 @@ app.api.echarts = {
             data: settings.data
         })
     },
+    orderEmployeePerformanceDetail: function(settings) {
+        app.api.ajax({
+            url: '/wechatbusinessassists/orderEmployeePerformanceDetail',
+            type: 'POST',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
+        })
+    },
     reportShow: function(settings) {
         app.api.ajax({
             url: '/report/show',

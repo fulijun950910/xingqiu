@@ -60,6 +60,7 @@ module.exports = function(grunt) {
                     'src/js/app/sign/app.sign.js',
                     'src/js/app/echarts/app.member.js',
                     'src/js/app/echarts/app.employee.js',
+                    'src/js/app/echarts/app.employeDetail.js',
                     'src/js/app/echarts/app.product.js',
                     'src/js/app/index/app.index.js',
                     'src/js/app/income/app.income.js',

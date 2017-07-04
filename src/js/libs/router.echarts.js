@@ -26,6 +26,16 @@ $(function() {
             app.employeeEcharts.init();
         }
     };
+    //员工详情
+    var tpl_employeeDetail = {
+        url: '/echartsEmployeeDetail',
+        render: function() {
+            return $('#tpl_employeeDetail').html();
+        },
+        bind: function() {
+            app.employeeDetailEcharts.init();
+        }
+    };
     //品项信息统计
     var tpl_product = {
         url: '/echartsProduct',
@@ -39,6 +49,7 @@ $(function() {
     router.push(tpl_member)
         .push(tpl_employee)
         .push(tpl_product)
+        .push(tpl_employeeDetail)
         .init();
 
     if (/Android/gi.test(navigator.userAgent)) {

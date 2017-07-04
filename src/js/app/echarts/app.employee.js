@@ -138,6 +138,7 @@ app.employeeEcharts = {
             $('.errorMessage').text('亲~您当前的权限还不能看数据哦~');
             return;
         }
+        window.sessionStorage.employeeParam = JSON.stringify(orderPerformanceList);
         app.employeeEcharts.orderEmployeePerformance(orderPerformanceList).then(function(result) {
             results.orderEmployeePerformanceList = result.rows;
             var tmplhtml = $('#tmpl-employee-model').html();
@@ -199,5 +200,10 @@ app.employeeEcharts = {
                 }
             });
         });
+    },
+    // 跳转到详情页
+    toEmployeeDetail(employeId) {
+        window.sessionStorage.employeId = employeId;
+        location.href='/echarts-index.html#/echartsEmployeeDetail';
     }
 }
