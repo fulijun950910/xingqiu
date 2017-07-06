@@ -16,6 +16,7 @@
     * submit 提交图片时触发
     */
     import { BASE_IMG_PATH } from 'config/mixins';
+    import imageSlic from 'components/image-slice';
     export default {
         name: 'm-picture',
         props: {
@@ -43,7 +44,7 @@
             }
         },
         components: {
-            'image-slice': require('components/image-slice')
+            'image-slice': imageSlic
         },
         data() {
             return {
