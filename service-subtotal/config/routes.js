@@ -29,7 +29,7 @@ export default [{
     component: memberList,
     meta: { auth: true, level: 3 }
 }, {
-    path: '/return-visit-ranking-list', // 查看客户关怀（查看服务小计页面缺失）
+    path: '/return-visit-ranking-list', // 查看客户关怀
     name: 'return-visit-ranking-list',
     component: returnVisitRankingList,
     meta: { auth: true, level: 3 }

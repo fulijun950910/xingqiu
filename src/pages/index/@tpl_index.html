@@ -269,12 +269,12 @@
             </div>
         </div>
         <div class="sub-bar wrap" layout="row" layout-align="space-around center">
-            <div class="item" layout="column" layout-align="center center" flex="50">
+            <div class="item" layout="column" layout-align="center center" flex="50" onclick="goDetail()">
                 <span class="title">业绩</span>
                 <span class="price-icon primary-color">￥<span class="price">{%= app.tools.changePrice(o.performanceInfo.performance)[0] %}</span><span class="font-size-10 primary-color">.{%= app.tools.changePrice(o.performanceInfo.performance)[1] %}</span></span>
             </div>
             <span class="item-line"></span>
-            <div class="item" layout="column" layout-align="center center" flex="50">
+            <div class="item" layout="column" layout-align="center center" flex="50" onclick="goDetail()">
                 <span class="title">卡耗</span>
                 <span class="price-icon primary-color">￥<span class="price">{%= app.tools.changePrice(o.performanceInfo.cardConsumeTotalAmount)[0] %}</span><span class="font-size-10 primary-color">.{%= app.tools.changePrice(o.performanceInfo.cardConsumeTotalAmount)[1] %}</span></span>
             </div>

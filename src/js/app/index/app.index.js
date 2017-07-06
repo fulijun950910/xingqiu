@@ -90,6 +90,26 @@ function initData() {
     $('.index #employeeList .employee_item').attr('data-merchantId', '');
 };
 
+// 查看员工绩效详情
+function goDetail() {
+    var employee = JSON.parse(localStorage.employee);
+    var perInfo = JSON.parse(localStorage.performanceInfo);
+    if (perInfo && employee && employee.id) {
+        window.sessionStorage.employeeId = employee.id;
+        window.sessionStorage.employeeParam = JSON.stringify({
+            startDate: perInfo.startDate,
+            endDate: perInfo.endDate,
+            merchantId: employee.merchant.id,
+            storeId: employee.storeId
+        });
+        location.href = "/echarts-index.html#/echartsEmployeeDetail";
+    } else {
+        app.alert('请重新登陆');
+        //失败重新登录
+        location.href = "/userinfo.html#/user_login";
+    }
+}
+
 //初始化日期
 app.index = {
     indexDate: {},

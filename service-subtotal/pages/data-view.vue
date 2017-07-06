@@ -285,7 +285,7 @@ export default {
     }
     .link-panel {
         p:first-child {
-            font-size: @fs28;
+            font-size: 15px;
             margin-bottom: @l8;
             color: @extra-light-black;
             .icon {
@@ -294,14 +294,14 @@ export default {
         }
         :nth-child(2) {
             color: @gray;
-            font-size: @fs24;
+            font-size: 15px;
             .icon {
                 color: @gray;
             }
         }
         .link-btn {
             width: 268px / 2;
-            padding: @l24 @l32;
+            padding: @l16 @l32;
             border-radius: 10px;
             border: 1px solid #E8E8E8;
             /*no*/

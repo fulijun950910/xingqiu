@@ -1,0 +1,65 @@
+<script type="text/html" id="tpl_employeeDetail">
+    <div class="min-height-100" id="employeeDetail">
+    </div>
+
+    <script type="text/html" id="tmpl_employeeDetail">
+        <div class="ed-card">
+            <div class="ed-card-title" layout="column" layout-align="center center">
+                <img class="e-avatar" src="{%=app.filePath + o.employeeAvatarId %}" alt="头像">
+                <p class="e-name">{%= o.employeeName %}</p>
+                <p class="e-no">NO:{%= o.employeeNo %}</p>
+            </div>
+            <div class="ed-card-total" layout="row" layout-align="center center">
+                <div flex="50" class="ft-light">
+                    <i class="ic icon-yeji"></i> 业绩：￥{%= app.tools.toThousands(o.achievementAmount) %}
+                </div>
+                <div flex="50" class="ft-light">
+                    <i class="ic icon-rechange"></i> 提成：￥{%= app.tools.toThousands(o.commissionAmount) %}
+                </div>
+            </div>
+        </div>
+
+        <div class="ed-info" layout="row" layout-align="center center">
+            <div class="ed-performance" flex="50" layout="column" layout-align="center start">
+                <span class="triggle-down"></span>
+                <p>售卡 <span>{%= app.tools.toThousands(o.achievementSellCardsAmount) %}</span></p>
+                <p>产品 <span>{%= app.tools.toThousands(o.achievementProductAmount) %}</span></p>
+                <p>项目 <span>{%= app.tools.toThousands(o.achievementItemAmount) %}</span></p>
+                <p>充值 <span>{%= app.tools.toThousands(o.achievementRechargeAmount) %}</span></p>
+                <p>其他 <span>{%= app.tools.toThousands(o.achievementOtherAmount) %}</span></p>
+            </div>
+            <div class="ed-payment" flex="50" layout="column" layout-align="center start">
+                <span class="triggle-down"></span>
+                <p>售卡 <span>{%= app.tools.toThousands(o.commissionSellCardsAmount) %}</span></p>
+                <p>产品 <span>{%= app.tools.toThousands(o.commissionProductAmount) %}</span></p>
+                <p>项目 <span>{%= app.tools.toThousands(o.commissionItemAmount) %}</span></p>
+                <p>充值 <span>{%= app.tools.toThousands(o.commissionRechargeAmount) %}</span></p>
+                <p>其他 <span>{%= app.tools.toThousands(o.commissionOtherAmount) %}</span></p>
+            </div>
+        </div>
+
+        <div class="ed-card-spend" layout="row" layout-align="space-between center">
+            <span class="ed-card-spend-title">
+                <i class="ic icon-qia-"></i> 卡耗分布
+            </span>
+            <span>
+                总数：<span class="card-consume-total">{%= app.tools.toThousands(o.cardConsumeTotal) %}</span>
+            </span>
+        </div>
+
+        <div class="ed-card-list">
+            <div>
+                <span class="color-blue">●</span>储值卡<span class="card-spend-money">{%= app.tools.toThousands(o.depositCardAmount) %}</span>
+            </div>
+            <div>
+                <span class="color-orange">●</span>疗程卡<span class="card-spend-money">{%= app.tools.toThousands(o.itemCardAmount) %}</span>
+            </div>
+            <div>
+                <span class="color-green">●</span>时段卡<span class="card-spend-money">{%= app.tools.toThousands(o.timeCardAmount) %}</span>
+            </div>
+            <div>
+                <span class="color-green">●</span>其他<span class="card-spend-money">{%= app.tools.toThousands(o.otherConsumeAmount) %}</span>
+            </div>
+        </div>
+    </script>
+</script>
