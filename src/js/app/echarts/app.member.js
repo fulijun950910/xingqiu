@@ -52,6 +52,7 @@ app.memberEcharts = {
         };
         app.memberEcharts.getMemberStatistics(data).then(function(results) {
             memberData = results;
+
             var storeList = localStorage.getItem("employee");
             storeList = JSON.parse(storeList).storeList;
             memberData.storeList = storeList;
@@ -131,9 +132,9 @@ app.memberEcharts = {
                 orient: 'horizontal',
                 align: 'auto',
                 data: legendList,
-                itemWidth: 50,
+                itemWidth: 20,
                 itemGap: 15,
-                bottom: 10,
+                bottom: 0,
                 selectedMode: false
             },
 
@@ -141,7 +142,7 @@ app.memberEcharts = {
                 name: '访问来源',
                 type: 'pie',
                 radius: ['50%', '70%'],
-                center: ['50%', '35%'],
+                center: ['50%', '25%'],
                 avoidLabelOverlap: false,
                 label: {
                     normal: {
@@ -176,7 +177,7 @@ app.memberEcharts = {
             $('.member_echarts .memberSourceList').find('.data-box').css('height', height);
         } else {
             if (data.length > 6) {
-                height = 410 + (data.length * 10) + "px";
+                height = 74 + parseInt((data.length-6) /0.9) + "vh";
             }
             $('.member_echarts .memberSourceList').find('.data-box').css('height', height);
         }

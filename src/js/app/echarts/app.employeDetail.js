@@ -12,7 +12,7 @@ app.employeeDetailEcharts = {
         var employee = JSON.parse(sessionStorage.employeeParam);
         if (employee) {
             var param = {
-                employeeId: sessionStorage.employeId,
+                employeeId: sessionStorage.employeeId,
                 startDate: employee.startDate,
                 endDate: employee.endDate,
                 merchantId: employee.merchantId,

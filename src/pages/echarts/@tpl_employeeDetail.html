@@ -5,11 +5,11 @@
     <script type="text/html" id="tmpl_employeeDetail">
         <div class="ed-card">
             <div class="ed-card-title" layout="column" layout-align="center center">
-                <img class="e-avatar" src="{%=app.filePath + o.employeeAvatarId %}" alt="">
+                <img class="e-avatar" src="{%=app.filePath + o.employeeAvatarId %}" alt="头像">
                 <p class="e-name">{%= o.employeeName %}</p>
                 <p class="e-no">NO:{%= o.employeeNo %}</p>
             </div>
-            <div class="ed-card-total " layout="row" layout-align="center center">
+            <div class="ed-card-total" layout="row" layout-align="center center">
                 <div flex="50" class="ft-light">
                     <i class="ic icon-yeji"></i> 业绩：￥{%= app.tools.toThousands(o.achievementAmount) %}
                 </div>
@@ -43,7 +43,7 @@
                 <i class="ic icon-qia-"></i> 卡耗分布
             </span>
             <span>
-                总数：{%= app.tools.toThousands(o.cardConsumeTotal) %}
+                总数：<span class="card-consume-total">{%= app.tools.toThousands(o.cardConsumeTotal) %}</span>
             </span>
         </div>
 
