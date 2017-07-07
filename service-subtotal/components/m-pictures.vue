@@ -2,7 +2,7 @@
     <!-- 图片上传 -->
     <div class="m-pictures">
         <transition-group name="slide-up" tag="div" mode="out-in" layout="row" layout-align="start start" flex-wrap="wrap">
-            <div :class="['c-picture-item', ('c-picture-item-'+column)]" 
+            <div :class="['c-picture-item', ('c-picture-item-'+column), ('picture_'+cid)]" 
                 v-for="(item,cid) in pictures" :key="cid" :ref="'picture_'+cid">
                 <!-- 合同图片 -->
                 <m-picture :index="cid" :picture="item" @submit="submitPicture"></m-picture>
@@ -147,11 +147,15 @@
                     }, index);
                     // 自动点击
                     this.$nextTick(() => {
-                        let ava = this.$refs['picture_' + (this.pictures.length - 1)][0];
-                        let imgInput = $(ava).find('input[type=file]').get(0);
-                        var event = document.createEvent('Event');
-                        event.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                        imgInput.dispatchEvent(event);
+                        let ava = this.$refs['picture_' + (this.pictures.length - 1)];
+                        if (ava) {
+                            let imgInput = $(ava).find('input[type=file]').get(0);
+                            if (imgInput) {
+                                var event = document.createEvent('Event');
+                                event.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                                imgInput.dispatchEvent(event);
+                            }
+                        }
                     });
                 } else {
                     this.$toast('最多上传' + this.maxCount + '张图片');
