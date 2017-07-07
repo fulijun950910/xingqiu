@@ -32,6 +32,9 @@ app.userinfo = {
             }
 
         });
+        $('#m_bind_btn').on('click', function() {
+            app.userinfo.login();
+        });
     },
     goRegistered: function(){
         location.href=app.urlC+'/activity/registered/index.html?applyType=4'
