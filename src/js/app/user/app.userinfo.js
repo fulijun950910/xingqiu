@@ -188,29 +188,25 @@ app.userinfo = {
         };
     },
     login: function() {
-        try {
-            app.startLoading();
-            //缓存及cookie清理
-            localStorage.clear();
-            // sessionStorage.clear();
-            var error_login = false,
-                msg = '';
-            if (!$('input[name="username"]').val()) {
-                app.userinfo.alertError('小主，请输入您的手机号码');
-                // error_login = true;
-                // msg = '用户名不可为空';
-                app.endLoading();
-                return;
-            }
-            if (!$('input[name="password"]').val()) {
-                app.userinfo.alertError('小主，请输入您的密码');
-                // error_login = true;
-                // msg = '密码不可为空';
-                app.endLoading();
-                return;
-            }
-        } catch (e) {
-            app.userinfo.alertError('请刷新页面再次尝试.');
+        app.startLoading();
+        //缓存及cookie清理
+        localStorage.clear();
+        // sessionStorage.clear();
+        var error_login = false,
+            msg = '';
+        if (!$('input[name="username"]').val()) {
+            app.userinfo.alertError('小主，请输入您的手机号码');
+            // error_login = true;
+            // msg = '用户名不可为空';
+            app.endLoading();
+            return;
+        }
+        if (!$('input[name="password"]').val()) {
+            app.userinfo.alertError('小主，请输入您的密码');
+            // error_login = true;
+            // msg = '密码不可为空';
+            app.endLoading();
+            return;
         }
         // if (error_login) {
         //     $('#error_msg').html(msg);
@@ -220,34 +216,24 @@ app.userinfo = {
         //     }, 3000);
         //     return;
         // }
-        try {
-            //事件统计
-            baiduStatistical.add({
-                category: '登录',
-                label: '用户登录',
-                val: '',
-                action: 'click'
-            });
-        } catch (e) {
-            app.userinfo.alertError('请刷新页面再次尝试..');
-        }
-
-        try {
-            var param = {
+        //事件统计
+        baiduStatistical.add({
+            category: '登录',
+            label: '用户登录',
+            val: '',
+            action: 'click'
+        });
+        var param = {
                 username: $('input[name="username"]').val(),
                 password: app.userinfo.base64Encode($('input[name="password"]').val()),
                 rememberMe: true
             }
-            if ($("#yzPwd").hasClass("show") && $(".yzPwd").val()) {
-                param.captcha = $(".yzPwd").val();
-            } else if ($("#messagePwd").hasClass("show") && $(".messagePwd").val()) {
-                param.captcha = $(".messagePwd").val();
-            }
-        } catch (e) {
-            app.userinfo.alertError('请刷新页面再次尝试...');
+        if($("#yzPwd").hasClass("show")&&$(".yzPwd").val()){
+            param.captcha=$(".yzPwd").val();
+        }else if($("#messagePwd").hasClass("show")&&$(".messagePwd").val()){
+            param.captcha=$(".messagePwd").val();
         }
-
-        // 查询用户
+            //查询用户
         app.api.userinfo.auth({
             data: param,
             success: function(resultUser) {
