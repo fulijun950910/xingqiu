@@ -202,7 +202,7 @@ app.employeeEcharts = {
         });
     },
     // 跳转到详情页
-    toEmployeeDetail(employeeId) {
+    toEmployeeDetail: function(employeeId) {
         window.sessionStorage.employeeId = employeeId;
         location.href='/echarts-index.html#/echartsEmployeeDetail';
     }
