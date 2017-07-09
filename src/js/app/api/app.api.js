@@ -53,6 +53,6 @@ try {
          employee = JSON.parse(localStorage.employee);
     }
 }
-cathc(e){
-    console.error(e);
+catch(e){
+    console.info(e);
 }
