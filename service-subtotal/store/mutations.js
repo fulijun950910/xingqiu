@@ -1,7 +1,12 @@
 import * as types from 'store/mutations-types';
 
 var getLocalInfo = () => {
-    let employee = JSON.parse(localStorage.getItem('employee')) || null;
+    try {
+        let employee = JSON.parse(localStorage.getItem('employee')) || null;
+    } catch (e) {
+        employee = null;
+    }
+
     var data = {
         user: {},
         merchant: {},
