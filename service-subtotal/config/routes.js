@@ -12,7 +12,7 @@ const recordFinish = resolve => require(['pages/record-finish'], resolve);
 const unrecordedServiceList = resolve => require(['pages/unrecorded-service-list'], resolve);
 const serviceDynamics = resolve => require(['pages/service-dynamics'], resolve);
 const signIn = resolve => require(['pages/sign-in'], resolve);
-
+const remitDetail = resolve => require(['pages/remit-detail/index'], resolve);
 export default [{
     path: '/data-view', // 数据查看页面
     name: 'data-view',
@@ -75,4 +75,9 @@ export default [{
     path: '/sign-in',
     name: 'sign-in',
     component: signIn
+}, {
+    path: '/remit-detail/:merchantId/:drawMoneyId',
+    name: 'remit-detail',
+    component: remitDetail,
+    meta: { auth: true, level: 1 }
 }];
