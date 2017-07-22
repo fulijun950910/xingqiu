@@ -26,7 +26,7 @@
             <div class="list-cell" v-for="(item, index) in dataModel.trades" :key="index"
              layout="row" layout-align="space-between center">
                 <div flex="20" layout="row" layout-align="center center">
-                    <img :src="item.userId | mSrc(40, 40, require('assets/imgs/avatar.png'))">
+                    <img :src="item.avatarId | mSrc(40, 40, require('assets/imgs/avatar.png'))">
                 </div>
                 <div flex="50">
                     <p class="name">{{item.nickName}}</p>
@@ -49,52 +49,11 @@
         data() {
             return {
                 dataModel: {
-                    'startDate': '2017-05-21 00:00:00',
-                    'endDate': '2017-06-01 00:00:00',
+                    'startDate': '',
+                    'endDate': '',
                     'verifyTickets': '',
                     'income': '',
-                    'trades': [{
-                        'id': 6605187075618104,
-                        'deleteFlag': null,
-                        'createUserId': null,
-                        'lastUpdateUserId': null,
-                        'createTime': '2017-05-23 10:28:00',
-                        'lastUpdateTime': null,
-                        'createUserName': null,
-                        'lastUpdateUserName': null,
-                        'merchantId': 1270523646267239,
-                        'memberId': null,
-                        'userId': 6604905435664829,
-                        'userName': '(^_-)',
-                        'operatorId': 1200023627513211,
-                        'operatorName': '泽野弘之',
-                        'memberName': null,
-                        'openId': 'oTon3tzvzOK0ukCZIMfzcyi3Oivw',
-                        'nickName': '会员名称',
-                        'mobile': '会员手机号',
-                        'tradeDetail': '517tuan的活动券0.01元完成验券;',
-                        'tradeTime': '验券时间',
-                        'payType': 'weixin',
-                        'payAccount': 'oTon3tzvzOK0ukCZIMfzcyi3Oivw',
-                        'payAmount': 1,
-                        'tradeStatus': 1,
-                        'tradeType': 10,
-                        'tradeEntity': '券号',
-                        'referenceOrderNo': null,
-                        'referenceOutOrderNo': '4003342001201705171237075228',
-                        'referenceOrderId': 6605137071755826,
-                        'poundage': 0,
-                        'poundageRate': 0.006,
-                        'poundageType': '0',
-                        'meiwenPoundage': 1,
-                        'meiwenPoundageRate': 0.004,
-                        'meiWenPoundageType': '0',
-                        'hasDrawMoney': true,
-                        'drawMoneyId': 6605262348896051,
-                        'storeId': null,
-                        'version': 1,
-                        'ticketPrice': '券金额'
-                    }]
+                    'trades': []
                 }
             };
         },
