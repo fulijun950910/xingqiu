@@ -16,7 +16,7 @@
                     <m-icon xlink="#icon-shouru"></m-icon>
                     <div>
                         <p>活动打款</p>
-                        <p>{{dataModel.income | currency}}</p>
+                        <p>{{(dataModel.income/100) | currency}}</p>
                     </div>
                 </div>
             </div>
@@ -26,15 +26,15 @@
             <div class="list-cell" v-for="(item, index) in dataModel.trades" :key="index"
              layout="row" layout-align="space-between center">
                 <div flex="20" layout="row" layout-align="center center">
-                    <img :src="item.avatarId | mSrc(40, 40, require('assets/imgs/avatar.png'))">
+                    <img :src="item.avatarId | mSrc(40, 40, require('assets/imgs/avatar.png'))" @error="item.avatarId = undefined">
                 </div>
                 <div flex="50">
                     <p class="name">{{item.nickName}}</p>
                     <p class="no-wrap"><m-icon xlink="#icon-dianhua"></m-icon> {{item.mobile}}</p>
-                    <p class="no-wrap"><m-icon xlink="#icon-coupon"></m-icon> {{item.tradeEntity}}</p>
+                    <p class="no-wrap"><m-icon xlink="#icon-coupon"></m-icon> {{item.tradeEntity | couponNo}}</p>
                 </div>
                 <div class="text-center" flex="30">
-                    <p class="money no-wrap">{{item.ticketPrice | currency}}</p>
+                    <p class="money no-wrap">{{(item.ticketPrice/100) | currency}}</p>
                     <p>{{item.tradeTime | amDateFormat('YYYY-MM-DD')}}</p>
                 </div>
             </div>
@@ -49,6 +49,7 @@
         data() {
             return {
                 dataModel: {
+                    defAvatar: require('assets/imgs/avatar.png'),
                     'startDate': '',
                     'endDate': '',
                     'verifyTickets': '',
@@ -74,6 +75,18 @@
                 }, err => {
                     this.$indicator.close();
                 });
+            }
+        },
+        filters: {
+            couponNo(val) {
+                let newStr = '';
+                if (val && typeof val == 'string' & val != '') {
+                    let len = Math.floor(val.length / 4);
+                    for (let i = 0; i < len; i++) {
+                        newStr += val.substr(4 * i, 4) + ' ';
+                    }
+                }
+                return newStr;
             }
         }
     };
