@@ -34,7 +34,7 @@
                     <p class="no-wrap"><m-icon xlink="#icon-coupon"></m-icon> {{item.tradeEntity | couponNo}}</p>
                 </div>
                 <div class="text-center" flex="30">
-                    <p class="money no-wrap">{{(item.ticketPrice/100) | currency}}</p>
+                    <p class="money no-wrap">{{(item.payAmount/100) | currency}}</p>
                     <p>{{item.tradeTime | amDateFormat('YYYY-MM-DD')}}</p>
                 </div>
             </div>
