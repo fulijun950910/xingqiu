@@ -13,6 +13,14 @@ app.init = function() {
 //     return true;
 // }
 
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?3c1210a8346d103698ba8ce2129c637b";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+    
 Date.prototype.format = function(format){
     var o = {
         "M+" : this.getMonth()+1, //month
