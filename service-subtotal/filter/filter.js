@@ -37,7 +37,7 @@ Vue.filter('messageType', (value) => {
     let text = null;
     switch (value) {
         case 1:
-            text = '服务小计';
+            text = '服务小记';
             break;
         case 2:
             text = '客户关怀';
