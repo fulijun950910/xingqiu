@@ -155,6 +155,7 @@ app.productEcharts = {
                         break;
                 }
             }
+            var tooBarIndex = $('.tool-tab ul li.active').index(); //还原选中tab
             app.tools.changeTitle('品项数据分析');
             var tmplhtml = $('#tmpl-product-model').html();
             var resultTmpl = tmpl(tmplhtml, results);
@@ -175,6 +176,7 @@ app.productEcharts = {
                     }
                 }
             }
+            $('.tool-tab ul li').eq(tooBarIndex).click(); //还原选中tab
         }, function(error) {
             app.alert(error);
         });
