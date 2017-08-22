@@ -429,7 +429,7 @@ app.userinfo = {
                                                             location.href = "/lite/index.html";
                                                         }else{ //专业版
                                                             if (window.history.replaceState) {
-                                                                window.history.replaceState({}, "0", 'http://' + window.location.host + '/main.html#/index');
+                                                                window.history.replaceState({}, "0", window.location.origin + '/main.html#/index');
                                                                 window.location.reload();
                                                             } else {
                                                                 location.href = "/main.html#/index";
