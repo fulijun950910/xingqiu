@@ -28,7 +28,7 @@
             <!--% for (var i=0; i <o.performanceInfo.length; i++) { %-->
             <div class="performance-item" layout="row" layout-align="space-between center">
                 <div flex="40">
-                    <i class="ic" style="color:{%= o.performanceInfo[i][3] %}">&#xe{%= o.performanceInfo[i][2] %}</i>
+                    <i class="ic" style="color:{%= o.performanceInfo[i][o.performanceInfo[i].length-1] %}">&#xe{%= o.performanceInfo[i][o.performanceInfo[i].length-2] %}</i>
                     <span class="performance-name">{%= o.performanceInfo[i][0] %}</span>
                 </div>
                 <!--   <span class="performance-count" flex="20">23笔</span> -->
@@ -40,7 +40,7 @@
         <!-- 面包 导航-->
         <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
             <div onclick="app.goBack()" flex="33">
-                <i class="ic"">&#xe68b;</i>
+                <i class="ic">&#xe68b;</i>
             <span>返回</span>
         </div>
         <div flex="33" class="storeList">
