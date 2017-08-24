@@ -248,6 +248,7 @@ app.sign = {
                         app.userinfo.alertError('您在当前门店没有权限签到！请回您所属门店签到！！');
                         return;
                     }
+                    alert(url);
                     $.ajax({
                         url: url,
                         type: 'GET',
@@ -263,6 +264,7 @@ app.sign = {
                             }
                         },
                         error: function(error) {
+                            alert(JSON.stringify(error));
                             app.userinfo.alertError('打卡失败~请重新登录');
                         }
                     });
