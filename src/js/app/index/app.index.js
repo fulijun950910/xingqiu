@@ -254,6 +254,7 @@ app.index = {
                 app.index.initDate(memberData.dataType);
                 app.index.initCystomDate(memberData.dataType);
                 app.index.showGroupTotal();// 显示干预团
+                app.index.showPayNotes();// 显示收账记录模块
 
                 if (memberData.employeeList.length > 1) {
                     initEemployee();
@@ -329,6 +330,29 @@ app.index = {
                     }
 
                     $('#promotionCustomerBuy').html(str);
+                }
+            },
+            error: function(error) {
+            }
+        });
+    },
+    //收账记录模块
+    showPayNotes: function(){
+        app.api.index.showPayNotes({
+            success: function(res) {
+                if(res &&res.success && res.data){
+                    var employee = JSON.parse(localStorage.employee);
+                    $.each(res.data,function(i,v){
+                        if(v.messageType == 1){ // 微信打款推送
+                            $.each(v.merchantNoticeList,function(i2,v2){
+                                if(v2.employeeId == employee.id){ 
+                                    $('#showPayNotes').show();
+                                    return false;
+                                }
+                            });
+                            return false;
+                        }
+                    });
                 }
             },
             error: function(error) {
