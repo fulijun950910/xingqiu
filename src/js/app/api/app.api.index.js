@@ -52,5 +52,13 @@ app.api.index = {
             success: settings.success,
             error: settings.error
         })
+    },
+    checkMerchant: function(settings) {
+        app.api.ajax({
+            url: '/merchantContract/maturity/' + settings.data,
+            type: 'get',
+            success: settings.success,
+            error: settings.error
+        })
     }
 }

@@ -22,6 +22,7 @@ app.userinfo = {
         }, function() {});
         //if (app.userinfo.getEmployee())
     },
+
     initEvent: function(){
         $('.userInfo').on('change', '.username', function(event) {
             if($(this).val()){
@@ -380,82 +381,97 @@ app.userinfo = {
                     data: data,
                     success: function(result) {
                         if (result.success) {
-                            var listEmployeeStoreListData = {
-                                employeeId: employee.id,
-                                merchantId: employee.merchantId
-                            }
-                            var openId = result.data;
-                            app.api.userinfo.listEmployeeStoreList({
-                                data: listEmployeeStoreListData,
-                                success: function(result) {
-                                    app.userinfo.getEmployee().then(function(employee) {
-                                        var employee = employee;
-                                        employee.storeList = result.data;
-                                        employee.openId = openId;
-                                        var storeIds = [];
-                                        for (var o in employee.storeList) {
-                                            storeIds.push(employee.storeList[o].id);
-                                        }
-                                        employee.storeIds = storeIds.join(',');
-                                        for (var j in employee.merchantRole.permissionPackage.permissions) {
-                                            var permission = employee.merchantRole.permissionPackage.permissions[j];
-                                            if (permission == app.constant.WECHAT_BUSINESS[1].code) {
-                                                employee.role = app.constant.WECHAT_BUSINESS[1].code;
-                                                break;
-                                            } else if (permission == app.constant.WECHAT_BUSINESS[2].code) {
-                                                employee.role = app.constant.WECHAT_BUSINESS[2].code;
-                                                break;
-                                            } else {
-                                                employee.role = null;
-                                            }
-                                        }
-                                        window.localStorage.employee = JSON.stringify(employee);
-
-                                        //员工登录
-                                        app.api.userinfo.emplogin({
-                                            data: {
-                                                empid: employee.id
-                                            },
-                                            success: function(results) {
-                                                if (results && results.success) {}
-                                                //
-                                                app.userinfo.getEmployee().then(function(employee) {
-                                                    // if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
-                                                    //     location.href = "/performance-index.html#/performance_report";
-                                                    // } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                                                    //     location.href = "/performance-index.html#/performance_emp";
-                                                    if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                                                        if(employee.merchant&&employee.merchant.functionVersion==4){ //营销版
-                                                            location.href = "/lite/index.html";
-                                                        }else{ //专业版
-                                                            if (window.history.replaceState) {
-                                                                window.history.replaceState({}, "0", window.location.origin + '/main.html#/index');
-                                                                window.location.reload();
-                                                            } else {
-                                                                location.href = "/main.html#/index";
-                                                            }
-                                                        };
+                            app.api.index.checkMerchant({
+                                data: employee.merchantId,
+                                success: function(res) {
+                                    if (res.data === false) {
+                                        app.endLoading();
+                                        app.userinfo.alertError("您的账号已经到期，如需继续使用请致电400-006-2020");
+                                        return;
+                                    }
+                                    var listEmployeeStoreListData = {
+                                        employeeId: employee.id,
+                                        merchantId: employee.merchantId
+                                    }
+                                    var openId = result.data;
+                                    app.api.userinfo.listEmployeeStoreList({
+                                        data: listEmployeeStoreListData,
+                                        success: function(result) {
+                                            app.userinfo.getEmployee().then(function(employee) {
+                                                var employee = employee;
+                                                employee.storeList = result.data;
+                                                employee.openId = openId;
+                                                var storeIds = [];
+                                                for (var o in employee.storeList) {
+                                                    storeIds.push(employee.storeList[o].id);
+                                                }
+                                                employee.storeIds = storeIds.join(',');
+                                                for (var j in employee.merchantRole.permissionPackage.permissions) {
+                                                    var permission = employee.merchantRole.permissionPackage.permissions[j];
+                                                    if (permission == app.constant.WECHAT_BUSINESS[1].code) {
+                                                        employee.role = app.constant.WECHAT_BUSINESS[1].code;
+                                                        break;
+                                                    } else if (permission == app.constant.WECHAT_BUSINESS[2].code) {
+                                                        employee.role = app.constant.WECHAT_BUSINESS[2].code;
+                                                        break;
                                                     } else {
-                                                        localStorage.clear();
-                                                        location.href = "/userinfo.html#/user_login";
-                                                        // app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
-                                                        app.userinfo.alertError('小主，您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!');
+                                                        employee.role = null;
+                                                    }
+                                                }
+                                                window.localStorage.employee = JSON.stringify(employee);
+
+                                                //员工登录
+                                                app.api.userinfo.emplogin({
+                                                    data: {
+                                                        empid: employee.id
+                                                    },
+                                                    success: function(results) {
+                                                        if (results && results.success) {}
+                                                        //
+                                                        app.userinfo.getEmployee().then(function(employee) {
+                                                            // if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
+                                                            //     location.href = "/performance-index.html#/performance_report";
+                                                            // } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
+                                                            //     location.href = "/performance-index.html#/performance_emp";
+                                                            if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
+                                                                if(employee.merchant&&employee.merchant.functionVersion==4){ //营销版
+                                                                    location.href = "/lite/index.html";
+                                                                }else{ //专业版
+                                                                    if (window.history.replaceState) {
+                                                                        window.history.replaceState({}, "0", window.location.origin + '/main.html#/index');
+                                                                        window.location.reload();
+                                                                    } else {
+                                                                        location.href = "/main.html#/index";
+                                                                    }
+                                                                };
+                                                            } else {
+                                                                localStorage.clear();
+                                                                location.href = "/userinfo.html#/user_login";
+                                                                // app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
+                                                                app.userinfo.alertError('小主，您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!');
+                                                                app.endLoading();
+                                                                return;
+                                                            }
+                                                        });
+                                                    },
+                                                    error: function() {
                                                         app.endLoading();
-                                                        return;
                                                     }
                                                 });
-                                            },
-                                            error: function() {
-                                                app.endLoading();
-                                            }
-                                        });
-                                    });
+                                            });
+                                        },
+                                        error: function(a, b, c) {
+                                            app.endLoading();
+
+                                        }
+                                    })
+
                                 },
-                                error: function(a, b, c) {
-                                    app.endLoading();
+                                error: function(err) {
+                                    app.userinfo.alertError('服务器正在开小差。。。');
 
                                 }
-                            })
+                            });
                         }
                     },
                     error: function(a, b, c) {
