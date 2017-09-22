@@ -39,7 +39,7 @@ app.userinfo = {
     },
     messageTime: function(o,data){
         if (this.wait == 60 && data) {
-            app.userinfo.captcha(data);
+            app.userinfo.captcha(data , true);
         }
         if (this.wait == 0) {
             o.removeAttribute("disabled");
@@ -56,22 +56,24 @@ app.userinfo = {
             }, 1000);
         }
     },
-    captcha:function(data){
+    captcha:function(data,type){
         app.api.userinfo.captcha({
             data: data,
             success: function(result) {
-                if(result && result.data && result.data.type == 'image'){
-                    $('#yzPwd img').attr('src',result.data.value);
-                    $('#yzPwd').show();
-                    $('#yzPwd').addClass("show");
-                }else if(result && result.data && result.data.type == 'message'){
-                    $('#messagePwd').show();
-                    $('#messagePwd').addClass("show");
-                }else{
-                    $('#yzPwd').hide();
-                    $('#yzPwd').removeClass("show");
-                    $('#messagePwd').hide();
-                    $('#messagePwd').removeClass("show")
+                if(!type){
+                    if(result && result.data && result.data.type == 'image'){
+                        $('#yzPwd img').attr('src',result.data.value);
+                        $('#yzPwd').show();
+                        $('#yzPwd').addClass("show");
+                    }else if(result && result.data && result.data.type == 'message'){
+                        $('#messagePwd').show();
+                        $('#messagePwd').addClass("show");
+                    }else{
+                        $('#yzPwd').hide();
+                        $('#yzPwd').removeClass("show");
+                        $('#messagePwd').hide();
+                        $('#messagePwd').removeClass("show")
+                    }
                 }
             },
             error: function(err) {
