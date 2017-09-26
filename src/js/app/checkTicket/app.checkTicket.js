@@ -2,6 +2,7 @@
      ticketDetailInfo: null,
      checkTicketIdName: "tmpl-verifyTicketInstance",
      verifyCouponVersion4Location:'/lite/index.html#/couponVerify/',
+     verifyCouponDefaultLocation:'/service-subtotal/#/couponVerify/',
      checkTicket: function() {
          // 事件绑定
          // 跳转及权限判断
@@ -10,13 +11,7 @@
              if(employee.merchant.functionVersion == 4) {
                  location.href = app.checkTicket.verifyCouponVersion4Location + ticketNo;
              } else {
-                 window.localStorage.setItem("ticketInfo", "");
-                 $('.container').css('background-color', '#fff ');
-                 $('#container').html($('#tpl_checkTitcketMain').html());
-                 this.checkTicketInitEvent();
-                 if(ticketNo){
-                     app.checkTicket.getTicketDetailInfo(ticketNo);
-                 }
+                 location.href = app.checkTicket.verifyCouponDefaultLocation + ticketNo;
              }
          } else {
              location.href = "/userinfo.html#/user_login";

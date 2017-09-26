@@ -31,8 +31,8 @@ export default {
     position:fixed;
     bottom:0;
     left:0;
-    font-size: 36px;
-    padding: 24px 0;
+    font-size: 18px;
+    padding: 12px 0;
     width:100%;
     color:white !important;
     text-align:center;

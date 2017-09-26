@@ -103,3 +103,43 @@ Vue.filter('mStoreName', function(value) {
     }
     return value;
 });
+/**
+ * 获取列表name
+ */
+Vue.filter('getName', function(value, arr) {
+    if (value === undefined || value === null || !arr || arr.length < 1) {
+        return;
+    };
+    let obj;
+    obj = arr.find((val) => {
+        return val.value === value;
+    });
+    if (obj && obj.name) {
+        return obj.name;
+    }
+});
+/**
+ * 限制字符串长度
+ */
+Vue.filter('sliceStr', function(str, len) {
+    if (str) {
+        str += '';
+        let realLength = 0;
+        let length = str.length;
+        let charCode;
+        for (let i = 0; i < length; i++) {
+            charCode = str.charCodeAt(i);
+            if (charCode >= 0 && charCode <= 128) {
+                realLength += 1;
+            } else {
+                realLength += 2;
+            }
+            if (realLength > len) {
+                return str.slice(0, i) + '...';
+            };
+        }
+        return str;
+    } else {
+        return '';
+    }
+});

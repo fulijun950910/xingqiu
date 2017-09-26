@@ -13,6 +13,8 @@ const unrecordedServiceList = resolve => require(['pages/unrecorded-service-list
 const serviceDynamics = resolve => require(['pages/service-dynamics'], resolve);
 const signIn = resolve => require(['pages/sign-in'], resolve);
 const remitDetail = resolve => require(['pages/remit-detail/index'], resolve);
+const couponVerify = resolve => require(['pages/coupon-verify'], resolve);
+
 export default [{
     path: '/data-view', // 数据查看页面
     name: 'data-view',
@@ -67,6 +69,11 @@ export default [{
     path: '/service-dynamics', // 服务动态（首页）
     name: 'service-dynamics',
     component: serviceDynamics,
+    meta: { auth: true, level: 1 }
+}, {
+    path: '/couponVerify/:couponNo?', // 服务动态（首页）
+    name: 'couponVerify',
+    component: couponVerify,
     meta: { auth: true, level: 1 }
 }, {
     path: '*', // 服务动态（默认）
