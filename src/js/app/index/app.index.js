@@ -199,7 +199,19 @@ app.index = {
             }
         }, function() {})
     },
-    pageReloadEvent: function(memberData,data){
+    pageReloadEvent: function(memberData,data,employee){
+        //修改html 的title
+        app.changeTitle('业绩看板');
+        var tmplhtml;
+        if (employee.role == "wechat_business_normal") {
+            tmplhtml = $('#tmpl-index-normal-model').html();
+        } else {
+            app.index.getOperatorStore(data);
+            tmplhtml = $('#tmpl-index-admin-model').html();
+        }
+        var resultTmpl = tmpl(tmplhtml, memberData);
+        $('#tmpl-index').html(resultTmpl);
+
         app.index.initStoreList(); // 门店绑定事件
         app.index.initDate(memberData.dataType); // 日期绑定事件
         app.index.initCystomDate(memberData.dataType);// 自定义日期绑定事件
@@ -305,30 +317,11 @@ app.index = {
         window.localStorage.setItem("performanceInfo", JSON.stringify(performanceInfo));
         data.storeId = parseInt(data.storeIds);
 
-        //..................................................................................
-        var tmplhtml;
-        if (employee.role == "wechat_business_normal") {
-            tmplhtml = $('#tmpl-index-normal-model').html();
-        } else {
-            app.index.getOperatorStore(data);
-            tmplhtml = $('#tmpl-index-admin-model').html();
-        }
-        var resultTmpl = tmpl(tmplhtml, memberData);
-        $('#tmpl-index').html(resultTmpl);
         app.index.performanceReport(data, employee.role).then(function(performanceInfoData) {
             memberData.performanceInfo = performanceInfoData;
             //计算业绩、提成、卡耗
-            if (employee.role == "wechat_business_normal") {
-                tmplhtml = $('#tmpl-index-normal-model').html();
-            } else {
-                app.index.getOperatorStore(data);
-                tmplhtml = $('#tmpl-index-admin-model').html();
-            }
-            //修改html 的title
-            app.changeTitle('业绩看板');
-            var resultTmpl = tmpl(tmplhtml, memberData);
-            $('#tmpl-index').html(resultTmpl);
-            app.index.pageReloadEvent(memberData,data); //页面刷新事件
+      
+            app.index.pageReloadEvent(memberData,data,employee); //页面刷新事件
 
             //业绩、
             if ((memberData.performanceInfo.income + "").length > 6 || (memberData.performanceInfo.cardConsume + "").length > 6) {
@@ -337,7 +330,7 @@ app.index = {
             }
         },
         function () {
-            app.index.pageReloadEvent(memberData.data); //页面刷新事件
+            app.index.pageReloadEvent(memberData,data,employee); //页面刷新事件
         })
     },
     //产看可干预团数
