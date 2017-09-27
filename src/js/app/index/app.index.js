@@ -320,7 +320,7 @@ app.index = {
         app.index.performanceReport(data, employee.role).then(function(performanceInfoData) {
             memberData.performanceInfo = performanceInfoData;
             //计算业绩、提成、卡耗
-      
+
             app.index.pageReloadEvent(memberData,data,employee); //页面刷新事件
 
             //业绩、
