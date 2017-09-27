@@ -199,7 +199,58 @@ app.index = {
             }
         }, function() {})
     },
+    pageReloadEvent: function(memberData,data){
+        app.index.initStoreList(); // 门店绑定事件
+        app.index.initDate(memberData.dataType); // 日期绑定事件
+        app.index.initCystomDate(memberData.dataType);// 自定义日期绑定事件
+        app.index.showGroupTotal();// 显示干预团
+        app.index.showPayNotes();// 显示收账记录模块
 
+        if (memberData.employeeList.length > 1) { // 换员工判断
+            initEemployee();
+            $('.index .employeeRoleList').show();
+            for (i in memberData.employeeList) {
+                if (memberData.employeeList[i].id == employee.id) {
+                    $('.index #employeeList .employee_item').eq(i).append('<span class="active"><i class="ic">&#xe659;</i></span>');
+                    break;
+                }
+            }
+        }
+        if (employee.storeList.length == 1) {  //门店权限判断
+            if (employee.role != "wechat_business_normal") {
+                $('.storeLists span:first').remove();
+            }
+            $('.index .storeList').find('.store_name').text(memberData.storeList[0].name);
+        } else {
+            $('.allStore').show();
+        }
+        if (data.storeIds == employee.storeIds) { //门店默认选中
+            $('.storeLists span:first').addClass('active').append('<i></i>');
+        } else {
+            $('.allStore').show();
+            var sum = 0;
+            for (var i = 0; i <= memberData.storeList.length - 1; i++) {
+                var storeId = memberData.storeList[i].id;
+                if (storeId == data.storeIds || storeId == parseInt(data.storeIds)) {
+                    $('.storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
+                    $('.index .storeList').find('.store_name').text(memberData.storeList[i].name);
+                    sum++;
+                }
+            }
+            if (sum == memberData.storeList.length) {
+                $('.storeLists .stores-info span').eq(0).addClass('active').append('<i></i>');
+            }
+        }
+
+        if (memberData.dataType == 4) { //日期类型判断
+            $('.index  .dateList').css({'left': '39vw', 'font-size': '.9rem'});
+        }
+        //日期名称  初次加载放入名称
+        $('.dateLists span').eq(parseInt(memberData.dataType) - 1).addClass('active');
+        $('.index .dateList').find('.date_name').text(app.tools.getDateName(memberData.dataType, data));
+        $('.index .storeList').find('.store_name').text(app.tools.sliceStr($('.index .storeList').find('.store_name').text(), 14));
+
+    },
     performance: function(result, type) {
         var employee = null;
         if (localStorage.employee && JSON.parse(localStorage.employee)) {
@@ -213,8 +264,11 @@ app.index = {
         var memberData = {
             //门店列表
             storeList: employee.storeList,
-            storeIds: employee.storeIds
+            storeIds: employee.storeIds,
+            performanceInfo: {},
+            employeeList:JSON.parse(sessionStorage.employeeList)
         };
+
         var storeIds = $('.index .storeList .store_name').attr('data-storeId');
         if (storeIds && storeIds.trim()) {
             memberData.storeId = $('.index .storeList .store_name').attr('data-storeId');
@@ -250,78 +304,41 @@ app.index = {
         };
         window.localStorage.setItem("performanceInfo", JSON.stringify(performanceInfo));
         data.storeId = parseInt(data.storeIds);
-        var tmplhtml;
-        app.index.performanceReport(data, employee.role).then(function(performanceInfoData) {
-                memberData.performanceInfo = performanceInfoData;
-                //计算业绩、提成、卡耗
-                memberData.employeeList = JSON.parse(sessionStorage.employeeList);
-                if (employee.role == "wechat_business_normal") {
-                    tmplhtml = $('#tmpl-index-normal-model').html();
-                } else {
-                    app.index.getOperatorStore(data);
-                    tmplhtml = $('#tmpl-index-admin-model').html();
-                }
-                //修改html 的title
-                app.changeTitle('业绩看板');
-                resultTmpl = tmpl(tmplhtml, memberData);
-                $('#tmpl-index').html(resultTmpl);
-                app.index.initStoreList();
-                app.index.initDate(memberData.dataType);
-                app.index.initCystomDate(memberData.dataType);
-                app.index.showGroupTotal();// 显示干预团
-                app.index.showPayNotes();// 显示收账记录模块
 
-                if (memberData.employeeList.length > 1) {
-                    initEemployee();
-                    $('.index .employeeRoleList').show();
-                    for (i in memberData.employeeList) {
-                        if (memberData.employeeList[i].id == employee.id) {
-                            $('.index #employeeList .employee_item').eq(i).append('<span class="active"><i class="ic">&#xe659;</i></span>');
-                            break;
-                        }
-                    }
-                }
-                //业绩、
-                if ((memberData.performanceInfo.income + "").length > 6 || (memberData.performanceInfo.cardConsume + "").length > 6) {
-                    $('.achievementTotalAmount  .price').css('font-size', '6vw');
-                    $('.cardConsumeTotalAmount  .price').css('font-size', '6vw');
-                }
-                if (employee.storeList.length == 1) {
-                    if (employee.role != "wechat_business_normal") {
-                        $('.storeLists span:first').remove();
-                    }
-                    $('.index .storeList').find('.store_name').text(memberData.storeList[0].name);
-                } else {
-                    $('.allStore').show();
-                }
-                if (data.storeIds == employee.storeIds) {
-                    $('.storeLists span:first').addClass('active').append('<i></i>');
-                } else {
-                    $('.allStore').show();
-                    var sum = 0;
-                    for (var i = 0; i <= memberData.storeList.length - 1; i++) {
-                        var storeId = memberData.storeList[i].id;
-                        if (storeId == data.storeIds || storeId == parseInt(data.storeIds)) {
-                            $('.storeLists .stores-info span').eq(i).addClass('active').append('<i></i>');
-                            $('.index .storeList').find('.store_name').text(memberData.storeList[i].name);
-                            sum++;
-                        }
-                    }
-                    if (sum == memberData.storeList.length) {
-                        $('.storeLists .stores-info span').eq(0).addClass('active').append('<i></i>');
-                    }
-                }
-                if (memberData.dataType == 4) {
-                    $('.index  .dateList').css({ 'left': '39vw', 'font-size': '.9rem' });
-                }
-                //日期名称
-                $('.dateLists span').eq(parseInt(memberData.dataType) - 1).addClass('active');
-                $('.index .dateList').find('.date_name').text(app.tools.getDateName(memberData.dataType, data));
-                $('.index .storeList').find('.store_name').text(app.tools.sliceStr($('.index .storeList').find('.store_name').text(), 14));
-            },
-            function() {
-                location.href = "/userinfo.html#/user_login";
-            })
+        //..................................................................................
+        var tmplhtml;
+        if (employee.role == "wechat_business_normal") {
+            tmplhtml = $('#tmpl-index-normal-model').html();
+        } else {
+            app.index.getOperatorStore(data);
+            tmplhtml = $('#tmpl-index-admin-model').html();
+        }
+        var resultTmpl = tmpl(tmplhtml, memberData);
+        $('#tmpl-index').html(resultTmpl);
+        app.index.performanceReport(data, employee.role).then(function(performanceInfoData) {
+            memberData.performanceInfo = performanceInfoData;
+            //计算业绩、提成、卡耗
+            if (employee.role == "wechat_business_normal") {
+                tmplhtml = $('#tmpl-index-normal-model').html();
+            } else {
+                app.index.getOperatorStore(data);
+                tmplhtml = $('#tmpl-index-admin-model').html();
+            }
+            //修改html 的title
+            app.changeTitle('业绩看板');
+            var resultTmpl = tmpl(tmplhtml, memberData);
+            $('#tmpl-index').html(resultTmpl);
+            app.index.pageReloadEvent(memberData,data); //页面刷新事件
+
+            //业绩、
+            if ((memberData.performanceInfo.income + "").length > 6 || (memberData.performanceInfo.cardConsume + "").length > 6) {
+                $('.achievementTotalAmount  .price').css('font-size', '6vw');
+                $('.cardConsumeTotalAmount  .price').css('font-size', '6vw');
+            }
+        },
+        function () {
+            app.index.pageReloadEvent(memberData.data); //页面刷新事件
+        })
     },
     //产看可干预团数
     showGroupTotal: function(){
