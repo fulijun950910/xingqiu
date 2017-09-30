@@ -242,7 +242,8 @@ app.sign = {
             desc: 'scanQRCode desc',
             success: function(res) {
                 app.userinfo.getEmployee().then(function(employee) {
-                    var url = res.resultStr + "&latitude=" + app.sign.latitude + "&employeeId=" + employee.id + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId + "&type=" + type + "&attendanceWay=1";
+                    var resUrl = window.location.protocol+res.resultStr.slice(res.resultStr.indexOf(':')+1); // 转https
+                    var url = resUrl + "&latitude=" + app.sign.latitude + "&employeeId=" + employee.id + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId + "&type=" + type + "&attendanceWay=1";
                     var storeId = app.getParameter('storeId', url);
                     if (employee.storeId != storeId) {
                         app.userinfo.alertError('您在当前门店没有权限签到！请回您所属门店签到！！');

@@ -44,5 +44,13 @@ app.api.index = {
             error: settings.error,
             data: settings.data
         })
+    },
+    showPayNotes: function(settings) {
+        app.api.ajax({
+            url: '/subscription/list',
+            type: 'get',
+            success: settings.success,
+            error: settings.error
+        })
     }
 }
