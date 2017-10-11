@@ -19,6 +19,8 @@ export default function(url, data, method, messageFlag = true) {
         Vue.prototype.$indicator.close();
         switch (error.status) {
             case 401:
+                location.href = '/userinfo.html#/user_login';
+                break;
             case 403:
                 break;
             case 404:
