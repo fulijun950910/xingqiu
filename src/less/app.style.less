@@ -116,8 +116,12 @@ a {
         background: #fff;
         color: @font-primary-color;
         height: 100%;
-        display: flex;
         margin-top: 2vw;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: row;
+        flex-direction: row;
         li {
             list-style: none;
             width: 50%;
