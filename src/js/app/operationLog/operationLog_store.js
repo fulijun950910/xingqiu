@@ -110,7 +110,7 @@ app.operationLog = {
         }
 
         app.startLoading();
-        app.api.operationLog.getOperatorStore({
+        app.api.operationLog.getOperatorDetail({
             data: {
                 "query": queryData,
                 "sort": [{
@@ -121,11 +121,11 @@ app.operationLog = {
                 "size": 10000
             },
             success: function(res) {
-                newoperaLog.operationInfo = res.data.rows;
+                newoperaLog.operationInfo = res.data;
                 app.endLoading();
 
                 var html = $('#tmpl-operationLogDetail').html();
-                var template = tmpl(html, res.data.rows);
+                var template = tmpl(html, newoperaLog);
                 $('#tpl-operationLogDetail').html(template);
 
                 app.operationLog.initStoreList(app.operationLog.operationLogStoreIdName);
@@ -238,18 +238,10 @@ app.operationLog = {
                 return;
             }
             //start
-            window.localStorage.setItem("queryInfo", "");
             app.operationLog.querystore("", 'init');
-            $("#container").tap(".logContent", function() {
-                var storeid = $(this.ele).attr("data-storeId")
-                app.operationLog.goDetail(storeid)
-            });
         } else {
             app.operationLog.goUser();
         }
-    },
-    initDetail: function() {
-        app.operationLog.queryDetail('init');
     }
 }
 
