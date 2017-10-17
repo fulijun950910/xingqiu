@@ -154,15 +154,34 @@
             <!-- 订单操作end -->
             <!-- 面包 导航-->
             <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
-                <a href="/operationLog.html#/operationLog_store" flex="50" class="border-right">
-                <i class="ic">&#xe68b;</i>
+                <div onclick="app.goBack()" flex="33">
+                    <i class="ic">&#xe68b;</i>
                     <span>返回</span>
-                </a>
-                <div flex="50" class="dateList">
+                </div>
+                <div flex="33" class="storeList">
+                    <span style="display:none" data-storeId="{%=o.storeId%}" class="store_name"></span>
+                    <i class="ic"> &#xe645;</i>
+                    <span>门店</span>
+                </div>
+                <div flex="33" class="dateList border-right">
+                    <span style="display:none" data-type="{%=o.dateType%}" class="date_name"></span>
                     <i class="ic">&#xe68c;</i>
                     <span>日期</span>
                 </div>
             </div>
+            <!-- 切换门店 -->
+            <div class="storeLists">
+                <div class="mask"></div>
+                <div class="stores">
+                    <span class="allStore" data-id="-1">全部门店</span>
+                    <div class="stores-info">
+                        <!--% for (var i=0; i <o.storeList.length; i++) { %-->
+                        <span data-id="{%=o.storeList[i].id %}">{%= o.storeList[i].name %}</span>
+                        <!--% } %-->
+                    </div>
+                </div>
+            </div>
+            <!-- end -->
             <div class="dateLists">
                 <div class="mask"></div>
                 <div class="date_menu">

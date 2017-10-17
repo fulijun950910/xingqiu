@@ -5,19 +5,7 @@ $(function () {
         enterTimeout: 250,
         leaveTimeout: 250
     });
-    //预约列表
-    var tpl_operationLog_store = {
-        url: '/operationLog_store',
-        className: 'operationLog_store',
-        render: function () {
-            return $('#tpl_operationLog_store').html();
-        },
-        bind: function () {
-            //修复页面置顶效果
-            window.scrollTo(0,0);
-            app.operationLog.init();
-        }
-    }
+
     //预约列表
     var tpl_operationLog_detail = {
         url: '/operationLog_detail',
@@ -28,12 +16,11 @@ $(function () {
         bind: function () {
             //修复页面置顶效果
             window.scrollTo(0,0);
-            app.operationLog.initDetail('init');
+            app.operationLog.init();
         }
     }
 
-    router.push(tpl_operationLog_store)
-        .push(tpl_operationLog_detail)
+    router.push(tpl_operationLog_detail)
         .init();
     
     if (/Android/gi.test(navigator.userAgent)) {

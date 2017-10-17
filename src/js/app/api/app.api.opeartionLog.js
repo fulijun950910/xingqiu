@@ -11,7 +11,7 @@ app.api.operationLog= {
     },
     getOperatorStore: function (settings) {
         app.api.ajax({
-            url: '/wechatbusinessassists/operator/record/merchant/',
+            url: '/order/orderOperatorRecord',
             type: 'post',
             success: settings.success,
             error: settings.error,

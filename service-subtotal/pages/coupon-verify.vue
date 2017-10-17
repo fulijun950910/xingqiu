@@ -14,6 +14,7 @@
             </div>
             <div class="stat1Img">
                 <img  :src="require('../assets/imgs/184305655936072535.png')" alt="">
+                <div class="text-center fs24 light-gray">请在上方输入框内查询券号!!</div>
             </div>
             <div class="queryBtnBox cell cell-box">
                 <button :disabled="!ticketNo" @click="queryCoupon" class="couponBtn">查询</button>
@@ -430,7 +431,7 @@ export default {
     }
     .stat1Img{
         img{
-            height:240px;
+            height:220px;
             margin-top:50px;
             width:auto;
             margin-left:auto;
@@ -458,7 +459,7 @@ export default {
         background:@white;
         border-bottom:1px solid @border-gay;
         .icon{
-            font-size:50px;
+            font-size:48px;
             margin:@l8;
         }
         &.success .icon{
@@ -477,7 +478,6 @@ export default {
     }
     .couponInfo{
         line-height:1.2;
-        margin-bottom:@l24;
         .stateBox{
             text-align:center;
             color:@white;
@@ -519,7 +519,7 @@ export default {
         left:auto;
     }
     .textCell{
-        padding:@l32 0;
+        padding:@l24 0;
         border-top:1px solid @border-gay;
     }
     /* 券盒子end  */

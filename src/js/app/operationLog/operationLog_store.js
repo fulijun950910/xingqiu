@@ -2,63 +2,6 @@ app.operationLog = {
     operationLogStoreIdName: "temp-operationLogStore",
     operationLogDetailName: "temp-operationLogDetail",
     operationLogDate: {},
-    // date: new Date().format('yyyy-MM-dd'),
-    // leftDay: function(dom, type) {
-    //     var $this = $(dom).parent().find('input');
-    //     var nowDate = new Date($this.val());
-    //     nowDate = new Date(nowDate.valueOf() - 1 * 24 * 60 * 60 * 1000);
-    //     nowDate = nowDate.format('yyyy-MM-dd');
-    //     $this.val(nowDate);
-    //     app.operationLog.date = nowDate;
-    //     if (type == "store") {
-    //         app.operationLog.querystore();
-    //     } else if (type == "detail") {
-    //         app.operationLog.queryDetail();
-    //     }
-    // },
-    // nextDay: function(dom, type) {
-    //     var $this = $(dom).parent().find('input');
-    //     var nowDate = new Date($this.val());
-    //     nowDate = new Date(nowDate.valueOf() + 1 * 24 * 60 * 60 * 1000);
-    //     nowDate = nowDate.format('yyyy-MM-dd');
-    //     $this.val(nowDate);
-    //     app.operationLog.date = nowDate;
-    //     if (type == "store") {
-    //         app.operationLog.querystore();
-    //     } else if (type == "detail") {
-    //         app.operationLog.queryDetail();
-    //     }
-
-    // },
-    // changeDay: function(dom, type) {
-    //     var $this = $(dom);
-    //     var nowDate = new Date($this.val());
-    //     nowDate = new Date(nowDate.valueOf());
-    //     nowDate = nowDate.format('yyyy-MM-dd');
-    //     app.operationLog.date = nowDate;
-    //     if (type == "store") {
-    //         app.operationLog.querystore();
-    //     } else if (type == "detail") {
-    //         app.operationLog.queryDetail();
-    //     }
-    // },
-    // dateInte: function() {
-    //     $(".app.operationLog.operationLogDate").val(this.date);
-    // },
-    // showTab: function(dom) {
-    //     var dom = $(dom).parent();
-    //     //dom.addClass("act").siblings().removeClass("act")
-    //     //dom.find(".tabContent").stop().animate({height:length*12+"vw"},200)
-    //     //dom.siblings().find(".tabContent").stop().animate({height:0},200)
-
-    //     //if(dom.hasClass("act")){
-    //     //    dom.removeClass("act");
-    //     //    dom.find(".tabContent").slideUp(200);
-    //     //}else{
-    //     //    dom.addClass("act");
-    //     //    dom.find(".tabContent").slideDown(200);
-    //     //}
-    // },
     initDate: function(dateType, idName) {
         app.tools.initDate(dateType, idName);
         $('.operaLog .dateLists .date_info').on('click', 'span', function(event) {
@@ -72,12 +15,7 @@ app.operationLog = {
                 $('.cystomDate .date_menu').addClass('date_menu_active');
                 $('.cystomDate .mask').height($('.bd').height());
             } else {
-                if (idName == app.operationLog.operationLogDetailName) {
-                    app.operationLog.queryDetail(parseInt($(this).attr('data-type')), 'date');
-                } else {
-                    app.operationLog.querystore(parseInt($(this).attr('data-type')), 'date');
-                }
-
+                app.operationLog.querystore(parseInt($(this).attr('data-type')), 'date');
             }
         });
     },
@@ -86,11 +24,7 @@ app.operationLog = {
         //确定自定义时间选择
         $('.cystomDate').on('click', '.saveDate', function() {
             $('.operaLog  .mask').click();
-            if (idName == app.operationLog.operationLogDetailName) {
-                app.operationLog.queryDetail(4, 'date');
-            } else {
-                app.operationLog.querystore(4, 'date');
-            }
+            app.operationLog.querystore(4, 'date');
         });
     },
     initStoreList: function(idName) {
@@ -141,7 +75,7 @@ app.operationLog = {
                     performanceInfo = JSON.parse(localStorage.performanceInfo);
                     newoperaLog.dateType = performanceInfo.dataType;
                 }
-                query.storeIds = performanceInfo.performanceStoreIds;
+                query.storeIds = performanceInfo.performanceStoreIds.split(',').length == 1 ? performanceInfo.performanceStoreIds : '-1';
                 //自定义
                 if (performanceInfo.dataType == 4) {
                     query.startDate = performanceInfo.startDate;
@@ -155,26 +89,30 @@ app.operationLog = {
                 }
                 break;
         }
+        var queryData = [{
+            "field": "merchantId",
+            "value": app.operationLog.employee.merchant.id
+        }, {
+            "field": "startTime",
+            // "value": app.operationLog.date + " 00:00:00"
+            "value": query.startDate
+        }, {
+            "field": "endTime",
+            //"value": app.operationLog.date + " 23:59:59"
+            "value": query.endDate
+        }]
+        if (query.storeIds>0) {
+            queryData.push({
+                "field": "storeId",
+                "value": query.storeIds
+                //  "value": app.operationLog.employee.storeIds
+            })
+        }
 
         app.startLoading();
         app.api.operationLog.getOperatorStore({
             data: {
-                "query": [{
-                    "field": "merchantId",
-                    "value": app.operationLog.employee.merchant.id
-                }, {
-                    "field": "startTime",
-                    // "value": app.operationLog.date + " 00:00:00"
-                    "value": query.startDate
-                }, {
-                    "field": "endTime",
-                    //"value": app.operationLog.date + " 23:59:59"
-                    "value": query.endDate
-                }, {
-                    "field": "storeId",
-                    "value": query.storeIds
-                        //  "value": app.operationLog.employee.storeIds
-                }],
+                "query": queryData,
                 "sort": [{
                     "field": "operatorTime",
                     "sort": "desc"
@@ -183,27 +121,17 @@ app.operationLog = {
                 "size": 10000
             },
             success: function(res) {
-                app.operationLog.queryInfo = {
-                    startTime: query.startDate,
-                    endTime: query.endDate,
-                    dateType: newoperaLog.dateType
-                }
-                window.localStorage.setItem("queryInfo", JSON.stringify(app.operationLog.queryInfo));
-                newoperaLog.operationInfo = res.data;
+                newoperaLog.operationInfo = res.data.rows;
                 app.endLoading();
-                app.tools.changeTitle('系统事件记录');
-                // app.operationLog.dateInte();
-                // if (res.success && res.data && res.data.length > 0) {
-                var html = $('#tmpl-operationLogStore').html();
-                var template = tmpl(html, newoperaLog);
-                $('#tpl-operationLogStore').html(template);
-                // } else {
-                //     app.tools.show("tpl-operationLogStore")
-                // }
+
+                var html = $('#tmpl-operationLogDetail').html();
+                var template = tmpl(html, res.data.rows);
+                $('#tpl-operationLogDetail').html(template);
+
                 app.operationLog.initStoreList(app.operationLog.operationLogStoreIdName);
                 app.operationLog.initDate(newoperaLog.dateType, app.operationLog.operationLogStoreIdName);
                 app.operationLog.initCystomDate(newoperaLog.dateType, app.operationLog.operationLogStoreIdName);
-                if (query.storeIds == employee.storeIds) {
+                if (query.storeIds <=0) {
                     $('.storeLists span:first').addClass('active').append('<i></i>');
                 } else {
                     for (var i = 0; i <= newoperaLog.storeList.length - 1; i++) {
@@ -270,17 +198,7 @@ app.operationLog = {
                 "size": 10000
             },
             success: function(res) {
-
                 app.endLoading();
-
-                // app.operationLog.dateInte();
-                // if (res.success && res.data && res.data.length > 0) {
-                // var data;
-                // if (res.data.cardList.length > 0 || res.data.memberList.length > 0 || res.data.orderList.length > 0 || res.data.sysList.length > 0) {
-                //     data = app.operationLog.detailToArray(res.data);
-                // } else {
-                //     data = [];
-                // }
                 app.tools.changeTitle('系统事件记录详情');
                 var html = $('#tmpl-operationLogDetail').html();
                 var template = tmpl(html, res.data);
@@ -289,35 +207,10 @@ app.operationLog = {
                 app.operationLog.initDate(query.dateType, app.operationLog.operationLogDetailName);
                 app.operationLog.initCystomDate(query.dateType, app.operationLog.operationLogDetailName);
                 $('.dateLists span').eq(parseInt(query.dateType) - 1).addClass('active');
-
-
-                /*              if (res.success && res.data) {
-                                  if (res.data.cardList.length > 0 || res.data.memberList.length > 0 || res.data.orderList.length > 0 || res.data.sysList.length > 0) {
-                                      var data = app.operationLog.detailToArray(res.data);
-                                      var html = $('#tmpl-operationLogDetail').html();
-                                      var template = tmpl(html, data);
-                                      $('#tpl-operationLogDetail').html(template);
-                                  } else {
-                                      app.tools.show("tpl-operationLogDetail")
-                                  }
-                              } else {
-                                  app.tools.show("tpl-operationLogDetail")
-                              }*/
-                //app.operationLog.dateInte();
             },
             error: function() {}
         })
     },
-    // detailToArray: function(data) {
-    //     var self = []
-    //     self = [
-    //         { name: "订单操作", value: data.orderList },
-    //         { name: "会员卡操作", value: data.cardList },
-    //         { name: "会员操作", value: data.memberList },
-    //         { name: "其他操作", value: data.sysList }
-    //     ]
-    //     return self;
-    // },
     goUser: function() {
         localStorage.clear();
         location.href = "/userinfo.html#/user_login";
