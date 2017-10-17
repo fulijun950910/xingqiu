@@ -190,7 +190,7 @@ app.tools = {
         return app.tools.toThousands(price).split('.');
     },
     //初始化swiper
-    initSwiper: function(leftWidth) {
+    initSwiper: function(leftWidth, index) {
         var mySwiper = new Swiper('.swiper-container', {
             autoHeight: true,
             onSlideChangeEnd: function(swiper) {
@@ -199,7 +199,6 @@ app.tools = {
                 $('.tool-tab li').eq(j).addClass('active');
                 $('.line').addClass('line-animation');
                 $('.line-animation').css('left', j * leftWidth + 'vw');
-                mySwiper.slideTo(i, 10, false);
             }
         });
         $('.tool-tab').on('click', 'li', function(e) {
@@ -214,6 +213,9 @@ app.tools = {
             $('.line-animation').css('left', i * leftWidth + 'vw');
             mySwiper.slideTo(i, 10, false);
         });
+        if (index){
+            mySwiper.slideTo(index);
+        }
     },
     initCystomDate: function(type, idName) {
         //取消自定义事件选择

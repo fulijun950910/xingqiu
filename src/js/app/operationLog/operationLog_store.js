@@ -1,5 +1,4 @@
 app.operationLog = {
-    operationLogStoreIdName: "temp-operationLogStore",
     operationLogDetailName: "temp-operationLogDetail",
     operationLogDate: {},
     initDate: function(dateType, idName) {
@@ -123,14 +122,17 @@ app.operationLog = {
             success: function(res) {
                 newoperaLog.operationInfo = res.data;
                 app.endLoading();
+                var swiperIndex = $('.tool-tab ul .active').index()
 
                 var html = $('#tmpl-operationLogDetail').html();
                 var template = tmpl(html, newoperaLog);
                 $('#tpl-operationLogDetail').html(template);
 
-                app.operationLog.initStoreList(app.operationLog.operationLogStoreIdName);
-                app.operationLog.initDate(newoperaLog.dateType, app.operationLog.operationLogStoreIdName);
-                app.operationLog.initCystomDate(newoperaLog.dateType, app.operationLog.operationLogStoreIdName);
+                app.operationLog.initStoreList(app.operationLog.operationLogDetailName);
+                app.operationLog.initDate(newoperaLog.dateType, app.operationLog.operationLogDetailName);
+                app.operationLog.initCystomDate(newoperaLog.dateType, app.operationLog.operationLogDetailName);
+                app.tools.initSwiper(25, swiperIndex);
+
                 if (query.storeIds <=0) {
                     $('.storeLists span:first').addClass('active').append('<i></i>');
                 } else {
@@ -148,67 +150,6 @@ app.operationLog = {
                 console.log(err);
                 app.endLoading();
             }
-        })
-    },
-    queryDetail: function(type) {
-        var query = {};
-        if (type == "init") {
-            if (localStorage.queryInfo && JSON.parse(localStorage.queryInfo)) {
-                queryInfo = JSON.parse(localStorage.queryInfo);
-                query.dateType = queryInfo.dateType;
-            }
-            query.dateType = queryInfo.dateType;
-            if (queryInfo.dateType == 4) {
-                query.startDate = queryInfo.startTime;
-                query.endDate = queryInfo.endTime;
-                app.operationLog.operationLogDate = {
-                    startDate: query.startDate,
-                    endDate: query.endDate
-                };
-            } else {
-                app.tools.getDateType(query.dateType, query, app.operationLog.operationLogDate)
-            }
-        } else {
-            query.dateType = type ? type : 1;
-            app.tools.getDateType(query.dateType, query, app.operationLog.operationLogDate)
-        }
-        app.startLoading();
-        app.api.operationLog.getOperatorDetail({
-            data: {
-                "query": [{
-                    "field": "merchantId",
-                    "value": app.operationLog.employee.merchant.id
-                }, {
-                    "field": "startTime",
-                    "value": query.startDate
-                        // "value": queryInfo.date + " 00:00:00"
-                }, {
-                    "field": "endTime",
-                    "value": query.endDate
-                        //"value": queryInfo.date + " 23:59:59"
-                }, {
-                    "field": "storeId",
-                    "value": app.operationLog.storeId
-                }],
-                "sort": [{
-                    "field": "operatorTime",
-                    "sort": "desc"
-                }],
-                "page": 1,
-                "size": 10000
-            },
-            success: function(res) {
-                app.endLoading();
-                app.tools.changeTitle('系统事件记录详情');
-                var html = $('#tmpl-operationLogDetail').html();
-                var template = tmpl(html, res.data);
-                $('#tpl-operationLogDetail').html(template);
-                app.tools.initSwiper(25);
-                app.operationLog.initDate(query.dateType, app.operationLog.operationLogDetailName);
-                app.operationLog.initCystomDate(query.dateType, app.operationLog.operationLogDetailName);
-                $('.dateLists span').eq(parseInt(query.dateType) - 1).addClass('active');
-            },
-            error: function() {}
         })
     },
     goUser: function() {

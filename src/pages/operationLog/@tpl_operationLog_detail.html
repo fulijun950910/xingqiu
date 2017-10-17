@@ -38,21 +38,21 @@
                     <div class="swiper-slide tab-content-1">
                         <div class="weui_cells">
                             <div class="financial-list">
-                                <!--%if(!o || o.orderList.length == 0){ %-->
+                                <!--%if(!o || !o.operationInfo || o.operationInfo.orderList.length == 0){ %-->
                                 <div class="errorBox"><i class="ic icon-xiaolian"></i><span class="errorText"> 亲~抱歉,暂时没有查到数据...~</span></div>
                                 <!--% } else{ %-->
-                                <!--% for (var i=0; i <o.orderList.length; i++) { %-->
+                                <!--% for (var i=0; i <o.operationInfo.orderList.length; i++) { %-->
                                 <div class="div-body">
                                     <div class="div-box" style="line-height: 10vw;" layout-align="space-between center" layout="row">
-                                        <div>订单编号：{%= o.orderList[i].orderNo%}</div>
-                                        <span class="ticketStatus">{%= app.tools.getConstantByValue(app.constant.ORDER_RECORD_TYPE,o.orderList[i].type) %}</span>
+                                        <div>订单编号：{%= o.operationInfo.orderList[i].orderNo%}</div>
+                                        <span class="ticketStatus">{%= app.tools.getConstantByValue(app.constant.ORDER_RECORD_TYPE,o.operationInfo.orderList[i].type) %}</span>
                                     </div>
                                     <div class="operatorEvent">
-                                        <span>操作事件：<span>{%= o.orderList[i].operatorEvent%}</span></span>
+                                        <span>操作事件：<span>{%= o.operationInfo.orderList[i].operatorEvent%}</span></span>
                                     </div>
                                     <div layout="row" layout-align="space-between center" class="footer">
-                                        <span>操作时间：<span>{%= o.orderList[i].operatorTime%}</span></span>
-                                        <span>操作人:<span>{%= app.tools.sliceStr(o.orderList[i].operatorName,16) %}</span></span>
+                                        <span>操作时间：<span>{%= o.operationInfo.orderList[i].operatorTime%}</span></span>
+                                        <span>操作人:<span>{%= app.tools.sliceStr(o.operationInfo.orderList[i].operatorName,16) %}</span></span>
                                     </div>
                                     <div class="div-left-half"></div>
                                     <div class="div-right-half"></div>
@@ -67,21 +67,21 @@
                     <div class="swiper-slide tab-content-2">
                         <div class="weui_cells">
                             <div class="financial-list">
-                                <!--%if(!o || o.cardList.length == 0){ %-->
+                                <!--%if(!o || !o.operationInfo || o.operationInfo.cardList.length == 0){ %-->
                                 <div class="errorBox"><i class="ic icon-xiaolian"></i><span class="errorText"> 亲~抱歉,暂时没有查到数据...~</span></div>
                                 <!--% } else{ %-->
-                                <!--% for (var i=0; i <o.cardList.length; i++) { %-->
+                                <!--% for (var i=0; i <o.operationInfo.cardList.length; i++) { %-->
                                 <div class="div-body">
                                     <div class="div-box" style="line-height: 10vw;" layout-align="space-between center" layout="row">
-                                        <div>门店名称：{%= o.cardList[i].storeName%}</div>
-                                        <span class="ticketStatus">{%= app.tools.getConstantByValue(app.constant.CARE_RECORD_TYPE,o.cardList[i].type) %}</span>
+                                        <div>门店名称：{%= o.operationInfo.cardList[i].storeName%}</div>
+                                        <span class="ticketStatus">{%= app.tools.getConstantByValue(app.constant.CARE_RECORD_TYPE,o.operationInfo.cardList[i].type) %}</span>
                                     </div>
                                     <div class="operatorEvent">
-                                        <span>操作事件：<span>{%= o.cardList[i].operatorEvent%}</span></span>
+                                        <span>操作事件：<span>{%= o.operationInfo.cardList[i].operatorEvent%}</span></span>
                                     </div>
                                     <div layout="row" layout-align="space-between center" class="footer">
-                                        <span>操作时间：<span>{%= o.cardList[i].operatorTime%}</span></span>
-                                        <span>操作人:<span>{%= app.tools.sliceStr(o.cardList[i].operatorName,16) %}</span></span>
+                                        <span>操作时间：<span>{%= o.operationInfo.cardList[i].operatorTime%}</span></span>
+                                        <span>操作人:<span>{%= app.tools.sliceStr(o.operationInfo.cardList[i].operatorName,16) %}</span></span>
                                     </div>
                                        <div class="div-left-half"></div>
                                     <div class="div-right-half"></div>
@@ -96,21 +96,21 @@
                     <div class="swiper-slide tab-content-3">
                         <div class="weui_cells">
                             <div class="financial-list">
-                                <!--%if(!o || o.memberList.length == 0){ %-->
+                                <!--%if(!o || !o.operationInfo || o.operationInfo.memberList.length == 0){ %-->
                                 <div class="errorBox"><i class="ic icon-xiaolian"></i><span class="errorText"> 亲~抱歉,暂时没有查到数据...~</span></div>
                                 <!--% } else{ %-->
-                                <!--% for (var i=0; i <o.memberList.length; i++) { %-->
+                                <!--% for (var i=0; i <o.operationInfo.memberList.length; i++) { %-->
                                 <div class="div-body">
                                     <div class="div-box" style="line-height: 10vw;" layout-align="space-between center" layout="row">
-                                        <div>门店名称：{%= o.memberList[i].storeName%}</div>
-                                        <span class="ticketStatus">{%= app.tools.getConstantByValue(app.constant.MEMBER_RECORD_TYPE,o.memberList[i].type) %}</span>
+                                        <div>门店名称：{%= o.operationInfo.memberList[i].storeName%}</div>
+                                        <span class="ticketStatus">{%= app.tools.getConstantByValue(app.constant.MEMBER_RECORD_TYPE,o.operationInfo.memberList[i].type) %}</span>
                                     </div>
                                     <div class="operatorEvent">
-                                        <span>操作事件：<span>{%= o.memberList[i].operatorEvent%}</span></span>
+                                        <span>操作事件：<span>{%= o.operationInfo.memberList[i].operatorEvent%}</span></span>
                                     </div>
                                     <div layout="row" layout-align="space-between center" class="footer">
-                                        <span>操作时间：<span>{%= o.memberList[i].operatorTime%}</span></span>
-                                        <span>操作人:<span>{%= app.tools.sliceStr(o.memberList[i].operatorName,16) %}</span></span>
+                                        <span>操作时间：<span>{%= o.operationInfo.memberList[i].operatorTime%}</span></span>
+                                        <span>操作人:<span>{%= app.tools.sliceStr(o.operationInfo.memberList[i].operatorName,16) %}</span></span>
                                     </div>
                                        <div class="div-left-half"></div>
                                     <div class="div-right-half"></div>
@@ -125,21 +125,21 @@
                     <div class="swiper-slide tab-content-4">
                         <div class="weui_cells">
                             <div class="financial-list">
-                                <!--%if(!o || o.sysList.length == 0){ %-->
+                                <!--%if(!o || !o.operationInfo || o.operationInfo.sysList.length == 0){ %-->
                                 <div class="errorBox"><i class="ic icon-xiaolian"></i><span class="errorText"> 亲~抱歉,暂时没有查到数据...~</span></div>
                                 <!--% } else{ %-->
-                                <!--% for (var i=0; i <o.sysList.length; i++) { %-->
+                                <!--% for (var i=0; i <o.operationInfo.sysList.length; i++) { %-->
                                 <div class="div-body">
                                     <div class="div-box" style="line-height: 10vw;margin:0 2vw;" layout-align="space-between center" layout="row">
-                                        <div>门店名称：{%= o.sysList[i].storeName%}</div>
-                                        <span class="ticketStatus">{%= app.tools.getConstantByValue(app.constant.SYS_RECORD_TYPE,o.sysList[i].type) %}</span>
+                                        <div>门店名称：{%= o.operationInfo.sysList[i].storeName%}</div>
+                                        <span class="ticketStatus">{%= app.tools.getConstantByValue(app.constant.SYS_RECORD_TYPE,o.operationInfo.sysList[i].type) %}</span>
                                     </div>
                                     <div class="operatorEvent">
-                                        <span>操作事件：<span>{%= o.sysList[i].operatorEvent%}</span></span>
+                                        <span>操作事件：<span>{%= o.operationInfo.sysList[i].operatorEvent%}</span></span>
                                     </div>
                                     <div layout="row" layout-align="space-between center" class="footer">
-                                        <span>操作时间：<span>{%= o.sysList[i].operatorTime%}</span></span>
-                                        <span>操作人:<span>{%= app.tools.sliceStr(o.sysList[i].operatorName,16) %}</span></span>
+                                        <span>操作时间：<span>{%= o.operationInfo.sysList[i].operatorTime%}</span></span>
+                                        <span>操作人:<span>{%= app.tools.sliceStr(o.operationInfo.sysList[i].operatorName,16) %}</span></span>
                                     </div>
                                        <div class="div-left-half"></div>
                                     <div class="div-right-half"></div>
