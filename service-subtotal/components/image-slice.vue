@@ -7,6 +7,9 @@
             <img class="file" ref="file" :src="url" alt="">
             <div class="imgView" ref="imgView">
                 <div class="imgViewBox" ref="imgViewBox">
+                    <svg class="icon exchange-proportion" aria-hidden="true" @click.stop="exchangeProportion">
+                        <use xlink:href="#icon-exchange"></use>
+                    </svg>
                     <img class="file" ref="file2" :src="url" alt="">
                 </div>
             </div>
@@ -56,6 +59,10 @@ export default {
         };
     },
     props: {
+        hasSlice: {
+            type: Boolean,
+            default: true
+        },
         value: {
             type: Object
         },
@@ -114,7 +121,12 @@ export default {
                     width: this.img.width,
                     height: this.img.height
                 };
-
+                if (!this.hasSlice) {
+                    this.$emit('update:proportion', {
+                        w: this.filRealitySize.width,
+                        h: this.filRealitySize.height
+                    });
+                }
                 let showView = ()=> {
                     Indicator.open();
                     this.loadImg();
@@ -228,7 +240,7 @@ export default {
             this.$refs.imgView.style.width = this.view.width + 'px';
             this.$refs.imgView.style.height = this.view.height + 'px';
             // 视图区
-            if (this.view.width * this.initViewWidth * this.proportion.h / this.proportion.w < this.view.height * this.initViewWidth) { // 判断宽高
+            if (this.view.width * this.proportion.h / this.proportion.w < this.view.height) { // 判断宽高
                 this.viewBox = {
                     width: Math.floor(this.view.width * this.initViewWidth),
                     height: Math.floor(this.view.width * this.initViewWidth * this.proportion.h / this.proportion.w)
@@ -247,7 +259,6 @@ export default {
             this.$refs.imgViewBox.style.height = this.viewBox.height + 'px';
             this.$refs.imgViewBox.style.top = this.viewBox.top + 'px';
             this.$refs.imgViewBox.style.left = this.viewBox.left + 'px';
-
         },
         fileSizePosition() {
             this.$refs.file.style.top = this.fileSize.top + 'px';
@@ -412,6 +423,12 @@ export default {
         back() {
             this.state = 1;
             this.$refs.path.value = null; // 重置选取文件
+        },
+        exchangeProportion() {
+            this.$emit('update:proportion', {
+                w: this.proportion.h,
+                h: this.proportion.w
+            });
         }
     },
     watch: {
@@ -421,6 +438,13 @@ export default {
             } else {
                 this.removeEventDefault();
             }
+        },
+        proportion: {
+            handler(val) {
+                this.initViewSize();
+                this.loadImg();
+            },
+            deep: true
         }
     },
     computed: {
@@ -462,6 +486,14 @@ export default {
             left:10px;
             border:1px solid @white;
             overflow: hidden;
+            .exchange-proportion {
+                color: white;
+                font-size: 28px;
+                position: absolute;
+                z-index: 3;
+                right: 0;
+                right: 0;
+            }
         }
         canvas{
             position:absolute;

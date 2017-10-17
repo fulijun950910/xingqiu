@@ -3,7 +3,7 @@
     <div class="ava"  layout="column" layout-align="center center">
         <svg class="icon" aria-hidden="true">  <use xlink:href="#icon-image"></use>  </svg>
         <img class="img-content" :src="picture | fileSrc" v-show="picture.base64 || picture.id" alt="">
-        <image-slice v-model="picture"  @click="submitPicture" :immediatelyUpload="true" :proportion="proportion"></image-slice>
+        <image-slice v-model="picture"  @click="submitPicture" :hasSlice="false" :immediatelyUpload="false" :proportion.sync="propor"></image-slice>
     </div>
 </template>
 
@@ -48,6 +48,10 @@
         },
         data() {
             return {
+                propor: {
+                    w: 1,
+                    h: 1
+                }
             };
         },
         methods: {
