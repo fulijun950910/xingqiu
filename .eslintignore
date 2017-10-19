@@ -1,3 +1,3 @@
-/service-subtotal/styles/fonts/*.js
-/service-subtotal/vendor/*.js
-/service-subtotal/directives/touch.js
+/source/pages/*/iconfont.js
+/source/vendor/*.js
+/source/directives/touch.js
