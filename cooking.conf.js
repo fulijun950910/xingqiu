@@ -43,7 +43,6 @@ cooking.set({
         'config': path.join(__dirname, 'source/config'),
         'directives': path.join(__dirname, 'source/directives'),
         'filter': path.join(__dirname, 'source/filter'),
-        'plugin': path.join(__dirname, 'source/plugin'),
         'services': path.join(__dirname, 'source/services'),
         'styles': path.join(__dirname, 'source/styles'),
         'vendor': path.join(__dirname, 'source/vendor'),

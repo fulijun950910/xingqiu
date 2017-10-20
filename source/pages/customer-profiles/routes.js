@@ -1,20 +1,26 @@
 /**
  * 路由配置
  */
-const index = resolve => require(['./pages/customer-list'], resolve);
+const customerList = resolve => require(['./pages/customer-list'], resolve);
+const customerDetail = resolve => require(['./pages/customer-detail'], resolve);
 const signIn = resolve => require(['./pages/sign-in'], resolve);
 
 export default [{
-    path: '/customer-list',
-    name: 'customer-list',
-    component: index,
-    meta: { auth: true, level: 1 }
+    path: '/list',  // （默认）客户档案列表
+    name: 'list',
+    component: customerList,
+    meta: { auth: true, level: 1, title: '顾客档案' }
+}, {
+    path: '/detail/:customerId',    // 客户档案详情
+    name: 'detail',
+    component: customerDetail,
+    meta: { auth: true, level: 1, title: '顾客详情' }
 }, {
     path: '/sign-in',
     name: 'sign-in',
     component: signIn,
-    meta: { auth: true, level: 0 }
+    meta: { auth: false, level: 0 }
 }, {
-    path: '*', // 服务动态（默认）
-    redirect: '/index'
+    path: '*',
+    redirect: '/customer-list'
 }];

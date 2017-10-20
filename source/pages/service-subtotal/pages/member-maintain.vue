@@ -34,10 +34,10 @@ export default {
             color: white;
             font-size: 20px;
             &.service {
-                background-image: url(/assets/imgs/service.png);
+                background-image: url(/source/assets/imgs/service.png);
             }
             &.member {
-                background-image: url(/assets/imgs/member.png);
+                background-image: url(/source/assets/imgs/member.png);
             }
         }
     }
