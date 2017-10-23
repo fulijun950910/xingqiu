@@ -2,7 +2,7 @@
     <div class="container" :class="{active:vm.mask}" v-title="'服务动态'">
         <!--         <div class="mask" v-if="vm.mask" v-on:click="searchStatu()">
         </div> -->
-        <div class="mask" v-if="swipe.show" v-on:click="imgHide">
+        <div class="mask" v-if="swipe.show">
         </div>
         <div class="top-bar" :class="{active:swipe.show}">
             <div layout="row" layout-align="start center" flex v-if="!vm.search.show">
@@ -98,8 +98,11 @@
         <bottom-menu @click="link" :flex="vm.flex"></bottom-menu>
         <!-- 图片放大 -->
         <mt-swipe :auto="0" v-if="swipe.show" :showIndicators="true" :continuous="false" :defaultIndex="swipe.index" v-on:click="scaleImg(index)">
-            <mt-swipe-item v-for="(i,index) in outerImg" :key="index">
-                <img :src="i | mSrc(500,300)" alt="" :click="imgHide"></mt-swipe-item>
+            <mt-swipe-item v-for="(i,index) in outerImg" :key="index" >
+                <div class="img-box" layout="column" layout-align="center center">
+                    <img :src="i | qSrc" alt="" @click.stop="imgHide">
+                </div>
+            </mt-swipe-item>
         </mt-swipe>
         <!-- 底部门店显示 -->
         <m-picker v-model="storePickerVisible" :slots="slots" :selected-item.sync="selectedStore" value-key="name" @confirm="changeStore"></m-picker>
@@ -804,13 +807,15 @@ export default {
         }
     }
     .mint-swipe {
-        height: 100vw;
+        height: 100vh;
         position: fixed;
         z-index: 3;
         width: 100%;
         color: #fff;
-        top: 50%;
-        margin-top: -50vw;
+        top: 0;
+        .img-box {
+            height: 100%;
+        }
     }
 }
 

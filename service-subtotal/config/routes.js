@@ -76,9 +76,6 @@ export default [{
     component: couponVerify,
     meta: { auth: true, level: 1 }
 }, {
-    path: '*', // 服务动态（默认）
-    redirect: '/service-dynamics'
-}, {
     path: '/sign-in',
     name: 'sign-in',
     component: signIn
@@ -87,4 +84,7 @@ export default [{
     name: 'remit-detail',
     component: remitDetail,
     meta: { auth: true, level: 1 }
+}, {
+    path: '*', // 服务动态（默认）
+    redirect: '/service-dynamics'
 }];
