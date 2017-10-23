@@ -130,3 +130,16 @@ Vue.filter('sliceStr', function(str, len) {
         return '';
     }
 });
+
+// '13871147835' => '138 **** 7835'
+Vue.filter('mobile', function(val) {
+    if (!val) {
+        return '-';
+    }
+    val = val.toString().trim();
+    if (val.length == 11) {
+        return val.substr(0, 3) + ' **** ' + val.substr(7, 4);
+    } else {
+        return '-';
+    }
+});

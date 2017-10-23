@@ -14,7 +14,7 @@ export default [{
     path: '/detail/:customerId',    // 客户档案详情
     name: 'detail',
     component: customerDetail,
-    meta: { auth: true, level: 1, title: '顾客详情' }
+    meta: { auth: true, level: 2, title: '顾客详情' }
 }, {
     path: '/sign-in',
     name: 'sign-in',
@@ -22,5 +22,5 @@ export default [{
     meta: { auth: false, level: 0 }
 }, {
     path: '*',
-    redirect: '/customer-list'
+    redirect: '/list'
 }];

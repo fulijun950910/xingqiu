@@ -37,6 +37,12 @@ export default {
             }
         };
     },
+    mounted() {
+        // console.log('mounted', this.$route.params.customerId || '123');
+    },
+    activated() {
+        console.log('activated', this.$route.params.customerId || '233');
+    },
     methods: {}
 };
 </script>

@@ -1,6 +1,8 @@
 <template>
     <transition :name="transitionName" mode="out-in">
-        <router-view></router-view>
+        <keep-alive :exclude="excludeComp.join(',')">
+            <router-view></router-view>
+        </keep-alive>
     </transition>
 </template>
 <script>
@@ -8,7 +10,8 @@ export default {
     name: 'app',
     data() {
         return {
-            transitionName: 'slide-right'
+            transitionName: 'slide-right',
+            excludeComp: []
         };
     },
     watch: {
@@ -32,7 +35,7 @@ export default {
     methods: {
         handleResize() {
             var w = document.documentElement.clientWidth;
-            document.getElementsByTagName('html')[0].style['font-size'] = Math.min((w / 10).toFixed(1), 540 / 10) + 'px';
+            document.getElementsByTagName('html')[0].style['font-size'] = Math.min((w / 10).toFixed(1), 1080 / 10) + 'px';
         }
     }
 };

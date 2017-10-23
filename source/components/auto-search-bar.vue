@@ -9,13 +9,13 @@
                 </svg>
                 <input flex="70" type="text" name="search-text" placeholder="搜索员工/工号" v-model="keyword" @input="change">
                 <span flex v-on:click="clearHide()">
-                      <svg class="icon icon-close icon-margin" aria-hidden="true">
+                    <svg class="icon icon-close icon-margin" aria-hidden="true">
                         <use xlink:href="#icon-close"></use>
-                    </svg>                        
-                    </span>
+                    </svg>
+                </span>
             </div>
             <ul class="employee-list">
-                <li v-for="item in employeeList" v-on:click="click(item)">{{item.name}}</li>
+                <li v-for="(item, index) in employeeList" :key="index" v-on:click="click(item)">{{item.name}}</li>
             </ul>
         </div>
     </div>
@@ -30,7 +30,7 @@ export default {
         };
     },
     /*
-     *Visiable 搜素框出现
+     *Visiable 搜索框出现
      *searchText 文本框的值
      *employeeList 员工列表
      */

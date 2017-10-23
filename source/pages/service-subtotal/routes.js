@@ -1,19 +1,19 @@
 /**
  * 路由配置
  */
-const dataView = resolve => require(['pages/data-view'], resolve);
-const returnVisitEdit = resolve => require(['pages/return-visit-edit'], resolve);
-const memberList = resolve => require(['pages/member-list'], resolve);
-const returnVisitRankingList = resolve => require(['pages/return-visit-ranking-list'], resolve);
-const memberMaintain = resolve => require(['pages/member-maintain'], resolve);
-const serviceRecordEdit = resolve => require(['pages/service-record-edit'], resolve);
-const serviceRecordList = resolve => require(['pages/service-record-list'], resolve);
-const recordFinish = resolve => require(['pages/record-finish'], resolve);
-const unrecordedServiceList = resolve => require(['pages/unrecorded-service-list'], resolve);
-const serviceDynamics = resolve => require(['pages/service-dynamics'], resolve);
-const signIn = resolve => require(['pages/sign-in'], resolve);
-const remitDetail = resolve => require(['pages/remit-detail/index'], resolve);
-const couponVerify = resolve => require(['pages/coupon-verify'], resolve);
+const dataView = resolve => require(['./pages/data-view'], resolve);
+const returnVisitEdit = resolve => require(['./pages/return-visit-edit'], resolve);
+const memberList = resolve => require(['./pages/member-list'], resolve);
+const returnVisitRankingList = resolve => require(['./pages/return-visit-ranking-list'], resolve);
+const memberMaintain = resolve => require(['./pages/member-maintain'], resolve);
+const serviceRecordEdit = resolve => require(['./pages/service-record-edit'], resolve);
+const serviceRecordList = resolve => require(['./pages/service-record-list'], resolve);
+const recordFinish = resolve => require(['./pages/record-finish'], resolve);
+const unrecordedServiceList = resolve => require(['./pages/unrecorded-service-list'], resolve);
+const serviceDynamics = resolve => require(['./pages/service-dynamics'], resolve);
+const signIn = resolve => require(['./pages/sign-in'], resolve);
+const remitDetail = resolve => require(['./pages/remit-detail/index'], resolve);
+const couponVerify = resolve => require(['./pages/coupon-verify'], resolve);
 
 export default [{
     path: '/data-view', // 数据查看页面
