@@ -41,7 +41,7 @@
         </div>
         <div class="dynamics" :class="{active1:noData}" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="50">
             <no-Data :visible="noData"></no-Data>
-            <div class="div-box" v-for="(item,pIndex) in dataList">
+            <div class="div-box" v-for="(item,pIndex) in dataList" :key="pIndex">
                 <div class="title" layout="row" layout-align="space-between center">
                     <div class="user" layout="row" layout-align="center center">
                         <span class="view">
@@ -75,7 +75,7 @@
                     <a class="link" v-if="item.status == 0 && item.employeeId == user.id" v-on:click="addServiceNote(item)">点此进行记录<m-icon :xlink="'#icon-right-bold'"></m-icon></a>
                 </div>
                 <div class="main-img" layout="row" layout-align="start center" flex-wrap="wrap" v-if="item.status == 1">
-                    <span flex="30" v-for="(img,index) in item.imageIds" v-on:click="scaleImg(pIndex,index)">
+                    <span flex="30" v-for="(img,index) in item.imageIds" v-on:click="scaleImg(pIndex,index)" :key="index">
                         <img  :src="img | mSrc(200,200)" alt="">
                     </span>
                 </div>
@@ -84,7 +84,7 @@
                         <use xlink:href="#icon-xiangmu"></use>
                     </svg>
                     <template v-if="item.serviceSmallNote">
-                        <span v-for="project in item.serviceSmallNote.item">{{project.itemName}}<i v-if="item.serviceSmallNote.item.length > 1">,</i></span>
+                        <span v-for="(project, index) in item.serviceSmallNote.item" :key="index">{{project.itemName}}<i v-if="item.serviceSmallNote.item.length > 1">,</i></span>
                     </template>
                 </div>
                 <div class="box-bottom" flex layout="row" layout-align="start center">
