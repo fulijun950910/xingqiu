@@ -82,8 +82,10 @@ Vue.filter('qSrc', function(value, q, def) {
     if (value) {
         if (isNaN(Number(value))) {
             return value;
-        } else {
+        } else if (q) {
             return `${BASE_IMG_PATH + value}/${q}`;
+        } else {
+            return `${BASE_IMG_PATH + value}`;
         }
     }
     return def;
