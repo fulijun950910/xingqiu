@@ -15,12 +15,13 @@
                 </div>
             </div>
             <div class="cost" :class="{show: show}">
-                <p><m-icon class="color-golden" xlink="#icon-arrow-up"/> {{'普通会员'}} <span class="pull-right" @click.stop="$emit('update:show', !show)">更多 <m-icon :xlink="show?'#icon-arrow-up':'#icon-arrow-down'"/></span></p>
-                <p><m-icon class="color-golden" xlink="#icon-arrow-up"/> {{'一个月未消费'}}</p>
-                <p><m-icon class="color-golden" xlink="#icon-arrow-up"/> {{'普通会员'}}</p>
-                <p><m-icon class="color-golden" xlink="#icon-arrow-up"/> {{'一个月未消费'}}</p>
-                <p><m-icon class="color-golden" xlink="#icon-arrow-up"/> {{'普通会员'}}</p>
-                <p><m-icon class="color-golden" xlink="#icon-arrow-up"/> {{'一个月未消费'}}</p>
+                <p>
+                    <span class="back-golden"><m-icon xlink="#icon-huangguan"/></span> {{'普通会员'}} <span class="pull-right" @click.stop="$emit('update:show', !show)">更多 <m-icon :xlink="show?'#icon-arrow-up':'#icon-arrow-down'"/></span>
+                </p>
+                <p><span class="back-golden"><m-icon xlink="#icon-cost"/></span> {{'一个月未消费'}}</p>
+                <p><span class="back-golden"><m-icon xlink="#icon-card"/></span> {{'普通会员'}}</p>
+                <p><span class="back-golden"><m-icon xlink="#icon-telephone"/></span> {{'普通会员'}}</p>
+                <p><span class="back-golden"><m-icon xlink="#icon-tag-alt"/></span> {{'一个月未消费'}}</p>
             </div>
         </div>
     </div>
@@ -51,10 +52,7 @@ export default {
 
 <style lang="less">
     @import '~styles/_agile.less';
-    @golden: #ddc593;
-    .color-golden {
-        color: @golden;
-    }
+
     .profiles-cell {
         border-bottom: 1px solid #eee;
         .ava-box {
@@ -76,14 +74,31 @@ export default {
             .cost {
                 padding: 0 12px 0 0;
                 margin: 8px 0;
-                height: 40px;
+                height: 44px;
                 overflow: hidden;
                 p {
                     color: @extra-light-black;
                     font-size: 12px;
                     height: 20px;
                     line-height: 20px;
-                    margin: 0;
+                    margin-top: 4px;
+                    .back-golden {
+                        margin-right: 4px;
+                        display: inline-block;
+                        width: 18px;
+                        height: 18px;
+                        line-height: 16px;
+                        border-radius: 4px;
+                        background-color: @golden;
+                        text-align: center;
+                        .icon {
+                            vertical-align: middle;
+                            color: white;
+                        }
+                    }
+                    &:first-child {
+                        margin: 0;
+                    }
                 }
                 &.show {
                     height: auto;

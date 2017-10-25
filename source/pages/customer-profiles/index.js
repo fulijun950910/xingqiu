@@ -53,6 +53,7 @@ const router = new VueRouter({
 
 router.beforeEach(({ meta, path }, from, next) => {
     if (path == '/sign-in' || store.getters.isLogin) {
+        window.document.title = meta.title;
         next();
     } else {
         if (process.env.NODE_ENV === 'development') {
