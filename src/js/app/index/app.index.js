@@ -524,16 +524,8 @@ app.index = {
                 "size": 10000
             },
             success: function(results) {
-                var recordCount = 0;
                 if (results.code == "000000") {
-                    if (results.data.length == 1) {
-                        recordCount = results.data[0].recordCount;
-                    } else {
-                        for (var i = results.data.length - 1; i >= 0; i--) {
-                            recordCount += results.data[i].recordCount;
-                        }
-                    }
-                    $('.recordCount').text(recordCount);
+                    $('.recordCount').text(results.data);
                 }
             },
             error: function() {}
