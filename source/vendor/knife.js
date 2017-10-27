@@ -10,7 +10,7 @@ export default {
     },
     // 深拷贝
     deepCopy(p, c) {
-        var c = c || {};
+        var c = c || ((p.constructor === Array)? [] : {});
         for (var i in p) {
             if (typeof p[i] === 'object' && p[i]) {
                 c[i] = (p[i].constructor === Array)? [] : {};
