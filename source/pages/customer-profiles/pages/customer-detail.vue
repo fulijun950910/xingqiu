@@ -171,6 +171,7 @@ export default {
                 height: 50px;
                 line-height: 50px;
                 padding: 0 8px;
+                border-bottom: 3px solid white;
             }
             .active {
                 font-weight: bold;

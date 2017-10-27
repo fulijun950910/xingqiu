@@ -51,14 +51,18 @@
 
         <!--搜索-->
         <mt-popup class="popup-bottom search-box" v-model="showSearch" position="top">
-            <div layout="row" layout-align="start center" class="search-main">
-                <svg class="icon color-primary" aria-hidden="true" flex>
-                    <use xlink:href="#icon-search"></use>
-                </svg>
+            <div layout="row" layout-align="start stretch" class="search-main">
+                <span flex>
+                    <svg class="icon color-primary" aria-hidden="true" flex>
+                        <use xlink:href="#icon-search"></use>
+                    </svg>
+                </span>
                 <input flex="70" type="text" placeholder="会员号/手机号/姓名" v-model="keyword" @input="keywordChange"/>
-                <svg class="icon color-black" aria-hidden="true" flex @click.stop="showSearchReset">
-                    <use xlink:href="#icon-close"></use>
-                </svg>
+                <span flex @click="showSearchReset">
+                    <svg class="icon color-black" aria-hidden="true">
+                        <use xlink:href="#icon-close"></use>
+                    </svg>
+                </span>
             </div>
             <div class="zombie">
                 <p class="title" v-for="(item, index) in profilesList" :key="index">休眠客户</p>
@@ -133,12 +137,7 @@ export default {
     },
     methods: {
         toDetail(item) {
-            this.$router.push({
-                name: 'detail',
-                params: {
-                    customerId: item
-                }
-            });
+            this.$router.push(`/detail/${item}/assets`);
         },
         keywordChange: knife.debounce(function(arg) {
             console.log(this.keyword);
@@ -243,6 +242,10 @@ export default {
                 border-bottom: 1px solid #eee;
                 .icon {
                     font-size: 18px;
+                }
+                span {
+                    text-align: center;
+                    line-height: 50px;
                 }
                 input {
                     padding: 8px 0;

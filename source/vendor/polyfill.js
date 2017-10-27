@@ -120,6 +120,6 @@ Date.prototype.formatDate = function (format) {
 }
 //String类型日期格式化
 String.prototype.formatDate = function (format) {
-    var date = new Date(this);
+    var date = new Date(this.replace(/\-/g, '/'));
     return date.formatDate(format);
 }
