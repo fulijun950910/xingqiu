@@ -206,7 +206,7 @@ app.index = {
         if (employee.role == "wechat_business_normal") {
             tmplhtml = $('#tmpl-index-normal-model').html();
         } else {
-            //app.index.getOperatorStore(data);
+            app.index.getOperatorStore(data);
             tmplhtml = $('#tmpl-index-admin-model').html();
         }
         var resultTmpl = tmpl(tmplhtml, memberData);
