@@ -501,25 +501,25 @@ app.index = {
     },
     //获取事件数量
     getOperatorStore: function(query) {
+        var query = [{
+            "field": "merchantId",
+            "value": query.merchantId
+        }, {
+            "field": "startTime",
+            "value": query.startDate
+        }, {
+            "field": "endTime",
+            "value": query.endDate
+        }]
+        if (query.storeIds.split(',').length == 1 ) {
+            quer.push({
+                "field": "storeId",
+                "value": query.storeIds 
+            })
+        }
         app.api.operationLog.getOperatorStore({
             data: {
-                "query": [{
-                    "field": "merchantId",
-                    "value": query.merchantId
-                }, {
-                    "field": "startTime",
-                    "value": query.startDate
-                }, {
-                    "field": "endTime",
-                    "value": query.endDate
-                }, {
-                    "field": "storeId",
-                    "value": query.storeIds
-                }],
-                "sort": [{
-                    "field": "operatorTime",
-                    "sort": "desc"
-                }],
+                "query": query,
                 "page": 1,
                 "size": 10000
             },
