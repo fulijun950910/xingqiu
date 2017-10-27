@@ -501,7 +501,7 @@ app.index = {
     },
     //获取事件数量
     getOperatorStore: function(query) {
-        var query = [{
+        var queryData = [{
             "field": "merchantId",
             "value": query.merchantId
         }, {
@@ -512,14 +512,14 @@ app.index = {
             "value": query.endDate
         }]
         if (query.storeIds.split(',').length == 1 ) {
-            quer.push({
+            queryData.push({
                 "field": "storeId",
-                "value": query.storeIds 
+                "value": query.storeIds
             })
         }
         app.api.operationLog.getOperatorStore({
             data: {
-                "query": query,
+                "query": queryData,
                 "page": 1,
                 "size": 10000
             },
