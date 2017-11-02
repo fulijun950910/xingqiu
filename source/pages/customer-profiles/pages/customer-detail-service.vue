@@ -9,14 +9,14 @@
             </p>
             <div class="content" v-for="(item, index) in dataList" :key="index" layout="row" layout-align="space-between start">
                 <div class="ava ft12 text-center" layout="column" layout-align="center center">
-                    <p>{{newDate(item.lastUpdateTimestamp).formatDate('MM.dd')}}</p>
-                    <p>{{newDate(item.lastUpdateTimestamp).formatDate('yyyy年')}}</p>
+                    <p>{{item.recordTime.formatDate('MM.dd')}}</p>
+                    <p>{{item.recordTime.formatDate('yyyy年')}}</p>
                 </div>
                 <div class="block" flex>
-                    <p>技师：李某某</p>
-                    <p class="ft12 ft-light dark-gray">技师：李技师：李某某技师：李某某技师：李某某技师：李某某某某</p>
-                    <div class="image" layout="row" layout-align="start start" flex-wrap="wrap">
-                        <img v-for="(img, index) in 1" :key="index" src="" alt="">
+                    <p>技师：{{item.employeeName}}</p>
+                    <p class="ft12 ft-light dark-gray">{{item.content}}</p>
+                    <div class="image" v-if="item.imageIds" layout="row" layout-align="start start" flex-wrap="wrap">
+                        <img v-for="(img, index) in item.imageIds.split(',')" :key="index" :src="img | mSrc(80, 80, require('assets/imgs/avatar.png'))" alt="">
                     </div>
                 </div>
             </div>
@@ -39,6 +39,7 @@ export default {
             param: {
                 storeId: this.$store.getters.storeId,
                 merchantId: this.$store.getters.merchantId,
+                employeeId: this.$store.getters.employeeId,
                 startDate: null,
                 endDate: null,
                 type: 2,
@@ -75,15 +76,7 @@ export default {
             this.isLoading = true;
             api_customerProfiles.serviceCenter(paramData).then(res => {
                 this.isLoading = false;
-                let data = res.data.rows.map(x => {
-                    return {
-                        name: x.employeeName,
-                        time: x.createTimestamp,
-                        desc: x.content,
-                        images: x.imageIds
-                    };
-                });
-                this.dataList = this.dataList.concat(data);
+                this.dataList = this.dataList.concat(res.data.rows);
                 this.total = res.data.total;
             }, err => {
                 this.$toast('加载失败');

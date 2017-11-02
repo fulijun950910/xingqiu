@@ -5,6 +5,7 @@
         </keep-alive>
     </transition>
 </template>
+
 <script>
 export default {
     name: 'app',
@@ -40,3 +41,11 @@ export default {
     }
 };
 </script>
+
+<style lang="less">
+    .loading {
+        padding: 16px 0;
+        text-align: center;
+    }
+</style>
+

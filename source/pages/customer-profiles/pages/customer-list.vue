@@ -73,8 +73,12 @@
                     </svg>
                 </span>
             </div>
-            <div class="zombie">
-                <p class="title" v-for="(item, index) in searchProfilesList" :key="index">{{item.name}}</p>
+            <div class="search-list">
+                <div class="loading color-tiffany-blue" v-show="isLoadingSearch">
+                    <span style="display: inline-block;"><mt-spinner  color="#00CBC7" type="fading-circle"></mt-spinner></span>
+                </div>
+                <p class="title" v-for="(item, index) in searchProfilesList" @click.stop="toDetail(item)" :key="index">{{item.name}} - {{item.memberNo}}</p>
+                <p v-if="!searchProfilesList.length && !isLoadingSearch">没有查到数据：-（</p>
             </div>
         </mt-popup>
         
@@ -184,7 +188,8 @@ export default {
             },
             currSort: 0,
             pageIndex: 1,
-            idLoading: false
+            idLoading: false,
+            isLoadingSearch: false
         };
     },
     mounted() {
@@ -238,10 +243,13 @@ export default {
                 page: 1,
                 size: 20
             };
+            this.isLoadingSearch = true;
             api_customerProfiles.memberListSearch(paramData).then(res => {
-
+                this.isLoadingSearch = false;
+                this.searchProfilesList = res.data.rows;
             }, err => {
-
+                this.isLoadingSearch = false;
+                this.searchProfilesList = [];
             });
         },
         // 获取会员列表
@@ -418,6 +426,10 @@ export default {
                     padding: 8px 0;
                     border-right: 1px solid #eee;
                 }
+            }
+            .search-list {
+                max-height: 50vh;
+                overflow-y: auto;
             }
         }
         

@@ -15,10 +15,10 @@
                     </div>
                     <div class="block" flex>
                         <span class="pop-left"></span>
-                        <p class="name">技师：{{day.name}}</p>
-                        <p class="desc ft-light ft12 dark-gray">{{day.desc}}</p>
+                        <p class="name mgb4">技师：{{day.name}}</p>
+                        <p class="desc ft-light ft12 dark-gray tidt2">{{day.desc}}</p>
                         <div class="image" layout="row" layout-align="start start" flex-wrap="wrap">
-                            <img v-for="(img, index) in 1" :key="index" src="" alt="">
+                            <img v-for="(img, index) in day.images" :key="index" :src="img | mSrc(80, 80, require('assets/imgs/avatar.png'))" alt="">
                         </div>
                         <p class="items dark-gray ft12">
                             <m-icon xlink="#icon-item"/>
@@ -57,11 +57,23 @@ export default {
     },
     data() {
         return {
-            dataList: []
         };
     },
     mounted() {
-        this.sortDataList();
+    },
+    computed: {
+        dataList() {
+            if (this.values) {
+                var dataList = knife.deepCopy(this.values);
+                // 排序
+                if (this.sort) {
+                    dataList.sort((a, b) => { return (Date.parse(a.time) > Date.parse(b.time)) == this.sortType; });
+                }
+                return this.toTree(dataList);
+            } else {
+                return [];
+            }
+        }
     },
     methods: {
         // list 2 tree
@@ -100,16 +112,6 @@ export default {
                 yearArr.push(yearObj);
             });
             return yearArr;
-        },
-        sortDataList() {
-            if (this.values) {
-                this.dataList = knife.deepCopy(this.values);
-                // 排序
-                if (this.sort) {
-                    this.dataList.sort((a, b) => { return (Date.parse(a.time) > Date.parse(b.time)) == this.sortType; });
-                }
-                this.dataList = this.toTree(this.dataList);
-            }
         }
     },
     filters: {
@@ -128,6 +130,10 @@ export default {
 
 <style lang="less">
     @import '~styles/_agile.less';
+
+    .mgb4 {
+        margin-bottom: 4px;
+    }
     .m-timeline {
         padding: 12px;
         .line-node {

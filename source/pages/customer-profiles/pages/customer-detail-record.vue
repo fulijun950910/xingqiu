@@ -28,20 +28,14 @@ export default {
     },
     data() {
         return {
-            timeDataList: [
-                {
-                    name: '唐悠悠6',
-                    time: '2014-8-22 12:12:45',
-                    desc: '客户对服务非常的满意',
-                    images: []
-                }
-            ],
+            timeDataList: [],
             isLoading: false,
             pageIndex: 1,
             total: 0,
             param: {
                 storeId: this.$store.getters.storeId,
                 merchantId: this.$store.getters.merchantId,
+                employeeId: this.$store.getters.employeeId,
                 startDate: null,
                 endDate: null,
                 type: '1',
@@ -81,9 +75,9 @@ export default {
                 let data = res.data.rows.map(x => {
                     return {
                         name: x.employeeName,
-                        time: x.createTimestamp,
+                        time: x.recordTime,
                         desc: x.content,
-                        images: x.imageIds
+                        images: x.imageIds ? x.imageIds.split(',') : []
                     };
                 });
                 this.timeDataList = this.timeDataList.concat(data);
