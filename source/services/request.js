@@ -19,7 +19,11 @@ export default function(url, data, method, messageFlag = true) {
         Vue.prototype.$indicator.close();
         switch (error.status) {
             case 401:
-                location.href = '/userinfo.html#/user_login';
+                if (process.env.NODE_ENV === 'development') {
+                    window.$Router.push({ name: 'sign-in' });
+                } else {
+                    window.location.href = '/userinfo.html#/user_login';
+                }
                 break;
             case 403:
                 break;

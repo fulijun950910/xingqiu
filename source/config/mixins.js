@@ -20,3 +20,12 @@ export const WARN_ITEMS = [
     { name: '客户的护理周期快到了，通知客人及时到店服务', value: 1 },
     { name: '好久没问候Ta了呢，该给客人回访啦', value: 2 }
 ];
+
+// 提醒事项
+export const CARD_TYPE = [
+    { label: '会员卡', name: 'TYPE_MEMBER', value: 1 },
+    { label: '储值卡', name: 'TYPE_DEPOSIT', value: 2 },
+    { label: '时段卡', name: 'TYPE_TIME', value: 3 },
+    { label: '总次卡', name: 'TYPE_ITEM_TOTAL', value: 4 },
+    { label: '分次卡', name: 'TYPE_ITEM_PART', value: 5 }
+];

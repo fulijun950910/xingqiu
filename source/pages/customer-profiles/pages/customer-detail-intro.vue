@@ -5,37 +5,45 @@
                 <span><m-icon class="mr8" xlink="#icon-record"/> 档案信息</span>
             </p>
             <div class="field" layout="row" layout-align="start start" >
-                <span>所属门店:</span><p>中山公园</p>
+                <span>所属门店:</span><p>{{dataModel.storeName}}</p>
             </div>
             <div class="field" layout="row" layout-align="start start" >
-                <span>会员账号:</span><p>中山公园</p>
+                <span>会员账号:</span><p>{{dataModel.memberNo}}</p>
             </div>
             <div class="field" layout="row" layout-align="start start" >
-                <span>跟踪员工:</span><p>中山公园</p>
+                <span>跟踪员工:</span><p>{{dataModel.employeeName}}</p>
             </div>
             <div class="field" layout="row" layout-align="start start" >
-                <span>来源渠道:</span><p>中山公园</p>
+                <span>来源渠道:</span><p>{{dataModel.sourceName}}</p>
             </div>
             <div class="field" layout="row" layout-align="start start" >
-                <span>入会时间:</span><p>中山公园</p>
+                <span>入会时间:</span><p>{{dataModel.registerDate}}</p>
             </div>
             <div class="field" layout="row" layout-align="start start" >
-                <span>推荐人员:</span><p>中山公园</p>
+                <span>推荐人员:</span><p>{{dataModel.refererName}}</p>
             </div>
             <div class="field" layout="row" layout-align="start start" >
-                <span>特殊日期:</span><p>中山公园</p>
+                <span>特殊日期:</span>
+                <div flex>
+                    <p v-for="(item, index) in dataModel.events" v-if="item.eventDate" :key="index">{{item.name}}（{{item.eventDate.formatDate('yyyy年MM月dd日')}}）</p>
+                </div>
             </div>
             <div class="field" layout="row" layout-align="start start" >
-                <span>个性标签:</span><p>中山公园</p>
+                <span>个性标签:</span>
+                <p flex v-if="dataModel.tags">{{dataModel.tags.map(x => {return x.tagName}).join('，')}}</p>
             </div>
             <div class="field" layout="row" layout-align="start start" >
-                <span>相关禁忌:</span><p>中山公园</p>
+                <span>相关禁忌:</span>
+                <p flex v-if="dataModel.tags">{{dataModel.taboos.map(x => {return x.name}).join('，')}}</p>
             </div>
             <div class="field" layout="row" layout-align="start start" >
-                <span>微信号码:</span><p>中山公园</p>
+                <span>微信号码:</span><p>{{dataModel.wechat}}</p>
             </div>
             <div class="field" layout="row" layout-align="start start" >
-                <span>自定义属性:</span><p>中山公中山公园中山公园中山公园中山公园园</p>
+                <span>自定义属性:</span>
+                <div flex>
+                    <p v-for="(item, index) in dataModel.customFieldValues" :key="index">{{item.displayName}}：{{item.value}}</p>
+                </div>
             </div>
         </div>
     </div>
@@ -48,6 +56,11 @@ export default {
     data() {
         return {
         };
+    },
+    computed: {
+        dataModel() {
+            return this.$store.state.customerDetail;
+        }
     },
     methods: {
     }

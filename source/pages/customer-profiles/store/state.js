@@ -6,5 +6,7 @@ export default {
     merchantRole: {},
     skills: [],
     store: {},
-    promotionTypes: []
+    promotionTypes: [],
+    // 会员详情
+    customerDetail: null
 };

@@ -50,5 +50,8 @@ var getLocalInfo = () => {
 export default {
     [types.UPDATE_LOCAL](state) {
         Object.assign(state, getLocalInfo());
+    },
+    updateMemberInfo(state, customerInfo) {
+        state.customerDetail = customerInfo;
     }
 };

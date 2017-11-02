@@ -1,32 +1,32 @@
 <template>
-    <div class="customer-detail">
+    <div class="customer-detail" v-if="dataModel">
         <!--顾客基本信息-->
         <div class="profiles background-cover">
             <!-- 头部名片 -->
             <div class="c-card" layout="row" layout-align="space-between end">
                 <div class="c-card-content" layout="row" layout-align="space-between center">
-                    <img :src="dataModel.memberAvatarId|mSrc(90,90,require('assets/imgs/avatar.png'))" alt="">
+                    <img :src="dataModel.avatarId|mSrc(90,90,require('assets/imgs/avatar.png'))" alt="">
                     <div>
                         <p class="c-card-title no-wrap">
-                            刘岩<span class="badge-vip ml8 ft-light"><m-icon xlink="#icon-huangguan"/> 超级会员</span>
+                            {{dataModel.name}}<span class="badge-vip ml8 ft-light"><m-icon xlink="#icon-huangguan"/> {{dataModel.grade}}</span>
                         </p>
                         <p class="c-card-subtitle no-wrap ft-light">
-                            152 **** 9832
+                            {{dataModel.mobile}}
                         </p>
                     </div>
                 </div>
             </div>
             <div class="c-asset" layout="row" layout-align="space-around center">
                 <div class="bdr text-center" flex>
-                    <p class="ft16">5165</p>
+                    <p class="ft16">{{dataModel.point}}</p>
                     <p class="light-gray">积分</p>
                 </div>
                 <div class="bdr text-center" flex>
-                    <p class="ft16">{{516587 | integer | currency('￥', 0)}}<span class="ft12">.{{516587 | decimals}}</span></p>
+                    <p class="ft16">{{dataModel.balance | integer | currency('￥', 0)}}<span class="ft12">.{{dataModel.balance | decimals}}</span></p>
                     <p class="light-gray">钱包</p>
                 </div>
                 <div class="text-center" flex>
-                    <p class="ft16">{{0 | integer | currency('￥', 0)}}<span class="ft12">.{{0 | decimals}}</span></p>
+                    <p class="ft16">{{dataModel.retainage | integer | currency('￥', 0)}}<span class="ft12">.{{dataModel.retainage | decimals}}</span></p>
                     <p class="light-gray">欠款</p>
                 </div>
             </div>
@@ -34,7 +34,7 @@
 
         <!--菜单-->
         <div class="record-tab" layout="row" layout-align="space-around center">
-            <div :class="{active: tab.name==$route.name}" v-for="(tab, index) in childRoute" :key="index" @click="$router.push(tab.name)">
+            <div :class="{active: tab.name==$route.name}" v-for="(tab, index) in childRoute" :key="index" @click="$router.replace(tab.name)">
                 {{tab.label}}
             </div>
         </div>
@@ -50,6 +50,7 @@
     </div>
 </template>
 <script>
+import api_customerProfiles from 'services/api.customerProfiles';
 export default {
     name: 'customer-detail',
     components: {},
@@ -61,9 +62,7 @@ export default {
                 {label: '护理记录', name: 'record'},
                 {label: '回访/关怀', name: 'service'},
                 {label: '档案信息', name: 'intro'}
-            ],
-            dataModel: {
-            }
+            ]
         };
     },
     watch: {
@@ -78,12 +77,24 @@ export default {
         }
     },
     mounted() {
-        // console.log('mounted', this.$route.params.customerId || '123');
+        this.fetchData();
     },
-    activated() {
-        console.log('activated', this.$route.params.customerId || '233');
+    computed: {
+        dataModel() {
+            return this.$store.state.customerDetail;
+        }
     },
-    methods: {},
+    methods: {
+        fetchData() {
+            this.$indicator.open();
+            api_customerProfiles.memberDetail(this.$route.params.customerId).then(res => {
+                this.$indicator.close();
+                this.$store.commit('updateMemberInfo', res.data);
+            }, err => {
+                this.$indicator.close();
+            });
+        }
+    },
     filters: {
         integer(val) {
             if (val) {
@@ -94,9 +105,9 @@ export default {
         },
         decimals(val) {
             if (val) {
-                return (val / 100).toString().split('.')[1] || '';
+                return (val / 100).toString().split('.')[1] || '00';
             } else {
-                return '0';
+                return '00';
             }
         }
     }

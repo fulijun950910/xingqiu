@@ -1,34 +1,35 @@
 <template>
     <div class="profiles-cell" layout="row" layout-align="space-between start">
         <div class="ava-box">
-            <img  :src="value.avaId | mSrc(80, 80, require('assets/imgs/avatar.png'))" alt="">
+            <img :src="value.avatarId | mSrc(80, 80, require('assets/imgs/avatar.png'))" :alt="value.name">
         </div>
         <div flex class="content-box">
             <div class="info" layout="row" layout-align="space-between center">
                 <div>
-                    <p class="name fwb">李慧珍</p>
-                    <p class="ft-light dark-gray">{{'15212349832' | mobile}}</p>
+                    <p class="name fwb">{{value.name || '-'}}</p>
+                    <p class="ft-light dark-gray">{{value.mobile | mobile}}</p>
                 </div>
                 <div class="show">
                     <p class="ft-light dark-gray text-right">上次消费</p>
-                    <p>{{moment().calendar()}}</p>
+                    <p class="text-right" v-if="value.order.lastConsumeDate">{{moment(value.order.lastConsumeDate).fromNow()}}</p>
+                    <p class="text-right" v-else>-</p>
                 </div>
             </div>
             <div class="cost" :class="{show: show}">
                 <p>
-                    <span class="back-golden"><m-icon xlink="#icon-huangguan"/></span> {{'普通会员'}} <span class="pull-right" @click.stop="$emit('update:show', !show)">更多 <m-icon :xlink="show?'#icon-arrow-up':'#icon-arrow-down'"/></span>
+                    <span class="back-golden"><m-icon xlink="#icon-huangguan"/></span> {{value.gradeName || '-'}} <span class="pull-right" @click.stop="$emit('update:show', !show)">更多 <m-icon :xlink="show?'#icon-arrow-up':'#icon-arrow-down'"/></span>
                 </p>
-                <p><span class="back-golden"><m-icon xlink="#icon-cost"/></span> {{'一个月未消费'}}</p>
-                <p><span class="back-golden"><m-icon xlink="#icon-card"/></span> {{'普通会员'}}</p>
-                <p><span class="back-golden"><m-icon xlink="#icon-telephone"/></span> {{'普通会员'}}</p>
-                <p><span class="back-golden"><m-icon xlink="#icon-tag-alt"/></span> {{'一个月未消费'}}</p>
+                <p v-if="value.order.lastConsumeDate"><span class="back-golden"><m-icon xlink="#icon-cost"/></span> {{moment(value.order.lastConsumeDate).fromNow()}}消费过</p>
+                <p v-if="value.hasCard==2"><span class="back-golden"><m-icon xlink="#icon-card"/></span> <span>{{'已办卡客户'}}</span></p>
+                <p v-if="value.returnVisitDays"><span class="back-golden"><m-icon xlink="#icon-telephone"/></span> {{moment().add(value.returnVisitDays*-1, 'days').fromNow()}}回访过</p>
+                <p v-if="value.memberTagList"><span class="back-golden"><m-icon xlink="#icon-tag-alt"/></span> {{value.memberTagList.map(x=>{return x.tagName}).join(' ')}}</p>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import moment from 'moment';    // eslint-disable-line
+import moment from 'moment';
 export default {
     name: 'customer-profiles-cell',
     props: {
@@ -79,7 +80,6 @@ export default {
                 p {
                     color: @extra-light-black;
                     font-size: 12px;
-                    height: 20px;
                     line-height: 20px;
                     margin-top: 4px;
                     .back-golden {

@@ -3,7 +3,7 @@
         <!--筛选栏-->
         <div class="top-filter-box" layout="row" layout-align="space-between center">
             <div flex="33" class="sort bdr-right" @click.stop="showSort = true" layout="row" layout-align="center center"> 
-                <p class="no-wrap">{{sortSlots[currSort]}}</p><m-icon flex="20" xlink="#icon-triangle-down"/>
+                <p class="no-wrap">{{sortSlots[currSort].label}}</p><m-icon flex="20" xlink="#icon-triangle-down"/>
             </div>
             <div flex class="filter bdr-right" @click.stop="showFilter = true">筛选 <m-icon xlink="#icon-filter"/></div>
             <div flex class="search" @click.stop="showSearch = true">搜索 <m-icon xlink="#icon-search"/></div>
@@ -11,9 +11,9 @@
 
         <!--排序-->
         <mt-popup class="popup-bottom ft-light" v-model="showSort" position="top">
-            <p v-for="(item, index) in sortSlots" :key="index" @click.stop="currSort = index"
-            layout="row" layout-align="space-between center" :class="{active: (currSort == index)}">
-                <span>{{item}}</span> <m-icon v-show="currSort == index" xlink="#icon-check"/>
+            <p v-for="(item, index) in sortSlots" :key="index" @click.stop="sortClick(item, index)"
+                layout="row" layout-align="space-between center" :class="{active: (currSort == index)}">
+                <span>{{item.label}}</span> <m-icon v-show="currSort == index" xlink="#icon-check"/>
             </p>
         </mt-popup>
 
@@ -22,7 +22,8 @@
             <div class="category">
                 <p class="title">顾客分类</p>
                 <p class="ft-light">
-                    <span v-for="(item, index) in customerFilterSlots.category" :key="index">
+                    <span v-for="(item, index) in category" :key="index"
+                    @click.stop="chooseCustomer(item)" :class="{active: item.active}">
                         {{item.label}}
                     </span>
                 </p>
@@ -30,7 +31,8 @@
             <div class="zombie">
                 <p class="title">休眠客户</p>
                 <p class="ft-light">
-                    <span @click.stop="index" v-for="(item, index) in customerFilterSlots.zombie" :key="index">
+                    <span v-for="(item, index) in customerFilterSlots.zombie.list" :key="index"
+                    @click.stop="filterClick(customerFilterSlots.zombie.field, item)" :class="{active: param[customerFilterSlots.zombie.field] == item.value}" >
                         {{item.label}}
                     </span>
                 </p>
@@ -38,14 +40,21 @@
             <div class="more">
                 <p class="title">更多筛选</p>
                 <p class="ft-light">
-                    <span v-for="(item, index) in customerFilterSlots.more" :key="index">
+                    <span v-for="(item, index) in customerFilterSlots.hasCard.list" :key="index"
+                    @click.stop="filterClick(customerFilterSlots.hasCard.field, item)" :class="{active: param[customerFilterSlots.hasCard.field] == item.value}">
+                        {{item.label}}
+                    </span>
+                </p>
+                <p class="ft-light">
+                    <span v-for="(item, index) in customerFilterSlots.returnVisit.list" :key="index"
+                    @click.stop="filterClick(customerFilterSlots.returnVisit.field, item)" :class="{active: param[customerFilterSlots.returnVisit.field] == item.value}">
                         {{item.label}}
                     </span>
                 </p>
             </div>
             <div class="operate">
-                <button>重置选项</button>
-                <button class="color-primary">确定</button>
+                <button @click="resetFilterParam">重置选项</button>
+                <button class="color-primary" @click="filterProfiles">确定</button>
             </div>
         </mt-popup>
 
@@ -65,13 +74,22 @@
                 </span>
             </div>
             <div class="zombie">
-                <p class="title" v-for="(item, index) in profilesList" :key="index">休眠客户</p>
+                <p class="title" v-for="(item, index) in searchProfilesList" :key="index">{{item.name}}</p>
             </div>
         </mt-popup>
         
         <!--档案列表-->
         <div class="profiles-box">
-            <customer-profiles-cell @click.native="toDetail(item)" v-for="(item, index) in 10" :key="index" :value="demoVal" :show.sync="demoVal.show"></customer-profiles-cell>
+            <customer-profiles-cell @click.native="toDetail(item)" v-for="(item, index) in profilesList" :key="index" :value="item" :show.sync="item.show"></customer-profiles-cell>
+            <div v-if="idLoading" class="load-more color-tiffany-blue">
+                <span style="display: inline-block;"><mt-spinner  color="#00CBC7" type="fading-circle"></mt-spinner></span>
+            </div>
+            <div v-else-if="profilesList.length < total" class="load-more color-tiffany-blue">
+                <span @click="loadMore">加载更多</span>
+            </div>
+            <div v-else class="load-more color-gray">
+                <span>下面没有啦╮(╯▽╰)╭</span>
+            </div>
         </div>
     </div>
 </template>
@@ -79,6 +97,7 @@
 import customerProfilesCell from 'components/customer-profiles-cell';
 import autoSearchbar from 'components/auto-search-bar';
 import knife from 'vendor/knife';
+import api_customerProfiles from 'services/api.customerProfiles';
 export default {
     name: 'customer-list',
     components: {
@@ -87,71 +106,195 @@ export default {
     },
     data() {
         return {
+            // 参数
+            param: {
+                storeId: this.$store.getters.storeId,
+                merchantId: this.$store.getters.merchantId,
+                employeeId: null,
+                permissionStoreAll: this.$store.getters.permissionStoreAll ? 1 : 0,
+                hasCard: null,
+                leavingDays: null,
+                frequency: null,
+                serviceEmployeeId: null,
+                returnVisitDays: null
+            },
+            sort: null,
             keyword: '',
             profilesList: [],
-            demoVal: {
-                avaId: null,
-                show: false
-            },
+            total: 0,
+            searchProfilesList: [],
             showSort: false,
             showFilter: false,
             showSearch: false,
             sortSlots: [
-                '默认排序',
-                '最后到店时间从远到近',
-                '最后到店时间从进到远',
-                '未回访时间从近到远',
-                '未回访时间从远到近'
+                {label: '默认排序'},
+                {label: '最后到店时间从远到近', field: 'leaveDays', sort: 'desc'},
+                {label: '最后到店时间从近到远', field: 'leaveDays', sort: 'asc'},
+                {label: '未回访时间从近到远', field: 'messageservicecenter.createTime', sort: 'desc'},
+                {label: '未回访时间从远到近', field: 'messageservicecenter.createTime', sort: 'asc'}
             ],
-            customerFilterSlots: {
-                category: [{
+            category: [
+                {
                     label: '我服务过的',
-                    value: '0'
+                    value: 'serviceEmployeeId',
+                    active: false
                 }, {
                     label: '分配给我的',
-                    value: '1'
-                }],
-                zombie: [{
-                    label: '15天未到店',
-                    value: '0'
-                }, {
-                    label: '三个月内未到店',
-                    value: '1'
-                }, {
-                    label: '三个月以上未到店',
-                    value: '2'
-                }],
-                more: [{
-                    label: '未办卡客户',
-                    value: '0'
-                }, {
-                    label: '已办卡客户',
-                    value: '1'
-                }, {
-                    label: '三个月以上未到店',
-                    value: '2'
-                }]
+                    value: 'employeeId',
+                    active: false
+                }
+            ],
+            customerFilterSlots: {
+                zombie: {
+                    field: 'leavingDays',
+                    list: [{
+                        label: '15天未到店',
+                        value: '15d'
+                    }, {
+                        label: '一个月未到店',
+                        value: '1m'
+                    }, {
+                        label: '三个月未到店',
+                        value: '3m'
+                    }]
+                },
+                hasCard: {
+                    field: 'hasCard',
+                    list: [{
+                        label: '未办卡客户',
+                        value: '1'
+                    }, {
+                        label: '已办卡客户',
+                        value: '2'
+                    }]
+                },
+                returnVisit: {
+                    field: 'returnVisitDays',
+                    list: [{
+                        label: '15天未回访',
+                        value: '15d'
+                    }, {
+                        label: '一个月未回访',
+                        value: '1m'
+                    }, {
+                        label: '两个月未回访',
+                        value: '2m'
+                    }]
+                }
             },
-            currSort: 0
+            currSort: 0,
+            pageIndex: 1,
+            idLoading: false
         };
     },
+    mounted() {
+        this.getCustomerList();
+    },
     methods: {
+        sortClick(item, index) {
+            if (index == this.currSort) {
+                return;
+            } else {
+                this.currSort = index;
+                if (item && item.field && item.sort) {
+                    this.sort = knife.extendCopy(item);
+                    delete this.sort.label;
+                    delete this.sort.uber;
+                } else {
+                    this.sort = null;
+                }
+                this.pageIndex = 1;
+                this.profilesList.splice(0);
+                this.showSort = false;
+                this.getCustomerList();
+            }
+        },
         toDetail(item) {
-            this.$router.push(`/detail/${item}/assets`);
+            if (item && item.memberId) {
+                this.$router.push(`/detail/${item.memberId}/assets`);
+            }
         },
         keywordChange: knife.debounce(function(arg) {
             console.log(this.keyword);
         }, 300),
-        employeeClick() {
-
+        filterClick(field, item) {
+            if (this.param[field] == item.value) {
+                this.param[field] = null;
+            } else {
+                this.param[field] = item.value;
+            }
         },
-        getList() {
-
+        loadMore() {
+            this.pageIndex ++;
+            this.getCustomerList();
         },
+        // 获取会员列表
+        getCustomerList() {
+            var paramData = {
+                query: [],
+                sort: [],
+                page: this.pageIndex,
+                size: 20
+            };
+            Object.keys(this.param).forEach(key => {
+                paramData.query.push({
+                    field: key,
+                    value: this.param[key]
+                });
+            });
+            if (this.sort) {
+                paramData.sort.push(this.sort);
+            };
+
+            this.idLoading = true;
+            api_customerProfiles.memberList(paramData).then(res => {
+                this.idLoading = false;
+                let data = res.data.rows.map(x => {
+                    x.show = false;
+                    return x;
+                });
+                this.profilesList = this.profilesList.concat(data);
+                this.total = res.data.total;
+            }, err => {
+                this.idLoading = false;
+                this.$toast('查询失败');
+            });
+        },
+        // 选择顾客分类
+        chooseCustomer(item) {
+            // this.param.serviceEmployeeId = null;
+            // this.param.serviceEmployeeId = null;
+            item.active = !item.active;
+            if (item.active) {
+                this.param[item.value] = this.$store.getters.employeeId;
+            } else {
+                this.param[item.value] = null;
+            }
+        },
+        // 重置选择
+        resetFilterParam() {
+            // 清除顾客类型选中
+            this.category.forEach(x => { x.active = false; });
+            Object.assign(this.param, {
+                employeeId: null,
+                hasCard: null,
+                leavingDays: null,
+                serviceEmployeeId: null,
+                returnVisitDays: null
+            });
+        },
+        // 确认筛选
+        filterProfiles() {
+            this.pageIndex = 1;
+            this.profilesList.splice(0);
+            this.showFilter = false;
+            this.getCustomerList();
+        },
+        // 重置搜索项
         showSearchReset() {
             this.showSearch = false;
             this.keyword = '';
-            this.profilesList.splice(0);
+            this.searchProfilesList.splice(0);
         }
     }
 };
@@ -182,6 +325,10 @@ export default {
             }
         }
         .profiles-box {
+            .load-more {
+                padding: 20px 0;
+                text-align: center;
+            }
         }
         .popup-bottom {
             p {
@@ -193,7 +340,7 @@ export default {
                     color: #B44DCE;
                 }
             }
-            .active {
+            p.active {
                 color: #333;
                 font-weight: bold;
             }
@@ -208,6 +355,10 @@ export default {
                     border-radius: 2px;
                     padding: 4px 12px;
                     margin: 0 12px 8px 0;
+                    &.active {
+                        border: 1px solid #B44DCE;
+                        color: #B44DCE;
+                    }
                 }
                 &.title {
                     line-height: 24px;

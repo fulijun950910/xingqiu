@@ -11,7 +11,7 @@ export default {
     data() {
         return {
             transitionName: 'slide-right',
-            excludeComp: []
+            excludeComp: ['customer-detail']
         };
     },
     watch: {
