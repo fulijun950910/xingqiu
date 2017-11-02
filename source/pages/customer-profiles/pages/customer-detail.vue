@@ -115,6 +115,10 @@ export default {
 </script>
 <style lang="less">
     @import '~styles/_agile.less';
+    .loading {
+        padding: 20px 0;
+        text-align: center;
+    }
     .customer-detail {
         background-color: @color-bg;
         min-height: 100vh;

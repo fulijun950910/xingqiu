@@ -130,10 +130,6 @@ export default {
     .customer-detail-assets {
         padding: 12px 0;
         font-size: 14px;
-        .loading {
-            padding: 20px 0;
-            text-align: center;
-        }
         .badge-card {
             display: inline-block;
             font-size: 12px;

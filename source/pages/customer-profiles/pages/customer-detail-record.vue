@@ -1,5 +1,8 @@
 <template>
     <div class="customer-detail-record">
+        <div class="loading color-tiffany-blue" v-show="isLoading">
+            <span style="display: inline-block;"><mt-spinner  color="#00CBC7" type="fading-circle"></mt-spinner></span>
+        </div>
         <div class="card">
             <p class="title" layout="row" layout-align="space-between center">
                 <span><m-icon class="mr8" xlink="#icon-record"/> 护理记录</span>
@@ -15,7 +18,9 @@
 </template>
 
 <script>
+import api_customerProfiles from 'services/api.customerProfiles';
 import mTimeline from 'components/m-timeline';
+import moment from 'moment';
 export default {
     name: 'customer-detail-record',
     components: {
@@ -25,45 +30,69 @@ export default {
         return {
             timeDataList: [
                 {
-                    name: '唐悠悠1',
-                    time: '2017-10-02 12:12:45',
-                    desc: '客户对服务非常的满意',
-                    images: []
-                },
-                {
-                    name: '唐悠悠2',
-                    time: '2014-8-18 12:12:45',
-                    desc: '客户对服务非常的满意',
-                    images: []
-                },
-                {
-                    name: '唐悠悠3',
-                    time: '2014-8-12 12:12:45',
-                    desc: '客户对服务非常的满意',
-                    images: []
-                },
-                {
-                    name: '唐悠悠4',
-                    time: '2017-8-02 12:12:45',
-                    desc: '客户对服务非常的满意',
-                    images: []
-                },
-                {
-                    name: '唐悠悠5',
-                    time: '2014-5-18 12:12:45',
-                    desc: '客户对服务非常的满意',
-                    images: []
-                },
-                {
                     name: '唐悠悠6',
                     time: '2014-8-22 12:12:45',
                     desc: '客户对服务非常的满意',
                     images: []
                 }
-            ]
+            ],
+            isLoading: false,
+            pageIndex: 1,
+            total: 0,
+            param: {
+                storeId: this.$store.getters.storeId,
+                merchantId: this.$store.getters.merchantId,
+                startDate: null,
+                endDate: null,
+                type: '1',
+                keyword: null
+            },
+            sort: {
+                field: 'recordTime',
+                sort: 'desc'
+            }
         };
     },
+    mounted() {
+        this.fetchData();
+    },
     methods: {
+        fetchData() {
+            var paramData = {
+                query: [],
+                sort: [],
+                page: this.pageIndex,
+                size: 20
+            };
+            this.param.startDate = moment().subtract(1, 'year').format('YYYY-MM-DD hh:mm:ss');
+            this.param.endDate = new Date().formatDate('yyyy-MM-dd hh:mm:ss');
+            Object.keys(this.param).forEach(key => {
+                paramData.query.push({
+                    field: key,
+                    value: this.param[key]
+                });
+            });
+            if (this.sort) {
+                paramData.sort.push(this.sort);
+            };
+            this.isLoading = true;
+            api_customerProfiles.serviceCenter(paramData).then(res => {
+                this.isLoading = false;
+                let data = res.data.rows.map(x => {
+                    return {
+                        name: x.employeeName,
+                        time: x.createTimestamp,
+                        desc: x.content,
+                        images: x.imageIds
+                    };
+                });
+                this.timeDataList = this.timeDataList.concat(data);
+                this.total = res.data.total;
+            }, err => {
+                this.$toast('加载失败');
+                this.isLoading = false;
+            });
+        }
     }
 };
 </script>

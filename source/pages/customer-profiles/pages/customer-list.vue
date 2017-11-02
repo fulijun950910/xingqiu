@@ -215,7 +215,7 @@ export default {
             }
         },
         keywordChange: knife.debounce(function(arg) {
-            console.log(this.keyword);
+            this.getCustomerListSearch();
         }, 300),
         filterClick(field, item) {
             if (this.param[field] == item.value) {
@@ -227,6 +227,22 @@ export default {
         loadMore() {
             this.pageIndex ++;
             this.getCustomerList();
+        },
+        // 模糊查询会员列表
+        getCustomerListSearch() {
+            var paramData = {
+                query: [
+                    {field: 'merchantId', value: this.$store.getters.merchantId},
+                    {field: 'keyword', value: this.keyword, operation: 'like'}
+                ],
+                page: 1,
+                size: 20
+            };
+            api_customerProfiles.memberListSearch(paramData).then(res => {
+
+            }, err => {
+
+            });
         },
         // 获取会员列表
         getCustomerList() {
