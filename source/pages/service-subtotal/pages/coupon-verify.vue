@@ -182,6 +182,108 @@
             </div>
 
         </div>
+        <!-- 券未到使用日期期 -->
+        <div v-else-if="state==6" class="containerBox" v-model="ticketInfo">
+            <div class="verifyTitle danger" layout="column" layout-align="center center">
+                <div>
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-cuowu"></use>
+                    </svg>
+                </div>
+                <div class="fs32">
+                    哎呀，这张券还未到使用日期
+                </div>
+            </div>
+            <div class="couponBox">
+                <div class="couponInfo cell" layout="row" layout-align="space-between center">
+                    <div flex>
+                        <p class="fs32">{{ ticketInfo.ticketName }}</p>
+                        <p class="fs32">NO：<span class="coupon-no">{{ ticketInfo.ticketNo | couponNo }}</span></p>
+                    </div>
+                    <div class="stateBox stateBox1">
+                        <p class="">未使用</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="textCell" layout="row" layout-align="start center">
+                        <div class="dark-gray">活动名称:&nbsp;</div>
+                        <div flex class="">{{ ticketInfo.promotionName }}</div>
+                    </div>
+                    <div class="textCell" layout="row" layout-align="start center">
+                        <div class="dark-gray" >客户信息:&nbsp;</div>
+                        <div flex class="">{{ ticketInfo.memberName }} {{ ticketInfo.mobile }}</div>
+                    </div>
+                    <div class="textCell" layout="row" layout-align="start center">
+                        <div class="dark-gray">开始时间:&nbsp;</div>
+                        <div flex class=""> {{ ticketInfo.startDate }} </div>
+                    </div>
+                    <div class="textCell" layout="row" layout-align="start center">
+                        <div class="dark-gray">结束时间:&nbsp;</div>
+                        <div flex class=""> {{ ticketInfo.endDate }} </div>
+                    </div>
+                    <div class="textCell" layout="row" layout-align="start center">
+                        <div class="dark-gray">操作人:&nbsp;</div>
+                        <div flex class="">{{ ticketInfo.operatorName }}</div>
+                    </div>
+                </div>
+            </div>
+            <p class="fs24 font-gray-darken cell" layout="row" layout-align="center center">点击“换券重验”试试别的券。</p>
+            <div class="cell-box cell">
+                <button @click="resetTicketNo" class="couponBtn">换券重验</button>
+            </div>
+
+        </div>
+        <!-- 券过期 -->
+        <div v-else-if="state==7" class="containerBox" v-model="ticketInfo">
+            <div class="verifyTitle danger" layout="column" layout-align="center center">
+                <div>
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-cuowu"></use>
+                    </svg>
+                </div>
+                <div class="fs32">
+                    哎呀，这张券已经过期喽~
+                </div>
+            </div>
+            <div class="couponBox">
+                <div class="couponInfo cell" layout="row" layout-align="space-between center">
+                    <div flex>
+                        <p class="fs32">{{ ticketInfo.ticketName }}</p>
+                        <p class="fs32">NO：<span class="coupon-no">{{ ticketInfo.ticketNo | couponNo }}</span></p>
+                    </div>
+                    <div class="stateBox stateBox2">
+                        <p class="">已过期</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="textCell" layout="row" layout-align="start center">
+                        <div class="dark-gray">活动名称:&nbsp;</div>
+                        <div flex class="">{{ ticketInfo.promotionName }}</div>
+                    </div>
+                    <div class="textCell" layout="row" layout-align="start center">
+                        <div class="dark-gray" >客户信息:&nbsp;</div>
+                        <div flex class="">{{ ticketInfo.memberName }} {{ ticketInfo.mobile }}</div>
+                    </div>
+                    <div class="textCell" layout="row" layout-align="start center">
+                        <div class="dark-gray">开始时间:&nbsp;</div>
+                        <div flex class=""> {{ ticketInfo.startDate }} </div>
+                    </div>
+                    <div class="textCell" layout="row" layout-align="start center">
+                        <div class="dark-gray">结束时间:&nbsp;</div>
+                        <div flex class=""> {{ ticketInfo.endDate }} </div>
+                    </div>
+                    <div class="textCell" layout="row" layout-align="start center">
+                        <div class="dark-gray">操作人:&nbsp;</div>
+                        <div flex class="">{{ ticketInfo.operatorName }}</div>
+                    </div>
+                </div>
+            </div>
+            <p class="fs24 font-gray-darken cell" layout="row" layout-align="center center">点击“换券重验”试试别的券。</p>
+            <div class="cell-box cell">
+                <button @click="resetTicketNo" class="couponBtn">换券重验</button>
+            </div>
+
+        </div>
 
         <!-- 查询失败-->
         <div v-else-if="state==5" class="containerBox">
@@ -313,6 +415,10 @@ export default {
                     this.initStoreData(results.data.storeIds);
                 } else if (results.data.status == 4) {
                     this.state = 4;
+                } else if (results.data.status == 31) {
+                    this.state = 6;
+                } else if (results.data.status == 32) {
+                    this.state = 7;
                 } else {
                     this.state = 5;
                 }
