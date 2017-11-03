@@ -88,7 +88,7 @@ export default {
             });
         },
         toCreateRecord() {
-            window.location.href = '/service-subtotal.html#/service-record-list';
+            window.location.href = '/service/service-subtotal.html#/service-record-list';
         }
     }
 };

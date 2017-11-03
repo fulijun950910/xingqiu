@@ -93,7 +93,7 @@ export default {
             });
         },
         toCreateRecord() {
-            window.location.href = '/service-subtotal.html#/member-list';
+            window.location.href = '/service/service-subtotal.html#/member-list';
         },
         showNativeImg(img) {
             this.currentImg = img;

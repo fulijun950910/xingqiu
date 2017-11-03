@@ -5,7 +5,7 @@ var isProd = process.env.NODE_ENV === 'production';
 
 cooking.set({
     entry: build.entries(),
-    dist: './dist/service-subtotal',
+    dist: './dist/service',
     template: build.templates(),
     devServer: {
         port: 8200,
@@ -33,7 +33,7 @@ cooking.set({
             })
         ];
     },
-    publicPath: '/service-subtotal/',
+    publicPath: '/service/',
     assetsPath: 'static',
     urlLoaderLimit: 8 * 1024,
     extractCSS: isProd ? 'static/[name].[contenthash:7].css' : true,
