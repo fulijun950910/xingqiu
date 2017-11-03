@@ -63,6 +63,20 @@ Vue.filter('mGender', function(value) {
 /**
  * 图片路径过滤（宽高）
  */
+Vue.filter('nSrc', function(value, def) {
+    if (value) {
+        if (isNaN(Number(value))) {
+            return value;
+        } else {
+            return `${BASE_IMG_PATH + value}`;
+        }
+    }
+    return def;
+});
+
+/**
+ * 图片路径过滤（宽高）
+ */
 Vue.filter('mSrc', function(value, w, h, def) {
     if (value) {
         if (isNaN(Number(value))) {

@@ -4,8 +4,11 @@
             <span style="display: inline-block;"><mt-spinner  color="#00CBC7" type="fading-circle"></mt-spinner></span>
         </div>
         <div class="card">
-            <p class="title">
+            <p class="title" layout="row" layout-align="space-between center">
                 <span><m-icon class="mr8" xlink="#icon-tel"/> 回访关怀</span>
+                <span class="back-primary" @click="toCreateRecord">
+                    <m-icon xlink="#icon-add-border"/>
+                </span>
             </p>
             <div class="content" v-for="(item, index) in dataList" :key="index" layout="row" layout-align="space-between start">
                 <div class="ava ft12 text-center" layout="column" layout-align="center center">
@@ -16,22 +19,25 @@
                     <p>技师：{{item.employeeName}}</p>
                     <p class="ft12 ft-light dark-gray">{{item.content}}</p>
                     <div class="image" v-if="item.imageIds" layout="row" layout-align="start start" flex-wrap="wrap">
-                        <img v-for="(img, index) in item.imageIds.split(',')" :key="index" :src="img | mSrc(80, 80, require('assets/imgs/avatar.png'))" alt="">
+                        <img v-for="(img, index) in item.imageIds.split(',')" :key="index" :src="img | mSrc(80, 80, require('assets/imgs/nullimg.jpg'))" @click="showNativeImg(img)">
                     </div>
                 </div>
             </div>
         </div>
+        <m-gallery v-model="currentImg" :show.sync="showCurrentImg"></m-gallery>
     </div>
 </template>
 
 <script>
 import api_customerProfiles from 'services/api.customerProfiles';
 import moment from 'moment';
+import mGallery from 'components/m-gallery';
 export default {
     name: 'customer-detail-service',
-    components: {},
     data() {
         return {
+            currentImg: null,
+            showCurrentImg: false,
             dataList: [],
             isLoading: false,
             pageIndex: 1,
@@ -39,7 +45,7 @@ export default {
             param: {
                 storeId: this.$store.getters.storeId,
                 merchantId: this.$store.getters.merchantId,
-                employeeId: this.$store.getters.employeeId,
+                memberId: this.$route.params.customerId,
                 startDate: null,
                 endDate: null,
                 type: 2,
@@ -50,6 +56,9 @@ export default {
                 sort: 'desc'
             }
         };
+    },
+    components: {
+        mGallery
     },
     mounted() {
         this.fetchData();
@@ -62,7 +71,7 @@ export default {
                 page: this.pageIndex,
                 size: 20
             };
-            this.param.startDate = moment().subtract(1, 'year').format('YYYY-MM-DD hh:mm:ss');
+            this.param.startDate = moment().subtract(10, 'year').format('YYYY-MM-DD hh:mm:ss');
             this.param.endDate = new Date().formatDate('yyyy-MM-dd hh:mm:ss');
             Object.keys(this.param).forEach(key => {
                 paramData.query.push({
@@ -82,6 +91,13 @@ export default {
                 this.$toast('加载失败');
                 this.isLoading = false;
             });
+        },
+        toCreateRecord() {
+            window.location.href = '/service-subtotal.html#/member-list';
+        },
+        showNativeImg(img) {
+            this.currentImg = img;
+            this.showCurrentImg = true;
         }
     }
 };
@@ -97,6 +113,17 @@ export default {
             .title {
                 padding: 12px;
                 border-bottom: 1px solid #eee;
+                .back-primary {
+                    display: inline-block;
+                    width: 24px;
+                    height: 24px;
+                    line-height: 24px;
+                    text-align: center;
+                    font-size: 16px;
+                    border-radius: 5px;
+                    background-color: @color-primary;
+                    color: white;
+                }
             }
             .content {
                 padding: 12px;

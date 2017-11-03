@@ -6,11 +6,11 @@
         <div class="card">
             <p class="title" layout="row" layout-align="space-between center">
                 <span><m-icon class="mr8" xlink="#icon-record"/> 护理记录</span>
-                <span class="back-primary">
+                <span class="back-primary" @click="toCreateRecord">
                     <m-icon xlink="#icon-add-border"/>
                 </span>
             </p>
-            <div class="content">
+            <div class="content" v-if="timeDataList && timeDataList.length">
                 <m-timeline :values="timeDataList"></m-timeline>
             </div>
         </div>
@@ -35,7 +35,7 @@ export default {
             param: {
                 storeId: this.$store.getters.storeId,
                 merchantId: this.$store.getters.merchantId,
-                employeeId: this.$store.getters.employeeId,
+                memberId: this.$route.params.customerId,
                 startDate: null,
                 endDate: null,
                 type: '1',
@@ -58,7 +58,7 @@ export default {
                 page: this.pageIndex,
                 size: 20
             };
-            this.param.startDate = moment().subtract(1, 'year').format('YYYY-MM-DD hh:mm:ss');
+            this.param.startDate = moment().subtract(10, 'year').format('YYYY-MM-DD hh:mm:ss');
             this.param.endDate = new Date().formatDate('yyyy-MM-dd hh:mm:ss');
             Object.keys(this.param).forEach(key => {
                 paramData.query.push({
@@ -86,6 +86,9 @@ export default {
                 this.$toast('加载失败');
                 this.isLoading = false;
             });
+        },
+        toCreateRecord() {
+            window.location.href = '/service-subtotal.html#/service-record-list';
         }
     }
 };
@@ -114,7 +117,7 @@ export default {
                 }
             }
             .content {
-                padding-bottom: 12px;
+                padding: 12px;
                 .item {
                     border: 1px solid #eee;
                     border-radius: 4px;

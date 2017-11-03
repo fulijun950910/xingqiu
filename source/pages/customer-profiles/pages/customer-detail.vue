@@ -8,10 +8,10 @@
                     <img :src="dataModel.avatarId|mSrc(90,90,require('assets/imgs/avatar.png'))" alt="">
                     <div>
                         <p class="c-card-title no-wrap">
-                            {{dataModel.name}}<span class="badge-vip ml8 ft-light"><m-icon xlink="#icon-huangguan"/> {{dataModel.grade}}</span>
+                            {{dataModel.name || dataModel.nickName || '-'}}<span class="badge-vip ml8 ft-light"><m-icon xlink="#icon-huangguan"/> {{dataModel.grade}}</span>
                         </p>
                         <p class="c-card-subtitle no-wrap ft-light">
-                            {{dataModel.mobile}}
+                            {{dataModel.mobile | mobile}}
                         </p>
                     </div>
                 </div>
@@ -140,7 +140,7 @@ export default {
         // 顾客基本信息
         .profiles {
             color: white;
-            background-image: url(~assets/imgs/527827582130992805.jpg);
+            background-image: url(~assets/imgs/profile-back.png);
             height: 160px;
             border-bottom: 1px solid #e4e4e4;
             .c-card {

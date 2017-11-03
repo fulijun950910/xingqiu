@@ -14,7 +14,7 @@
             </p>
             <transition name="slide-up" mode="out-in">
                 <div v-show="showMemberCard" class="content">
-                    <div v-for="(item, index) in cards" :key="index" class="item">
+                    <div v-for="(item, index) in cards" :key="index" class="item" @click="toCardDetail(item)">
                         <p layout="row" layout-align="space-between center">
                             <span class="no-wrap">{{item.name}} <span class="badge-card" :class="['back'+item.type]">{{cardType(item.type)}}</span></span>
                             <span v-if="cardSlots.includes(item.type)" class="ft12 dark-gray pull-right">剩余</span>
@@ -31,10 +31,10 @@
             </transition>
         </div>
 
-        <!--赠品/券-->
-        <div v-if="tickets" class="coupon card">
+        <!--券-->
+        <div v-if="tickets" class="tickets card">
             <p class="title" layout="row" layout-align="space-between center" @click="showMemberCoupon = !showMemberCoupon">
-                <span><m-icon class="mr8" xlink="#icon-coupon"/> 赠品/券</span>
+                <span><m-icon class="mr8" xlink="#icon-coupon"/> 券</span>
                 <span class="light-gray ft12">
                     有效 <span class="color-primary ft16">{{tickets.length}}</span> 张
                     <span class="ml8 color-gray"><m-icon :xlink="showMemberCoupon?'#icon-arrow-up':'#icon-arrow-down'"/></span>
@@ -42,17 +42,42 @@
             </p>
             <transition name="slide-up" mode="out-in">
                 <div v-show="showMemberCoupon" class="content">
-                    <div v-for="(item, index) in tickets" :key="index" class="item" layout="row" layout-align="space-between center">
-                        <div flex="70">
-                            <p class="no-wrap color-primary">
-                                {{item.name}}
-                            </p>
-                            <p class="ft12 dark-gray">有效期：{{item | validDate}}</p>
-                        </div>
-                        <div flex="30">
-                            <p class="ft12 dark-gray text-right">剩余</p>
-                            <p class="ft16 text-right no-wrap">{{item.balance/100 | currency}}</p>
-                        </div>
+                    <div v-for="(item, index) in tickets" :key="index" class="item">
+                        <p layout="row" layout-align="space-between center">
+                            <span class="no-wrap">{{item.name}}</span>
+                            <span class="ft12 dark-gray pull-right">剩余</span>
+                        </p>
+                        <p class="ft12 dark-gray" layout="row" layout-align="space-between center">
+                            <span>有效期：{{item | validDate}}</span>
+                            <span v-if="item.type == 1" class="ft16 text-right no-wrap">{{item.balance/100 | currency}}</span>
+                            <span v-else-if="item.type == 2 || item.type == 3" class="ft16 text-right no-wrap">{{item.balance || 0}}<span class="ft12 dark-gray">张</span></span>
+                        </p>
+                    </div>
+                </div>
+            </transition>
+        </div>
+
+        <!--赠品-->
+        <div v-if="presents" class="presents card">
+            <p class="title" layout="row" layout-align="space-between center" @click="showMemberPresents = !showMemberPresents">
+                <span><m-icon class="mr8" xlink="#icon-gift"/> 赠品</span>
+                <span class="light-gray ft12">
+                    有效 <span class="color-primary ft16">{{presents.length}}</span> 份
+                    <span class="ml8 color-gray"><m-icon :xlink="showMemberPresents?'#icon-arrow-up':'#icon-arrow-down'"/></span>
+                </span>
+            </p>
+            <transition name="slide-up" mode="out-in">
+                <div v-show="showMemberPresents" class="content">
+                    <div v-for="(item, index) in presents" :key="index" class="item">
+                        <p layout="row" layout-align="space-between center">
+                            <span class="no-wrap">{{item.presentName}}</span>
+                            <span class="ft12 dark-gray pull-right">剩余</span>
+                        </p>
+                        <p class="ft12 dark-gray" layout="row" layout-align="space-between center">
+                            <span>有效期：{{item | validDate}}</span>
+                            <span v-if="item.presentType == 1" class="ft16 text-right no-wrap">{{item.presentAmount/100 | currency}}</span>
+                            <span v-else class="ft16 text-right no-wrap">{{item.presentAmount}}份</span>
+                        </p>
                     </div>
                 </div>
             </transition>
@@ -72,6 +97,7 @@ export default {
             CARD_TYPE,
             showMemberCard: true,
             showMemberCoupon: true,
+            showMemberPresents: true,
             isLoading: false,
             dataModel: {}
         };
@@ -107,6 +133,10 @@ export default {
         cardType(type) {
             let obj = this.CARD_TYPE.find(x => { return x.value == type; });
             return obj ? obj.label : '-';
+        },
+        // 跳转卡详情页面
+        toCardDetail(item) {
+            window.location.href = `https://wechat.mei1.info/views/g-card-detail/index.html?merchantid=${this.$store.getters.merchantId}&cardId=${item.id}`;
         }
     },
     filters: {
@@ -169,7 +199,7 @@ export default {
                 }
             }
         }
-        .coupon {
+        .tickets, .presents {
             margin-top: 12px;
             .content {
                 .item {

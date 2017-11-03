@@ -18,7 +18,7 @@
                         <p class="name mgb4">技师：{{day.name}}</p>
                         <p class="desc ft-light ft12 dark-gray tidt2">{{day.desc}}</p>
                         <div class="image" layout="row" layout-align="start start" flex-wrap="wrap">
-                            <img v-for="(img, index) in day.images" :key="index" :src="img | mSrc(80, 80, require('assets/imgs/avatar.png'))" alt="">
+                            <img v-for="(img, index) in day.images" :key="index" :src="img | mSrc(80, 80, require('assets/imgs/nullimg.jpg'))" @click="showNativeImg(img)" alt="">
                         </div>
                         <p class="items dark-gray ft12">
                             <m-icon xlink="#icon-item"/>
@@ -26,9 +26,10 @@
                         </p>
                     </div>
                 </div>
-
+                <m-gallery v-model="currentImg" :show.sync="showCurrentImg"></m-gallery>
             </div>
         </div>
+        
     </div>
 </template>
 
@@ -39,6 +40,7 @@
  * sortType: 排序类型（true：升序，false：降序）
  */
 import knife from 'vendor/knife';
+import mGallery from 'components/m-gallery';
 export default {
     name: 'm-timeline',
     props: {
@@ -55,8 +57,13 @@ export default {
             default: false
         }
     },
+    components: {
+        mGallery
+    },
     data() {
         return {
+            currentImg: null,
+            showCurrentImg: false
         };
     },
     mounted() {
@@ -112,6 +119,10 @@ export default {
                 yearArr.push(yearObj);
             });
             return yearArr;
+        },
+        showNativeImg(img) {
+            this.currentImg = img;
+            this.showCurrentImg = true;
         }
     },
     filters: {
@@ -135,7 +146,6 @@ export default {
         margin-bottom: 4px;
     }
     .m-timeline {
-        padding: 12px;
         .line-node {
             padding: 0;
             .year-block {
