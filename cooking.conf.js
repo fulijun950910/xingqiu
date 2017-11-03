@@ -5,7 +5,7 @@ var isProd = process.env.NODE_ENV === 'production';
 
 cooking.set({
     entry: build.entries(),
-    dist: './dist',
+    dist: './dist/service-subtotal',
     template: build.templates(),
     devServer: {
         port: 8200,
@@ -16,7 +16,7 @@ cooking.set({
             '/api': {
                 target: 'https://assistant.mei1.info',
                 changeOrigin: true
-            }
+            } 
         }
     },
     // production
@@ -33,7 +33,7 @@ cooking.set({
             })
         ];
     },
-    publicPath: '/',
+    publicPath: '/service-subtotal/',
     assetsPath: 'static',
     urlLoaderLimit: 8 * 1024,
     extractCSS: isProd ? 'static/[name].[contenthash:7].css' : true,
