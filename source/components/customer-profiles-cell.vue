@@ -26,7 +26,7 @@
                 </p>
                 <p v-if="value.order.lastConsumeDate"><span class="back-golden"><m-icon xlink="#icon-cost"/></span> {{moment(value.order.lastConsumeDate).fromNow()}}消费过</p>
                 <p v-if="value.returnVisitDays"><span class="back-golden"><m-icon xlink="#icon-telephone"/></span> {{moment().add(value.returnVisitDays*-1, 'days').fromNow()}}回访过</p>
-                <p v-if="value.memberTagList"><span class="back-golden"><m-icon xlink="#icon-tag-alt"/></span> {{value.memberTagList.map(x=>{return x.tagName}).join(' ')}}</p>
+                <p v-if="value.memberTagList"><span class="back-golden"><m-icon xlink="#icon-tag-alt"/></span> {{value.memberTagList.map(x=>{return x.tagName}).slice(0, 4).join(' ')}}</p>
             </div>
         </div>
     </div>
