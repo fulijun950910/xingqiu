@@ -16,9 +16,9 @@
                     <p class="text-right" v-else>-</p>
                 </div>
             </div>
-            <div class="cost" :class="{show: show}">
+            <div class="cost" :class="{show: show}" @click.stop="$emit('update:show', !show)">
                 <p>
-                    <span class="back-golden"><m-icon xlink="#icon-huangguan"/></span> {{value.gradeName || '-'}} <span class="pull-right" @click.stop="$emit('update:show', !show)">更多 <m-icon :xlink="show?'#icon-arrow-up':'#icon-arrow-down'"/></span>
+                    <span class="back-golden"><m-icon xlink="#icon-huangguan"/></span> {{value.gradeName || '-'}} <span class="pull-right">更多 <m-icon :xlink="show?'#icon-arrow-up':'#icon-arrow-down'"/></span>
                 </p>
                 <p v-if="value.hasCard"><span class="back-golden"><m-icon xlink="#icon-card"/></span>
                     <span v-if="value.hasCard == 2">{{'已办卡客户'}}</span>
