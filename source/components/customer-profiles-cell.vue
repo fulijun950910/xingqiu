@@ -1,7 +1,7 @@
 <template>
     <div class="profiles-cell" layout="row" layout-align="space-between start">
         <div class="ava-box">
-            <img :src="value.avatarId | mSrc(80, 80, require(`assets/imgs/${gender[value.gender]}.png`))" :alt="value.name">
+            <img :src="value.avatarId | mSrc(80, 80, require(`assets/imgs/${gender[value.gender || 0]}.png`))" :alt="value.name">
         </div>
         <div flex class="content-box">
             <div class="info" layout="row" layout-align="space-between center">
@@ -13,20 +13,29 @@
                 <div class="show">
                     <p class="ft-light dark-gray text-right">上次消费</p>
                     <p class="text-right" v-if="value.order.lastConsumeDate">{{moment(value.order.lastConsumeDate).fromNow()}}</p>
-                    <p class="text-right" v-else>-</p>
+                    <p class="text-right" v-else>未消费</p>
                 </div>
             </div>
             <div class="cost" :class="{show: show}" @click.stop="$emit('update:show', !show)">
                 <p>
-                    <span class="back-golden"><m-icon xlink="#icon-huangguan"/></span> {{value.gradeName || '-'}} <span class="pull-right">更多 <m-icon :xlink="show?'#icon-arrow-up':'#icon-arrow-down'"/></span>
+                    <span class="back-golden"><m-icon xlink="#icon-huangguan"/></span> {{value.gradeName || '无会员等级'}} <span class="pull-right">更多 <m-icon :xlink="show?'#icon-arrow-up':'#icon-arrow-down'"/></span>
                 </p>
                 <p v-if="value.hasCard"><span class="back-golden"><m-icon xlink="#icon-card"/></span>
                     <span v-if="value.hasCard == 2">{{'已办卡客户'}}</span>
                     <span v-else>{{'未办卡客户'}}</span>
                 </p>
-                <p v-if="value.order.lastConsumeDate"><span class="back-golden"><m-icon xlink="#icon-cost"/></span> {{moment(value.order.lastConsumeDate).fromNow()}}消费过</p>
-                <p v-if="value.returnVisitDays"><span class="back-golden"><m-icon xlink="#icon-telephone"/></span> {{moment().add(value.returnVisitDays*-1, 'days').fromNow()}}回访过</p>
-                <p v-if="value.memberTagList"><span class="back-golden"><m-icon xlink="#icon-tag-alt"/></span> {{value.memberTagList.map(x=>{return x.tagName}).slice(0, 4).join(' ')}}</p>
+                <p v-if="value.order.lastConsumeDate">
+                    <span class="back-golden"><m-icon xlink="#icon-cost"/></span> 
+                    {{moment(value.order.lastConsumeDate).fromNow()}}消费过
+                </p>
+                <p v-if="value.returnVisitLastDate">
+                    <span class="back-golden"><m-icon xlink="#icon-telephone"/></span> 
+                    {{ moment(value.returnVisitLastDate).fromNow() }}回访过
+                </p>
+                <p v-if="value.memberTagList">
+                    <span class="back-golden"><m-icon xlink="#icon-tag-alt"/></span> 
+                    {{value.memberTagList.map(x=>{return x.tagName}).slice(0, 4).join(' ')}}
+                </p>
             </div>
         </div>
     </div>
@@ -90,9 +99,9 @@ export default {
                     .back-golden {
                         margin-right: 4px;
                         display: inline-block;
-                        width: 18px;
-                        height: 18px;
-                        line-height: 16px;
+                        width: 16px;
+                        height: 16px;
+                        line-height: 14px;
                         border-radius: 4px;
                         background-color: @golden;
                         text-align: center;
