@@ -136,7 +136,7 @@ export default {
         },
         // 跳转卡详情页面
         toCardDetail(item) {
-            window.location.href = `https://wechat.mei1.info/views/g-card-detail/index.html?merchantid=${this.$store.getters.merchantId}&cardId=${item.id}`;
+            // window.location.href = `https://wechat.mei1.info/views/g-card-detail/index.html?merchantid=${this.$store.getters.merchantId}&cardId=${item.id}`;
         }
     },
     filters: {
