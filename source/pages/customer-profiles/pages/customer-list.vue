@@ -155,10 +155,10 @@ export default {
                         label: '15天未到店',
                         value: '15d'
                     }, {
-                        label: '一个月未到店',
+                        label: '一月未到店',
                         value: '1m'
                     }, {
-                        label: '三个月未到店',
+                        label: '三月未到店',
                         value: '3m'
                     }]
                 },
