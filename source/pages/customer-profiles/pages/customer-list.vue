@@ -112,7 +112,7 @@ export default {
         return {
             // 参数
             param: {
-                storeId: this.$store.getters.storeId,
+                storeIds: null,
                 merchantId: this.$store.getters.merchantId,
                 employeeId: null,
                 permissionStoreAll: this.$store.getters.permissionStoreAll ? 1 : 0,
@@ -254,6 +254,11 @@ export default {
         },
         // 获取会员列表
         getCustomerList() {
+            // 获取门店
+            var storeIds = window.localStorage.performanceInfo ? JSON.parse(window.localStorage.performanceInfo) : null;
+            if (storeIds && storeIds.performanceStoreIds) {
+                this.param.storeIds = storeIds.performanceStoreIds;
+            }
             var paramData = {
                 query: [],
                 sort: [],
