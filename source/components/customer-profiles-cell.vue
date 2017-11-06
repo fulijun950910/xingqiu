@@ -1,7 +1,7 @@
 <template>
     <div class="profiles-cell" layout="row" layout-align="space-between start">
         <div class="ava-box">
-            <img :src="value.avatarId | mSrc(80, 80, require('assets/imgs/avatar.png'))" :alt="value.name">
+            <img :src="value.avatarId | mSrc(80, 80, require(`assets/imgs/${value.gender==1?'male':'female'}.png`))" :alt="value.name">
         </div>
         <div flex class="content-box">
             <div class="info" layout="row" layout-align="space-between center">
