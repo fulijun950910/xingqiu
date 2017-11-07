@@ -8,7 +8,7 @@
                 <span>所属门店:</span><p>{{dataModel.storeName}}</p>
             </div>
             <div class="field" layout="row" layout-align="start start" >
-                <span>会员账号:</span><p>{{dataModel.memberNo}}</p>
+                <span>会员号:</span><p>{{dataModel.memberNo}}</p>
             </div>
             <div class="field" layout="row" layout-align="start start" >
                 <span>跟踪员工:</span><p>{{dataModel.employeeName}}</p>
