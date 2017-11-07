@@ -2,7 +2,7 @@
      ticketDetailInfo: null,
      checkTicketIdName: "tmpl-verifyTicketInstance",
      verifyCouponVersion4Location:'/lite/index.html#/couponVerify/',
-     verifyCouponDefaultLocation:'/service-subtotal/#/couponVerify/',
+     verifyCouponDefaultLocation:'/service/service-subtotal.html#/couponVerify/',
      checkTicket: function() {
          // 事件绑定
          // 跳转及权限判断

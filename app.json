@@ -1,0 +1,17 @@
+{
+    "pages": [{
+        "entry": "service-subtotal",
+        "title": "服务小计",
+        "cdn": {}
+    }, {
+        "entry": "customer-profiles",
+        "title": "顾客档案",
+        "cdn": {}
+    }],
+    "basePath": "./source/pages/",
+    "cdn": {
+        "js": [],
+        "css": []
+    },
+    "externals": {}
+}

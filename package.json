@@ -6,7 +6,7 @@
   "scripts": {
     "grunt-dev": "grunt --env=dev",
     "dev": "cooking watch -p",
-    "dist": "cooking build -p",
+    "dist": "cross-env grunt clean && grunt packaging --env=qa && cooking build -p",
     "deploy": "cooking build --no-color"
   },
   "license": "ISC",
