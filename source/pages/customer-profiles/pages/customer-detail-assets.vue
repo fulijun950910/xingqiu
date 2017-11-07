@@ -75,8 +75,8 @@
                         </p>
                         <p class="ft12 dark-gray" layout="row" layout-align="space-between center">
                             <span>有效期：{{item | validDate}}</span>
-                            <span v-if="item.presentType == 1" class="ft16 text-right no-wrap">{{item.presentAmount/100 | currency}}</span>
-                            <span v-else class="ft16 text-right no-wrap">{{item.presentAmount}}份</span>
+                            <span v-if="item.presentType == 1" class="ft16 text-right no-wrap">{{item.payRule.balance/100 | currency}}</span>
+                            <span v-else class="ft16 text-right no-wrap">{{item.payRule.balance}}份</span>
                         </p>
                     </div>
                 </div>

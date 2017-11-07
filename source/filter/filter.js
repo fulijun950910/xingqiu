@@ -146,13 +146,17 @@ Vue.filter('sliceStr', function(str, len) {
 });
 
 // '13871147835' => '138 **** 7835'
-Vue.filter('mobile', function(val) {
+Vue.filter('mobile', function(val, isShow) {
     if (!val) {
         return '-';
     }
     val = val.toString().trim();
     if (val.length == 11) {
-        return val.substr(0, 3) + ' **** ' + val.substr(7, 4);
+        if (isShow) {
+            return val.substr(0, 3) + ' ' + val.substr(3, 4) + ' ' + val.substr(7, 4);
+        } else {
+            return val.substr(0, 3) + ' **** ' + val.substr(7, 4);
+        }
     } else {
         return '-';
     }
