@@ -22,7 +22,7 @@
                         </div>
                         <p class="items dark-gray ft12">
                             <m-icon xlink="#icon-item"/>
-                            <span v-for="(item, index) in 2" :key="index">水光针<span v-show="index < 1">、</span></span>
+                            <span>{{day.orderContent}}</span>
                         </p>
                     </div>
                 </div>
