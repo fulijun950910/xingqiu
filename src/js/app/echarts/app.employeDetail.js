@@ -16,7 +16,7 @@ app.employeeDetailEcharts = {
                 startDate: employee.startDate,
                 endDate: employee.endDate,
                 merchantId: employee.merchantId,
-                storeId: employee.storeId,
+                //storeId: employee.storeId,
             };
             console.log(param);
             app.employeeDetailEcharts.userdata().then(function(userDate) {
