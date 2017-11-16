@@ -21,7 +21,7 @@
             </div>
         </div>
         <!-- 查询成功-->
-        <div v-else-if="state==2" class="containerBox" v-model="ticketInfo">
+        <div v-else-if="state==2" class="containerBox">
             <div class="verifyTitle success" layout="column" layout-align="center center">
                 <div>
                     <m-icon xlink="#icon-wsmp-complete"></m-icon>
@@ -81,7 +81,7 @@
             </popup-right>
         </div>
         <!-- 消费成功-->
-        <div v-else-if="state==3" class="containerBox" v-model="ticketInfo">
+        <div v-else-if="state==3" class="containerBox">
             <div class="verifyTitle success" layout="column" layout-align="center center">
                 <div>
                     <svg class="icon" aria-hidden="true">
@@ -134,7 +134,7 @@
             </div>
         </div>
         <!-- 消费失败-->
-        <div v-else-if="state==4" class="containerBox" v-model="ticketInfo">
+        <div v-else-if="state==4" class="containerBox">
             <div class="verifyTitle danger" layout="column" layout-align="center center">
                 <div>
                     <svg class="icon" aria-hidden="true">
@@ -186,7 +186,7 @@
 
         </div>
         <!-- 券未到使用日期期 -->
-        <div v-else-if="state==6" class="containerBox" v-model="ticketInfo">
+        <div v-else-if="state==6" class="containerBox">
             <div class="verifyTitle danger" layout="column" layout-align="center center">
                 <div>
                     <svg class="icon" aria-hidden="true">
@@ -238,7 +238,7 @@
 
         </div>
         <!-- 券过期 -->
-        <div v-else-if="state==7" class="containerBox" v-model="ticketInfo">
+        <div v-else-if="state==7" class="containerBox">
             <div class="verifyTitle danger" layout="column" layout-align="center center">
                 <div>
                     <svg class="icon" aria-hidden="true">
@@ -522,7 +522,7 @@ export default {
         min-height:100vh;
     }
     .inputNav{
-        background: url(/assets/imgs/527827582130992805.jpg) no-repeat;
+        background: url(~assets/imgs/527827582130992805.jpg) no-repeat;
         background-size:100% 100%;
         height:90px;
         .inputBox{
@@ -609,9 +609,6 @@ export default {
             color:@color-red;
             background:@color-red-lighten;
         }
-        .coupon-no {
-        }
-
     }
     .queryBtnBox{
         position:fixed;

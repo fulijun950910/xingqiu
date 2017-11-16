@@ -23,7 +23,7 @@ export const WARN_ITEMS = [
 
 // 提醒事项
 export const CARD_TYPE = [
-    { label: '会员卡', name: 'TYPE_MEMBER', value: 1 },
+    { label: '折扣卡', name: 'TYPE_MEMBER', value: 1 },
     { label: '储值卡', name: 'TYPE_DEPOSIT', value: 2 },
     { label: '时段卡', name: 'TYPE_TIME', value: 3 },
     { label: '总次卡', name: 'TYPE_ITEM_TOTAL', value: 4 },

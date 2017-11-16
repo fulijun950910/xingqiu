@@ -132,10 +132,10 @@ export default {
             showSearch: false,
             sortSlots: [
                 {label: '默认排序'},
-                {label: '最后到店时间从远到近', field: 'leaveDays', sort: 'desc'},
-                {label: '最后到店时间从近到远', field: 'leaveDays', sort: 'asc'},
-                {label: '未回访时间从近到远', field: 'messageservicecenter.createTime', sort: 'desc'},
-                {label: '未回访时间从远到近', field: 'messageservicecenter.createTime', sort: 'asc'}
+                {label: '最后消费时间从远到近', field: 'memberorder.lastConsumeDate', sort: 'asc'},
+                {label: '最后消费时间从近到远', field: 'memberorder.lastConsumeDate', sort: 'desc'},
+                {label: '未回访时间从远到近', field: 'messageservicecenter.createTime', sort: 'asc'},
+                {label: '未回访时间从近到远', field: 'messageservicecenter.createTime', sort: 'desc'}
             ],
             category: [
                 {

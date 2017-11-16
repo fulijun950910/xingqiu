@@ -50,7 +50,7 @@
                         <p class="ft12 dark-gray" layout="row" layout-align="space-between center">
                             <span>有效期：{{item | validDate}}</span>
                             <span v-if="item.type == 1" class="ft16 text-right no-wrap">{{item.balance/100 | currency}}</span>
-                            <span v-else-if="item.type == 2 || item.type == 3" class="ft16 text-right no-wrap">{{item.balance || 0}}<span class="ft12 dark-gray">张</span></span>
+                            <span v-else-if="item.type == 2 || item.type == 3" class="ft16 text-right no-wrap">{{item.balance || 0}}<span class="ft12 dark-gray">次</span></span>
                         </p>
                     </div>
                 </div>
@@ -75,8 +75,8 @@
                         </p>
                         <p class="ft12 dark-gray" layout="row" layout-align="space-between center">
                             <span>有效期：{{item | validDate}}</span>
-                            <span v-if="item.presentType == 1" class="ft16 text-right no-wrap">{{item.presentAmount/100 | currency}}</span>
-                            <span v-else class="ft16 text-right no-wrap">{{item.presentAmount}}份</span>
+                            <span v-if="item.presentType == 1" class="ft16 text-right no-wrap">{{item.payRule.balance/100 | currency}}</span>
+                            <span v-else class="ft16 text-right no-wrap">{{item.payRule.balance}}份</span>
                         </p>
                     </div>
                 </div>
@@ -142,10 +142,12 @@ export default {
     filters: {
         validDate(val) {
             if (val) {
-                if (val.endTime) {
+                if (val.startTime && val.endTime) {
                     return val.startTime.formatDate('yyyy.MM.dd') + '~' + val.endTime.formatDate('yyyy.MM.dd');
-                } else {
+                } else if (val.startTime) {
                     return '永久有效';
+                } else {
+                    return '使用时生效';
                 }
             } else {
                 return '-';

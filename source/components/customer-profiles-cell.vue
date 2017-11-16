@@ -8,7 +8,7 @@
                 <div>
                     <p class="name fwb">{{value.name || '-'}}</p>
                     <p v-if="$store.getters.permissionStoreAll" class="ft-light dark-gray">{{value.mobile}}</p>
-                    <p v-else class="ft-light dark-gray">{{value.mobile | mobile}}</p>
+                    <p v-else class="ft-light dark-gray">{{value.mobile | mobile(true)}}</p>
                 </div>
                 <div class="show">
                     <p class="ft-light dark-gray text-right">上次消费</p>

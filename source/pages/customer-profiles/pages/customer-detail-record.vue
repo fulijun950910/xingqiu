@@ -77,6 +77,7 @@ export default {
                         name: x.employeeName,
                         time: x.recordTime,
                         desc: x.content,
+                        orderContent: x.orderContent,
                         images: x.imageIds ? x.imageIds.split(',') : []
                     };
                 });
