@@ -55,7 +55,8 @@
                     </div>
                     <div class="textCell" layout="row" layout-align="start center">
                         <div class="dark-gray" >客户信息:&nbsp;</div>
-                        <div flex class="">{{ ticketInfo.memberName }} {{ ticketInfo.mobile }}</div>
+                        <div class="">{{ ticketInfo.memberName }} {{ ticketInfo.mobile }}</div>
+                        <div v-if="ticketInfo.groupRole=='CAPTAIN'" class="font-yellow">&nbsp;<sup>团长</sup></div>
                     </div>
                     <div class="textCell" layout="row" layout-align="start center">
                         <div class="dark-gray">开始时间:&nbsp;</div>
@@ -110,7 +111,8 @@
                     </div>
                     <div class="textCell" layout="row" layout-align="start center">
                         <div class="dark-gray" >客户信息:&nbsp;</div>
-                        <div flex class="">{{ ticketInfo.memberName }} {{ ticketInfo.mobile }}</div>
+                        <div class="">{{ ticketInfo.memberName }} {{ ticketInfo.mobile }}</div>
+                        <div v-if="ticketInfo.groupRole=='CAPTAIN'" class="font-yellow">&nbsp;<sup>团长</sup></div>
                     </div>
                     <div class="textCell" layout="row" layout-align="start center">
                         <div class="dark-gray">开始时间:&nbsp;</div>
@@ -160,7 +162,8 @@
                     </div>
                     <div class="textCell" layout="row" layout-align="start center">
                         <div class="dark-gray" >客户信息:&nbsp;</div>
-                        <div flex class="">{{ ticketInfo.memberName }} {{ ticketInfo.mobile }}</div>
+                        <div class="">{{ ticketInfo.memberName }} {{ ticketInfo.mobile }}</div>
+                        <div v-if="ticketInfo.groupRole=='CAPTAIN'" class="font-yellow">&nbsp;<sup>团长</sup></div>
                     </div>
                     <div class="textCell" layout="row" layout-align="start center">
                         <div class="dark-gray">开始时间:&nbsp;</div>
@@ -211,7 +214,8 @@
                     </div>
                     <div class="textCell" layout="row" layout-align="start center">
                         <div class="dark-gray" >客户信息:&nbsp;</div>
-                        <div flex class="">{{ ticketInfo.memberName }} {{ ticketInfo.mobile }}</div>
+                        <div class="">{{ ticketInfo.memberName }} {{ ticketInfo.mobile }}</div>
+                        <div v-if="ticketInfo.groupRole=='CAPTAIN'" class="font-yellow">&nbsp;<sup>团长</sup></div>
                     </div>
                     <div class="textCell" layout="row" layout-align="start center">
                         <div class="dark-gray">开始时间:&nbsp;</div>
@@ -262,7 +266,8 @@
                     </div>
                     <div class="textCell" layout="row" layout-align="start center">
                         <div class="dark-gray" >客户信息:&nbsp;</div>
-                        <div flex class="">{{ ticketInfo.memberName }} {{ ticketInfo.mobile }}</div>
+                        <div class="">{{ ticketInfo.memberName }} {{ ticketInfo.mobile }}</div>
+                        <div v-if="ticketInfo.groupRole=='CAPTAIN'" class="font-yellow">&nbsp;<sup>团长</sup></div>
                     </div>
                     <div class="textCell" layout="row" layout-align="start center">
                         <div class="dark-gray">开始时间:&nbsp;</div>
@@ -324,6 +329,7 @@ export default {
             ticketNo: this.$route.params.couponNo,
             ticketInfo: {
                 id: null,
+                groupRole: null,
                 ticketName: null,
                 memberName: null,
                 promotionName: null,
@@ -400,6 +406,7 @@ export default {
             apiTicket.queryCoupon(data).then(results => {
                 Indicator.close();
                 this.ticketInfo.ticketNo = this.ticketNo;
+                this.ticketInfo.groupRole = results.data.groupRole;
                 this.ticketInfo.id = results.data.id;
                 this.ticketInfo.promotionName = results.data.promotionName;
                 this.ticketInfo.memberName = results.data.memberName;
@@ -492,6 +499,7 @@ export default {
 @color-blue-lighten:#F0FAFB;
 @color-red:#DF508B;
 @color-red-lighten:#FEEDF4;
+@extra-yellow: #eea637; //黄色
 
 .coupon-verify{
     .no-wrap {
@@ -499,6 +507,9 @@ export default {
     }
     .font-gray{
         color:@dark-gray;
+    }
+    .font-yellow{
+        color:@extra-yellow;
     }
     .font-gray-darken{
         color:@extra-light-gray;
