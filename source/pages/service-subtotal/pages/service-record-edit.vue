@@ -2,9 +2,9 @@
     <div v-title="'服务小计'" class="min-height-100 bg-gray">
         <!-- 头部名片 -->
         <div class="c-card" layout="row" layout-align="space-between end">
-            <div class="c-card-content " flex="70" layout="row" layout-align="space-between center">
+            <div class="c-card-content " flex layout="row" layout-align="space-between center">
                 <img :src="dataModel.memberAvatarId|mSrc(90,90,require('assets/imgs/avatar.png'))" alt="">
-                <div flex="75">
+                <div flex="80">
                     <p class="c-card-title " layout="row" layout-align="start center">
                         <span class="c-card-name no-wrap">{{serviceName}}</span>
                     </p>
@@ -13,11 +13,6 @@
                         <span class="ft-light no-wrap" flex="40">{{dataModel.memberName}}</span>
                     </p>
                 </div>
-            </div>
-            <div class="c-card-call text-right ft-light"  flex="30">
-                <a :href="'tel:'+dataModel.memberMobile" class="btn btn-xs ft-light">
-                    <m-icon xlink="#icon-tel-alt"></m-icon> 联系Ta
-                </a>
             </div>
         </div>
         <!-- 服务小计编辑 -->
