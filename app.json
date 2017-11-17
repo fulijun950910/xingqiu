@@ -7,6 +7,10 @@
         "entry": "customer-profiles",
         "title": "顾客档案",
         "cdn": {}
+    }, {
+        "entry": "index",
+        "title": "Watting...",
+        "cdn": {}
     }],
     "basePath": "./source/pages/",
     "cdn": {
