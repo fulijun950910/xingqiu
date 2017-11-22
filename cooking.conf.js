@@ -14,7 +14,7 @@ cooking.set({
         host: '0.0.0.0',
         proxy: {
             '/api': {
-                target: 'https://assistant.mei1.info',
+                target: 'http://assistant.mei1.info',
                 changeOrigin: true
             } 
         }
