@@ -9,7 +9,7 @@
         "cdn": {}
     }, {
         "entry": "index",
-        "title": "Watting...",
+        "title": "",
         "cdn": {}
     }],
     "basePath": "./source/pages/",

@@ -134,15 +134,18 @@
             </div>
         </div>
         <!-- 消费失败-->
-        <div v-else-if="state==4" class="containerBox">
+        <div v-else-if="state==4 || state==8" class="containerBox">
             <div class="verifyTitle danger" layout="column" layout-align="center center">
                 <div>
                     <svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-cuowu"></use>
                     </svg>
                 </div>
-                <div class="fs32">
+                <div class="fs32" v-if="state==4">
                     哎呀，这张券已经使用喽~
+                </div>
+                <div class="fs32" v-else>
+                    哎呀，这张券已经退款喽~
                 </div>
             </div>
             <div class="couponBox">
@@ -152,7 +155,8 @@
                         <p class="fs32">NO：<span class="coupon-no">{{ ticketInfo.ticketNo | couponNo }}</span></p>
                     </div>
                     <div class="stateBox stateBox2">
-                        <p class="">已使用</p>
+                        <p class="" v-if="state==4">已使用</p>
+                        <p class="" v-else>已退款</p>
                     </div>
                 </div>
                 <div>
@@ -325,7 +329,7 @@ export default {
             storeId: this.$store.getters.storeId,
             storeList: [],
             showView: false,
-            state: 1, // 验券状态 1输入 2查询成功 3验券成功 4 验券失败 5查询失败
+            state: 1, // 验券状态 1输入 2查询成功 3验券成功 4 验券失败 5查询失败 6未到时间 7 券过期 8已退款
             ticketNo: this.$route.params.couponNo,
             ticketInfo: {
                 id: null,
@@ -426,6 +430,8 @@ export default {
                     this.state = 6;
                 } else if (results.data.status == 32) {
                     this.state = 7;
+                } else if (results.data.status == 5) {
+                    this.state = 8;
                 } else {
                     this.state = 5;
                 }
