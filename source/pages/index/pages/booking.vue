@@ -12,21 +12,34 @@
                 </div>
                 <div class="editBox">
                     <div class="textCell" layout="row" layout-align="start start">
-                        <div class="">预约时间&emsp;</div>
-                        <div flex class="color-gray">2017</div>
+                        <div class="">预约日期&emsp;</div>
+                        <input flex type="date" value="data.date"/>
                         <div><m-icon class="light-gray" xlink="#icon-right-bold"></m-icon></div>
                     </div>
-                    <div class="textCell" layout="row" layout-align="start start">
+                    <div @click="slectView(1)" class="textCell" layout="row" layout-align="start start">
+                        <div class="">到店时间&emsp;</div>
+                        <div flex class="color-gray">12:00</div>
+                        <div><m-icon class="light-gray" xlink="#icon-right-bold"></m-icon></div>
+                    </div>
+                    <div @click="slectView(1)" class="textCell" layout="row" layout-align="start start">
+                        <div class="">预计结束&emsp;</div>
+                        <div flex class="color-gray">15:00</div>
+                        <div><m-icon class="light-gray" xlink="#icon-right-bold"></m-icon></div>
+                    </div>
+                    <div @click="slectView(3)" class="textCell" layout="row" layout-align="start start">
                         <div class="">预约门店&emsp;</div>
                         <div flex class="color-gray">中山公园</div>
+                        <div><m-icon class="light-gray" xlink="#icon-right-bold"></m-icon></div>
                     </div>
-                    <div class="textCell" layout="row" layout-align="start start">
+                    <div @click="slectView(5)" class="textCell" layout="row" layout-align="start start">
                         <div class="">预约内容&emsp;</div>
                         <div flex class="color-gray">镜头美白护理</div>
                     </div>
-                    <div class="textCell" layout="row" layout-align="start start">
+                    <div @click="slectView(4)" class="textCell" layout="row" layout-align="start start">
                         <div class="">预约人数&emsp;</div>
-                        <div flex class="color-gray"><input type="text" value="1"/></div>
+                        <div flex class="color-gray">1人</div>
+                        <div><m-icon class="light-gray" xlink="#icon-right-bold"></m-icon></div>
+
                     </div>
                     <div class="textCell" layout="row" layout-align="start start">
                         <div class="">预约备注&emsp;</div>
@@ -42,7 +55,12 @@
                 <button class="btn color-gray">取消预约</button>
             </div>
         </div>
-
+        <popup-right v-model="showView">
+            <popup-right-list v-if="selectIndex==1" @change=""  :options="timeList"  title="选择时间" ></popup-right-list>
+            <popup-right-list v-if="selectIndex==3" @change=""  :options="storeList"  title="选择时间" ></popup-right-list>
+            <popup-right-list v-if="selectIndex==4" @change=""  :options="memberCountList"  title="选择时间" ></popup-right-list>
+            <popup-right-load-list v-if="selectIndex==5" :type="1" :multiple="true"  title="选择项目" v-model="data.item"></popup-right-load-list>
+        </popup-right>
     </div>
 </template>
 <script>
@@ -50,14 +68,40 @@ import popupRight from 'components/popup-right';
 import popupRightList from 'components/popup-right-list';
 import popupRightLoadList from 'components/popup-right-load-list';
 import cellTag from 'components/cell-tag';
-
 export default {
     name: '',
     data() {
         return {
             value: null,
             showPopup: false,
-            pickerVisible: true
+            pickerVisible: true,
+            showView: false,
+            selectIndex: 1,
+            storeList: this.$store.state.storeList,
+            timeList: [
+                {
+                    name: '00:00',
+                    value: 1
+                },
+                {
+                    name: '00:00',
+                    value: 1
+                }
+            ],
+            memberCountList: [
+                {name: '1人', value: 1},
+                {name: '2人', value: 1},
+                {name: '3人', value: 1},
+                {name: '4人', value: 1},
+                {name: '5人', value: 1},
+                {name: '6人', value: 1},
+                {name: '7人', value: 1},
+                {name: '8人', value: 1}
+            ],
+            data: {
+                date: null,
+                item: null
+            }
         };
     },
     components: {
@@ -69,6 +113,10 @@ export default {
     mounted() {
     },
     methods: {
+        slectView(index) {
+            this.selectIndex = index;
+            this.showView = true;
+        }
     }
 };
 </script>
@@ -77,7 +125,7 @@ export default {
 @color-link:#7386b6;
 .bookingBox{
     min-height:100vh;
-    padding: 80px 20px 0;
+    padding: 60px 20px 0;
     background:@bg-gray;
     .avatarBox{
         position:absolute;
@@ -112,7 +160,7 @@ export default {
         margin:10px;
     }
     .textCell{
-        padding:12px 0;
+        padding:10px 0;
         &:not(:first-child){
             border-top:1px solid @border-gay;
         }
