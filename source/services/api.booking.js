@@ -12,5 +12,13 @@ export default {
             };
             return request(url, data, 'post');
         }
+    },
+    getStoreInfo(data) {
+        var url = '/api/store/1203373529866090';
+        return request(url, data, 'get');
+    },
+    getBookingDetail() {
+        var url = '/api/member/detail/1304825151812951';
+        return request(url, null, 'get');
     }
 };

@@ -17,10 +17,12 @@ export default function(url, data, method, messageFlag = true) {
         }
     }, function(error) {
         Vue.prototype.$indicator.close();
+        console.log(error.status);
+        console.log(process.env.NODE_ENV === 'development');
         switch (error.status) {
             case 401:
                 if (process.env.NODE_ENV === 'development') {
-                    window.$Router.push({ name: 'sign-in' });
+                    window.location.href = '#/sign-in';
                 } else {
                     window.location.href = '/userinfo.html#/user_login';
                 }

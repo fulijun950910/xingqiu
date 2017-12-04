@@ -13,7 +13,7 @@
                 <div class="editBox">
                     <div class="textCell" layout="row" layout-align="start start">
                         <div class="">预约日期&emsp;</div>
-                        <input flex type="date" value="data.date"/>
+                        <input flex type="date" :value="data.date"/>
                         <div><m-icon class="light-gray" xlink="#icon-right-bold"></m-icon></div>
                     </div>
                     <div @click="slectView(1)" class="textCell" layout="row" layout-align="start start">
@@ -28,18 +28,18 @@
                     </div>
                     <div @click="slectView(3)" class="textCell" layout="row" layout-align="start start">
                         <div class="">预约门店&emsp;</div>
-                        <div flex class="color-gray">中山公园</div>
+                        <div flex class="color-gray">{{data.storeId | getName(storeList)}}</div>
                         <div><m-icon class="light-gray" xlink="#icon-right-bold"></m-icon></div>
                     </div>
                     <div @click="slectView(5)" class="textCell" layout="row" layout-align="start start">
                         <div class="">预约内容&emsp;</div>
                         <div flex class="color-gray">镜头美白护理</div>
+                        <div><m-icon class="light-gray" xlink="#icon-right-bold"></m-icon></div>
                     </div>
                     <div @click="slectView(4)" class="textCell" layout="row" layout-align="start start">
                         <div class="">预约人数&emsp;</div>
                         <div flex class="color-gray">1人</div>
                         <div><m-icon class="light-gray" xlink="#icon-right-bold"></m-icon></div>
-
                     </div>
                     <div class="textCell" layout="row" layout-align="start start">
                         <div class="">预约备注&emsp;</div>
@@ -57,16 +57,18 @@
         </div>
         <popup-right v-model="showView">
             <popup-right-list v-if="selectIndex==1" @change=""  :options="timeList"  title="选择时间" ></popup-right-list>
-            <popup-right-list v-if="selectIndex==3" @change=""  :options="storeList"  title="选择时间" ></popup-right-list>
+            <popup-right-list v-if="selectIndex==3" v-model="data.storeId"  :options="storeList"  title="选择门店" ></popup-right-list>
             <popup-right-list v-if="selectIndex==4" @change=""  :options="memberCountList"  title="选择时间" ></popup-right-list>
             <popup-right-load-list v-if="selectIndex==5" :type="1" :multiple="true"  title="选择项目" v-model="data.item"></popup-right-load-list>
         </popup-right>
     </div>
 </template>
 <script>
+import Vue from 'vue';
 import popupRight from 'components/popup-right';
 import popupRightList from 'components/popup-right-list';
 import popupRightLoadList from 'components/popup-right-load-list';
+import api_booking from 'services/api.booking';
 import cellTag from 'components/cell-tag';
 export default {
     name: '',
@@ -99,8 +101,9 @@ export default {
                 {name: '8人', value: 1}
             ],
             data: {
-                date: null,
-                item: null
+                date: '2017-01-01',
+                item: null,
+                storeId: 1203373620856798
             }
         };
     },
@@ -111,11 +114,33 @@ export default {
         'cell-tag': cellTag
     },
     mounted() {
+        this.init();
     },
     methods: {
         slectView(index) {
             this.selectIndex = index;
             this.showView = true;
+        },
+        init() {
+            this.$indicator.open();
+            api_booking.getStoreInfo().then(res =>{
+                this.$indicator.close();
+                let dataList = [];
+                let start_time = new Date(Vue.filter('amDateFormat')(this.data.date, 'YYYY-MM-DD') + ' ' + res.data.appoinmentTimeStart + ':00');
+                let end_time = new Date(Vue.filter('amDateFormat')(this.data.date, 'YYYY-MM-DD') + ' ' + res.data.appoinmentTimeEnd + ':00');
+                // 计算差值
+                let date = end_time.getTime() - start_time.getTime();
+                let minute = Math.floor(date / (60 * 1000));
+                let count = (minute / 30) ;
+                for (let i = 0; i <= count; i++) {
+                    dataList.push({
+                        name: Vue.filter('amDateFormat')(end_time, 'HH:mm'),
+                        value: Vue.filter('amDateFormat')(end_time)
+                    });
+                    end_time.setMinutes(end_time.getMinutes() + 30);
+                }
+                this.timeList = dataList;
+            });
         }
     }
 };

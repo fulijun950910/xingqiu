@@ -4,6 +4,21 @@
             <div >{{title}}</div>
             <slot name="addSlot"></slot>
         </div>
+        <!-- search-->
+        <div class="searchBox">
+            <div class="searchMain" layout="row" layout-align="space-between center">
+                <div @click="load(true)">
+                    <m-icon class="color-primary fs40" xlink="#icon-search2"></m-icon>
+                </div>
+                <div flex>
+                    <input v-model="keyword" type="text" />
+                </div>
+                <div @click="keyword = null">
+                    <m-icon class="light-gray fs32" xlink="#icon-cuowu"></m-icon>
+                </div>
+            </div>
+        </div>
+
         <!-- 主体-->
         <div class="popup-right-box" flex >
             <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10" >
@@ -43,6 +58,7 @@ export default {
         return {
             dataList: [],
             loading: false,
+            keyword: null,
             query: {
                 page: 1,
                 size: 20,
@@ -185,6 +201,27 @@ export default {
     }
     .submitBtn{
         position: static!important;
+    }
+    .searchBox{
+        padding:12px;
+        width:100%;
+        box-sizing: border-box;
+        border-bottom:1px solid @border-gay;
+        .searchMain{
+            .icon{
+                margin-top:4px;
+            }
+            input{
+                width:100%;
+                height:36px;
+                padding:4px;
+                box-sizing: border-box;
+            }
+            height:36px;
+            padding:0 8px;
+            background:@bg-gray;
+            border-radius:20px;
+        }
     }
 }
 </style>
