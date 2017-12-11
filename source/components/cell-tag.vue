@@ -1,5 +1,5 @@
 <template>
-    <div class="cell-tag" layout="row" layout-align="end center" flex-wrap="wrap">
+    <div class="cell-tag" layout="row" layout-align="start center" flex-wrap="wrap">
         <p class="cell-m-tag" v-for="(item, index) in options" :key="index">{{item.name}}</p>
     </div>
 </template>
@@ -34,12 +34,12 @@ export default {
 <style lang="less">
 @import '../styles/_agile';
 .cell-tag{
-    margin-top:5px;
-    margin-bottom:5px;
+    margin-top:1px;
+    margin-bottom:1px;
     .cell-m-tag{
-        margin:5px;
-        padding: 10px 20px!important;
-        border-radius: 10px;
+        margin:1px;
+        padding: 2px 4px!important;
+        border-radius: 4px;
         font-size:12px;
         background-color: @color-bg;
     }
