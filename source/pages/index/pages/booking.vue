@@ -61,7 +61,7 @@
                 </div>
                 <div v-else-if="state == 2">
                     <button @click="update()" class="btn subBtn">保存更新</button>
-                    <button @click="changeState(1)" class="btn color-gray">返回</button>
+                    <button @click="init()" class="btn color-gray">返回</button>
                 </div>
                 <div v-else-if="state == 3">
                     <button class="btn color-gray">已确认</button>
@@ -214,11 +214,15 @@ export default {
                     start_time.setMinutes(start_time.getMinutes() + 30);
                 }
                 this.timeList = dataList;
-                console.log(this.timeList);
             });
         },
         update() {
             let itemList = [];
+            console.log(this.timeList);
+            if (this.timeList.findIndex((item) => {return item.value == this.bookingDate.startTime;}) >= this.timeList.findIndex((item) => {return item.value == this.bookingDate.endTime;})) {
+                this.$toast('预计结束时间不得早于到店时间');
+                return;
+            }
             this.data.startTime = Vue.filter('amDateFormat')(this.bookingDate.date, 'YYYY-MM-DD') + ' ' + this.bookingDate.startTime + ':00';
             this.data.endTime = Vue.filter('amDateFormat')(this.bookingDate.date, 'YYYY-MM-DD') + ' ' + this.bookingDate.endTime + ':00';
             console.log(this.bookingDate.itemList);
