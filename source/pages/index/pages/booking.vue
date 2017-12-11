@@ -3,14 +3,14 @@
         <div class="bookingBox">
             <div class="mainBox">
                 <div class="avatarBox">
-                    <img  :src="require('assets/imgs/avatar.png')"/>
+                    <img  :src="data.memberAvatarId | nSrc(require('assets/imgs/avatar.png'))"/>
                 </div>
                 <div class="text-center">
                     <div class="text-right editBtnBox">
                         <span v-if="state == 1" @click="changeState(2)" class="editBtn"><m-icon xlink="#icon-edit"></m-icon> 编辑</span>
                     </div>
-                    <div> 王</div>
-                    <div class="fs24 color-gray">13774242580</div>
+                    <div>{{data.name}}</div>
+                    <div class="fs24 color-gray">{{data.phone}}</div>
                 </div>
                 <div class="editBox">
                     <div class="textCell" layout="row" layout-align="start start">
@@ -47,7 +47,7 @@
                     </div>
                     <div class="textCell" layout="row" layout-align="start start">
                         <div class="">预约备注&emsp;</div>
-                        <div flex class="color-gray">最近面部过敏</div>
+                        <div flex class="color-gray">{{data.information}}</div>
                     </div>
 
                 </div>
