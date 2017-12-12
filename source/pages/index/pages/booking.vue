@@ -263,6 +263,10 @@ export default {
             top:12px;
             right:0;
         }
+        input{
+            position: relative;
+            z-index: 2;
+        }
     }
     .avatarBox{
         position:absolute;
