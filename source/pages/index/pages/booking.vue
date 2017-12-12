@@ -194,13 +194,14 @@ export default {
             api_booking.getStoreInfo(storeId).then(res =>{
                 this.$indicator.close();
                 let dataList = [];
-                let start_time = new Date(Vue.filter('amDateFormat')(this.data.startTime, 'YYYY-MM-DD') + ' ' + res.data.appoinmentTimeStart + ':00');
+                let start_time = new Date(Vue.filter('amDateFormat')(this.data.startTime, 'YYYY/MM/DD') + ' ' + res.data.appoinmentTimeStart + ':00');
                 let end_time;
+
                 if (res.data.appoinmentTimeEnd.slice(0, 2) >= 24) {
                     res.data.appoinmentTimeEnd = (res.data.appoinmentTimeEnd.slice(0, 2) % 24) + ':' + res.data.appoinmentTimeEnd.slice(-2);
-                    end_time = new Date(Vue.filter('amDateFormat')(new Date(this.data.startTime).setDate(new Date(this.data.startTime).getDate() + 1), 'YYYY-MM-DD') + ' ' + res.data.appoinmentTimeEnd + ':00');
+                    end_time = new Date(Vue.filter('amDateFormat')(new Date(Vue.filter('amDateFormat')(this.data.startTime, 'YYYY/MM/DD')).setDate(new Date(Vue.filter('amDateFormat')(this.data.startTime, 'YYYY/MM/DD')).getDate() + 1), 'YYYY/MM/DD') + ' ' + res.data.appoinmentTimeEnd + ':00');
                 } else {
-                    end_time = new Date(Vue.filter('amDateFormat')(this.data.startTime, 'YYYY-MM-DD') + ' ' + res.data.appoinmentTimeEnd + ':00');
+                    end_time = new Date(Vue.filter('amDateFormat')(this.data.startTime, 'YYYY/MM/DD') + ' ' + res.data.appoinmentTimeEnd + ':00');
                 }
                 // 计算差值
                 let date = end_time.getTime() - start_time.getTime();
@@ -218,14 +219,12 @@ export default {
         },
         update() {
             let itemList = [];
-            console.log(this.timeList);
             if (this.timeList.findIndex((item) => {return item.value == this.bookingDate.startTime;}) >= this.timeList.findIndex((item) => {return item.value == this.bookingDate.endTime;})) {
                 this.$toast('预计结束时间不得早于到店时间');
                 return;
             }
             this.data.startTime = Vue.filter('amDateFormat')(this.bookingDate.date, 'YYYY-MM-DD') + ' ' + this.bookingDate.startTime + ':00';
             this.data.endTime = Vue.filter('amDateFormat')(this.bookingDate.date, 'YYYY-MM-DD') + ' ' + this.bookingDate.endTime + ':00';
-            console.log(this.bookingDate.itemList);
             this.bookingDate.itemList.forEach(item => {
                 itemList.push({
                     itemId: item.value,
