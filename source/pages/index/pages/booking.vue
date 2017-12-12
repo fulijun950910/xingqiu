@@ -163,6 +163,7 @@ export default {
             api_booking.getAppointment(this.$route.params.id).then(res => {
                 this.$indicator.close();
                 this.data = res.data;
+                this.bookingDate.itemList = [];
                 this.data.itemVos.forEach(item => {
                     this.bookingDate.itemList.push({
                         value: item.itemId,
