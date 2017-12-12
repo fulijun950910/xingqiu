@@ -13,10 +13,10 @@
                     <div class="fs24 color-gray">{{data.phone}}</div>
                 </div>
                 <div class="editBox">
-                    <div class="textCell" layout="row" layout-align="start start">
+                    <div class="textCell dateBox" layout="row" layout-align="start start">
                         <div class="">预约日期&emsp;</div>
                         <input :disabled="state!=2" flex type="date" v-model="bookingDate.date"/>
-                        <div v-if="state == 2"><m-icon class="light-gray" xlink="#icon-right-bold"></m-icon></div>
+                        <div class="dateBoxCell" v-if="state == 2"><m-icon class="light-gray" xlink="#icon-right-bold"></m-icon></div>
                     </div>
                     <div @click="slectView(1)" class="textCell" layout="row" layout-align="start start">
                         <div class="">到店时间&emsp;</div>
@@ -255,6 +255,14 @@ export default {
     min-height:100vh;
     padding: 60px 20px 0;
     background:@bg-gray;
+    .dateBox{
+        position:relative;
+        .dateBoxCell{
+            position:absolute;
+            top:12px;
+            right:0;
+        }
+    }
     .avatarBox{
         position:absolute;
         top:0;
