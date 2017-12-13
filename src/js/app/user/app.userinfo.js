@@ -386,9 +386,15 @@ app.userinfo = {
                             app.api.index.checkMerchant({
                                 data: employee.merchantId,
                                 success: function(res) {
-                                    if (res.data === false) {
+                                    if (res.data === false || !res.data) {
+                                        if (res.code == "000002") {
+                                            app.userinfo.alertError("亲~您的账户还没开通，请等待。系统激活日期：" + app.tools.toDate(res.message,'yyyy年MM月dd日'));
+                                        } else if (res.code == "000003") {
+                                            app.userinfo.alertError("您的账号已经到期，如需继续使用请致电400-006-2020");
+                                        } else {
+                                            app.userinfo.alertError("合同异常");
+                                        }
                                         app.endLoading();
-                                        app.userinfo.alertError("您的账号已经到期，如需继续使用请致电400-006-2020");
                                         return;
                                     }
                                     var listEmployeeStoreListData = {
