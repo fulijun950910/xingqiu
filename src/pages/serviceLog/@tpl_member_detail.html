@@ -5,6 +5,23 @@
         <div class="serviceLogList" id="tpl_memberDetail">
 
         </div>
+        <div>
+            <div class="serviceLogList" id="tpl_memberService">
+
+            </div>
+            <div style="margin:4vw;">
+                <p style="display:none" class="font-gay text-align-center memberService_over">已加载全部客情维护</p>
+                <p style="display:none" onclick="app.serviceLog.getMemberService()" class="font-primary text-align-center memberService_more">查看更多客情维护</p>
+            </div>
+        </div>
+
+        <div style="height: 20vw;"></div>
+        <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
+            <div ontouchstart="window.history.back()" flex="100">
+                <i class="ic">&#xe68b;</i>
+                <span>返回</span>
+            </div>
+        </div>
     </div>
     <script type="text/html" id="tmpl_memberDetail">
         <div class="memberDetailBox serviceCell">
@@ -97,13 +114,7 @@
                 <!--% } %-->
             </div>
         </div>
-        <div style="height: 20vw;"></div>
-        <div class="breadCrumbs" layout-align="space-around center" layout="row" flex>
-            <div ontouchstart="window.history.back()" flex="100">
-                <i class="ic">&#xe68b;</i>
-                <span>返回</span>
-            </div>
-        </div>
+
     </script>
     <script type="text/html" id="tmpl_lastSerivce">
         <div class="serviceNote">
@@ -129,5 +140,31 @@
 
 
         </div>
+    </script>
+    <script type="text/html" id="tmpl_memberService">
+        <!--% if(o&&o.length>0){ %-->
+        <!--% for(var i=0;i<o.length;i++ ){ %-->
+        <div class="memberDetailBox">
+            <div class="boxCell">
+                <p class="font-gay" style="margin-bottom:1vw">客情维护：</p>
+                <p class="font-smile">
+                    <span class="font-gay">服务时间：</span>
+                    <span class="">{%=app.tools.toDate(o[i].recordTime,"yyyy-MM-dd hh:mm")%}</span>
+                </p>
+                <p class="font-smile">
+                    <span class="font-gay">服务人员：</span>
+                    <span class="">{%=o[i].employeeName %}</span>
+                </p>
+            </div>
+            <p class="font-smile" style="margin-bottom:1vw">{%=o[i].content %}</p>
+            <!--% if(o[i].imageIds){ %-->
+            <!--% var imgList = o[i].imageIds.split(","); %-->
+            <!--% for(var j=0;j<imgList.length;j++ ){ %-->
+            <img src="{%=app.imagePath + imgList[j] +'/75' %}" onerror="this.src='/images/404.png'" style="width:100%;" alt=""/>
+            <!--% } %-->
+            <!--% } %-->
+        </div>
+        <!--% } %-->
+        <!--% } %-->
     </script>
 </script>

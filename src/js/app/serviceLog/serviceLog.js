@@ -1,5 +1,9 @@
 app.serviceLog = {
     //list
+    memberServiceData: {
+        page:1,
+        size:2
+    },
     initList:function(){
         app.startLoading();
         this.checkUser();
@@ -195,6 +199,7 @@ app.serviceLog = {
                 }
                 app.serviceLog.memberDetailEvent();
                 app.serviceLog.queryLastService(employee);
+                app.serviceLog.getMemberService(employee);
             },
             error: function() {}
         })
@@ -236,6 +241,37 @@ app.serviceLog = {
                     $('#serviceNote').html(template);
                 }else{
                     //app.alert(res.message)
+                }
+            },
+            error: function() {}
+        })
+    },
+    getMemberService:function(){
+        var employee=localStorage.getItem("employee");
+        if(employee){
+            employee=JSON.parse(employee)
+        }
+        app.api.serviceLog.getMemberService({
+            data: {
+                memberId:employee.member.id,
+                merchantId:employee.merchant.id,
+                page: app.serviceLog.memberServiceData.page,
+                rows: app.serviceLog.memberServiceData.size
+            },
+            success: function(res) {
+                app.endLoading();
+                if(res.success&&res.data){
+                    if(res.data.rows.length < app.serviceLog.memberServiceData.size){
+                        $('#temp-memberDetail .memberService_over').show();
+                        $('#temp-memberDetail .memberService_more').hide();
+                    }else{
+                        $('#temp-memberDetail .memberService_over').hide();
+                        $('#temp-memberDetail .memberService_more').show();
+                    }
+                    app.serviceLog.memberServiceData.page++;
+                    var html = $('#tmpl_memberService').html();
+                    var template = tmpl(html, res.data.rows);
+                    $('#tpl_memberService').append(template);
                 }
             },
             error: function() {}

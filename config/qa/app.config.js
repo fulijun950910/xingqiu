@@ -4,3 +4,4 @@
 app.url = '';
 app.urlC = 'http://wechat.mei1.info';
 app.filePath = 'http://assistant.mei1.info/api/file/';
+app.imagePath = 'http://assistant.mei1.info/api/image/';

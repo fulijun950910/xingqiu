@@ -4,3 +4,4 @@
 app.url = '';
 app.urlC = 'http://wechat.mei1.com';
 app.filePath = 'http://wxbus.mei1.com/api/file/';
+app.imagePath = 'http://wxbus.mei1.com/api/image/';

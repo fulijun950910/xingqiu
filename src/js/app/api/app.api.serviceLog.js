@@ -45,6 +45,15 @@ app.api.serviceLog= {
             error: settings.error,
             data: settings.data
         })
+    },
+    getMemberService: function (settings) {
+        app.api.ajax({
+            url: '/wechatbusinessassists/memberServiceList',
+            type: 'post',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
+        })
     }
 
 
