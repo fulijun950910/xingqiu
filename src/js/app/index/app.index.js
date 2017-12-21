@@ -33,7 +33,7 @@ function initEemployee() {
             app.api.index.checkMerchant({
                 data: merchantId,
                 success: function(res) {
-                    if (res.data === false || !res.data) {
+                    if (res.data === false) {
                         if (res.code == "000002") {
                             alert("亲~您的账户还没开通，请等待。系统激活日期：" + app.tools.toDate(res.message,'yyyy年MM月dd日'));
                         } else if (res.code == "000003") {
