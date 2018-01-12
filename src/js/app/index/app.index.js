@@ -24,6 +24,7 @@ function initEemployee() {
             employeeId: parseInt($(this).attr('data-employeeId'))
         }
         var merchantId = parseInt($(this).attr('data-merchantId'));
+        var functionVersion = parseInt($(this).attr('data-functionVersion'));
         app.index.bind(data).then(function(result) {
                 var listEmployeeStoreListData = {
                         employeeId: data.employeeId,
@@ -33,7 +34,7 @@ function initEemployee() {
             app.api.index.checkMerchant({
                 data: merchantId,
                 success: function(res) {
-                    if (res.data === false) {
+                    if (res.data === false && functionVersion != 4) {
                         if (res.code == "000002") {
                             alert("亲~您的账户还没开通，请等待。系统激活日期：" + app.tools.toDate(res.message,'yyyy年MM月dd日'));
                         } else if (res.code == "000003") {

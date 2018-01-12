@@ -386,7 +386,7 @@ app.userinfo = {
                             app.api.index.checkMerchant({
                                 data: employee.merchantId,
                                 success: function(res) {
-                                    if (res.data === false) {
+                                    if (res.data === false && employee.merchant.functionVersion !=4) {
                                         if (res.code == "000002") {
                                             app.userinfo.alertError("亲~您的账户还没开通，请等待。系统激活日期：" + app.tools.toDate(res.message,'yyyy年MM月dd日'));
                                         } else if (res.code == "000003") {
