@@ -207,7 +207,9 @@ export default {
             this.query.storeIds = this.selectedStore.id;
             this.loadData();
         },
-        changeDateRange() {
+        changeDateRange(startDate, endDate) {
+            this.query.startDate = startDate;
+            this.query.endDate = endDate;
             this.loadData();
         },
         memberList() {
