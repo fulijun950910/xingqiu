@@ -163,9 +163,6 @@ export default {
             api_booking.getAppointment(this.$route.params.id).then(res => {
                 this.$indicator.close();
                 this.data = res.data;
-                if (this.data.memberId != this.$store.getters.merchantId) {
-                    window.location.href = this.$signLocation;
-                };
                 this.bookingDate.itemList = [];
                 this.data.itemVos.forEach(item => {
                     this.bookingDate.itemList.push({
@@ -196,6 +193,9 @@ export default {
         queryStore(storeId) {
             this.$indicator.open();
             api_booking.getStoreInfo(storeId).then(res =>{
+                if (res.data.merchantId != this.$store.getters.merchantId) {
+                    window.location.href = this.$signLocation;
+                };
                 this.$indicator.close();
                 let dataList = [];
                 let start_time = new Date(Vue.filter('amDateFormat')(this.data.startTime, 'YYYY/MM/DD') + ' ' + res.data.appoinmentTimeStart + ':00');
