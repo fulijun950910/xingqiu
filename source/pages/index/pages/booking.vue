@@ -163,6 +163,9 @@ export default {
             api_booking.getAppointment(this.$route.params.id).then(res => {
                 this.$indicator.close();
                 this.data = res.data;
+                if (this.data.memberId != this.$store.getters.merchantId) {
+                    window.location.href = this.$signLocation;
+                };
                 this.bookingDate.itemList = [];
                 this.data.itemVos.forEach(item => {
                     this.bookingDate.itemList.push({
