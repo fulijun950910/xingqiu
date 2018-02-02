@@ -33,6 +33,13 @@ export default {
         return request(url, data, 'post');
     },
     /**
+     * 删除客户关怀
+     */
+    deleteCustomerConcern: function(id) {
+        let url = `/api/wechatbusinessassists/${id}`;
+        return request(url, null, 'DELETE');
+    },
+    /**
      * 2.7. 编辑页面时查询某个记录或关怀详情
      */
     recordDetail: function(recordId) {

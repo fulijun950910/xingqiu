@@ -41,7 +41,12 @@
         </div>
         <div class="dynamics" :class="{active1:noData}" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="50">
             <no-Data :visible="noData"></no-Data>
-            <div class="div-box" v-for="(item,pIndex) in dataList" :key="pIndex">
+            <div class="div-box" v-for="(item,pIndex) in dataList" :key="item.id">
+                <p class="text-right">
+                    <svg class="icon btn-close" aria-hidden="true" @click.stop="delRecord(item, pIndex)">
+                        <use xlink:href="#icon-close"></use>
+                    </svg>
+                </p>
                 <div class="title" layout="row" layout-align="space-between center">
                     <div class="user" layout="row" layout-align="center center">
                         <span class="view">
@@ -52,16 +57,12 @@
                             <h3>{{item.employeeName}}</h3>
                         </div>
                     </div>
-                    <div flex>
-                    </div>
                     <div class="text-type" layout="row" layout-align="center center">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-fuwu-copy" v-if="item.type == 1"></use>
                             <use xlink:href="#icon-dianhua" v-if="item.type == 2"></use>
                         </svg>
                         <span>{{item.type | messageType}}</span>
-                    </div>
-                    <div>
                     </div>
                 </div>
                 <div class="main-text" flex v-if="item.status == 1">
@@ -327,6 +328,16 @@ export default {
             this.vm.search.main = item;
             this.searchStatu();
             this.messageServiceList();
+        },
+        delRecord(item, idx) {
+            this.$messageBox.confirm('确定删除这条记录么?').then(action => {
+                service.deleteCustomerConcern(item.id).then(res => {
+                    this.$toast('删除成功');
+                    this.dataList.splice(idx, 1);
+                }, err => {
+                    this.$toast('请稍后再试');
+                });
+            }, calcel => {});
         },
         link(index, item) {
             switch (index) {
@@ -672,9 +683,12 @@ export default {
         .div-box {
             background: @white;
             padding: 0 @l16 * 2;
-            padding-top: @l16 * 2;
             margin-top: 2 * @l16;
             position: relative;
+            .btn-close {
+                font-size: 16px;
+                margin-top: 8px;
+            }
             .no-edit {
                 padding: @l16 * 3 0;
                 a {
