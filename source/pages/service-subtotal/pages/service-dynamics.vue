@@ -42,7 +42,7 @@
         <div class="dynamics" :class="{active1:noData}" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="50">
             <no-Data :visible="noData"></no-Data>
             <div class="div-box" v-for="(item,pIndex) in dataList" :key="item.id">
-                <p class="text-right">
+                <p class="text-right" v-if="item.employeeId == $store.state.user.id">
                     <svg class="icon btn-close" aria-hidden="true" @click.stop="delRecord(item, pIndex)">
                         <use xlink:href="#icon-close"></use>
                     </svg>
@@ -330,6 +330,9 @@ export default {
             this.messageServiceList();
         },
         delRecord(item, idx) {
+            if (item.employeeId != this.$store.state.user.id) {
+                return;
+            }
             this.$messageBox.confirm('确定删除这条记录么?').then(action => {
                 service.deleteCustomerConcern(item.id).then(res => {
                     this.$toast('删除成功');
