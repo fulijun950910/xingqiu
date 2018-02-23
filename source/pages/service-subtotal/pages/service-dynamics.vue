@@ -41,7 +41,7 @@
         </div>
         <div class="dynamics" :class="{active1:noData}" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="50">
             <no-Data :visible="noData"></no-Data>
-            <div class="div-box" v-for="(item,pIndex) in dataList" :key="item.id">
+            <div class="div-box" :class="{'has-del': item.employeeId == $store.state.user.id}" v-for="(item,pIndex) in dataList" :key="item.id">
                 <p class="text-right" v-if="item.employeeId == $store.state.user.id">
                     <svg class="icon btn-close" aria-hidden="true" @click.stop="delRecord(item, pIndex)">
                         <use xlink:href="#icon-close"></use>
@@ -685,9 +685,13 @@ export default {
         padding-bottom: 59px;
         .div-box {
             background: @white;
-            padding: 0 @l16 * 2;
+            padding: @l16 * 2;
+            padding-bottom: 0;
             margin-top: 2 * @l16;
             position: relative;
+            &.has-del {
+                padding-top: 0;
+            }
             .btn-close {
                 font-size: 16px;
                 margin-top: 8px;
