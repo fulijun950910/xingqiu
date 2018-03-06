@@ -27,7 +27,7 @@
                         <div flex class="color-gray">{{data.totalFee | fen2yuan}}</div>
                     </div>
                     <div class="textCell" layout="row" layout-align="start start">
-                        <div class="">分期数&emsp;</div>
+                        <div class="">分期数&emsp;&emsp;</div>
                         <div flex class="color-gray">{{data.channelName}}</div>
                     </div>
 
@@ -141,7 +141,7 @@
         }
 
         .editBox {
-            margin: 25px 10px 10px;
+            margin: 30px 10px 10px;
         }
         .textCell {
             padding: 10px 0;

@@ -145,6 +145,13 @@ Vue.filter('sliceStr', function(str, len) {
     }
 });
 
+Vue.filter('fen2yuan', function(value) {
+    if (isNaN(value)) {
+        return 0;
+    }
+    return value / 100;
+});
+
 // '13871147835' => '138 **** 7835'
 Vue.filter('mobile', function(val, isShow) {
     if (!val) {
