@@ -1,9 +1,9 @@
 <template>
-    <div v-title="'预约'">
+    <div v-title="'确认分期'">
         <div class="bookingBox">
             <div class="mainBox">
                 <div class="avatarBox">
-                    <img :src="data.memberAvatarId | nSrc(require('assets/imgs/avatar.png'))"/>
+                    <img :src="data.avatarId | nSrc(require('assets/imgs/avatar.png'))"/>
                 </div>
                 <div class="editBox">
                     <div class="textCell" layout="row" layout-align="start start">
@@ -72,10 +72,10 @@
                         return;
                     }
                     this.data = res.data;
-                    if (this.data.status == 1) {
-                        this.state = 1;
-                    } else if (this.data.status == 2) {
+                    if (this.data.transfer) {
                         this.state = 2;
+                    } else {
+                        this.state = 1;
                     }
                 });
             },
@@ -141,7 +141,7 @@
         }
 
         .editBox {
-            margin: 10px;
+            margin: 25px 10px 10px;
         }
         .textCell {
             padding: 10px 0;
