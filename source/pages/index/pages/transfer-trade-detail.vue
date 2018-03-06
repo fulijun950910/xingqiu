@@ -37,7 +37,7 @@
 
             <div>
                 <div v-if="state == 1">
-                    <button @click="submit(1)" class="btn subBtn">确认分期</button>
+                    <button @click="submit(1)" class="btn subBtn">确认分期授权</button>
                 </div>
                 <div v-else-if="state == 2">
                     <button class="btn color-gray">已确认</button>
