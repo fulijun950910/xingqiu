@@ -47,7 +47,6 @@
     </div>
 </template>
 <script>
-    import Vue from 'vue';
     import api_booking from 'services/api.booking';
 
     export default {
