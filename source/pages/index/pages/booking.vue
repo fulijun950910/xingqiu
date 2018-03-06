@@ -162,6 +162,10 @@ export default {
             this.$indicator.open();
             api_booking.getAppointment(this.$route.params.id).then(res => {
                 this.$indicator.close();
+                if (!res.success) {
+                    this.$toast(res.message);
+                    return;
+                }
                 this.data = res.data;
                 this.bookingDate.itemList = [];
                 this.data.itemVos.forEach(item => {
@@ -188,7 +192,6 @@ export default {
                     this.state = 6;
                 }
             });
-
         },
         queryStore(storeId) {
             this.$indicator.open();
