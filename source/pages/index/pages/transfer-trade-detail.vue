@@ -75,9 +75,9 @@
                         return;
                     }
                     this.data = res.data;
-                    if (this.data.refundState == 10){
+                    if (this.data.refundState == 10) {
                         this.state = 3;
-                    }else{
+                    } else {
                         if (this.data.transfer) {
                             this.state = 2;
                         } else {
