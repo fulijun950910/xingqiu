@@ -74,7 +74,7 @@
                         this.$toast(res.message);
                         return;
                     }
-                    this.data = res.data;
+                    this.data = res.data && res.data.rows ? res.data.rows[0] : {};
                     if (this.data.refundState == 10) {
                         this.state = 3;
                     } else {
