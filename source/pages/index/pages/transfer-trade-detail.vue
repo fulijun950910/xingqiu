@@ -42,6 +42,9 @@
                 <div v-else-if="state == 2">
                     <button class="btn color-gray">已确认</button>
                 </div>
+                <div v-else-if="state == 3">
+                    <button class="btn color-gray">已退款</button>
+                </div>
             </div>
         </div>
     </div>
@@ -53,7 +56,7 @@
         name: '',
         data() {
             return {
-                state: 1, // 1 编辑 2已确认
+                state: 1, // 1 编辑 2已确认 3已退款
                 orderNo: this.$route.params.orderNo,
                 data: {}
             };
@@ -72,10 +75,14 @@
                         return;
                     }
                     this.data = res.data;
-                    if (this.data.transfer) {
-                        this.state = 2;
-                    } else {
-                        this.state = 1;
+                    if (this.data.refundState == 10){
+                        this.state = 3;
+                    }else{
+                        if (this.data.transfer) {
+                            this.state = 2;
+                        } else {
+                            this.state = 1;
+                        }
                     }
                 });
             },
