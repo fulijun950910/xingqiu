@@ -18,7 +18,7 @@ export default {
         return request(url, null, 'put');
     },
     queryTransferTradeDetail(orderNo) { // 获取预约详细信息
-        var url = `/api/collect/transferTradeDetail/${orderNo}`;
+        var url = `/api/collect/transferTradeDetail?orderNo=${orderNo}`;
         return request(url, null, 'get');
     },
     submitTransferTrade(data) { // 获取预约详细信息
