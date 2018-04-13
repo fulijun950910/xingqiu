@@ -78,6 +78,14 @@ app.api = {
             });
             return result;
         }
+    },
+    personalNoun:function(settings){
+           app.api.ajax({
+            url: '/merchantServiceOpen/getModule/' + settings.data,
+            type: 'get',
+            success: settings.success,
+            error: settings.error,
+        })
     }
 };
 // employee项目多次使用，所以前提
