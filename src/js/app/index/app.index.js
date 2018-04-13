@@ -81,6 +81,19 @@ function initEemployee() {
                                             success: function(results) {
                                                 if (results && results.success) {
                                                     window.localStorage.employee = JSON.stringify(employee);
+                                                    api.api.personalNoun({
+                                                        data: JSON.parse(localStorage.employee).merchantId,
+                                                        type: 'get',
+                                                        success: function(msg) {
+                                                            if (msg.data) {
+                                                                var result = app.api.baseNoun(msg.data);
+                                                                localStorage.setItem('personalNoun', JSON.stringify(result));
+                                                            }
+                                                        },
+                                                        function(error) {
+
+                                                        }
+                                                    })
                                                     initData();
                                                     app.index.init();
                                                 } else {
@@ -205,19 +218,6 @@ app.index = {
                 app.index.performance();
             }
         }, function() {})
-        api.api.personalNoun({
-            data: JSON.parse(localStorage.employee).merchantId,
-            type: 'get',
-            success: function(msg) {
-                if (msg.data) {
-                    var result = app.api.baseNoun(msg.data);
-                    localStorage.setItem('personalNoun', JSON.stringify(result));
-                }
-            },
-            function(error) {
-
-            }
-        })
     },
     pageReloadEvent: function(memberData, data, employee) {
         //修改html 的title
