@@ -3,7 +3,7 @@ app.api = {
     url: app.url + '/api',
     ajax: function(options) {
         var url = app.api.url + options.url;
-        function error(res){
+        function error(res) {
             switch (res.status) {
                 case 401:
                 case 403:
@@ -23,7 +23,7 @@ app.api = {
             headers: {
                 'Accept': '*/*',
                 'Content-Type': 'application/json',
-             //   'wechat': 'assistant'
+                //   'wechat': 'assistant'
             },
             dataType: 'json',
             success: options.success,
@@ -44,15 +44,56 @@ app.api = {
         }
 
         $.ajax(settings);
+    },
+    baseNoun: function(personalNoun) {
+        var baseNoun = [
+            { name: '技师', value: 'worker' },
+            { name: '疗程卡', value: 'treatmentCard' },
+            { name: '项目', value: 'project' }
+        ];
+        return fomartPersonalNoun(personalNoun)
+
+        function fomartPersonalNoun(backData) {
+            var baseData = [];
+            var result = {};
+            baseNoun.map(function(item, index) {
+                baseData.push(item);
+            });
+            if (!backData.length) {
+                baseData.map(function(item, index) {
+                    result[item.value] = item.name;
+                });
+                return result;
+            }
+            backData.map(function(item, index) {
+                baseData.map(function(item1, index1) {
+                    if (item.nounCode == item1.value) {
+                        if (item.targetNoun) {
+                            result[item.nounCode] = item.targetNoun;
+                        } else {
+                            result[item1.value] = item1.name;
+                        }
+                    }
+                })
+            });
+            return result;
+        }
+    },
+    personalNoun:function(settings){
+           app.api.ajax({
+            url: '/merchantServiceOpen/getModule/' + settings.data,
+            type: 'get',
+            success: settings.success,
+            error: settings.error,
+        })
     }
 };
 // employee项目多次使用，所以前提
 var employee = null;
-try {    
+try {
     if (localStorage.employee && JSON.parse(localStorage.employee)) {
-         employee = JSON.parse(localStorage.employee);
+        employee = JSON.parse(localStorage.employee);
     }
-}
-catch(e){
+} catch (e) {
     console.info(e);
 }
