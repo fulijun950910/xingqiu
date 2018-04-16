@@ -428,7 +428,7 @@ export default {
                     this.state = 4;
                 } else if (results.data.status == 31) {
                     this.state = 6;
-                } else if (results.data.status == 32) {
+                } else if (results.data.status == 32 || results.data.status == 3) {
                     this.state = 7;
                 } else if (results.data.status == 5) {
                     this.state = 8;
