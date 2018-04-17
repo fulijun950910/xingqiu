@@ -30,3 +30,4 @@ nbproject
 *.swp
 src/app/**/*.css
 *.bat
+package-lock.json

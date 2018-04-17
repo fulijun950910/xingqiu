@@ -4,7 +4,7 @@
   "description": "美问店务助手",
   "author": "wzc",
   "scripts": {
-    "grunt-dev": "grunt --env=dev",
+    "grunt-dev": "grunt --env=qa",
     "dev": "cooking watch -p",
     "dist": "cross-env grunt clean && grunt packaging --env=qa && cooking build -p",
     "deploy": "cooking build --no-color"
