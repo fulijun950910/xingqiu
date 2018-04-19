@@ -164,9 +164,9 @@ app.productEcharts = {
             app.productEcharts.initDate(query.dataType); //初始化时间
             app.productEcharts.initStoreList(); //初始化门店
             app.productEcharts.initCystomDate(query.dataType); //初始化自定义时间
-              $('.dateLists span').eq(parseInt(query.dataType) - 1).addClass('active');
+            $('.dateLists span').eq(parseInt(query.dataType) - 1).addClass('active');
             if (query.storeIds == results.storeIds) {
-                $('.storeLists span:first').addClass('active').append('<i></i>');   //日期名称
+                $('.storeLists span:first').addClass('active').append('<i></i>'); //日期名称
             } else {
                 for (var i = 0; i <= results.storeList.length - 1; i++) {
                     var storeId = results.storeList[i].id;
@@ -177,6 +177,17 @@ app.productEcharts = {
                 }
             }
             $('.tool-tab ul li').eq(tooBarIndex).click(); //还原选中tab
+            // 自定义名词
+            app.api.personalNoun({
+                data: employee.merchantId,
+                success: function(msg) {
+                    var psersonalNoun = app.api.baseNoun(msg.data);
+                    $('.personalProject').html(psersonalNoun.project); 
+                },
+                error(error) {
+
+                }
+            })
         }, function(error) {
             app.alert(error);
         });

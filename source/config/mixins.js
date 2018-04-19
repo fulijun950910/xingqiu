@@ -22,10 +22,27 @@ export const WARN_ITEMS = [
 ];
 
 // 提醒事项
-export const CARD_TYPE = [
-    { label: '折扣卡', name: 'TYPE_MEMBER', value: 1 },
-    { label: '储值卡', name: 'TYPE_DEPOSIT', value: 2 },
-    { label: '时段卡', name: 'TYPE_TIME', value: 3 },
-    { label: '总次卡', name: 'TYPE_ITEM_TOTAL', value: 4 },
-    { label: '分次卡', name: 'TYPE_ITEM_PART', value: 5 }
-];
+export function CARD_TYPE() {
+    let backNoun;
+    try {
+        backNoun = JSON.parse(localStorage.getItem('personNoun'));
+    } catch (e) {
+
+    }
+    let tempCardType = [
+        { label: '折扣卡', name: 'TYPE_MEMBER', value: 1 },
+        { label: '储值卡', name: 'TYPE_DEPOSIT', value: 2 },
+        { label: '时段卡', name: 'TYPE_TIME', value: 3 },
+        { label: '总次卡', name: 'TYPE_ITEM_TOTAL', value: 4 },
+        { label: '分次卡', name: 'TYPE_ITEM_PART', value: 5 }
+    ];
+    tempCardType.map((item, index, array) => {
+        if (item.name == 'TYPE_ITEM_TOTAL') {
+            item.label = `总${backNoun.treatmentCard}`;
+        } else if (item.name == 'TYPE_ITEM_PART') {
+            item.label = `分${backNoun.treatmentCard}`;
+        }
+
+    });
+    return tempCardType;
+}

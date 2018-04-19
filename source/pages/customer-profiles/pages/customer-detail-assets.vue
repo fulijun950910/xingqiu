@@ -131,7 +131,7 @@ export default {
             });
         },
         cardType(type) {
-            let obj = this.CARD_TYPE.find(x => { return x.value == type; });
+            let obj = this.CARD_TYPE().find(x => { return x.value == type; });
             return obj ? obj.label : '-';
         },
         // 跳转卡详情页面

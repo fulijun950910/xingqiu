@@ -81,7 +81,7 @@ app.api = {
     },
     personalNoun:function(settings){
            app.api.ajax({
-            url: '/merchantServiceOpen/getModule/' + settings.data,
+            url: '/nounConfig/list/' + settings.data,
             type: 'get',
             success: settings.success,
             error: settings.error,

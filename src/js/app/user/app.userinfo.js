@@ -8,9 +8,9 @@ app.userinfo = {
                 // } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                 //     location.href = "/performance-index.html#/performance_emp";
                 if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                    if(employee.merchant&&employee.merchant.functionVersion==4) { //营销版
+                    if (employee.merchant && employee.merchant.functionVersion == 4) { //营销版
                         location.href = "/lite/index.html";
-                    }else{
+                    } else {
                         location.href = "/main.html#/index";
                     };
                 } else {
@@ -23,23 +23,23 @@ app.userinfo = {
         //if (app.userinfo.getEmployee())
     },
 
-    initEvent: function(){
+    initEvent: function() {
         $('.userInfo').on('change', '.username', function(event) {
-            if($(this).val()){
-                app.userinfo.captcha({username:$(this).val()});
-            }else{
+            if ($(this).val()) {
+                app.userinfo.captcha({ username: $(this).val() });
+            } else {
                 $('#yzPwd').hide();
                 $('#messagePwd').hide();
             }
 
         });
     },
-    goRegistered: function(){
-        location.href=app.urlC+'/activity/registered/index.html?applyType=4'
+    goRegistered: function() {
+        location.href = app.urlC + '/activity/registered/index.html?applyType=4'
     },
-    messageTime: function(o,data){
+    messageTime: function(o, data) {
         if (this.wait == 60 && data) {
-            app.userinfo.captcha(data , true);
+            app.userinfo.captcha(data, true);
         }
         if (this.wait == 0) {
             o.removeAttribute("disabled");
@@ -56,19 +56,19 @@ app.userinfo = {
             }, 1000);
         }
     },
-    captcha:function(data,type){
+    captcha: function(data, type) {
         app.api.userinfo.captcha({
             data: data,
             success: function(result) {
-                if(!type){
-                    if(result && result.data && result.data.type == 'image'){
-                        $('#yzPwd img').attr('src',result.data.value);
+                if (!type) {
+                    if (result && result.data && result.data.type == 'image') {
+                        $('#yzPwd img').attr('src', result.data.value);
                         $('#yzPwd').show();
                         $('#yzPwd').addClass("show");
-                    }else if(result && result.data && result.data.type == 'message'){
+                    } else if (result && result.data && result.data.type == 'message') {
                         $('#messagePwd').show();
                         $('#messagePwd').addClass("show");
-                    }else{
+                    } else {
                         $('#yzPwd').hide();
                         $('#yzPwd').removeClass("show");
                         $('#messagePwd').hide();
@@ -183,7 +183,7 @@ app.userinfo = {
         setTimeout(function() {
             $('.userInfo').find('.error').removeClass('active');
         }, second);
-        var close = function () {
+        var close = function() {
             $('.userInfo').find('.error').removeClass('active');
         }
         return {
@@ -227,30 +227,30 @@ app.userinfo = {
             action: 'click'
         });
         var param = {
-                username: $('input[name="username"]').val(),
-                password: app.userinfo.base64Encode($('input[name="password"]').val()),
-                rememberMe: true
-            }
-        if($("#yzPwd").hasClass("show")&&$(".yzPwd").val()){
-            param.captcha=$(".yzPwd").val();
-        }else if($("#messagePwd").hasClass("show")&&$(".messagePwd").val()){
-            param.captcha=$(".messagePwd").val();
+            username: $('input[name="username"]').val(),
+            password: app.userinfo.base64Encode($('input[name="password"]').val()),
+            rememberMe: true
         }
-            //查询用户
+        if ($("#yzPwd").hasClass("show") && $(".yzPwd").val()) {
+            param.captcha = $(".yzPwd").val();
+        } else if ($("#messagePwd").hasClass("show") && $(".messagePwd").val()) {
+            param.captcha = $(".messagePwd").val();
+        }
+        //查询用户
         app.api.userinfo.auth({
             data: param,
             success: function(resultUser) {
-                if(resultUser.code==120010){
+                if (resultUser.code == 120010) {
                     app.userinfo.alertError('小主，用户名或密码错误', 3000);
                     app.endLoading();
                     $('.userInfo .username').change();
                     return;
-                }else if(resultUser.code==120011){
-                    app.userinfo.alertError('您的账号已被锁定'+resultUser.message+'分钟，可通过找回密码登陆！', 3000);
+                } else if (resultUser.code == 120011) {
+                    app.userinfo.alertError('您的账号已被锁定' + resultUser.message + '分钟，可通过找回密码登陆！', 3000);
                     app.endLoading();
                     $('.userInfo .username').change();
                     return;
-                }else if(resultUser.code==120012){
+                } else if (resultUser.code == 120012) {
                     app.userinfo.alertError('验证码输入错误！', 3000);
                     app.endLoading();
                     return;
@@ -264,7 +264,7 @@ app.userinfo = {
                     app.endLoading();
                     return;
                 }
-                app.userinfo.getMerchanntList(accountParam).then(function(resultEmployeeList){
+                app.userinfo.getMerchanntList(accountParam).then(function(resultEmployeeList) {
                     for (var i in resultEmployeeList.data) {
                         resultEmployeeList.data[i].jsonData = JSON.stringify(resultEmployeeList.data[i]);
                     }
@@ -292,7 +292,20 @@ app.userinfo = {
         })
 
     },
-    getMerchanntList: function(userObj){
+    setPersonalNoun: function(merchantId) {
+        app.api.personalNoun({
+            data: merchantId,
+            success: function(msg) {
+                var temp = app.api.baseNoun(msg.data);
+                window.localStorage.setItem('personNoun',JSON.stringify(temp));
+            },
+            error: function(msg) {
+              console.log('会员自定义字段获取失败');
+            }
+        })
+
+    },
+    getMerchanntList: function(userObj) {
         return new Promise(function(resolve, reject) {
             app.api.userinfo.listEmployee({
                 data: userObj,
@@ -304,14 +317,14 @@ app.userinfo = {
                         return;
                     }
                     // 判断账号状态
-                    for (var i=0;i<resultEmployeeList.data.length;i++) {
-                        if(resultEmployeeList.data[i].merchant&&resultEmployeeList.data[i].merchant.status==2){
-                            resultEmployeeList.data[i].loginStatus='----锁定';
-                        }else{
-                            resultEmployeeList.data[i].loginStatus='';
+                    for (var i = 0; i < resultEmployeeList.data.length; i++) {
+                        if (resultEmployeeList.data[i].merchant && resultEmployeeList.data[i].merchant.status == 2) {
+                            resultEmployeeList.data[i].loginStatus = '----锁定';
+                        } else {
+                            resultEmployeeList.data[i].loginStatus = '';
                         }
-                        if((!resultEmployeeList.data[i].store&&!resultEmployeeList.data[i].organization)||!resultEmployeeList.data[i].merchantRole){//与saas登陆保持一致
-                            resultEmployeeList.data.splice(i,1);
+                        if ((!resultEmployeeList.data[i].store && !resultEmployeeList.data[i].organization) || !resultEmployeeList.data[i].merchantRole) { //与saas登陆保持一致
+                            resultEmployeeList.data.splice(i, 1);
                             i--;
                         }
                     }
@@ -386,9 +399,9 @@ app.userinfo = {
                             app.api.index.checkMerchant({
                                 data: employee.merchantId,
                                 success: function(res) {
-                                    if (res.data === false && employee.merchant.functionVersion !=4) {
+                                    if (res.data === false && employee.merchant.functionVersion != 4) {
                                         if (res.code == "000002") {
-                                            app.userinfo.alertError("亲~您的账户还没开通，请等待。系统激活日期：" + app.tools.toDate(res.message,'yyyy年MM月dd日'));
+                                            app.userinfo.alertError("亲~您的账户还没开通，请等待。系统激活日期：" + app.tools.toDate(res.message, 'yyyy年MM月dd日'));
                                         } else if (res.code == "000003") {
                                             app.userinfo.alertError("您的账号已经到期，如需继续使用请致电400-006-2020");
                                         } else {
@@ -427,7 +440,7 @@ app.userinfo = {
                                                     }
                                                 }
                                                 window.localStorage.employee = JSON.stringify(employee);
-
+                                                app.userinfo.setPersonalNoun(employee.merchantId);
                                                 //员工登录
                                                 app.api.userinfo.emplogin({
                                                     data: {
@@ -442,9 +455,9 @@ app.userinfo = {
                                                             // } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                                                             //     location.href = "/performance-index.html#/performance_emp";
                                                             if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                                                                if(employee.merchant&&employee.merchant.functionVersion==4){ //营销版
+                                                                if (employee.merchant && employee.merchant.functionVersion == 4) { //营销版
                                                                     location.href = "/lite/index.html";
-                                                                }else{ //专业版
+                                                                } else { //专业版
                                                                     if (window.history.replaceState) {
                                                                         window.history.replaceState({}, "0", window.location.origin + '/main.html#/index');
                                                                         window.location.reload();
@@ -593,21 +606,21 @@ app.userinfo = {
                 data: userinfo,
                 success: function(result) {
                     if (result.success)
-                    // app.alert('个人信息修改成功', '修改成功');
-                    // app.userinfo.alertError('小主，个人信息修改成功');
-                    //清空本地Session
+                        // app.alert('个人信息修改成功', '修改成功');
+                        // app.userinfo.alertError('小主，个人信息修改成功');
+                        //清空本地Session
                         app.userinfo.getEmployee().then(function(employee) {
-                        var e1 = employee;
-                        e1.name = employee.name;
-                        e1.gender = employee.gender;
-                        e1.birthday = employee.birthday;
-                        e1.address = employee.address;
-                        e1.description = employee.description;
-                        e1.avatarFileId = avatarFileId;
-                        localStorage.employee = JSON.stringify(e1);
-                    }, function() {
-                        app.userinfo.alertError('小主，个人信息修改异常,请稍后尝试');
-                    })
+                            var e1 = employee;
+                            e1.name = employee.name;
+                            e1.gender = employee.gender;
+                            e1.birthday = employee.birthday;
+                            e1.address = employee.address;
+                            e1.description = employee.description;
+                            e1.avatarFileId = avatarFileId;
+                            localStorage.employee = JSON.stringify(e1);
+                        }, function() {
+                            app.userinfo.alertError('小主，个人信息修改异常,请稍后尝试');
+                        })
                     location.href = "/userinfo.html#/";
                 },
                 error: function(a, b, c) {
@@ -703,11 +716,11 @@ app.userinfo = {
             return;
         }
         var data = {
-                authUserId: app.userinfo.authUserId,
-                password: password,
-                validateCode: verifycode
-            }
-            //事件统计
+            authUserId: app.userinfo.authUserId,
+            password: password,
+            validateCode: verifycode
+        }
+        //事件统计
         baiduStatistical.add({
             category: '找回密码',
             label: '用户找回密码',
