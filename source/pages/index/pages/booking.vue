@@ -10,7 +10,7 @@
                         <span v-if="state == 1" @click="changeState(2)" class="editBtn"><m-icon xlink="#icon-edit"></m-icon> 编辑</span>
                     </div>
                     <div>{{data.name}}</div>
-                    <div class="fs24 color-gray">{{data.phone}}</div>
+                    <div class="fs24 color-gray"><a class="color-gray" :href="'tel:'+data.phone"><m-icon class="fs24 color-gray" xlink="#icon-tel-alt"></m-icon> {{data.phone}}</a></div>
                 </div>
                 <div class="editBox">
                     <div class="textCell dateBox" layout="row" layout-align="start start">
