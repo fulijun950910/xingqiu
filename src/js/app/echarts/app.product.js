@@ -184,7 +184,7 @@ app.productEcharts = {
                     var psersonalNoun = app.api.baseNoun(msg.data);
                     $('.personalProject').html(psersonalNoun.project); 
                 },
-                error(error) {
+                error: function(error) {
 
                 }
             })
