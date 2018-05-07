@@ -41,6 +41,15 @@ app.api.userinfo = {
             error: settings.error,
         })
     },
+    generate: function(settings) {
+        app.api.ajax({
+            url: '/verifications/generate',
+            type: 'post',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
+        })
+    },
     updatePassword: function(settings) {
         app.api.ajax({
             url: '/authUser/password',

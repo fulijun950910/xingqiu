@@ -690,6 +690,45 @@ app.userinfo = {
             }
         })
     },
+    generate: function() {
+        var phone = $('input[name="phone"]').val();
+        if (!phone) {
+            app.userinfo.alertError('小主，请输入手机号');
+            return;
+        }
+        var param = {
+            username: phone
+        }
+        app.api.userinfo.authUser({
+            data: param,
+            success: function(resultUser) {
+                app.userinfo.authUserId = resultUser.data;
+                var accountParam = {
+                    type: 1,  // 0用户名 1手机 2邮箱
+                    purpose: 2, // 0 注册 1登陆 2找回密码 3.验证 4 卡扣验证
+                    yzType: 1, // 0 文字短信 1语音验证
+                    identifier: phone
+                };
+                app.api.userinfo.generate({
+                    data: accountParam,
+                    success: function(results) {
+                        if (results.code = "000000" && results.data) {
+                            app.alert('成功发送语音验证码请求,请稍等片刻');
+                        } else {
+                            app.alert('小主,' + results.message);
+                        }
+                    },
+                    error: function() {
+                        app.alert('小主,系统繁忙,请稍后再试!');
+                    }
+                })
+            },
+            error: function(a, b, c) {
+
+            }
+        })
+
+    },
     updatePassword: function() {
         var phone = $('input[name="phone"]').val();
         if (!phone) {
