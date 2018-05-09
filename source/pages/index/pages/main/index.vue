@@ -1,8 +1,6 @@
 <template>
     <div>
-        <div class="headBox cell cell-box">
-            <div><img src="require('assets/imgs/avatar.png')" alt=""></div>
-        </div>
+        123
     </div>
 </template>
 
@@ -21,6 +19,5 @@
 
 <style scoped lang='less'>
     @import '~styles/_style';
-    .headBox{
-    }
+
 </style>
