@@ -19,6 +19,14 @@ input {
     @user-save-btn-color: #DB6FED;
     @user-save-btn-active-color: #aa46bb;
     //脥路脧帽虏驴路脰
+    .color-red-light{
+        color: #EC3F6D;
+        &.weui_icon_checked{
+            &:before{
+                color: #ec3f6d!important
+            }
+        }
+    }
     .headPic {
         width: 100vw !important;
         height: 35vh;
@@ -100,18 +108,17 @@ input {
     //脨脨脛脷脭陋脣脴脥篓脫脙脩霉脢陆
     .mei_cmn_cell {
         position: relative;
-        // width: 95%;
-        height: @button-height;
-        line-height: @button-height;
-        margin: 0 auto 6vw;
-        border: 1px solid @border-color;
-        border-radius: 25px;
+        height: 10vw;
+        line-height: 10vw;
+        border-bottom: 1px solid rgba(255,255,255,0.4);
     }
     .mei_cmn_input {
         // height: 2.5em;
         width: 73%;
         //line-height: 1.75em;
         font-size: 1em;
+        color:#fff;
+        background: transparent;
     }
     .userfrom {
         // height: 16em;
@@ -185,12 +192,13 @@ input {
             }
         }
         .mei_bind {
-            background-color: @secondary-color;
+            background-color: #EC3F6D;
             height: @button-height;
             line-height: @button-height;
             border-radius: 25px;
             text-align: center;
             display: block;
+            margin: 0 6vw;
         }
         .login_btn {
             color: #fff;
@@ -198,13 +206,22 @@ input {
         .weui_btn:active {
             background-color: @user-save-btn-active-color;
         }
+        .userinfo_btm2{
+            width: 100%;
+            margin-top:5vw;
+            font-size:@font-littlesmile;
+            .clause {
+                color: #fff;
+            }
+        }
         .userinfo_btm {
             // position: relative;
             width: 100%;
             // margin-bottom: 2em;
             //top: 2.5vw;
             text-align: right;
-            margin-top: 5vw;
+            margin-bottom: 8vw;
+            font-size:@font-littlesmile;
             .unbind,
             .forgetpwd {
                 font-size: 1em;
@@ -222,8 +239,18 @@ input {
     .user_account {
         .cmn_cell;
         // top: 20%;
+        .mei_cell_box{
+            margin: 0 auto 6vw;
+        }
+        .ic.primary-color{
+            color: #fff;
+            padding-right: 2vw;
+            font-size: 6vw;
+            padding-top: 2vw;
+        }
         .mei_cell {
             .mei_cmn_cell;
+
             i {
                 .mei_cmn_icon;
             }
@@ -263,7 +290,7 @@ input {
         .userinfo_btm {
             .clause {
                 // font-size: .9em;
-                color: @secondary-color;
+                color: #fff;
                 //float: right;
             }
         }
@@ -318,6 +345,10 @@ input {
             width: 32%;
         }
     }
+    .meiapp{
+        background:url('/images/Bitmap.jpg') no-repeat top center;
+        background-size:100% auto;
+    }
     // //脝脕脛禄脨隆脫脷381
     // @media screen and (max-width: 381px) {
     //     .meiapp {
@@ -358,6 +389,11 @@ input {
         background-color: rgba(0, 0, 0, 0.3);
         display: none;
         .parent_panel {
+            .parent_panel_title{
+                font-size:@font-littlesmile;
+                padding: 6vw 0;
+                color:@font-gay;
+            }
             position: relative;
             width: 85vw;
             top: 50%;
@@ -366,8 +402,8 @@ input {
             -moz-transform: translateX(-50%) translateY(-50%);
             -ms-transform: translateX(-50%) translateY(-50%);
             transform: translateX(-50%) translateY(-50%);
-            border-radius: .3em;
             background-color: #FFF;
+            border-top:2px solid #EC3F6D;
             #show_employe_list {
                 border-radius: .3em;
                 max-height: 50vh;
@@ -428,7 +464,6 @@ input {
                     border-bottom-left-radius: .3em;
                     border-bottom-right-radius: .3em;
                     background-color: #FFF;
-                    color: @user-save-btn-color;
                     font-size: 1em;
                 }
             }
