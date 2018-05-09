@@ -5,14 +5,8 @@ const signIn = resolve => require(['./pages/sign-in'], resolve);
 const couponVerify = resolve => require(['./pages/coupon-verify'], resolve);
 const booking = resolve => require(['./pages/booking'], resolve);
 const transferTradeDetail = resolve => require(['./pages/transfer-trade-detail'], resolve);
-const main = resolve => require(['./pages/main/index'], resolve);
 
 export default [{
-    path: '/main',
-    name: 'main',
-    component: main,
-    meta: { auth: true, level: 1 }
-}, {
     path: '/transferTradeDetail/:orderNo?', // 确认分期
     name: 'transferTradeDetail',
     component: transferTradeDetail,
