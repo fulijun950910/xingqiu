@@ -28,6 +28,8 @@ app.sign = {
     init: function(merchantId, storeId) {
         var screenHeight = window.screen.height;
         $('body').css('height', screenHeight + 'px');
+        app.sign.latitude = 121.3551025390625;
+        app.sign.longitude =  31.226333618164062;
         app.sign.querySignature().then(function(data) {
             //初始化配置信息
             wx.config({
@@ -49,7 +51,7 @@ app.sign = {
                         // 如果已经点击过扫码则直接唤起扫码功能
                         if (app.automaticQrcode > -1) {
                             app.sign.checkInOrOut(app.automaticQrcode);
-                        }else if (app.startQrcode > -1) {
+                        } else if (app.startQrcode > -1) {
                             app.sign.openWxsao1sao(app.startQrcode);
                         }
                     }
@@ -242,7 +244,7 @@ app.sign = {
             desc: 'scanQRCode desc',
             success: function(res) {
                 app.userinfo.getEmployee().then(function(employee) {
-                    var resUrl = window.location.protocol+res.resultStr.slice(res.resultStr.indexOf(':')+1); // 转https
+                    var resUrl = window.location.protocol + res.resultStr.slice(res.resultStr.indexOf(':') + 1); // 转https
                     var url = resUrl + "&latitude=" + app.sign.latitude + "&employeeId=" + employee.id + "&longitude=" + app.sign.longitude + "&openId=" + employee.openId + "&type=" + type + "&attendanceWay=1";
                     var storeId = app.getParameter('storeId', url);
                     if (employee.storeId != storeId) {
@@ -339,7 +341,7 @@ app.sign = {
 }
 
 // 选择打卡回调
-var callback = function (result) {
+var callback = function(result) {
     // 打开加载提示
     if (result == 'startWork') {
         if (app.sign.latitude && app.sign.longitude) {
