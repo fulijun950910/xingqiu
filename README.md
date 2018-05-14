@@ -13,8 +13,27 @@
 # 启动开发
 $ npm run dev
 # 编译
-$ npm run dist
+$ npm run build
 ```
+
+## 项目说明 ##
+```
+├── Gruntfile.js src页面编译命令
+├── README.md
+├── build   vue编译开发命令
+├── config
+├── example
+├── favicon.ico
+├── icomoon
+├── index.tpl vue多页面模板
+├── node_modules
+├── package-lock.json
+├── package.json
+├── source  服务小计、客户档案相关页面
+├── src     店务助手其它页面
+└── vue-config vue环境配置
+```
+
 
 # 服务小计（17/6/13） #
 ## 1. 项目基本结构
