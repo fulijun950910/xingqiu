@@ -6,7 +6,7 @@
   "scripts": {
     "grunt-dev": "grunt --env=qa",
     "dev": "node build/dev-server.js",
-    "dist": "node build/build.js"
+    "build": "node build/build.js"
   },
   "license": "ISC",
   "devDependencies": {
