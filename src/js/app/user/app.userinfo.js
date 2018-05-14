@@ -456,16 +456,13 @@ app.userinfo = {
                                                             //     location.href = "/performance-index.html#/performance_emp";
                                                             if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                                                                 if (employee.merchant && employee.merchant.functionVersion == 4) { //营销版
-                                                                    // location.href = "/lite/index.html";
-                                                                    location.href = "/source/index.html#/main";
+                                                                    location.href = "/lite/index.html";
                                                                 } else { //专业版
                                                                     if (window.history.replaceState) {
-                                                                        // window.history.replaceState({}, "0", window.location.origin + '/main.html#/index');
-                                                                        window.history.replaceState({}, "0", window.location.origin + '/source/index.html#/main');
+                                                                        window.history.replaceState({}, "0", window.location.origin + '/main.html#/index');
                                                                         window.location.reload();
                                                                     } else {
-                                                                        // location.href = "/main.html#/index";
-                                                                        location.href = "/source/index.html#/main";
+                                                                        location.href = "/main.html#/index";
                                                                     }
                                                                 };
                                                             } else {

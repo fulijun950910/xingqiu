@@ -18,63 +18,48 @@
                 </div>
                 <div class="user_account" layout="column" layout-align="">
                     <!-- 请输入手机号 -->
-                    <div class="mei_cell_box" layout="row" layout-align="start center"  style="width: 96%;">
+                    <div class="mei_cell" style="width: 96%;">
                         <label for="user_mobileTel" class="mei_label"><i class="ic primary-color">&#xe715;</i></label>
-                        <div flex class="mei_cell"  layout="row" layout-align="start center">
-                            <input flex name="username" id="username" type="text" class="mei_input username" placeholder="请输入用户名/手机号">
-                            <label for="user_pwd" class="mei_label clearUserName"><i class="ic font-secondary-color">&#xe656;</i></label>
-                        </div>
+                        <input name="username" id="username" type="text" class="mei_input username" placeholder="请输入用户名/手机号">
+                        <label for="user_pwd" class="mei_label clearUserName"><i class="ic font-secondary-color">&#xe656;</i></label>
                     </div>
-                    <div class="mei_cell_box" layout="row" layout-align="start center" style="width: 96%;">
+                    <div class="mei_cell" style="width: 96%;">
                         <label for="user_pwd" class="mei_label"><i class="ic primary-color">&#xe617;</i></label>
-                        <div flex class="mei_cell"  layout="row" layout-align="start center">
-                            <input flex name="password" type="password" class="mei_input password" placeholder="请输入密码">
-                            <label for="user_pwd" class="mei_label getPwd"><i class="ic font-secondary-color" >&#xe695;</i></label>
-                        </div>
+                        <input name="password" type="password" class="mei_input password" placeholder="请输入密码">
+                        <label for="user_pwd" class="mei_label getPwd"><i class="ic font-secondary-color" >&#xe695;</i></label>
                     </div>
                     <!-- 图片验证码-->
-                    <div class="mei_cell_box" layout="row" layout-align="start center" style="width: 96%;display:none" id="yzPwd" >
-                        <div flex class="mei_cell"  layout="row" layout-align="start center">
-                            <img src=""  style="height:50%;margin-left:1vw;" alt="" onclick="app.userinfo.captcha({username:username.value,type:'image'})"/>
-                            &nbsp;&nbsp;
-                            <input flex name="text" type="text" class="mei_input yzPwd" placeholder="请输验证码">
-                        </div>
+                    <div class="mei_cell" style="width: 96%;display:none" id="yzPwd" layout="row" layout-align="start center">
+                        <img src=""  style="height:50%;margin-left:1vw;" alt="" onclick="app.userinfo.captcha({username:username.value,type:'image'})"/>
+                        &nbsp;&nbsp;
+                        <input flex name="text" type="text" class="mei_input yzPwd" placeholder="请输验证码">
                     </div>
-                    <div  class="mei_cell_box" layout="row" layout-align="start center" style="width: 96%;display:none" id="messagePwd">
-                        <div flex class="mei_cell"  layout="row" layout-align="start center">
-                            <input flex style="margin-left:3vw;" flex name="text" type="text" class="mei_input messagePwd" placeholder="请输验证码">
-                            <button onclick="app.userinfo.messageTime(this,{username:username.value,type:'message'})" >获取验证码</button>
-                        </div>
-
+                    <div class="mei_cell" style="width: 96%;display:none" id="messagePwd" layout="row" layout-align="start center">
+                        <input style="margin-left:3vw;" flex name="text" type="text" class="mei_input messagePwd" placeholder="请输验证码">
+                        <button onclick="app.userinfo.messageTime(this,{username:username.value,type:'message'})" >获取验证码</button>
                     </div>
                 </div>
                 <!-- 绑定信息 -->
                 <div class="userinfo_bind">
-                    <div class="userinfo_btm">
-                        <a class="clause" href="userinfo.html#/update_pwd">忘记密码？</a>
-                    </div>
                     <div class="mei_bind"  onclick="app.userinfo.login()"  >
                         <a href="javascript:;" class="login_btn" >登录</a>
                     </div>
-                    <div class="userinfo_btm2" layout="row" layout-align="center center">
-                        <a class="clause" href="/source/index.html#/main">随便逛逛</a>
+                    <div class="userinfo_btm">
+                        <a class="clause" href="userinfo.html#/update_pwd">忘记密码？</a>
                     </div>
                 </div>
             </div>
 
-            <!--<div class="registerBox">-->
-                <!--<a href="javascript:app.userinfo.goRegistered()">新商户入驻通道</a>-->
-            <!--</div>-->
+            <div class="registerBox">
+                <a href="javascript:app.userinfo.goRegistered()">新商户入驻通道</a>
+            </div>
         </div>
         <!-- 弹出选择店列表 -->
         <div class="select_shade" id="select_shade">
             <div class="parent_panel">
-                <div class="parent_panel_title text-align-center">
-                    请选择一个身份登录
-                </div>
-                <div id="show_employe_list" class="weui_cells_radio"></div>
+                <div id="show_employe_list" class="weui_cells weui_cells_radio"></div>
                 <div class="selbtn_box">
-                    <button onclick="app.userinfo.loginEmployee()" class="role_sel_btn color-red-light">确认</button>
+                    <button onclick="app.userinfo.loginEmployee()" class="role_sel_btn">确认</button>
                 </div>
             </div>
         </div>
@@ -92,7 +77,7 @@
                 </div>
                 <div class="weui_cell_ft">
                     <input type="radio" <!--% if(o.datas[i].loginStatus){ %-->disabled<!--% } %--> class="weui_check" data-employee="{%=o.datas[i].jsonData %}" name="emp_data" id="{%=o.datas[i].id %}">
-                    <span class="weui_icon_checked color-red-light"></span>
+                    <span class="weui_icon_checked"></span>
                 </div>
             </label>
             <!--% } %-->
