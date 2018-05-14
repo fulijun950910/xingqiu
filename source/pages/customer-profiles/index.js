@@ -3,6 +3,7 @@ import App from './app';
 require('babel-polyfill');
 require('vendor/polyfill');
 import mint from 'mint-ui';
+import 'mint-ui/lib/style.css';
 Vue.use(mint);
 Vue.prototype.$toast = message => mint.Toast({ message: message, duration: 1500 });
 Vue.prototype.$indicator = mint.Indicator;
