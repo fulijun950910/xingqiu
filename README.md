@@ -7,6 +7,14 @@
 3. grunt app [--env=dev|integ|qa|prod]
 4. grunt release [--env=dev|integ|qa|prod]
 
+## vue部分命令 ##
+
+```
+# 启动开发
+$ npm run dev
+# 编译
+$ npm run dist
+```
 
 # 服务小计（17/6/13） #
 ## 1. 项目基本结构
