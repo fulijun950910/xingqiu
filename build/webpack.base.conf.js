@@ -5,17 +5,7 @@ var vueLoaderConfig = require('./vue-loader.conf');
 function resolve(dir) {
     return path.join(__dirname, '..', dir);
 }
-var os = require('os');
-var HappyPack = require('happypack');
-var happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
-function createHappyPlugin(id, loaders) {
-    return new HappyPack({
-        id: id,
-        loaders: loaders,
-        threadPool: happyThreadPool
-    });
-}
 module.exports = {
     cache: true,
     entry: utils.entries(),
@@ -62,7 +52,7 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                loader: 'happypack/loader?id=happy-babel-js',
+                loader: ['babel-loader?cacheDirectory'],
                 include: [resolve('src'), resolve('test')]
             },
             {
@@ -90,6 +80,5 @@ module.exports = {
                 }
             }
         ]
-    },
-    plugins: [createHappyPlugin('happy-babel-js', ['babel-loader?cacheDirectory=true'])]
+    }
 };
