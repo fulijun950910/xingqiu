@@ -1,7 +1,11 @@
 <template>
     <div class="userinfo" v-title="'个人信息'">
         <div class="box1" layout="column" layout-align="start center">
-            <img class="avatar"  :src="require('assets/imgs/female.png')" alt="">
+            <div class="avatarBox">
+                <img class="avatar"  :src="require('assets/imgs/female.png')" alt="">
+                <file @click="changeAvatar" v-model="logoImage" :proportion="{w:1, h:1}"></file>
+            </div>
+
             <div class="color-white fs32">刘昊然</div>
         </div>
         <div @click="goWallet" class="purseBox" layout="row" layout-align="start center">
@@ -12,7 +16,7 @@
             <m-icon class="color-gray" xlink="#icon-right-bold"></m-icon>
         </div>
         <div>
-            <div layout="row" layout-align="space-between center" class="list-item cell cell-box border-bottom">
+            <div @click="goEdit" layout="row" layout-align="space-between center" class="list-item cell cell-box border-bottom">
                 <div>
                     <m-icon class="usericon" xlink="#icon-xingming"></m-icon>
                     <span>用户名</span>
@@ -80,17 +84,29 @@
 </template>
 
 <script>
+    import file from 'components/file-slice';
+
     export default {
         name: 'main',
+        components: {
+            file
+        },
         data() {
             return {
+                logoImage: {}
             };
         },
         mounted() {
         },
         methods: {
+            changeAvatar(data) {
+                console.log(data);
+            },
             goWallet() {
                 this.$router.push({name: 'wallet'});
+            },
+            goEdit() {
+                this.$router.push({name: 'editUserInfo'});
             }
         }
     };
@@ -110,11 +126,16 @@
     }
     .box1{
         height:160px;
+        .avatarBox{
+            width:78px;
+            height:78px;
+            margin-top:32px;
+            position:relative;
+        }
         .avatar{
             width:78px;
             height:78px;
             border-radius: 50%;
-            margin-top:32px;
             margin-bottom:@l8;
         }
     }
