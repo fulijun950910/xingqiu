@@ -155,5 +155,14 @@ app.api.userinfo = {
             error: settings.error,
             data: settings.data
         })
+    },
+    // 美问星球登陆
+    loginBySaasEmployee: function(settings) {
+        app.api.ajax({
+            url: '/party/loginBySaasEmployee/' + settings.data.employeeId,
+            type: 'PUT',
+            success: settings.success,
+            error: settings.error
+        })
     }
 }

@@ -455,19 +455,27 @@ app.userinfo = {
                                                             // } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                                                             //     location.href = "/performance-index.html#/performance_emp";
                                                             if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                                                                if (employee.merchant && employee.merchant.functionVersion == 4) { //营销版
-                                                                    // location.href = "/lite/index.html";
-                                                                    location.href = "/source/index.html#/main";
-                                                                } else { //专业版
-                                                                    if (window.history.replaceState) {
-                                                                        // window.history.replaceState({}, "0", window.location.origin + '/main.html#/index');
-                                                                        window.history.replaceState({}, "0", window.location.origin + '/source/index.html#/main');
-                                                                        window.location.reload();
-                                                                    } else {
-                                                                        // location.href = "/main.html#/index";
+                                                                // if (employee.merchant && employee.merchant.functionVersion == 4) { //营销版
+                                                                //     location.href = "/lite/index.html";
+                                                                // } else { //专业版
+                                                                //     if (window.history.replaceState) {
+                                                                //         window.history.replaceState({}, "0", window.location.origin + '/main.html#/index');
+                                                                //         window.location.reload();
+                                                                //     } else {
+                                                                //         location.href = "/main.html#/index";
+                                                                //     }
+                                                                // };
+                                                                app.api.userinfo.loginBySaasEmployee({
+                                                                    data: {
+                                                                        employeeId: employee.id
+                                                                    },
+                                                                    success: function (res) {
+                                                                        console.log(res);
                                                                         location.href = "/source/index.html#/main";
+                                                                    },
+                                                                    error: function () {
                                                                     }
-                                                                };
+                                                                });
                                                             } else {
                                                                 localStorage.clear();
                                                                 location.href = "/userinfo.html#/user_login";
