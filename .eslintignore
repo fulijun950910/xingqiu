@@ -1,3 +1,5 @@
 /source/pages/*/iconfont.js
 /source/vendor/*.js
 /source/directives/touch.js
+/vue-config/*.js
+/build/*.js
