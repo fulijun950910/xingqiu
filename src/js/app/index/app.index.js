@@ -81,8 +81,26 @@ function initEemployee() {
                                             success: function(results) {
                                                 if (results && results.success) {
                                                     window.localStorage.employee = JSON.stringify(employee);
-                                                    initData();
-                                                    app.index.init();
+                                                    app.api.userinfo.loginBySaasEmployee({
+                                                        data: {
+                                                            employeeId: employee.id
+                                                        },
+                                                        success: function (res) {
+                                                            var employeeData = window.localStorage.employee;
+                                                            if(employeeData){
+                                                                employeeData = JSON.parse(employeeData);
+                                                                employeeData.party = res.data;
+                                                                window.localStorage.employee = JSON.stringify(employeeData);
+                                                                initData();
+                                                                app.index.init();
+                                                            } else {
+                                                                app.userinfo.alertError('服务器开小差，请稍后再试');
+                                                            }
+
+                                                        },
+                                                        error: function () {
+                                                        }
+                                                    });
                                                 } else {
                                                     app.alert('切换失败');
                                                 }

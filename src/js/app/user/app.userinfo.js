@@ -3,10 +3,6 @@ app.userinfo = {
     init: function() {
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
-                // if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
-                //     location.href = "/performance-index.html#/performance_report";
-                // } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                //     location.href = "/performance-index.html#/performance_emp";
                 if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                     if (employee.merchant && employee.merchant.functionVersion == 4) { //营销版
                         location.href = "/lite/index.html";
@@ -470,8 +466,16 @@ app.userinfo = {
                                                                         employeeId: employee.id
                                                                     },
                                                                     success: function (res) {
-                                                                        console.log(res);
-                                                                        location.href = "/source/index.html#/main";
+                                                                        var employeeData = window.localStorage.employee;
+                                                                        if(employeeData){
+                                                                            employeeData = JSON.parse(employeeData);
+                                                                            employeeData.party = res.data;
+                                                                            window.localStorage.employee = JSON.stringify(employeeData);
+                                                                            location.href = "/source/index.html#/main";
+                                                                        } else {
+                                                                            app.userinfo.alertError('服务器开小差，请稍后再试');
+                                                                        }
+
                                                                     },
                                                                     error: function () {
                                                                     }
