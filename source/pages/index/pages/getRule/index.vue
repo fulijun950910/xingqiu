@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="fs24 color-green">
-                <span>去充值</span>
+                <span>去签到</span>
                 <m-icon class="" xlink="#icon-right-bold"></m-icon>
             </div>
         </div>

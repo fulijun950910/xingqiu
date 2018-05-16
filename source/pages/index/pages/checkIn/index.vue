@@ -1,78 +1,65 @@
 <template>
     <div class="checkIn cell-box">
         <div class="infoBox cell">
-            <div class="text-right color-white"><m-icon xlink="#icon-wendang" class="fs36"></m-icon> 签到规则</div>
+            <div class="text-right color-white" @click="showRule"><m-icon xlink="#icon-wendang" class="fs36"></m-icon> 签到规则</div>
             <div class="text-center">
                 <div class="fs24 color-light-white">当前已有美豆豆</div>
-                <div class="blance color-white">990</div>
+                <div class="blance color-white">{{blanceTotal.doudouBalance}}</div>
             </div>
-            <div><button :disabled="state == 2" @click="checkIn" class="checkInSubmit color-light-red">
+            <div><button :disabled="state == 2" @click="submit" class="checkInSubmit color-light-red">
                 <div v-if="state == 1"><span>签到</span></div>
-                <div v-else><m-icon xlink="#icon-yes" class="fs36"></m-icon> <sapn>已签到</sapn></div>
+                <div v-else><m-icon xlink="#icon-yes" class="fs36"></m-icon> <span>已签到</span></div>
             </button></div>
         </div>
         <div class="checkInBox">
             <div class="cell text-center fs24 dark-gray">已连续签到3天，连续签到有更多惊喜哦</div>
             <div class="numBox">
                 <div class="top" layout="row" layout-align="center center">
-                    <div v-for="item in list1" :class="{'act':day>=item.day}" class="check-item fs24" layout="row" layout-align="center center">
+                    <div v-for="item in list1" :class="{'act':lastDay.continueDays>=item.day}" class="check-item fs24" layout="row" layout-align="center center">
                         <span>+{{item.num}}</span>
                         <div class="day fs20 light-gray">第{{item.day}}天</div>
-                        <div v-if="day>=item.day" class="tag-act"></div>
+                        <div v-if="lastDay.continueDays>=item.day" class="tag-act"></div>
                     </div>
                 </div>
                 <div class="bottom" layout="row" layout-align="center center">
-                    <div v-for="item in list2" :class="{'act':day>=item.day}" class="check-item fs24" layout="row" layout-align="center center">
+                    <div v-for="item in list2" :class="{'act':lastDay.continueDays>=item.day}" class="check-item fs24" layout="row" layout-align="center center">
                         <span>+{{item.num}}</span>
                         <div class="day fs20 light-gray">第{{item.day}}天</div>
-                        <div v-if="day>=item.day" class="tag-act"></div>
+                        <div v-if="lastDay.continueDays>=item.day" class="tag-act"></div>
                         <div v-if="item.tag_present" class="tag-present"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="cell">推荐购买</div>
-        <div>
-            <div class="list-item cell cell-box" layout="row" layout-align="space-between center">
-                <div layout="row" layout-align="start center">
-                    <div class="iconBox iconBox1" layout="row" layout-align="center center">
-                        <m-icon class="" xlink="#icon-duanxin"></m-icon>
-                    </div>
-                    <span>&nbsp;&nbsp;</span>
-                    <span>购买短信包</span>
-                </div>
-                <div class="fs24 light-gray">
-                    <span>1000美豆豆</span>
-                    <span>&nbsp;&nbsp;</span>
-                    <m-icon class="" xlink="#icon-right-bold"></m-icon>
-                </div>
+        <recommendBuy></recommendBuy>
+        <mt-popup v-model="showPopup" position="right" class="popup-pay">
+            <div @click="showPopup=false" class="popup-pay-box">
+                <h4>连续签到，获得更多奖励！</h4>
+                <ul>
+                    <li>1.签到每天可获得1积分，连续签到7天可获得5积分，7天为一个周期。</li>
+                    <li>2.如签到中途中断，则连续签到天数重新计算。</li>
+                    <li>3.最终解释权归美问所有。</li>
+                </ul>
             </div>
-            <div class="list-item cell cell-box" layout="row" layout-align="space-between center">
-                <div layout="row" layout-align="start center">
-                    <div class="iconBox iconBox2" layout="row" layout-align="center center">
-                        <m-icon class="" xlink="#icon-weibiaoti2fuzhi02"></m-icon>
-                    </div>
-                    <span>&nbsp;&nbsp;</span>
-                    <span>购买沙龙入场券</span>
-                </div>
-                <div class="fs24 light-gray">
-                    <span>800美豆豆</span>
-                    <span>&nbsp;&nbsp;</span>
-                    <m-icon class="" xlink="#icon-right-bold"></m-icon>
-                </div>
-            </div>
-        </div>
-
+        </mt-popup>
     </div>
 </template>
 
 <script>
+    import Vue from 'vue';
+    import api_party from 'services/api.party';
+    import recommendBuy from '../../models/recommend-buy';
+    import { Popup } from 'mint-ui';
+    Vue.component(Popup.name, Popup);
+
     export default {
         name: 'checkIn',
         data() {
             return {
+                showPopup: false,
+                blanceTotal: 0,
                 state: 1, // 1 未签到 2已签到
-                day: 4,
+                lastDay: {continueDays: 0},
                 list1: [
                     {
                         day: 1,
@@ -108,11 +95,44 @@
                 ]
             };
         },
+        components: {
+            recommendBuy
+        },
         mounted() {
+            this.loadData();
         },
         methods: {
-            checkIn() {
-                this.state = 2;
+            loadData() {
+                this.$indicator.open();
+                api_party.listLastUserSign(this.$store.state.party.partyId).then(res => {
+                    this.$indicator.close();
+                    if (res.data && res.data.length > 0) {
+                        res.data.forEach((item, index) => {
+                            if (index < 3) {
+                                this.list1[index].num = item.rewardDouDouAmount;
+                            } else {
+                                this.list2[index] = item;
+                            }
+                        });
+                        this.lastDay = res.data[res.data.length - 1];
+                        if (this.lastDay.todayDate === this.lastDay.signDate) {
+                            this.state = 2;
+                        }
+                    }
+                });
+                api_party.getAccount(this.$store.state.party.partyId).then(res => {
+                    this.blanceTotal = res.data;
+                });
+            },
+            submit() {
+                this.$indicator.open();
+                api_party.userSign(this.$store.state.party.partyId, this.$store.state.party.id).then(res => {
+                    this.$indicator.close();
+                    this.loadData();
+                });
+            },
+            showRule() {
+                this.showPopup = true;
             }
         }
     };
@@ -212,23 +232,12 @@
         margin-bottom:@l16;
 
     }
-    .list-item{
-        border: 1px solid @border-gay;
-        margin-bottom:@l32;
-        .iconBox{
-            width:32px;
-            height:32px;
-            border-radius: 16px;
-            .icon{
-                color:#fff;
-                font-size:22px;
-            }
-            &.iconBox1{
-                background: linear-gradient(-45deg, #45DCD7, #3FEAB7);
-            }
-            &.iconBox2{
-                background: linear-gradient(-45deg, #7484F3, #CB94F4);
-            }
+    .popup-pay{
+        height: 100%;
+        width: 90%;
+        .popup-pay-box{
+            width: 95%;
+            margin: auto;
         }
     }
 </style>

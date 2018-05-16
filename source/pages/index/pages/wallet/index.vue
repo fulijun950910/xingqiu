@@ -6,59 +6,44 @@
                     <div class="color-gray">当前已有美豆豆</div>
                     <div @click="goPayNotes" class="color-green">查看收支明细<m-icon class="" xlink="#icon-right-bold"></m-icon></div>
                 </div>
-                <div class="blance">1970</div>
+                <div class="blance">{{dataModel.doudouBalance}}</div>
                 <div @click="goGetRule" class="color-red-light">获取更多美豆豆</div>
             </div>
             <div class="cell">
                 <button @click="goRecharge" class="recharge-btn fs32">充值</button>
             </div>
         </div>
-        <div class="cell">推荐购买</div>
-        <div>
-            <div class="list-item cell cell-box" layout="row" layout-align="space-between center">
-                <div layout="row" layout-align="start center">
-                    <div class="iconBox iconBox1" layout="row" layout-align="center center">
-                        <m-icon class="" xlink="#icon-duanxin"></m-icon>
-                    </div>
-                    <span>&nbsp;&nbsp;</span>
-                    <span>购买短信包</span>
-                </div>
-                <div class="fs24 light-gray">
-                    <span>1000美豆豆</span>
-                    <span>&nbsp;&nbsp;</span>
-                    <m-icon class="" xlink="#icon-right-bold"></m-icon>
-                </div>
-            </div>
-            <div class="list-item cell cell-box" layout="row" layout-align="space-between center">
-                <div layout="row" layout-align="start center">
-                    <div class="iconBox iconBox2" layout="row" layout-align="center center">
-                        <m-icon class="" xlink="#icon-weibiaoti2fuzhi02"></m-icon>
-                    </div>
-                    <span>&nbsp;&nbsp;</span>
-                    <span>购买沙龙入场券</span>
-                </div>
-                <div class="fs24 light-gray">
-                    <span>800美豆豆</span>
-                    <span>&nbsp;&nbsp;</span>
-                    <m-icon class="" xlink="#icon-right-bold"></m-icon>
-                </div>
-            </div>
-        </div>
-
+        <recommendBuy></recommendBuy>
     </div>
 </template>
 
 <script>
+    import api_party from 'services/api.party';
+    import recommendBuy from '../../models/recommend-buy';
+
     export default {
         name: 'wallet',
+        components: {
+            recommendBuy
+        },
         data() {
-            return {};
+            return {
+                dataModel: {}
+            };
         },
         mounted() {
+            this.loadData();
         },
         methods: {
+            loadData() {
+                this.$indicator.open();
+                api_party.getAccount(this.$store.state.party.partyId).then(res => {
+                    this.$indicator.close();
+                    this.dataModel = res.data;
+                });
+            },
             goPayNotes() {
-                this.$router.push({name: 'payNotes'});
+                this.$router.push({name: 'payNotes', params: {accountId: this.dataModel.id}});
             },
             goGetRule() {
                 this.$router.push({name: 'getRule'});

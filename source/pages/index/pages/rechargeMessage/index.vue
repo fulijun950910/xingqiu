@@ -3,23 +3,23 @@
         <div v-if="state == 1">
             <div class="border-bottom cell-box">
                 <div class="blanceBox" layout="column" layout-align="center start">
-                    <div><span class="blance">5288</span>&nbsp;<span class="dark-gray">美豆豆</span></div>
-                    <div class="fs24 dark-gray">其中充值余额2680</div>
+                    <div><span class="blance">{{dataModel.doudouBalance}}</span>&nbsp;<span class="dark-gray">美豆豆</span></div>
+                    <div class="fs24 dark-gray">其中充值余额{{Math.max(dataModel.doudouBalance - dataModel.doudouPresent, 0)}}</div>
                 </div>
             </div>
             <div class="cell-box">
                 <div class="cell">
-                    选择充值金额
+                    选择充值条数
                 </div>
                 <div layout="row" layout-align="start center" flex-wrap="wrap">
                     <div @click="selectType(item.id)" v-for="item in list" :class="{'act': item.id == act}" class="list-item" layout="column" layout-align="center center">
-                        <div>{{item.num}}美豆豆</div>
-                        <div class="fs24 dark-gray">售价{{item.price}}元</div>
+                        <div>{{item.num}}条</div>
+                        <div class="fs24 dark-gray">售价{{item.price}}美豆豆</div>
                         <div v-if="item.tag == 1" class="tag fs24 color-white">推荐</div>
                     </div>
                 </div>
                 <div>
-                    <button class="fs32 subBtn">充值</button>
+                    <button @click="submit" class="fs32 subBtn">充值</button>
                 </div>
             </div>
         </div>
@@ -36,46 +36,49 @@
 </template>
 
 <script>
+    import api_party from 'services/api.party';
+
     export default {
-        name: 'recharge',
+        name: 'rechargeMessage',
         data() {
             return {
-                state: 2, // 1充值 2 充值成功
+                state: 1, // 1充值 2 充值成功
                 act: 1,
+                dataModel: {},
                 list: [
                     {
                         num: 100,
-                        price: 10,
+                        price: 1000,
                         tag: null,
                         id: 1
                     },
                     {
                         num: 500,
-                        price: 49,
+                        price: 4900,
                         tag: null,
                         id: 2
                     },
                     {
                         num: 1000,
-                        price: 98,
+                        price: 9800,
                         tag: 1,
                         id: 3
                     },
                     {
                         num: 2000,
-                        price: 196,
+                        price: 19600,
                         tag: null,
                         id: 4
                     },
                     {
                         num: 5000,
-                        price: 490,
+                        price: 49000,
                         tag: null,
                         id: 5
                     },
                     {
                         num: 10000,
-                        price: 980,
+                        price: 98000,
                         tag: null,
                         id: 6
                     }
@@ -83,8 +86,19 @@
             };
         },
         mounted() {
+            this.loadData();
         },
         methods: {
+            loadData() {
+                this.$indicator.open();
+                api_party.getAccount(this.$store.state.party.partyId).then(res => {
+                    this.$indicator.close();
+                    this.dataModel = res.data;
+                });
+            },
+            submit() {
+                this.$toast('开发中，敬请期待');
+            },
             goWallet() {
                 this.$router.go(-1);
             },

@@ -3,8 +3,8 @@
         <div v-if="state == 1">
             <div class="border-bottom cell-box">
                 <div class="blanceBox" layout="column" layout-align="center start">
-                    <div><span class="blance">5288</span>&nbsp;<span class="dark-gray">美豆豆</span></div>
-                    <div class="fs24 dark-gray">其中充值余额2680</div>
+                    <div><span class="blance">{{dataModel.doudouBalance}}</span>&nbsp;<span class="dark-gray">美豆豆</span></div>
+                    <div class="fs24 dark-gray">其中充值余额{{Math.max(dataModel.doudouBalance - dataModel.doudouPresent, 0)}}</div>
                 </div>
             </div>
             <div class="cell-box">
@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div>
-                    <button class="fs32 subBtn">充值</button>
+                    <button @click="submit" class="fs32 subBtn">充值</button>
                 </div>
             </div>
         </div>
@@ -36,12 +36,15 @@
 </template>
 
 <script>
+    import api_party from 'services/api.party';
+
     export default {
         name: 'recharge',
         data() {
             return {
-                state: 2, // 1充值 2 充值成功
+                state: 1, // 1充值 2 充值成功
                 act: 1,
+                dataModel: {},
                 list: [
                     {
                         num: 100,
@@ -83,8 +86,19 @@
             };
         },
         mounted() {
+            this.loadData();
         },
         methods: {
+            loadData() {
+                this.$indicator.open();
+                api_party.getAccount(this.$store.state.party.partyId).then(res => {
+                    this.$indicator.close();
+                    this.dataModel = res.data;
+                });
+            },
+            submit() {
+                this.$toast('开发中，敬请期待');
+            },
             goWallet() {
                 this.$router.go(-1);
             },

@@ -206,8 +206,14 @@ export default {
                                     Indicator.close();
                                     if (results && results.success) {};
                                     if (employee.role === WECHAT_BUSINESS[1].code || employee.role === WECHAT_BUSINESS[2].code) {
-                                        location.href = '#/';
-                                        this.$store.commit(types.UPDATE_LOCAL);
+                                        api_sign_in.loginBySaasEmployee(employee.id).then((results) => {
+                                            let employeeData = window.localStorage.employee;
+                                            employeeData = JSON.parse(employeeData);
+                                            employeeData.party = results.data;
+                                            window.localStorage.employee = JSON.stringify(employeeData);
+                                            this.$store.commit(types.UPDATE_LOCAL);
+                                            location.href = '#/';
+                                        });
                                     } else {
                                         localStorage.clear();
                                         location.href = '#/sign';

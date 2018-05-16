@@ -13,10 +13,18 @@ const getRule = resolve => require(['./pages/getRule/index'], resolve);
 const recharge = resolve => require(['./pages/recharge/index'], resolve);
 const checkIn = resolve => require(['./pages/checkIn/index'], resolve);
 const editUserInfo = resolve => require(['./pages/editUserInfo/index'], resolve);
+const rechargeMessage = resolve => require(['./pages/rechargeMessage/index'], resolve);
 
 export default [{
-    path: '/editUserInfo',
+    path: '/rechargeMessage',
+    name: 'rechargeMessage',
+    props: true,
+    component: rechargeMessage,
+    meta: { auth: true, level: 1 }
+}, {
+    path: '/editUserInfo/:type?',
     name: 'editUserInfo',
+    props: true,
     component: editUserInfo,
     meta: { auth: true, level: 1 }
 }, {
@@ -35,8 +43,9 @@ export default [{
     component: getRule,
     meta: { auth: true, level: 1 }
 }, {
-    path: '/payNotes',
+    path: '/payNotes/:accountId?',
     name: 'payNotes',
+    props: true,
     component: payNotes,
     meta: { auth: true, level: 1 }
 }, {

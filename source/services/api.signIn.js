@@ -28,5 +28,9 @@ export default {
     getVerificationcode: function(phone) { // 获取验证码
         var url = '/api/wechatBusinessMarketing/verificationcode/' + phone;
         return request(url, null, 'get');
+    },
+    loginBySaasEmployee: function(id) { // 获取验证码
+        var url = `/api/party/loginBySaasEmployee/${id}`;
+        return request(url, null, 'PUT');
     }
 };

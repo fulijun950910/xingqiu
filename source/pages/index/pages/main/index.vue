@@ -3,7 +3,7 @@
         <div class="headBox cell cell-box">
             <div ><img :src="require('assets/imgs/index/20180509184001.jpg')" alt=""></div>
             <div class="iconList" layout="row" layout-align="space-between center">
-                <div>
+                <div @click="goBbsMain">
                     <div class="iconBox iconBox1" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-wenda2"></m-icon></div>
                     <div class="fs24 color-gray">美问美答</div>
                 </div>
@@ -12,11 +12,11 @@
                     <div class="fs24 color-gray">美博汇</div>
                 </div>
                 <div>
-                    <div class="iconBox iconBox3" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-mendianguanli"></m-icon></div>
+                    <div @click="goWxbus" class="iconBox iconBox3" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-mendianguanli"></m-icon></div>
                     <div class="fs24 color-gray">店务助手</div>
                 </div>
                 <div @click="alertMessage">
-                    <div class="iconBox iconBox4" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-hezuo"></m-icon></div>
+                    <div class="iconBox iconBox0" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-hezuo"></m-icon></div>
                     <div class="fs24 color-gray">异业共赢</div>
                 </div>
                 <div @click="goCheckIn">
@@ -28,27 +28,30 @@
         <div class="mainBox cell-box">
             <div class="cell"><strong>精华推荐</strong></div>
             <div>
-                <div class="list-item cell" v-for="item in [{},{},{}]">
+                <div @click="goBbs(item.tid)" class="list-item cell" v-for="item in bbsData">
                     <div layout="row" layout-align="space-between center">
                         <div layout="row" layout-align="start center">
-                            <div><img  class="avatar" :src="require('assets/imgs/index/20180509184001.jpg')" alt=""></div>
-                            <div class="fs24 color-gray">小河沟里的一条咸鱼</div>
+                            <div><img  class="avatar" :src="`http://bbs.mei1.info/uc_server/avatar.php?uid=${item.authorid}&size=middle`" alt=""></div>
+                            <div class="fs24 color-gray">{{item.author || '匿名'}}</div>
                         </div>
-                        <div class="light-gray fs24">热门</div>
+                        <div class="light-gray fs24">{{item.forum}}</div>
                     </div>
                     <div class="mt16" layout="row" layout-align="start stretch">
                         <div flex layout="column" layout-align="space-between start">
-                            <div>随着门店的扩展，拥有一套属于自己的SaaS系统已经迫在眉睫。</div>
+                            <div>{{item.subject}}</div>
                             <div>
-                                <m-icon class="fs32 color-gray" xlink="#icon-qiandao"></m-icon>
-                                <span class="color-gray">1043</span>
+                                <m-icon class="fs32 color-gray" xlink="#icon-dianzan"></m-icon>
+                                <span class="color-gray">{{item.recommendAdd}}</span>
                                 &nbsp;&nbsp;
-                                <m-icon class="fs32 color-gray" xlink="#icon-qiandao"></m-icon>
-                                <span class="color-gray">1043</span>
+                                <m-icon class="fs32 color-gray" xlink="#icon-huifu"></m-icon>
+                                <span class="color-gray">{{item.replies}}</span>
+                                &nbsp;&nbsp;
+                                <m-icon class="fs32 color-gray" xlink="#icon-yanjing"></m-icon>
+                                <span class="color-gray">{{item.views}}</span>
                             </div>
                         </div>
                         <div class="imgBox" layout="row" layout-align="center center">
-                            <img  :src="require('assets/imgs/index/20180509184001.jpg')" alt="">
+                            <img  :src="item.attachment" alt="">
                         </div>
                     </div>
                 </div>
@@ -70,22 +73,64 @@
 </template>
 
 <script>
+    import api_party from 'services/api.party';
     export default {
         name: 'main',
         data() {
             return {
+                bbsData: []
             };
         },
         mounted() {
+            this.loadData();
         },
         methods: {
+            loadData() {
+                let id = 0;
+                if (this.$store.state.party) {
+                    id = this.$store.state.party.partyId;
+                }
+                api_party.getBbsList(id).then(res => {
+                    this.bbsData = res.data;
+                });
+            },
+            checkUser() {
+                let flag = false;
+                if (!this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
+                    window.location.href = this.$signLocation;
+                    flag = true;
+                }
+                return flag;
+            },
+            goBbs(id) {
+                window.location.href = `http://bbs.mei1.info/forum.php?mod=viewthread&tid=${id}`;
+            },
+            goBbsMain() {
+                window.location.href = 'http://bbs.mei1.info';
+            },
+            goWxbus() {
+                if (this.checkUser()) {
+                    return;
+                }
+                if (this.$store.state.user.merchant && this.$store.state.user.merchant.functionVersion == 4) {
+                    window.location.href = '/lite/index.html';
+                } else {
+                    window.location.href = '/main.html#/index';
+                }
+            },
             alertMessage() {
                 this.$toast('开发中，敬请期待');
             },
             goCheckIn() {
+                if (this.checkUser()) {
+                    return;
+                }
                 this.$router.push({name: 'checkIn'});
             },
             goUserInfo() {
+                if (this.checkUser()) {
+                    return;
+                }
                 this.$router.push({name: 'userinfo'});
             }
         }
@@ -119,6 +164,9 @@
                 color:#fff;
                 font-size:22px;
             }
+            &.iconBox0{
+                background: linear-gradient(-45deg, #777, #ccc);
+            }
             &.iconBox1{
                 background: linear-gradient(-45deg, #7484F3, #CB94F4);
             }
@@ -139,7 +187,7 @@
         .list-item{
             border-top:1px solid @border-gay;
             .mt16{
-                margin-top:@l16;
+                margin-top: @l16;
             }
             .avatar{
                 width:28px;
