@@ -99,9 +99,8 @@
     "weixin-js-sdk": "^1.2.0"
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
+    "iOS >= 8", 
+    "Android >= 4.1"
   ],
   "engines": {
     "node": ">= 4.0.0",
