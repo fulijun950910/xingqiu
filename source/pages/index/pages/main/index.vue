@@ -28,10 +28,10 @@
         <div class="mainBox cell-box">
             <div class="cell"><strong>精华推荐</strong></div>
             <div>
-                <div @click="goBbs(item.tid)" class="list-item cell" v-for="item in bbsData">
+                <div @click="goBbs(item.url)" class="list-item cell" v-for="item in bbsData">
                     <div layout="row" layout-align="space-between center">
                         <div layout="row" layout-align="start center">
-                            <div><img  class="avatar" :src="`http://bbs.mei1.info/uc_server/avatar.php?uid=${item.authorid}&size=middle`" alt=""></div>
+                            <div><img  class="avatar" :src="item.authorImage" alt=""></div>
                             <div class="fs24 color-gray">{{item.author || '匿名'}}</div>
                         </div>
                         <div class="light-gray fs24">{{item.forum}}</div>
@@ -102,8 +102,8 @@
                 }
                 return flag;
             },
-            goBbs(id) {
-                window.location.href = `http://bbs.mei1.info/forum.php?mod=viewthread&tid=${id}`;
+            goBbs(url) {
+                window.location.href = url;
             },
             goBbsMain() {
                 window.location.href = 'http://bbs.mei1.info';
