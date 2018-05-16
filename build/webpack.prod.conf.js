@@ -8,7 +8,10 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 
-var env = process.env.NODE_ENV === 'testing' ? require('../config/test.env') : config.build.env;
+var env =
+    process.env.NODE_ENV === 'testing'
+        ? require('../config/test.env')
+        : config.build.env;
 
 var webpackConfig = merge(baseWebpackConfig, {
     module: {
@@ -32,6 +35,12 @@ var webpackConfig = merge(baseWebpackConfig, {
         new ExtractTextPlugin({
             filename: utils.assetsPath('css/[name].[contenthash].css')
         }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            },
+            sourceMap: false
+        }),
         // Compress extracted CSS. We are using this plugin so that possible
         // duplicated CSS from different components can be deduped.
         new OptimizeCSSPlugin({
@@ -46,7 +55,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         // split vendor js into its own file
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
-            minChunks: function (module, count) {
+            minChunks: function(module, count) {
                 // any required modules inside node_modules are extracted to vendor
                 return (
                     module.resource &&
@@ -54,7 +63,7 @@ var webpackConfig = merge(baseWebpackConfig, {
                     module.resource.indexOf(
                         path.join(__dirname, '../node_modules')
                     ) === 0
-                )
+                );
             }
         }),
         // extract webpack runtime and module manifest to its own file in order to
@@ -81,7 +90,9 @@ if (config.build.productionGzip) {
         new CompressionWebpackPlugin({
             asset: '[path].gz[query]',
             algorithm: 'gzip',
-            test: new RegExp('\\.(' + config.build.productionGzipExtensions.join('|') + ')$'),
+            test: new RegExp(
+                '\\.(' + config.build.productionGzipExtensions.join('|') + ')$'
+            ),
             threshold: 10240,
             minRatio: 0.8
         })
@@ -89,7 +100,8 @@ if (config.build.productionGzip) {
 }
 
 if (config.build.bundleAnalyzerReport) {
-    var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+    var BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+        .BundleAnalyzerPlugin;
     webpackConfig.plugins.push(new BundleAnalyzerPlugin());
 }
 
