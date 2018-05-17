@@ -1,7 +1,7 @@
 <template>
     <div class="main" v-title="'美问星球'">
         <div class="headBox cell cell-box">
-            <div ><img :src="require('assets/imgs/index/20180509184001.jpg')" alt=""></div>
+            <div @click="goLink1"><img :src="require('assets/imgs/index/20180509184001.jpg')" alt=""></div>
             <div class="iconList" layout="row" layout-align="space-between center">
                 <div @click="goBbsMain">
                     <div class="iconBox iconBox1" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-wenda2"></m-icon></div>
@@ -104,6 +104,9 @@
             },
             goBbs(url) {
                 window.location.href = url;
+            },
+            goLink1() {
+                window.location.href = 'https://mp.weixin.qq.com/s/vM_8KeGoOYiGrJfXDTmuCQ';
             },
             goBbsMain() {
                 window.location.href = 'http://bbs.mei1.info';
