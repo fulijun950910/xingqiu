@@ -178,7 +178,9 @@
         },
         methods: {
             loadData() {
+                this.$indicator.open();
                 api_party.getMissionList(this.$store.state.party.partyId).then(res => {
+                    this.$indicator.close();
                     this.dataList = res.data;
                     res.data.forEach(item => {
                         if (item.missionCode) {
