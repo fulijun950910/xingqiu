@@ -14,8 +14,8 @@ export default function(url, method, data, messageFlag = true) {
         } else {
             Vue.prototype.$indicator.close();
             if (messageFlag) {
-                if (res.message) {
-                    Vue.prototype.$toast(res.message);
+                if (res.data.message) {
+                    Vue.prototype.$toast(res.data.message);
                 } else {
                     Vue.prototype.$toast('服务器开小差，请稍后再试');
                 }
