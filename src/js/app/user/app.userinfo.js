@@ -471,7 +471,12 @@ app.userinfo = {
                                                                             employeeData = JSON.parse(employeeData);
                                                                             employeeData.party = res.data;
                                                                             window.localStorage.employee = JSON.stringify(employeeData);
-                                                                            location.href = "/source/index.html#/main";
+                                                                            if (window.history.replaceState) {
+                                                                                window.history.replaceState({}, "0", window.location.origin + '/service/index.html#/main');
+                                                                                window.location.reload();
+                                                                            } else {
+                                                                                location.href = "/service/index.html#/main";
+                                                                            }
                                                                         } else {
                                                                             app.userinfo.alertError('服务器开小差，请稍后再试');
                                                                         }
