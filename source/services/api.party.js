@@ -35,5 +35,9 @@ export default {
     getBbsList(partyId) {
         let url = `/api/bbs/list/${partyId}`;
         return request(url, 'get');
+    },
+    getMissionList(partyId) {
+        let url = `/api/mission/getListByPartyId/${partyId}`;
+        return request(url, 'get');
     }
 };
