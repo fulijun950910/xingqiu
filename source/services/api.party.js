@@ -32,8 +32,8 @@ export default {
         let url = '/api/wechatbusinessassists/unbind';
         return request(url, 'post', data);
     },
-    getBbsList(partyId) {
-        let url = `/api/bbs/list/${partyId}`;
+    getBbsList(data) {
+        let url = `/api/bbs/list/${data.partyId}/${data.page}/${data.size}`;
         return request(url, 'get');
     },
     getMissionList(partyId) {
