@@ -1,9 +1,9 @@
 <template>
     <div class="main" v-title="'美问星球'">
         <div class="headBox cell cell-box">
-            <div @click="goLink1"><img :src="require('assets/imgs/index/20180509184001.jpg')" alt=""></div>
+            <div @click="goLink1" class="bannerBox"><img  :src="require('assets/imgs/index/20180509184001.jpg')" alt=""></div>
             <div class="iconList" layout="row" layout-align="space-between center">
-                <div @click="goBbsMain">
+                <div @click="goBbsPage">
                     <div class="iconBox iconBox1" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-wenda2"></m-icon></div>
                     <div class="fs24 color-gray">美问美答</div>
                 </div>
@@ -16,7 +16,7 @@
                     <div class="fs24 color-gray">店务助手</div>
                 </div>
                 <div @click="alertMessage">
-                    <div class="iconBox iconBox0" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-hezuo"></m-icon></div>
+                    <div class="iconBox iconBox4" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-hezuo"></m-icon></div>
                     <div class="fs24 color-gray">异业共赢</div>
                 </div>
                 <div @click="goCheckIn">
@@ -90,7 +90,12 @@
                 if (this.$store.state.party) {
                     id = this.$store.state.party.partyId;
                 }
-                api_party.getBbsList(id).then(res => {
+                let data = {
+                    partyId: id,
+                    page: 1,
+                    size: 5
+                };
+                api_party.getBbsList(data).then(res => {
                     this.bbsData = res.data;
                 });
             },
@@ -108,8 +113,8 @@
             goLink1() {
                 window.location.href = 'https://mp.weixin.qq.com/s/vM_8KeGoOYiGrJfXDTmuCQ';
             },
-            goBbsMain() {
-                window.location.href = 'http://bbs.mei1.info';
+            goBbsPage() {
+                this.$router.push({name: 'bbsPage'});
             },
             goWxbus() {
                 if (this.checkUser()) {
@@ -149,6 +154,10 @@
     }
     .mt{
         margin-top:@l16;
+    }
+    .bannerBox{
+        border-radius: 12px;
+        overflow:hidden;
     }
     .headBox{
         background:@white;

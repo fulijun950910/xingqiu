@@ -17,44 +17,44 @@
         </div>
         <div v-for="item in dataList">
             <div v-if="item.missionCode == 'FIRST_LOGIN'" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
-                <div layout="row" layout-align="start start">
+                <div flex layout="row" layout-align="start start">
                     <div class="iconBox iconBox2" layout="row" layout-align="center center">
                         <m-icon class="" xlink="#icon-qianyue"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
-                    <div>
-                        <div>{{item.missionName}}</div>
-                        <div class="fs24 dark-gray">{{item.missionDesc}}</div>
+                    <div flex>
+                        <div v-html="item.missionName"></div>
+                        <div class="fs24 dark-gray" v-html="item.missionDesc"></div>
                     </div>
                 </div>
                 <div v-if="item.completed" class="light-gray">
                     已获得
                 </div>
             </div>
-            <div v-else-if='false' class="list-item error cell cell-box" layout="row" layout-align="space-between center">
-                <div layout="row" layout-align="start start">
+            <div v-else-if="item.missionCode == 'YIYE'" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
+                <div flex layout="row" layout-align="start start">
                     <div class="iconBox iconBox3" layout="row" layout-align="center center">
                         <m-icon class="" xlink="#icon-hezuo"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
-                    <div>
-                        <div>{{item.missionName}}</div>
-                        <div class="fs24 dark-gray">{{item.missionDesc}}</div>
+                    <div flex>
+                        <div v-html="item.missionName"></div>
+                        <div class="fs24 dark-gray" v-html="item.missionDesc"></div>
                     </div>
                 </div>
-                <div  class="light-gray">
+                <div v-if="item.completed" class="light-gray">
                     已获得
                 </div>
             </div>
             <div v-else-if="item.missionCode == 'SIGN'" @click="goCheckIn" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
-                <div layout="row" layout-align="start start">
+                <div flex layout="row" layout-align="start start">
                     <div class="iconBox iconBox4" layout="row" layout-align="center center">
                         <m-icon class="" xlink="#icon-qiandao"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
-                    <div>
-                        <div>{{item.missionName}}</div>
-                        <div class="fs24 dark-gray">{{item.missionDesc}}</div>
+                    <div flex>
+                        <div v-html="item.missionName"></div>
+                        <div class="fs24 dark-gray" v-html="item.missionDesc"></div>
                     </div>
                 </div>
                 <div v-if="item.completed" class="light-gray">
@@ -67,14 +67,14 @@
             </div>
 
             <div v-else-if="item.missionCode == 'RELEASE_PROMOTION'" @click="goPromotion" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
-                <div layout="row" layout-align="start start">
+                <div flex layout="row" layout-align="start start">
                     <div class="iconBox iconBox5" layout="row" layout-align="center center">
                         <m-icon class="" xlink="#icon-zengsong"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
-                    <div>
-                        <div>{{item.missionName}}（{{item.value}}/{{Math.floor(item.conditionValue) || 0}}）</div>
-                        <div class="fs24 dark-gray">{{item.missionDesc}}</div>
+                    <div flex flex>
+                        <div><spna v-html="item.missionName"></spna>（{{item.value}}/{{Math.floor(item.conditionValue) || 0}}）</div>
+                        <div class="fs24 dark-gray" v-html="item.missionDesc"></div>
                     </div>
                 </div>
                 <div v-if="item.completed" class="light-gray">
@@ -86,14 +86,14 @@
                 </div>
             </div>
             <div v-else-if="item.missionCode == 'ORDER_COUNT'" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
-                <div layout="row" layout-align="start start">
+                <div flex layout="row" layout-align="start start">
                     <div class="iconBox iconBox6" layout="row" layout-align="center center">
                         <m-icon class="" xlink="#icon-huangguan"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
-                    <div>
-                        <div>{{item.missionName}}</div>
-                        <div class="fs24 dark-gray">{{item.missionDesc}}</div>
+                    <div flex>
+                        <div v-html="item.missionName"></div>
+                        <div class="fs24 dark-gray" v-html="item.missionDesc"></div>
                     </div>
                 </div>
                 <div v-if="item.completed" class="light-gray">
@@ -103,14 +103,14 @@
                 </div>
             </div>
             <div v-else-if="item.missionCode == 'POS_TRADE'" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
-                <div layout="row" layout-align="start start">
+                <div flex layout="row" layout-align="start start">
                     <div class="iconBox iconBox6" layout="row" layout-align="center center">
                         <img :src="require('assets/imgs/index/20180510170401.jpg')" alt="">
                     </div>
                     <span>&nbsp;&nbsp;</span>
-                    <div>
-                        <div>{{item.missionName}}</div>
-                        <div class="fs24 dark-gray">{{item.missionDesc}}</div>
+                    <div flex>
+                        <div v-html="item.missionName"></div>
+                        <div class="fs24 dark-gray" v-html="item.missionDesc"></div>
                     </div>
                 </div>
                 <div v-if="item.completed" class="light-gray">
@@ -119,29 +119,32 @@
                 <div class="fs24 color-green">
                 </div>
             </div>
-            <div v-else-if="false" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
-                <div layout="row" layout-align="start start">
+            <div v-else-if="item.missionCode == 'INTRODUCE'" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
+                <div flex layout="row" layout-align="start start">
                     <div class="iconBox iconBox7" layout="row" layout-align="center center">
                         <m-icon class="" xlink="#icon-ai246"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
-                    <div>
-                        <div>介绍商户入驻</div>
-                        <div class="fs24 dark-gray">介绍1个商户<span class="color-red-lighten">+1000</span>美豆豆</div>
+                    <div flex>
+                        <div v-html="item.missionName"></div>
+                        <div class="fs24 dark-gray" v-html="item.missionDesc"></div>
                     </div>
+                </div>
+                <div v-if="item.completed" class="light-gray">
+                    已获得
                 </div>
                 <div class="fs24 color-green">
                 </div>
             </div>
-            <div v-if="false" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
-                <div layout="row" layout-align="start start">
+            <div v-if="item.missionCode == 'YIYE_RELEASE_TICKET'" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
+                <div flex layout="row" layout-align="start start">
                     <div class="iconBox iconBox8" layout="row" layout-align="center center">
                         <m-icon class="" xlink="#icon-weibiaoti2fuzhi02"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
-                    <div>
-                        <div>作为异业宿主发券成功</div>
-                        <div class="fs24 dark-gray">发券1次<span class="color-red-lighten">+10</span>美豆豆</div>
+                    <div flex>
+                        <div v-html="item.missionName"></div>
+                        <div class="fs24 dark-gray" v-html="item.missionDesc"></div>
                     </div>
                 </div>
                 <div class="fs24 color-green">
@@ -150,8 +153,6 @@
                 </div>
             </div>
         </div>
-
-
 
     </div>
 </template>

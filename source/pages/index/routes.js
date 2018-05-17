@@ -14,8 +14,14 @@ const recharge = resolve => require(['./pages/recharge/index'], resolve);
 const checkIn = resolve => require(['./pages/checkIn/index'], resolve);
 const editUserInfo = resolve => require(['./pages/editUserInfo/index'], resolve);
 const rechargeMessage = resolve => require(['./pages/rechargeMessage/index'], resolve);
+const bbsPage = resolve => require(['./pages/bbsPage/index'], resolve);
 
 export default [{
+    path: '/bbsPage',
+    name: 'bbsPage',
+    component: bbsPage,
+    meta: { auth: true, level: 1 }
+}, {
     path: '/rechargeMessage',
     name: 'rechargeMessage',
     props: true,
