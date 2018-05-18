@@ -88,11 +88,11 @@ export default {
                             img: require('assets/imgs/shop/shop-mail2.png')
                         },
                         {
-                            name: '亮片',
+                            name: '珍珠',
                             img: require('assets/imgs/shop/shop-mail3.png')
                         },
                         {
-                            name: '亮片',
+                            name: '镶钻',
                             img: require('assets/imgs/shop/shop-mail4.png')
                         },
                         {
@@ -100,15 +100,15 @@ export default {
                             img: require('assets/imgs/shop/shop-mail5.png')
                         },
                         {
-                            name: '亮片',
+                            name: '高光',
                             img: require('assets/imgs/shop/shop-mail6.png')
                         },
                         {
-                            name: '亮片',
+                            name: '珍珠',
                             img: require('assets/imgs/shop/shop-mail7.png')
                         },
                         {
-                            name: '亮片',
+                            name: '镶钻',
                             img: require('assets/imgs/shop/shop-mail8.png')
                         },
                         {
@@ -116,7 +116,7 @@ export default {
                             img: require('assets/imgs/shop/shop-mail9.png')
                         },
                         {
-                            name: '亮片',
+                            name: '镶钻',
                             img: require('assets/imgs/shop/shop-mail8.png')
                         }
                     ]
@@ -129,36 +129,36 @@ export default {
                             img: require('assets/imgs/shop/shop-mail2.png')
                         },
                         {
-                            name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail2.png')
+                            name: '珍珠',
+                            img: require('assets/imgs/shop/shop-mail3.png')
+                        },
+                        {
+                            name: '镶钻',
+                            img: require('assets/imgs/shop/shop-mail4.png')
                         },
                         {
                             name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail2.png')
+                            img: require('assets/imgs/shop/shop-mail5.png')
+                        },
+                        {
+                            name: '高光',
+                            img: require('assets/imgs/shop/shop-mail6.png')
+                        },
+                        {
+                            name: '珍珠',
+                            img: require('assets/imgs/shop/shop-mail7.png')
+                        },
+                        {
+                            name: '镶钻',
+                            img: require('assets/imgs/shop/shop-mail8.png')
                         },
                         {
                             name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail2.png')
+                            img: require('assets/imgs/shop/shop-mail9.png')
                         },
                         {
-                            name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail2.png')
-                        },
-                        {
-                            name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail2.png')
-                        },
-                        {
-                            name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail2.png')
-                        },
-                        {
-                            name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail2.png')
-                        },
-                        {
-                            name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail2.png')
+                            name: '镶钻',
+                            img: require('assets/imgs/shop/shop-mail8.png')
                         }
                     ]
                 }

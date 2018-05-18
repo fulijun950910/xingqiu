@@ -42,55 +42,55 @@ export default {
         return {
             datdaList: [
                 {
-                    title: '我是怎么让一个客户一下子办了30张会员卡的',
-                    des: '在一个月黑风高的夜晚，浑身疲惫的我决定提前关门回家。这时候进来了一位',
+                    title: '最前沿的时尚潮流，施华蔻专业2018春夏新季风中国发布会圆满落幕！',
+                    des: '5月14日，施华蔻专业在乌镇，举行了2018春夏新季风中国发布会，发布会现场大咖云集。',
                     img: require('assets/imgs/shop/shop-news-4.png'),
                     person: {
-                        name: '苏更生',
+                        name: '张美丽',
                         face: require('assets/imgs/shop/shop-news-1.png'),
                         like: 2000,
                         isLike: false
                     }
                 },
                 {
-                    title: '我是怎么让一个客户一下子办了30张会员卡的',
+                    title: 'TONI&GUY助阵I.T2018春夏精选时装秀，潮玩太古摩登派对！',
                     img: require('assets/imgs/shop/shop-news-5.png'),
-                    des: '在一个月黑风高的夜晚，浑身疲惫的我决定提前关门回家。这时候进来了一位',
+                    des: 'I.T潮牌携手TONI&GUY中国，在5月11日在无数帝都潮人的期待下，上演了2018春夏时装秀。',
                     person: {
-                        name: '苏更生',
+                        name: '许美丽',
                         face: require('assets/imgs/shop/shop-news-1.png'),
                         like: 2000,
                         isLike: false
                     }
                 },
                 {
-                    title: '我是怎么让一个客户一下子办了30张会员卡的',
+                    title: '王朝刚博士受邀出席第六届亚洲毛发移植大会，脱发的你有救啦！',
                     img: require('assets/imgs/shop/shop-news-6.png'),
-                    des: '在一个月黑风高的夜晚，浑身疲惫的我决定提前关门回家。这时候进来了一位',
+                    des: '200余位来自世界各地的毛发移植精英与600余位从事毛发相关的国内专家共同探讨毛发移植最新修复技术。',
                     person: {
-                        name: '苏更生',
+                        name: '况美丽',
                         face: require('assets/imgs/shop/shop-news-1.png'),
                         like: 2000,
                         isLike: false
                     }
                 },
                 {
-                    title: '我是怎么让一个客户一下子办了30张会员卡的',
+                    title: '容大生物金纳斯点亮纽约时代广场“世界第一屏”纳斯达克大屏！',
                     img: require('assets/imgs/shop/shop-news-4.png'),
-                    des: '在一个月黑风高的夜晚，浑身疲惫的我决定提前关门回家。这时候进来了一位',
+                    des: '中国品牌日当天，深圳市容大生物技术有限公司旗下 " 金纳斯 " 品牌，在纽约时代广场纳斯达克大屏。',
                     person: {
-                        name: '苏更生',
+                        name: '李美丽',
                         face: require('assets/imgs/shop/shop-news-1.png'),
                         like: 2000,
                         isLike: false
                     }
                 },
                 {
-                    title: '我是怎么让一个客户一下子办了30张会员卡的',
+                    title: '心机嗨趴不间断，双面心机比西安的天气更hot',
                     img: require('assets/imgs/shop/shop-news-5.png'),
-                    des: '在一个月黑风高的夜晚，浑身疲惫的我决定提前关门回家。这时候进来了一位',
+                    des: '上周”双面心机染“终于落足火热的古城西安，在这座历史名城中，心机潮流将如何呈现，又将如何接力呢？',
                     person: {
-                        name: '苏更生',
+                        name: '沈美丽',
                         face: require('assets/imgs/shop/shop-news-1.png'),
                         like: 2000,
                         isLike: false
