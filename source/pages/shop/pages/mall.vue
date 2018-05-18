@@ -108,19 +108,11 @@ export default {
                             img: require('assets/imgs/shop/shop-mail2.png')
                         },
                         {
-<<<<<<< HEAD
-                            name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail3.png')
-                        },
-                        {
-                            name: '亮片',
-=======
                             name: '珍珠',
                             img: require('assets/imgs/shop/shop-mail3.png')
                         },
                         {
                             name: '镶钻',
->>>>>>> master
                             img: require('assets/imgs/shop/shop-mail4.png')
                         },
                         {
@@ -128,17 +120,6 @@ export default {
                             img: require('assets/imgs/shop/shop-mail5.png')
                         },
                         {
-<<<<<<< HEAD
-                            name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail6.png')
-                        },
-                        {
-                            name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail7.png')
-                        },
-                        {
-                            name: '亮片',
-=======
                             name: '高光',
                             img: require('assets/imgs/shop/shop-mail6.png')
                         },
@@ -148,7 +129,6 @@ export default {
                         },
                         {
                             name: '镶钻',
->>>>>>> master
                             img: require('assets/imgs/shop/shop-mail8.png')
                         },
                         {
@@ -156,13 +136,8 @@ export default {
                             img: require('assets/imgs/shop/shop-mail9.png')
                         },
                         {
-<<<<<<< HEAD
-                            name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail6.png')
-=======
                             name: '镶钻',
                             img: require('assets/imgs/shop/shop-mail8.png')
->>>>>>> master
                         }
                     ]
                 }
