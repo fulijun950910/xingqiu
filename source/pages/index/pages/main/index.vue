@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         <div class="imgBox" layout="row" layout-align="center center">
-                            <img  :src="item.attachment || require('assets/imgs/index/501657390978523645.jpg')" alt="">
+                            <img :src="item.attachment || require('assets/imgs/index/501657390978523645.jpg')" alt="">
                         </div>
                     </div>
                 </div>

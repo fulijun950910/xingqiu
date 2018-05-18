@@ -202,7 +202,7 @@ app.index = {
         window.sessionStorage.setItem('employeeList', "");
         initData();
         if (!localStorage.employee || !JSON.parse(localStorage.employee)) {
-            location.href = "/userinfo.html#/user_login";
+            location.href = "/userinfo.html?type=1#/user_login";
         }
         if (JSON.parse(localStorage.employee).merchant && JSON.parse(localStorage.employee).merchant.functionVersion == 4) {
             location.href = "/lite/index.html";

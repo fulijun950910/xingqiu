@@ -475,11 +475,15 @@ app.userinfo = {
                                                                             employeeData = JSON.parse(employeeData);
                                                                             employeeData.party = res.data;
                                                                             window.localStorage.employee = JSON.stringify(employeeData);
+                                                                            var url = '/service/index.html#/main';
+                                                                            if (keyGetValue('type') == 1) {
+                                                                                url = '/main.html#/index';
+                                                                            }
                                                                             if (window.history.replaceState) {
-                                                                                window.history.replaceState({}, "0", window.location.origin + '/service/index.html#/main');
+                                                                                window.history.replaceState({}, "0", window.location.origin + url);
                                                                                 window.location.reload();
                                                                             } else {
-                                                                                location.href = "/service/index.html#/main";
+                                                                                location.href = url;
                                                                             }
                                                                         } else {
                                                                             app.userinfo.alertError('服务器开小差，请稍后再试');
