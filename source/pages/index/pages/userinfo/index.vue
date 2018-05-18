@@ -135,6 +135,7 @@
                     userId: this.$store.state.user.userId
                 };
                 api_party.unbind(data).then(res => {
+                    localStorage.clear();
                     window.location.href = this.$signLocation;
                 });
             },

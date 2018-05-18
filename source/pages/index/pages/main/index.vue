@@ -103,7 +103,6 @@
                 let flag = false;
                 if (!this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
                     window.location.href = this.$signLocation;
-                    window.location.reload();
                     flag = true;
                 }
                 return flag;

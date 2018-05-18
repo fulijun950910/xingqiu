@@ -33,6 +33,10 @@ app.userinfo = {
     goRegistered: function() {
         location.href = app.urlC + '/activity/registered/index.html?applyType=4'
     },
+    goMwxq: function() {
+        localStorage.clear();
+        location.href = '/service/index.html#/main'
+    },
     messageTime: function(o, data) {
         if (this.wait == 60 && data) {
             app.userinfo.captcha(data, true);
