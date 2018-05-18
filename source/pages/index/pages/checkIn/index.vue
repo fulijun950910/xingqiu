@@ -12,7 +12,7 @@
             </button></div>
         </div>
         <div class="checkInBox">
-            <div class="cell text-center fs24 dark-gray">已连续签到3天，连续签到有更多惊喜哦</div>
+            <div class="cell text-center fs24 dark-gray">已连续签到{{lastDay.continueDays}}天，连续签到有更多惊喜哦</div>
             <div class="numBox">
                 <div class="top" layout="row" layout-align="center center">
                     <div v-for="item in list1" :class="{'act':lastDay.continueDays>=item.day}" class="check-item fs24" layout="row" layout-align="center center">
@@ -156,6 +156,9 @@
     }
     .color-light-red{
         color:@color-red-lighten;
+    }
+    .color-white{
+        color:@white;
     }
     .blance{
         font-size:30px;
