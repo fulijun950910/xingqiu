@@ -134,7 +134,9 @@
                     employeeId: this.$store.state.user.id,
                     userId: this.$store.state.user.userId
                 };
+                this.$indicator.open();
                 api_party.unbind(data).then(res => {
+                    this.$indicator.close();
                     localStorage.clear();
                     window.location.href = this.$signLocation;
                 });
