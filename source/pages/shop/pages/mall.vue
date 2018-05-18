@@ -16,7 +16,7 @@
                       <img :src="require('assets/imgs/shop/shop-mail1.png')" alt="">
                   </div>
                   <div class="main-content">
-                      <div class="content-box" v-for="(item,index) in mainContent" :key="index">
+                      <div class="content-box" v-for="(item,index) in mainContent" :key="index" @click="loading">
                             <div class="content-title" layout="row" layout-align="center center">
                                 <i></i>&nbsp;&nbsp;{{item.title}}&nbsp;&nbsp;<i></i></div>
                             <div class="content-item" layout="row" flex-wrap="wrap" layout-align="center center">
@@ -33,11 +33,14 @@
              </div>
         </div>
             <shop-bottom-nav active-type="2" class="bottom-nav"></shop-bottom-nav>
+            <stop-pages></stop-pages>
     </div>
 </template>
 <script>
 import shopSearch from 'components/shop-search';
 import shopBottomNav from 'components/shop-bottom-nav';
+import stopPages from 'components/stop-pages';
+import { Toast } from 'mint-ui';
 export default {
     data() {
         return {
@@ -94,6 +97,7 @@ export default {
                         {
                             name: '亮片',
                             img: require('assets/imgs/shop/shop-mail4.png')
+<<<<<<< HEAD
                         },
                         {
                             name: '亮片',
@@ -118,6 +122,8 @@ export default {
                         {
                             name: '亮片',
                             img: require('assets/imgs/shop/shop-mail8.png')
+=======
+>>>>>>> c269109... fix[美博汇]
                         }
                     ]
                 },
@@ -167,7 +173,8 @@ export default {
     },
     components: {
         shopSearch,
-        shopBottomNav
+        shopBottomNav,
+        stopPages
     },
     methods: {
         selectMenu(item) {
@@ -177,6 +184,9 @@ export default {
                     item1.active = 0;
                 }
             });
+        },
+        loading() {
+            Toast('程序猿正在加速开发中，敬请期待...');
         }
     }
 };
