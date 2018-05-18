@@ -113,7 +113,7 @@ Vue.filter('getName', function(value, arr) {
     };
     let obj;
     obj = arr.find((val) => {
-        return val.value === value;
+        return val.value == value;
     });
     if (obj && obj.name) {
         return obj.name;

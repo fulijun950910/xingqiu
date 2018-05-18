@@ -3,10 +3,6 @@ app.userinfo = {
     init: function() {
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
-                // if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
-                //     location.href = "/performance-index.html#/performance_report";
-                // } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                //     location.href = "/performance-index.html#/performance_emp";
                 if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                     if (employee.merchant && employee.merchant.functionVersion == 4) { //营销版
                         location.href = "/lite/index.html";
@@ -36,6 +32,10 @@ app.userinfo = {
     },
     goRegistered: function() {
         location.href = app.urlC + '/activity/registered/index.html?applyType=4'
+    },
+    goMwxq: function() {
+        localStorage.clear();
+        location.href = '/service/index.html#/main'
     },
     messageTime: function(o, data) {
         if (this.wait == 60 && data) {
@@ -455,16 +455,40 @@ app.userinfo = {
                                                             // } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                                                             //     location.href = "/performance-index.html#/performance_emp";
                                                             if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                                                                if (employee.merchant && employee.merchant.functionVersion == 4) { //营销版
-                                                                    location.href = "/lite/index.html";
-                                                                } else { //专业版
-                                                                    if (window.history.replaceState) {
-                                                                        window.history.replaceState({}, "0", window.location.origin + '/main.html#/index');
-                                                                        window.location.reload();
-                                                                    } else {
-                                                                        location.href = "/main.html#/index";
+                                                                // if (employee.merchant && employee.merchant.functionVersion == 4) { //营销版
+                                                                //     location.href = "/lite/index.html";
+                                                                // } else { //专业版
+                                                                //     if (window.history.replaceState) {
+                                                                //         window.history.replaceState({}, "0", window.location.origin + '/main.html#/index');
+                                                                //         window.location.reload();
+                                                                //     } else {
+                                                                //         location.href = "/main.html#/index";
+                                                                //     }
+                                                                // };
+                                                                app.api.userinfo.loginBySaasEmployee({
+                                                                    data: {
+                                                                        employeeId: employee.id
+                                                                    },
+                                                                    success: function (res) {
+                                                                        var employeeData = window.localStorage.employee;
+                                                                        if(employeeData){
+                                                                            employeeData = JSON.parse(employeeData);
+                                                                            employeeData.party = res.data;
+                                                                            window.localStorage.employee = JSON.stringify(employeeData);
+                                                                            if (window.history.replaceState) {
+                                                                                window.history.replaceState({}, "0", window.location.origin + '/service/index.html#/main');
+                                                                                window.location.reload();
+                                                                            } else {
+                                                                                location.href = "/service/index.html#/main";
+                                                                            }
+                                                                        } else {
+                                                                            app.userinfo.alertError('服务器开小差，请稍后再试');
+                                                                        }
+
+                                                                    },
+                                                                    error: function () {
                                                                     }
-                                                                };
+                                                                });
                                                             } else {
                                                                 localStorage.clear();
                                                                 location.href = "/userinfo.html#/user_login";

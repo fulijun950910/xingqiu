@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import App from './app';
 require('vendor/polyfill');
+import 'mint-ui/lib/style.css';
 import { Toast, Indicator, MessageBox } from 'mint-ui';
 
 Vue.prototype.$toast = message => Toast({ message: message, duration: 1500 });
@@ -27,6 +28,7 @@ import RavenVue from 'raven-js/plugins/vue';
 Vue.prototype.$knife = knife;
 
 // 图标组件
+// iconfont库 saas-wechat-business
 Vue.component('m-icon', mIcon);
 
 // 关闭启动信息
