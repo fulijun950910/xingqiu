@@ -1,3 +1,3 @@
 module.exports = {
-  NODE_ENV: '"production"'
+  NODE_ENV: process.env.BUILD_ENV == 'release' ? '"production"' : '"test"'
 }
