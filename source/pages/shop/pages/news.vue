@@ -49,11 +49,7 @@ export default {
                     des: '在一个月黑风高的夜晚，浑身疲惫的我决定提前关门回家。这时候进来了一位',
                     img: require('assets/imgs/shop/shop-news-4.png'),
                     person: {
-<<<<<<< HEAD
-                        name: '苏更生',
-=======
                         name: '沈艳茹',
->>>>>>> c269109... fix[美博汇]
                         face: require('assets/imgs/shop/shop-news-1.png'),
                         like: 2000,
                         isLike: false
@@ -64,13 +60,8 @@ export default {
                     img: require('assets/imgs/shop/shop-news-5.png'),
                     des: '在一个月黑风高的夜晚，浑身疲惫的我决定提前关门回家。这时候进来了一位',
                     person: {
-<<<<<<< HEAD
-                        name: '苏更生',
-                        face: require('assets/imgs/shop/shop-news-1.png'),
-=======
                         name: '冯紫萱',
                         face: require('assets/imgs/shop/shop-news-face1.jpg'),
->>>>>>> c269109... fix[美博汇]
                         like: 2000,
                         isLike: false
                     }
@@ -80,13 +71,8 @@ export default {
                     img: require('assets/imgs/shop/shop-news-6.png'),
                     des: '在一个月黑风高的夜晚，浑身疲惫的我决定提前关门回家。这时候进来了一位',
                     person: {
-<<<<<<< HEAD
-                        name: '苏更生',
-                        face: require('assets/imgs/shop/shop-news-1.png'),
-=======
                         name: '吉海波',
                         face: require('assets/imgs/shop/shop-news-face2.jpg'),
->>>>>>> c269109... fix[美博汇]
                         like: 2000,
                         isLike: false
                     }
@@ -96,13 +82,8 @@ export default {
                     img: require('assets/imgs/shop/shop-news-4.png'),
                     des: '在一个月黑风高的夜晚，浑身疲惫的我决定提前关门回家。这时候进来了一位',
                     person: {
-<<<<<<< HEAD
-                        name: '苏更生',
-                        face: require('assets/imgs/shop/shop-news-1.png'),
-=======
                         name: '丁力',
                         face: require('assets/imgs/shop/shop-news-face3.jpg'),
->>>>>>> c269109... fix[美博汇]
                         like: 2000,
                         isLike: false
                     }
@@ -112,13 +93,8 @@ export default {
                     img: require('assets/imgs/shop/shop-news-5.png'),
                     des: '在一个月黑风高的夜晚，浑身疲惫的我决定提前关门回家。这时候进来了一位',
                     person: {
-<<<<<<< HEAD
-                        name: '苏更生',
-                        face: require('assets/imgs/shop/shop-news-1.png'),
-=======
                         name: '李克伟',
                         face: require('assets/imgs/shop/shop-news-face4.jpg'),
->>>>>>> c269109... fix[美博汇]
                         like: 2000,
                         isLike: false
                     }
