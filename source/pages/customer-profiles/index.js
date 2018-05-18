@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import App from './app';
-require('babel-polyfill');
 require('vendor/polyfill');
 import mint from 'mint-ui';
 import 'mint-ui/lib/style.css';
