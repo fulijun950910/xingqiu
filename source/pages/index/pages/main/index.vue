@@ -8,7 +8,7 @@
                     <div class="fs24 color-gray">美问美答</div>
                 </div>
                 <div>
-                    <div class="iconBox" layout="row" layout-align="center center"><img :src="require('assets/imgs/index/20180509184002.jpg')" alt=""></div>
+                    <div @click="goMbh" class="iconBox" layout="row" layout-align="center center"><img :src="require('assets/imgs/index/20180509184002.jpg')" alt=""></div>
                     <div class="fs24 color-gray">美博汇</div>
                 </div>
                 <div>
@@ -119,6 +119,9 @@
             },
             goAllianceBeta() {
                 this.$router.push({name: 'alliance'});
+            },
+            goMbh() {
+                window.location.href = '/service/shop.html#/index';
             },
             goWxbus() {
                 if (this.checkUser()) {
