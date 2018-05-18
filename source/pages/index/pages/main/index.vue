@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         <div class="imgBox" layout="row" layout-align="center center">
-                            <img  :src="item.attachment" alt="">
+                            <img :src="item.attachment || require('assets/imgs/index/501657390978523645.jpg')" alt="">
                         </div>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                 this.$router.push({name: 'alliance'});
             },
             goMbh() {
-                window.location.href = '/service/shop.html#/index';
+                window.location.href = '/service/shop.html#/leader';
             },
             goWxbus() {
                 if (this.checkUser()) {
