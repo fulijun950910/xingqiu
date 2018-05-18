@@ -26,7 +26,7 @@ export default {
                     active: false
                 },
                 {
-                    name: '咨询',
+                    name: '咨讯',
                     icon: '#icon-huabanfuben18',
                     value: 3,
                     active: false
