@@ -181,7 +181,7 @@ export default {
 <style lang="less">
 @import '~styles/_agile';
 .main-container.index{
-    padding: 100px 10px 50px 10px;
+    padding: 120px 10px 50px 10px;
     background: white;
     position: relative;
     width: 100vw;
@@ -215,7 +215,7 @@ export default {
          position: absolute;
          left: 10px;
          right:10px;
-         top:60px;
+         top:80px;
          background: white;
          z-index: 999;;
         .tab-item{
