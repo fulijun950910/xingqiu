@@ -74,7 +74,7 @@
         },
         data() {
             return {
-                date: this.$moment().format('YYYY/MM'),
+                date: this.$moment().format('YYYY/MM/DD'),
                 dataModel: {},
                 blanceTotal: 0,
                 dataList: [],
@@ -146,6 +146,7 @@
             display:table;
         }
     }
+
     .color-white-light{
         color: rgba(255,255,255,0.6);
     }
