@@ -88,7 +88,7 @@ var merge = function(a, b) {
 exports.entries = function() {
     var result = {};
     App.pages.forEach(p => {
-        result[p.entry] = [path.resolve(App.basePath, p.entry)];
+        result[p.entry] = ['babel-polyfill', path.resolve(App.basePath, p.entry)];
     });
     return result;
 };
