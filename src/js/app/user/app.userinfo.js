@@ -312,6 +312,9 @@ app.userinfo = {
                 success: function(resultEmployeeList) {
                     if (!resultEmployeeList || !resultEmployeeList.success || !resultEmployeeList.data || resultEmployeeList.data.length <= 0) {
                         //app.alert('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息。', '登录异常');
+                        if (window.location.pathname != '/userinfo.html') {
+                            location.href = "/userinfo.html?type=1#/user_login";
+                        }
                         app.userinfo.alertError('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息', 3000);
                         app.endLoading();
                         return;
