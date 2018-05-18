@@ -197,6 +197,7 @@ export default {
                        height: 25px;
                        border-radius: 100%;
                        overflow: hidden;
+                       margin-right: 10px;
                    }
                    span{
                        font-size: 12px;

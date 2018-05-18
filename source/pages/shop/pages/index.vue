@@ -4,10 +4,11 @@
            <shop-search placeholder="搜产品、分类、内容"></shop-search>
         </div>
         <div class="tab" layout="row" layout-align="center center">
-                <div v-for="(item,index) in tabList" @click="tabClick(item)" :class="{active:checkTab==item.value}" :key="item.value" class="tab-item">
+                <div v-for="(item,index) in tabList" @click="tabClick(item)" flex="20" :class="{active:checkTab==item.value}" :key="item.value" class="tab-item">
                     <span class="color-7 fs14">{{item.name}}</span>
                 </div>
         </div>
+        <div class="list-scroll">
         <div class="list-container">
            <div class="box" v-for="(item,index) in dataList" :key="item.id">
                <div class="img-big">
@@ -32,6 +33,8 @@
                </div>
            </div>
         </div>
+        </div>
+
                 <shop-bottom-nav active-type="1" class="bottom-nav"></shop-bottom-nav>
     </div>
 </template>
@@ -178,10 +181,12 @@ export default {
 <style lang="less">
 @import '~styles/_agile';
 .main-container.index{
-    padding: 0 10px;
-    padding-top: 70px;
+    padding: 100px 10px 50px 10px;
     background: white;
     position: relative;
+    width: 100vw;
+    box-sizing: border-box;
+    height: 100%;
     .search-bar{
         position: fixed;
         left: 0;
@@ -189,6 +194,7 @@ export default {
         top: 0;
         background: white;
         padding: 0 10px;
+        z-index: 9999;;
     }
     .color-7{
         color: #777;
@@ -197,20 +203,26 @@ export default {
         color: #222;
     }
     .no-break{
-                    overflow: hidden;
-                    text-overflow:ellipsis;
-                    white-space:nowrap;
+        overflow: hidden;
+        text-overflow:ellipsis;
+         white-space:nowrap;
     }
 
     // tab
     .tab{
-        width: 100%;
         overflow-x: scroll;
          border-bottom: 1px solid #EEEEEE;
+         position: absolute;
+         left: 10px;
+         right:10px;
+         top:60px;
+         background: white;
+         z-index: 999;;
         .tab-item{
             padding: 10px 0;
             border-bottom: 1px solid #fff;
             margin: 0 10px;
+            flex:none;
         }
         .tab-item.active{
             border-bottom: 1px solid #8C5EE5;
@@ -220,9 +232,14 @@ export default {
         }
     }
     // list
+    .list-scroll{
+        height: 100%;
+        overflow-y: scroll;
     .list-container{
         column-count: 2;
         column-gap: 0;
+        // height: 100%;
+        overflow-y: scroll;
         .box{
             break-inside: avoid;
             box-sizing: border-box;
@@ -276,6 +293,8 @@ export default {
             }
         }
     }
+    }
+
     .bottom-nav{
         position: fixed;
         left: 0;
