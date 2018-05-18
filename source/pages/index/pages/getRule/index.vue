@@ -148,8 +148,8 @@
                     </div>
                 </div>
                 <div class="fs24 color-green">
-                    <span>去发券</span>
-                    <m-icon class="" xlink="#icon-right-bold"></m-icon>
+                    <!--<span>去发券</span>-->
+                    <!--<m-icon class="" xlink="#icon-right-bold"></m-icon>-->
                 </div>
             </div>
         </div>

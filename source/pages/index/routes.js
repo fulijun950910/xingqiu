@@ -15,8 +15,14 @@ const checkIn = resolve => require(['./pages/checkIn/index'], resolve);
 const editUserInfo = resolve => require(['./pages/editUserInfo/index'], resolve);
 const rechargeMessage = resolve => require(['./pages/rechargeMessage/index'], resolve);
 const bbsPage = resolve => require(['./pages/bbsPage/index'], resolve);
+const alliance = resolve => require(['./pages/allianceBeta/index'], resolve);
 
 export default [{
+    path: '/alliance',
+    name: 'alliance',
+    component: alliance,
+    meta: { auth: true, level: 1 }
+}, {
     path: '/bbsPage',
     name: 'bbsPage',
     component: bbsPage,

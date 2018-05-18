@@ -15,7 +15,7 @@
                     <div @click="goWxbus" class="iconBox iconBox3" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-mendianguanli"></m-icon></div>
                     <div class="fs24 color-gray">店务助手</div>
                 </div>
-                <div @click="alertMessage">
+                <div @click="goAllianceBeta">
                     <div class="iconBox iconBox4" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-hezuo"></m-icon></div>
                     <div class="fs24 color-gray">异业共赢</div>
                 </div>
@@ -103,6 +103,7 @@
                 let flag = false;
                 if (!this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
                     window.location.href = this.$signLocation;
+                    window.location.reload();
                     flag = true;
                 }
                 return flag;
@@ -115,6 +116,9 @@
             },
             goBbsPage() {
                 this.$router.push({name: 'bbsPage'});
+            },
+            goAllianceBeta() {
+                this.$router.push({name: 'alliance'});
             },
             goWxbus() {
                 if (this.checkUser()) {
@@ -156,6 +160,7 @@
         margin-top:@l16;
     }
     .bannerBox{
+        box-shadow: 0 2px 2px #ddd;
         border-radius: 12px;
         overflow:hidden;
     }
