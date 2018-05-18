@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="cell">推荐购买</div>
+        <div class="cell">推荐兑换</div>
         <div >
             <div v-if="type == 1" @click="goRechargeMessage" class="list-item cell cell-box" layout="row" layout-align="space-between center">
                 <div layout="row" layout-align="start center">

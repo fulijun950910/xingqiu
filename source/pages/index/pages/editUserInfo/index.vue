@@ -147,7 +147,6 @@
                 this.$indicator.open();
                 api_party.newPassword(data).then(res => {
                     this.$indicator.close();
-
                     this.$router.back();
                 });
             },
