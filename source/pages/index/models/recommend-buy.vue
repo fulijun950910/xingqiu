@@ -11,7 +11,7 @@
                     <span>购买短信包</span>
                 </div>
                 <div class="fs24 light-gray">
-                    <span>1000美豆豆</span>
+                    <!--<span>1000美豆豆</span>-->
                     <span>&nbsp;&nbsp;</span>
                     <m-icon class="" xlink="#icon-right-bold"></m-icon>
                 </div>
@@ -25,7 +25,7 @@
                     <span>购买沙龙入场券</span>
                 </div>
                 <div class="fs24 light-gray">
-                    <span>800美豆豆</span>
+                    <!--<span>800美豆豆</span>-->
                     <span>&nbsp;&nbsp;</span>
                     <m-icon class="" xlink="#icon-right-bold"></m-icon>
                 </div>
