@@ -144,7 +144,10 @@
                     oldPassword: this.dataModel.oldPassword,
                     userId: this.dataModel.userId
                 };
+                this.$indicator.open();
                 api_party.newPassword(data).then(res => {
+                    this.$indicator.close();
+
                     this.$router.back();
                 });
             },
@@ -171,7 +174,9 @@
                         data.description = this.dataModel.description;
                         break;
                 }
+                this.$indicator.open();
                 api_party.changeEmpData(data).then(res => {
+                    this.$indicator.close();
                     this.$router.back();
                 });
             },
