@@ -215,7 +215,7 @@ export default {
          position: absolute;
          left: 10px;
          right:10px;
-         top:80px;
+         top:70px;
          background: white;
          z-index: 999;;
         .tab-item{
