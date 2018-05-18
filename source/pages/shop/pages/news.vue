@@ -136,7 +136,7 @@ export default {
     overflow: hidden;  /** 隐藏超出的内容 **/
 }
 .container.news{
-    padding: 70px 10px 50px 10px;
+    padding: 70px 15px 50px 15px;
     background: white;
     position: relative;
     box-sizing: border-box;
@@ -170,7 +170,7 @@ export default {
         position: relative;
         width: 100%;
         .main-item{
-            padding: 10px 0;
+            padding: 15px 0;
             border-bottom: 1px solid #eee;
             .content-box{
                 padding-bottom: 18px;
@@ -178,6 +178,9 @@ export default {
                     h3{
                         font-size: 16px;
                         color: #222;
+                        font-weight:400;
+                        margin-bottom:5px;
+                        line-height:20px;
                     }
                     p{
                         font-size: 12px;
@@ -185,7 +188,7 @@ export default {
                     }
                 }
                 .right-img{
-                    height: 100px;
+                    height: 75px;
                     border-radius: 10px;
                     overflow: hidden;
                     img{
@@ -204,7 +207,7 @@ export default {
                        height: 25px;
                        border-radius: 100%;
                        overflow: hidden;
-                       margin-right: 10px;
+                       margin-right: 5px;
                    }
                    span{
                        font-size: 12px;
@@ -215,6 +218,7 @@ export default {
                     color: #aaa;
                     .icon{
                        font-size: 14px;
+                       margin-right :3px;
                     }
                     span{
                         font-size: 12px;

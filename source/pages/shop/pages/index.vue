@@ -86,7 +86,7 @@ export default {
                     subTitle: '最科学的方法，亲测有效~',
                     face: require('assets/imgs/shop/test-img1.jpg'),
                     customerName: '小狐狸',
-                    like: '2000',
+                    like: '234',
                     id: '1',
                     likeClick: false
                 },
@@ -96,7 +96,7 @@ export default {
                     subTitle: '最科学的方法，亲测有效~',
                     face: require('assets/imgs/shop/test-img1.jpg'),
                     customerName: '小狐狸',
-                    like: '2000',
+                    like: '155',
                     id: '2',
                     likeClick: false
                 },
@@ -106,7 +106,7 @@ export default {
                     subTitle: '最科学的方法，亲测有效~',
                     face: require('assets/imgs/shop/test-img1.jpg'),
                     customerName: '小狐狸',
-                    like: '2000',
+                    like: '300',
                     id: '3',
                     likeClick: false
                 },
@@ -116,47 +116,47 @@ export default {
                     subTitle: '最科学的方法，亲测有效~',
                     face: require('assets/imgs/shop/test-img1.jpg'),
                     customerName: '小狐狸',
-                    like: '2000',
+                    like: '100',
                     id: '4',
                     likeClick: false
                 },
                 {
-                    img: require('assets/imgs/shop/test-img4.jpg'),
+                    img: require('assets/imgs/shop/test-img5.jpg'),
                     title: '如何种凤凰尾巴的睫毛',
                     subTitle: '最科学的方法，亲测有效~',
                     face: require('assets/imgs/shop/test-img1.jpg'),
                     customerName: '小狐狸',
-                    like: '2000',
+                    like: '578',
                     id: '1',
                     likeClick: false
                 },
                 {
-                    img: require('assets/imgs/shop/test-img3.jpg'),
+                    img: require('assets/imgs/shop/test-img6.jpg'),
                     title: '如何种凤凰尾巴的睫毛',
                     subTitle: '最科学的方法，亲测有效~',
                     face: require('assets/imgs/shop/test-img1.jpg'),
                     customerName: '小狐狸',
-                    like: '2000',
+                    like: '234',
                     id: '2',
                     likeClick: false
                 },
                 {
-                    img: require('assets/imgs/shop/test-img2.jpg'),
+                    img: require('assets/imgs/shop/test-img7.jpg'),
                     title: '如何种凤凰尾巴的睫毛',
                     subTitle: '最科学的方法，亲测有效~',
                     face: require('assets/imgs/shop/test-img1.png'),
                     customerName: '小狐狸',
-                    like: '2000',
+                    like: '876',
                     id: '3',
                     likeClick: false
                 },
                 {
-                    img: require('assets/imgs/shop/test-img1.png'),
+                    img: require('assets/imgs/shop/test-img8.jpg'),
                     title: '如何种凤凰尾巴的睫毛',
                     subTitle: '最科学的方法，亲测有效~',
                     face: require('assets/imgs/shop/test-img1.png'),
                     customerName: '小狐狸',
-                    like: '2000',
+                    like: '987',
                     id: '4',
                     likeClick: false
                 }
@@ -227,14 +227,15 @@ export default {
          z-index: 999;;
         .tab-item{
             padding: 10px 0;
-            border-bottom: 1px solid #fff;
+            border-bottom: 2px solid #fff;
             margin: 0 10px;
             flex:none;
         }
         .tab-item.active{
-            border-bottom: 1px solid #8C5EE5;
+            border-bottom: 2px solid #8C5EE5;
             span{
                 color: #8C5EE5;
+                font-weight:bold;
             }
         }
     }
@@ -269,15 +270,17 @@ export default {
                 h4{
                     margin: 0;
                     font-size: 12px;
+                    font-weight:normal;
                 }
                 .des-bottom{
+                    padding:6px 0;
                   .customer{
                       .face{
                           width: 20px;
                           height: 20px;
                           overflow: hidden;
                           border-radius: 100%;
-                          margin-right: 10px;
+                          margin-right: 6px;
                           img{
                               width: 100%;
                               height: auto;
@@ -290,8 +293,10 @@ export default {
                       
                   }
                   .like{
+                      color:#aaa;
                        .icon{
                            font-size: 16px;
+                           margin-right:4px;
                        }
                        .icon.active{
                            color: #9261F0;

@@ -65,6 +65,7 @@ export default {
             padding: 20px 20px 20px 0;;
         }
         .m-top-search{
+            padding:10px 0;
             padding-left: 0;
             background-color: white;
             .input-panel{
@@ -76,6 +77,7 @@ export default {
                 }
                 input[placeholder]{
                     color: @extra-shadow;
+                    padding:10px 0;
                 }
             }
         }
