@@ -78,7 +78,7 @@ export default {
                     value: '5'
                 }
             ],
-            checkTab: 1,
+            checkTab: 3,
             dataList: [
                 {
                     img: require('assets/imgs/shop/test-img1.jpg'),
