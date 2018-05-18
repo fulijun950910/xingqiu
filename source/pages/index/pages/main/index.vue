@@ -61,11 +61,11 @@
         <div class="bottomBarPadding"></div>
         <div class="bottomBar color-gray" layout="row">
             <div class="item act " flex layout="column" layout-align="center center">
-                <div><m-icon class="icon "  xlink="#icon-qiandao"></m-icon></div>
+                <div><m-icon class="icon "  xlink="#icon-yuzhouxingqiu-21"></m-icon></div>
                 <div class="fs20 ">首页</div>
             </div>
             <div @click="goUserInfo" class="item" flex layout="column" layout-align="center center">
-                <div><m-icon class="icon "  xlink="#icon-qiandao"></m-icon></div>
+                <div><m-icon class="icon "  xlink="#icon-xingming"></m-icon></div>
                 <div class="fs20 ">我的</div>
             </div>
         </div>
