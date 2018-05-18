@@ -48,7 +48,8 @@
           background:url('~assets/imgs/shop/leader-bg.jpg');
           background-size:100% 100%;
           .top-title{
-              padding: 20px;
+              padding: 10px 0 10px 0;
+              margin-bottom:10px;
               h3{
                   color: white;
                   font-size: 31px;
@@ -58,7 +59,7 @@
                   font-size: 15px;
                   color: white;
                   line-height: normal;
-                  margin-top: 10px;
+                //   margin-top: 5px;
                   letter-spacing:4px;
               }
           }
