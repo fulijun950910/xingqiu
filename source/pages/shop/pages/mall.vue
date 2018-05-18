@@ -97,33 +97,6 @@ export default {
                         {
                             name: '亮片',
                             img: require('assets/imgs/shop/shop-mail4.png')
-<<<<<<< HEAD
-                        },
-                        {
-                            name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail5.png')
-                        },
-                        {
-                            name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail6.png')
-                        },
-                        {
-                            name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail7.png')
-                        },
-                        {
-                            name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail8.png')
-                        },
-                        {
-                            name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail9.png')
-                        },
-                        {
-                            name: '亮片',
-                            img: require('assets/imgs/shop/shop-mail8.png')
-=======
->>>>>>> c269109... fix[美博汇]
                         }
                     ]
                 },
