@@ -237,6 +237,7 @@ export default {
                 height: 90px;
                 width: 100%;
                 margin: 13px 0;
+                margin-bottom:23px;
                 overflow: hidden;
                 border-radius: 10px;
                 img{
@@ -254,7 +255,7 @@ export default {
                i{
                    width: 50px;
                    height: 1px;
-                   background: #aaa;
+                   background: #eee;
                }
            }
            .content-item{
@@ -267,6 +268,7 @@ export default {
                        height: 50px;
                        overflow: hidden;
                        border-radius: 100%;
+                       border:1px solid #eee;
                        img{
                            width: 100%;
                            height: auto;

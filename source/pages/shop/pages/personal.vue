@@ -113,7 +113,7 @@ export default {
     .personal{
     .search-bar-bg{
           background:url('~assets/imgs/shop/face-bg.jpg') 100% 100%;
-          height: 150px;
+          height: 100px;
           position: relative;
           z-index: 1;
     }
@@ -125,7 +125,7 @@ export default {
         }
     }
 .container{
-    padding: 0 10px;
+    padding: 0 15px;
     box-sizing: border-box;
     position: relative;
     z-index: 2;
@@ -151,7 +151,7 @@ export default {
         padding-bottom: 50px;
     }
     .person{
-        margin-top: -20px;
+        margin-top: -35px;
         margin-bottom: 15px;
         position: relative;
         z-index: 2;
@@ -159,7 +159,7 @@ export default {
             width: 100px;
             height: 100px;
             overflow: hidden;
-            border-radius: 100%;
+            border-radius: 38px;
             background: #fff;
             margin-right: 10px;
         }
