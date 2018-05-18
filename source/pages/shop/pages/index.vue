@@ -10,7 +10,7 @@
         </div>
         <div class="list-scroll">
         <div class="list-container">
-           <div class="box" v-for="(item,index) in dataList" :key="item.id">
+           <div class="box" v-for="(item,index) in dataList" :key="item.id" @click="loading">
                <div class="img-big">
                    <img :src="item.img" alt="">
                </div>
@@ -36,18 +36,22 @@
         </div>
 
                 <shop-bottom-nav active-type="1" class="bottom-nav"></shop-bottom-nav>
+                <stop-pages></stop-pages>
     </div>
 </template>
 <script>
 import api_shop from 'services/api.shop';
 import shopSearch from 'components/shop-search';
 import shopBottomNav from 'components/shop-bottom-nav';
+import stopPages from 'components/stop-pages';
+import { Toast } from 'mint-ui';
 export default {
     name: 'index',
     components: {
         api_shop,
         shopSearch,
-        shopBottomNav
+        shopBottomNav,
+        stopPages
     },
     data() {
         return {
@@ -77,67 +81,67 @@ export default {
             checkTab: 3,
             dataList: [
                 {
-                    img: require('assets/imgs/shop/test-img1.png'),
+                    img: require('assets/imgs/shop/test-img1.jpg'),
                     title: '如何种凤凰尾巴的睫毛',
                     subTitle: '最科学的方法，亲测有效~',
-                    face: require('assets/imgs/shop/test-img1.png'),
+                    face: require('assets/imgs/shop/test-img1.jpg'),
                     customerName: '小狐狸',
                     like: '2000',
                     id: '1',
                     likeClick: false
                 },
                 {
-                    img: require('assets/imgs/shop/test-img2.png'),
+                    img: require('assets/imgs/shop/test-img2.jpg'),
                     title: '如何种凤凰尾巴的睫毛',
                     subTitle: '最科学的方法，亲测有效~',
-                    face: require('assets/imgs/shop/test-img1.png'),
+                    face: require('assets/imgs/shop/test-img1.jpg'),
                     customerName: '小狐狸',
                     like: '2000',
                     id: '2',
                     likeClick: false
                 },
                 {
-                    img: require('assets/imgs/shop/test-img3.png'),
+                    img: require('assets/imgs/shop/test-img3.jpg'),
                     title: '如何种凤凰尾巴的睫毛',
                     subTitle: '最科学的方法，亲测有效~',
-                    face: require('assets/imgs/shop/test-img1.png'),
+                    face: require('assets/imgs/shop/test-img1.jpg'),
                     customerName: '小狐狸',
                     like: '2000',
                     id: '3',
                     likeClick: false
                 },
                 {
-                    img: require('assets/imgs/shop/test-img4.png'),
+                    img: require('assets/imgs/shop/test-img4.jpg'),
                     title: '如何种凤凰尾巴的睫毛',
                     subTitle: '最科学的方法，亲测有效~',
-                    face: require('assets/imgs/shop/test-img1.png'),
+                    face: require('assets/imgs/shop/test-img1.jpg'),
                     customerName: '小狐狸',
                     like: '2000',
                     id: '4',
                     likeClick: false
                 },
                 {
-                    img: require('assets/imgs/shop/test-img4.png'),
+                    img: require('assets/imgs/shop/test-img4.jpg'),
                     title: '如何种凤凰尾巴的睫毛',
                     subTitle: '最科学的方法，亲测有效~',
-                    face: require('assets/imgs/shop/test-img1.png'),
+                    face: require('assets/imgs/shop/test-img1.jpg'),
                     customerName: '小狐狸',
                     like: '2000',
                     id: '1',
                     likeClick: false
                 },
                 {
-                    img: require('assets/imgs/shop/test-img3.png'),
+                    img: require('assets/imgs/shop/test-img3.jpg'),
                     title: '如何种凤凰尾巴的睫毛',
                     subTitle: '最科学的方法，亲测有效~',
-                    face: require('assets/imgs/shop/test-img1.png'),
+                    face: require('assets/imgs/shop/test-img1.jpg'),
                     customerName: '小狐狸',
                     like: '2000',
                     id: '2',
                     likeClick: false
                 },
                 {
-                    img: require('assets/imgs/shop/test-img2.png'),
+                    img: require('assets/imgs/shop/test-img2.jpg'),
                     title: '如何种凤凰尾巴的睫毛',
                     subTitle: '最科学的方法，亲测有效~',
                     face: require('assets/imgs/shop/test-img1.png'),
@@ -173,6 +177,9 @@ export default {
         likeClick(item) {
             item.likeClick = true;
             item.like++;
+        },
+        loading() {
+            Toast('程序猿正在加速开发中，敬请期待...');
         }
     }
 };
@@ -247,6 +254,7 @@ export default {
             .img-big{
                 width: 100%;
                 overflow-x: hidden;
+                border-radius: 7px;
                 img{
                     width: 100%;
                     height: auto;

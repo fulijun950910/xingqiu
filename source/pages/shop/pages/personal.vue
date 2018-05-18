@@ -15,7 +15,7 @@
               <h3>Hi，苏生</h3>
           </div>
           <div class="main-tab" layout-align="start center" layout="row">
-             <div v-for="(item,index) in tab" :key="index" :class="item.class" class="item-box" flex="45">
+             <div v-for="(item,index) in tab" :key="index" :class="item.class" class="item-box" flex="45" @click="loading">
                  <div class="top-name" layout="row" flex layout-align="center center">
                      <span>{{item.name}}</span>
                      <div flex></div>
@@ -26,27 +26,30 @@
           </div>
           <h3 class="big-title">我的订单</h3>
           <div class="status-tab" layout="row" layout-align="start center" flex>
-               <div class="status-item" flex="20" v-for="(item,index) in statusTab" :key="index" layout="column" layout-align="center center">
+               <div class="status-item" flex="20" v-for="(item,index) in statusTab" :key="index" layout="column" layout-align="center center" @click="loading">
                    <m-icon :xlink="item.icon"></m-icon>
                    <span>{{item.name}}</span>
                </div>
           </div>
           <div layout="row" flex class="more-option">
-              <div>
+              <div @click="loading">
                   <h3 class="big-title">更多功能</h3>
               </div>
               <div flex></div>
-              <div>
+              <div @click="loading">
                   地址管理<m-icon xlink="icon-zuojiantou"></m-icon>
               </div>
           </div>
             <shop-bottom-nav active-type="4" class="bottom-nav"></shop-bottom-nav>
+            <stop-pages></stop-pages>
     </div>
 </div>
    
 </template>
 <script>
 import shopBottomNav from 'components/shop-bottom-nav';
+import stopPages from 'components/stop-pages';
+import { Toast } from 'mint-ui';
 export default {
     data() {
         return {
@@ -92,11 +95,15 @@ export default {
         };
     },
     components: {
-        shopBottomNav
+        shopBottomNav,
+        stopPages
     },
     methods: {
         goBack() {
             this.$router.go(-1);
+        },
+        loading() {
+            Toast('程序猿正在加速开发中，敬请期待...');
         }
     }
 };
@@ -105,7 +112,7 @@ export default {
 @import '~styles/_agile';
     .personal{
     .search-bar-bg{
-          background: #9667F8;
+          background:url('~assets/imgs/shop/face-bg.jpg') 100% 100%;
           height: 150px;
           position: relative;
           z-index: 1;
