@@ -123,9 +123,6 @@
                 window.location.href = '/service/shop.html#/leader';
             },
             goWxbus() {
-                if (this.checkUser()) {
-                    return;
-                }
                 if (this.$store.state.user.merchant && this.$store.state.user.merchant.functionVersion == 4) {
                     window.location.href = '/lite/index.html';
                 } else {
