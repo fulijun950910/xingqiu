@@ -5,8 +5,8 @@
         </div>
         <h3 class="title">资讯</h3>
         <div class="main-container" flex>
-            <div class="main-item" v-for="(item,index) in datdaList" :key="index" @click="toDetail">
-            <div class="content-box" layout="row">
+            <div class="main-item" v-for="(item,index) in datdaList" :key="index">
+            <div class="content-box" layout="row" @click="toDetail">
                 <div class="left-des" flex="65">
                  <h3 class="only-two-line">{{item.title}}</h3>
                  <p class="only-two-line">{{item.des}}</p>
