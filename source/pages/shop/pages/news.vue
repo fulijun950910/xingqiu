@@ -5,7 +5,7 @@
         </div>
         <h3 class="title">资讯</h3>
         <div class="main-container" flex>
-            <div class="main-item" v-for="(item,index) in datdaList" :key="index" @click="loading">
+            <div class="main-item" v-for="(item,index) in datdaList" :key="index" @click="toDetail">
             <div class="content-box" layout="row">
                 <div class="left-des" flex="65">
                  <h3 class="only-two-line">{{item.title}}</h3>
@@ -114,6 +114,9 @@ export default {
         },
         loading() {
             Toast('程序猿正在加速开发中，敬请期待...');
+        },
+        toDetail() {
+            this.$router.push('/news-detail');
         }
     }
 };
