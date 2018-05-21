@@ -8,6 +8,7 @@ const news = resolve => require(['./pages/news'], resolve);
 const personal = resolve => require(['./pages/personal'], resolve);
 const leader = resolve => require(['./pages/leader'], resolve);
 const newsDetail = resolve => require(['./pages/news/news-detail'], resolve);
+const goodsDetail = resolve => require(['./pages/goods/goods-detail'], resolve);
 
 export default [{
     path: '/sign-in',
@@ -37,4 +38,9 @@ export default [{
     path: '/news-detail',
     name: 'news-detail',
     component: newsDetail
+},
+{
+    path: '/goods-detail',
+    name: 'goods-detail',
+    component: goodsDetail
 }];

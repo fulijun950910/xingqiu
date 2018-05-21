@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="goods-list" layout="row" layout-align="start center">
-            <div class="good-item" v-for="(item,index) in dataList" :key="index">
+            <div class="good-item" @click="goodsDetail" v-for="(item,index) in dataList" :key="index">
                 <span>
                     <img :src="item.img" alt="">
                 </span>
@@ -20,6 +20,7 @@
 </template>
 <script>
 import mIcon from 'components/m-icon';
+import shopBuyNav from 'components/shop-buy-nav';
 export default {
     data() {
         return {
@@ -40,11 +41,15 @@ export default {
         };
     },
     components: {
-        mIcon
+        mIcon,
+        shopBuyNav
     },
     methods: {
         close() {
             this.$emit('mClose');
+        },
+        goodsDetail() {
+            this.$router.push('/goods-detail');
         }
     },
     props: {

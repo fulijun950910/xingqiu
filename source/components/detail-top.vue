@@ -3,10 +3,10 @@
          <span @click="goBack">
              <m-icon xlink="#icon-huabanfuben17"></m-icon>
          </span>
-         <div flex></div>
+         <!-- <div flex></div>
          <span>
              <m-icon xlink="#icon-connection"></m-icon>
-         </span>
+         </span> -->
     </div>
 </template>
 
