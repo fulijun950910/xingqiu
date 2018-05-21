@@ -103,6 +103,7 @@ import detailTop from 'components/detail-top';
 import detailBottom from 'components/detail-bottom';
 import shopGoods from 'components/shop-goods';
 import stopPages from 'components/stop-pages';
+import { Toast } from 'mint-ui';
 export default {
     data() {
         return {
@@ -181,13 +182,18 @@ export default {
         tabClick(val) {
             switch (val) {
                 case 1:
+                    this.loading();
                     break;
                 case 2:
+                    this.loading();
                     break;
                 case 3:
                     this.closeGoods();
                     break;
             }
+        },
+        loading() {
+            Toast('程序猿正在加速开发中，敬请期待...');
         }
     }
 };

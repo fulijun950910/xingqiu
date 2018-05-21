@@ -6,13 +6,14 @@
      <div flex="30" class="get-present text-center" layout="row" layout-align="center center">
          <m-icon xlink="#icon-huabanfuben4"></m-icon>领取样品
      </div>
-     <div flex="50" class="buy-right-now text-center" layout="row" layout-align="center center">
+     <div flex="50" class="buy-right-now text-center" @click="buy" layout="row" layout-align="center center">
          立即抢购
      </div>
     </div>
 </template>
 <script>
 import mIcon from 'components/m-icon';
+import { Toast } from 'mint-ui';
 export default {
     data() {
         return {
@@ -21,6 +22,11 @@ export default {
     },
     components: {
         mIcon
+    },
+    methods: {
+        buy() {
+            Toast('程序猿正在加速开发中，敬请期待...');
+        }
     }
 };
 </script>

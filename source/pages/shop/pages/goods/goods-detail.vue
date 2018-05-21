@@ -2,9 +2,9 @@
     <div class="goods-detail">
     <div class="top-bar">
       <detail-top></detail-top>
+      <div class="top-bg"><img :src="require('assets/imgs/shop/top-nav-bg.png')" alt=""></div>
     </div>
     <div class="main-banner">
-        <div class="top-bg"><img :src="require('assets/imgs/shop/top-nav-bg.png')" alt=""></div>
         <img :src="require('assets/imgs/shop/goods-detail-main.png')" alt="">
     </div>
         <div class="product-text">
@@ -35,12 +35,14 @@
         <img :src="require('assets/imgs/shop/good-detail-lone.png')" alt="">
     </div>
   <shop-buy-nav></shop-buy-nav>
+  <stop-pages></stop-pages>
     </div>
 </template>
     
 <script>
 import detailTop from 'components/detail-top';
 import shopBuyNav from 'components/shop-buy-nav';
+import stopPages from 'components/stop-pages';
 export default {
     data() {
         return {
@@ -49,7 +51,8 @@ export default {
     },
     components: {
         detailTop,
-        shopBuyNav
+        shopBuyNav,
+        stopPages
     }
 
 };
@@ -64,6 +67,14 @@ export default {
         z-index: 99;
         .detail-top{
             background: none;
+            z-index: 99;
+            position: relative;
+        }
+         .top-bg{
+            position: absolute;
+            z-index: 95;
+            top:0;
+            width: 100%;
         }
     }
     .main-banner{
@@ -74,12 +85,6 @@ export default {
         img{
             width: 100%;
             height: auto;
-        }
-        .top-bg{
-            position: absolute;
-            z-index: 99;
-            top:0;
-            width: 100%;
         }
     }
             .product-text{
