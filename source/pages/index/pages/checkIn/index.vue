@@ -111,7 +111,7 @@
                             if (index < 3) {
                                 this.list1[index].num = item.rewardDouDouAmount;
                             } else {
-                                this.list2[index].num = item.rewardDouDouAmount;
+                                this.list2[6 - index].num = item.rewardDouDouAmount;
                             }
                         });
                         this.lastDay = res.data[res.data.length - 1];
