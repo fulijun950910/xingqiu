@@ -1,5 +1,3 @@
-alert(window.history.replaceState);
-// window.history.replaceState({}, "0", window.location.origin + '/main.html#/index');
 app.userinfo = {
     wait: 60,
     init: function() {
