@@ -51,10 +51,10 @@ if ('addEventListener' in document) {
 // 更新登录人信息至Vuex
 store.commit('UPDATE_LOCAL');
 if (store.state && store.state.party && store.state.party.ucsynlogin) {
-    // let hm = document.createElement('script');
-    // hm.src = store.state.party.ucsynlogin;
-    // let s = document.getElementsByTagName('script')[0];
-    // s.parentNode.insertBefore(hm, s);
+    let hm = document.createElement('script');
+    hm.src = store.state.party.ucsynlogin;
+    let s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(hm, s);
 }
 
 Vue.use(touch);

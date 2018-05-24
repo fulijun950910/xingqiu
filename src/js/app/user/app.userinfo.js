@@ -490,12 +490,14 @@ app.userinfo = {
                                                                             if (keyGetValue('type') == 1 || loginType == 1) {
                                                                                 url = '/main.html#/index';
                                                                             }
-                                                                            if (window.history.replaceState) {
-                                                                                window.history.replaceState({}, "0", window.location.origin + url);
-                                                                                window.location.reload();
-                                                                            } else {
-                                                                                location.href = url;
-                                                                            }
+                                                                            alert(window.localStorage.employee);
+                                                                            location.href = url;
+                                                                            // if (window.history.replaceState) {
+                                                                            //     window.history.replaceState({}, "0", window.location.origin + url);
+                                                                            //     window.location.reload();
+                                                                            // } else {
+                                                                            //     location.href = url;
+                                                                            // }
                                                                         } else {
                                                                             app.userinfo.alertError('服务器开小差，请稍后再试');
                                                                         }
