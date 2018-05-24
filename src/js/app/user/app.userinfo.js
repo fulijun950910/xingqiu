@@ -486,12 +486,13 @@ app.userinfo = {
                                                                                     url = "/lite/index.html";
                                                                                 }
                                                                             }
-                                                                            if (window.history.replaceState) {
-                                                                                window.history.replaceState({}, "", window.location.origin + url);
-                                                                                window.history.go(0);
-                                                                            } else {
-                                                                                location.href = url;
-                                                                            }
+                                                                            location.href = url;
+                                                                            // if (window.history.replaceState) {
+                                                                            //     window.history.replaceState({}, "", window.location.origin + url);
+                                                                            //     window.history.go(0);
+                                                                            // } else {
+                                                                            //     location.href = url;
+                                                                            // }
                                                                         } else {
                                                                             app.userinfo.alertError('服务器开小差，请稍后再试');
                                                                         }
