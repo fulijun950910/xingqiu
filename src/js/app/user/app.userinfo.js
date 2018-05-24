@@ -393,6 +393,7 @@ app.userinfo = {
             window.localStorage.employee = JSON.stringify($('input[name="emp_data"]:checked').data('employee'));
         }
         $('#select_shade').hide();
+        alert('start');
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
                 var data = {
@@ -472,12 +473,15 @@ app.userinfo = {
                                                                 //         location.href = "/main.html#/index";
                                                                 //     }
                                                                 // };
+                                                                alert('longin');
+
                                                                 app.api.userinfo.loginBySaasEmployee({
                                                                     data: {
                                                                         employeeId: employee.id
                                                                     },
                                                                     success: function (res) {
                                                                         var employeeData = window.localStorage.employee;
+                                                                        alert('end');
                                                                         if(employeeData){
                                                                             employeeData = JSON.parse(employeeData);
                                                                             employeeData.party = res.data;
