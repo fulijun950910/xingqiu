@@ -164,5 +164,14 @@ app.api.userinfo = {
             success: settings.success,
             error: settings.error
         })
-    }
+    },
+    //在前端localstorage内丢失当前登录员工的信息情况下，获取当前会话内的员工信息
+    getEmployeeInfo: function(settings) {
+        app.api.ajax({
+            url: '/employeeInfo',
+            type: 'get',
+            success: settings.success,
+            error: settings.error
+        })
+    },
 }

@@ -202,7 +202,8 @@ app.index = {
         window.sessionStorage.setItem('employeeList', "");
         initData();
         if (!localStorage.employee || !JSON.parse(localStorage.employee)) {
-            location.href = "/userinfo.html?type=1#/user_login";
+            // location.href = "/userinfo.html?type=1#/user_login";
+            this.resetLogin();
         }
         if (JSON.parse(localStorage.employee).merchant && JSON.parse(localStorage.employee).merchant.functionVersion == 4) {
             location.href = "/lite/index.html";
@@ -223,6 +224,20 @@ app.index = {
                 app.index.performance();
             }
         }, function() {})
+    },
+    resetLogin: function() {
+        app.api.userinfo.getEmployeeInfo({
+            success: function (res) {
+                if(res.success && res.data){
+                    app.userinfo.loginEmployee(JSON.stringify(res.data));
+                } else {
+                    location.href = "/userinfo.html?type=1#/user_login";
+                }
+            },
+            error: function () {
+                location.href = "/userinfo.html?type=1#/user_login";
+            }
+        });
     },
     pageReloadEvent: function(memberData, data, employee) {
         //修改html 的title
