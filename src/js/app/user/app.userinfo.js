@@ -1,3 +1,5 @@
+alert(window.history.replaceState);
+// window.history.replaceState({}, "0", window.location.origin + '/main.html#/index');
 app.userinfo = {
     wait: 60,
     init: function() {
@@ -393,7 +395,6 @@ app.userinfo = {
             window.localStorage.employee = JSON.stringify($('input[name="emp_data"]:checked').data('employee'));
         }
         $('#select_shade').hide();
-        alert('start');
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
                 var data = {
@@ -473,7 +474,6 @@ app.userinfo = {
                                                                 //         location.href = "/main.html#/index";
                                                                 //     }
                                                                 // };
-                                                                alert('longin');
 
                                                                 app.api.userinfo.loginBySaasEmployee({
                                                                     data: {
@@ -481,7 +481,6 @@ app.userinfo = {
                                                                     },
                                                                     success: function (res) {
                                                                         var employeeData = window.localStorage.employee;
-                                                                        alert('end');
                                                                         if(employeeData){
                                                                             employeeData = JSON.parse(employeeData);
                                                                             employeeData.party = res.data;
@@ -490,14 +489,12 @@ app.userinfo = {
                                                                             if (keyGetValue('type') == 1 || loginType == 1) {
                                                                                 url = '/main.html#/index';
                                                                             }
-                                                                            alert(window.localStorage.employee);
-                                                                            location.href = url;
-                                                                            // if (window.history.replaceState) {
-                                                                            //     window.history.replaceState({}, "0", window.location.origin + url);
-                                                                            //     window.location.reload();
-                                                                            // } else {
-                                                                            //     location.href = url;
-                                                                            // }
+                                                                            if (window.history.replaceState) {
+                                                                                window.history.replaceState({}, "", window.location.origin + url);
+                                                                                window.location.reload();
+                                                                            } else {
+                                                                                location.href = url;
+                                                                            }
                                                                         } else {
                                                                             app.userinfo.alertError('服务器开小差，请稍后再试');
                                                                         }
