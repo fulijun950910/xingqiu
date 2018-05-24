@@ -74,6 +74,10 @@
 
 <script>
     import api_party from 'services/api.party';
+    import api_signIn from 'services/api.signIn';
+    import reLogin from '../../models/relogin';
+    import Q from 'q';
+
     export default {
         name: 'main',
         data() {
@@ -99,13 +103,26 @@
                     this.bbsData = res.data;
                 });
             },
-            checkUser() {
-                let flag = false;
+            async checkUser() {
+                var deferred = Q.defer();
                 if (!this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
-                    window.location.href = this.$signLocation;
-                    flag = true;
+                    let res = await api_signIn.getEmployeeInfo();
+                    if (res.success && res.data) {
+                        let a = await reLogin.select(JSON.stringify(res.data));
+                        if (a) {
+                            console.log('a' + a);
+                            this.$store.commit('UPDATE_LOCAL');
+                            deferred.resolve(a);
+                        } else {
+                            window.location.href = this.$signLocation;
+                        }
+                    } else {
+                        deferred.resolve(true);
+                    }
+                } else {
+                    deferred.resolve(true);
                 }
-                return flag;
+                return deferred.promise;
             },
             goBbs(url) {
                 window.location.href = url;
@@ -132,16 +149,12 @@
             alertMessage() {
                 this.$toast('开发中，敬请期待');
             },
-            goCheckIn() {
-                if (this.checkUser()) {
-                    return;
-                }
+            async goCheckIn() {
+                await this.checkUser();
                 this.$router.push({name: 'checkIn'});
             },
-            goUserInfo() {
-                if (this.checkUser()) {
-                    return;
-                }
+            async goUserInfo() {
+                await this.checkUser();
                 this.$router.push({name: 'userinfo'});
             }
         }

@@ -29,8 +29,12 @@ export default {
         var url = '/api/wechatBusinessMarketing/verificationcode/' + phone;
         return request(url, null, 'get');
     },
-    loginBySaasEmployee: function(id) { // 获取验证码
+    loginBySaasEmployee: function(id) { //
         var url = `/api/party/loginBySaasEmployee/${id}`;
         return request(url, null, 'PUT');
+    },
+    getEmployeeInfo: function(id) {
+        var url = '/api/employeeInfo';
+        return request(url, null, 'get');
     }
 };
