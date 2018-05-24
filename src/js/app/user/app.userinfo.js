@@ -488,7 +488,7 @@ app.userinfo = {
                                                                             }
                                                                             if (window.history.replaceState) {
                                                                                 window.history.replaceState({}, "", window.location.origin + url);
-                                                                                window.location.reload();
+                                                                                window.history.go(0);
                                                                             } else {
                                                                                 location.href = url;
                                                                             }
