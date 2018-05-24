@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title><%= htmlWebpackPlugin.options.title %></title>
     <% for (var i in htmlWebpackPlugin.options.cdn.css) { %><link rel="stylesheet" href="<%= htmlWebpackPlugin.options.cdn.css[i] %>"><% } %>
-    <link rel="shortcut icon" type="image/ico" href="./src/assets/favicon.ico">
+    <link rel="shortcut icon" type="image/ico" href="./static/favicon.ico">
   </head>
   <body>
     <div id="app"></div>
