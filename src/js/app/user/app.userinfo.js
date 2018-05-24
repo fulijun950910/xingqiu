@@ -457,10 +457,6 @@ app.userinfo = {
                                                         if (results && results.success) {}
                                                         //
                                                         app.userinfo.getEmployee().then(function(employee) {
-                                                            // if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
-                                                            //     location.href = "/performance-index.html#/performance_report";
-                                                            // } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                                                            //     location.href = "/performance-index.html#/performance_emp";
                                                             if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                                                                 // if (employee.merchant && employee.merchant.functionVersion == 4) { //营销版
                                                                 //     location.href = "/lite/index.html";
@@ -486,6 +482,9 @@ app.userinfo = {
                                                                             var url = '/service/index.html#/main';
                                                                             if (keyGetValue('type') == 1 || loginType == 1) {
                                                                                 url = '/main.html#/index';
+                                                                                if (employee.merchant && employee.merchant.functionVersion == 4) { //营销版
+                                                                                    url = "/lite/index.html";
+                                                                                }
                                                                             }
                                                                             if (window.history.replaceState) {
                                                                                 window.history.replaceState({}, "", window.location.origin + url);
