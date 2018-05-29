@@ -139,7 +139,8 @@
             goMbh() {
                 window.location.href = '/service/shop.html#/leader';
             },
-            goWxbus() {
+            async goWxbus() {
+                await this.checkUser();
                 if (this.$store.state.user.merchant && this.$store.state.user.merchant.functionVersion == 4) {
                     window.location.href = '/lite/index.html';
                 } else {

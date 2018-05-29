@@ -468,7 +468,6 @@ app.userinfo = {
                                                                 //         location.href = "/main.html#/index";
                                                                 //     }
                                                                 // };
-
                                                                 app.api.userinfo.loginBySaasEmployee({
                                                                     data: {
                                                                         employeeId: employee.id
@@ -486,7 +485,11 @@ app.userinfo = {
                                                                                     url = "/lite/index.html";
                                                                                 }
                                                                             }
-                                                                            location.href = url;
+                                                                            if (location.pathname == '/main.html'){
+                                                                                location.href = url;
+                                                                            } else {
+                                                                                location.reload();
+                                                                            }
                                                                             // if (window.history.replaceState) {
                                                                             //     window.history.replaceState({}, "", window.location.origin + url);
                                                                             //     window.history.go(0);
