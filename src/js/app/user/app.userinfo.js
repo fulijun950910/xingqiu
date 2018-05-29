@@ -486,9 +486,9 @@ app.userinfo = {
                                                                                 }
                                                                             }
                                                                             if (location.pathname == '/main.html'){
-                                                                                location.href = url;
-                                                                            } else {
                                                                                 location.reload();
+                                                                            } else {
+                                                                                location.href = url;
                                                                             }
                                                                             // if (window.history.replaceState) {
                                                                             //     window.history.replaceState({}, "", window.location.origin + url);
