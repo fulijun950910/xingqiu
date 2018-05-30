@@ -75,14 +75,11 @@
 
 <script>
     import api_party from 'services/api.party';
-<<<<<<< HEAD
     import newPresent from 'components/new-present';
-=======
     import api_signIn from 'services/api.signIn';
     import reLogin from '../../models/relogin';
     import Q from 'q';
 
->>>>>>> a40eba384cf9d71be1c104932a69285646d4c4ac
     export default {
         name: 'main',
         components: {
