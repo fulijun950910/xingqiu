@@ -75,7 +75,14 @@
 
 <script>
     import api_party from 'services/api.party';
+<<<<<<< HEAD
     import newPresent from 'components/new-present';
+=======
+    import api_signIn from 'services/api.signIn';
+    import reLogin from '../../models/relogin';
+    import Q from 'q';
+
+>>>>>>> a40eba384cf9d71be1c104932a69285646d4c4ac
     export default {
         name: 'main',
         components: {
@@ -105,13 +112,26 @@
                     this.bbsData = res.data;
                 });
             },
-            checkUser() {
-                let flag = false;
+            async checkUser() {
+                var deferred = Q.defer();
                 if (!this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
-                    window.location.href = this.$signLocation;
-                    flag = true;
+                    let res = await api_signIn.getEmployeeInfo();
+                    if (res.success && res.data) {
+                        let a = await reLogin.select(JSON.stringify(res.data));
+                        if (a) {
+                            console.log('a' + a);
+                            this.$store.commit('UPDATE_LOCAL');
+                            deferred.resolve(a);
+                        } else {
+                            window.location.href = this.$signLocation;
+                        }
+                    } else {
+                        deferred.resolve(true);
+                    }
+                } else {
+                    deferred.resolve(true);
                 }
-                return flag;
+                return deferred.promise;
             },
             goBbs(url) {
                 window.location.href = url;
@@ -128,7 +148,8 @@
             goMbh() {
                 window.location.href = '/service/shop.html#/leader';
             },
-            goWxbus() {
+            async goWxbus() {
+                await this.checkUser();
                 if (this.$store.state.user.merchant && this.$store.state.user.merchant.functionVersion == 4) {
                     window.location.href = '/lite/index.html';
                 } else {
@@ -138,16 +159,12 @@
             alertMessage() {
                 this.$toast('开发中，敬请期待');
             },
-            goCheckIn() {
-                if (this.checkUser()) {
-                    return;
-                }
+            async goCheckIn() {
+                await this.checkUser();
                 this.$router.push({name: 'checkIn'});
             },
-            goUserInfo() {
-                if (this.checkUser()) {
-                    return;
-                }
+            async goUserInfo() {
+                await this.checkUser();
                 this.$router.push({name: 'userinfo'});
             },
             hideMask() {

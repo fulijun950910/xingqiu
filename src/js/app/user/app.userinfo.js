@@ -377,7 +377,7 @@ app.userinfo = {
         }
         return out;
     },
-    loginEmployee: function() {
+    loginEmployee: function(employee) {
         app.startLoading();
         //事件统计
         baiduStatistical.add({
@@ -386,8 +386,12 @@ app.userinfo = {
             val: '',
             action: 'click'
         });
-        window.localStorage.employee = JSON.stringify($('input[name="emp_data"]:checked').data('employee'));
-
+        if (employee) {
+            window.localStorage.employee = employee;
+            var loginType = 1; // 为1时跳入店务中心
+        } else {
+            window.localStorage.employee = JSON.stringify($('input[name="emp_data"]:checked').data('employee'));
+        }
         $('#select_shade').hide();
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
@@ -453,10 +457,6 @@ app.userinfo = {
                                                         if (results && results.success) {}
                                                         //
                                                         app.userinfo.getEmployee().then(function(employee) {
-                                                            // if (employee.role == app.constant.WECHAT_BUSINESS[1].code) {
-                                                            //     location.href = "/performance-index.html#/performance_report";
-                                                            // } else if (employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                                                            //     location.href = "/performance-index.html#/performance_emp";
                                                             if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                                                                 // if (employee.merchant && employee.merchant.functionVersion == 4) { //营销版
                                                                 //     location.href = "/lite/index.html";
@@ -479,15 +479,23 @@ app.userinfo = {
                                                                             employeeData.party = res.data;
                                                                             window.localStorage.employee = JSON.stringify(employeeData);
                                                                             var url = '/service/index.html#/main';
-                                                                            if (keyGetValue('type') == 1) {
+                                                                            if (keyGetValue('type') == 1 || loginType == 1) {
                                                                                 url = '/main.html#/index';
+                                                                                if (employee.merchant && employee.merchant.functionVersion == 4) { //营销版
+                                                                                    url = "/lite/index.html";
+                                                                                }
                                                                             }
-                                                                            if (window.history.replaceState) {
-                                                                                window.history.replaceState({}, "0", window.location.origin + url);
-                                                                                window.location.reload();
+                                                                            if (location.pathname == '/main.html'){
+                                                                                location.reload();
                                                                             } else {
                                                                                 location.href = url;
                                                                             }
+                                                                            // if (window.history.replaceState) {
+                                                                            //     window.history.replaceState({}, "", window.location.origin + url);
+                                                                            //     window.history.go(0);
+                                                                            // } else {
+                                                                            //     location.href = url;
+                                                                            // }
                                                                         } else {
                                                                             app.userinfo.alertError('服务器开小差，请稍后再试');
                                                                         }
