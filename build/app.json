@@ -15,6 +15,10 @@
         "entry": "index",
         "title": "",
         "cdn": {}
+    }, {
+        "entry": "integral-mall",
+        "title": "积分商城",
+        "cdn": {}
     }],
     "basePath": "./source/pages/",
     "cdn": {

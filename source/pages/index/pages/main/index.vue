@@ -26,34 +26,34 @@
             </div>
         </div>
         <div class="mainBox cell-box">
-            <div class="cell"><strong>精华推荐</strong></div>
+            <div class="cell fs40"><strong>精华推荐</strong></div>
             <div>
-                <div @click="goBbs(item.url)" class="list-item cell" v-for="item in bbsData">
+                <div @click="goBbs(item.url)" class="list-item cell" v-for="item in bbsData" :key="item.id">
                     <div layout="row" layout-align="space-between center">
                         <div layout="row" layout-align="start center">
-                            <div><img  class="avatar" :src="item.authorImage" alt=""></div>
+                            <div class="face"><img  class="avatar" :src="item.authorImage" alt=""></div>
                             <div class="fs24 color-gray">{{item.author || '匿名'}}</div>
                         </div>
-                        <div class="light-gray fs24">{{item.forum}}</div>
+                        <div class="color-yellow-orange fs22">{{item.forum}}</div>
                     </div>
                     <div class="mt16" layout="row" layout-align="start stretch">
                         <div flex layout="column" layout-align="space-between start">
-                            <div>{{item.subject}}</div>
-                            <div>
-                                <m-icon class="fs32 color-gray" xlink="#icon-dianzan"></m-icon>
-                                <span class="color-gray">{{item.recommendAdd}}</span>
-                                &nbsp;&nbsp;
-                                <m-icon class="fs32 color-gray" xlink="#icon-huifu"></m-icon>
-                                <span class="color-gray">{{item.replies}}</span>
-                                &nbsp;&nbsp;
-                                <m-icon class="fs32 color-gray" xlink="#icon-yanjing"></m-icon>
-                                <span class="color-gray">{{item.views}}</span>
-                            </div>
+                            <div class="fs28 color-black">{{item.subject}}</div>
                         </div>
                         <div class="imgBox" layout="row" layout-align="center center">
                             <img :src="item.attachment || require('assets/imgs/index/501657390978523645.jpg')" alt="">
                         </div>
                     </div>
+                    <div class="mt-20">
+                     <m-icon class="fs32 color-gray" xlink="#icon-dianzan"></m-icon>
+                     <span class="color-gray fs22">{{item.recommendAdd}}</span>
+                     &nbsp;&nbsp;
+                     <m-icon class="fs32 color-gray" xlink="#icon-huifu"></m-icon>
+                     <span class="color-gray fs22">{{item.replies}}</span>
+                     &nbsp;&nbsp;
+                     <m-icon class="fs32 color-gray" xlink="#icon-yanjing"></m-icon>
+                     <span class="color-gray fs22">{{item.views}}</span>
+                 </div>
                 </div>
             </div>
 
@@ -69,16 +69,22 @@
                 <div class="fs20 ">我的</div>
             </div>
         </div>
+        <new-present v-if="isNew" @hideMask="hideMask"></new-present>
     </div>
 </template>
 
 <script>
     import api_party from 'services/api.party';
+    import newPresent from 'components/new-present';
     export default {
         name: 'main',
+        components: {
+            newPresent
+        },
         data() {
             return {
-                bbsData: []
+                bbsData: [],
+                isNew: true
             };
         },
         mounted() {
@@ -143,6 +149,9 @@
                     return;
                 }
                 this.$router.push({name: 'userinfo'});
+            },
+            hideMask() {
+                this.isNew = false;
             }
         }
     };
@@ -158,6 +167,9 @@
     .mt{
         margin-top:@l16;
     }
+    .mt-20{
+        margin-top: @l40;
+    }
     .bannerBox{
         box-shadow: 0 2px 2px #ddd;
         border-radius: 12px;
@@ -172,8 +184,8 @@
             margin-top:@l28;
         }
         .iconBox{
-            width:32px;
-            height:32px;
+            width:39px;
+            height:39px;
             border-radius: 16px;
             margin:0 auto @l8;
             .icon{
@@ -206,18 +218,21 @@
                 margin-top: @l16;
             }
             .avatar{
-                width:28px;
-                height:28px;
+                width:30px;
+                height:30px;
                 display:block;
                 border-radius: 50%;
                 margin-right:@l8;
+                border: 1px solid @border-gay;
             }
             .imgBox{
-                width:78px;
-                height:78px;
+                width:75px;
+                height:50px;
                 border-radius: 4px;
                 overflow: hidden;
                 margin-left: @l16;
+                overflow: hidden;
+                border-radius: 10px;
                 img{
                     height:100%;
                     width:auto;
