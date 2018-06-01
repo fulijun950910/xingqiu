@@ -1,7 +1,7 @@
 <template>
-    <div class="integral-confirm" ng-if="confirmText.show">
+    <div class="integral-confirm" v-if="confirmText.show">
         <div class="integral-confirm-con">
-        <div class="text fs28 color-black text-center" layout="row" layout-align="center center">{{confirmText.main}}</div>
+        <div class="text fs28 color-black text-center" layout="row" layout-align="center center">{{confirmText.message}}</div>
         <div class="button-con" layout="row" layout-align="start center">
             <div flex="50" class="text-center quite fs34 color-gray" @click="confirmClick(1)" layout="row" layout-align="center center">{{confirmText.quiet}}</div>
             <div flex="50" class="text-center confirm fs34" layout="row" @click="confirmClick(2)" layout-align="center center">{{confirmText.confirm}}</div>
@@ -18,7 +18,7 @@ export default {
             type: Object,
             default: function() {
                 return {
-                    main: '确认执行此操作？',
+                    message: '确认执行此操作？',
                     confirm: '确定',
                     quiet: '取消',
                     show: false

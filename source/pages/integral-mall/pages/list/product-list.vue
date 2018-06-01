@@ -17,13 +17,13 @@
                          </div>
                   </div>
                   <div class="color-pink fs30">{{item.price | fen2dou}}美豆豆/{{item.price | fen2yuan}}元</div>
-                  <div flex layout="row" layout-align="end center" class="buy">
+                  <div flex layout="row" layout-align="end center" class="buy" @click="buy(item)">
                       <div class="btn-integral color-white fs30">购买</div>
                   </div>
               </div>
         </div>
         <no-more :show-more="showNoMore" more-text="更多商品正在挖掘，敬请期待哦！"></no-more>      
-        <integral-confirm  @integraConfirm="inteconfirm"></integral-confirm>                
+        <integral-confirm :confirmText="confirm"  @integraConfirm="inteconfirm"></integral-confirm>                
     </div>
 </template>
 <script>
@@ -38,7 +38,8 @@ export default {
             dataList: [],
             showNoMore: true,
             doudouBalance: 0,
-            moneyBalance: 0
+            moneyBalance: 0,
+            confirm: {}
         };
     },
     components: {
@@ -48,9 +49,14 @@ export default {
     methods: {
         buy(item) {
             let itemMoney2dou = (item.price / 100) * 10;
-            if (itemMoney2dou > this.doudouBalance) {}
-            console.log(this.doudouBalance);
-            console.log(item);
+            if (itemMoney2dou < this.doudouBalance) {
+                this.confirm = {
+                    message: '您的美豆豆余额不足啦！快去充值吧！',
+                    confirm: '去充值',
+                    quiet: '再想想',
+                    show: true
+                };
+            }
         },
         loadData() {
             Indicator.open('loading...');
@@ -80,7 +86,7 @@ export default {
             msg.then(data=> {
                 console.log(1);
             }, data=> {
-                console.log(2);
+                this.confirm.show = false;
             });
         }
     },
