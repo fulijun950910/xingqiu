@@ -39,5 +39,31 @@ export default {
     getMissionList(partyId) {
         let url = `/api/mission/getListByPartyId/${partyId}`;
         return request(url, 'get');
+    },
+    firstLoginGift(data) {
+        let url = `/api/party/firstLoginGift/${data.partyId}/${data.userId}`;
+        return request(url, 'post');
+    },
+    goodsList(type) {
+        /**
+         * 获取充值列表
+         * 商品类型 1：短信充值 2：购买短信签名 3：购买沙龙入场券 4：购买硬件 5：购买服务 6：充值豆豆
+         * **/
+        let url = '/api/goods/list/' + type;
+        return request(url, 'get');
+    },
+    doudouTrade(data) {
+        /**
+         * 豆豆消费
+         */
+        let url = '/api/doudouTrade';
+        return request(url, 'post', data);
+    },
+    doudouAccount(partyId) {
+        /**
+         * 查询豆豆余额
+         */
+        let url = `/api/account/${partyId}`;
+        return request(url, 'get');
     }
 };

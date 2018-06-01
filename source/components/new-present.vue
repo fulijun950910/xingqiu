@@ -1,5 +1,5 @@
 <template>
-    <div class="new-present" @click.stop="hideMask">
+    <div class="new-present" :class="{'showShack':showShack}" @click.stop="hideMask">
       <div class="new-get">
           <span class="money">
               <img class="img-auto" :src="require('assets/imgs/integral-mall/money-icon.png')" alt="">
@@ -12,7 +12,7 @@
                   <span class="click-wallet">
                          <img class="img-auto" :src="require('assets/imgs/integral-mall/red-packeg.png')" alt="">     
                   </span>
-                  <img class="img-auto" :src="require('assets/imgs/integral-mall/use-now.png')" alt="">                  
+                  <img @click="toUse" class="img-auto" :src="require('assets/imgs/integral-mall/use-now.png')" alt="">                  
               </div>
           </div>
       </div>
@@ -22,13 +22,35 @@
     export default {
         data() {
             return {
-
+                showShack: false
             };
+        },
+        props: {
+            showMask: {
+                type: Boolean,
+                default: false
+
+            }
         },
         methods: {
             hideMask() {
                 this.$emit('hideMask');
+                this.showShack = false;
+            },
+            animate() {
+                this.showShack = true;
+            },
+            toUse() {
+                // 链接到使用
+                location.href = '/service/integral-mall.html#/recharge-message';
             }
+        },
+        mounted() {
+            if (this.showMask) {
+                setTimeout(()=> {
+                    this.animate();
+                }, 0);
+            };
         }
     };
     
@@ -41,7 +63,8 @@
         height: auto;;
     }
     position: fixed;
-    background: rgba(0,0,0,.5);
+    background: transparent;
+    transition: all ease .5s;
     width: 100%;
     height: 100%;
     top:0;
@@ -49,13 +72,16 @@
     left: 0;
     right: 0;
     z-index: 2;
+    transform: translateY(-100%);
+    transition: all ease .3s;
     .new-get{
         position: absolute;
         width: 280px;
         height: 360px;
         left: 50%;
         top:50%;
-        transform: translateX(-140px) translateY(-180px);
+        transform: translateX(-140px) translateY(-720px);
+        transition: all ease .8s;
         background: url('~assets/imgs/integral-mall/present-bg.png');
         background-size: 100% 100%;
         .money{
@@ -91,5 +117,12 @@
         }
     }
 }
+.new-present.showShack {
+    background: rgba(0,0,0,.5);   
+    transform: translateY(0); 
+    .new-get{
+        transform: translateX(-140px) translateY(-180px);
+    }
+} 
 </style>
 

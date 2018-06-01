@@ -69,7 +69,7 @@
                 <div class="fs20 ">我的</div>
             </div>
         </div>
-        <new-present v-if="isNew" @hideMask="hideMask"></new-present>
+        <new-present :show-mask="isNew" @hideMask="hideMask"></new-present>
     </div>
 </template>
 
@@ -79,6 +79,7 @@
     import api_signIn from 'services/api.signIn';
     import reLogin from '../../models/relogin';
     import Q from 'q';
+    import { Toast } from 'mint-ui';
 
     export default {
         name: 'main',
@@ -88,11 +89,17 @@
         data() {
             return {
                 bbsData: [],
-                isNew: true
+                isNew: true,
+                bean: '500',
+                employee: JSON.parse(localStorage.getItem('employee'))
             };
         },
         mounted() {
             this.loadData();
+            if (this.employee.party.newUser && this.employee.party.userType == 1) {
+                this.isNew = true;
+                this.givingBean();
+            }
         },
         methods: {
             loadData() {
@@ -166,6 +173,20 @@
             },
             hideMask() {
                 this.isNew = false;
+                let tempLocal = JSON.parse(localStorage.getItem('employee'));
+                tempLocal.party.newUser = false;
+                localStorage.setItem('employee', JSON.stringify(tempLocal));
+            },
+            givingBean() {
+                let parameter = {
+                    partyId: this.employee.party.partyId,
+                    userId: this.employee.party.id
+                };
+                api_party.firstLoginGift(parameter).then(msg=> {
+                    Toast(msg.message);
+                }, msg=> {
+                    Toast(msg.message);
+                });
             }
         }
     };

@@ -152,6 +152,20 @@ Vue.filter('fen2yuan', function(value) {
     return value / 100;
 });
 
+Vue.filter('dou2fen', function(value) {
+    if (isNaN(value)) {
+        return 0;
+    }
+    return value / 10;
+});
+
+Vue.filter('fen2dou', function(value) {
+    if (isNaN(value)) {
+        return 0;
+    }
+    return (value / 100) * 10;
+});
+
 // '13871147835' => '138 **** 7835'
 Vue.filter('mobile', function(val, isShow) {
     if (!val) {

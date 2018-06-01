@@ -2,45 +2,23 @@
  * 路由配置
  */
 const signIn = resolve => require(['./pages/sign-in'], resolve);
-const index = resolve => require(['./pages/index'], resolve);
-const mall = resolve => require(['./pages/mall'], resolve);
-const news = resolve => require(['./pages/news'], resolve);
-const personal = resolve => require(['./pages/personal'], resolve);
-const leader = resolve => require(['./pages/leader'], resolve);
-const newsDetail = resolve => require(['./pages/news/news-detail'], resolve);
-const goodsDetail = resolve => require(['./pages/goods/goods-detail'], resolve);
-
+const rechargeMessage = resolve => require(['./pages/recharge/recharge-message'], resolve);
+const rechargeDoudou = resolve => require(['./pages/recharge/recharge-doudou'], resolve);
+const activityList = resolve => require(['./pages/list/activity-list'], resolve);
 export default [{
     path: '/sign-in',
     name: 'sign-in',
     component: signIn
 }, {
-    path: '/index',
-    name: 'index',
-    component: index
+    path: '/recharge-message',
+    name: 'recharge-message',
+    component: rechargeMessage
 }, {
-    path: '/mall',
-    name: 'mall',
-    component: mall
+    path: '/recharge-doudou',
+    name: 'recharge-doudou',
+    component: rechargeDoudou
 }, {
-    path: '/news',
-    name: 'news',
-    component: news
-}, {
-    path: '/personal',
-    name: 'personal',
-    component: personal
-}, {
-    path: '/leader',
-    name: 'leader',
-    component: leader
-}, {
-    path: '/news-detail',
-    name: 'news-detail',
-    component: newsDetail
-},
-{
-    path: '/goods-detail',
-    name: 'goods-detail',
-    component: goodsDetail
+    path: '/activity-list',
+    name: 'activity-list',
+    component: activityList
 }];
