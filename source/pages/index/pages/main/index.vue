@@ -89,17 +89,19 @@
         data() {
             return {
                 bbsData: [],
-                isNew: true,
+                isNew: false,
                 bean: '500',
                 employee: JSON.parse(localStorage.getItem('employee'))
             };
         },
         mounted() {
             this.loadData();
-            if (this.employee.party.newUser && this.employee.party.userType == 1) {
-                this.isNew = true;
-                this.givingBean();
-            }
+            if (this.employee) {
+                if (this.employee.party.newUser && this.employee.party.userType == 1) {
+                    this.isNew = true;
+                    this.givingBean();
+                };
+            };
         },
         methods: {
             loadData() {
