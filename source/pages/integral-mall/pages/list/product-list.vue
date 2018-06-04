@@ -49,14 +49,16 @@ export default {
     methods: {
         buy(item) {
             let itemMoney2dou = (item.price / 100) * 10;
-            if (itemMoney2dou < this.doudouBalance) {
+            if (itemMoney2dou > this.doudouBalance) {
                 this.confirm = {
                     message: '您的美豆豆余额不足啦！快去充值吧！',
                     confirm: '去充值',
                     quiet: '再想想',
                     show: true
                 };
-            }
+            } else {
+                this.$router.push({path: `/product-detail/${item.id}`});
+            };
         },
         loadData() {
             Indicator.open('loading...');

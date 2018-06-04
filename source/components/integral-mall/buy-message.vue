@@ -1,5 +1,6 @@
 <template>
-    <div class="buy-message" :class="{'active' : currentValue}" @click="hideMask">
+    <div class="buy-message" :class="{'active' : currentValue}" layout="column" layout-align="end start">
+        <div class="con-mask" @click="hideMask"></div>
         <div class="buy-message-con">
         <div class="seleted-serverce-item" layout="row" layout-align="center center">
              <m-icon  class="fs48 color-white" xlink="#icon-huabanfuben16"></m-icon>
@@ -11,11 +12,29 @@
         </div>
         <div class="select-title">
             <span class="color-black fs40 fwb">购买信息</span>
-        </div>           
+        </div>   
+        <div class="location" layout="row" layout-align="start center" v-if="type ==2">
+            <div class="lest-detail" flex="90">
+             <div layout="row" layout-align="space-between center">
+                 <span class="fs28 color-black">收货人：</span>
+                 <span class="fs28 color-black"></span>
+             </div>
+             <div class="loca-address color-gray fs28" flex>
+                 收货地址：
+             </div>
+            </div>
+            <div class="buy-more" flex="10">
+                <m-icon xlink="#icon-zuojiantou"></m-icon>
+            </div>
+            </div>   
+            <div class="amount" layout="row" layout-align="space-between center" v-if="type ==2">
+                <div class="fs28 color-black">数量</div>
+                <integral-input @numOut="changeNum"></integral-input>
+            </div>     
             <div class="list-data" layout="row" layout-align="start center">
              <span class="color-gray fs30">商品总价</span>
              <span flex></span>
-             <span class="color-gray fs30">{{selectedItem.price | fen2yuan}}元</span>
+             <span class="color-gray fs30">{{selectedItem.price | fen2yuan}}元/{{selectedItem.price | fen2dou}}美豆豆</span>
             </div>
             <div class="list-data" layout="column">
                 <div flex layout-align="start center" layout="row">
@@ -31,7 +50,10 @@
             <div class="pay" layout="row" layout-align="start center">
                 <span class="fs30 color-black fwb">还需支付</span>
                 <span flex></span>
-                <span class="fs30 color-black fwb">{{pay}}</span>
+                <span class="fs30 color-black fwb">{{pay | fen2yuan}}元</span>
+            </div>
+            <div class="remark" v-if="type == 2">
+                <textarea placeholder="备注"></textarea>
             </div>
             <div flex @click="buy" class="confirm-pay fs38 color-white" layout="row" layout-align="center center">
                 支付
@@ -41,6 +63,7 @@
 </template>
 <script>
 import mIcon from 'components/m-icon';
+import integralInput from 'components/integral-mall/integral-input';
 import api_party from 'services/api.party';
 import { Indicator, Toast } from 'mint-ui';
 export default {
@@ -49,7 +72,9 @@ export default {
             employee: JSON.parse(localStorage.getItem('employee')),
             avaliableBean: 0,
             useBean: 0,
-            pay: 0
+            pay: 0,
+            quantity: 1,
+            realAvaliable: 0
         };
     },
     props: {
@@ -60,23 +85,29 @@ export default {
         showBuy: {
             type: Boolean,
             default: false
+        },
+        type: {
+            type: String,
+            default: '0'  // 1买短信 2买商品
+        },
+        location: {
+            type: Object,
+            default() {
+                return {};
+            }
         }
     },
     components: {
-        mIcon
+        mIcon,
+        integralInput
     },
     methods: {
-        searchBalance(price) {
+        searchBalance(price, quantity) {
             Indicator.open('loading...');
             api_party.doudouAccount(this.employee.party.partyId).then(msg=> {
                 Indicator.close();
-                this.avaliableBean = msg.data.doudouBalance;
-                if (this.avaliableBean >= price / 10) {
-                    this.useBean = price / 10;
-                } else {
-                    this.useBean = this.avaliableBean;
-                    this.pay = (price / 10 - this.useBean) * 10;
-                }
+                this.realAvaliable = msg.data.doudouBalance;
+                this.caculateResult(msg.data, price, quantity);
             }, msg => {
 
             });
@@ -86,8 +117,8 @@ export default {
                 'merchantId': this.employee.party.merchantId,
                 'partyId': this.employee.party.partyId,
                 'userId': this.employee.party.id,
-                'payDoudouAmount': this.pay,
-                'payMoney': 0,
+                'payDoudouAmount': this.useBean,
+                'payMoney': this.pay,
                 'itemId': this.selectedItem.id,
                 'quantity': 1,
                 'tradeType': 1
@@ -102,14 +133,36 @@ export default {
             if (value > this.avaliableBean) {
                 Toast('豆豆不足');
                 this.useBean = this.avaliableBean;
-            };
+            } else {
+                let data = {
+                    doudouBalance: this.avaliableBean
+                };
+                this.caculateResult(data, this.selectedItem.price, this.quantity);
+            }
         },
-        hideMask() {
+        hideMask(e) {
             this.currentValue = false;
+        },
+        changeNum(val) {
+            this.quantity = val;
+            let data = {
+                doudouBalance: this.avaliableBean
+            };
+            this.caculateResult(data, this.selectedItem.price, this.quantity);
+        },
+        caculateResult(data, price, quantity) {
+            this.avaliableBean = data.doudouBalance;
+            if (this.avaliableBean >= price / 10) {
+                this.useBean = (price / 10) * quantity;
+            } else {
+                this.useBean += this.avaliableBean;
+            };
+            this.pay = ((this.quantity * (price / 10) - this.realAvaliable) * price) >= 0 ? ((this.quantity * (price / 10) - this.realAvaliable) * price) : 0;
+            this.avaliableBean = this.realAvaliable - this.useBean;
         }
     },
     mounted() {
-        this.searchBalance(this.selectedItem.price);
+        this.searchBalance(this.selectedItem.price, this.quantity);
     },
     computed: {
         currentValue: {
@@ -120,13 +173,21 @@ export default {
                 this.$emit('update', val);
             }
         }
+    },
+    watch: {
+        selectedItem: {
+            handler: function(newValue, oldValue) {
+                if (newValue != oldValue) {
+                    this.searchBalance(newValue.price, this.quantity);
+                }
+            }
+        }
     }
 };
 </script>
 <style lang="less" scoped>
 @import '~styles/_style';
 .buy-message{
-    background: rgba(0,0,0,.5);
     position: fixed;
     z-index: 10;
     top:0;
@@ -135,15 +196,21 @@ export default {
     right: 0;
     transform: translateY(-100%);
     transition: all ease 1s;
-    .buy-message-con{
-        position: absolute;
+    .con-mask{
+    background: rgba(0,0,0,.5);        
+        position: fixed;
+        z-index: 1;
+        top:0;
         bottom: 0;
         left: 0;
         right: 0;
+    }
+    .buy-message-con{
+        position: relative;
+        width: 100%;
         background: white;
-        height: 450px;
-        padding: 0 15px;
-        padding-top: 65px;
+        padding: 65px 15px 140px 15px;
+        z-index: 2;
         .seleted-serverce-item{
             position: absolute;
             width: 150px;
@@ -188,6 +255,20 @@ export default {
             bottom: 15px;
             background:linear-gradient(180deg,rgba(255,153,216,1),rgba(252,93,192,1),rgba(255,53,104,1));
             border-radius:14px;
+        }
+        .location{
+            padding: 15px 0;
+        }
+        .remark{
+            padding: 15px 0;
+            textarea{
+                width: 100%;
+            background: rgba(249,249,249,1);
+            height: 35px;
+            padding: 10px;
+            resize: none;
+                
+            }
         }
     }
 }

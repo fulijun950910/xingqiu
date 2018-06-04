@@ -1,10 +1,14 @@
 <template>
     <div class="integral-confirm" v-if="confirmText.show">
+        <div class="mask" @click="hide"></div>
         <div class="integral-confirm-con">
-        <div class="text fs28 color-black text-center" layout="row" layout-align="center center">{{confirmText.message}}</div>
+        <div class="text fs28 color-black text-center" layout="column" layout-align="center center">
+            <p v-if="confirmText.message" class="fwb">{{confirmText.message}}</p>
+        <p v-if="confirmText.text">{{confirmText.text}}</p>            
+            </div>
         <div class="button-con" layout="row" layout-align="start center">
-            <div flex="50" class="text-center quite fs34 color-gray" @click="confirmClick(1)" layout="row" layout-align="center center">{{confirmText.quiet}}</div>
-            <div flex="50" class="text-center confirm fs34" layout="row" @click="confirmClick(2)" layout-align="center center">{{confirmText.confirm}}</div>
+            <div flex="50" v-if="confirmText.quiet" class="text-center quite fs34 color-gray" @click="confirmClick(1)" layout="row" layout-align="center center">{{confirmText.quiet}}</div>
+            <div :flex="confirmText.quiet ? 50 : 100" class="text-center confirm fs34" layout="row" @click="confirmClick(2)" layout-align="center center">{{confirmText.confirm}}</div>
         </div>
         </div>
     </div>
@@ -18,10 +22,12 @@ export default {
             type: Object,
             default: function() {
                 return {
-                    message: '确认执行此操作？',
-                    confirm: '确定',
-                    quiet: '取消',
-                    show: false
+                    data: {
+                        // message: '确认执行此操作？',
+                        // confirm: '确定',
+                        // quiet: '取消',
+                        show: false
+                    }
                 };
             }
         }
@@ -39,6 +45,9 @@ export default {
         },
         confirmClick(type) {
             this.$emit('integraConfirm', this.confirmFun(type));
+        },
+        hide() {
+            this.$emit('hideConfirm');
         }
     }
 };
@@ -50,12 +59,19 @@ export default {
 @import '~styles/_style';
 .integral-confirm{
     position: fixed;
+    z-index: 10;
+        left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    .mask{
+    background: rgba(0,0,0,.5);
+    position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
     top: 0;
-    background: rgba(0,0,0,.5);
-    z-index: 10;
+    }
     .integral-confirm-con{
         position: absolute;
         width: 280px;

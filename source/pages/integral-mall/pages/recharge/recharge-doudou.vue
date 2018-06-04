@@ -73,7 +73,6 @@ export default {
             if (!this.check()) {
                 return;
             };
-            debugger;
             let parameter = {
                 'merchantId': this.employee.party.merchantId,
                 'partyId': this.employee.party.partyId,

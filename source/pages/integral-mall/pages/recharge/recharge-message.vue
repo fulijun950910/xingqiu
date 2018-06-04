@@ -19,7 +19,7 @@
         <div class="exchange-btn color-white fs38" @click="confirm" layout="row" layout-align="center center">
             确认
         </div>
-        <buy-message @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>
+        <buy-message type="1" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>
     </div>
 </template>
 <script>

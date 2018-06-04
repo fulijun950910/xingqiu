@@ -65,5 +65,12 @@ export default {
          */
         let url = `/api/account/${partyId}`;
         return request(url, 'get');
+    },
+    productDetail(id) {
+        /**
+         * 商品详情
+         */
+        let url = `/api/goods/${id}`;
+        return request(url, 'get');
     }
 };
