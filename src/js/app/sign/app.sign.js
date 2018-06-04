@@ -337,7 +337,7 @@ app.sign = {
                         if(results == 'success') {
                             app.sign.alertSign(app.tools.getMoment(), true, type);
                         } else {
-                            app.sign.alertSign(app.tools.getMoment(), true, type);
+                            app.sign.alertSign(app.tools.getMoment(), false, type);
                         }
                     } else {
                         app.userinfo.alertError(results.message);
