@@ -120,8 +120,7 @@
             },
             async checkUser() {
                 var deferred = Q.defer();
-                this.$toast(JSON.stringify(JSON.stringify(res.data)));
-                if (!this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
+                if (!this.$store.state || !this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
                     let res = await api_signIn.getEmployeeInfo();
                     if (res.success && res.data) {
                         let a = await reLogin.select(JSON.stringify(res.data));
@@ -157,7 +156,6 @@
             },
             async goWxbus() {
                 await this.checkUser();
-                this.$toast('start');
                 if (this.$store.state.user.merchant && this.$store.state.user.merchant.functionVersion == 4) {
                     window.location.href = '/lite/index.html';
                 } else {
