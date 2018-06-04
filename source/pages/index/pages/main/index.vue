@@ -120,8 +120,8 @@
             },
             async checkUser() {
                 var deferred = Q.defer();
-                console.log(JSOn.stringify(this.$store.state));
-                console.log(JSOn.stringify(localStorage.employee));
+                console.log(JSON.stringify(this.$store.state));
+                console.log(JSON.stringify(localStorage.employee));
                 if (!this.$store.state || !this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
                     let res = await api_signIn.getEmployeeInfo();
                     if (res.success && res.data) {
