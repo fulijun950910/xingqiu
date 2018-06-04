@@ -264,7 +264,6 @@ app.sign = {
                                 //重新加载签到信息
                                 app.sign.queryClockInfo();
                                 //签到成功
-                                app.alert(results);
                                 if(results == 'success') {
                                     app.sign.alertSign(app.tools.getMoment(), true, type);
                                 } else {
