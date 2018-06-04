@@ -214,18 +214,25 @@ app.sign = {
         });
     },
     //签到=1，签退=0
-    alertSign: function(time, type) {
+    alertSign: function(time, state, type) {
+        // state :  true  false
         var alertimg = '';
         var msg = '';
-        if (type == 1) {
-            alertimg = 'images/qiandao.png';
-            msg += '<h4 class="msgtimes">您于' + time + '签到成功</h4>';
-            msg += '<h4 class="msghint">祝您今天工作顺利</h4>';
-        } else if (type == 0) {
-            alertimg = 'images/qiantui.png';
-            msg += '<h4 class="msgtimes">您于' + time + '签退成功</h4>';
-            msg += '<h4 class="msggohome">回家路上注意安全哦</h4>';
+        if (state) {
+            if (type == 1) {
+                alertimg = 'images/qiandao.png';
+                msg += '<h4 class="msgtimes">您于' + time + '签到成功</h4>';
+                msg += '<h4 class="msghint">祝您今天工作顺利</h4>';
+            } else if (type == 0) {
+                alertimg = 'images/qiantui.png';
+                msg += '<h4 class="msgtimes">您于' + time + '签退成功</h4>';
+                msg += '<h4 class="msggohome">回家路上注意安全哦</h4>';
+            }
+        } else {
+            alertimg = 'images/qiandaoshibai.png';
+            msg += '<h4 class="msgtimes">亲，本次签到不在签到范围之内</h4>';
         }
+
         $('#alertSign>.signMsg>img').attr('src', alertimg);
         $('#alertSign>.msgcontent').html(msg);
         $('#alertSign').show().on('click', function() {
@@ -257,7 +264,11 @@ app.sign = {
                                 //重新加载签到信息
                                 app.sign.queryClockInfo();
                                 //签到成功
-                                app.sign.alertSign(app.tools.getMoment(), type);
+                                if(results == 'success') {
+                                    app.sign.alertSign(app.tools.getMoment(), true, type);
+                                } else {
+                                    app.sign.alertSign(app.tools.getMoment(), false, type);
+                                }
 
                             } else {
                                 app.userinfo.alertError(results.message);
@@ -323,7 +334,11 @@ app.sign = {
                         //重新加载签到信息
                         app.sign.queryClockInfo();
                         //签到成功
-                        app.sign.alertSign(app.tools.getMoment(), type);
+                        if(results == 'success') {
+                            app.sign.alertSign(app.tools.getMoment(), true, type);
+                        } else {
+                            app.sign.alertSign(app.tools.getMoment(), false, type);
+                        }
                     } else {
                         app.userinfo.alertError(results.message);
                     }
