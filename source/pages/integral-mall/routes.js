@@ -12,6 +12,8 @@ const voucherList = resolve => require(['./pages/list/voucher-list'], resolve);
 const personal = resolve => require(['./pages/personal/index'], resolve);
 const ruleEntry = resolve => require(['./pages/ruleEntry/index'], resolve);
 const applicationForm = resolve => require(['./pages/application-form'], resolve);
+const addressList = resolve => require(['./pages/list/address-list'], resolve);
+const editeAddress = resolve => require(['./pages/edite-address'], resolve);
 
 export default [{
     path: '/sign-in',
@@ -57,4 +59,12 @@ export default [{
     path: '/application-form',
     name: 'application-form',
     component: applicationForm
+}, {
+    path: '/address-list',
+    name: 'address-list',
+    component: addressList
+}, {
+    path: '/edite-address/:id?',
+    name: 'edite-address',
+    component: editeAddress
 }];

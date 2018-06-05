@@ -72,5 +72,26 @@ export default {
          */
         let url = `/api/goods/${id}`;
         return request(url, 'get');
+    },
+    addressSearch(parameter) {
+        /**
+         * 地址列表筛选
+         */
+        let url = '/api/deliveryAddress/search';
+        return request(url, 'post', parameter);
+    },
+    getProvince() {
+        /**
+         * 获取省份
+         */
+        let url = '/api/administrativeArea/topAreas';
+        return request(url, 'get');
+    },
+    getCity(id) {
+        /**
+         * 获取城市
+         */
+        let url = `/api/administrativeArea/areas/${id}`;
+        return request(url, 'get');
     }
 };

@@ -28,11 +28,13 @@
             <p class="fs24 color-gray"><span class="color-pink">·</span>次兑换由于商品特殊，不可退货，敬请原谅</p>            
         </div>
         <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm"  @integraConfirm="inteconfirm"></integral-confirm>
+        <buy-message type="1" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>   
     </div>
 </template>
 <script>
 import api_party from 'services/api.party';
 import integralConfirm from 'components/integral-mall/integral-confirm';
+import buyMessage from 'components/integral-mall/buy-message';
 import { Indicator } from 'mint-ui';
 export default {
     data() {
@@ -41,7 +43,9 @@ export default {
             employee: JSON.parse(localStorage.getItem('employee')),
             confirm: {},
             personal: null,
-            type: 1
+            type: 1,
+            chooseServiceItem: {},
+            showBuy: false
         };
     },
     methods: {
@@ -71,13 +75,8 @@ export default {
         },
         buy() {
             if (this.personal.doudouBalance >= 100) {
-                this.confirm = {
-                    message: '共需要100美豆豆',
-                    text: `您的账户共有${this.personal.doudouBalance}个美豆豆`,
-                    confirm: '立即领取',
-                    show: true
-                };
-                this.type = 2;
+                this.chooseServiceItem = this.dataList[0];
+                this.showBuy = true;                
             } else {
                 this.confirm = {
                     message: '共需要100美豆豆',
@@ -98,13 +97,17 @@ export default {
         },
         hideConfirm() {
             this.confirm.show = false;
+        },
+        update() {
+            this.showBuy = false;
         }
     },
     mounted() {
         this.init();
     },
     components: {
-        integralConfirm
+        integralConfirm,
+        buyMessage
     }
 };
 </script>
