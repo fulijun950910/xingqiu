@@ -4,7 +4,7 @@ import Q from 'q';
 export default function(url, data, method, messageFlag = true) {
     var deferred = Q.defer();
     Vue.http({
-        url: url,
+        url: 'http://assistant.mei1.info/' + url,
         body: data,
         method: method,
         timeout: 15000
