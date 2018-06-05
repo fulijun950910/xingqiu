@@ -93,5 +93,30 @@ export default {
          */
         let url = `/api/administrativeArea/areas/${id}`;
         return request(url, 'get');
+    },
+    getTown(id) {
+        /**
+         * 获取城市
+         */
+        let url = `/api/administrativeArea/areas/${id}`;
+        return request(url, 'get');
+    },
+    deliveryAddress(parameter) {
+        /**
+         * 保存收货地址
+         */
+        let url = '/api/deliveryAddress';
+        let type = 'post';
+        if (parameter.id) {
+            type = 'put';
+        };
+        return request(url, type, parameter);
+    },
+    storeList(merchantId, employeeId) {
+        /**
+         * 查询门店列表
+         */
+        let url = `/api/store/list/${merchantId}/employee/${employeeId}`;
+        return request(url, 'get');
     }
 };

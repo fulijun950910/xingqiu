@@ -8,19 +8,21 @@
     <div flex class="form-item">
     <div class="label fs24 color-black">商户名称</div>
     <div flex>
-        <input flex class="color-black fs30" type="text">
+        <input flex class="color-black fs30" readonly type="text" v-model="parameter.merchantName">
     </div>
     </div>
             <div class="form-item">
     <div class="label fs24 color-black">门店名称</div>
     <div>
-        <input class="color-black fs30" type="text">
+       <select name="" v-model="parameter.merchantName">
+           <option value="1">检讨美容</option>
+       </select>
     </div>
     </div>
         <div class="form-item">
     <div class="label fs24 color-black">门店地址</div>
     <div>
-        <input class="color-black fs30" type="text">
+        <input class="color-black fs30" v-model="parameter.merchantName" type="text">
     </div>
     </div>
         <div class="form-item">
@@ -39,13 +41,13 @@
         </div>
         </div>
     <div>
-        <input v-if="value" class="color-black fs30" type="text">
+        <input v-if="value" v-model="parameter.merchantName" class="color-black fs30" type="text">
     </div>
     </div>
         <div class="form-item">
     <div class="label fs24 color-black">备注<i class="color-pink">*</i></div>
     <div>
-        <input class="color-black fs30" type="text">
+        <input class="color-black fs30" v-model="parameter.merchantName" type="text">
     </div>
     </div>
 </div>
@@ -56,14 +58,17 @@
 </template>
 <script>
 import Vue from 'vue';
-import { Switch } from 'mint-ui';
-
+import { Switch, Indicator } from 'mint-ui';
+import api_party from 'services/api.party';
 Vue.component(Switch.name, Switch);
 export default {
     data() {
         return {
             date: new Date(),
-            value: false
+            value: false,
+            employee: JSON.parse(localStorage.getItem('employee')),
+            parameter: {},
+            storeList: []
         };
     },
     methods: {
@@ -72,7 +77,22 @@ export default {
         },
         handleConfirm(data) {
             // this.date = Vue.filter('amDateFormat', [data]);
+        },
+        loadStoreList() {
+            Indicator.open('loading...');
+            api_party.storeList(this.employee.party.merchantId, this.employee.merchantRole.id).then(msg=> {
+                Indicator.close();
+                this.storeList = msg.data;
+            }, msg=> {
+
+            });
+        },
+        init() {
+            this.loadStoreList();
         }
+    },
+    mounted() {
+        this.init();
     }
 };
 </script>
@@ -90,6 +110,12 @@ export default {
             border-bottom: 1px solid @border-gay;
             .check{
                 padding: 10px 0;
+            }
+            select{
+                width: 100%;
+                display: block;
+                padding: 10px;
+                background: none;
             }
         }
         input{

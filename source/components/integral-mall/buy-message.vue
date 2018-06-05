@@ -59,6 +59,7 @@
                 支付
             </div>
         </div>
+        <buy-finished v-if="success"></buy-finished>
     </div>
 </template>
 <script>
@@ -66,6 +67,7 @@ import mIcon from 'components/m-icon';
 import integralInput from 'components/integral-mall/integral-input';
 import api_party from 'services/api.party';
 import { Indicator, Toast } from 'mint-ui';
+import buyFinished from 'components/integral-mall/buy-finished';
 export default {
     data() {
         return {
@@ -74,7 +76,8 @@ export default {
             useBean: 0,
             pay: 0,
             quantity: 1,
-            realAvaliable: 0
+            realAvaliable: 0,
+            success: false
         };
     },
     props: {
@@ -99,7 +102,8 @@ export default {
     },
     components: {
         mIcon,
-        integralInput
+        integralInput,
+        buyFinished
     },
     methods: {
         searchBalance(price, quantity) {
@@ -124,11 +128,10 @@ export default {
                 'tradeType': 1
             };
             api_party.doudouTrade(parameter).then(msg=> {
-                debugger;
                 if (msg.data.status != 0) {
-                    location.href = '/service/index.html#/userinfo';
+                    location.href = msg.data.payUrl;                    
                 } else {
-                    location.href = msg.data.payUrl;
+                    this.success = true;                    
                 }
                 Toast('购买成功');
             }, msg=> {

@@ -3,7 +3,7 @@
         <div class="banner">
             这个是banner
         </div>
-        <div class="product-list-con" flex layout="row" layout-align="space-between center">
+        <div class="product-list-con" flex layout="row" layout-align="space-between center" flex-wrap="wrap">
               <div class="product-list-item" v-for="(item,index) in dataList" :key="index" @click="buy(item)">
                   <div class="product-img">
                       <img class="img-auto" :src="item.image | nSrc(require('assets/imgs/female.png'))" alt="">
