@@ -9,7 +9,8 @@ const productList = resolve => require(['./pages/list/product-list'], resolve);
 const productDetail = resolve => require(['./pages/detail/product-detail'], resolve);
 const orderList = resolve => require(['./pages/list/order-list'], resolve);
 const voucherList = resolve => require(['./pages/list/voucher-list'], resolve);
-const personal = resolve => require(['./pages/personal'], resolve);
+const personal = resolve => require(['./pages/personal/index'], resolve);
+const ruleEntry = resolve => require(['./pages/ruleEntry/index'], resolve);
 const applicationForm = resolve => require(['./pages/application-form'], resolve);
 
 export default [{
@@ -48,6 +49,10 @@ export default [{
     path: '/personal',
     name: 'personal',
     component: personal
+}, {
+    path: '/rule-entry',
+    name: 'rule-entry',
+    component: ruleEntry
 }, {
     path: '/application-form',
     name: 'application-form',

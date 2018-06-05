@@ -178,7 +178,41 @@ img {
 .fwb {
     font-weight: bold;
 }
-
+//-------------------------padding margin
+.loop( @count ) when ( @count > 0 ) {
+    .m-@{count} {
+        margin: (@count * @l8);
+    }
+    .m-t-@{count} {
+        margin-top: (@count * @l8);
+    }
+    .m-b-@{count} {
+        margin-bottom: (@count * @l8);
+    }
+    .m-l-@{count} {
+        margin-left: (@count * @l8);
+    }
+    .m-r-@{count} {
+        margin-right: (@count * @l8);
+    }
+    .p-@{count} {
+        padding: (@count * @l8);
+    }
+    .p-t-@{count} {
+        padding-top: (@count * @l8);
+    }
+    .p-b-@{count} {
+        padding-bottom: (@count * @l8);
+    }
+    .p-l-@{count} {
+        padding-left: (@count * @l8);
+    }
+    .p-r-@{count} {
+        padding-right: (@count * @l8);
+    }
+    .loop((@count - 1));
+}
+.loop(5);
 
 /* Colors
 -------------------------- */
