@@ -129,9 +129,9 @@ export default {
             };
             api_party.doudouTrade(parameter).then(msg=> {
                 if (msg.data.status != 0) {
-                    location.href = msg.data.payUrl;                    
+                    location.href = msg.data.payUrl;
                 } else {
-                    this.success = true;                    
+                    this.success = true;
                 }
                 Toast('购买成功');
             }, msg=> {
