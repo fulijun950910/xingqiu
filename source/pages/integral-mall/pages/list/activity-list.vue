@@ -51,29 +51,8 @@ export default {
             });
 
         },
-        searchBalance() {
-            Indicator.open('loading...');
-            api_party.doudouAccount(this.employee.party.partyId).then(msg=> {
-                Indicator.close();
-                this.doudouBalance = msg.data.doudouBalance;
-            }, msg => {
-
-            });
-        },
         useTo(item) {
-            if (this.doudouBalance < item.price) {
-                this.confirm = {
-                    message: `共需要${item.price}个豆`,
-                    text: `您的账户共有${this.doudouBalance}个美豆豆`,
-                    confirm: '立即充值',
-                    quiet: '再想想',
-                    show: true
-                };
-                this.type = 2;
-            } else {
-                this.$router.push('/application-form');
-            }
-
+            this.$router.push('/application-form');
         },
         init() {
             this.loadData();

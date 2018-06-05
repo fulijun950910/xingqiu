@@ -124,6 +124,12 @@ export default {
                 'tradeType': 1
             };
             api_party.doudouTrade(parameter).then(msg=> {
+                debugger;
+                if (msg.data.status != 0) {
+                    location.href = '/service/index.html#/userinfo';
+                } else {
+                    location.href = msg.data.payUrl;
+                }
                 Toast('购买成功');
             }, msg=> {
 
