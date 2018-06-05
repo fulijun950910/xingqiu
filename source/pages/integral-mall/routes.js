@@ -10,6 +10,7 @@ const productDetail = resolve => require(['./pages/detail/product-detail'], reso
 const orderList = resolve => require(['./pages/list/order-list'], resolve);
 const voucherList = resolve => require(['./pages/list/voucher-list'], resolve);
 const personal = resolve => require(['./pages/personal'], resolve);
+const applicationForm = resolve => require(['./pages/application-form'], resolve);
 
 export default [{
     path: '/sign-in',
@@ -47,4 +48,8 @@ export default [{
     path: '/personal',
     name: 'personal',
     component: personal
+}, {
+    path: '/application-form',
+    name: 'application-form',
+    component: applicationForm
 }];

@@ -12,12 +12,13 @@
              </div>
              <div class="box-bottom" layout="row" layout-align="space-between center">
                  <span class="fs30 color-pink fwb">{{item.price | fen2dou}}美豆豆</span>
-                 <div class="btn fs30 color-white text-center">
+                 <div class="btn fs30 color-white text-center" @click="useTo(item)"> 
                      兑换
                  </div>
              </div>
          </div>
          <div class="no-more"></div>
+         <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm" @integraConfirm="inteconfirm"></integral-confirm>   
      </div>
     </div>
 </template>
@@ -25,12 +26,19 @@
 <script>
 import api_party from 'services/api.party';
 import { Indicator } from 'mint-ui';
+import integralConfirm from 'components/integral-mall/integral-confirm';
 export default {
     data() {
         return {
             employee: JSON.parse(localStorage.getItem('employee')),
-            dataList: []
+            dataList: [],
+            doudouBalance: 0,
+            confirm: {},
+            type: 1
         };
+    },
+    components: {
+        integralConfirm
     },
     methods: {
         loadData() {
@@ -43,8 +51,48 @@ export default {
             });
 
         },
+        searchBalance() {
+            Indicator.open('loading...');
+            api_party.doudouAccount(this.employee.party.partyId).then(msg=> {
+                Indicator.close();
+                this.doudouBalance = msg.data.doudouBalance;
+            }, msg => {
+
+            });
+        },
+        useTo(item) {
+            if (this.doudouBalance < item.price) {
+                this.confirm = {
+                    message: `共需要${item.price}个豆`,
+                    text: `您的账户共有${this.doudouBalance}个美豆豆`,
+                    confirm: '立即充值',
+                    quiet: '再想想',
+                    show: true
+                };
+                this.type = 2;
+            } else {
+                this.$router.push('/application-form');
+            }
+
+        },
         init() {
             this.loadData();
+        },
+        hideConfirm() {
+            this.confirm.show = false;
+        },
+        inteconfirm(msg) {
+            msg.then(data=> {
+                if (this.type == 2) {
+                    // 充值
+                    this.$router.push('/recharge-doudou');
+                } else if (this.type == 1) {
+                    this.hideConfirm();
+                }
+
+            }, data=> {
+                this.hideConfirm();
+            });
         }
     },
     mounted() {

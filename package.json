@@ -100,7 +100,7 @@
     "weixin-js-sdk": "^1.2.0"
   },
   "browserslist": [
-    "iOS >= 8", 
+    "iOS >= 8",
     "Android >= 4.1"
   ],
   "engines": {

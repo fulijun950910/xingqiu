@@ -23,7 +23,7 @@
               </div>
         </div>
         <no-more :show-more="showNoMore" more-text="更多商品正在挖掘，敬请期待哦！"></no-more>      
-        <integral-confirm :confirmText="confirm"  @integraConfirm="inteconfirm"></integral-confirm>                
+        <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm" @integraConfirm="inteconfirm"></integral-confirm>                
     </div>
 </template>
 <script>
@@ -90,6 +90,9 @@ export default {
             }, data=> {
                 this.confirm.show = false;
             });
+        },
+        hideConfirm() {
+            this.confirm.show = false;
         }
     },
     mounted() {
