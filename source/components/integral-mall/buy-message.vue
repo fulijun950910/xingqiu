@@ -40,7 +40,7 @@
                 <div flex layout-align="start center" layout="row">
                                  <span class="color-gray fs30">使用美豆豆数量</span>
              <span flex></span>
-             <span class="color-gray"><input @change="inputBean(useBean)" class="color-pink text-center" type="number" v-model="useBean">个</span>
+             <span class="color-gray"><input @change="inputBean(useBean)" class="color-pink text-center" type="text" v-model="useBean">个</span>
                 </div>
                 <div layout-align="start center" layout="row">
                     <span flex></span>
@@ -139,9 +139,9 @@ export default {
             });
         },
         inputBean(value) {
-            if (value > this.avaliableBean) {
+            if (value > this.realAvaliable) {
                 Toast('豆豆不足');
-                this.useBean = this.avaliableBean;
+                this.useBean = this.realAvaliable;
             } else {
                 let data = {
                     doudouBalance: this.avaliableBean
