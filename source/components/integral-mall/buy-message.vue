@@ -143,10 +143,7 @@ export default {
                 Toast('豆豆不足');
                 this.useBean = this.realAvaliable;
             } else {
-                let data = {
-                    doudouBalance: this.avaliableBean
-                };
-                this.caculateResult(data, this.selectedItem.price, this.quantity);
+                this.caculateResult(this.selectedItem.price, this.quantity);
             }
         },
         hideMask(e) {
@@ -158,12 +155,9 @@ export default {
                 return;
             };
             this.quantity = val;
-            let data = {
-                doudouBalance: this.avaliableBean
-            };
-            this.caculateResult(data, this.selectedItem.price, this.quantity);
+            this.caculateResult(this.selectedItem.price, this.quantity);
         },
-        caculateResult(data, price, quantity) {
+        caculateResult(price, quantity) {
             let unitPrice = 1 / 10; // 一个豆豆值0.1元
             let value = (price / 100) / unitPrice * quantity; // 这个商品价值多少颗豆豆
             if (this.realAvaliable >= value) {
