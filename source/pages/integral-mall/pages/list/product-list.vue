@@ -86,7 +86,7 @@ export default {
         },
         inteconfirm(msg) {
             msg.then(data=> {
-                console.log(1);
+                this.$router.push('/recharge-doudou');
             }, data=> {
                 this.confirm.show = false;
             });
