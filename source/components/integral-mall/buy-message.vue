@@ -153,6 +153,10 @@ export default {
             this.currentValue = false;
         },
         changeNum(val) {
+            if (val < 0) {
+                Toast('数量不能为负');
+                return;
+            };
             this.quantity = val;
             let data = {
                 doudouBalance: this.avaliableBean
@@ -160,14 +164,17 @@ export default {
             this.caculateResult(data, this.selectedItem.price, this.quantity);
         },
         caculateResult(data, price, quantity) {
-            this.avaliableBean = data.doudouBalance;
-            if (this.avaliableBean >= price / 10) {
-                this.useBean = (price / 10) * quantity;
+            let unitPrice = 1 / 10; // 一个豆豆值0.1元
+            let value = (price / 100) / unitPrice * quantity; // 这个商品价值多少颗豆豆
+            if (this.realAvaliable >= value) {
+                this.pay = 0;
+                this.useBean = value;
+                this.avaliableBean = this.realAvaliable - this.useBean;
             } else {
-                this.useBean += this.avaliableBean;
-            };
-            this.pay = ((this.quantity * (price / 10) - this.realAvaliable) * price) >= 0 ? ((this.quantity * (price / 10) - this.realAvaliable) * price) : 0;
-            this.avaliableBean = this.realAvaliable - this.useBean;
+                this.useBean = this.realAvaliable;
+                this.avaliableBean = 0;
+                this.pay = (quantity * price) - this.realAvaliable * 10;
+            }
         }
     },
     mounted() {
