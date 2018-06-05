@@ -1,0 +1,162 @@
+<template>
+    <div class="personal-container">
+        <div class="top-detail" layout="column" layout-align="space-between center" flex>
+            <div class="person-describtion" layout="row" layout-align="start center" flex>
+                <div class="m-r-2">
+                    <div class="img-con">
+                        <img :src="employee.avatarFileId | nSrc(require('assets/imgs/female.png'))" alt="">
+                    </div>
+                </div>
+                <div >
+                    <div class="fs32 color-white">{{employee.name}}</div>
+                    <div class="fs24 color-white link-box m-t-1">查看收支明细 ></div>
+                </div>
+            </div>
+            <div class="bottom-detail" layout="row" layout-align="start center" flex>
+                <div flex="70" layout="column">
+                    <div layout="row" layout-align="start end" class="color-white fs30 doudou">
+                        <span class="color-white">{{data.doudouBalance}}</span>美豆豆
+                    </div>
+                    <div layout="row" layout-align="start center" class="color-white">可提取{{data.doudouPresent}}个美豆豆</div>
+                </div>
+                <div flex="30" class="start-play" layout-align="start center">
+                    <div flex></div>
+                    <span class="fs28 color-white text-center">开始玩转</span>
+                </div>
+            </div>
+        </div>
+        <div class="list-personal" flex>
+            <div layout="row" class="item" layout-align="space-between center">
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-huaban3"></m-icon>我的订单</span>
+                <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+            </div>
+            <div layout="row" class="item" layout-align="space-between center">
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-huaban3"></m-icon>个人信息</span>
+                <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+            </div>
+            <div layout="row" class="item" layout-align="space-between center">
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-huaban3"></m-icon>我的地址</span>
+                <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+            </div>
+            <div layout="row" class="item" layout-align="space-between center">
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-duanxin"></m-icon>客服</span>
+                <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+            </div>
+            <div layout="row" class="item" layout-align="space-between center">
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-11"></m-icon>安全设置</span>
+                <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+            </div>
+        </div>
+        <div class="bottom-tab" layout="row" layout-align="start center">
+            <div layout="column" flex="50" @click="routeTo(1)" layout-align="center center" class="fs24">首页</div>
+            <div layout="column" flex="50" @click="routeTo(2)" layout-align="center center" class="fs24">我的</div>
+        </div>
+    </div>
+</template>
+<script>
+    import api_party from 'services/api.party';
+
+    export default {
+        data() {
+            return {
+                employee: JSON.parse(localStorage.getItem('employee')),
+                data: null
+            };
+        },
+        methods: {
+            load() {
+                api_party.doudouAccount(this.employee.party.partyId).then(msg => {
+                    this.data = msg.data;
+                    console.log(this.data);
+                }, msg => {
+                });
+            },
+            routeTo() {
+
+            }
+        },
+        mounted() {
+            this.load();
+        }
+    };
+</script>
+
+<style lang="less" scoped>
+    @import '~styles/_style';
+
+    .personal-container {
+        position: relative;
+        padding-bottom: 50px;
+        .top-detail {
+            background: url("~assets/imgs/integral-mall/344228931888025978.png") no-repeat top center;
+            background-size: 100% 100%;
+            height: 355px;
+            width: 100%;
+            padding: 20px 15px;
+            .link-box{
+                background: rgba(255,255,255,0.2);
+                border-radius: 1em;
+                padding: 2px 8px;
+            }
+            .to-pay-detail {
+                display: inline-block;
+                padding-top: 15px;
+            }
+            .img-con {
+                width: 68px;
+                height: 68px;
+                border-radius: 34px;
+                border:1px solid @white;
+                overflow: hidden;
+                display: block;
+            }
+            .person-describtion {
+                width: 100%;
+            }
+            .bottom-detail {
+                width: 100%;
+                .doudou {
+                    span {
+                        font-size: 40px;
+                    }
+                }
+                .start-play {
+                    span {
+                        display: block;
+                        width: 80px;
+                        height: 44px;
+                        line-height: 44px;
+                        background: linear-gradient(135deg, #FBCF66, #FE5B68);
+                        box-shadow: 2px 2px #fff;
+                        border-radius: 7px;
+                    }
+                }
+            }
+        }
+        .list-personal {
+            padding: 12px 0;
+            .item {
+                padding: 12px 15px;
+                border-bottom: 1px solid @border-gay;
+                span {
+                    .icon {
+                        display: inline-block;
+                        margin-right: 10px;
+                    }
+                }
+            }
+
+        }
+        .bottom-tab {
+            height: 50px;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            border-top: 1px solid @border-gay;
+        }
+    }
+</style>
+
+
