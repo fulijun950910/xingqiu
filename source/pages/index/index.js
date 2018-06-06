@@ -68,16 +68,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach(({ meta, path }, from, next) => {
-    if (path == '/sign-in' || path == '/main' || path == '/bbsPage' || path == '/alliance' || store.getters.isLogin) {
-        next();
-    } else {
-        if (process.env.NODE_ENV === 'development') {
-            next({ name: 'sign-in' });
-        } else {
-            window.location.href = '/userinfo.html#/user_login';
-        }
-
-    }
+    next();
 });
 
 new Vue({

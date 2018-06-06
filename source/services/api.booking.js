@@ -21,6 +21,9 @@ export default {
         var url = `/api/appointment/${id}`;
         return request(url, null, 'get');
     },
+    getAppointment2(url) {
+        return request(url, null, 'get');
+    },
     updateAppointment(data) { // 更新预约详细信息
         var url = '/api/appointment/updateByWechat';
         return request(url, data, 'post');

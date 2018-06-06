@@ -141,6 +141,7 @@ export default {
         'cell-tag': cellTag
     },
     mounted() {
+        console.log(123);
         this.init();
     },
     methods: {
@@ -162,6 +163,41 @@ export default {
             this.$indicator.open();
             api_booking.getAppointment(this.$route.params.id).then(res => {
                 this.$indicator.close();
+                if (res.code == 302) {
+                    api_booking.getAppointment2(res.data).then(res => {
+                        this.$indicator.close();
+                        if (!res.success) {
+                            this.$toast(res.message);
+                            return;
+                        }
+                        this.data = res.data;
+                        this.bookingDate.itemList = [];
+                        this.data.itemVos.forEach(item => {
+                            this.bookingDate.itemList.push({
+                                value: item.itemId,
+                                name: item.name,
+                                saleType: item.type,
+                                sellingPrice: item.price
+                            });
+                        });
+                        this.bookingDate.startTime = Vue.filter('amDateFormat')(this.data.startTime, 'HH:mm');
+                        this.bookingDate.endTime = Vue.filter('amDateFormat')(this.data.endTime, 'HH:mm');
+                        this.bookingDate.date = Vue.filter('amDateFormat')(this.data.startTime, 'YYYY-MM-DD');
+                        this.queryStore(this.data.storeId);
+                        if (this.data.status == 1) {
+                            this.state = 1;
+                        } else if (this.data.status == 2) {
+                            this.state = 3;
+                        } else if (this.data.status == 3) {
+                            this.state = 4;
+                        } else if (this.data.status == 4) {
+                            this.state = 5;
+                        } else if (this.data.status == 5) {
+                            this.state = 6;
+                        }
+                    });;
+                    return;
+                }
                 if (!res.success) {
                     this.$toast(res.message);
                     return;
