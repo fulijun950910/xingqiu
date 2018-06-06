@@ -77,7 +77,7 @@
                 });
             },
             goPayNotes() {
-                window.location.href = `${this.$rootPath}#/payNotes/${this.data.id}`;
+                window.location.href = `${this.$rootPath}index.html#/payNotes/${this.data.id}`;
             },
             goRuleEntry() {
                 this.$router.push({name: 'rule-entry'});

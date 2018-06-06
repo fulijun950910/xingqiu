@@ -9,6 +9,7 @@ Vue.prototype.$indicator = Indicator;
 Vue.prototype.$messageBox = MessageBox;
 Vue.prototype.$signLocation = process.env.NODE_ENV === 'development' ? '#/sign-in' : '/userinfo.html#/user_login';
 Vue.prototype.$wxc_url = process.env.NODE_ENV === 'production' ? 'https://wechat.mei1.com' : 'https://wechat.mei1.info';
+Vue.prototype.$rootPath = process.env.NODE_ENV === 'development' ? '/' : '/service/';
 
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
