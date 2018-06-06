@@ -126,7 +126,8 @@
                 window.location.href = '/lite/index.html#/promotion-list';
             },
             goRecharge() {
-                window.location.href = this.$rootPath + 'index.html#/recharge';
+                this.$router.push('/recharge-doudou');
+                // window.location.href = this.$rootPath + 'index.html#/recharge';
             },
             linkTo(type) {
                 switch (Number(type)) {
