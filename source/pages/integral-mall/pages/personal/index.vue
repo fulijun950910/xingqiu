@@ -7,7 +7,7 @@
                         <img :src="employee.avatarFileId | nSrc(require('assets/imgs/female.png'))" alt="">
                     </div>
                 </div>
-                <div >
+                <div @class="goPayNotes">
                     <div class="fs32 color-white">{{employee.name}}</div>
                     <div  class="fs24 color-white link-box m-t-1">查看收支明细 ></div>
                 </div>
@@ -47,9 +47,15 @@
                 <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
         </div>
-        <div class="bottom-tab" layout="row" layout-align="start center">
-            <div layout="column" flex="50" @click="routeTo(1)" layout-align="center center" class="fs24">首页</div>
-            <div layout="column" flex="50" @click="routeTo(2)" layout-align="center center" class="fs24">我的</div>
+        <div class="bottom-tab color-gray" layout="row" layout-align="start center">
+            <div layout="column" flex="50" @click="routeTo(1)" layout-align="center center" class="item act">
+                <div><m-icon class="icon "  xlink="#icon-yuzhouxingqiu-21"></m-icon></div>
+                <div>首页</div>
+            </div>
+            <div layout="column" flex="50" @click="routeTo(2)" layout-align="center center" class="item">
+                <div><m-icon class="icon "  xlink="#icon-xingming"></m-icon></div>
+                <div>我的</div>
+            </div>
         </div>
     </div>
 </template>
@@ -89,7 +95,7 @@
 
     .personal-container {
         position: relative;
-        padding-bottom: 50px;
+        padding-bottom: 60px;
         .top-detail {
             background: url("~assets/imgs/integral-mall/344228931888025978.png") no-repeat top center;
             background-size: 100% 100%;
@@ -151,13 +157,21 @@
 
         }
         .bottom-tab {
-            height: 50px;
+            border-top:1px solid @border-gay;
             position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: white;
-            border-top: 1px solid @border-gay;
+            bottom:0;
+            left:0;
+            width:100%;
+            background:@white;
+            .item{
+                padding:@l8;
+                .icon{
+                    font-size:@fs48;
+                }
+                &.act{
+                    color: #EF668A;
+                }
+            }
         }
     }
 </style>
