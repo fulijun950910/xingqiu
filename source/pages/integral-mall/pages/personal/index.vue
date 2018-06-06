@@ -7,7 +7,7 @@
                         <img :src="employee.avatarFileId | nSrc(require('assets/imgs/female.png'))" alt="">
                     </div>
                 </div>
-                <div @class="goPayNotes">
+                <div @click="goPayNotes">
                     <div class="fs32 color-white">{{employee.name}}</div>
                     <div  class="fs24 color-white link-box m-t-1">查看收支明细 ></div>
                 </div>
@@ -66,16 +66,18 @@
         data() {
             return {
                 employee: JSON.parse(localStorage.getItem('employee')),
-                data: null
+                data: {}
             };
         },
         methods: {
             load() {
                 api_party.doudouAccount(this.employee.party.partyId).then(msg => {
                     this.data = msg.data;
-                    console.log(this.data);
                 }, msg => {
                 });
+            },
+            goPayNotes() {
+                window.location.href = `${this.$rootPath}#/payNotes/${this.data.id}`;
             },
             goRuleEntry() {
                 this.$router.push({name: 'rule-entry'});

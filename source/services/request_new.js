@@ -7,6 +7,9 @@ export default function(url, method, data, messageFlag = true) {
         url: url,
         body: data,
         method: method,
+        headers: {
+            'wechat': 'assistant'
+        },
         timeout: 15000
     }).then(function(res) {
         if (res.data && res.data.success) {

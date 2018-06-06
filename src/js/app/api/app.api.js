@@ -23,7 +23,7 @@ app.api = {
             headers: {
                 'Accept': '*/*',
                 'Content-Type': 'application/json',
-                //   'wechat': 'assistant'
+                'wechat': 'assistant'
             },
             dataType: 'json',
             success: options.success,
