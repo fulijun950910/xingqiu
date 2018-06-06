@@ -83,7 +83,7 @@
                 this.$router.push({name: 'rule-entry'});
             },
             routeTo() {
-                location.href = '/service/index.html#/main';
+                location.href = `${this.$rootPath}index.html#/main`;
             }
         },
         mounted() {
