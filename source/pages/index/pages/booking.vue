@@ -162,6 +162,10 @@ export default {
             this.$indicator.open();
             api_booking.getAppointment(this.$route.params.id).then(res => {
                 this.$indicator.close();
+                if (res.code == 302) {
+                    api_booking.getAppointment2(res.data);
+                    return;
+                }
                 if (!res.success) {
                     this.$toast(res.message);
                     return;
