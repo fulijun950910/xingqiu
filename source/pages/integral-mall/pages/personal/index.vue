@@ -9,19 +9,19 @@
                 </div>
                 <div >
                     <div class="fs32 color-white">{{employee.name}}</div>
-                    <div class="fs24 color-white link-box m-t-1">查看收支明细 ></div>
+                    <div  class="fs24 color-white link-box m-t-1">查看收支明细 ></div>
                 </div>
             </div>
             <div class="bottom-detail" layout="row" layout-align="start center" flex>
                 <div flex="70" layout="column">
-                    <div layout="row" layout-align="start end" class="color-white fs30 doudou">
-                        <span class="color-white">{{data.doudouBalance}}</span>美豆豆
+                    <div  class="color-white fs30 doudou">
+                        <span class="color-white">{{data.doudouBalance}}</span> 美豆豆
                     </div>
-                    <div layout="row" layout-align="start center" class="color-white">可提取{{data.doudouPresent}}个美豆豆</div>
+                    <div layout="row" layout-align="start center" class="color-white">- 可提取{{data.doudouPresent}}个美豆豆</div>
                 </div>
                 <div flex="30" class="start-play" layout-align="start center">
                     <div flex></div>
-                    <span class="fs28 color-white text-center">开始玩转</span>
+                    <span @click="goRuleEntry" class="fs28 color-white text-center">开始玩转</span>
                 </div>
             </div>
         </div>
@@ -71,6 +71,9 @@
                 }, msg => {
                 });
             },
+            goRuleEntry() {
+                this.$router.push({name: 'rule-entry'});
+            },
             routeTo() {
 
             }
@@ -117,7 +120,7 @@
                 width: 100%;
                 .doudou {
                     span {
-                        font-size: 40px;
+                        font-size: 32px;
                     }
                 }
                 .start-play {

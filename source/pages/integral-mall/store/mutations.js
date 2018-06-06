@@ -30,6 +30,7 @@ var getLocalInfo = () => {
             storeIds: employee.storeIds,
             role: employee.role
         };
+        data.party = employee.party;
         data.merchant = employee.merchant;
         data.storeList = employee.storeList;
         data.storeList.forEach((item) => {
