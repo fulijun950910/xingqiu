@@ -48,7 +48,7 @@ export default {
     },
     methods: {
         buy(item) {
-            this.$router.push({path: `/product-detail/${item.id}`});
+            this.$router.push({path: `/product-detail/choose/${item.id}`});
         },
         loadData() {
             Indicator.open('loading...');

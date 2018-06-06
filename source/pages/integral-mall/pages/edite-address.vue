@@ -27,7 +27,7 @@ export default {
         return {
             employee: JSON.parse(localStorage.getItem('employee')),
             username: null,
-            title: '编辑收货地址',
+            title: '新增收货地址',
             selectedProvince: false,
             slots: [
                 {
@@ -41,7 +41,8 @@ export default {
             historyProvince: null,
             address: {},
             type: 1, // 1省份 2城市 3县/区
-            formParameter: {}
+            formParameter: {},
+            addressId: this.$route.params.id
         };
     },
     components: {
@@ -129,17 +130,35 @@ export default {
                 // "tel":"021-00000012",
                 // "zipCode":"0000215"
             };
+            if (this.addressId) {
+                parameter.id = this.addressId;
+            };
             api_party.deliveryAddress(parameter).then(msg=> {
-                Toast('地址创建成功');
+                Toast(this.addressId ? '地址膝盖成功' : '地址创建成功');
                 this.$router.push('/address-list');
             }, msg=> {
 
             });
+        },
+        getItem(id) {
+            api_party.getAddress(id).then(msg=> {
+                this.formParameter = msg.data;
+                this.address.province = msg.data.province;
+                this.address.city = msg.data.city;
+                this.address.town = msg.data.town;
+            }, msg=> {
 
+            });
         }
     },
     mounted() {
         this.loadProvince();
+        if (this.addressId) {
+            this.getItem(this.addressId);
+            this.title = '编辑收货地址';
+        };
+        console.log(this.$store.party);
+        console.log(this.addressId);
     }
 };
 </script>

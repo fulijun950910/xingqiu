@@ -34,19 +34,19 @@
             <div class="listBox m-t-4">
                 <div class="boxTitle fs40" layout="row" layout-align="center center">美豆豆，花不停</div>
                 <div class="boxContent list2" layout="row" flex-wrap="wrap">
-                    <div class="p-t-4 p-b-4 text-center border-bottom border-right" flex="50">
+                    <div class="p-t-4 p-b-4 text-center border-bottom border-right" flex="50" @click="linkTo(1)">
                         <div><img :src="require('assets/imgs/integral-mall/2018060503.png')" alt=""></div>
                         <div class="fs32 fwb">兑换短信包</div>
                     </div>
-                    <div class="p-t-4 p-b-4 text-center border-bottom" flex="50">
+                    <div class="p-t-4 p-b-4 text-center border-bottom" flex="50" @click="linkTo(2)">
                         <div><img :src="require('assets/imgs/integral-mall/2017060501.png')" alt=""></div>
                         <div class="fs32 fwb">超级助手</div>
                     </div>
-                    <div class="p-t-4 p-b-4 text-center border-right" flex="50">
+                    <div class="p-t-4 p-b-4 text-center border-right" flex="50" @click="linkTo(3)">
                         <div><img :src="require('assets/imgs/integral-mall/2018060504.png')" alt=""></div>
                         <div class="fs32 fwb">兑换福利</div>
                     </div>
-                    <div class="p-t-4 p-b-4 text-center" flex="50">
+                    <div class="p-t-4 p-b-4 text-center" flex="50" @click="linkTo(4)">
                         <div><img :src="require('assets/imgs/integral-mall/2018060506.png')" alt=""></div>
                         <div class="fs32 fwb">沙龙入场券</div>
                     </div>
@@ -87,7 +87,7 @@
             return {};
         },
         mounted() {
-            this.loadData();
+            // this.loadData();
         },
         methods: {
             loadData() {
@@ -110,6 +110,22 @@
             },
             goRecharge() {
                 this.$router.push({name: 'recharge'});
+            },
+            linkTo(type) {
+                switch (Number(type)) {
+                    case 1:
+                        this.$router.push('/recharge-message');
+                        break;
+                    case 2:
+                        this.$router.push('/activity-list');
+                        break;
+                    case 3:
+                        this.$router.push('/product-list');
+                        break;
+                    case 4:
+                        this.$router.push('/voucher-list');
+                        break;
+                }
             }
         }
     };

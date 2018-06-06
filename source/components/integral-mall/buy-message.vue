@@ -14,22 +14,22 @@
             <span class="color-black fs40 fwb">购买信息</span>
         </div>   
         <div class="location" layout="row" layout-align="start center" v-if="type ==2">
-            <div class="lest-detail" flex="90">
+            <div class="lest-detail" flex="90" @click="chooseAddress">
              <div layout="row" layout-align="space-between center">
                  <span class="fs28 color-black">收货人：</span>
-                 <span class="fs28 color-black"></span>
+                 <span class="fs28 color-black">{{address.person}}</span>
              </div>
              <div class="loca-address color-gray fs28" flex>
-                 收货地址：
+                 收货地址：{{address.name}}
              </div>
             </div>
-            <div class="buy-more" flex="10">
+            <div class="buy-more" flex="10" layout="row" layout-align="center center">
                 <m-icon xlink="#icon-zuojiantou"></m-icon>
             </div>
             </div>   
             <div class="amount" layout="row" layout-align="space-between center" v-if="type ==2">
                 <div class="fs28 color-black">数量</div>
-                <integral-input @numOut="changeNum"></integral-input>
+                <integral-input @numOut="changeNum" @changeAmount="changeNum"></integral-input>
             </div>     
             <div class="list-data" layout="row" layout-align="start center">
              <span class="color-gray fs30">商品总价</span>
@@ -77,7 +77,8 @@ export default {
             pay: 0,
             quantity: 1,
             realAvaliable: 0,
-            success: false
+            success: false,
+            address: {}
         };
     },
     props: {
@@ -98,7 +99,14 @@ export default {
             default() {
                 return {};
             }
-        }
+        },
+        dataForm: Object,
+        productId: String,
+        payType: {
+            type: String,
+            default: ''
+        },
+        addressId: String
     },
     components: {
         mIcon,
@@ -111,7 +119,7 @@ export default {
             api_party.doudouAccount(this.employee.party.partyId).then(msg=> {
                 Indicator.close();
                 this.realAvaliable = msg.data.doudouBalance;
-                this.caculateResult(msg.data, price, quantity);
+                this.caculateResult(price, quantity);
             }, msg => {
 
             });
@@ -125,9 +133,12 @@ export default {
                 'payMoney': this.pay,
                 'itemId': this.selectedItem.id,
                 'quantity': 1,
-                'tradeType': 1
+                'tradeType': 1,
+                'deliverAddressId': this.addressId
             };
+            Indicator.open('loading...');
             api_party.doudouTrade(parameter).then(msg=> {
+                Indicator.close();
                 if (msg.data.status != 0) {
                     location.href = msg.data.payUrl;
                 } else {
@@ -142,9 +153,8 @@ export default {
             if (value > this.realAvaliable) {
                 Toast('豆豆不足');
                 this.useBean = this.realAvaliable;
-            } else {
-                this.caculateResult(this.selectedItem.price, this.quantity);
             }
+            this.caculateResult(this.selectedItem.price, this.quantity);
         },
         hideMask(e) {
             this.currentValue = false;
@@ -169,10 +179,50 @@ export default {
                 this.avaliableBean = 0;
                 this.pay = (quantity * price) - this.realAvaliable * 10;
             }
+        },
+        loadFirstAddress() {
+            let parameter = {
+                merchantId: this.employee.party.merchantId,
+                partyId: this.employee.party.partyId,
+                userId: this.employee.party.id
+            };
+            Indicator.open('loading...');
+            api_party.addressSearch(parameter).then(msg=> {
+                Indicator.close();
+                this.address = {
+                    name: msg.data.fullAddress,
+                    id: msg.data.id,
+                    person: msg.data.contactPersion
+                };
+            }, msg=> {
+
+            });
+        },
+        chooseAddress() {
+            this.$router.push(`/address-list/choose/${this.productId}`);
+        },
+        loadChooseAddress() {
+            if (this.addressId) {
+                Indicator.open('loading...');
+                api_party.getAddress(this.addressId).then(msg=> {
+                    Indicator.close();
+                    this.address.name = msg.data.fullAddress;
+                    this.address.id = msg.data.id;
+                    this.address.person = msg.data.contactPersion;
+                }, msg=> {
+
+                });
+
+            }
         }
     },
     mounted() {
         this.searchBalance(this.selectedItem.price, this.quantity);
+        if (this.payType == 'finished') {
+            this.loadChooseAddress();
+        } else {
+            this.loadFirstAddress();
+        }
     },
     computed: {
         currentValue: {
@@ -247,6 +297,11 @@ export default {
         .select-title{
             padding: 15px 0;
             border-bottom: 1px solid @border-gay;
+        }
+        .location{
+            background: url("~assets/imgs/integral-mall/address-bg-min.png") repeat-x top,url("~assets/imgs/integral-mall/address-bg-min.png") repeat-x bottom;
+            background-size: 10% auto;
+            margin-bottom: 10px;
         }
         .list-data{
             padding: 15px 0;

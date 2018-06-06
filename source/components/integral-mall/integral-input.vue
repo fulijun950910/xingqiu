@@ -3,7 +3,7 @@
         <span @click="changeNumber(2)" class="fs24 color-black">
             <m-icon xlink="#icon-jian"></m-icon>
         </span>
-        <input class="text-center fs24" type="text" v-model="num">
+        <input class="text-center fs24" type="text" v-model="num" @change="changeQuality(num)">
         <span @click="changeNumber(1)" class="color-black fs24">
             <m-icon xlink="#icon-jia"></m-icon>
         </span>
@@ -30,6 +30,9 @@ export default {
                 this.num--;
             };
             this.$emit('numOut', this.num);
+        },
+        changeQuality(num) {
+            this.$emit('changeAmount', num);
         }
     },
     components: {

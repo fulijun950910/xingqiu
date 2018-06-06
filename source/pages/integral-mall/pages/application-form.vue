@@ -14,52 +14,54 @@
             <div class="form-item">
     <div class="label fs24 color-black">门店名称</div>
     <div>
-       <select name="" v-model="parameter.merchantName">
-           <option value="1">检讨美容</option>
-       </select>
+  <input type="text" @focus="chooseStore" v-model="store.name" placeholder="点击选择门店">
     </div>
     </div>
         <div class="form-item">
     <div class="label fs24 color-black">门店地址</div>
     <div>
-        <input class="color-black fs30" v-model="parameter.merchantName" type="text">
+        <input placeholder="门店地址" class="color-black fs30" v-model="store.address" type="text">
     </div>
     </div>
         <div class="form-item">
     <div class="label fs24 color-black">时间<i class="color-pink">*</i></div>
     <div>
-   <input class="color-black fs30" type="date" v-model="date">
+   <input placeholder="请选择时间" class="color-black fs30" type="date" v-model="parameter.applyServiceDate">
     </div>
     </div>
         <div class="form-item">
     <div class="label fs24 color-black check" layout="row" layout-align="space-between center">
         <div>
-        是否指定助手<i class="color-pink">*</i>
+        是否指定助手<i class="color-pink"></i>
         </div>
         <div>
               <mt-switch v-model="value"></mt-switch>
         </div>
         </div>
     <div>
-        <input v-if="value" v-model="parameter.merchantName" class="color-black fs30" type="text">
+        <input v-if="value" placeholder="选择指定员工" v-model="parameter.employeeName" class="color-black fs30" type="text">
     </div>
     </div>
         <div class="form-item">
-    <div class="label fs24 color-black">备注<i class="color-pink">*</i></div>
+    <div class="label fs24 color-black">备注<i class="color-pink"></i></div>
     <div>
-        <input class="color-black fs30" v-model="parameter.merchantName" type="text">
+        <input class="color-black fs30" v-model="parameter.remark" type="text">
     </div>
     </div>
 </div>
-<div class="submit color-pink fs40" layout="row" layout-align="center center" flex>
+<div class="submit color-pink fs40" layout="row" layout-align="center center" @click="toPay" flex>
     提交
 </div>
+  <buy-message @update="update" :selected-item="chooseServiceItem" :data-form="parameter" :show-buy="showBuy"></buy-message>
+  <m-picker v-model="showStore" :slots="slots" valueKey="name" @confirm="onValuesChange"></m-picker>
     </div>
 </template>
 <script>
 import Vue from 'vue';
-import { Switch, Indicator } from 'mint-ui';
+import { Switch, Indicator, Toast } from 'mint-ui';
 import api_party from 'services/api.party';
+import buyMessage from 'components/integral-mall/buy-message';
+import mPicker from 'components/m-picker';
 Vue.component(Switch.name, Switch);
 export default {
     data() {
@@ -67,8 +69,17 @@ export default {
             date: new Date(),
             value: false,
             employee: JSON.parse(localStorage.getItem('employee')),
-            parameter: {},
-            storeList: []
+            parameter: {
+                merchantName: this.employee.merchant.name
+            },
+            showBuy: false,
+            chooseServiceItem: {},
+            store: {},
+            slots: [{
+                flex: 1,
+                values: []
+            }],
+            showStore: false
         };
     },
     methods: {
@@ -80,19 +91,43 @@ export default {
         },
         loadStoreList() {
             Indicator.open('loading...');
-            api_party.storeList(this.employee.party.merchantId, this.employee.merchantRole.id).then(msg=> {
+            api_party.storeList(this.employee.party.merchantId, this.employee.id).then(msg=> {
                 Indicator.close();
-                this.storeList = msg.data;
+                debugger;
+                this.slots[0].values = msg.data;
             }, msg=> {
 
             });
         },
         init() {
             this.loadStoreList();
+        },
+        update(val) {
+            this.showBuy = val;
+        },
+        chooseStore() {
+            this.showStore = true;
+        },
+        onValuesChange(value) {
+            this.store = value[0];
+            console.log(this.store);
+        },
+        toPay() {
+            if (!this.parameter.applyServiceDate) {
+                Toast('请选择时间');
+                return ;
+            };
+            this.parameter = {
+                merchantId: this.employee.party.merchantId
+            };
         }
     },
     mounted() {
         this.init();
+    },
+    components: {
+        buyMessage,
+        mPicker
     }
 };
 </script>
