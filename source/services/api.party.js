@@ -134,5 +134,9 @@ export default {
     getDefaultAddress(partyId) {
         let url = `/api/deliveryAddress/getDefault/${partyId}`;
         return request(url, 'get');
+    },
+    orderList(parameter) {
+        let url = '/api/accountChangeRecord/search';
+        return request(url, 'post', parameter);
     }
 };

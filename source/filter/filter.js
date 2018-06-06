@@ -166,6 +166,22 @@ Vue.filter('fen2dou', function(value) {
     return (value / 100) * 10;
 });
 
+Vue.filter('accountType', function(value) {
+    if (isNaN(value)) {
+        return 0;
+    }
+    let text = '';
+    switch (Number(value)) {
+        case 1:
+            text = '豆豆账户';
+            break;
+        case 2:
+            text = 'RMN账户';
+            break;
+    }
+    return text;
+});
+
 // '13871147835' => '138 **** 7835'
 Vue.filter('mobile', function(val, isShow) {
     if (!val) {
