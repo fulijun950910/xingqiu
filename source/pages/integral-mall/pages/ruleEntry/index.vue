@@ -120,13 +120,13 @@
                 }
             },
             goCheckIn() {
-                window.location.href = this.$rootPath + '#/checkIn';
+                window.location.href = this.$rootPath + 'index.html#/checkIn';
             },
             goPromotion() {
                 window.location.href = '/lite/index.html#/promotion-list';
             },
             goRecharge() {
-                window.location.href = this.$rootPath + '#/recharge';
+                window.location.href = this.$rootPath + 'index.html#/recharge';
             }
         }
     };

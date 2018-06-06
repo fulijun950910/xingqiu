@@ -171,7 +171,7 @@
             },
             async goUserInfo() {
                 await this.checkUser();
-                this.$router.push({name: 'userinfo'});
+                window.location.href = `${this.$rootPath}integral-mall.html#/personal`;
             },
             hideMask() {
                 this.isNew = false;
