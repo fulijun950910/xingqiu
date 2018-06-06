@@ -3,7 +3,7 @@
         <div class="banner">
             这个是banner
         </div>
-        <div class="product-list-con" flex layout="row" layout-align="space-between center">
+        <div class="product-list-con" flex layout="row" layout-align="space-between center" flex-wrap="wrap">
               <div class="product-list-item" v-for="(item,index) in dataList" :key="index" @click="buy(item)">
                   <div class="product-img">
                       <img class="img-auto" :src="item.image | nSrc(require('assets/imgs/female.png'))" alt="">
@@ -48,17 +48,7 @@ export default {
     },
     methods: {
         buy(item) {
-            let itemMoney2dou = (item.price / 100) * 10;
-            if (itemMoney2dou > this.doudouBalance) {
-                this.confirm = {
-                    message: '您的美豆豆余额不足啦！快去充值吧！',
-                    confirm: '去充值',
-                    quiet: '再想想',
-                    show: true
-                };
-            } else {
-                this.$router.push({path: `/product-detail/${item.id}`});
-            };
+            this.$router.push({path: `/product-detail/${item.id}`});
         },
         loadData() {
             Indicator.open('loading...');

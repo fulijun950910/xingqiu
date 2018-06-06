@@ -1,6 +1,14 @@
 <template>
     <div class="activity-list">
-     <div class="banner"></div>
+     <div class="banner">
+         <img :src="require('assets/imgs/integral-mall/activity-list-min.png')" alt="">
+         <div class="text">
+         <div class="fs50 color-white">
+             召唤超级助手
+         </div>
+         <div class="color-white fs30">再也不想为培训运营掉头发</div>
+         </div>
+     </div>
      <div class="activity-list-con">
          <div class="activity-box" v-for="(item,index) in dataList" :key="index">
              <div class="activity-img">
@@ -84,15 +92,31 @@ export default {
 @import '~styles/_style';
 .activity-list{
     position: relative;
-    padding:95px 15px 15px 15px;
+    padding:150px 15px 15px 15px;
     .banner{
         position: absolute;
-        height: 65px;
+        height: 120px;
         top: 15px;
         left: 15px;
         right: 15px;
         background: @gray;
         border-radius: 7px;
+        overflow: hidden;
+        img{
+            position: relative;
+        }
+        .text{
+            position: absolute;
+            left: 15px;
+            top:30px;
+            bottom: 30px;
+            right: 15px;
+            z-index: 1;
+            .fs50{
+                font-size: 30px;
+            }
+        }
+
     }
     .activity-list-con{
         .activity-box{

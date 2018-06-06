@@ -4,67 +4,134 @@
             {{title}}
         </div>
         <div class="form-con">
-        <mt-field label="收货人" placeholder="请输入用户名" v-model="username"></mt-field>
-        <mt-field label="联系电话" placeholder="请输入用户名" v-model="username"></mt-field>
-        <mt-field label="所在地区" placeholder="请输入用户名" v-model="username"></mt-field>
-        <mt-field label="详细地址" placeholder="请输入用户名" v-model="username"></mt-field>
+        <mt-field label="收货人" placeholder="请输入收货人" v-model.trim="formParameter.contactPersion"></mt-field>
+        <mt-field label="联系电话" placeholder="请输入联系电话" v-model.trim="formParameter.contactMobile"></mt-field>
+        <div class="address mint-cell" flex @click="showPicker" layout="row" layout-align="start center">
+            <div class="label">所在地区</div><span class="fwb">{{address.province}}</span>省<span class="fwb">{{address.city}}</span>市<span class="fwb">{{address.town}}</span>区/县</div>
+        <mt-field label="详细地址" placeholder="请输入详细地址" v-model.trim="formParameter.detailAddress"></mt-field>
         </div>
-        <mt-picker value-key="name" :visibleItemCount="visibleItemCount" :slots="slots" @change="onValuesChange"></mt-picker>
+        <div class="form-btn fs40 fwb color-pink" layout="row" layout-align="center center" @click="submit">
+            确认
+        </div>
+        <m-picker v-model="selectedProvince" type="2" :slots="slots" valueKey="name" @confirm="onValuesChange"></m-picker>
     </div>
 </template>
 <script>
-import { Field, Picker } from 'mint-ui';
+import { Field, Toast } from 'mint-ui';
 import Vue from 'vue';
 import api_party from 'services/api.party';
+import mPicker from 'components/m-picker';
 Vue.component(Field.name, Field);
-Vue.component(Picker.name, Picker);
 export default {
     data() {
         return {
+            employee: JSON.parse(localStorage.getItem('employee')),
             username: null,
             title: '编辑收货地址',
+            selectedProvince: false,
             slots: [
                 {
                     flex: 1,
                     values: [],
                     className: 'slot1',
                     textAlign: 'center'
-                },
-                {
-                    divider: true,
-                    content: '-',
-                    className: 'slot2'
-                },
-                {
-                    flex: 1,
-                    values: [],
-                    className: 'slot3',
-                    textAlign: 'center'
                 }
             ],
             visibleItemCount: 5,
-            provice: []
+            historyProvince: null,
+            address: {},
+            type: 1, // 1省份 2城市 3县/区
+            formParameter: {}
         };
     },
+    components: {
+        mPicker
+    },
     methods: {
-        onValuesChange(picker, values) {
-            // this.loadCity(values[0].code);
+        onValuesChange(picker) {
+            if (this.type == 1) {
+                // 查城市
+                this.loadCity(picker[0].code);
+                this.address.province = picker[0].name;
+                this.selectedProvince = true;
+            } else if (this.type == 2) {
+                // 查区
+                this.address.city = picker[0].name;
+                this.loadToen(picker[0].code);
+                this.selectedProvince = true;
+            } else if (this.type == 3) {
+                this.address.town = picker[0].name;
+                this.selectedProvince = false;
+                this.loadProvince();
+                this.type = 1;
+            };
         },
         loadProvince() {
             api_party.getProvince().then(msg=> {
-                this.provice = msg.data;
-                msg.data.map((item, index)=> {
-                    this.slots[0].values.push({name: item.name, code: item.code});
-                });
+                this.slots[0].values = msg.data;
             }, msg=> {
 
             });
         },
         loadCity(code) {
             api_party.getCity(code).then(msg=> {
-                msg.data.map((item, index)=> {
-                    this.slots[2].values.push(item.name);
-                });
+                this.slots[0].values = msg.data;
+                this.type = 2;
+            }, msg=> {
+
+            });
+        },
+        loadToen(code) {
+            api_party.getTown(code).then(msg=> {
+                this.slots[0].values = msg.data;
+                this.type = 3;
+            }, msg=> {
+
+            });
+
+        },
+        showPicker() {
+            this.selectedProvince = !this.selectedProvince;
+        },
+        check() {
+            if (!this.formParameter.contactPersion) {
+                Toast('请输入收货人');
+                return;
+            };
+            if (!this.formParameter.contactMobile) {
+                Toast('请输入联系电话');
+                return;
+            };
+            if (!this.address) {
+                Toast('请选择所在地区');
+                return;
+            };
+            if (!this.formParameter.detailAddress) {
+                Toast('请输入详细地址');
+                return;
+            };
+
+        },
+        submit() {
+            this.check();
+            let parameter = {
+                'merchantId': this.employee.party.merchantId,
+                'partyId': this.employee.party.partyId,
+                'userId': this.employee.party.id,
+                // "alias":"听雪楼门店",
+                isDefault: true,
+                province: this.address.province,
+                city: this.address.city,
+                town: this.address.town,
+                detailAddress: this.formParameter.detailAddress,
+                contactPersion: this.formParameter.contactPersion,
+                contactMobile: this.formParameter.contactMobile
+                // "tel":"021-00000012",
+                // "zipCode":"0000215"
+            };
+            api_party.deliveryAddress(parameter).then(msg=> {
+                Toast('地址创建成功');
+                this.$router.push('/address-list');
             }, msg=> {
 
             });
@@ -95,6 +162,24 @@ export default {
                 color: @color-black;
             }
         }
+        .address{
+            padding: 10px;
+            background: @extra-light-gray;
+            margin-bottom: 10px;
+            font-size: 15px;
+            .label{
+                width: 110px;
+            }
+        }
+    }
+    .form-btn{
+        height: 60px;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        border-top:1px solid @border-gay;
     }
 }
 </style>

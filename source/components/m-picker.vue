@@ -31,7 +31,11 @@ export default {
         },
         value: Boolean,
         selectedItem: null,
-        valueKey: null
+        valueKey: null,
+        type: {
+            type: String,
+            default: '1'
+        }
     },
     mounted() {},
     watch: {
@@ -58,7 +62,9 @@ export default {
         confirm() {
             if (this.changeItem) {
                 this.$emit('confirm', this.$knife.deepCopy(this.changeItem, []));
-                this.currentValue = false;
+                if (this.type == 1) {
+                    this.currentValue = false;
+                };
             } else {
                 console.error('m-picker change error');
             }

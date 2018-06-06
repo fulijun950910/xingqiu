@@ -40,7 +40,7 @@
                 <div flex layout-align="start center" layout="row">
                                  <span class="color-gray fs30">使用美豆豆数量</span>
              <span flex></span>
-             <span class="color-gray"><input @change="inputBean(useBean)" class="color-pink text-center" type="number" v-model="useBean">个</span>
+             <span class="color-gray"><input @change="inputBean(useBean)" class="color-pink text-center" type="text" v-model="useBean">个</span>
                 </div>
                 <div layout-align="start center" layout="row">
                     <span flex></span>
@@ -59,6 +59,7 @@
                 支付
             </div>
         </div>
+        <buy-finished v-if="success"></buy-finished>
     </div>
 </template>
 <script>
@@ -66,6 +67,7 @@ import mIcon from 'components/m-icon';
 import integralInput from 'components/integral-mall/integral-input';
 import api_party from 'services/api.party';
 import { Indicator, Toast } from 'mint-ui';
+import buyFinished from 'components/integral-mall/buy-finished';
 export default {
     data() {
         return {
@@ -74,7 +76,8 @@ export default {
             useBean: 0,
             pay: 0,
             quantity: 1,
-            realAvaliable: 0
+            realAvaliable: 0,
+            success: false
         };
     },
     props: {
@@ -99,7 +102,8 @@ export default {
     },
     components: {
         mIcon,
-        integralInput
+        integralInput,
+        buyFinished
     },
     methods: {
         searchBalance(price, quantity) {
@@ -124,11 +128,10 @@ export default {
                 'tradeType': 1
             };
             api_party.doudouTrade(parameter).then(msg=> {
-                debugger;
                 if (msg.data.status != 0) {
-                    location.href = '/service/index.html#/userinfo';
-                } else {
                     location.href = msg.data.payUrl;
+                } else {
+                    this.success = true;
                 }
                 Toast('购买成功');
             }, msg=> {
@@ -136,35 +139,36 @@ export default {
             });
         },
         inputBean(value) {
-            if (value > this.avaliableBean) {
+            if (value > this.realAvaliable) {
                 Toast('豆豆不足');
-                this.useBean = this.avaliableBean;
+                this.useBean = this.realAvaliable;
             } else {
-                let data = {
-                    doudouBalance: this.avaliableBean
-                };
-                this.caculateResult(data, this.selectedItem.price, this.quantity);
+                this.caculateResult(this.selectedItem.price, this.quantity);
             }
         },
         hideMask(e) {
             this.currentValue = false;
         },
         changeNum(val) {
+            if (val < 0) {
+                Toast('数量不能为负');
+                return;
+            };
             this.quantity = val;
-            let data = {
-                doudouBalance: this.avaliableBean
-            };
-            this.caculateResult(data, this.selectedItem.price, this.quantity);
+            this.caculateResult(this.selectedItem.price, this.quantity);
         },
-        caculateResult(data, price, quantity) {
-            this.avaliableBean = data.doudouBalance;
-            if (this.avaliableBean >= price / 10) {
-                this.useBean = (price / 10) * quantity;
+        caculateResult(price, quantity) {
+            let unitPrice = 1 / 10; // 一个豆豆值0.1元
+            let value = (price / 100) / unitPrice * quantity; // 这个商品价值多少颗豆豆
+            if (this.realAvaliable >= value) {
+                this.pay = 0;
+                this.useBean = value;
+                this.avaliableBean = this.realAvaliable - this.useBean;
             } else {
-                this.useBean += this.avaliableBean;
-            };
-            this.pay = ((this.quantity * (price / 10) - this.realAvaliable) * price) >= 0 ? ((this.quantity * (price / 10) - this.realAvaliable) * price) : 0;
-            this.avaliableBean = this.realAvaliable - this.useBean;
+                this.useBean = this.realAvaliable;
+                this.avaliableBean = 0;
+                this.pay = (quantity * price) - this.realAvaliable * 10;
+            }
         }
     },
     mounted() {
