@@ -53,7 +53,7 @@
                 <span class="fs30 color-black fwb">{{pay | fen2yuan}}元</span>
             </div>
             <div class="remark" v-if="type == 2">
-                <textarea placeholder="备注"></textarea>
+                <textarea placeholder="备注" v-model="remark"></textarea>
             </div>
             <div flex @click="buy" class="confirm-pay fs38 color-white" layout="row" layout-align="center center">
                 支付
@@ -78,7 +78,8 @@ export default {
             quantity: 1,
             realAvaliable: 0,
             success: false,
-            address: {}
+            address: {},
+            remark: ''
         };
     },
     props: {
@@ -139,11 +140,13 @@ export default {
                 'itemId': this.selectedItem.id,
                 'quantity': 1,
                 'tradeType': 1,
-                'deliverAddressId': this.addressId
+                'deliverAddressId': this.addressId,
+                remark: this.remark
             };
             if (this.formParameter) {
                 this.formParameter.applyServiceDate = this.$moment(this.formParameter.applyServiceDate).format('YYYY-MM-DD HH:mm:ss');
                 parameter.serviceApply = this.formParameter;
+                this.formParameter = {};
             };
             Indicator.open('loading...');
             api_party.doudouTrade(parameter).then(msg=> {
@@ -177,7 +180,6 @@ export default {
             this.caculateResult(this.selectedItem.price, this.quantity);
         },
         caculateResult(price, quantity) {
-            debugger;
             let unitPrice = 1 / 10; // 一个豆豆值0.1元
             let value = (price / 100) / unitPrice * quantity; // 这个商品价值多少颗豆豆
             if (this.realAvaliable >= value) {
@@ -199,6 +201,7 @@ export default {
                     id: msg.data.id,
                     person: msg.data.contactPersion
                 };
+                this.addressId = msg.data.id;
             }, msg=> {
 
             });
@@ -222,7 +225,6 @@ export default {
         }
     },
     mounted() {
-        debugger;
         this.searchBalance(this.selectedItem.price, this.quantity);
         if (this.payType == 'finished') {
             this.loadChooseAddress();

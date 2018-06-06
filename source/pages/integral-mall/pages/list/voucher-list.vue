@@ -74,19 +74,8 @@ export default {
             });
         },
         buy() {
-            if (this.personal.doudouBalance >= 100) {
-                this.chooseServiceItem = this.dataList[0];
-                this.showBuy = true;
-            } else {
-                this.confirm = {
-                    message: '共需要100美豆豆',
-                    text: `您的账户共有${this.personal.doudouBalance}个美豆豆`,
-                    confirm: '立即充值',
-                    quiet: '再想想',
-                    show: true
-                };
-                this.type = 3;
-            }
+            this.chooseServiceItem = this.dataList[0];
+            this.showBuy = true;
         },
         searchBalance() {
             Indicator.open('loading...');
