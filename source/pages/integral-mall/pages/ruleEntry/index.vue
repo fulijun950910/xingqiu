@@ -59,19 +59,32 @@
                 <div class="fs22 color-gray">只要完成以下任务，即可获得美豆豆哟！</div>
             </div>
             <div class="p-l-2 p-r-2 m-b-5">
-                <div class="cell border-bottom" layout="row" >
+                <div @click="goRecharge" class="cell border-bottom" layout="row" >
                     <div flex>
                         <div>充值获取</div>
                         <div class="fs22 color-gray"></div>
                     </div>
-                    <div class="fs24">
+                    <div class="fs24 color-green">
                         <span>去充值</span>
-                        <m-icon class="" xlink="#icon-right-bold"></m-icon>
+                        <m-icon class="" xlink="#icon-zuojiantou"></m-icon>
                     </div>
                 </div>
-                <div class="cell border-bottom" layout="row" >
-                    <div flex>首次登陆</div>
-                    <div class="fs22 color-gray">登陆即可获得10个美豆豆</div>
+                <div>
+                    <div @click="goRule(item)" v-for="item in dataList" class="cell border-bottom" layout="row" layout-align="start center">
+                        <div flex>
+                            <div><span v-html="item.missionName"></span><spna v-if="item.conditionValue && item.value">（{{item.value}}/{{Math.floor(item.conditionValue) || 0}}）</spna></div>
+                            <div class="fs22 color-gray" v-html="item.missionDesc"></div>
+                        </div>
+                        <div flex="20" class="text-right">
+                            <div v-if="item.completed" class="">
+                                <m-icon class="fs40 color-self-main m-r-2" xlink="#icon-gouicon1"></m-icon>
+                            </div>
+                            <div v-else-if="item.missionCode == 'SIGN' || item.missionCode == 'RELEASE_PROMOTION'" class="fs24 color-green">
+                                <span>去完成</span>
+                                <m-icon class="" xlink="#icon-zuojiantou"></m-icon>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -84,7 +97,9 @@
     export default {
         name: 'index',
         data() {
-            return {};
+            return {
+                dataList: []
+            };
         },
         mounted() {
             // this.loadData();
@@ -95,15 +110,17 @@
                 api_party.getMissionList(this.$store.state.party.partyId).then(res => {
                     this.$indicator.close();
                     this.dataList = res.data;
-                    res.data.forEach(item => {
-                        if (item.missionCode) {
-                            this.dataModel[item.missionCode] = item;
-                        }
-                    });
                 });
             },
+            goRule(item) {
+                if (item.missionCode == 'SIGN') {
+                    this.goCheckIn();
+                } else if (item.missionCode == 'RELEASE_PROMOTION') {
+                    this.goPromotion();
+                }
+            },
             goCheckIn() {
-                this.$router.push({name: 'checkIn'});
+                window.location.href = this.$rootPath + '#/checkIn';
             },
             goPromotion() {
                 window.location.href = '/lite/index.html#/promotion-list';
@@ -136,6 +153,9 @@
 
     @color-gold: #F8CDB8;
     @color-self-main: #EC3F6D;
+    .color-green{
+        color:#14CC8A;
+    }
     .color-self-main{
         color: @color-self-main;
     }

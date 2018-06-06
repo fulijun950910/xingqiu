@@ -8,6 +8,7 @@ Vue.prototype.$toast = message => Toast({ message: message, duration: 1500 });
 Vue.prototype.$indicator = Indicator;
 Vue.prototype.$messageBox = MessageBox;
 Vue.prototype.$signLocation = process.env.NODE_ENV === 'development' ? '#/sign-in' : '/userinfo.html#/user_login';
+Vue.prototype.$rootPath = process.env.NODE_ENV === 'development' ? '/' : '/service/';
 
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';

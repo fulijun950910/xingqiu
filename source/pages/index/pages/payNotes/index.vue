@@ -1,8 +1,8 @@
 <template>
     <div v-title="'收支明细'" class="payNotes cell-box">
         <div class="blanceBox" layout="column" layout-align="center center">
-            <div class="fs24 color-white-light">当前账户美豆豆</div>
             <div class="blance color-white">{{blanceTotal.doudouBalance}}</div>
+            <div class="fs24 color-white-light">当前账户美豆豆</div>
         </div>
         <div class="cell" layout="row" layout-align="space-between center">
             <div class="dateBox">
