@@ -100,13 +100,18 @@ export default {
                 return {};
             }
         },
-        dataForm: Object,
         productId: String,
         payType: {
             type: String,
             default: ''
         },
-        addressId: String
+        addressId: String,
+        formParameter: {
+            type: Object,
+            default() {
+                return {};
+            }
+        }
     },
     components: {
         mIcon,
@@ -116,7 +121,7 @@ export default {
     methods: {
         searchBalance(price, quantity) {
             Indicator.open('loading...');
-            api_party.doudouAccount(this.employee.party.partyId).then(msg=> {
+            api_party.doudouAccount(this.$store.state.party.partyId).then(msg=> {
                 Indicator.close();
                 this.realAvaliable = msg.data.doudouBalance;
                 this.caculateResult(price, quantity);
@@ -126,15 +131,19 @@ export default {
         },
         buy() {
             let parameter = {
-                'merchantId': this.employee.party.merchantId,
-                'partyId': this.employee.party.partyId,
-                'userId': this.employee.party.id,
+                'merchantId': this.$store.state.party.merchantId,
+                'partyId': this.$store.state.party.partyId,
+                'userId': this.$store.state.party.id,
                 'payDoudouAmount': this.useBean,
                 'payMoney': this.pay,
                 'itemId': this.selectedItem.id,
                 'quantity': 1,
                 'tradeType': 1,
                 'deliverAddressId': this.addressId
+            };
+            if (this.formParameter) {
+                this.formParameter.applyServiceDate = this.$moment(this.formParameter.applyServiceDate).format('YYYY-MM-DD HH:mm:ss');
+                parameter.serviceApply = this.formParameter;
             };
             Indicator.open('loading...');
             api_party.doudouTrade(parameter).then(msg=> {
@@ -168,6 +177,7 @@ export default {
             this.caculateResult(this.selectedItem.price, this.quantity);
         },
         caculateResult(price, quantity) {
+            debugger;
             let unitPrice = 1 / 10; // 一个豆豆值0.1元
             let value = (price / 100) / unitPrice * quantity; // 这个商品价值多少颗豆豆
             if (this.realAvaliable >= value) {
@@ -181,13 +191,8 @@ export default {
             }
         },
         loadFirstAddress() {
-            let parameter = {
-                merchantId: this.employee.party.merchantId,
-                partyId: this.employee.party.partyId,
-                userId: this.employee.party.id
-            };
             Indicator.open('loading...');
-            api_party.addressSearch(parameter).then(msg=> {
+            api_party.getDefaultAddress(this.$store.state.party.partyId).then(msg=> {
                 Indicator.close();
                 this.address = {
                     name: msg.data.fullAddress,
@@ -217,6 +222,7 @@ export default {
         }
     },
     mounted() {
+        debugger;
         this.searchBalance(this.selectedItem.price, this.quantity);
         if (this.payType == 'finished') {
             this.loadChooseAddress();
@@ -235,10 +241,10 @@ export default {
         }
     },
     watch: {
-        selectedItem: {
+        showBuy: {
             handler: function(newValue, oldValue) {
                 if (newValue != oldValue) {
-                    this.searchBalance(newValue.price, this.quantity);
+                    this.searchBalance(this.selectedItem.price, this.quantity);
                 }
             }
         }

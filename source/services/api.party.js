@@ -127,7 +127,12 @@ export default {
         return request(url, 'get');
     },
     getAddress(id) {
+        // 获取地址详情
         let url = `/api/deliveryAddress/${id}`;
+        return request(url, 'get');
+    },
+    getDefaultAddress(partyId) {
+        let url = `/api/deliveryAddress/getDefault/${partyId}`;
         return request(url, 'get');
     }
 };

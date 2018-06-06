@@ -29,7 +29,7 @@
    <input placeholder="请选择时间" class="color-black fs30" type="date" v-model="parameter.applyServiceDate">
     </div>
     </div>
-        <div class="form-item">
+        <!-- <div class="form-item">
     <div class="label fs24 color-black check" layout="row" layout-align="space-between center">
         <div>
         是否指定助手<i class="color-pink"></i>
@@ -41,7 +41,7 @@
     <div>
         <input v-if="value" placeholder="选择指定员工" v-model="parameter.employeeName" class="color-black fs30" type="text">
     </div>
-    </div>
+    </div> -->
         <div class="form-item">
     <div class="label fs24 color-black">备注<i class="color-pink"></i></div>
     <div>
@@ -52,7 +52,7 @@
 <div class="submit color-pink fs40" layout="row" layout-align="center center" @click="toPay" flex>
     提交
 </div>
-  <buy-message @update="update" :selected-item="chooseServiceItem" :data-form="parameter" :show-buy="showBuy"></buy-message>
+  <buy-message @update="update" :selected-item="chooseServiceItem" :form-parameter="parameter" :show-buy="showBuy"></buy-message>
   <m-picker v-model="showStore" :slots="slots" valueKey="name" @confirm="onValuesChange"></m-picker>
     </div>
 </template>
@@ -70,7 +70,10 @@ export default {
             value: false,
             employee: JSON.parse(localStorage.getItem('employee')),
             parameter: {
-                merchantName: this.employee.merchant.name
+                merchantId: this.$store.getters.merchantId,
+                merchantName: this.$store.getters.merchantName,
+                employeeId: this.$store.getters.employeeId,
+                employeeName: this.$store.getters.employeeName
             },
             showBuy: false,
             chooseServiceItem: {},
@@ -91,9 +94,8 @@ export default {
         },
         loadStoreList() {
             Indicator.open('loading...');
-            api_party.storeList(this.employee.party.merchantId, this.employee.id).then(msg=> {
+            api_party.storeList(this.$store.state.party.merchantId, this.$store.getters.employeeId).then(msg=> {
                 Indicator.close();
-                debugger;
                 this.slots[0].values = msg.data;
             }, msg=> {
 
@@ -117,9 +119,15 @@ export default {
                 Toast('请选择时间');
                 return ;
             };
-            this.parameter = {
-                merchantId: this.employee.party.merchantId
-            };
+            this.parameter.storeId = this.store.id;
+            this.parameter.storeName = this.store.name;
+            debugger;
+            api_party.productDetail(this.$route.params.id).then(msg=> {
+                this.chooseServiceItem = msg.data;
+                this.showBuy = true;
+            }, msg=> {
+
+            });
         }
     },
     mounted() {

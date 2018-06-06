@@ -1,14 +1,14 @@
 import Vue from 'vue';
 import App from './app';
-require('babel-polyfill');
 require('vendor/polyfill');
+import 'mint-ui/lib/style.css';
 import { Toast, Indicator, MessageBox } from 'mint-ui';
 
 Vue.prototype.$toast = message => Toast({ message: message, duration: 1500 });
 Vue.prototype.$indicator = Indicator;
 Vue.prototype.$messageBox = MessageBox;
 Vue.prototype.$signLocation = process.env.NODE_ENV === 'development' ? '#/sign-in' : '/userinfo.html#/user_login';
-Vue.prototype.$rootPath = process.env.NODE_ENV === 'development' ? '/' : '/service/';
+Vue.prototype.$wxc_url = process.env.NODE_ENV === 'production' ? 'https://wechat.mei1.com' : 'https://wechat.mei1.info';
 
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
@@ -20,7 +20,7 @@ import 'styles/_style.less';
 import 'filter/filter';
 import 'filter/moment-filter';
 import 'directives/directive';
-// iconfont项目 wechat-shop
+// iconfont项目 saas-wechat-business
 import './iconfont';
 import knife from 'vendor/knife';
 import mIcon from 'components/m-icon';
@@ -51,6 +51,12 @@ if ('addEventListener' in document) {
 
 // 更新登录人信息至Vuex
 store.commit('UPDATE_LOCAL');
+if (store.state && store.state.party && store.state.party.ucsynlogin) {
+    let hm = document.createElement('script');
+    hm.src = store.state.party.ucsynlogin;
+    let s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(hm, s);
+}
 
 Vue.use(touch);
 Vue.use(VueRouter);
@@ -61,17 +67,16 @@ const router = new VueRouter({
 });
 
 router.beforeEach(({ meta, path }, from, next) => {
-    // if (path == '/sign-in' || store.getters.isLogin) {
-    //     next();
-    // } else {
-    //     if (process.env.NODE_ENV === 'development') {
-    //         next({ name: 'sign-in' });
-    //     } else {
-    //         window.location.href = '/userinfo.html#/user_login';
-    //     }
-    //
-    // }
-    next();
+    if (path == '/sign-in' || path == '/main' || path == '/bbsPage' || path == '/alliance' || store.getters.isLogin) {
+        next();
+    } else {
+        if (process.env.NODE_ENV === 'development') {
+            next({ name: 'sign-in' });
+        } else {
+            window.location.href = '/userinfo.html#/user_login';
+        }
+
+    }
 });
 
 new Vue({

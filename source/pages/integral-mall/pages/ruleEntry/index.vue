@@ -102,7 +102,7 @@
             };
         },
         mounted() {
-            // this.loadData();
+            this.loadData();
         },
         methods: {
             loadData() {
