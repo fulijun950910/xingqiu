@@ -33,8 +33,8 @@ export default {
         selectedItem: null,
         valueKey: null,
         type: {
-            type: String,
-            default: '1'
+            default: '1',
+            type: String
         }
     },
     mounted() {},

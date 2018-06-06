@@ -36,7 +36,7 @@ export default [{
     name: 'product-list',
     component: productList
 }, {
-    path: '/product-detail/:id',
+    path: '/product-detail/:type/:id/:addressId?',
     name: 'product-detail',
     component: productDetail
 }, {
@@ -56,11 +56,11 @@ export default [{
     name: 'rule-entry',
     component: ruleEntry
 }, {
-    path: '/application-form',
+    path: '/application-form/:id',
     name: 'application-form',
     component: applicationForm
 }, {
-    path: '/address-list',
+    path: '/address-list/:type/:productId?', // type: view 查看 | choose 选择
     name: 'address-list',
     component: addressList
 }, {

@@ -46,7 +46,7 @@ export default {
         toLink(item) {
             if (item.value == 1) {
                 // 更多玩法页面
-                // this.$router.push('')
+                this.$router.push('/rule-entry');
             } else if (item.value == 2) {
                 this.$router.push('/recharge-doudou');
             } else if (item.value == 3) {

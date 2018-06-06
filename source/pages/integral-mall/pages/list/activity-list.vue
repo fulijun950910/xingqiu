@@ -60,7 +60,7 @@ export default {
 
         },
         useTo(item) {
-            this.$router.push('/application-form');
+            this.$router.push(`/application-form/${item.id}`);
         },
         init() {
             this.loadData();

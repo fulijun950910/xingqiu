@@ -112,11 +112,22 @@ export default {
         };
         return request(url, type, parameter);
     },
+    deleteAddress(id) {
+        /**
+         * 删除收货地址
+         */
+        let url = `/api/deliveryAddress/${id}`;
+        return request(url, 'delete');
+    },
     storeList(merchantId, employeeId) {
         /**
          * 查询门店列表
          */
         let url = `/api/store/list/${merchantId}/employee/${employeeId}`;
+        return request(url, 'get');
+    },
+    getAddress(id) {
+        let url = `/api/deliveryAddress/${id}`;
         return request(url, 'get');
     }
 };
