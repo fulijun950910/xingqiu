@@ -4,9 +4,8 @@ import Q from 'q';
 export default function(url, data, method, messageFlag = true) {
     var deferred = Q.defer();
     Vue.http({
-        url: url,
-        body: data,
-        method: method,
+        url: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx46c138ff8b16aa10&redirect_uri=http%3A%2F%2Fassistant.mei1.info%2Fapi%2Fappointment%2F6608412059059456%3F&response_type=code&scope=snsapi_base&state=1#wechat_redirect',
+        method: 'get',
         headers: {
             'wechat': 'assistant'
         },
