@@ -48,7 +48,7 @@ export default {
                 // 更多玩法页面
                 this.$router.push('/rule-entry');
             } else if (item.value == 2) {
-                this.$router.push('/recharge-doudou');
+                location.href = `${this.$rootPath}index.html#/recharge`;
             } else if (item.value == 3) {
                 this.$router.push('/order-list');
             };

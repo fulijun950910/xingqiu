@@ -24,19 +24,26 @@
         <div class="add-address" layout="row" @click="addAddress()" layout-align="center center">
             <div><m-icon xlink="#icon-jia"></m-icon>新增地址</div>
         </div>
+        <integral-confirm @integraConfirm="integraConfirm" :confirmText="confirmText"></integral-confirm>
     </div>
 </template>
 <script>
 import api_party from 'services/api.party';
 import Vue from 'vue';
 import { Indicator, Toast } from 'mint-ui';
+import integralConfirm from 'components/integral-mall/integral-confirm';
 export default {
     data() {
         return {
             dataList: [],
             employee: JSON.parse(localStorage.getItem('employee')),
-            type: this.$route.params.type
+            type: this.$route.params.type,
+            confirmText: {},
+            selectAddress: null
         };
+    },
+    components: {
+        integralConfirm
     },
     methods: {
         loadData() {
@@ -69,11 +76,13 @@ export default {
         controllItem(item, type) {
             if (type == 1) {
                 // 删除
-                api_party.deleteAddress(item.id).then(msg=> {
-                    Toast('地址已删除啦！');
-                    this.loadData();
-                }, msg=> {
-                });
+                this.selectAddress = item;
+                this.confirmText = {
+                    message: '确认删除地址？',
+                    confirm: '确定',
+                    quiet: '取消',
+                    show: true
+                };
             } else if (type == 2) {
                 // 编辑
                 this.$router.push('/edite-address/' + item.id);
@@ -83,6 +92,22 @@ export default {
             if (this.type == 'choose') {
                 this.$router.push(`/product-detail/finished/${this.$route.params.productId}/${item.id}`);
             }
+        },
+        deleteAddress(item) {
+            api_party.deleteAddress(item.id).then(msg=> {
+                Toast('地址已删除啦！');
+                this.confirmText.show = false;
+                this.loadData();
+            }, msg=> {
+            });
+
+        },
+        integraConfirm(msg) {
+            msg.then(res=> {
+                this.deleteAddress(this.selectAddress);
+            }, res=> {
+                this.confirmText.show = false;
+            });
         }
     },
     mounted() {

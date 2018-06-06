@@ -1,155 +1,158 @@
 <template>
-    <div class="recharge-bean">
-        <div class="to-describ" layout="row" layout-align="center center">
-            <div flex="50" layout="column">
-               <p class="fs24 steel-gray">
-                   <span class="color-black fs48 fwb">
-                       {{doudouBalance}}
-                   </span>
-                   美豆豆
-               </p>
-               <p class="steel-gray">其中充值余额{{moneyBalance | fen2yuan}}</p>
+    <div v-title="'充值美豆豆'" class="recharge">
+        <div v-if="state == 1">
+            <div class="border-bottom cell-box">
+                <div class="blanceBox" layout="column" layout-align="center start">
+                    <div><span class="blance">{{dataModel.doudouBalance}}</span>&nbsp;<span class="dark-gray">美豆豆</span></div>
+                    <div class="fs24 dark-gray">其中充值余额{{Math.max(dataModel.doudouBalance - dataModel.doudouPresent, 0)}}</div>
+                </div>
             </div>
-            <div flex="50">
-                <m-icon xlink="#icon-pinglun" class="fs48 color-pink"></m-icon>
+            <div class="cell-box">
+                <div class="cell">
+                    选择充值金额
+                </div>
+                <div layout="row" layout-align="start center" flex-wrap="wrap">
+                    <div @click="selectType(item)" v-for="item in list" :class="{'act': item.id == act}" class="list-item" layout="column" layout-align="center center" :key="item.id">
+                        <div>{{item.description}}</div>
+                        <div class="fs24 dark-gray">售价{{item.price | fen2yuan}}元</div>
+                        <div v-if="item.icon" class="tag fs24 color-white">{{item.icon}}</div>
+                    </div>
+                </div>
+                <div>
+                    <button @click="submit" class="fs32 subBtn">充值</button>
+                </div>
             </div>
-        </div>
-        <div class="title color-black fs28" flex>
-            选择充值金额
-        </div>
-        <div class="data-list" layout="row" layout-align="space-between center">
-            <div class="list-data-item" flex="30" @click="select(item)" :class="{'active':selected == item}" layout="column" v-for="(item,index) in dataList" :key="index" layout-align="center center">
-                <span class="color-black fs32">{{item.description}}</span>
-                <p class="steel-gray fs24">{{item.name}}</p>                
-            </div>
-        </div>
-        <div class="buy" flex layout="column" layout-align="start center">
-            <div class="color-white fs32 btn" layout="row" layout-align="center center" @click="pay">充值</div>
-            <div class="color-pink fs30">线下支付</div>
         </div>
     </div>
 </template>
+
 <script>
-/**
- * 钱充值豆豆
- */
-import api_party from 'services/api.party';
-import { Indicator, Toast } from 'mint-ui';
-export default {
-    data() {
-        return {
-            dataList: [],
-            employee: JSON.parse(localStorage.getItem('employee')),
-            doudouBalance: 0,
-            moneyBalance: 0,
-            selected: null
-        };
-    },
-    methods: {
-        loadData() {
-            Indicator.open('loading...');
-            api_party.goodsList(6).then(msg=> {
-                Indicator.close();
-                this.dataList = msg.data;
-                this.selected = this.dataList[0];
-            }, msg=> {
+    import api_party from 'services/api.party';
 
-            });
-        },
-        searchBalance() {
-            Indicator.open('loading...');
-            api_party.doudouAccount(this.employee.party.partyId).then(msg=> {
-                Indicator.close();
-                this.doudouBalance = msg.data.doudouBalance;
-                this.moneyBalance = msg.data.moneyBalance;
-            }, msg => {
-
-            });
-        },
-        select(item) {
-            this.selected = item;
-        },
-        pay() {
-            if (!this.check()) {
-                return;
+    export default {
+        name: 'recharge',
+        data() {
+            return {
+                state: 1, // 1充值 2 充值成功
+                act: 1,
+                dataModel: {},
+                list: [],
+                choose: null
             };
-            let parameter = {
-                'merchantId': this.employee.party.merchantId,
-                'partyId': this.employee.party.partyId,
-                'userId': this.employee.party.id,
-                'payDoudouAmount': 0,
-                'payMoney': this.selected.price,
-                'itemId': this.selected.id,
-                'quantity': 1,
-                'tradeType': 6
-            };
-            api_party.doudouTrade(parameter).then(msg=> {
-                location.href = msg.data.payUrl;
-            }, msg=> {
-
-            });
         },
-        check() {
-            if (!this.selected) {
-                Toast('请选择充值数量');
-                return false;
-            } else {
-                return true;
-            }
-        },
-        init() {
+        mounted() {
             this.loadData();
-            this.searchBalance();
+            this.loadProduct();
+        },
+        methods: {
+            loadData() {
+                this.$indicator.open();
+                api_party.getAccount(this.$store.state.party.partyId).then(res => {
+                    this.$indicator.close();
+                    this.dataModel = res.data;
+                });
+            },
+            submit() {
+                let parameter = {
+                    merchantId: this.$store.state.party.merchantId,
+                    partyId: this.$store.state.party.partyId,
+                    userId: this.$store.state.party.id,
+                    payDoudouAmount: 0,
+                    payMoney: this.choose.price,
+                    itemId: this.choose.id,
+                    quantity: 1,
+                    tradeType: 6
+                };
+                api_party.doudouTrade(parameter).then(res=> {
+                    location.href = res.data.payUrl;
+                }, res=> {
+
+                });
+            },
+            goWallet() {
+                this.$router.go(-1);
+            },
+            selectType(item) {
+                this.act = item.id;
+                this.choose = item;
+            },
+            loadProduct() {
+                api_party.goodsList(6).then(res=> {
+                    this.list = res.data;
+                    this.act = res.data[0].id;
+                    this.choose = res.data[0];
+                }, msg=> {
+
+                });
+            }
         }
-    },
-    mounted() {
-        this.init();
-    }
-};
+    };
 </script>
 
-<style lang="less" scoped>
-@import '~styles/_style';
-.recharge-bean{
-    .to-describ{
-        height: 165px;
-        padding: 20px 15px;
-        border-bottom: 1px solid @border-gay;
+<style scoped lang='less'>
+    @import '~styles/_style';
+    @color-red-lighten: #EC3F6D;
+
+    .border-bottom{
+        border-bottom:1px solid @border-gay;
     }
-    .title{
-        padding: 20px 15px;
-    }
-    .data-list{
-        padding: 0 15px;
-        margin-bottom: 50px;
-       .list-data-item{
-           border: 1px solid @border-gay;
-           height: 103px;
-           position: relative;
-       }
-       .list-data-item.active{
-           background: #EC3F6D;
-           span{
-               color: white;               
-           }
-           p{
-               color: white;
-           }
-       }
-    }
-    .buy{
-        .btn{
-            width: 225px;
-            height: 44px;
-            background: @color-pink;
-            line-height: 44px;
-            padding: 0;
-            border-radius: 22px;
-            margin-bottom: 20px;
+    .recharge{
+        &:before{
+            display:table;
+            content:'';
+            clear:both;
         }
-
     }
-}
+    .blanceBox{
+        height:135px;
+        background:url("~assets/imgs/index/20180510173001.png") no-repeat center right;
+        background-size: auto 60%;
+        .blance{
+            font-size:30px;
+        }
+    }
+    .list-item{
+        width:103px;
+        height:103px;
+        border:1px solid @border-gay;
+        margin: 5px;
+        border-radius:2px;
+        position:relative;
+        overflow:hidden;
+        .tag{
+            position:absolute;
+            background:#14CC8A;
+            padding:1px 30px;
+            transform:rotate(45deg);
+            top:8px;
+            right:-25px;
+        }
+        &.act{
+            background:@color-red-lighten;
+            border-color:@white;
+            border-radius:4px;
+            & div{
+                color:@white;
+            }
+        }
+    }
+    .subBtn{
+        width:225px;
+        height:44px;
+        border-radius:22px;
+        margin:40px auto 0;
+        display:block;
+        color:@white;
+        background:@color-red-lighten
+    }
+    .icon-success-box{
+        width:66px;
+        height:66px;
+        border-radius: 50%;
+        border:1px solid @color-red-lighten;
+        background:lighten(@color-red-lighten,40%);
+        color:@color-red-lighten;
+        font-size:32px;
+        margin: 100px auto 20px;
+    }
 </style>
-
-

@@ -3,7 +3,7 @@
         <div class="con-mask" @click="hideMask"></div>
         <div class="buy-message-con">
         <div class="seleted-serverce-item" layout="row" layout-align="center center">
-             <m-icon  class="fs48 color-white" xlink="#icon-huabanfuben16"></m-icon>
+             <m-icon  class="fs48 color-white" xlink="#icon-gerenxinxi"></m-icon>
              <div class="select-right color-white">
                  <p class="fs22">{{selectedItem.description}}</p>
                  <span class="fs30">{{selectedItem.name}}</span>
@@ -53,7 +53,7 @@
                 <span class="fs30 color-black fwb">{{pay | fen2yuan}}元</span>
             </div>
             <div class="remark" v-if="type == 2">
-                <textarea placeholder="备注"></textarea>
+                <textarea placeholder="备注" v-model="remark"></textarea>
             </div>
             <div flex @click="buy" class="confirm-pay fs38 color-white" layout="row" layout-align="center center">
                 支付
@@ -78,7 +78,8 @@ export default {
             quantity: 1,
             realAvaliable: 0,
             success: false,
-            address: {}
+            address: {},
+            remark: ''
         };
     },
     props: {
@@ -100,13 +101,18 @@ export default {
                 return {};
             }
         },
-        dataForm: Object,
         productId: String,
         payType: {
             type: String,
             default: ''
         },
-        addressId: String
+        addressId: String,
+        formParameter: {
+            type: Object,
+            default() {
+                return {};
+            }
+        }
     },
     components: {
         mIcon,
@@ -116,7 +122,7 @@ export default {
     methods: {
         searchBalance(price, quantity) {
             Indicator.open('loading...');
-            api_party.doudouAccount(this.employee.party.partyId).then(msg=> {
+            api_party.doudouAccount(this.$store.state.party.partyId).then(msg=> {
                 Indicator.close();
                 this.realAvaliable = msg.data.doudouBalance;
                 this.caculateResult(price, quantity);
@@ -126,15 +132,21 @@ export default {
         },
         buy() {
             let parameter = {
-                'merchantId': this.employee.party.merchantId,
-                'partyId': this.employee.party.partyId,
-                'userId': this.employee.party.id,
+                'merchantId': this.$store.state.party.merchantId,
+                'partyId': this.$store.state.party.partyId,
+                'userId': this.$store.state.party.id,
                 'payDoudouAmount': this.useBean,
                 'payMoney': this.pay,
                 'itemId': this.selectedItem.id,
                 'quantity': 1,
                 'tradeType': 1,
-                'deliverAddressId': this.addressId
+                'deliverAddressId': this.addressId,
+                remark: this.remark
+            };
+            if (this.formParameter) {
+                this.formParameter.applyServiceDate = this.$moment(this.formParameter.applyServiceDate).format('YYYY-MM-DD HH:mm:ss');
+                parameter.serviceApply = this.formParameter;
+                this.formParameter = {};
             };
             Indicator.open('loading...');
             api_party.doudouTrade(parameter).then(msg=> {
@@ -181,19 +193,15 @@ export default {
             }
         },
         loadFirstAddress() {
-            let parameter = {
-                merchantId: this.employee.party.merchantId,
-                partyId: this.employee.party.partyId,
-                userId: this.employee.party.id
-            };
             Indicator.open('loading...');
-            api_party.addressSearch(parameter).then(msg=> {
+            api_party.getDefaultAddress(this.$store.state.party.partyId).then(msg=> {
                 Indicator.close();
                 this.address = {
                     name: msg.data.fullAddress,
                     id: msg.data.id,
                     person: msg.data.contactPersion
                 };
+                this.addressId = msg.data.id;
             }, msg=> {
 
             });
@@ -235,10 +243,10 @@ export default {
         }
     },
     watch: {
-        selectedItem: {
+        showBuy: {
             handler: function(newValue, oldValue) {
                 if (newValue != oldValue) {
-                    this.searchBalance(newValue.price, this.quantity);
+                    this.searchBalance(this.selectedItem.price, this.quantity);
                 }
             }
         }
