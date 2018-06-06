@@ -3,7 +3,7 @@
         <div class="con-mask" @click="hideMask"></div>
         <div class="buy-message-con">
         <div class="seleted-serverce-item" layout="row" layout-align="center center">
-             <m-icon  class="fs48 color-white" xlink="#icon-huabanfuben16"></m-icon>
+             <m-icon  class="fs48 color-white" xlink="#icon-gerenxinxi"></m-icon>
              <div class="select-right color-white">
                  <p class="fs22">{{selectedItem.description}}</p>
                  <span class="fs30">{{selectedItem.name}}</span>
