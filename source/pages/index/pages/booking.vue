@@ -141,6 +141,7 @@ export default {
         'cell-tag': cellTag
     },
     mounted() {
+        console.log(123);
         this.init();
     },
     methods: {
