@@ -2,14 +2,14 @@
     <div class="buy-message" :class="{'active' : currentValue}" layout="column" layout-align="end start">
         <div class="con-mask" @click="hideMask"></div>
         <div class="buy-message-con">
-        <div class="seleted-serverce-item" layout="row" layout-align="center center">
+        <!-- <div class="seleted-serverce-item" layout="row" layout-align="center center">
              <m-icon  class="fs48 color-white" xlink="#icon-gerenxinxi"></m-icon>
              <div class="select-right color-white">
                  <p class="fs22">{{selectedItem.description}}</p>
                  <span class="fs30">{{selectedItem.name}}</span>
              </div>
             <div class="selected-shadow"></div>
-        </div>
+        </div> -->
         <div class="select-title">
             <span class="color-black fs40 fwb">购买信息</span>
         </div>   
@@ -162,18 +162,20 @@ export default {
             });
         },
         inputBean(value) {
-            debugger;
             if (value > this.realAvaliable) {
                 Toast('豆豆不足');
                 this.useBean = this.realAvaliable;
-            };
+            } else if (value > this.selectedItem.price / 10) {
+                this.useBean = this.selectedItem.price / 10;
+                this.pay = 0;
+                return;
+            }
             this.changeDouCaculate(value);
             // this.caculateResult(this.selectedItem.price, this.quantity);
         },
         changeDouCaculate(bean) {
-            if (bean > this.realAvaliable) {
-            };
-
+            this.pay = (this.selectedItem.price / 100 * 10 - bean) / 10 * 100;
+            this.avaliableBean = this.realAvaliable - bean;
         },
         hideMask(e) {
             this.currentValue = false;
@@ -182,7 +184,7 @@ export default {
             if (val < 0) {
                 Toast('数量不能为负');
                 return;
-            };
+            }
             this.quantity = val;
             this.caculateResult(this.selectedItem.price, this.quantity);
         },
@@ -284,7 +286,7 @@ export default {
         position: relative;
         width: 100%;
         background: white;
-        padding: 65px 15px 140px 15px;
+        padding: 15px 15px 140px 15px;
         z-index: 2;
         .seleted-serverce-item{
             position: absolute;
