@@ -139,5 +139,9 @@ export default {
         // 订单列表
         let url = '/api/doudouTrade/search';
         return request(url, 'post', parameter);
+    },
+    getTaskList(partyId) {
+        let url = `/api/mission/getListByPartyId/${partyId}`;
+        return request(url, 'get');
     }
 };

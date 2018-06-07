@@ -5,7 +5,7 @@
             <div class="listBox">
                 <div class="boxTitle fs40" layout="row" layout-align="center center">美豆豆，赚不停</div>
                 <div class="boxContent list1" layout="row" layout-align="space-around start">
-                    <div class="m-t-4 m-b-4 text-center">
+                    <div class="m-t-4 m-b-4 text-center" @click="linkTo(5)">
                         <div><img :src="require('assets/imgs/integral-mall/2018060505.png')" alt=""></div>
                         <div class="fs32 fwb">每日签到</div>
                         <div class="color-gray fs22 m-t-2">
@@ -13,7 +13,7 @@
                             <div>连续7天=10个</div>
                         </div>
                     </div>
-                    <div class="m-t-4 m-b-4 text-center">
+                    <div class="m-t-4 m-b-4 text-center" > 
                         <div><img :src="require('assets/imgs/integral-mall/2018060507.png')" alt=""></div>
                         <div class="fs32 fwb">推荐商户</div>
                         <div class="color-gray fs22 m-t-2">
@@ -21,7 +21,7 @@
                             <div>=100个</div>
                         </div>
                     </div>
-                    <div class="m-t-4 m-b-4 text-center">
+                    <div class="m-t-4 m-b-4 text-center" @click="linkTo(7)">
                         <div><img :src="require('assets/imgs/integral-mall/2018060502.png')" alt=""></div>
                         <div class="fs32 fwb">充值获取</div>
                         <div class="color-gray fs22 m-t-2">
@@ -70,9 +70,9 @@
                     </div>
                 </div>
                 <div>
-                    <div @click="goRule(item)" v-for="item in dataList" class="cell border-bottom" layout="row" layout-align="start center">
+                    <div @click="goRule(item)" v-for="item in dataList" class="cell border-bottom" layout="row" layout-align="start center" :key="item.id">
                         <div flex>
-                            <div><span v-html="item.missionName"></span><spna v-if="item.conditionValue && item.value">（{{item.value}}/{{Math.floor(item.conditionValue) || 0}}）</spna></div>
+                            <div><span v-html="item.missionName"></span><span v-if="item.conditionValue && item.value">（{{item.value}}/{{Math.floor(item.conditionValue) || 0}}）</span></div>
                             <div class="fs22 color-gray" v-html="item.missionDesc"></div>
                         </div>
                         <div flex="20" class="text-right">
@@ -142,6 +142,15 @@
                         break;
                     case 4:
                         this.$router.push('/voucher-list');
+                        break;
+                    case 5:
+                        location.href = `${this.$rootPath}index.html#/checkIn`;
+                        break;
+                    case 6:
+                        // this.$router.push('/voucher-list');
+                        break;
+                    case 7:
+                        this.$router.push('/recharge-doudou');
                         break;
                 }
             }

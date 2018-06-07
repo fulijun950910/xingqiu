@@ -162,11 +162,18 @@ export default {
             });
         },
         inputBean(value) {
+            debugger;
             if (value > this.realAvaliable) {
                 Toast('豆豆不足');
                 this.useBean = this.realAvaliable;
-            }
-            this.caculateResult(this.selectedItem.price, this.quantity);
+            };
+            this.changeDouCaculate(value);
+            // this.caculateResult(this.selectedItem.price, this.quantity);
+        },
+        changeDouCaculate(bean) {
+            if (bean > this.realAvaliable) {
+            };
+
         },
         hideMask(e) {
             this.currentValue = false;

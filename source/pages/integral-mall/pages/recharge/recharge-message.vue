@@ -1,8 +1,7 @@
 <template>
     <div class="exchange-message">
         <div class="exchange-banner">
-            <img src="" alt="">
-            这个是banner
+            <img class="img-auto" :src="require('assets/imgs/integral-mall/recharge-banner-min.png')" alt="">
         </div>
         <div class="exchange-title">
             <span class="fs40 fwb color-black">充值套餐</span>
