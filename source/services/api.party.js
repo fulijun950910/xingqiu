@@ -136,7 +136,8 @@ export default {
         return request(url, 'get');
     },
     orderList(parameter) {
-        let url = '/api/accountChangeRecord/search';
+        // 订单列表
+        let url = '/api/doudouTrade/search';
         return request(url, 'post', parameter);
     }
 };

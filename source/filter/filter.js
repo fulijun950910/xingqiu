@@ -182,6 +182,37 @@ Vue.filter('accountType', function(value) {
     return text;
 });
 
+Vue.filter('payStatus', function(value) {
+    if (isNaN(value)) {
+        return 0;
+    }
+    let text = '';
+    switch (Number(value)) {
+        case 0:
+            text = '待付款';
+            break;
+        case 1:
+            text = '支付成功';
+            break;
+        case 2:
+            text = '支付失败';
+            break;
+        case 3:
+            text = '支付超时';
+            break;
+        case 4:
+            text = '取消';
+            break;
+        case 5:
+            text = '已完成';
+            break;
+        case 6:
+            text = '已发货';
+            break;
+    }
+    return text;
+});
+
 // '13871147835' => '138 **** 7835'
 Vue.filter('mobile', function(val, isShow) {
     if (!val) {
