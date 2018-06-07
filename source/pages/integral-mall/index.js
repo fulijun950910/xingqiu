@@ -67,8 +67,13 @@ const router = new VueRouter({
     routes
 });
 
+let routerCheckPath = path => {
+    let reg = /(^\/sign-in)|(^\/main)|(^\/bbsPage)|(^\/alliance)|(^\/booking)/;
+    return reg.test(path);
+};
+
 router.beforeEach(({ meta, path }, from, next) => {
-    if (path == '/sign-in' || path == '/main' || path == '/bbsPage' || path == '/alliance' || store.getters.isLogin) {
+    if (routerCheckPath(path) || store.getters.isLogin) {
         next();
     } else {
         if (process.env.NODE_ENV === 'development') {
