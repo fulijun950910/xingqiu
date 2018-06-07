@@ -67,8 +67,22 @@ const router = new VueRouter({
     routes
 });
 
+let routerCheckPath = path => {
+    let reg = /(^\/sign-in)|(^\/main)|(^\/bbsPage)|(^\/alliance)|(^\/booking)/;
+    return reg.test(path);
+};
+
 router.beforeEach(({ meta, path }, from, next) => {
-    next();
+    if (routerCheckPath(path) || store.getters.isLogin) {
+        next();
+    } else {
+        if (process.env.NODE_ENV === 'development') {
+            next({ name: 'sign-in' });
+        } else {
+            window.location.href = '/userinfo.html#/user_login';
+        }
+
+    }
 });
 
 new Vue({
