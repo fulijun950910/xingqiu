@@ -230,7 +230,11 @@ app.sign = {
             }
         } else {
             alertimg = 'images/qiandaoshibai.png';
-            msg += '<h4 class="msgtimes">亲，本次签到不在签到范围之内</h4>';
+            if (type == 1) {
+                msg += '<h4 class="msgtimes">亲，本次签到不在签到范围之内</h4>';
+            } else if (type == 0) {
+                msg += '<h4 class="msgtimes">亲，本次签退不在签到范围之内</h4>';
+            }
         }
 
         $('#alertSign>.signMsg>img').attr('src', alertimg);
