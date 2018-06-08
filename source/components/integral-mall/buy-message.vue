@@ -138,8 +138,8 @@ export default {
                 'payDoudouAmount': this.useBean,
                 'payMoney': this.pay,
                 'itemId': this.selectedItem.id,
-                'quantity': 1,
-                'tradeType': 1,
+                'quantity': this.quantity,
+                'tradeType': this.selectedItem.type,
                 'deliverAddressId': this.addressId,
                 remark: this.remark
             };
@@ -151,8 +151,8 @@ export default {
             Indicator.open('loading...');
             api_party.doudouTrade(parameter).then(msg=> {
                 Indicator.close();
-                if (msg.data.status != 0) {
-                    location.href = msg.data.payUrl;
+                if (msg.data.status == 0) {
+                    location.href = encodeURIComponent(msg.data.payUrl + '?url=' + location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/order-list');
                 } else {
                     this.success = true;
                 }
