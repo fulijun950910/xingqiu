@@ -9,7 +9,7 @@
         </div>
         <div class="product-detail-container">
         <div class="introduction">
-            <div layout="row" layout-align="start center">
+            <div layout="row" layout-align="start start">
                 <div flex="80">
                     <div class="fwb fs34 color-black">{{data.name}}</div>
                     <div class="fs24 color-gray">{{data.description}}</div>

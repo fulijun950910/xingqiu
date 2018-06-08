@@ -155,8 +155,8 @@ export default {
         };
     },
     methods: {
-        loadData() {
-            if (this.scrollDisabled) {
+        loadData(type) {
+            if (this.scrollDisabled && type) {
                 return;
             }
             let parameter = {
@@ -168,6 +168,10 @@ export default {
                     {
                         field: 'partyId',
                         value: this.$store.state.party.partyId
+                    },
+                    {
+                        field: 'status',
+                        value: this.isActive
                     }
                 ],
                 page: this.pageChange.page,
@@ -216,6 +220,7 @@ export default {
         },
         tabClick(item) {
             this.isActive = item.value;
+            this.loadData();
         },
         choose(item, index) {
             item.typeselect = item.tab[index].value;
@@ -241,7 +246,7 @@ export default {
             this.rightTab = !this.rightTab;
         },
         loadMore() {
-            this.loadData();
+            this.loadData(1);
         },
         update() {
             this.showBuy = false;

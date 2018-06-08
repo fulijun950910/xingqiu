@@ -165,8 +165,9 @@ export default {
             if (value > this.realAvaliable) {
                 Toast('豆豆不足');
                 this.useBean = this.realAvaliable;
-            } else if (value > this.selectedItem.price / 10) {
-                this.useBean = this.selectedItem.price / 10;
+            } else if (value > this.selectedItem.price / 10 * this.quantity) {
+                debugger;
+                this.useBean = this.selectedItem.price / 10 * this.quantity;
                 this.pay = 0;
                 return;
             }
@@ -174,7 +175,7 @@ export default {
             // this.caculateResult(this.selectedItem.price, this.quantity);
         },
         changeDouCaculate(bean) {
-            this.pay = (this.selectedItem.price / 100 * 10 - bean) / 10 * 100;
+            this.pay = ((this.selectedItem.price * this.quantity) / 10 - bean) * 10;
             this.avaliableBean = this.realAvaliable - bean;
         },
         hideMask(e) {
@@ -219,13 +220,19 @@ export default {
             this.$router.push(`/address-list/choose/${this.productId}`);
         },
         loadChooseAddress() {
+            debugger;
             if (this.addressId) {
                 Indicator.open('loading...');
                 api_party.getAddress(this.addressId).then(msg=> {
                     Indicator.close();
-                    this.address.name = msg.data.fullAddress;
-                    this.address.id = msg.data.id;
-                    this.address.person = msg.data.contactPersion;
+                    this.address = {
+                        name: msg.data.fullAddress,
+                        id: msg.data.id,
+                        person: msg.data.contactPersion
+                    };
+                    // this.address.name = msg.data.fullAddress;
+                    // this.address.id = msg.data.id;
+                    // this.address.person = msg.data.contactPersion;
                 }, msg=> {
 
                 });

@@ -1,7 +1,11 @@
 <template>
     <div class="product-list">
         <div class="banner">
-            这个是banner
+            <img class="img-auto" :src="require('assets/imgs/integral-mall/product-list-banner-min.png')" alt="">
+            <div class="text">
+                <div class="fwb color-white fs40">美豆豆福利兑</div>
+                <div class="color-white fs30">小豆豆，大作用</div>
+            </div>
         </div>
         <div class="product-list-con" flex layout="row" layout-align="space-between center" flex-wrap="wrap">
               <div class="product-list-item" v-for="(item,index) in dataList" :key="index" @click="buy(item)">
@@ -9,10 +13,10 @@
                       <img class="img-auto" :src="item.image | nSrc(require('assets/imgs/female.png'))" alt="">
                   </div>
                   <div class="bottom-describle">
-                         <div class="fs30 color-black fwb">
+                         <div class="fs30 color-black fwb no-wrap">
                              {{item.name}}
                          </div>
-                         <div class="fs24 color-gray">
+                         <div class="fs24 color-gray only-two-line">
                              {{item.description}}
                          </div>
                   </div>
@@ -101,6 +105,17 @@ export default {
         background: @gray;
         border-radius: 7px;
         margin-bottom: 15px;
+        position: relative;
+        img{
+            position: relative;
+            z-index: 1;
+        }
+        .text{
+            position: absolute;
+            z-index: 2;
+            bottom: 20px;
+            left: 20px;
+        }
     }
     .product-list-con{
         margin-bottom: 15px;
@@ -122,6 +137,9 @@ export default {
             }
             .bottom-describle{
                 margin-bottom: 10px;
+                .only-two-line{
+                    height: 35px;
+                }
             }
             border:1px solid @border-gay;
             .buy{
