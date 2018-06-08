@@ -39,7 +39,8 @@
         <div class="list-container" v-infinite-scroll="loadMore"  :infinite-scroll-disabled="loading"  infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
             <div class="list-box" v-for="(item, index) in dataList" :key="index">
                 <div class="top" layout="row" layout-align="space-between center">
-                <div class="fs24">{{item.nickName}}</div><div class="fs24 color-orange-yellow">{{item.notes}}</div>
+                <div class="fs24">{{item.nickName}}</div>
+                <div class="fs24 color-orange-yellow" v-if="item.status == 0">{{item.count分钟后将关闭订单}}</div>
                 </div>
                 <div class="middle" layout="row" layout-align="space-between center">
                   <div flex="70">
@@ -214,6 +215,12 @@ export default {
                 } else {
                     this.scrollDisabled = false;
                 }
+                res.data.rows.map((item, index)=> {
+                    if (item.status == 0) {
+                        item.count = this.$moment(item.createdTime).diff(this.$moment(), 'minutes', true);
+                    }
+
+                });
                 this.dataList = this.dataList.concat(res.data.rows);
                 this.loading = false;
                 this.pageChange.page++;

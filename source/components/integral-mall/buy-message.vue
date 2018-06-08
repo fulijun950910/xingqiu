@@ -220,7 +220,6 @@ export default {
             this.$router.push(`/address-list/choose/${this.productId}`);
         },
         loadChooseAddress() {
-            debugger;
             if (this.addressId) {
                 Indicator.open('loading...');
                 api_party.getAddress(this.addressId).then(msg=> {
