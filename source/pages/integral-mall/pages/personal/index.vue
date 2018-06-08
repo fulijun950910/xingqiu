@@ -30,6 +30,10 @@
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-wodedingdan"></m-icon>我的订单</span>
                 <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
+            <div layout="row" class="item" layout-align="space-between center" @click="routeTo(8)">
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-wodedingdan"></m-icon>转介绍列表</span>
+                <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+            </div>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(4)">
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-gerenxinxi"></m-icon>个人信息</span>
                 <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
@@ -115,6 +119,9 @@
                         break;
                     case 7:
                         this.$router.push('/change-pwd');
+                        break;
+                    case 8:
+                        this.$router.push('/supplier-list');
                         break;
                 };
             }

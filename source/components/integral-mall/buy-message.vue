@@ -204,7 +204,7 @@ export default {
         },
         loadFirstAddress() {
             Indicator.open('loading...');
-            api_party.getDefaultAddress(this.$store.state.party.partyId).then(msg=> {
+            api_party.getDefaultAddress(this.$store.state.party.partyId, this.$store.state.party.id).then(msg=> {
                 Indicator.close();
                 this.address = {
                     name: msg.data.fullAddress,

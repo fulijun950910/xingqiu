@@ -213,6 +213,59 @@ Vue.filter('payStatus', function(value) {
     return text;
 });
 
+Vue.filter('introduceStatus', function(value) {
+    if (isNaN(value)) {
+        return 0;
+    }
+    let text = '';
+    switch (Number(value)) {
+        case 0:
+            text = '提交成功';
+            break;
+        case 1:
+            text = '审核通过';
+            break;
+        case 2:
+            text = '审核失败';
+            break;
+        case 3:
+            text = '成单';
+            break;
+        case 4:
+            text = '未成单';
+            break;
+    }
+    return text;
+});
+
+Vue.filter('tradeType', function(value) {
+    if (isNaN(value)) {
+        return 0;
+    }
+    let text = '';
+    switch (Number(value)) {
+        case 1:
+            text = '购买短信';
+            break;
+        case 2:
+            text = '购买短信签名';
+            break;
+        case 3:
+            text = '购买沙龙入场券';
+            break;
+        case 4:
+            text = '美问周边';
+            break;
+        case 5:
+            text = '超级助手';
+            break;
+        case 6:
+            text = '充值豆豆';
+            break;
+    }
+    return text;
+});
+
 // '13871147835' => '138 **** 7835'
 Vue.filter('mobile', function(val, isShow) {
     if (!val) {

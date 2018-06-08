@@ -16,6 +16,7 @@ const addressList = resolve => require(['./pages/list/address-list'], resolve);
 const editeAddress = resolve => require(['./pages/edite-address'], resolve);
 const changePSW = resolve => require(['./pages/personal/changePwd'], resolve);
 const supplierForm = resolve => require(['./pages/supplier-form'], resolve);
+const supplierList = resolve => require(['./pages/list/supplier-list'], resolve);
 
 export default [{
     path: '/sign-in',
@@ -77,4 +78,8 @@ export default [{
     path: '/supplier-form',
     name: 'supplier-form',
     component: supplierForm
+}, {
+    path: '/supplier-list',
+    name: 'supplier-list',
+    component: supplierList
 }];

@@ -22,10 +22,10 @@
             <span></span>
         </div>
         <div class="rules-list">
-            <p class="fs24 color-gray"><span class="color-pink">·</span>100个美豆豆退还一张入场券，每个账号最多可兑换一张。</p>
+            <p class="fs24 color-gray"><span class="color-pink">·</span>100个美豆豆兑换一张入场券，每个账号最多可兑换一张。</p>
             <p class="fs24 color-gray"><span class="color-pink">·</span>兑换成功后入场码将以短信的形式发出</p>
             <p class="fs24 color-gray"><span class="color-pink">·</span>入场后情报入场码给到讲师，即完成兑换</p>
-            <p class="fs24 color-gray"><span class="color-pink">·</span>次兑换由于商品特殊，不可退货，敬请原谅</p>            
+            <p class="fs24 color-gray"><span class="color-pink">·</span>此兑换由于商品特殊，不可退货，敬请原谅</p>            
         </div>
         <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm"  @integraConfirm="inteconfirm"></integral-confirm>
         <buy-message type="1" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>   

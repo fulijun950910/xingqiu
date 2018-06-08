@@ -1,5 +1,14 @@
 <template>
     <div class="application-form-con">
+        <div class="activity-detail">
+<div class="img-con">
+   <img class="img-auto" :src="chooseServiceItem.image | nSrc(require('assets/imgs/female.png'))" alt="">
+</div>
+<div class="description">
+    <div class="des-title fwb fs34 color-black">{{chooseServiceItem.name}}</div>
+    <div class="des-detail fs24 color-gray">{{chooseServiceItem.description}}</div>
+</div>
+</div>
 <div class="form-title text-center">
     <div class="fs40 color-black">培训申请表</div>
     <p class="fs24 color-gray">亲爱的朋友，只有填完表但我们才能更好的为您服务哦</p>
@@ -14,7 +23,7 @@
             <div class="form-item">
     <div class="label fs24 color-black">门店名称</div>
     <div>
-  <input type="text" @focus="chooseStore" v-model="store.name" readonly placeholder="点击选择门店">
+  <input type="text" @click="chooseStore" v-model="store.name" readonly placeholder="点击选择门店">
     </div>
     </div>
         <div class="form-item">
@@ -45,7 +54,7 @@
         <div class="form-item">
     <div class="label fs24 color-black">备注<i class="color-pink"></i></div>
     <div>
-        <input class="color-black fs30" v-model="parameter.remark" type="text">
+        <textarea class="color-black fs30" v-model="parameter.remark"></textarea>
     </div>
     </div>
 </div>
@@ -103,6 +112,7 @@ export default {
         },
         init() {
             this.loadStoreList();
+            this.loadActivityDetail();
         },
         update(val) {
             this.showBuy = val;
@@ -121,10 +131,13 @@ export default {
             };
             this.parameter.storeId = this.store.id;
             this.parameter.storeName = this.store.name;
-            debugger;
+            this.showBuy = true;
+        },
+        loadActivityDetail() {
+            Indicator.open('loading...');
             api_party.productDetail(this.$route.params.id).then(msg=> {
+                Indicator.close();
                 this.chooseServiceItem = msg.data;
-                this.showBuy = true;
             }, msg=> {
 
             });
@@ -175,7 +188,20 @@ export default {
         right: 0;
         border-top:1px solid @border-gay;
     }
+.activity-detail{
+    .img-con{
+        height: 170px;
+        width: 100%;
+        overflow: hidden;
+    }
+    .description{
+        padding-top: 20px;
+        .des-detail{
+            padding: 20px 0;
 
+        }
+    }
+}
 }
 </style>
 
