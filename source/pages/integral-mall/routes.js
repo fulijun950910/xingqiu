@@ -15,6 +15,7 @@ const applicationForm = resolve => require(['./pages/application-form'], resolve
 const addressList = resolve => require(['./pages/list/address-list'], resolve);
 const editeAddress = resolve => require(['./pages/edite-address'], resolve);
 const changePSW = resolve => require(['./pages/personal/changePwd'], resolve);
+const supplierForm = resolve => require(['./pages/supplier-form'], resolve);
 
 export default [{
     path: '/sign-in',
@@ -72,4 +73,8 @@ export default [{
     path: '/change-pwd',
     name: 'change-pwd',
     component: changePSW
+}, {
+    path: '/supplier-form',
+    name: 'supplier-form',
+    component: supplierForm
 }];

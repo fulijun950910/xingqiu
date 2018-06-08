@@ -102,7 +102,7 @@ export default {
             ],
             pageChange: {
                 page: 1,
-                size: 5
+                size: 20
             },
             showNomore: true,
             loading: false,
@@ -158,7 +158,6 @@ export default {
     },
     methods: {
         loadData(type) {
-            debugger;
             if (this.scrollDisabled && type) {
                 return;
             }
