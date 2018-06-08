@@ -159,6 +159,10 @@ export default {
             if (this.scrollDisabled && type) {
                 return;
             }
+            if (!type) {
+                this.dataList = [];
+                this.resetSearch();
+            }
             let parameter = {
                 query: [
                     {
