@@ -204,7 +204,6 @@ export default {
             Indicator.open('loading...');
             this.loading = true;
             api_party.orderList(parameter).then(res=> {
-                debugger;
                 Indicator.close();
                 if (res.data.rows.length < this.pageChange.size) {
                     this.scrollDisabled = true;

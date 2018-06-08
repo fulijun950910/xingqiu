@@ -230,9 +230,6 @@ export default {
                         id: msg.data.id,
                         person: msg.data.contactPersion
                     };
-                    // this.address.name = msg.data.fullAddress;
-                    // this.address.id = msg.data.id;
-                    // this.address.person = msg.data.contactPersion;
                 }, msg=> {
 
                 });

@@ -26,24 +26,24 @@
             </div>
         </div>
         <div class="list-personal" flex>
-            <div layout="row" class="item" layout-align="space-between center">
+            <div layout="row" class="item" layout-align="space-between center" @click="routeTo(3)">
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-huaban3"></m-icon>我的订单</span>
                 <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
-            <div layout="row" class="item" layout-align="space-between center">
+            <div layout="row" class="item" layout-align="space-between center" @click="routeTo(4)">
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-huaban3"></m-icon>个人信息</span>
                 <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
-            <div layout="row" class="item" layout-align="space-between center">
+            <div layout="row" class="item" layout-align="space-between center" @click="routeTo(5)">
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-huaban3"></m-icon>我的地址</span>
                 <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
-            <div layout="row" class="item" layout-align="space-between center">
+            <div layout="row" class="item" layout-align="space-between center" @click="routeTo(6)">
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-duanxin"></m-icon>客服</span>
                 <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
-            <div layout="row" class="item" layout-align="space-between center">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-11"></m-icon>安全设置</span>
+            <div layout="row" class="item" layout-align="space-between center" @click="routeTo(7)">
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-11"></m-icon>修改密码</span>
                 <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
         </div>
@@ -82,8 +82,30 @@
             goRuleEntry() {
                 this.$router.push({name: 'rule-entry'});
             },
-            routeTo() {
-                location.href = `${this.$rootPath}index.html#/main`;
+            routeTo(type) {
+                switch (Number(type)) {
+                    case 1:
+                        location.href = `${this.$rootPath}index.html#/main`;
+                        break;
+                    case 2:
+                        this.$router.push('/personal');
+                        break;
+                    case 3:
+                        this.$router.push('/order-list');
+                        break;
+                    case 4:
+                        this.$router.push('/personal');
+                        break;
+                    case 5:
+                        this.$router.push('/address-list/view');
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        location.href = `${this.$rootPath}index.html#/editUserinfo/6`;
+                        break;
+
+                };
             }
         },
         mounted() {
