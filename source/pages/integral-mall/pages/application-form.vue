@@ -14,7 +14,7 @@
             <div class="form-item">
     <div class="label fs24 color-black">门店名称</div>
     <div>
-  <input type="text" @focus="chooseStore" v-model="store.name" placeholder="点击选择门店">
+  <input type="text" @focus="chooseStore" v-model="store.name" readonly placeholder="点击选择门店">
     </div>
     </div>
         <div class="form-item">

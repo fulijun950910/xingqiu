@@ -1,7 +1,12 @@
 <template>
     <div class="edite-address">
-        <div class="edite-title fs40 color-black fwb">
+        <div class="top-con edite-title" layout="row" layout-align="space-between center">
+        <div class=" fs40 color-black fwb">
             {{title}}
+        </div>
+        <div layout-align="start center" layout="row" class="fwb">
+            默认&nbsp;&nbsp;<mt-switch v-model="isDefault"></mt-switch>
+        </div>
         </div>
         <div class="form-con">
         <mt-field label="收货人" placeholder="请输入收货人" v-model.trim="formParameter.contactPersion"></mt-field>
@@ -17,11 +22,12 @@
     </div>
 </template>
 <script>
-import { Field, Toast } from 'mint-ui';
+import { Field, Toast, Switch } from 'mint-ui';
 import Vue from 'vue';
 import api_party from 'services/api.party';
 import mPicker from 'components/m-picker';
 Vue.component(Field.name, Field);
+Vue.component(Switch.name, Switch);
 export default {
     data() {
         return {
@@ -42,7 +48,8 @@ export default {
             address: {},
             type: 1, // 1省份 2城市 3县/区
             formParameter: {},
-            addressId: this.$route.params.id
+            addressId: this.$route.params.id,
+            isDefault: false
         };
     },
     components: {
@@ -120,7 +127,7 @@ export default {
                 'partyId': this.employee.party.partyId,
                 'userId': this.employee.party.id,
                 // "alias":"听雪楼门店",
-                isDefault: true,
+                isDefault: this.isDefault,
                 province: this.address.province,
                 city: this.address.city,
                 town: this.address.town,
@@ -134,8 +141,8 @@ export default {
                 parameter.id = this.addressId;
             };
             api_party.deliveryAddress(parameter).then(msg=> {
-                Toast(this.addressId ? '地址膝盖成功' : '地址创建成功');
-                this.$router.push('/address-list');
+                Toast(this.addressId ? '地址修改成功' : '地址创建成功');
+                this.$router.push('/address-list/view');
             }, msg=> {
 
             });

@@ -1,8 +1,11 @@
 <template>
-    <div class="address-list">
+    <div class="address-list"  v-infinite-scroll="loadMore"  :infinite-scroll-disabled="loading"  infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
+        <div layout="row" layout-align="space-between center" class="add-address">
         <div class="color-black fs40 fwb address-title">收货地址</div>
+ <div @click="addAddress()"><m-icon xlink="#icon-jia"></m-icon>新增地址</div>
+        </div>
         <div class="data-list" flex>
-            <div class="data-item" v-for="(item, index) in dataList.rows" :key="index" @click="choose(item)">
+            <div class="data-item" v-for="(item, index) in dataList" :key="index" @click="choose(item)">
     <div layout="row" layout-align="space-between center">
     <span class="color-black fs30">{{item.contactPersion}}</span>
     <span class="color-black fs30">{{item.contactMobile}}</span>
@@ -20,18 +23,23 @@
     </div>
     </div>
             </div>
+                        <no-more :show-more="dataList.length != 0 || loading" more-text="不要再看了，我是有底线的"></no-more>
+             <no-data :visible="dataList.length == 0 && !loading" :showButton="false"></no-data>
         </div>
-        <div class="add-address" layout="row" @click="addAddress()" layout-align="center center">
+        <!-- <div class="add-address" layout="row" @click="addAddress()" layout-align="center center">
             <div><m-icon xlink="#icon-jia"></m-icon>新增地址</div>
-        </div>
+        </div> -->
         <integral-confirm @integraConfirm="integraConfirm" :confirmText="confirmText"></integral-confirm>
     </div>
 </template>
 <script>
 import api_party from 'services/api.party';
 import Vue from 'vue';
-import { Indicator, Toast } from 'mint-ui';
+import { Indicator, Toast, InfiniteScroll } from 'mint-ui';
 import integralConfirm from 'components/integral-mall/integral-confirm';
+import noMore from 'components/integral-mall/no-more';
+import noData from 'components/no-data';
+Vue.use(InfiniteScroll);
 export default {
     data() {
         return {
@@ -39,23 +47,54 @@ export default {
             employee: JSON.parse(localStorage.getItem('employee')),
             type: this.$route.params.type,
             confirmText: {},
-            selectAddress: null
+            selectAddress: null,
+            loading: false,
+            scrollDisabled: false,
+            pageChange: {
+                page: 1,
+                size: 5
+            }
         };
     },
     components: {
-        integralConfirm
+        integralConfirm,
+        noMore,
+        noData
     },
     methods: {
         loadData() {
+            if (this.scrollDisabled) {
+                return;
+            }
             let parameter = {
-                merchantId: this.employee.party.merchantId,
-                partyId: this.employee.party.partyId,
-                userId: this.employee.party.id
+                query: [
+                    {
+                        field: 'merchantId',
+                        value: this.$store.state.party.merchantId
+                    },
+                    {
+                        field: 'partyId',
+                        value: this.$store.state.party.partyId
+                    },
+                    {
+                        field: 'userId',
+                        value: this.$store.state.party.id
+                    }
+                ],
+                page: this.pageChange.page,
+                size: this.pageChange.size
             };
             Indicator.open('loading...');
             api_party.addressSearch(parameter).then(msg=> {
                 Indicator.close();
-                this.dataList = msg.data;
+                if (msg.data.rows.length < this.pageChange.size) {
+                    this.scrollDisabled = true;
+                } else {
+                    this.scrollDisabled = false;
+                }
+                this.dataList = this.dataList.concat(msg.data.rows);
+                this.loading = false;
+                this.pageChange.page++;
             }, msg=> {
 
             });
@@ -108,6 +147,9 @@ export default {
             }, res=> {
                 this.confirmText.show = false;
             });
+        },
+        loadMore() {
+            this.loadData();
         }
     },
     mounted() {
@@ -119,12 +161,11 @@ export default {
 <style lang="less" scoped>
 @import '~styles/_style';
 .address-list{
-    padding: 30px 15px;
-    .address-title{
-        margin-bottom: 25px;
-    }
+    padding: 60px 15px 10px 15px;
+    height: 100%;
+    overflow-y: scroll;
     .data-list{
-        padding: 20px 0;
+        padding: 20px 0 0 0;
         .data-item{
             box-shadow:0px 10px 28px 0px rgba(0,0,0,0.08);
             border-radius: 7px;
@@ -144,6 +185,14 @@ export default {
         }
     }
     .add-address{
+        position: fixed;
+        left: 0;
+        right: 0;
+        padding: 0 15px;
+        padding-top: 30px;
+        padding-bottom: 20px;
+        top:0;
+        background: white;
         .icon{
             margin-right: 10px;
         }
