@@ -202,7 +202,7 @@ export default {
         queryStore(storeId) {
             this.$indicator.open();
             api_booking.getStoreInfo(storeId).then(res =>{
-                if (res.data.merchantId != this.$store.getters.merchantId) {
+                if (this.$store.getters.merchantId && res.data.merchantId != this.$store.getters.merchantId) {
                     window.location.href = this.$signLocation;
                 };
                 this.$indicator.close();

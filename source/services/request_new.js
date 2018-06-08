@@ -13,7 +13,12 @@ export default function(url, method, data, messageFlag = true) {
         timeout: 15000
     }).then(function(res) {
         if (res.data && res.data.success) {
-            deferred.resolve(res.data);
+            // 302 重定向
+            if (res.data.code == 302 && res.data.data) {
+                window.location.href = res.data.data;
+            } else {
+                deferred.resolve(res.data);
+            }
         } else {
             Vue.prototype.$indicator.close();
             if (messageFlag) {
