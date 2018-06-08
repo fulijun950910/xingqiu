@@ -17,8 +17,11 @@ export default {
         var url = `/api/store/${id}`;
         return request(url, null, 'get');
     },
-    getAppointment(id) { // 获取预约详细信息
-        var url = `/api/appointment/${id}`;
+    getAppointment(data) { // 获取预约详细信息
+        var url = `/api/appointment/${data.id}`;
+        if (data.search) {
+            url += data.search;
+        }
         return request(url, null, 'get');
     },
     updateAppointment(data) { // 更新预约详细信息

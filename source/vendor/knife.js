@@ -1,4 +1,16 @@
 export default {
+    // 截取链接search
+    keyGetValue(link, name) {
+        let parameter = link.slice(1, this.length);
+        let parameters = parameter.split('&');
+        for (let ii = 0; ii < parameters.length; ii++) {
+            let keyValue = parameters[ii];
+            if (keyValue.split('=')[0] == name) {
+                return keyValue.split('=')[1];
+            }
+        }
+        return '';
+    },
     // 浅拷贝
 	extendCopy(p) {
         let c = {};

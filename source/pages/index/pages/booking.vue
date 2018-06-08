@@ -160,7 +160,13 @@ export default {
         },
         init() {
             this.$indicator.open();
-            api_booking.getAppointment(this.$route.params.id).then(res => {
+            let data = {
+                id: this.$route.params.id
+            };
+            if (window.location.search) {
+                data.search = window.location.search;
+            };
+            api_booking.getAppointment(data).then(res => {
                 this.$indicator.close();
                 if (!res.success) {
                     this.$toast(res.message);
