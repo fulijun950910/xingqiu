@@ -202,6 +202,9 @@ export default {
         queryStore(storeId) {
             this.$indicator.open();
             api_booking.getStoreInfo(storeId).then(res =>{
+                if (this.$store.getters.merchantId && res.data.merchantId != this.$store.getters.merchantId) {
+                    window.location.href = this.$signLocation;
+                };
                 this.$indicator.close();
                 let dataList = [];
                 let start_time = new Date(Vue.filter('amDateFormat')(this.data.startTime, 'YYYY/MM/DD') + ' ' + res.data.appoinmentTimeStart + ':00');
