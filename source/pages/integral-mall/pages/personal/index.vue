@@ -7,9 +7,8 @@
                         <img :src="employee.avatarFileId | nSrc(require('assets/imgs/female.png'))" alt="">
                     </div>
                 </div>
-                <div @click="goPayNotes">
+                <div>
                     <div class="fs32 color-white">{{employee.name}}</div>
-                    <div  class="fs24 color-white link-box m-t-1">查看收支明细 ></div>
                 </div>
             </div>
             <div class="bottom-detail" layout="row" layout-align="start center" flex>
@@ -17,7 +16,8 @@
                     <div  class="color-white fs30 doudou">
                         <span class="color-white">{{data.doudouBalance}}</span> 美豆豆
                     </div>
-                    <div layout="row" layout-align="start center" class="color-white">- 可提取{{data.doudouPresent}}个美豆豆</div>
+                    <!-- <div layout="row" layout-align="start center" class="color-white">- 可提取{{data.doudouPresent}}个美豆豆</div> -->
+                    <div  class="fs24 color-white  m-t-1" @click="goPayNotes">查看收支明细 ></div>                    
                 </div>
                 <div flex="30" class="start-play" layout-align="start center">
                     <div flex></div>
@@ -27,19 +27,19 @@
         </div>
         <div class="list-personal" flex>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(3)">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-huaban3"></m-icon>我的订单</span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-wodedingdan"></m-icon>我的订单</span>
                 <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(4)">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-huaban3"></m-icon>个人信息</span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-gerenxinxi"></m-icon>个人信息</span>
                 <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(5)">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-huaban3"></m-icon>我的地址</span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-wodedizhi"></m-icon>我的地址</span>
                 <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(6)">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-duanxin"></m-icon>客服</span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-kefu"></m-icon>客服</span>
                 <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(7)">
@@ -76,6 +76,18 @@
                 }, msg => {
                 });
             },
+            loadEmployeeData() {
+                this.$indicator.open();
+                api_party.getEmployee(this.$store.state.user.id).then(res => {
+                    this.$indicator.close();
+                    this.dataModel = res.data;
+                    this.$store.state.employeeData = this.dataModel;
+                });
+                api_party.getAccount(this.$store.state.party.partyId).then(res => {
+                    this.blanceTotal = res.data.doudouBalance;
+                });
+
+            },
             goPayNotes() {
                 window.location.href = `${this.$rootPath}index.html#/payNotes/${this.data.id}`;
             },
@@ -94,7 +106,7 @@
                         this.$router.push('/order-list');
                         break;
                     case 4:
-                        this.$router.push('/personal');
+                        location.href = `${this.$rootPath}index.html#/userinfo`;
                         break;
                     case 5:
                         this.$router.push('/address-list/view');
@@ -102,14 +114,14 @@
                     case 6:
                         break;
                     case 7:
-                        location.href = `${this.$rootPath}index.html#/editUserinfo/6`;
+                        this.$router.push('/change-pwd');
                         break;
-
                 };
             }
         },
         mounted() {
             this.load();
+            this.loadEmployeeData();
         }
     };
 </script>

@@ -39,7 +39,8 @@
         <div class="list-container" v-infinite-scroll="loadMore"  :infinite-scroll-disabled="loading"  infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
             <div class="list-box" v-for="(item, index) in dataList" :key="index">
                 <div class="top" layout="row" layout-align="space-between center">
-                <div class="fs24">{{item.nickName}}</div><div class="fs24 color-orange-yellow">{{item.notes}}</div>
+                <div class="fs24">{{item.nickName}}</div>
+                <div class="fs24 color-orange-yellow" v-if="item.status == 0">{{item.count分钟后将关闭订单}}</div>
                 </div>
                 <div class="middle" layout="row" layout-align="space-between center">
                   <div flex="70">
@@ -55,8 +56,8 @@
                     <div class="payStatus fs30" :class="{'color-pink fwb' : item.tradeType == 0}">{{item.tradeType | payStatus}}<m-icon xlink="#icon-zuojiantou"></m-icon></div>
                 </div>
             </div>
-        <no-more :show-more="dataList.length == 0 && !loading" more-text="不要再看了，我是有底线的"></no-more>
-            
+        <no-more :show-more="dataList.length != 0 || loading" more-text="不要再看了，我是有底线的"></no-more>
+            <no-data :visible="dataList.length == 0 && !loading" :showButton="false"></no-data>
         </div>
         </div>
 <buy-message type="2"  @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>
@@ -71,6 +72,7 @@
 import noMore from 'components/integral-mall/no-more';
 import { Indicator, DatetimePicker, InfiniteScroll } from 'mint-ui';
 import buyMessage from 'components/integral-mall/buy-message';
+import noData from 'components/no-data';
 import Vue from 'vue';
 Vue.component(DatetimePicker.name, DatetimePicker);
 Vue.use(InfiniteScroll);
@@ -100,14 +102,14 @@ export default {
             ],
             pageChange: {
                 page: 1,
-                size: 20
+                size: 5
             },
             showNomore: true,
             loading: false,
+            scrollDisabled: false,
             isActive: 1,
             dataList: [],
             rightTab: false,
-            scrollDisabled: false,
             rightMenu: [
                 {
                     name: '订单类型',
@@ -156,8 +158,13 @@ export default {
     },
     methods: {
         loadData(type) {
+            debugger;
             if (this.scrollDisabled && type) {
                 return;
+            }
+            if (!type) {
+                this.dataList = [];
+                this.resetSearch();
             }
             let parameter = {
                 query: [
@@ -210,6 +217,12 @@ export default {
                 } else {
                     this.scrollDisabled = false;
                 }
+                res.data.rows.map((item, index)=> {
+                    if (item.status == 0) {
+                        item.count = this.$moment(item.createdTime).diff(this.$moment(), 'minutes', true);
+                    }
+
+                });
                 this.dataList = this.dataList.concat(res.data.rows);
                 this.loading = false;
                 this.pageChange.page++;
@@ -265,7 +278,8 @@ export default {
     },
     components: {
         noMore,
-        buyMessage
+        buyMessage,
+        noData
     }
 };
 </script>

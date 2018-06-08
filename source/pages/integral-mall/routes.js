@@ -14,6 +14,7 @@ const ruleEntry = resolve => require(['./pages/ruleEntry/index'], resolve);
 const applicationForm = resolve => require(['./pages/application-form'], resolve);
 const addressList = resolve => require(['./pages/list/address-list'], resolve);
 const editeAddress = resolve => require(['./pages/edite-address'], resolve);
+const changePSW = resolve => require(['./pages/personal/changePwd'], resolve);
 
 export default [{
     path: '/sign-in',
@@ -67,4 +68,8 @@ export default [{
     path: '/edite-address/:id?',
     name: 'edite-address',
     component: editeAddress
+}, {
+    path: '/change-pwd',
+    name: 'change-pwd',
+    component: changePSW
 }];

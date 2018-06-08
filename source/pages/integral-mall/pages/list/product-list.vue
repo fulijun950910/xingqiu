@@ -127,7 +127,6 @@ export default {
             margin-bottom: 2%;
             .product-img{
                 height: 100px;
-                padding: 25px;
                 overflow: hidden;
                 margin-bottom: 15px;
                 img{
