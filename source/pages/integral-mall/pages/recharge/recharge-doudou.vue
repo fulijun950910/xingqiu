@@ -14,9 +14,12 @@
                 <div layout="row" layout-align="start center" flex-wrap="wrap">
                     <div @click="selectType(item)" v-for="item in list" :class="{'act': item.id == act}" class="list-item" layout="column" layout-align="center center" :key="item.id">
                         <div>{{item.description}}</div>
-                        <div class="fs24 dark-gray">售价{{item.price | fen2yuan}}元</div>
+                        <div class="fs24 dark-gray" v-if="item.price">售价{{item.price | fen2yuan}}元</div>
                         <div v-if="item.icon" class="tag fs24 color-white">{{item.icon}}</div>
                     </div>
+                </div>
+                <div flex class="input-price text-center" v-if="choose.id == -1">
+                    <input type="text" @change="priceChange" v-model="inputPrice" name="" placeholder="其他金额">
                 </div>
                 <div>
                     <button @click="submit" class="fs32 subBtn">充值</button>
@@ -37,7 +40,8 @@
                 act: 1,
                 dataModel: {},
                 list: [],
-                choose: null
+                choose: {},
+                inputPrice: null
             };
         },
         mounted() {
@@ -81,9 +85,18 @@
                     this.list = res.data;
                     this.act = res.data[0].id;
                     this.choose = res.data[0];
+                    this.list.push({
+                        description: '其他金额',
+                        id: '-1'
+                    });
                 }, msg=> {
 
                 });
+            },
+            priceChange() {
+                this.choose = {
+                    price: this.inputPrice * 100
+                };
             }
         }
     };
@@ -101,6 +114,15 @@
             display:table;
             content:'';
             clear:both;
+        }
+        .input-price{
+            margin-top: 15px;
+            input{
+                padding: 10px;
+                border: 1px solid @border-gay;
+                border-radius: 14px;
+            }
+
         }
     }
     .blanceBox{
