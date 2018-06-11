@@ -1,9 +1,9 @@
 <template>
-    <div class="personal-container">
+    <div class="personal-container" v-title="'我的星球'">
         <div class="top-detail" layout="column" layout-align="space-between center" flex>
             <div class="person-describtion" layout="row" layout-align="space-between center" flex>
                                 <div>
-                    <div class="fs32 color-white">{{dataModel.name}}</div>
+                    <div class="fs34 color-white font-60">Hi,{{dataModel.name}}</div>
                 </div>
                 <div class="m-r-2">
                     <div class="img-con">
@@ -28,32 +28,36 @@
         </div>
         <div class="list-personal" flex>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(3)">
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-shenfen"></m-icon>登陆人类型</span>
+                <span class="color-gray">{{party.userType | userType}}</span>
+            </div>
+            <div layout="row" class="item" layout-align="space-between center" @click="routeTo(3)">
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-wodedingdan"></m-icon>我的订单</span>
-                <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+                <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(8)">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-wodedingdan"></m-icon>转介绍列表</span>
-                <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-jieshao"></m-icon>转介绍列表</span>
+                <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(4)">
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-gerenxinxi"></m-icon>个人信息</span>
-                <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+                <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(5)">
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-wodedizhi"></m-icon>我的地址</span>
-                <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+                <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(6)">
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-kefu"></m-icon>客服</span>
-                <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+                <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(7)">
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-11"></m-icon>修改密码</span>
-                <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+                <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="signOut()">
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-11"></m-icon>退出登陆</span>
-                <span class="color-gray"></span>
+                <span class="color-gray right-icon"></span>
             </div>
         </div>
         <div class="bottom-tab color-gray" layout="row" layout-align="start center">
@@ -81,7 +85,8 @@
                 data: {},
                 logoImage: {},
                 dataModel: {},
-                showService: false
+                showService: false,
+                party: this.$store.state.party
             };
         },
         components: {
@@ -101,6 +106,7 @@
                     this.$indicator.close();
                     this.dataModel = res.data;
                     this.$store.state.employeeData = this.dataModel;
+                    console.log(this.$store.state);
                 });
                 api_party.getAccount(this.$store.state.party.partyId).then(res => {
                     this.blanceTotal = res.data.doudouBalance;
@@ -177,6 +183,9 @@
     @import '~styles/_style';
 
     .personal-container {
+        .font-60{
+            font-size: 34px;
+        }
         position: relative;
         padding-bottom: 60px;
         .top-detail {
@@ -195,13 +204,17 @@
                 padding-top: 15px;
             }
             .img-con {
-                width: 68px;
-                height: 68px;
-                border-radius: 34px;
-                border:1px solid @white;
+                width: 60px;
+                height: 74px;
+                border-radius: 14px;
+                border:1px solid @border-gay;
                 overflow: hidden;
                 display: block;
                 position: relative;
+                img{
+                    height: 100%;
+                    width: auto;
+                }
             }
             .person-describtion {
                 width: 100%;
@@ -239,6 +252,12 @@
                         margin-right: 10px;
                     }
                 }
+                  .right-icon{
+                        margin-left: 5px;
+                        .icon{
+                            margin-right: 0;
+                        }
+                    }
             }
 
         }

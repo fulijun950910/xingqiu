@@ -254,6 +254,28 @@ Vue.filter('introduceStatus', function(value) {
     return text;
 });
 
+Vue.filter('userType', function(value) {
+    if (isNaN(value)) {
+        return 0;
+    }
+    let text = '';
+    switch (Number(value)) {
+        case 1:
+            text = 'saas商户';
+            break;
+        case 2:
+            text = 'saas员工';
+            break;
+        case 3:
+            text = 'bbs账户';
+            break;
+        case 4:
+            text = 'b2b账户';
+            break;
+    }
+    return text;
+});
+
 Vue.filter('tradeType', function(value) {
     if (isNaN(value)) {
         return 0;

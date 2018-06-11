@@ -22,7 +22,7 @@
                     <span>用户名</span>
                 </div>
                 <div >
-                    <span class="light-gray">{{dataModel.name}}</span>
+                    <span class="color-gray">{{dataModel.name}}</span>
                     <m-icon class="color-gray" xlink="#icon-right-bold"></m-icon>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                     <span>性别</span>
                 </div>
                 <div >
-                    <span class="light-gray">{{dataModel.gender | getName(genderList)}}</span>
+                    <span class="color-gray">{{dataModel.gender | getName(genderList)}}</span>
                     <m-icon class="color-gray" xlink="#icon-right-bold"></m-icon>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                     <span>生日</span>
                 </div>
                 <div >
-                    <span class="light-gray">{{dataModel.birthday}}</span>
+                    <span class="color-gray">{{dataModel.birthday}}</span>
                     <m-icon class="color-gray" xlink="#icon-right-bold"></m-icon>
                 </div>
             </div>
@@ -52,7 +52,7 @@
                     <span>地址</span>
                 </div>
                 <div >
-                    <span class="light-gray">{{dataModel.address | sliceStr(30)}}</span>
+                    <span class="color-gray">{{dataModel.address | sliceStr(30)}}</span>
                     <m-icon class="color-gray" xlink="#icon-right-bold"></m-icon>
                 </div>
             </div> -->
@@ -62,7 +62,7 @@
                     <span>签名</span>
                 </div>
                 <div >
-                    <span class="light-gray">{{dataModel.description | sliceStr(30)}}</span>
+                    <span class="color-gray">{{dataModel.description | sliceStr(30)}}</span>
                     <m-icon class="color-gray" xlink="#icon-right-bold"></m-icon>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                     <span>修改密码</span>
                 </div>
                 <div >
-                    <span class="light-gray">******</span>
+                    <span class="color-gray">******</span>
                     <m-icon class="color-gray" xlink="#icon-right-bold"></m-icon>
                 </div>
             </div> -->

@@ -4,23 +4,23 @@
             <div @click="goLink1" class="bannerBox"><img  :src="require('assets/imgs/index/20180509184001.jpg')" alt=""></div>
             <div class="iconList" layout="row" layout-align="space-between center">
                 <div @click="goBbsPage">
-                    <div class="iconBox iconBox1" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-wenda2"></m-icon></div>
+                    <div class="iconBox iconBox1" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-huaban7"></m-icon></div>
                     <div class="fs24 color-gray">美问美答</div>
                 </div>
                 <div>
-                    <div @click="goMbh" class="iconBox" layout="row" layout-align="center center"><img :src="require('assets/imgs/index/20180509184002.jpg')" alt=""></div>
+                    <div @click="goMbh" class="iconBox iconBox2" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-huaban5"></m-icon></div>
                     <div class="fs24 color-gray">美博汇</div>
                 </div>
                 <div>
-                    <div @click="goWxbus" class="iconBox iconBox3" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-mendianguanli"></m-icon></div>
+                    <div @click="goWxbus" class="iconBox iconBox3" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-huaban3"></m-icon></div>
                     <div class="fs24 color-gray">店务助手</div>
                 </div>
                 <div @click="goAllianceBeta">
-                    <div class="iconBox iconBox4" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-hezuo"></m-icon></div>
+                    <div class="iconBox iconBox4" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-huaban4"></m-icon></div>
                     <div class="fs24 color-gray">异业共赢</div>
                 </div>
                 <div @click="goCheckIn">
-                    <div class="iconBox iconBox5" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-qiandao"></m-icon></div>
+                    <div class="iconBox iconBox5" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-huaban8"></m-icon></div>
                     <div class="fs24 color-gray">每日签到</div>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                 <div class="fs20 ">首页</div>
             </div>
             <div @click="goUserInfo" class="item" flex layout="column" layout-align="center center">
-                <div><m-icon class="icon "  xlink="#icon-xingming"></m-icon></div>
+                <div><m-icon class="icon "  xlink="#icon-huaban1"></m-icon></div>
                 <div class="fs20 ">我的</div>
             </div>
         </div>
@@ -230,19 +230,23 @@
                 font-size:22px;
             }
             &.iconBox0{
-                background: linear-gradient(-45deg, #777, #ccc);
+                background:linear-gradient(-139.5deg,rgba(255,136,27,1),rgba(255,151,27,1),rgba(255,165,27,1),rgba(255,180,27,1),rgba(255,193,27,1),rgba(255,207,27,1));
             }
             &.iconBox1{
                 background: linear-gradient(-45deg, #7484F3, #CB94F4);
             }
+            &.iconBox2{
+                background:linear-gradient(-137.9deg,rgba(246,80,160,1),rgba(248,97,158,1),rgba(250,112,157,1),rgba(252,126,155,1),rgba(254,139,153,1),rgba(255,152,151,1));
+
+            }
             &.iconBox3{
-                background: linear-gradient(-45deg, #848ADD, #64D4FB);
+               background:linear-gradient(-137.9deg,rgba(246,80,160,1),rgba(248,97,158,1),rgba(250,112,157,1),rgba(252,126,155,1),rgba(254,139,153,1),rgba(255,152,151,1));
             }
             &.iconBox4{
-                background: linear-gradient(-45deg, #F8DA6F, #F2A617);
+                background:linear-gradient(135.9deg,rgba(100,232,222,1),rgba(100,187,232,1),rgba(100,115,229,1),rgba(138,100,232,1));
             }
             &.iconBox5{
-                background: linear-gradient(-45deg, #45DCD7, #3FEAB7);
+                background:linear-gradient(135.9deg,rgba(100,232,222,1),rgba(100,187,232,1),rgba(100,115,229,1),rgba(138,100,232,1));
             }
         }
     }

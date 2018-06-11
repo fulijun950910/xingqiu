@@ -18,8 +18,8 @@
         默认&nbsp;&nbsp;<m-icon class="fs40" xlink="#icon-gouicon1"></m-icon>
     </div>
     <div layout="row" layout-align="center center">
-        <span class="color-yellow-orange" @click="controllItem(item,1)"><m-icon class="fs34" xlink="#icon-shanchu1"></m-icon></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <span class="color-blue" @click="controllItem(item,2)"><m-icon class="fs34" xlink="#icon-bianji"></m-icon></span>
+        <span class="color-yellow-orange" @click.stop="controllItem(item,1)"><m-icon class="fs34" xlink="#icon-shanchu1"></m-icon></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="color-blue" @click.stop="controllItem(item,2)"><m-icon class="fs34" xlink="#icon-bianji"></m-icon></span>
     </div>
     </div>
             </div>
@@ -124,7 +124,10 @@ export default {
                 };
             } else if (type == 2) {
                 // 编辑
-                this.$router.push('/edite-address/' + item.id);
+                // this.$router.push('/edite-address/' + item.id);
+                this.$router.push({
+                    name: 'edite-address', params: {id: item.id}
+                });
             }
         },
         choose(item) {
