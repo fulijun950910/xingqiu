@@ -18,7 +18,7 @@
                         <div class="fs32 fwb">推荐商户</div>
                         <div class="color-gray fs22 m-t-2">
                             <div>介绍1个商户</div>
-                            <div>=100个</div>
+                            <div>=1000个</div>
                         </div>
                     </div>
                     <div class="m-t-4 m-b-4 text-center" @click="linkTo(7)">
