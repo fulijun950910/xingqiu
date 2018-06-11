@@ -168,7 +168,6 @@ export default {
                 Toast('豆豆不足');
                 this.useBean = this.realAvaliable;
             } else if (value > this.selectedItem.price / 10 * this.quantity) {
-                debugger;
                 this.useBean = this.selectedItem.price / 10 * this.quantity;
                 this.pay = 0;
                 return;
@@ -195,9 +194,10 @@ export default {
             let unitPrice = 1 / 10; // 一个豆豆值0.1元
             let value = (price / 100) / unitPrice * quantity; // 这个商品价值多少颗豆豆
             if (this.realAvaliable >= value) {
-                this.pay = 0;
-                this.useBean = value;
+                this.useBean = Number(value).toFixed(0);
                 this.avaliableBean = this.realAvaliable - this.useBean;
+                this.pay = Number(value - this.useBean).toFixed(2) * 100;
+                // console.log();
             } else {
                 this.useBean = this.realAvaliable;
                 this.avaliableBean = 0;

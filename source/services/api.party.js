@@ -165,5 +165,20 @@ export default {
         // 转介绍列表
         let url = '/api/introduction/search';
         return request(url, 'post', parameter);
+    },
+    cancelOrder(id) {
+        // 取消订单
+        let url = `/api/doudouTrade/cancel/${id}`;
+        return request(url, 'get');
+    },
+    confirmOrder(id) {
+        // 取消订单
+        let url = `/api/doudouTrade/confirm/${id}`;
+        return request(url, 'get');
+    },
+    repay(id) {
+        // 再次支付
+        let url = `/api/doudouTrade/repay/${id}`;
+        return request(url, 'get');
     }
 };

@@ -213,6 +213,25 @@ Vue.filter('payStatus', function(value) {
     return text;
 });
 
+Vue.filter('statusPay', function(value) {
+    if (isNaN(value)) {
+        return 0;
+    }
+    let text = '';
+    switch (Number(value)) {
+        case 0:
+            text = '取消订单';
+            break;
+        case 1:
+            text = '确认收货';
+            break;
+        case 6:
+            text = '确认收货';
+            break;
+    }
+    return text;
+});
+
 Vue.filter('introduceStatus', function(value) {
     if (isNaN(value)) {
         return 0;

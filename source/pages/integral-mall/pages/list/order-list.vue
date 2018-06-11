@@ -40,7 +40,7 @@
             <div class="list-box" v-for="(item, index) in dataList" :key="index">
                 <div class="top" layout="row" layout-align="space-between center">
                 <div class="fs24 color-white" :style="item.tradeTypeStyle">【{{item.tradeType | tradeType}}】</div>
-                <div class="fs24 color-orange-yellow" v-if="item.status == 0">{{item.count分钟后将关闭订单}}</div>
+                <div class="fs24 color-orange-yellow">{{item.status | payStatus}}</div>
                 </div>
                 <div class="middle" layout="row" layout-align="space-between center">
                   <div flex="70">
@@ -53,7 +53,7 @@
                 </div>
                 <div layout="row" layout-align="space-between center" class="bottom">
                     <div class="fs24 color-gray">{{item.createdTime | amDateFormat}}</div>
-                    <div class="payStatus fs30" :style="item.statusColor" :class="{'color-pink fwb' : item.tradeType == 0}">{{item.tradeType | payStatus}}</div>
+                    <div class="payStatus fs30" @click="clickToPay(item)" :style="item.statusColor" v-if="item.status == 6" :class="{'color-pink fwb' : item.status == 0}">{{item.status | statusPay}}</div><div @click="cancelOrder(item)" v-if="item.status == 0">取消订单</div>
                 </div>
             </div>
         <no-more :show-more="dataList.length != 0 || loading" more-text="不要再看了，我是有底线的"></no-more>
@@ -70,7 +70,7 @@
 </template>
 <script>
 import noMore from 'components/integral-mall/no-more';
-import { Indicator, DatetimePicker, InfiniteScroll } from 'mint-ui';
+import { Indicator, DatetimePicker, InfiniteScroll, Toast } from 'mint-ui';
 import buyMessage from 'components/integral-mall/buy-message';
 import noData from 'components/no-data';
 import Vue from 'vue';
@@ -97,7 +97,7 @@ export default {
                 },
                 {
                     name: '已完成',
-                    value: '1'
+                    value: '5'
                 }
             ],
             pageChange: {
@@ -174,14 +174,16 @@ export default {
                     {
                         field: 'partyId',
                         value: this.$store.state.party.partyId
-                    },
-                    {
-                        field: 'status',
-                        value: this.isActive
                     }
                 ],
                 page: this.pageChange.page,
                 size: this.pageChange.size
+            };
+            if (this.isActive) {
+                parameter.query.push({
+                    field: 'status',
+                    value: this.isActive
+                });
             };
             if (this.rightMenu[0].typeselect) {
                 parameter.query.push(
@@ -299,10 +301,30 @@ export default {
             this.showBuy = false;
         },
         clickToPay(item) {
-            if (item.tradeType == 0) {
-                this.chooseServiceItem = item;
-                this.showBuy = true;
+            if (item.status == 0) {
+                api_party.repay(item.id).then(msg=> {
+                    location.href = msg.data.payUrl + '?url' + encodeURIComponent(location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/order-list');
+                }, msg=> {
+                });
+            } else if (item.status == 1 || item.status == 6) {
+                api_party.confirmOrder(item.id).then(msg=> {
+                    this.resetSearch();
+                    this.loadData();
+                    Toast('订单已确认');
+                }, msg=> {
+
+                });
             }
+        },
+        cancelOrder(item) {
+            api_party.cancelOrder(item.id).then(msg=> {
+                this.resetSearch();
+                this.loadData();
+                Toast('订单已取消');
+            }, msg=> {
+
+            });
+
         },
         resetSearch() {
             this.pageChange.page = 1;
