@@ -21,11 +21,8 @@
                             </span>
                         </div>
                         <div flex v-if="index == 1">
-                            <div class="time">
-                            <input type="text" readonly v-model="item.startTime" @click="showDatePicker(1)">
-
-                            </div>
-                            <div class="time">
+                            <div class="time" flex layout="row" layout-align="center center">
+                            <input type="text" readonly v-model="item.startTime" @click="showDatePicker(1)">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;
                             <input type="text" v-model="item.endTime" readonly @click="showDatePicker(2)">
 
                             </div>
@@ -67,7 +64,7 @@
 <buy-message type="2"  @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>
          <mt-datetime-picker
     ref="picker"
-    type="datetime"
+    type="date"
      @confirm="handleConfirm">
   </mt-datetime-picker>
     </div>
@@ -208,7 +205,7 @@ export default {
             if (this.rightMenu[1].endTime) {
                 parameter.query.push(
                     {
-                        field: 'startTime',
+                        field: 'endTime',
                         value: this.rightMenu[1].endTime ? this.$moment(this.rightMenu[1].endTime).format('YYYY-MM-DD HH:mm:ss') : this.rightMenu[1].endTime
                     }
                 );
@@ -397,7 +394,7 @@ export default {
             .right-menu-con{
                 position: absolute;
                 height: 100%;
-                width: 50%;
+                width: 70%;
                 top:0;
                 right: 0;
                 bottom: 0;
@@ -427,14 +424,15 @@ export default {
                     }
                 }
                 .time{
-                    background: @extra-light-gray;
                     padding: 5px;
                     margin-bottom: 15px;
                     input{
-                        width: 100%;
+                        width: 85px;
                         padding: 5px 10px;
                         color: @extra-light-black;
                         text-align: center;
+                    background: @extra-light-gray;
+                        
                     }
 
                 }
