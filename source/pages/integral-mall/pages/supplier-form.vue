@@ -15,7 +15,7 @@
                  商户名称<span class="color-pink">*</span>
              </div>
              <div class="fs30 dark-gray">
-             <input placeholder="FAA女子美容会所" v-model="parameter.merchantName" type="text">
+             <input placeholder="请输入商户名称" v-model="parameter.merchantName" type="text">
              </div>
          </div>
           <div class="form-item">
@@ -23,7 +23,7 @@
                  商户所在地<span class="color-pink">*</span>
              </div>
              <div class="fs30 dark-gray">
-             <input placeholder="上海上海市" readonly @click="chooseAddress" v-model="parameter.address" type="text">
+             <input placeholder="请选择地址" readonly @click="chooseAddress" v-model="parameter.address" type="text">
              </div>
          </div>
           <div class="form-item">
@@ -31,7 +31,7 @@
                  商户联系方式<span class="color-pink">*</span>
              </div>
              <div class="fs30 dark-gray">
-             <input placeholder="188****5653" v-model="parameter.contactMobile" type="text">
+             <input placeholder="请输入联系方式" v-model="parameter.contactMobile" type="text">
              </div>
          </div>
           <div class="form-item">
@@ -39,7 +39,7 @@
                  商户所属行业<span class="color-pink">*</span>
              </div>
              <div class="fs30 dark-gray">
-             <input placeholder="美容美体" readonly @click="chooseIndusty" v-model="parameter.industry" type="text">
+             <input placeholder="选择行业" readonly @click="chooseIndusty" v-model="parameter.industry" type="text">
              </div>
          </div>
      </div>
