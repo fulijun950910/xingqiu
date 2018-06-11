@@ -30,7 +30,7 @@
                             <span>&nbsp;&nbsp;</span>
                             <div>
                                 <div>{{item.notes}}</div>
-                                <div class="fs24 light-gray">{{item.changeDate | amDateFormat('MM.DD')}}</div>
+                                <div class="fs24 extra-light-black">{{item.changeDate | amDateFormat('MM.DD')}}</div>
                             </div>
                         </div>
                         <div class="price">
