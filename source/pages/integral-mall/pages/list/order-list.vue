@@ -53,7 +53,7 @@
                 </div>
                 <div layout="row" layout-align="space-between center" class="bottom">
                     <div class="fs24 color-gray">{{item.createdTime | amDateFormat}}</div>
-                    <div class="payStatus fs30" @click="clickToPay(item)" :style="item.statusColor" v-if="item.status == 6" :class="{'color-pink fwb' : item.status == 0}">{{item.status | statusPay}}</div><div @click="cancelOrder(item)" v-if="item.status == 0">取消订单</div>
+                    <div class="payStatus fs30" @click="clickToPay(item)" :style="item.statusColor" v-if="item.status == 0 || item.status == 1 || item.status == 6" :class="{'color-pink fwb' : item.status == 0}">{{item.status | statusPay}}</div><div @click="cancelOrder(item)" v-if="item.status == 0">取消订单</div>
                 </div>
             </div>
         <no-more :show-more="dataList.length != 0 || loading" more-text="不要再看了，我是有底线的"></no-more>
@@ -107,7 +107,7 @@ export default {
             showNomore: true,
             loading: false,
             scrollDisabled: false,
-            isActive: 1,
+            isActive: '',
             dataList: [],
             rightTab: false,
             rightMenu: [
@@ -125,19 +125,19 @@ export default {
                             value: 1
                         },
                         {
-                            name: '购买短信签名',
+                            name: '短信签名',
                             value: 2
                         },
                         {
-                            name: '购买沙龙入场券',
+                            name: '沙龙入场券',
                             value: 3
                         },
                         {
-                            name: '购买硬件',
+                            name: '硬件',
                             value: 4
                         },
                         {
-                            name: '购买服务',
+                            name: '服务',
                             value: 5
                         },
                         {
@@ -303,7 +303,8 @@ export default {
         clickToPay(item) {
             if (item.status == 0) {
                 api_party.repay(item.id).then(msg=> {
-                    location.href = msg.data.payUrl + '?url' + encodeURIComponent(location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/order-list');
+                    debugger;
+                    location.href = msg.data + '?url' + location.protocol + '//' + location.host + this.$rootPath + encodeURIComponent('integral-mall.html#/order-list');
                 }, msg=> {
                 });
             } else if (item.status == 1 || item.status == 6) {

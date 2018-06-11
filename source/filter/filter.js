@@ -201,7 +201,7 @@ Vue.filter('payStatus', function(value) {
             text = '支付超时';
             break;
         case 4:
-            text = '取消';
+            text = '已取消';
             break;
         case 5:
             text = '已完成';
@@ -220,7 +220,7 @@ Vue.filter('statusPay', function(value) {
     let text = '';
     switch (Number(value)) {
         case 0:
-            text = '取消订单';
+            text = '去支付';
             break;
         case 1:
             text = '确认收货';

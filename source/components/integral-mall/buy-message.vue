@@ -197,6 +197,7 @@ export default {
                 this.useBean = Number(value).toFixed(0);
                 this.avaliableBean = this.realAvaliable - this.useBean;
                 this.pay = Number(value - this.useBean).toFixed(2) * 100;
+                this.pay = this.pay < 0 ? 0 : this.pay;
                 // console.log();
             } else {
                 this.useBean = this.realAvaliable;
