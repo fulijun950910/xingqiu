@@ -176,7 +176,7 @@ export default {
             // this.caculateResult(this.selectedItem.price, this.quantity);
         },
         changeDouCaculate(bean) {
-            this.pay = ((this.selectedItem.price * this.quantity) / 10 - bean) * 10;
+            this.pay = Number(((this.selectedItem.price * this.quantity) / 10 - bean) * 10).toFixed(2);
             this.avaliableBean = this.realAvaliable - bean;
         },
         hideMask(e) {

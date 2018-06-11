@@ -47,13 +47,14 @@
                       <div class="fs34 color-black">{{item.itemName}}&nbsp;&nbsp;&nbsp;{{item.quantity}}个</div>
                       <div class="fs28 color-gray">合计：{{item.payDoudouAmount}}美豆豆&nbsp;/&nbsp;{{item.payMoney | fen2yuan}}元</div>
                   </div>
-                  <div flex="30" class="img">
-                      <span><img class="img-auto" :src="item.itemImage | nSrc(require('assets/imgs/female.png'))"  alt=""></span>
+                  <div flex="30" class="img" layout="row" layout-align="end center">
+                     <img class="img-auto" :src="item.itemImage | nSrc(require('assets/imgs/female.png'))"  alt="">
                   </div>
                 </div>
                 <div layout="row" layout-align="space-between center" class="bottom">
                     <div class="fs24 color-gray">{{item.createdTime | amDateFormat}}</div>
-                    <div class="payStatus fs30" @click="clickToPay(item)" :style="item.statusColor" v-if="item.status == 0 || item.status == 1 || item.status == 6" :class="{'color-pink fwb' : item.status == 0}">{{item.status | statusPay}}</div><div @click="cancelOrder(item)" v-if="item.status == 0">取消订单</div>
+                    <div class="payStatus fs30" @click="clickToPay(item)" :style="item.statusColor" v-if="item.status == 0 || item.status == 1 || item.status == 6" :class="{'color-pink fwb' : item.status == 0}">{{item.status | statusPay}}</div>
+                    <!-- <div @click="cancelOrder(item)" v-if="item.status == 0">取消订单</div> -->
                 </div>
             </div>
         <no-more :show-more="dataList.length != 0 || loading" more-text="不要再看了，我是有底线的"></no-more>
@@ -449,7 +450,7 @@ export default {
     .temp-con{
         height: 100%;
         overflow: hidden;
-        padding-top: 90px;
+        padding-top: 70px;
     }
     .list-container{
         height: 100%;
@@ -480,14 +481,12 @@ export default {
                 .img{
                     span{
                         display: block;
-                    width: 44px;
-                    height: 44px;
                     border-radius: 14px;
                     overflow: hidden;
                     }
                     img{
-                        width: 100%;
-                        height: auto;
+                        width: auto;
+                        height: 44px;
                     }
                 }
             }
