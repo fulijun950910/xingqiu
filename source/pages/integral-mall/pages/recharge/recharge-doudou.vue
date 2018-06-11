@@ -21,6 +21,11 @@
                 <div flex class="input-price text-center" v-if="choose.id == -1">
                     <input type="text" @change="priceChange" v-model="inputPrice" name="" placeholder="其他金额">
                 </div>
+                            <div class="rules" flex>
+                <div class="color-gray fs24 rule-title"><m-icon class="fs30" xlink="#icon-xiangqing"></m-icon>&nbsp;&nbsp;充值说明</div>
+                <div class="color-gray fs22 rule-p">1. 美豆豆为虚拟货币，没有使用权限。只可用于本平台</div>
+                <div class="color-gray fs22 rule-p">2. 购买后将不退不换</div>
+            </div>
                 <div>
                     <button @click="submit" class="fs32 subBtn">充值</button>
                 </div>
@@ -85,10 +90,10 @@
                     this.list = res.data;
                     this.act = res.data[0].id;
                     this.choose = res.data[0];
-                    this.list.push({
-                        description: '其他金额',
-                        id: '-1'
-                    });
+                    // this.list.push({
+                    //     description: '其他金额',
+                    //     id: '-1'
+                    // });
                 }, msg=> {
 
                 });
@@ -123,6 +128,15 @@
                 border-radius: 14px;
             }
 
+        }
+        .rules{
+            padding: 15px 0;
+            .rule-title{
+                margin-bottom: 10px;
+            }
+            .rule-p{
+                // margin-bottom: 10px;
+            }
         }
     }
     .blanceBox{

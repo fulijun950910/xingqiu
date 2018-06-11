@@ -179,6 +179,10 @@ export default {
                 padding: 10px;
                 background: none;
             }
+            textarea{
+                width: 100%;
+                resize: none;
+            }
         }
         input{
             width: 100%;

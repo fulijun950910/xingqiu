@@ -38,6 +38,9 @@
         <div class="temp-con">
         <div class="list-container" v-infinite-scroll="loadMore"  :infinite-scroll-disabled="loading"  infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
             <div class="list-box" v-for="(item, index) in dataList" :key="index">
+                <div layout="row" class="order-no" layout-align="space-between center">
+                    <div class="color-gray fs22">订单号：{{item.tradeNo}}</div>
+                </div>
                 <div class="top" layout="row" layout-align="space-between center">
                 <div class="fs24 color-white" :style="item.tradeTypeStyle">【{{item.tradeType | tradeType}}】</div>
                 <div class="fs24 color-orange-yellow">{{item.status | payStatus}}</div>
@@ -456,10 +459,13 @@ export default {
         height: 100%;
         overflow-y: scroll;
         .list-box{
-           box-shadow:0px 10px 28px 0px rgba(44,45,51,0.08);
-            margin-bottom: 10px;
+           box-shadow: 0 2px 17px 0 rgba(44,45,51,0.11);
+            margin-bottom: 20px;
             border-radius: 7px;
             padding:10px;
+            .order-no{
+                padding: 10px 0;
+            }
             .top{
                 .color-white{
                 padding: 3px;
