@@ -79,7 +79,8 @@ export default {
             realAvaliable: 0,
             success: false,
             address: {},
-            remark: ''
+            remark: '',
+            localAddressId: this.addressId
         };
     },
     props: {
@@ -146,14 +147,14 @@ export default {
             if (this.formParameter) {
                 this.formParameter.applyServiceDate = this.$moment(this.formParameter.applyServiceDate).format('YYYY-MM-DD HH:mm:ss');
                 parameter.serviceApply = this.formParameter;
-                this.formParameter = {};
+                // this.formParameter = {};
             };
             Indicator.open('loading...');
             api_party.doudouTrade(parameter).then(msg=> {
                 Indicator.close();
                 if (msg.data.status == 0) {
-                    // location.href = encodeURIComponent(msg.data.payUrl + '?url=' + location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/order-list');
-                    location.href = msg.data.payUrl + '?url=' + encodeURIComponent(this.$rootPath + 'integral-mall.html#/order-list');
+                    location.href = msg.data.payUrl + '?url=' + encodeURIComponent(location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/order-list');
+                    // location.href = msg.data.payUrl + '?url=' + encodeURIComponent(this.$rootPath + 'integral-mall.html#/order-list');
                 } else {
                     this.success = true;
                 }
@@ -212,7 +213,7 @@ export default {
                     id: msg.data.id,
                     person: msg.data.contactPersion
                 };
-                this.addressId = msg.data.id;
+                // this.addressId = msg.data.id;
             }, msg=> {
 
             });
