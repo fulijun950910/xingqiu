@@ -68,7 +68,7 @@
                     tradeType: 6
                 };
                 api_party.doudouTrade(parameter).then(res=> {
-                    location.href = res.data.payUrl + '?url=' + encodeURIComponent(this.$rootPath + 'integral-mall.html#/order-list');
+                    location.href = res.data.payUrl + '?url=' + encodeURIComponent(location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/order-list');
                 }, res=> {
 
                 });

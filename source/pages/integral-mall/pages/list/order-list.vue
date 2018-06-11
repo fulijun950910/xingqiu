@@ -85,19 +85,19 @@ export default {
             tabList: [
                 {
                     name: '全部',
-                    value: 1
+                    value: ''
                 },
                 {
                     name: '待支付',
-                    value: 2
+                    value: '0'
                 },
                 {
                     name: '待确认',
-                    value: 3
+                    value: '6'
                 },
                 {
                     name: '已完成',
-                    value: 4
+                    value: '1'
                 }
             ],
             pageChange: {
