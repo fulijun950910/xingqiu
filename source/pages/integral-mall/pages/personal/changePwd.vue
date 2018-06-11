@@ -96,6 +96,11 @@ export default {
         height: 50px;
         border-top: 1px solid @border-gay;
     }
+    .form-item{
+        a{
+            color: @color-black;
+        }
+    }
 
 
 }

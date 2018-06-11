@@ -1,42 +1,52 @@
 <template>
     <div class="checkIn cell-box">
-        <div class="infoBox cell">
+        <!-- <div class="infoBox cell">
             <div class="text-right color-white" @click="showRule"><m-icon xlink="#icon-wendang" class="fs36"></m-icon> 签到规则</div>
             <div class="text-center">
                 <div class="fs24 color-light-white">当前已有美豆豆</div>
                 <div class="blance color-white">{{blanceTotal.doudouBalance}}</div>
             </div>
-            <div><button :disabled="state == 2" @click="submit" class="checkInSubmit color-light-red">
-                <div v-if="state == 1"><span>签到</span></div>
-                <div v-else><m-icon xlink="#icon-yes" class="fs36"></m-icon> <span>已签到</span></div>
-            </button></div>
-        </div>
+        </div> -->
         <div class="checkInBox">
-            <div class="cell text-center fs24 dark-gray">已连续签到{{lastDay.continueDays}}天，连续签到有更多惊喜哦</div>
+            <div >
+                <div flex layout="row" layout-align="end center"><div @click="showRule"><m-icon class="fs36 color-gray" xlink="#icon-xiangqing"></m-icon></div></div>
+                <div class="goal-champion" layout="row" layout-align="center center">
+                <img :src="require('assets/imgs/goal-champion.png')" alt="">
+                </div>
+                <div flex layout="row" layout-align="center center" class="color-yellow-orange text-center">已连续签到{{lastDay.continueDays}}天，连续签到有更多惊喜哦</div>
+            </div>
+            <!-- <div class="cell text-center fs24 color-yellow-orange">已连续签到{{lastDay.continueDays}}天，连续签到有更多惊喜哦</div> -->
             <div class="numBox">
                 <div class="top" layout="row" layout-align="center center">
-                    <div v-for="item in list1" :class="{'act':lastDay.continueDays>=item.day}" class="check-item fs24" layout="row" layout-align="center center">
+                    <div v-for="item in list1" :key="item" :class="{'act':lastDay.continueDays>=item.day}" class="check-item fs24" layout="row" layout-align="center center">
                         <span>+{{item.num}}</span>
-                        <div class="day fs20 light-gray">第{{item.day}}天</div>
+                        <div class="day fs20 extra-light-black">第{{item.day}}天</div>
                         <div v-if="lastDay.continueDays>=item.day" class="tag-act"></div>
                     </div>
                 </div>
                 <div class="bottom" layout="row" layout-align="center center">
-                    <div v-for="item in list2" :class="{'act':lastDay.continueDays>=item.day}" class="check-item fs24" layout="row" layout-align="center center">
+                    <div v-for="item in list2" :key="item" :class="{'act':lastDay.continueDays>=item.day}" class="check-item fs24" layout="row" layout-align="center center">
                         <span>+{{item.num}}</span>
-                        <div class="day fs20 light-gray">第{{item.day}}天</div>
+                        <div class="day fs20 extra-light-black">第{{item.day}}天</div>
                         <div v-if="lastDay.continueDays>=item.day" class="tag-act"></div>
                         <div v-if="item.tag_present" class="tag-present"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <recommendBuy></recommendBuy>
+                    <div class="sign-in-circle" layout="row" layout-align="center center"><button :disabled="state == 2" @click="submit" class="checkInSubmit color-light-red">
+                <div v-if="state == 1" class="color-white fs46"><span>签到</span></div>
+                <div v-else class="color-white fs46"><m-icon xlink="#icon-yes" class="fs36 color-white"></m-icon> <span>已签到</span></div>
+            </button></div>
+            <div layout="row" layout-align="center center" class="to-more">
+                <a @click="toMorePlay">更多玩法</a>
+            </div>
+        <!-- <recommendBuy></recommendBuy> -->
         <mt-popup v-model="showPopup" position="right" class="popup-pay">
             <div @click="showPopup=false" class="popup-pay-box">
                 <h4>连续签到，获得更多奖励！</h4>
                 <ul>
-                    <li>1.签到每天可获得1美豆豆，连续签到7天可获得5美豆豆，7天为一个周期。</li>
+                    <li>1.签到每天可获得1美豆豆，连续签到7天可获得16美豆豆，7天为一个周期。</li>
                     <li>2.如签到中途中断，则连续签到天数重新计算。</li>
                     <li>3.最终解释权归美问所有。</li>
                 </ul>
@@ -133,6 +143,9 @@
             },
             showRule() {
                 this.showPopup = true;
+            },
+            toMorePlay() {
+                location.href = `${this.$rootPath}integral-mall.html#/rule-entry`;
             }
         }
     };
@@ -145,8 +158,18 @@
 
     .checkIn{
         min-height:100vh;
-        background: url("~assets/imgs/index/20180511110501.jpg") no-repeat top center;
+        // background: url("~assets/imgs/index/20180511110501.jpg") no-repeat top center;
         background-size: 100% auto;
+    }
+    .sign-in-circle{
+        width: 150px;
+        height: 150px;
+        background:linear-gradient(-143deg,rgba(255,55,108,1),rgba(255,58,232,1),rgba(231,101,255,1));
+        border-radius: 100%;
+        margin: 50px auto 0 auto;
+        button{
+            background: transparent;
+        }
     }
     .color-green{
         color:@color-green;
@@ -165,6 +188,12 @@
     }
     .infoBox{
         height:180px;
+    }
+    .to-more{
+        padding: 10px 0;
+        a{
+            color: #4A90E2;
+        }
     }
     .numBox{
         width:300px;
@@ -228,11 +257,13 @@
         }
     }
     .checkInBox{
-        height:150px;
+        height:300px;
         border-radius:4px;
-        box-shadow: 0 2px 2px #ddd;
+     box-shadow:0px 2px 29px 0px rgba(0,0,0,0.1);
         background:@white;
         margin-bottom:@l16;
+        margin-top: 15px;
+        padding: 15px;
 
     }
     .popup-pay{
@@ -241,6 +272,13 @@
         .popup-pay-box{
             width: 95%;
             margin: auto;
+        }
+    }
+    .goal-champion{
+        padding: 10px 0;
+        img{
+        height: 90px;
+        width: auto;
         }
     }
 </style>

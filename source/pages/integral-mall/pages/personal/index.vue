@@ -66,23 +66,27 @@
                 <div>我的</div>
             </div>
         </div>
+        <customer-service v-if="showService"></customer-service>
     </div>
 </template>
 <script>
     import api_party from 'services/api.party';
     import api_file from 'services/api.file';
     import file from 'components/file-slice';
+    import customerService from 'components/integral-mall/customer-service';
     export default {
         data() {
             return {
                 employee: JSON.parse(localStorage.getItem('employee')),
                 data: {},
                 logoImage: {},
-                dataModel: {}
+                dataModel: {},
+                showService: false
             };
         },
         components: {
-            file
+            file,
+            customerService
         },
         methods: {
             load() {
@@ -139,6 +143,7 @@
                         this.$router.push('/address-list/view');
                         break;
                     case 6:
+                        this.showService = !this.showService;
                         break;
                     case 7:
                         this.$router.push('/change-pwd');
