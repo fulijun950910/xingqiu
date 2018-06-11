@@ -137,11 +137,11 @@ export default {
                 'partyId': this.$store.state.party.partyId,
                 'userId': this.$store.state.party.id,
                 'payDoudouAmount': this.useBean,
-                'payMoney': this.pay,
+                'payMoney': Number(this.pay),
                 'itemId': this.selectedItem.id,
                 'quantity': this.quantity,
                 'tradeType': this.selectedItem.type,
-                'deliverAddressId': this.addressId,
+                'deliverAddressId': this.localAddressId,
                 remark: this.remark
             };
             if (this.formParameter) {
@@ -196,9 +196,8 @@ export default {
             if (this.realAvaliable >= value) {
                 this.useBean = Number(value).toFixed(0);
                 this.avaliableBean = this.realAvaliable - this.useBean;
-                this.pay = Number(value - this.useBean).toFixed(2) * 100;
+                this.pay = Number(value - this.useBean).toFixed(2) * 10;
                 this.pay = this.pay < 0 ? 0 : this.pay;
-                // console.log();
             } else {
                 this.useBean = this.realAvaliable;
                 this.avaliableBean = 0;
@@ -214,7 +213,7 @@ export default {
                     id: msg.data.id,
                     person: msg.data.contactPersion
                 };
-                // this.addressId = msg.data.id;
+                this.localAddressId = msg.data.id;
             }, msg=> {
 
             });
