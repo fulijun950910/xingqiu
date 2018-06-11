@@ -201,13 +201,82 @@ Vue.filter('payStatus', function(value) {
             text = '支付超时';
             break;
         case 4:
-            text = '取消';
+            text = '已取消';
             break;
         case 5:
             text = '已完成';
             break;
         case 6:
             text = '已发货';
+            break;
+    }
+    return text;
+});
+
+Vue.filter('statusPay', function(value) {
+    if (isNaN(value)) {
+        return 0;
+    }
+    let text = '';
+    switch (Number(value)) {
+        case 0:
+            text = '去支付';
+            break;
+        case 6:
+            text = '确认收货';
+            break;
+    }
+    return text;
+});
+
+Vue.filter('introduceStatus', function(value) {
+    if (isNaN(value)) {
+        return 0;
+    }
+    let text = '';
+    switch (Number(value)) {
+        case 0:
+            text = '提交成功';
+            break;
+        case 1:
+            text = '审核通过';
+            break;
+        case 2:
+            text = '审核失败';
+            break;
+        case 3:
+            text = '成单';
+            break;
+        case 4:
+            text = '未成单';
+            break;
+    }
+    return text;
+});
+
+Vue.filter('tradeType', function(value) {
+    if (isNaN(value)) {
+        return 0;
+    }
+    let text = '';
+    switch (Number(value)) {
+        case 1:
+            text = '购买短信';
+            break;
+        case 2:
+            text = '购买短信签名';
+            break;
+        case 3:
+            text = '购买沙龙入场券';
+            break;
+        case 4:
+            text = '美问周边';
+            break;
+        case 5:
+            text = '超级助手';
+            break;
+        case 6:
+            text = '充值豆豆';
             break;
     }
     return text;

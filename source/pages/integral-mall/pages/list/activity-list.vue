@@ -16,7 +16,7 @@
              </div>
              <div class="activity-describle">
                  <p class="fwb fs34 color-black">{{item.name}}</p>
-                 <span class="fs24 color-gray">{{item.description}}</span>
+                 <span class="fs24 color-gray only-two-line">{{item.description}}</span>
              </div>
              <div class="box-bottom" layout="row" layout-align="space-between center">
                  <span class="fs30 color-pink fwb">{{item.price | fen2dou}}美豆豆</span>
@@ -116,7 +116,6 @@ export default {
                 font-size: 30px;
             }
         }
-
     }
     .activity-list-con{
         .activity-box{

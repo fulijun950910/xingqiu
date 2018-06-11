@@ -131,8 +131,9 @@ export default {
         let url = `/api/deliveryAddress/${id}`;
         return request(url, 'get');
     },
-    getDefaultAddress(partyId) {
-        let url = `/api/deliveryAddress/getDefault/${partyId}`;
+    getDefaultAddress(partyId, id) {
+        // 默认地址
+        let url = `/api/deliveryAddress/getDefault/${partyId}/${id}`;
         return request(url, 'get');
     },
     orderList(parameter) {
@@ -142,6 +143,42 @@ export default {
     },
     getTaskList(partyId) {
         let url = `/api/mission/getListByPartyId/${partyId}`;
+        return request(url, 'get');
+    },
+    addIntroduction(parameter) {
+        // 推荐商户保存
+        let url = '/api/introduction';
+        let type = '';
+        if (parameter.id) {
+            type = 'put';
+        } else {
+            type = 'post';
+        };
+        return request(url, type, parameter);
+    },
+    searchIndustry() {
+        // 行业查询
+        let url = '/api/businessScope/list';
+        return request(url, 'get');
+    },
+    serchIntroduction(parameter) {
+        // 转介绍列表
+        let url = '/api/introduction/search';
+        return request(url, 'post', parameter);
+    },
+    cancelOrder(id) {
+        // 取消订单
+        let url = `/api/doudouTrade/cancel/${id}`;
+        return request(url, 'get');
+    },
+    confirmOrder(id) {
+        // 取消订单
+        let url = `/api/doudouTrade/confirm/${id}`;
+        return request(url, 'get');
+    },
+    repay(id) {
+        // 再次支付
+        let url = `/api/doudouTrade/repay/${id}`;
         return request(url, 'get');
     }
 };

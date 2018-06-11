@@ -13,12 +13,12 @@
                             <div>连续7天=10个</div>
                         </div>
                     </div>
-                    <div class="m-t-4 m-b-4 text-center" > 
+                    <div class="m-t-4 m-b-4 text-center" @click="linkTo(8)"> 
                         <div><img :src="require('assets/imgs/integral-mall/2018060507.png')" alt=""></div>
                         <div class="fs32 fwb">推荐商户</div>
                         <div class="color-gray fs22 m-t-2">
                             <div>介绍1个商户</div>
-                            <div>=100个</div>
+                            <div>=2000个</div>
                         </div>
                     </div>
                     <div class="m-t-4 m-b-4 text-center" @click="linkTo(7)">
@@ -151,6 +151,9 @@
                         break;
                     case 7:
                         this.$router.push('/recharge-doudou');
+                        break;
+                    case 8:
+                        this.$router.push('/supplier-form');
                         break;
                 }
             }

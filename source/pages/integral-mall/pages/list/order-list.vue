@@ -38,22 +38,26 @@
         <div class="temp-con">
         <div class="list-container" v-infinite-scroll="loadMore"  :infinite-scroll-disabled="loading"  infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
             <div class="list-box" v-for="(item, index) in dataList" :key="index">
+                <div layout="row" class="order-no" layout-align="space-between center">
+                    <div class="color-gray fs22">订单号：{{item.tradeNo}}</div>
+                </div>
                 <div class="top" layout="row" layout-align="space-between center">
-                <div class="fs24">{{item.nickName}}</div>
-                <div class="fs24 color-orange-yellow" v-if="item.status == 0">{{item.count分钟后将关闭订单}}</div>
+                <div class="fs24 color-white" :style="item.tradeTypeStyle">【{{item.tradeType | tradeType}}】</div>
+                <div class="fs24 color-orange-yellow">{{item.status | payStatus}}</div>
                 </div>
                 <div class="middle" layout="row" layout-align="space-between center">
                   <div flex="70">
                       <div class="fs34 color-black">{{item.itemName}}&nbsp;&nbsp;&nbsp;{{item.quantity}}个</div>
                       <div class="fs28 color-gray">合计：{{item.payDoudouAmount}}美豆豆&nbsp;/&nbsp;{{item.payMoney | fen2yuan}}元</div>
                   </div>
-                  <div flex="30">
-                      <span><img class="img-auto"  alt=""></span>
+                  <div flex="30" class="img" layout="row" layout-align="end center">
+                     <img class="img-auto" :src="item.itemImage | nSrc(require('assets/imgs/female.png'))"  alt="">
                   </div>
                 </div>
                 <div layout="row" layout-align="space-between center" class="bottom">
                     <div class="fs24 color-gray">{{item.createdTime | amDateFormat}}</div>
-                    <div class="payStatus fs30" :class="{'color-pink fwb' : item.tradeType == 0}">{{item.tradeType | payStatus}}<m-icon xlink="#icon-zuojiantou"></m-icon></div>
+                    <div class="payStatus fs30" @click="clickToPay(item)" :style="item.statusColor" v-if="item.status == 0 || item.status == 6" :class="{'color-pink fwb' : item.status == 0}">{{item.status | statusPay}}</div>
+                    <!-- <div @click="cancelOrder(item)" v-if="item.status == 0">取消订单</div> -->
                 </div>
             </div>
         <no-more :show-more="dataList.length != 0 || loading" more-text="不要再看了，我是有底线的"></no-more>
@@ -70,7 +74,7 @@
 </template>
 <script>
 import noMore from 'components/integral-mall/no-more';
-import { Indicator, DatetimePicker, InfiniteScroll } from 'mint-ui';
+import { Indicator, DatetimePicker, InfiniteScroll, Toast } from 'mint-ui';
 import buyMessage from 'components/integral-mall/buy-message';
 import noData from 'components/no-data';
 import Vue from 'vue';
@@ -85,19 +89,19 @@ export default {
             tabList: [
                 {
                     name: '全部',
-                    value: 1
+                    value: ''
                 },
                 {
                     name: '待支付',
-                    value: 2
+                    value: '0'
                 },
                 {
                     name: '待确认',
-                    value: 3
+                    value: '6'
                 },
                 {
                     name: '已完成',
-                    value: 4
+                    value: '5'
                 }
             ],
             pageChange: {
@@ -107,7 +111,7 @@ export default {
             showNomore: true,
             loading: false,
             scrollDisabled: false,
-            isActive: 1,
+            isActive: '',
             dataList: [],
             rightTab: false,
             rightMenu: [
@@ -125,19 +129,19 @@ export default {
                             value: 1
                         },
                         {
-                            name: '购买短信签名',
+                            name: '短信签名',
                             value: 2
                         },
                         {
-                            name: '购买沙龙入场券',
+                            name: '沙龙入场券',
                             value: 3
                         },
                         {
-                            name: '购买硬件',
+                            name: '硬件',
                             value: 4
                         },
                         {
-                            name: '购买服务',
+                            name: '服务',
                             value: 5
                         },
                         {
@@ -174,14 +178,16 @@ export default {
                     {
                         field: 'partyId',
                         value: this.$store.state.party.partyId
-                    },
-                    {
-                        field: 'status',
-                        value: this.isActive
                     }
                 ],
                 page: this.pageChange.page,
                 size: this.pageChange.size
+            };
+            if (this.isActive) {
+                parameter.query.push({
+                    field: 'status',
+                    value: this.isActive
+                });
             };
             if (this.rightMenu[0].typeselect) {
                 parameter.query.push(
@@ -219,6 +225,42 @@ export default {
                 res.data.rows.map((item, index)=> {
                     if (item.status == 0) {
                         item.count = this.$moment(item.createdTime).diff(this.$moment(), 'minutes', true);
+                    }
+                    switch (Number(item.tradeType)) {
+                        case 1:
+                        case 2:
+                            item.tradeTypeStyle = {
+                                background: '#FE7D1A'
+                            };
+                            item.statusColor = {
+                                color: '#FE7D1A'
+                            };
+                            break;
+                        case 3:
+                            item.tradeTypeStyle = {
+                                background: '#21C3CA'
+                            };
+                            item.statusColor = {
+                                color: '#21C3CA'
+                            };
+                            break;
+                        case 4:
+                        case 6:
+                            item.tradeTypeStyle = {
+                                background: '#EC3F6D'
+                            };
+                            item.statusColor = {
+                                color: '#EC3F6D'
+                            };
+                            break;
+                        case 5:
+                            item.tradeTypeStyle = {
+                                background: '#4F97FF'
+                            };
+                            item.statusColor = {
+                                color: '#4F97FF'
+                            };
+                            break;
                     }
 
                 });
@@ -263,10 +305,31 @@ export default {
             this.showBuy = false;
         },
         clickToPay(item) {
-            if (item.tradeType == 0) {
-                this.chooseServiceItem = item;
-                this.showBuy = true;
+            if (item.status == 0) {
+                api_party.repay(item.id).then(msg=> {
+                    debugger;
+                    location.href = msg.data + '?url' + location.protocol + '//' + location.host + this.$rootPath + encodeURIComponent('integral-mall.html#/order-list');
+                }, msg=> {
+                });
+            } else if (item.status == 1 || item.status == 6) {
+                api_party.confirmOrder(item.id).then(msg=> {
+                    this.resetSearch();
+                    this.loadData();
+                    Toast('订单已确认');
+                }, msg=> {
+
+                });
             }
+        },
+        cancelOrder(item) {
+            api_party.cancelOrder(item.id).then(msg=> {
+                this.resetSearch();
+                this.loadData();
+                Toast('订单已取消');
+            }, msg=> {
+
+            });
+
         },
         resetSearch() {
             this.pageChange.page = 1;
@@ -390,22 +453,47 @@ export default {
     .temp-con{
         height: 100%;
         overflow: hidden;
-        padding-top: 90px;
+        padding-top: 70px;
     }
     .list-container{
         height: 100%;
         overflow-y: scroll;
         .list-box{
-            box-shadow:0px 10px 28px 0px rgba(44,45,51,0.08);
-            margin-bottom: 10px;
+           box-shadow: 0 2px 17px 0 rgba(44,45,51,0.11);
+            margin-bottom: 20px;
             border-radius: 7px;
             padding:10px;
+            .order-no{
+                padding: 10px 0;
+            }
+            .top{
+                .color-white{
+                padding: 3px;
+                border-radius:14px 14px 14px 0px;
+
+                }
+            }
             .bottom,.moddle,.top{
                 padding: 10px;
             }
             .bottom{
+                border-top:1px solid @border-gay;
                 .payStatus{
                     color: #4F97FF;
+                }
+            }
+            .middle{
+                padding: 15px 0;
+                .img{
+                    span{
+                        display: block;
+                    border-radius: 14px;
+                    overflow: hidden;
+                    }
+                    img{
+                        width: auto;
+                        height: 44px;
+                    }
                 }
             }
         }

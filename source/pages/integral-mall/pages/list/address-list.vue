@@ -52,7 +52,7 @@ export default {
             scrollDisabled: false,
             pageChange: {
                 page: 1,
-                size: 5
+                size: 20
             }
         };
     },

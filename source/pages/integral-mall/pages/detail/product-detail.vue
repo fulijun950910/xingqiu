@@ -9,16 +9,20 @@
         </div>
         <div class="product-detail-container">
         <div class="introduction">
-            <div layout="row" layout-align="start start">
-                <div flex="80">
+            <div layout="row" layout-align="start stretch">
+                <div flex>
                     <div class="fwb fs34 color-black">{{data.name}}</div>
                     <div class="fs24 color-gray">{{data.description}}</div>
+                    <div layout="row" layout-align="space-between center"  class="price-sale">
                     <div class="fs34 color-pink">{{data.price | fen2dou}}美豆豆/{{data.price | fen2yuan}}元</div>
+<div class="fs22 color-gray">销量{{data.salesCount}}</div>
+                    </div>
                 </div>
-                <div flex="20" layout="column" layout-align="space-between center">
+                <!-- <div flex="20" layout="column" layout-align="space-between center">
                     <m-icon xlink="#icon-huabanfuben29"></m-icon>
-                    <span class="fs22 color-gray"></span>
-                </div>
+                    <div></div>
+                    <span class="fs22 color-gray">已售{{data.seq}}</span>
+                </div> -->
             </div>
         </div>
         <div class="goods-detail" v-html="data.detail">            
@@ -27,7 +31,7 @@
         <div class="buy-now fs34 color-white" layout="row" layout-align="center center" @click="buyNow">
              立即购买
         </div>       
-        <buy-message type="2" :pay-type="$route.params.type" :address-id="$route.params.addressId" :product-id="id" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>       
+        <buy-message type="2" :pay-type="$route.params.type" :address-id="$route.params.addressId ? $route.params.addressId : ''" :product-id="id" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>       
     </div>
 </template>
 <script>
@@ -94,6 +98,9 @@ export default {
     .introduction{
         padding: 15px 0;
         border-bottom: 1px solid @border-gay;
+        .price-sale{
+            padding: 15px 0 0 0;
+        }
     }
     .goods-detail{
         padding: 15px 0;

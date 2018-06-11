@@ -79,7 +79,8 @@ export default {
             realAvaliable: 0,
             success: false,
             address: {},
-            remark: ''
+            remark: '',
+            localAddressId: this.addressId
         };
     },
     props: {
@@ -136,23 +137,24 @@ export default {
                 'partyId': this.$store.state.party.partyId,
                 'userId': this.$store.state.party.id,
                 'payDoudouAmount': this.useBean,
-                'payMoney': this.pay,
+                'payMoney': Number(this.pay),
                 'itemId': this.selectedItem.id,
                 'quantity': this.quantity,
                 'tradeType': this.selectedItem.type,
-                'deliverAddressId': this.addressId,
+                'deliverAddressId': this.localAddressId,
                 remark: this.remark
             };
             if (this.formParameter) {
                 this.formParameter.applyServiceDate = this.$moment(this.formParameter.applyServiceDate).format('YYYY-MM-DD HH:mm:ss');
                 parameter.serviceApply = this.formParameter;
-                this.formParameter = {};
+                // this.formParameter = {};
             };
             Indicator.open('loading...');
             api_party.doudouTrade(parameter).then(msg=> {
                 Indicator.close();
                 if (msg.data.status == 0) {
-                    location.href = encodeURIComponent(msg.data.payUrl + '?url=' + location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/order-list');
+                    location.href = msg.data.payUrl + '?url=' + encodeURIComponent(location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/order-list');
+                    // location.href = msg.data.payUrl + '?url=' + encodeURIComponent(this.$rootPath + 'integral-mall.html#/order-list');
                 } else {
                     this.success = true;
                 }
@@ -166,7 +168,6 @@ export default {
                 Toast('豆豆不足');
                 this.useBean = this.realAvaliable;
             } else if (value > this.selectedItem.price / 10 * this.quantity) {
-                debugger;
                 this.useBean = this.selectedItem.price / 10 * this.quantity;
                 this.pay = 0;
                 return;
@@ -175,7 +176,7 @@ export default {
             // this.caculateResult(this.selectedItem.price, this.quantity);
         },
         changeDouCaculate(bean) {
-            this.pay = ((this.selectedItem.price * this.quantity) / 10 - bean) * 10;
+            this.pay = Number(((this.selectedItem.price * this.quantity) / 10 - bean) * 10).toFixed(2);
             this.avaliableBean = this.realAvaliable - bean;
         },
         hideMask(e) {
@@ -193,9 +194,10 @@ export default {
             let unitPrice = 1 / 10; // 一个豆豆值0.1元
             let value = (price / 100) / unitPrice * quantity; // 这个商品价值多少颗豆豆
             if (this.realAvaliable >= value) {
-                this.pay = 0;
-                this.useBean = value;
+                this.useBean = Number(value).toFixed(0);
                 this.avaliableBean = this.realAvaliable - this.useBean;
+                this.pay = Number(value - this.useBean).toFixed(2) * 10;
+                this.pay = this.pay < 0 ? 0 : this.pay;
             } else {
                 this.useBean = this.realAvaliable;
                 this.avaliableBean = 0;
@@ -204,14 +206,14 @@ export default {
         },
         loadFirstAddress() {
             Indicator.open('loading...');
-            api_party.getDefaultAddress(this.$store.state.party.partyId).then(msg=> {
+            api_party.getDefaultAddress(this.$store.state.party.partyId, this.$store.state.party.id).then(msg=> {
                 Indicator.close();
                 this.address = {
                     name: msg.data.fullAddress,
                     id: msg.data.id,
                     person: msg.data.contactPersion
                 };
-                this.addressId = msg.data.id;
+                this.localAddressId = msg.data.id;
             }, msg=> {
 
             });
