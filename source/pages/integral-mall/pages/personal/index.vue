@@ -36,7 +36,7 @@
                 <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(8)">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-jieshao"></m-icon>转介绍列表</span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-jieshao"></m-icon>推荐商户列表</span>
                 <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(4)">
@@ -244,7 +244,7 @@
         .list-personal {
             padding: 12px 0;
             .item {
-                padding: 12px 15px;
+                padding: 16px 15px;
                 border-bottom: 1px solid @border-gay;
                 span {
                     .icon {

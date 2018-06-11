@@ -29,7 +29,7 @@
             </div>   
             <div class="amount" layout="row" layout-align="space-between center" v-if="type ==2">
                 <div class="fs28 color-black">数量</div>
-                <integral-input @numOut="changeNum" @changeAmount="changeNum"></integral-input>
+                <integral-input @numOut="changeNum" :num="quality" @changeAmount="changeNum"></integral-input>
             </div>     
             <div class="list-data" layout="row" layout-align="start center">
              <span class="color-gray fs30">商品总价</span>
@@ -75,7 +75,7 @@ export default {
             avaliableBean: 0,
             useBean: 0,
             pay: 0,
-            quantity: 1,
+            quantity: '1',
             realAvaliable: 0,
             success: false,
             address: {},
@@ -132,6 +132,10 @@ export default {
             });
         },
         buy() {
+            if (this.quantity == 0) {
+                Toast('数量不能为0');
+                return;
+            };
             let parameter = {
                 'merchantId': this.$store.state.party.merchantId,
                 'partyId': this.$store.state.party.partyId,
@@ -188,11 +192,14 @@ export default {
             this.currentValue = false;
         },
         changeNum(val) {
+            this.quantity = val;
             if (val < 0) {
                 Toast('数量不能为负');
                 return;
+            } else if (val == 0) {
+                Toast('数量不能为0');
+                return;
             }
-            this.quantity = val;
             this.caculateResult(this.selectedItem.price, this.quantity);
         },
         caculateResult(price, quantity) {

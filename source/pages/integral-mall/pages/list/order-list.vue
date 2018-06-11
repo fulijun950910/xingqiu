@@ -21,8 +21,8 @@
                             </span>
                         </div>
                         <div flex v-if="index == 1">
-                            <div class="time" flex layout="row" layout-align="center center">
-                            <input type="text" readonly v-model="item.startTime" @click="showDatePicker(1)">&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="time" flex layout="row" layout-align="start center">
+                            <input type="text" readonly v-model="item.startTime" @click="showDatePicker(1)">&nbsp;&nbsp;-&nbsp;&nbsp;
                             <input type="text" v-model="item.endTime" readonly @click="showDatePicker(2)">
 
                             </div>
@@ -150,8 +150,8 @@ export default {
                 {
                     name: '购买时间',
                     type: 2,
-                    startTime: '',
-                    endTime: ''
+                    startTime: 'YYYY-MM-DD',
+                    endTime: 'YYYY-MM-DD'
                 }
             ],
             pickerType: null
@@ -427,7 +427,7 @@ export default {
                     padding: 5px;
                     margin-bottom: 15px;
                     input{
-                        width: 85px;
+                        width: 105px;
                         padding: 5px 10px;
                         color: @extra-light-black;
                         text-align: center;
@@ -456,6 +456,7 @@ export default {
     .list-container{
         height: 100%;
         overflow-y: scroll;
+        padding-top: 15px;
         .list-box{
            box-shadow: 0 2px 17px 0 rgba(44,45,51,0.11);
             margin-bottom: 20px;

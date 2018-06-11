@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <div class="m-t-4 m-b-4 text-center" @click="linkTo(8)"> 
-                        <div><img :src="require('assets/imgs/integral-mall/2018060507.png')" alt=""></div>
+                        <div class="img-right"><img :src="require('assets/imgs/integral-mall/2018060507.png')" alt=""></div>
                         <div class="fs32 fwb">推荐商户</div>
                         <div class="color-gray fs22 m-t-2">
                             <div>介绍1个商户</div>
@@ -202,6 +202,13 @@
                 display:block;
                 margin:0 auto;
             }
+        }
+    }
+    .img-right{
+        position: relative;
+        img{
+            position: relative;
+            right: -7px!important;
         }
     }
 </style>
