@@ -181,11 +181,7 @@ export default {
         }
     }
     .submit{
-        position: fixed;
-        bottom: 0;
-        left: 0;
         height: 60px;
-        right: 0;
         border-top:1px solid @border-gay;
     }
 .activity-detail{

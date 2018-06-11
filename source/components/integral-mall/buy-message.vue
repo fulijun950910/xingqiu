@@ -152,7 +152,8 @@ export default {
             api_party.doudouTrade(parameter).then(msg=> {
                 Indicator.close();
                 if (msg.data.status == 0) {
-                    location.href = encodeURIComponent(msg.data.payUrl + '?url=' + location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/order-list');
+                    // location.href = encodeURIComponent(msg.data.payUrl + '?url=' + location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/order-list');
+                    location.href = msg.data.payUrl + '?url=' + encodeURIComponent(this.$rootPath + 'integral-mall.html#/order-list');
                 } else {
                     this.success = true;
                 }

@@ -31,7 +31,7 @@
         <div class="buy-now fs34 color-white" layout="row" layout-align="center center" @click="buyNow">
              立即购买
         </div>       
-        <buy-message type="2" :pay-type="$route.params.type" :address-id="$route.params.addressId" :product-id="id" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>       
+        <buy-message type="2" :pay-type="$route.params.type" :address-id="$route.params.addressId ? $route.params.addressId : ''" :product-id="id" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>       
     </div>
 </template>
 <script>
