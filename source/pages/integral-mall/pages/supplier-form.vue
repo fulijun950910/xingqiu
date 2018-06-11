@@ -72,7 +72,7 @@ export default {
                 }
             ],
             pickerType: '1',
-            chooseType: 1, // 1地址 2行业
+            chooseType: '1', // 1地址 2行业
             clickTime: 0
         };
     },
@@ -116,9 +116,11 @@ export default {
             if (!this.check()) {
                 return;
             };
+            debugger;
             let parameter = this.parameter;
-            parameter.province = this.address.province.id;
-            parameter.city = this.address.city.id;
+            parameter.province = this.address.province.name;
+            parameter.city = this.address.city.name;
+            console.log(parameter);
             api_party.addIntroduction(parameter).then(msg=> {
                 this.$router.push('/supplier-list');
             }, msg=> {
@@ -157,9 +159,9 @@ export default {
                     this.show = false;
                 };
                 this.parameter.address = this.$set(this.parameter, 'address', this.address.province.name + (this.address.city ? this.address.city.name : ''));
-                console.log(this.parameter.address);
+                // console.log(this.parameter.address);
             } else if (this.pickerType == 1) {
-                this.pickerType = 1;
+                this.pickerType = '1';
                 this.parameter.industry = value[0].name;
                 this.parameter.industryId = value[0].id;
                 this.show = false;
