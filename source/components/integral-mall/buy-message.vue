@@ -158,7 +158,7 @@ export default {
                 } else {
                     this.success = true;
                 }
-                Toast('购买成功');
+                // Toast('购买成功');
             }, msg=> {
 
             });
