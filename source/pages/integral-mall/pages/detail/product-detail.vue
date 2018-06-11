@@ -15,7 +15,7 @@
                     <div class="fs24 color-gray">{{data.description}}</div>
                     <div layout="row" layout-align="space-between center"  class="price-sale">
                     <div class="fs34 color-pink">{{data.price | fen2dou}}美豆豆/{{data.price | fen2yuan}}元</div>
-<div class="fs22 color-gray">销量{{data.seq}}</div>
+<div class="fs22 color-gray">销量{{data.salesCount}}</div>
                     </div>
                 </div>
                 <!-- <div flex="20" layout="column" layout-align="space-between center">

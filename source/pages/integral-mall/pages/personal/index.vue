@@ -1,14 +1,15 @@
 <template>
     <div class="personal-container">
         <div class="top-detail" layout="column" layout-align="space-between center" flex>
-            <div class="person-describtion" layout="row" layout-align="start center" flex>
+            <div class="person-describtion" layout="row" layout-align="space-between center" flex>
+                                <div>
+                    <div class="fs32 color-white">{{dataModel.name}}</div>
+                </div>
                 <div class="m-r-2">
                     <div class="img-con">
-                        <img :src="employee.avatarFileId | nSrc(require('assets/imgs/female.png'))" alt="">
+                        <img :src="dataModel.avatarFileId | nSrc(require('assets/imgs/female.png'))" alt="">
+                        <file @click="changeAvatar" v-model="logoImage" :proportion="{w:1, h:1}"></file>
                     </div>
-                </div>
-                <div>
-                    <div class="fs32 color-white">{{employee.name}}</div>
                 </div>
             </div>
             <div class="bottom-detail" layout="row" layout-align="start center" flex>
@@ -50,6 +51,10 @@
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-11"></m-icon>修改密码</span>
                 <span class="color-gray"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
+            <div layout="row" class="item" layout-align="space-between center" @click="signOut()">
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-11"></m-icon>退出登陆</span>
+                <span class="color-gray"></span>
+            </div>
         </div>
         <div class="bottom-tab color-gray" layout="row" layout-align="start center">
             <div layout="column" flex="50" @click="routeTo(1)" layout-align="center center" class="item">
@@ -65,13 +70,19 @@
 </template>
 <script>
     import api_party from 'services/api.party';
-
+    import api_file from 'services/api.file';
+    import file from 'components/file-slice';
     export default {
         data() {
             return {
                 employee: JSON.parse(localStorage.getItem('employee')),
-                data: {}
+                data: {},
+                logoImage: {},
+                dataModel: {}
             };
+        },
+        components: {
+            file
         },
         methods: {
             load() {
@@ -91,6 +102,18 @@
                     this.blanceTotal = res.data.doudouBalance;
                 });
 
+            },
+            async changeAvatar(data) {
+                let resData = await api_file.uploadImage(data);
+                console.log(resData);
+                let empData = {
+                    id: this.dataModel.id,
+                    userId: this.dataModel.userId,
+                    avatarFileId: resData.data
+                };
+                api_party.changeEmpData(empData).then(res => {
+                    this.loadEmployeeData();
+                });
             },
             goPayNotes() {
                 window.location.href = `${this.$rootPath}index.html#/payNotes/${this.data.id}`;
@@ -124,6 +147,18 @@
                         this.$router.push('/supplier-list');
                         break;
                 };
+            },
+            signOut() {
+                let data = {
+                    employeeId: this.$store.state.user.id,
+                    userId: this.$store.state.user.userId
+                };
+                this.$indicator.open();
+                api_party.unbind(data).then(res => {
+                    this.$indicator.close();
+                    localStorage.clear();
+                    window.location.href = this.$signLocation;
+                });
             }
         },
         mounted() {
@@ -142,7 +177,7 @@
         .top-detail {
             background: url("~assets/imgs/integral-mall/344228931888025978.png") no-repeat top center;
             background-size: 100% 100%;
-            height: 355px;
+            // height: 355px;
             width: 100%;
             padding: 20px 15px;
             .link-box{
@@ -161,12 +196,15 @@
                 border:1px solid @white;
                 overflow: hidden;
                 display: block;
+                position: relative;
             }
             .person-describtion {
                 width: 100%;
+                margin-bottom: 100px
             }
             .bottom-detail {
                 width: 100%;
+                margin-bottom: 40px;
                 .doudou {
                     span {
                         font-size: 32px;

@@ -222,9 +222,6 @@ Vue.filter('statusPay', function(value) {
         case 0:
             text = '去支付';
             break;
-        case 1:
-            text = '确认收货';
-            break;
         case 6:
             text = '确认收货';
             break;

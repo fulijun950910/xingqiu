@@ -38,7 +38,7 @@
    <input placeholder="请选择时间" class="color-black fs30" type="date" v-model="parameter.applyServiceDate">
     </div>
     </div>
-        <!-- <div class="form-item">
+        <div class="form-item">
     <div class="label fs24 color-black check" layout="row" layout-align="space-between center">
         <div>
         是否指定助手<i class="color-pink"></i>
@@ -50,7 +50,7 @@
     <div>
         <input v-if="value" placeholder="选择指定员工" v-model="parameter.employeeName" class="color-black fs30" type="text">
     </div>
-    </div> -->
+    </div>
         <div class="form-item">
     <div class="label fs24 color-black">备注<i class="color-pink"></i></div>
     <div>
@@ -81,8 +81,7 @@ export default {
             parameter: {
                 merchantId: this.$store.getters.merchantId,
                 merchantName: this.$store.getters.merchantName,
-                employeeId: this.$store.getters.employeeId,
-                employeeName: this.$store.getters.employeeName
+                employeeName: ''
             },
             showBuy: false,
             chooseServiceItem: {},
@@ -125,9 +124,16 @@ export default {
             console.log(this.store);
         },
         toPay() {
+            debugger;
             if (!this.parameter.applyServiceDate) {
                 Toast('请选择时间');
                 return ;
+            };
+            if (this.value) {
+                if (!this.parameter.employeeName) {
+                    Toast('请输入助手名称');
+                    return ;
+                };
             };
             this.parameter.storeId = this.store.id;
             this.parameter.storeName = this.store.name;
