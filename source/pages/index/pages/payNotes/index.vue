@@ -1,5 +1,5 @@
 <template>
-    <div v-title="'收支明细'" class="payNotes cell-box">
+    <div v-title="'收支明细'" class="payNotes cell-box" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
         <div class="blanceBox" layout="column" layout-align="center center">
             <div class="blance color-white">{{blanceTotal.doudouBalance}}</div>
             <div class="fs24 color-white-light">当前账户美豆豆</div>
@@ -20,8 +20,8 @@
         </div>
         <!-- 主体-->
         <div class="popup-right-box" flex >
-            <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10" >
-                <div v-for="item in dataModel.list"  class="popup-right-list-cell" >
+            <div>
+                <div v-for="item in dataList"  class="popup-right-list-cell" :key="item.id" >
                     <div v-if="item.changeAmount>=0" class="list-item success cell cell-box" layout="row" layout-align="space-between center">
                         <div layout="row" layout-align="start start">
                             <div class="iconBox" layout="row" layout-align="center center">
@@ -107,6 +107,7 @@
                 }
             },
             load(reset) {
+                debugger;
                 if (reset) {
                     this.query.page = 1;
                     this.dataList = [];

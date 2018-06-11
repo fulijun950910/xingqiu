@@ -44,7 +44,7 @@
                 </div>
                 <div layout-align="start center" layout="row">
                     <span flex></span>
-                    <span class="color-gray fs24">（您共有{{avaliableBean}}个美豆豆可使用）</span>
+                    <span class="color-gray fs24">（您共有{{realAvaliable}}个美豆豆可使用）</span>
                 </div>
             </div>
             <div class="pay" layout="row" layout-align="start center">
@@ -164,16 +164,21 @@ export default {
             });
         },
         inputBean(value) {
-            if (value > this.realAvaliable) {
-                Toast('豆豆不足');
-                this.useBean = this.realAvaliable;
-            } else if (value > this.selectedItem.price / 10 * this.quantity) {
-                this.useBean = this.selectedItem.price / 10 * this.quantity;
-                this.pay = 0;
-                return;
+            if (value > this.selectedItem.price / 10) {
+                // 如果输入的豆豆大于商品价值豆豆
+                if (this.selectedItem.price / 10 <= this.realAvaliable) {
+                    // 如果商品价值豆豆小于剩余豆豆
+                    this.useBean = this.selectedItem.price / 10;
+                    this.pay = 0;
+                } else {
+                    // 如果商品价值豆豆大于所剩豆豆
+                    this.useBean = this.realAvaliable;
+                    this.pay = (this.selectedItem.price / 10 - this.useBean) * 10;
+                };
+            } else {
+                this.useBean = value;
+                this.pay = (this.selectedItem.price / 10 - this.useBean) * 10;
             }
-            this.changeDouCaculate(value);
-            // this.caculateResult(this.selectedItem.price, this.quantity);
         },
         changeDouCaculate(bean) {
             this.pay = Number(((this.selectedItem.price * this.quantity) / 10 - bean) * 10).toFixed(2);
