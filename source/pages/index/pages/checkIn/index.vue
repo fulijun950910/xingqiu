@@ -168,7 +168,7 @@
         border-radius: 100%;
         margin: 40px auto 0 auto;
         button{
-            background: transparent;
+            background: none;
         }
     }
     .checked.sign-in-circle{
@@ -256,7 +256,7 @@
         border-radius: 22px;
         display:block;
         &[disabled]{
-            opacity:0.4;
+            // opacity:0.4;
         }
     }
     .checkInBox{
