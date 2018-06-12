@@ -56,7 +56,7 @@
                 <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="signOut()">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-11"></m-icon>退出登陆</span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-tuichu"></m-icon>退出登陆</span>
                 <span class="color-gray right-icon"></span>
             </div>
         </div>

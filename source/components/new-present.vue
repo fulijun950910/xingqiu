@@ -226,7 +226,7 @@
 .new-present.showShack {
     transform: translateY(0); 
     .new-get{
-        transform: translateX(-140px) translateY(-180px);
+        // transform: translateX(-140px) translateY(-180px);
     }
 } 
 </style>
