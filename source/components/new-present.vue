@@ -1,7 +1,7 @@
 <template>
     <div class="new-present" :class="{'showShack':showMask}" >
         <div class="mask" @click.stop="hideMask"></div>
-      <div class="new-get get-size" v-if="newType == 1">
+      <div class="new-get get-size" v-if="adsDetail.code == 'home_001'">
           <!-- 第一次进入 -->
           <span class="money">
               <img class="img-auto" :src="require('assets/imgs/integral-mall/money-icon.png')" alt="">
@@ -18,7 +18,7 @@
               </div>
           </div>
       </div>
-      <div class="always get-size" v-if="newType == 2">
+      <div class="always get-size" v-if="adsDetail.code == 'home_002'">
           <img :src="require('assets/imgs/integral-mall/normal-in-5.png')" class="line" alt="">
           <img :src="require('assets/imgs/integral-mall/normal-in-4.png')" class="loading-circle" alt="">
           <!-- 任意用户进入 -->
@@ -39,6 +39,7 @@
     </div>
 </template>
 <script>
+    import api_party from 'services/api.party';
     export default {
         data() {
             return {};
@@ -48,11 +49,16 @@
                 type: Boolean,
                 default: false
             },
-            newType: String
+            adsDetail: {
+                type: Object,
+                default() {
+                    return {};
+                }
+            }
         },
         methods: {
             hideMask() {
-                this.$emit('hideMask');
+                this.hideAsd();
             },
             animate() {
                 this.showShack = true;
@@ -70,6 +76,18 @@
                         location.href = `${this.$rootPath}integral-mall.html#/recharge-message`;
                         break;
                 }
+            },
+            hideAsd() {
+                let parameter = {
+                    partyId: this.$store.state.party.partyId,
+                    userId: this.$store.state.party.id,
+                    adsId: this.adsDetail.id
+                };
+                api_party.notShowAds(parameter).then(msg=> {
+                    this.$emit('hideMask');
+                }, msg=> {
+
+                });
             }
         },
         mounted() {

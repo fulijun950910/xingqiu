@@ -69,7 +69,7 @@
                 <div class="fs20 ">我的</div>
             </div>
         </div>
-        <new-present :show-mask="isNew" :new-type="newType" @hideMask="hideMask"></new-present>
+        <new-present :show-mask="isNew" :ads-detail="adsDetail" @hideMask="hideMask"></new-present>
     </div>
 </template>
 
@@ -92,20 +92,19 @@
                 isNew: false,
                 bean: '500',
                 employee: JSON.parse(localStorage.getItem('employee')),
-                newType: ''
+                adsDetail: {}
             };
         },
         mounted() {
             this.loadData();
-            debugger;
-            if (this.$store.state.party) {
+            // console.log(this.$store.state.party);
+            if (this.$store.state.party.adsList.length) {
                 this.isNew = true;
-                if (this.$store.state.party.newUser && this.$store.state.party.userType == 1) {
-                    this.newType = '1';
+                this.adsDetail = this.$store.state.party.adsList[0];
+                console.log(this.adsDetail);
+                if (this.adsDetail.code == 'home_001') {
                     this.givingBean();
-                } else {
-                    this.newType = '2';
-                }
+                };
             };
         },
         methods: {

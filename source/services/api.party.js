@@ -180,5 +180,10 @@ export default {
         // 再次支付
         let url = `/api/doudouTrade/repay/${id}`;
         return request(url, 'get');
+    },
+    notShowAds(parameter) {
+        // 取消显示广告位
+        let url = `/api/party/notShowAds/${parameter.partyId}/${parameter.userId}/${parameter.adsId}`;
+        return request(url, 'post');
     }
 };
