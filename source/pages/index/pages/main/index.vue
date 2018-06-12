@@ -96,8 +96,9 @@
         },
         mounted() {
             this.loadData();
-            if (this.employee) {
-                if (this.employee.party.newUser && this.employee.party.userType == 1) {
+            debugger;
+            if (this.$store.state.party) {
+                if (this.$store.state.party.newUser && this.$store.state.party.userType == 1) {
                     this.isNew = true;
                     this.givingBean();
                 };
@@ -174,10 +175,13 @@
                 window.location.href = `${this.$rootPath}integral-mall.html#/personal`;
             },
             hideMask() {
+                debugger;
                 this.isNew = false;
                 let tempLocal = JSON.parse(localStorage.getItem('employee'));
                 tempLocal.party.newUser = false;
                 localStorage.setItem('employee', JSON.stringify(tempLocal));
+                this.$store.state.party.newUser = false;
+
             },
             givingBean() {
                 let parameter = {

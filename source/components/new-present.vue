@@ -22,7 +22,7 @@
     export default {
         data() {
             return {
-                showShack: false
+                showShack: this.showMask
             };
         },
         props: {
@@ -35,7 +35,6 @@
         methods: {
             hideMask() {
                 this.$emit('hideMask');
-                this.showShack = false;
             },
             animate() {
                 this.showShack = true;
