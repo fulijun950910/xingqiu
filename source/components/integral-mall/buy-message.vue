@@ -29,7 +29,7 @@
             </div>   
             <div class="amount" layout="row" layout-align="space-between center" v-if="type ==2">
                 <div class="fs28 color-black">数量</div>
-                <integral-input @numOut="changeNum" :num="quality" @changeAmount="changeNum"></integral-input>
+                <integral-input @numOut="changeNum" @changeAmount="changeNum"></integral-input>
             </div>     
             <div class="list-data" layout="row" layout-align="start center">
              <span class="color-gray fs30">商品总价</span>

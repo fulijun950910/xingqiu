@@ -1,5 +1,5 @@
 <template>
-    <div class="order-list">
+    <div class="order-list" v-title="'我的订单'">
         <div class="top-tab" flex layout="row" layout-align="start center">
             <div class="tab-left" flex="95" layout="row" layout-align="start center">
             <div class="tab-index fs30 color-gray" @click="tabClick(item)" :class="{'active':item.value == isActive}" v-for="(item,index) in tabList" :key="index">

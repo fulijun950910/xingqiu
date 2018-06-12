@@ -9,11 +9,11 @@
         </div> -->
         <div class="checkInBox">
             <div >
-                <div flex layout="row" layout-align="end center"><div @click="showRule"><m-icon class="fs36 color-gray" xlink="#icon-xiangqing"></m-icon></div></div>
                 <div class="goal-champion" layout="row" layout-align="center center">
                 <img :src="require('assets/imgs/goal-champion.png')" alt="">
+                <div class="top-right" @click="showRule"><m-icon class="fs36 color-gray" xlink="#icon-xiangqing"></m-icon></div>
                 </div>
-                <div flex layout="row" layout-align="center center" class="color-yellow-orange text-center">已连续签到{{lastDay.continueDays}}天，连续签到有更多惊喜哦</div>
+                <div flex layout="row" layout-align="center center" class="color-yellow-orange text-center word-notice">已连续签到{{lastDay.continueDays}}天，连续签到有更多惊喜哦</div>
             </div>
             <!-- <div class="cell text-center fs24 color-yellow-orange">已连续签到{{lastDay.continueDays}}天，连续签到有更多惊喜哦</div> -->
             <div class="numBox">
@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-                    <div class="sign-in-circle" layout="row" layout-align="center center"><button :disabled="state == 2" @click="submit" class="checkInSubmit color-light-red">
+                    <div class="sign-in-circle" :class="{'checked' : state != 1}" layout="row" layout-align="center center"><button :disabled="state == 2" @click="submit" class="checkInSubmit color-light-red">
                 <div v-if="state == 1" class="color-white fs46"><span>签到</span></div>
                 <div v-else class="color-white fs46"><m-icon xlink="#icon-yes" class="fs36 color-white"></m-icon> <span>已签到</span></div>
             </button></div>
@@ -166,10 +166,13 @@
         height: 150px;
         background:linear-gradient(-143deg,rgba(255,55,108,1),rgba(255,58,232,1),rgba(231,101,255,1));
         border-radius: 100%;
-        margin: 50px auto 0 auto;
+        margin: 40px auto 0 auto;
         button{
             background: transparent;
         }
+    }
+    .checked.sign-in-circle{
+      background: radial-gradient(83% -53%, #FF376C 1%, #FF3AE8 68%, #E765FF 100%);
     }
     .color-green{
         color:@color-green;
@@ -257,8 +260,8 @@
         }
     }
     .checkInBox{
-        height:300px;
-        border-radius:4px;
+        height:280px;
+        border-radius:14px;
      box-shadow:0px 2px 29px 0px rgba(0,0,0,0.1);
         background:@white;
         margin-bottom:@l16;
@@ -275,10 +278,22 @@
         }
     }
     .goal-champion{
-        padding: 10px 0;
+        padding: 0 0 25px  0;
+        position: relative;
+        .top-right{
+            position: absolute;
+            right: 0;
+            top:0px;
+        }
         img{
         height: 90px;
         width: auto;
         }
     }
+            .word-notice{
+            margin-bottom: 10px;
+            position: relative;
+            top:-15px;
+        }
+
 </style>

@@ -5,7 +5,7 @@
                 <div class="display-img">
                     <img class="img-auto" :src="item.image | nSrc(require('assets/imgs/female.png'))" alt="">
                 </div>
-                <div layout="row" layout-align="start start">
+                <div layout="row" layout-align="start start" class="title-img">
                     <div flex="80">
                 <div class="fs40 fwb color-black">{{item.name}}</div>
                 <p class="color-gray fs24">{{item.description}}</p>
@@ -106,6 +106,7 @@ export default {
     padding: 15px;
     .swiper-con{
         height: 425px;
+        margin-bottom: 15px;
         .display-img{
             height: 330px;
             margin-bottom: 15px;
@@ -114,12 +115,17 @@ export default {
         .swiper-item{
             border-radius: 14px;
             overflow: hidden;
+            box-shadow: 0 -9px 40px 0 rgba(0,0,0,0.10);
+            padding-bottom: 20px;
             .get-button{
                 width: 75px;
                 height: 30px;
                 background:linear-gradient(180deg,rgba(255,153,216,1),rgba(252,93,192,1),rgba(255,53,104,1));
                 border-radius: 7px;
             }
+        }
+        .title-img{
+            padding: 0 15px;
         }
     }
     .rule-title{

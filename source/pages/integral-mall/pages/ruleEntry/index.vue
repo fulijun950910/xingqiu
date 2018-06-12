@@ -10,7 +10,7 @@
                         <div class="fs32 fwb">每日签到</div>
                         <div class="color-gray fs22 m-t-2">
                             <div>每日签到=1个</div>
-                            <div>连续7天=10个</div>
+                            <div>连续7天=16个</div>
                         </div>
                     </div>
                     <div class="m-t-4 m-b-4 text-center" @click="linkTo(8)"> 
