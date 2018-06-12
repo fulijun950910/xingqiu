@@ -6,7 +6,7 @@
 </div>
 <div class="description">
     <div class="des-title fwb fs34 color-black">{{chooseServiceItem.name}}</div>
-    <div class="des-detail fs24 color-gray">{{chooseServiceItem.description}}</div>
+    <div class="des-detail fs24 color-gray" v-html="chooseServiceItem.detail"></div>
 </div>
 </div>
 <div class="form-title text-center">

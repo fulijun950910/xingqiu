@@ -261,10 +261,10 @@ Vue.filter('userType', function(value) {
     let text = '';
     switch (Number(value)) {
         case 1:
-            text = 'saas商户';
+            text = '商户';
             break;
         case 2:
-            text = 'saas员工';
+            text = '员工';
             break;
         case 3:
             text = 'bbs账户';

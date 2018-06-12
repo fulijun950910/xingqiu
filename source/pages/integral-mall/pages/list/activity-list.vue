@@ -10,7 +10,7 @@
          </div>
      </div>
      <div class="activity-list-con">
-         <div class="activity-box" v-for="(item,index) in dataList" :key="index">
+         <div class="activity-box" v-for="(item,index) in dataList" :key="index" @click="useTo(item)">
              <div class="activity-img">
                    <img class="img-auto" :src="item.image | nSrc(require('assets/imgs/female.png'))" alt="">
              </div>
@@ -20,7 +20,7 @@
              </div>
              <div class="box-bottom" layout="row" layout-align="space-between center">
                  <span class="fs30 color-pink fwb">{{item.price | fen2dou}}美豆豆</span>
-                 <div class="btn fs30 color-white text-center" @click="useTo(item)"> 
+                 <div class="btn fs30 color-white text-center"> 
                      兑换
                  </div>
              </div>
