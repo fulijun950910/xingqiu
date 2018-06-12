@@ -1,5 +1,6 @@
 <template>
-    <div class="new-present" :class="{'showShack':showShack}" @click.stop="hideMask">
+    <div class="new-present" :class="{'showShack':showMask}" >
+        <div class="mask" @click.stop="hideMask"></div>
       <div class="new-get">
           <span class="money">
               <img class="img-auto" :src="require('assets/imgs/integral-mall/money-icon.png')" alt="">
@@ -21,9 +22,7 @@
 <script>
     export default {
         data() {
-            return {
-                showShack: this.showMask
-            };
+            return {};
         },
         props: {
             showMask: {
@@ -57,6 +56,14 @@
 
 <style lang="less" scoped>
 .new-present{
+    .mask{
+        position: fixed;
+        background: rgba(0,0,0,.5);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+    }
     .img-auto{
         width: 100%;
         height: auto;;
@@ -117,7 +124,6 @@
     }
 }
 .new-present.showShack {
-    background: rgba(0,0,0,.5);   
     transform: translateY(0); 
     .new-get{
         transform: translateX(-140px) translateY(-180px);
