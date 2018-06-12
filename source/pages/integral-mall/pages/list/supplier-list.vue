@@ -7,7 +7,7 @@
                   <div></div>
               </div> -->
               <div class="middle">
-                      <div class="color-black fs34">商户名称：{{item.industry}}</div>
+                      <div class="color-black fs34">商户名称：{{item.merchantNames}}</div>
                       <div class="fs28 color-gray">提交人：{{item.nickName}}</div>
                       <div class="fs28 color-gray">联系电话：{{item.contactMobile}}</div>
               </div>
