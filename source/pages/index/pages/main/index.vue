@@ -69,7 +69,7 @@
                 <div class="fs20 ">我的</div>
             </div>
         </div>
-        <new-present :show-mask="isNew" @hideMask="hideMask"></new-present>
+        <new-present :show-mask="isNew" :new-type="newType" @hideMask="hideMask"></new-present>
     </div>
 </template>
 
@@ -91,17 +91,21 @@
                 bbsData: [],
                 isNew: false,
                 bean: '500',
-                employee: JSON.parse(localStorage.getItem('employee'))
+                employee: JSON.parse(localStorage.getItem('employee')),
+                newType: ''
             };
         },
         mounted() {
             this.loadData();
             debugger;
             if (this.$store.state.party) {
+                this.isNew = true;
                 if (this.$store.state.party.newUser && this.$store.state.party.userType == 1) {
-                    this.isNew = true;
+                    this.newType = '1';
                     this.givingBean();
-                };
+                } else {
+                    this.newType = '2';
+                }
             };
         },
         methods: {

@@ -158,11 +158,9 @@ export default {
                 Indicator.close();
                 if (msg.data.status == 0) {
                     location.href = msg.data.payUrl + '?url=' + encodeURIComponent(location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/order-list');
-                    // location.href = msg.data.payUrl + '?url=' + encodeURIComponent(this.$rootPath + 'integral-mall.html#/order-list');
                 } else {
                     this.success = true;
                 }
-                // Toast('购买成功');
             }, msg=> {
 
             });
@@ -288,7 +286,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    transform: translateY(-100%);
+    transform: translateY(100%);
     transition: all ease 1s;
     .con-mask{
     background: rgba(0,0,0,.5);        

@@ -137,6 +137,7 @@ export default {
             };
             this.parameter.storeId = this.store.id;
             this.parameter.storeName = this.store.name;
+            this.parameter.storeAddress = this.store.address;
             this.showBuy = true;
         },
         loadActivityDetail() {

@@ -1,7 +1,8 @@
 <template>
     <div class="new-present" :class="{'showShack':showMask}" >
         <div class="mask" @click.stop="hideMask"></div>
-      <div class="new-get">
+      <div class="new-get get-size" v-if="newType == 1">
+          <!-- 第一次进入 -->
           <span class="money">
               <img class="img-auto" :src="require('assets/imgs/integral-mall/money-icon.png')" alt="">
           </span>
@@ -17,6 +18,24 @@
               </div>
           </div>
       </div>
+      <div class="always get-size" v-if="newType == 2">
+          <img :src="require('assets/imgs/integral-mall/normal-in-5.png')" class="line" alt="">
+          <img :src="require('assets/imgs/integral-mall/normal-in-4.png')" class="loading-circle" alt="">
+          <!-- 任意用户进入 -->
+          <div class="notice-text" layout="row" layout-align="center center">
+              <img :src="require('assets/imgs/integral-mall/normal-in-3.png')" alt="">
+          </div>
+          <div class="notice-btn" layout="row" layout-align="center center" @click="toLink(1)">
+              <span class="notice-gift">
+                  <img class="btn-img" :src="require('assets/imgs/integral-mall/normal-in-6.png')" alt="">
+              </span>
+             <img class="btn-img" :src="require('assets/imgs/integral-mall/normal-in-2.png')" alt="">
+          </div>
+          <div class="bottom-text color-white" layout="row" layout-align="center center" @click="toLink(2)">
+              立即兑换好礼 》
+          </div>
+
+      </div>
     </div>
 </template>
 <script>
@@ -28,8 +47,8 @@
             showMask: {
                 type: Boolean,
                 default: false
-
-            }
+            },
+            newType: String
         },
         methods: {
             hideMask() {
@@ -41,6 +60,16 @@
             toUse() {
                 // 链接到使用
                 location.href = '/service/integral-mall.html#/recharge-message';
+            },
+            toLink(type) {
+                switch (Number(type)) {
+                    case 1:
+                        location.href = `${this.$rootPath}integral-mall.html#/rule-entry`;
+                        break;
+                    case 2:
+                        location.href = `${this.$rootPath}integral-mall.html#/recharge-message`;
+                        break;
+                }
             }
         },
         mounted() {
@@ -80,14 +109,18 @@
     z-index: 2;
     transform: translateY(-100%);
     transition: all ease .3s;
-    .new-get{
+    .get-size{
         position: absolute;
         width: 280px;
         height: 360px;
         left: 50%;
         top:50%;
-        transform: translateX(-140px) translateY(-720px);
+        margin-left: -140px;
+        margin-top: -180px;
         transition: all ease .8s;
+
+    }
+    .new-get{
         background: url('~assets/imgs/integral-mall/present-bg.png');
         background-size: 100% 100%;
         .money{
@@ -120,6 +153,50 @@
                     left: 25px;
                 }
             }
+        }
+    }
+    .always{
+        padding: 50px 0;
+        background: url('~assets/imgs/integral-mall/normal-in-1.png');
+        background-size: 100% 100%;
+        position: relative;
+        .notice-text{
+            img{
+                height: 100px;
+                width: auto;
+            }
+        }
+        .notice-btn{
+            position: relative;       
+            margin-top: 70px;     
+            .btn-img{
+                width: 70%;
+                height: auto;
+                position: relative;
+                z-index: 2;
+            }
+            .notice-gift{
+                position: absolute;
+                width: 120px;
+                height: auto;
+                left: 50px;
+                top:-75px;
+                z-index: 1;
+            }
+
+        }
+        .loading-circle{
+            width: 25px;
+            height: auto;
+            position: absolute;
+            bottom: 115%;
+        }
+        .line{
+            bottom: 85%;
+            width: 15px;
+            height: auto;
+            position: absolute;
+            left: 40px;
         }
     }
 }
