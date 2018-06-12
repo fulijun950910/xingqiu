@@ -84,6 +84,11 @@
                     adsId: this.adsDetail.id
                 };
                 api_party.notShowAds(parameter).then(msg=> {
+                    let tempLocal = JSON.parse(localStorage.getItem('employee'));
+                    tempLocal.party.adsList = [];
+                    localStorage.setItem('employee', JSON.stringify(tempLocal));
+                    this.$store.commit('UPDATE_LOCAL');
+                    console.log(this.$store.state.party);
                     this.$emit('hideMask');
                 }, msg=> {
 

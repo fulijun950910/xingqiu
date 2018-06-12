@@ -98,6 +98,7 @@
         mounted() {
             this.loadData();
             // console.log(this.$store.state.party);
+            debugger;
             if (this.$store.state.party.adsList.length) {
                 this.isNew = true;
                 this.adsDetail = this.$store.state.party.adsList[0];
