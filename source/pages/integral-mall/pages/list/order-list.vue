@@ -51,6 +51,10 @@
                      <img class="img-auto" :src="item.itemImage | nSrc(require('assets/imgs/female.png'))"  alt="">
                   </div>
                 </div>
+                <div flex v-if="item.tradeDelivery">
+                    <div class="fs28 color-gray">配送地址：{{item.tradeDelivery.fullAddress}}</div>
+                    <div class="fs28 color-gray">快递公司：{{item.tradeDelivery.logisticsCompany}}</div>
+                </div>
                 <div layout="row" layout-align="space-between center" class="bottom">
                     <div class="fs24 color-gray">{{item.createdTime | amDateFormat}}</div>
                     <div class="payStatus fs30" @click="clickToPay(item)" :style="item.statusColor" v-if="item.status == 0 || item.status == 6" :class="{'color-pink fwb' : item.status == 0}">{{item.status | statusPay}}</div>

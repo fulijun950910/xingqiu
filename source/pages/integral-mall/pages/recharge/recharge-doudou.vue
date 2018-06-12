@@ -91,6 +91,11 @@
                     this.list = res.data;
                     this.act = res.data[0].id;
                     this.choose = res.data[0];
+                    this.list.map((item, index)=> {
+                        if (item.icon) {
+                            this.act = item.id;
+                        };
+                    });
                     // this.list.push({
                     //     description: '其他金额',
                     //     id: '-1'

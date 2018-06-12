@@ -31,7 +31,7 @@
         <div class="buy-now fs34 color-white" layout="row" layout-align="center center" @click="buyNow">
              立即购买
         </div>       
-        <buy-message type="2" :pay-type="$route.params.type" :address-id="$route.params.addressId ? $route.params.addressId : ''" :product-id="id" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>       
+        <buy-message :type="buyType" :pay-type="$route.params.type" :address-id="$route.params.addressId ? $route.params.addressId : ''" :product-id="id" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>       
     </div>
 </template>
 <script>
@@ -47,7 +47,8 @@ export default {
             id: this.$route.params.id,
             data: null,
             showBuy: false,
-            chooseServiceItem: null
+            chooseServiceItem: null,
+            buyType: '2'
         };
     },
     methods: {
@@ -56,6 +57,7 @@ export default {
                 this.data = msg.data;
                 this.data.images = this.data.images.split(',');
                 this.chooseServiceItem = this.data;
+                this.buyType = (this.data.type == 2 ? '1' : '2');
             }, msg=>{});
         },
         init() {
@@ -65,6 +67,7 @@ export default {
             }
         },
         buyNow() {
+            // this.load();
             this.showBuy = true;
         },
         update(val) {
