@@ -109,11 +109,11 @@ export default {
             position: absolute;
             left: 15px;
             top:30px;
-            bottom: 30px;
+            bottom: 40px;
             right: 15px;
             z-index: 1;
             .fs50{
-                font-size: 30px;
+                font-size: 25px;
             }
         }
     }
