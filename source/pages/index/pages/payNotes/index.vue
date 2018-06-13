@@ -107,15 +107,16 @@
                 }
             },
             load(reset) {
-                debugger;
                 if (reset) {
                     this.query.page = 1;
                     this.dataList = [];
                 }
                 this.loading = true;
                 let query = JSON.parse(JSON.stringify(this.query));
-                query.query.push({field: 'startTime', value: this.$moment(this.date).startOf('month').format('YYYY-MM-DD HH:mm:ss')});
-                query.query.push({field: 'endTime', value: this.$moment(this.date).endOf('month').format('YYYY-MM-DD HH:mm:ss')});
+                if (this.date) {
+                    query.query.push({field: 'startTime', value: this.$moment(this.date).startOf('month').format('YYYY-MM-DD HH:mm:ss')});
+                    query.query.push({field: 'endTime', value: this.$moment(this.date).endOf('month').format('YYYY-MM-DD HH:mm:ss')});
+                }
 
                 api_party.getAccountList(query).then(res => {
                     if (res.data.list) {
