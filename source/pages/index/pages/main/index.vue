@@ -117,7 +117,7 @@
                 let data = {
                     partyId: id,
                     page: 1,
-                    size: 5
+                    size: 10
                 };
                 api_party.getBbsList(data).then(res => {
                     this.bbsData = res.data;
