@@ -94,6 +94,7 @@
                     this.list.map((item, index)=> {
                         if (item.icon) {
                             this.act = item.id;
+                            this.choose = item;
                         };
                     });
                     // this.list.push({
