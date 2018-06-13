@@ -54,7 +54,7 @@
                 <div flex v-if="item.tradeDelivery">
                     <div class="fs28 color-gray">配送地址：{{item.tradeDelivery.fullAddress}}</div>
                     <div class="fs28 color-gray">快递公司：{{item.tradeDelivery.logisticsCompany}}</div>
-                     <div class="fs28 color-gray">快递公司：{{item.tradeDelivery.logisticsCompany}}</div>
+                     <div class="fs28 color-gray">快递单号：{{item.tradeDelivery.logisticsNo}}</div>
                 </div>
                 <div layout="row" layout-align="space-between center" class="bottom">
                     <div class="fs24 color-gray">{{item.createdTime | amDateFormat}}</div>
@@ -131,7 +131,7 @@ export default {
                             value: 1
                         },
                         {
-                            name: '短信签名',
+                            name: '虚拟商品',
                             value: 2
                         },
                         {
