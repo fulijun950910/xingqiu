@@ -47,7 +47,7 @@
                       <div class="fs34 color-black">{{item.itemName}}&nbsp;&nbsp;&nbsp;{{item.quantity}}个</div>
                       <div class="fs28 color-gray">合计：{{item.payDoudouAmount}}美豆豆&nbsp;/&nbsp;{{item.payMoney | fen2yuan}}元</div>
                   </div>
-                  <div flex="30" class="img" layout="row" layout-align="end center">
+                  <div flex="30" class="img" layout="row" layout-align="end center" v-if="item.itemImage">
                      <img class="img-auto" :src="item.itemImage | nSrc(require('assets/imgs/female.png'))"  alt="">
                   </div>
                 </div>
