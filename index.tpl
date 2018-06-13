@@ -11,5 +11,14 @@
   <body>
     <div id="app"></div>
     <% for (var i in htmlWebpackPlugin.options.cdn.js) { %><script src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script><% } %>
+    <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?3c1210a8346d103698ba8ce2129c637b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
   </body>
 </html>
