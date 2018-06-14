@@ -296,7 +296,7 @@ Vue.filter('tradeType', function(value) {
             text = '购买短信';
             break;
         case 2:
-            text = '购买短信签名';
+            text = '美问周边';
             break;
         case 3:
             text = '购买沙龙入场券';

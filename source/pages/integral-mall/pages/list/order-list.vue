@@ -47,13 +47,14 @@
                       <div class="fs34 color-black">{{item.itemName}}&nbsp;&nbsp;&nbsp;{{item.quantity}}个</div>
                       <div class="fs28 color-gray">合计：{{item.payDoudouAmount}}美豆豆&nbsp;/&nbsp;{{item.payMoney | fen2yuan}}元</div>
                   </div>
-                  <div flex="30" class="img" layout="row" layout-align="end center">
+                  <div flex="30" class="img" layout="row" layout-align="end center" v-if="item.itemImage">
                      <img class="img-auto" :src="item.itemImage | nSrc(require('assets/imgs/female.png'))"  alt="">
                   </div>
                 </div>
                 <div flex v-if="item.tradeDelivery">
                     <div class="fs28 color-gray">配送地址：{{item.tradeDelivery.fullAddress}}</div>
                     <div class="fs28 color-gray">快递公司：{{item.tradeDelivery.logisticsCompany}}</div>
+                     <div class="fs28 color-gray">快递单号：{{item.tradeDelivery.logisticsNo}}</div>
                 </div>
                 <div layout="row" layout-align="space-between center" class="bottom">
                     <div class="fs24 color-gray">{{item.createdTime | amDateFormat}}</div>
@@ -130,7 +131,7 @@ export default {
                             value: 1
                         },
                         {
-                            name: '短信签名',
+                            name: '虚拟商品',
                             value: 2
                         },
                         {
