@@ -199,11 +199,7 @@ export default {
                 mask: false,
                 pickerValue: '',
                 selectedStoreId: this.$route.query.storeId,
-                timeInterval: {},
-                returnVisit: 321321,
-                record: 3321,
-                valued: 3213,
-                unvalued: 3511
+                timeInterval: {}
             },
             swipe: {
                 index: '',
@@ -221,7 +217,8 @@ export default {
             routerEmployee: '',
             noData: false,
             loading: false,
-            mainEmployee: ''
+            mainEmployee: '',
+            routerParameter: {}
         };
     },
     mounted() {
@@ -236,9 +233,13 @@ export default {
         let tempIndex = 0;
         var tempStores = [];
         this.$knife.deepCopy(this.$store.state.storeList, tempStores);
+        let tempStoreIds = [];
+        tempStores.map((item, index)=> {
+            tempStoreIds.push(item.id);
+        });
         if (tempStores.length > 1) {
             tempStores.unshift({
-                id: this.$store.getters.queryStoreIds,
+                id: tempStoreIds.join(','),
                 name: '全部门店'
             });
         }
@@ -288,29 +289,29 @@ export default {
             }
         };
 
-        let tempEmployee = {};
-        if (this.$route.query.employeeName) {
-            tempEmployee.employeeName = this.$route.query.employeeName;
-        }
-        if (this.$route.query.employeeId) {
-            tempEmployee.employeeId = this.$route.query.employeeId;
-        }
-        if (this.$route.query.type) {
-            tempEmployee.type = this.$route.query.type;
-        }
-        if (this.$route.query.startDate) {
-            tempEmployee.startDate = this.$route.query.startDate;
-        }
-        if (this.$route.query.endDate) {
-            tempEmployee.endDate = this.$route.query.endDate;
-        }
-        // 判断是否是其他页面带参数跳转
-        this.routerEmployee = tempEmployee;
-        if (this.routerEmployee) {
-            this.messageServiceList(this.routerEmployee);
-        } else {
-            this.messageServiceList();
-        }
+        // let tempEmployee = {};
+        // if (this.$route.query.employeeName) {
+        //     tempEmployee.employeeName = this.$route.query.employeeName;
+        // }
+        // if (this.$route.query.employeeId) {
+        //     tempEmployee.employeeId = this.$route.query.employeeId;
+        // }
+        // if (this.$route.query.type) {
+        //     tempEmployee.type = this.$route.query.type;
+        // }
+        // if (this.$route.query.startDate) {
+        //     tempEmployee.startDate = this.$route.query.startDate;
+        // }
+        // if (this.$route.query.endDate) {
+        //     tempEmployee.endDate = this.$route.query.endDate;
+        // }
+        // // 判断是否是其他页面带参数跳转
+        // this.routerEmployee = tempEmployee;
+        // if (this.routerEmployee) {
+        //     this.messageServiceList(this.routerEmployee);
+        // } else {
+        this.messageServiceList();
+        // }
 
     },
     methods: {
@@ -367,13 +368,14 @@ export default {
         },
         // 清除显示的员工
         clearSearch() {
+            debugger;
             this.vm.search.main = '';
-            this.routerEmployee = '';
+            this.$route.query = {};
             this.mainEmployee = '';
             this.page = 1;
             this.loading = false;
             this.scrollDisabled = false;
-            this.messageServiceList('item');
+            this.messageServiceList();
         },
         // 点击返回顶部
         toTop() {
@@ -406,16 +408,12 @@ export default {
             this.selectedStore = item[0];
             this.page = 1;
             this.scrollDisabled = false;
-            if (typeof (this.routerEmployee) == 'object') {
-                this.messageServiceList(this.routerEmployee);
-            } else if (typeof (this.mainEmployee) == 'object') {
-                this.messageServiceList(this.mainEmployee);
-            } else {
-                this.messageServiceList('item');
-            }
+            this.routerParameter.storeIds = this.selectedStore;
+            this.messageServiceList();
         },
         changestatus(item) {
             this.selectedstatus = item[0];
+            console.log(item[0]);
             this.page = 1;
             this.scrollDisabled = false;
             if (typeof (this.routerEmployee) == 'object') {
@@ -429,20 +427,15 @@ export default {
 
         },
         changeDateRange(start, end) {
+            // this.routerParameter.startDate = this.$moment(start).format('YYYY-MM-DD HH:mm:ss');
+            // this.routerParameter.endDate = this.$moment(end).format('YYYY-MM-DD HH:mm:ss');
             this.vm.timeInterval = {
-                startDate: this.$moment(start).startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-                endDate: this.$moment(end).endOf('day').format('YYYY-MM-DD HH:mm:ss')
+                startDate: this.$moment(start).format('YYYY-MM-DD HH:mm:ss'),
+                endDate: this.$moment(end).format('YYYY-MM-DD HH:mm:ss')
             };
             this.page = 1;
             this.scrollDisabled = false;
-            if (typeof (this.routerEmployee) == 'object') {
-                this.routerEmployee.type = '';
-                this.messageServiceList(this.routerEmployee);
-            } else if (typeof (this.mainEmployee) == 'object') {
-                this.messageServiceList(this.mainEmployee);
-            } else {
-                this.messageServiceList('item');
-            }
+            this.messageServiceList();
         },
         selectedDateRange(item) {
             var tempItem = item.value;
@@ -450,13 +443,7 @@ export default {
                 this.vm.timeInterval = tempItem;
                 this.page = 1;
                 this.scrollDisabled = false;
-                if (typeof (this.routerEmployee) == 'object') {
-                    this.messageServiceList(this.routerEmployee);
-                } else if (typeof (this.mainEmployee) == 'object') {
-                    this.messageServiceList(this.mainEmployee);
-                } else {
-                    this.messageServiceList('item');
-                }
+                this.messageServiceList('item');
             } else {
                 this.dateRangeVisible = true;
             };
@@ -466,15 +453,12 @@ export default {
             this.scrollDisabled = false;
             this.page = 1;
             this.mainEmployee = item;
-            this.messageServiceList(item);
+            this.messageServiceList();
         },
         // 获取员工列表
         getEmployeeList(text) {
             this.vm.search.text = text;
             let self = this;
-            // self.vm.mask = !this.vm.mask;
-            // self.vm.search.statu = !this.vm.search.statu;
-            // self.vm.search.show = !this.vm.search.show;
             let parameter = {
                 merchantId: self.merchantId,
                 storeIds: self.storeIds.join(','),
@@ -489,8 +473,11 @@ export default {
                 console.log('网络错误！');
             });
         },
-        messageServiceList(item) {
+        messageServiceList() {
             let self = this;
+            if (self.scrollDisabled) {
+                return;
+            };
             let parameter = {
                 merchantId: self.merchantId,
                 storeIds: self.storeIds.join(','),
@@ -512,35 +499,50 @@ export default {
             if (self.vm.timeInterval.endDate) {
                 parameter.endDate = self.vm.timeInterval.endDate;
             };
-            if (self.scrollDisabled) {
-                return;
-            };
-            if (item) {
-                if (item.employeeName) {
-                    self.vm.search.main = item.employeeName;
-                    self.vm.search.text = item.employeeName;
-                };
-                if (item.employeeId) {
-                    parameter.employeeId = item.employeeId;
-                };
-                if (item.name) {
-                    self.vm.search.main = item.name;
-                    self.vm.search.text = item.name;
-                };
-                if (item.id) {
-                    parameter.employeeId = item.id;
-                };
-                if (item.type) {
-                    parameter.type = item.type;
-                };
-                if (item.startDate) {
-                    parameter.startDate = item.startDate;
-                };
-                if (item.endDate) {
-                    parameter.endDate = item.endDate;
-                };
+            // if (item) {
+            //     if (item.employeeName) {
+            //         self.vm.search.main = item.employeeName;
+            //         self.vm.search.text = item.employeeName;
+            //     };
+            //     if (item.employeeId) {
+            //         parameter.employeeId = item.employeeId;
+            //     };
+            //     if (item.name) {
+            //         self.vm.search.main = item.name;
+            //         self.vm.search.text = item.name;
+            //     };
+            //     if (item.id) {
+            //         parameter.employeeId = item.id;
+            //     };
+            //     if (item.type) {
+            //         parameter.type = item.type;
+            //     };
+            //     if (item.startDate) {
+            //         parameter.startDate = item.startDate;
+            //     };
+            //     if (item.endDate) {
+            //         parameter.endDate = item.endDate;
+            //     };
 
-            };
+            // };
+
+            if (this.$route.query.employeeName) {
+                self.vm.search.main = this.$route.query.employeeName;
+                self.vm.search.text = this.$route.query.employeeName;
+            }
+            if (this.$route.query.employeeId) {
+                parameter.employeeId = this.$route.query.employeeId;
+            }
+            if (this.$route.query.type) {
+                parameter.type = this.$route.query.type;
+            }
+            if (this.$route.query.startDate) {
+                parameter.startDate = this.$route.query.startDate;
+            }
+            if (this.$route.query.endDate) {
+                parameter.endDate = this.$route.query.endDate;
+            }
+
             service.messageServiceList(parameter).then(res => {
                 if (res.data.rows.length > 0) {
                     for (let i = 0; i < res.data.rows.length; i++) {
@@ -549,30 +551,32 @@ export default {
                         }
                     };
                 };
-                // 空页面是否出现
-                if (res.data.total == 0) {
-                    self.noData = true;
-                } else {
-                    self.noData = false;
-                }
-                // 是否出现加载动画
-                if (res.data.rows.length < self.rows) {
-                    self.scrollDisabled = true;
-                } else {
-                    self.scrollDisabled = false;
-                };
-                if (item) {
-                    self.dataList = res.data.rows;
-                    self.page++;
-                } else {
-                    if (res.data.rows.length > 0) {
-                        self.dataList = self.dataList.concat(res.data.rows);
-                        self.page++;
-                    } else {
-                        self.loading = true;
-                        self.page = 1;
-                    }
-                }
+                // // 空页面是否出现
+                // if (res.data.total == 0) {
+                //     self.noData = true;
+                //     return;
+                // } else {
+                //     self.noData = false;
+                // }
+                // // 是否出现加载动画
+                // if (res.data.rows.length < self.rows) {
+                //     self.scrollDisabled = true;
+                // } else {
+                //     self.scrollDisabled = false;
+                // };
+                // if (item) {
+                //     self.dataList = res.data.rows;
+                //     self.page++;
+                // } else {
+                //     if (res.data.rows.length > 0) {
+                //         self.dataList = self.dataList.concat(res.data.rows);
+                //         self.page++;
+                //     } else {
+                //         self.loading = true;
+                //         self.page = 1;
+                //     }
+                // }
+                self.dataList = self.dataList.concat(res.data.rows);
             }, erro => {
                 console.log('网络错误！');
             });
@@ -601,14 +605,21 @@ export default {
 
         },
         toData() {
+            let routeParameter = {
+                employeeId: this.vm.search.main ? this.vm.search.main.id : this.user.id
+            };
+            if (this.selectedStore) {
+                routeParameter.storeIds = this.selectedStore.id;
+            };
+            if (this.vm.timeInterval.startDate) {
+                routeParameter.startDate = this.$moment(this.vm.timeInterval.startDate).format('YYYY-MM-DD HH:mm:ss');
+            };
+            if (this.vm.timeInterval.endDate) {
+                routeParameter.endDate = this.$moment(this.vm.timeInterval.endDate).format('YYYY-MM-DD HH:mm:ss');
+            };
             this.$router.push({
                 name: 'data-view',
-                query: {
-                    storeIds: this.selectedStore ? this.selectedStore.id : '',
-                    startDate: (this.vm.timeInterval && this.vm.timeInterval.startDate) ? this.vm.timeInterval.startDate : '',
-                    endDate: (this.vm.timeInterval && this.vm.timeInterval.endDate) ? this.vm.timeInterval.endDate : '',
-                    employeeId: this.vm.search.main ? this.vm.search.main.id : this.user.id
-                }
+                params: routeParameter
             });
         }
     }

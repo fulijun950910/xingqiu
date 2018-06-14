@@ -83,10 +83,10 @@ export default {
             slots: [],
             query: {
                 merchantId: this.$store.getters.merchantId,
-                storeIds: this.$route.query.storeIds ? this.$route.query.storeIds : this.$store.getters.queryStoreIds,
+                storeIds: this.$route.params.storeIds ? this.$route.params.storeIds : this.$store.getters.queryStoreIds,
                 employeeId: '',
-                startDate: this.$route.query.startDate ? this.$route.query.startDate : '',
-                endDate: this.$route.query.endDate ? this.$route.query.endDate : '',
+                startDate: this.$route.params.startDate ? this.$route.params.startDate : '',
+                endDate: this.$route.params.endDate ? this.$route.params.endDate : '',
                 status: 2
             },
             actions: [],
