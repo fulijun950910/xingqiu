@@ -1,5 +1,5 @@
 <template>
-    <div class="order-list">
+    <div class="order-list" v-title="'我的订单'">
         <div class="top-tab" flex layout="row" layout-align="start center">
             <div class="tab-left" flex="95" layout="row" layout-align="start center">
             <div class="tab-index fs30 color-gray" @click="tabClick(item)" :class="{'active':item.value == isActive}" v-for="(item,index) in tabList" :key="index">
@@ -22,8 +22,8 @@
                         </div>
                         <div flex v-if="index == 1">
                             <div class="time" flex layout="row" layout-align="start center">
-                            <input type="text" readonly v-model="item.startTime" @click="showDatePicker(1)">&nbsp;&nbsp;-&nbsp;&nbsp;
-                            <input type="text" v-model="item.endTime" readonly @click="showDatePicker(2)">
+                            <input type="text" readonly v-model="item.startTime" placeholder="YYYY-MM-DD" @click="showDatePicker(1)">&nbsp;&nbsp;-&nbsp;&nbsp;
+                            <input type="text" v-model="item.endTime" readonly placeholder="YYYY-MM-DD" @click="showDatePicker(2)">
 
                             </div>
                         </div>
@@ -50,6 +50,10 @@
                   <div flex="30" class="img" layout="row" layout-align="end center">
                      <img class="img-auto" :src="item.itemImage | nSrc(require('assets/imgs/female.png'))"  alt="">
                   </div>
+                </div>
+                <div flex v-if="item.tradeDelivery">
+                    <div class="fs28 color-gray">配送地址：{{item.tradeDelivery.fullAddress}}</div>
+                    <div class="fs28 color-gray">快递公司：{{item.tradeDelivery.logisticsCompany}}</div>
                 </div>
                 <div layout="row" layout-align="space-between center" class="bottom">
                     <div class="fs24 color-gray">{{item.createdTime | amDateFormat}}</div>
@@ -150,8 +154,8 @@ export default {
                 {
                     name: '购买时间',
                     type: 2,
-                    startTime: 'YYYY-MM-DD',
-                    endTime: 'YYYY-MM-DD'
+                    startTime: '',
+                    endTime: ''
                 }
             ],
             pickerType: null

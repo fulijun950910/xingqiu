@@ -31,7 +31,7 @@
                  商户联系方式<span class="color-pink">*</span>
              </div>
              <div class="fs30 dark-gray">
-             <input placeholder="请输入联系方式" v-model="parameter.contactMobile" type="text">
+             <input placeholder="请输入联系方式" type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" v-model="parameter.contactMobile">
              </div>
          </div>
           <div class="form-item">
@@ -201,11 +201,11 @@ export default {
             position: absolute;
             left: 15px;
             top:30px;
-            bottom: 30px;
+            bottom: 40px;
             right: 15px;
             z-index: 1;
             .fs50{
-                font-size: 30px;
+                font-size: 25px;
             }
         }
     }
@@ -227,6 +227,7 @@ export default {
         bottom: 0;
         left: 0;
         right: 0;
+        background: white;
     }
 }
 </style>

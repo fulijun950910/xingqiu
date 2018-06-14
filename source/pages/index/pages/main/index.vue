@@ -61,7 +61,7 @@
         <div class="bottomBarPadding"></div>
         <div class="bottomBar color-gray" layout="row">
             <div class="item act " flex layout="column" layout-align="center center">
-                <div><m-icon class="icon "  xlink="#icon-yuzhouxingqiu-21"></m-icon></div>
+                <div><m-icon class="icon "  xlink="#icon-huaban6"></m-icon></div>
                 <div class="fs20 ">首页</div>
             </div>
             <div @click="goUserInfo" class="item" flex layout="column" layout-align="center center">
@@ -69,7 +69,7 @@
                 <div class="fs20 ">我的</div>
             </div>
         </div>
-        <new-present :show-mask="isNew" @hideMask="hideMask"></new-present>
+        <new-present :show-mask="isNew" :ads-detail="adsDetail" @hideMask="hideMask"></new-present>
     </div>
 </template>
 
@@ -91,14 +91,19 @@
                 bbsData: [],
                 isNew: false,
                 bean: '500',
-                employee: JSON.parse(localStorage.getItem('employee'))
+                employee: JSON.parse(localStorage.getItem('employee')),
+                adsDetail: {}
             };
         },
         mounted() {
             this.loadData();
-            if (this.employee) {
-                if (this.employee.party.newUser && this.employee.party.userType == 1) {
-                    this.isNew = true;
+            // console.log(this.$store.state.party);
+            debugger;
+            if (this.$store.state.party.adsList.length) {
+                this.isNew = true;
+                this.adsDetail = this.$store.state.party.adsList[0];
+                console.log(this.adsDetail);
+                if (this.adsDetail.code == 'home_001') {
                     this.givingBean();
                 };
             };
@@ -174,10 +179,13 @@
                 window.location.href = `${this.$rootPath}integral-mall.html#/personal`;
             },
             hideMask() {
+                debugger;
                 this.isNew = false;
                 let tempLocal = JSON.parse(localStorage.getItem('employee'));
                 tempLocal.party.newUser = false;
                 localStorage.setItem('employee', JSON.stringify(tempLocal));
+                this.$store.state.party.newUser = false;
+
             },
             givingBean() {
                 let parameter = {

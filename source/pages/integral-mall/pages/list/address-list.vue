@@ -62,8 +62,8 @@ export default {
         noData
     },
     methods: {
-        loadData() {
-            if (this.scrollDisabled) {
+        loadData(type) {
+            if (this.scrollDisabled && type) {
                 return;
             }
             let parameter = {
@@ -139,6 +139,8 @@ export default {
             api_party.deleteAddress(item.id).then(msg=> {
                 Toast('地址已删除啦！');
                 this.confirmText.show = false;
+                this.pageChange.page = 1;
+                this.dataList = [];
                 this.loadData();
             }, msg=> {
             });

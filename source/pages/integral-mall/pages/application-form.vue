@@ -6,7 +6,7 @@
 </div>
 <div class="description">
     <div class="des-title fwb fs34 color-black">{{chooseServiceItem.name}}</div>
-    <div class="des-detail fs24 color-gray">{{chooseServiceItem.description}}</div>
+    <div class="des-detail fs24 color-gray" v-html="chooseServiceItem.detail"></div>
 </div>
 </div>
 <div class="form-title text-center">
@@ -51,7 +51,7 @@
         <input v-if="value" placeholder="选择指定员工" v-model="parameter.employeeName" class="color-black fs30" type="text">
     </div>
     </div>
-        <div class="form-item">
+        <div class="form-item last">
     <div class="label fs24 color-black">备注<i class="color-pink"></i></div>
     <div>
         <textarea class="color-black fs30" v-model="parameter.remark"></textarea>
@@ -137,6 +137,7 @@ export default {
             };
             this.parameter.storeId = this.store.id;
             this.parameter.storeName = this.store.name;
+            this.parameter.storeAddress = this.store.address;
             this.showBuy = true;
         },
         loadActivityDetail() {
@@ -182,7 +183,15 @@ export default {
             textarea{
                 width: 100%;
                 resize: none;
+                display: block;
+                margin: 10px 0;
+                border:1px solid @border-gay;
+                border-radius: 7px;
+                height: 50px;
             }
+        }
+        .form-item.last{
+            border: none;
         }
         input{
             width: 100%;
@@ -193,6 +202,11 @@ export default {
     .submit{
         height: 60px;
         border-top:1px solid @border-gay;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: white;
     }
 .activity-detail{
     .img-con{

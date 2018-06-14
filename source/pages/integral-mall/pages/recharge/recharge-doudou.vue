@@ -25,6 +25,7 @@
                 <div class="color-gray fs24 rule-title"><m-icon class="fs30" xlink="#icon-xiangqing"></m-icon>&nbsp;&nbsp;充值说明</div>
                 <div class="color-gray fs22 rule-p">1. 美豆豆为虚拟货币，没有使用权限。只可用于本平台</div>
                 <div class="color-gray fs22 rule-p">2. 购买后将不退不换</div>
+                 <div class="color-gray fs22 rule-p">3. 10个美豆豆等于1元</div>
             </div>
                 <div>
                     <button @click="submit" class="fs32 subBtn">充值</button>
@@ -90,6 +91,12 @@
                     this.list = res.data;
                     this.act = res.data[0].id;
                     this.choose = res.data[0];
+                    this.list.map((item, index)=> {
+                        if (item.icon) {
+                            this.act = item.id;
+                            this.choose = item;
+                        };
+                    });
                     // this.list.push({
                     //     description: '其他金额',
                     //     id: '-1'
@@ -157,29 +164,30 @@
         overflow:hidden;
         .tag{
             position:absolute;
-            background:#14CC8A;
+            background: linear-gradient(-136deg, #F869D5 0%, #5650DE 100%);
             padding:1px 30px;
             transform:rotate(45deg);
             top:8px;
             right:-25px;
         }
         &.act{
-            background:@color-red-lighten;
-            border-color:@white;
+            // background:@color-red-lighten;
+            // border-color:@white;
             border-radius:4px;
-            & div{
-                color:@white;
-            }
+            border:1px solid #5650DE;
+            // & div{
+            //     color:@white;
+            // }
         }
     }
     .subBtn{
-        width:225px;
-        height:44px;
-        border-radius:22px;
-        margin:40px auto 0;
+        width:100%;
+        height:60px;
+        border-radius:14px;
+        margin:15px auto 0;
         display:block;
         color:@white;
-        background:@color-red-lighten
+        background:linear-gradient(180deg,rgba(255,153,216,1),rgba(252,93,192,1),rgba(255,53,104,1));
     }
     .icon-success-box{
         width:66px;
