@@ -147,7 +147,7 @@ export default {
         editClick(item) {
             this.$router.push({
                 name: 'service-dynamics',
-                query: {
+                params: {
                     employeeId: item.employeeId,
                     endDate: this.query.endDate,
                     startDate: this.query.startDate,

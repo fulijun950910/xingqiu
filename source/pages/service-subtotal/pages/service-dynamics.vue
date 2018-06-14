@@ -368,7 +368,7 @@ export default {
         },
         // 清除显示的员工
         clearSearch() {
-            debugger;
+            // debugger;
             this.vm.search.main = '';
             this.$route.query = {};
             this.mainEmployee = '';
@@ -526,21 +526,21 @@ export default {
 
             // };
 
-            if (this.$route.query.employeeName) {
-                self.vm.search.main = this.$route.query.employeeName;
-                self.vm.search.text = this.$route.query.employeeName;
+            if (this.$route.params.employeeName) {
+                self.vm.search.main = this.$route.params.employeeName;
+                self.vm.search.text = this.$route.params.employeeName;
             }
-            if (this.$route.query.employeeId) {
-                parameter.employeeId = this.$route.query.employeeId;
+            if (this.$route.params.employeeId) {
+                parameter.employeeId = this.$route.params.employeeId;
             }
-            if (this.$route.query.type) {
-                parameter.type = this.$route.query.type;
+            if (this.$route.params.type) {
+                parameter.type = this.$route.params.type;
             }
-            if (this.$route.query.startDate) {
-                parameter.startDate = this.$route.query.startDate;
+            if (this.$route.params.startDate) {
+                parameter.startDate = this.$route.params.startDate;
             }
-            if (this.$route.query.endDate) {
-                parameter.endDate = this.$route.query.endDate;
+            if (this.$route.params.endDate) {
+                parameter.endDate = this.$route.params.endDate;
             }
 
             service.messageServiceList(parameter).then(res => {
