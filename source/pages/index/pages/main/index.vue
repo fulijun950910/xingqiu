@@ -1,7 +1,7 @@
 <template>
     <div class="main" v-title="'美问星球'">
         <div class="headBox cell cell-box">
-            <div @click="goLink1" class="bannerBox"><img  :src="require('assets/imgs/index/20180509184001.jpg')" alt=""></div>
+            <div @click="goLink1" class="bannerBox"><img  :src="require('assets/imgs/index/20180614.png')" alt=""></div>
             <div class="iconList" layout="row" layout-align="space-between center">
                 <div @click="goBbsPage">
                     <div class="iconBox iconBox1" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-huaban7"></m-icon></div>
@@ -97,8 +97,6 @@
         },
         mounted() {
             this.loadData();
-            // console.log(this.$store.state.party);
-            debugger;
             if (this.$store.state.party.adsList.length) {
                 this.isNew = true;
                 this.adsDetail = this.$store.state.party.adsList[0];
@@ -117,7 +115,7 @@
                 let data = {
                     partyId: id,
                     page: 1,
-                    size: 5
+                    size: 10
                 };
                 api_party.getBbsList(data).then(res => {
                     this.bbsData = res.data;
@@ -148,7 +146,7 @@
                 window.location.href = url;
             },
             goLink1() {
-                window.location.href = 'https://mp.weixin.qq.com/s/vM_8KeGoOYiGrJfXDTmuCQ';
+                window.location.href = `${this.$rootPath}integral-mall.html#/rule-entry`;
             },
             goBbsPage() {
                 this.$router.push({name: 'bbsPage'});
