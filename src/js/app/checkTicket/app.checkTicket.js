@@ -8,7 +8,7 @@
          // 跳转及权限判断
          if (employee && employee.merchant) {
              var ticketNo=app.getParameter('ticketNo');
-             if(employee.merchant.functionVersion == 4) {
+             if(employee.merchant.functionVersion == 4 || employee.merchant.functionVersion == 5) {
                  location.href = app.checkTicket.verifyCouponVersion4Location + ticketNo;
              } else {
                  location.href = app.checkTicket.verifyCouponDefaultLocation + ticketNo;
