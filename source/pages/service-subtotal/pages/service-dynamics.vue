@@ -353,10 +353,7 @@ export default {
             this.vm.search.main = '';
             // this.$route.params = {};
             this.mainEmployee = '';
-            this.page = 1;
-            this.loading = false;
-            this.scrollDisabled = false;
-            this.messageServiceList();
+            this.resetSreach();
         },
         // 点击返回顶部
         toTop() {
