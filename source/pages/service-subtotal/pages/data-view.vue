@@ -175,6 +175,7 @@ export default {
         } else {
             this.selectedDateRange(this.actions[0]);
         }
+        console.log(this.$route.params);
 
     },
     methods: {
