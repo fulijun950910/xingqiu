@@ -1,7 +1,7 @@
 <template>
     <div class="main" v-title="'美问星球'">
         <div class="headBox cell cell-box">
-            <div @click="goLink1" class="bannerBox"><img  :src="require('assets/imgs/index/20180614.png')" alt=""></div>
+            <div @click="goLink1" class="bannerBox"><img  :src="require('assets/imgs/index/20180614.jpg')" alt=""></div>
             <div class="iconList" layout="row" layout-align="space-between center">
                 <div @click="goBbsPage">
                     <div class="iconBox iconBox1" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-huaban7"></m-icon></div>

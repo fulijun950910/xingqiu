@@ -4,7 +4,7 @@ app.userinfo = {
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
                 if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                    if (employee.merchant && employee.merchant.functionVersion == 4) { //营销版
+                    if (employee.merchant && (employee.merchant.functionVersion == 4 || employee.merchant.functionVersion == 5)) { //营销版
                         location.href = "/lite/index.html";
                     } else {
                         location.href = "/main.html#/index";
@@ -474,7 +474,7 @@ app.userinfo = {
                                                                         var url = '/service/index.html#/main';
                                                                         if (keyGetValue('type') == 1 || loginType == 1) {
                                                                             url = '/main.html#/index';
-                                                                            if (employee.merchant && employee.merchant.functionVersion == 4) { //营销版
+                                                                            if (employee.merchant && (employee.merchant.functionVersion == 4 || employee.merchant.functionVersion == 5)) { //营销版
                                                                                 url = "/lite/index.html";
                                                                             }
                                                                         }
