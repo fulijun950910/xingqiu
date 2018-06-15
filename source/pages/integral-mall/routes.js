@@ -17,6 +17,7 @@ const editeAddress = resolve => require(['./pages/edite-address'], resolve);
 const changePSW = resolve => require(['./pages/personal/changePwd'], resolve);
 const supplierForm = resolve => require(['./pages/supplier-form'], resolve);
 const supplierList = resolve => require(['./pages/list/supplier-list'], resolve);
+const promotionAtTp = resolve => require(['./pages/promotions/at_tp/index'], resolve);
 
 export default [{
     path: '/sign-in',
@@ -82,4 +83,8 @@ export default [{
     path: '/supplier-list',
     name: 'supplier-list',
     component: supplierList
+}, {
+    path: '/promotion-at-tp',
+    name: 'promotion-at-tp',
+    component: promotionAtTp
 }];

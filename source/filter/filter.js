@@ -88,6 +88,16 @@ Vue.filter('mSrc', function(value, w, h, def) {
     return def;
 });
 
+Vue.filter('mSrc2', function(value, def, q = 75) {
+    if (value) {
+        if (isNaN(Number(value))) {
+            return value;
+        } else {
+            return BASE_IMG_PATH + `${value}/${q}`;
+        }
+    }
+    return def;
+});
 /**
  * 图片路径过滤（清晰度）
  */
