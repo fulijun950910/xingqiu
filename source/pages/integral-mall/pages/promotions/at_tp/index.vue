@@ -5,9 +5,6 @@
                 <mt-swipe-item v-for="item in data.promotionInstance.promotionRuleGroup.titleImages" :key="item">
                     <img :src="item | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                 </mt-swipe-item>
-                <mt-swipe-item v-for="item in data.promotionInstance.promotionRuleGroup.titleImages" :key="item">
-                    <img :src="item | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
-                </mt-swipe-item>
             </mt-swipe>
         </div>
         <div class="cell cell-box bg-white">
@@ -20,7 +17,7 @@
                 <div class="cell">{{data.promotionInstance.allBuyCount | buyCount}}+ 人购买</div>
             </div>
             <div class="m-t-4" layout="row" layout-align="space-between center">
-                <div flex="30" class="buyTypeItem buyTypeItem1">
+                <div v-for="(item,index) in data.promotionInstance.promotionRuleGroup.promotionRuleGroupExts" flex="30" class="buyTypeItem buyTypeItem1">
                     <div class="typeTitle fs24">1人团</div>
                     <div class="fs32 m-t-1 m-b-1">￥0.01</div>
                 </div>
@@ -99,7 +96,8 @@
             text-align:center;
             border-radius: 4px;
             .typeTitle{
-                background:rgba(255,255,255,0.2);
+                background:rgba(255,255,255,0.1);
+                padding:1px 0;
             }
         }
         .buyTypeItem1{
