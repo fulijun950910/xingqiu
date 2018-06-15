@@ -18,8 +18,8 @@
             </div>
             <div class="m-t-4" layout="row" layout-align="space-between center">
                 <div v-for="(item,index) in data.promotionInstance.promotionRuleGroup.promotionRuleGroupExts" flex="30" class="buyTypeItem buyTypeItem1">
-                    <div class="typeTitle fs24">1人团</div>
-                    <div class="fs32 m-t-1 m-b-1">￥0.01</div>
+                    <div class="typeTitle fs24">{{ item.levelName }}</div>
+                    <div class="fs32 m-t-1 m-b-1"><span class="fs24">￥</span>{{ item.sellingPrice | fen2yuan }}</div>
                 </div>
             </div>
         </div>
