@@ -314,7 +314,6 @@ Vue.filter('tradeType', function(value) {
     return text;
 });
 
-// '13871147835' => '138 **** 7835'
 Vue.filter('mobile', function(val, isShow) {
     if (!val) {
         return '-';
@@ -329,4 +328,97 @@ Vue.filter('mobile', function(val, isShow) {
     } else {
         return '-';
     }
+});
+
+Vue.filter('date', function(_date, fmt = 'yyyy-MM-dd hh:mm:ss') {
+    if (_date === null || !_date) {
+        return;
+    };
+
+    var date = _date;
+    if (typeof _date != 'object') {
+        _date = _date.replace(/-/ig, '/');
+        date = new Date(_date);
+    }
+    var o = {
+        'M+': date.getMonth() + 1, // 月份
+        'd+': date.getDate(), // 日
+        'h+': date.getHours(), // 小时
+        'm+': date.getMinutes(), // 分
+        's+': date.getSeconds(), // 秒
+        'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
+        'S': date.getMilliseconds() // 毫秒
+    };
+    if (/(y+)/.test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+    };
+    for (var k in o) {
+        if (new RegExp('(' + k + ')').test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));
+        };
+    };
+    return fmt;
+});
+
+Vue.filter('couponDate', function(date) {
+    var text = '';
+    if (!date) {
+        return;
+    }
+    var rules = [];
+    if (date.startTimeRule) { // 兼容不同字段
+        rules[0] = date.startTimeRule;
+        rules[1] = date.endTimeRule;
+    } else if (date.startDateRule) {
+        rules[0] = date.startDateRule;
+        rules[1] = date.endDateRule;
+    } else {
+        return;
+    }
+    if (rules[0] == 1 && rules[1] == 1) {
+        text = '不限时长';
+    } else {
+        if (rules[0] == 1) {
+            if (date.startDate) {
+                text += Vue.filter('date')(date.startDate, 'yyyy-MM-dd');
+            } else {
+                text += '购买日期';
+            }
+        } else if (rules[0] == 2) {
+            if (date.startDate) {
+                text += Vue.filter('date')(date.startDate, 'yyyy-MM-dd');
+            } else {
+                text += '首次使用时间';
+            }
+        } else if (rules[0] == 3) {
+            text += Vue.filter('date')(date.startDate, 'yyyy-MM-dd');
+        } else {
+            text += Vue.filter('date')(date.startDate, 'yyyy-MM-dd');
+        }
+        // text +=' 至 '
+        if (rules[1] == 1) {
+            text += ' 后生效';
+        } else if (rules[1] == 2) {
+            if (date.endDate) {
+                text += ' 至 ' + Vue.filter('date')(date.endDate, 'yyyy-MM-dd');
+            } else if (date.endTimeDurationAmount) {
+                text += ' 起 ' + date.endTimeDurationAmount;
+                if (date.endTimeDurationUnit == 1) {
+                    text += '年';
+                } else if (date.endTimeDurationUnit == 2) {
+                    text += '月';
+                } else if (date.endTimeDurationUnit == 3) {
+                    text += '日';
+                }
+                text += '内有效';
+            } else {
+                text += '???';
+            }
+        } else if (rules[1] == 3) {
+            text += ' 至 ' + Vue.filter('date')(date.endDate, 'yyyy-MM-dd');
+        } else {
+            text += ' 至 ' + Vue.filter('date')(date.endDate, 'yyyy-MM-dd');
+        }
+    }
+    return text;
 });

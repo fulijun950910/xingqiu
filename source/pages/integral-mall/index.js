@@ -21,7 +21,7 @@ import 'styles/_style.less';
 import 'filter/filter';
 import 'filter/moment-filter';
 import 'directives/directive';
-// iconfont项目 saas-wechat-business
+// iconfont项目 wechat-shop
 import './iconfont';
 import knife from 'vendor/knife';
 import mIcon from 'components/m-icon';
