@@ -159,7 +159,7 @@
             },
             async goWxbus() {
                 await this.checkUser();
-                if (this.$store.state.user.merchant && this.$store.state.user.merchant.functionVersion == 4) {
+                if (this.$store.state.user.merchant && (this.$store.state.user.merchant.functionVersion == 4 || this.$store.state.user.merchant.functionVersion == 5)) {
                     window.location.href = '/lite/index.html';
                 } else {
                     window.location.href = '/main.html#/index';
