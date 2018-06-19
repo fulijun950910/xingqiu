@@ -116,7 +116,6 @@ export default {
             if (!this.check()) {
                 return;
             };
-            debugger;
             let parameter = this.parameter;
             parameter.province = this.address.province.name;
             parameter.city = this.address.city.name;
@@ -132,18 +131,22 @@ export default {
             if (!this.parameter.merchantName) {
                 flag = false;
                 Toast('请填写商户名称');
+                return false;
             };
             if (!this.address.province || !this.address.city) {
                 flag = false;
                 Toast('请选择地址');
+                return false;
             };
             if (!this.parameter.contactMobile) {
                 flag = false;
                 Toast('请填写联系方式');
+                return false;
             };
-            if (!this.parameter.merchantName) {
+            if (!this.parameter.industry) {
                 flag = false;
                 Toast('请选择行业');
+                return false;
             };
             return flag;
         },
