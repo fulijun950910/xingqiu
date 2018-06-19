@@ -90,7 +90,7 @@ Vue.filter('mSrc', function(value, w, h, def) {
 
 Vue.filter('mSrc2', function(value, def, q = 75) {
     if (value) {
-        if (isNaN(Number(value))) {
+        if (isNaN(Number(value)) && value !== null) {
             return value;
         } else {
             return BASE_IMG_PATH + `${value}/${q}`;

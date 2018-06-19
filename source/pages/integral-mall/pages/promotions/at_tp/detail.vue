@@ -10,54 +10,26 @@
         <div class="cell cell-box bg-white">
             <div class="fs36">{{data.promotionInstance.title}}</div>
             <div class="mt5 fs24 color-gray">{{data.promotionInstance.description}}</div>
-            <div class="color-gray border-bottom" layout="row" layout-align="space-between center">
-                <div>
-                    <span class="color-primary fs32">￥{{ data.promotionInstance.originPrice | fen2yuan }}</span> 市场价
+            <div class="color-gray m-t-3" layout="row" layout-align="space-between center">
+                <div layout="row" layout-align="start end">
+                    <span class="color-primary fs32">￥{{ data.promotionInstance.originPrice | fen2yuan }}</span>
+                    <span class="fs32">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                    <s class="fs24">￥{{ data.promotionInstance.originPrice | fen2yuan }}</s>
+                    <span class="btn-count fs24 m-l-2">3人团</span>
                 </div>
-                <div class="cell">{{data.promotionInstance.allBuyCount | buyCount}}+ 人购买</div>
-            </div>
-            <div class="m-t-4" layout="row" layout-align="space-between center">
-                <div @click="showBuy(item)" v-for="(item,index) in data.promotionInstance.promotionRuleGroup.promotionRuleGroupExts" flex="30" :class="{'buyTypeItem1':index==0,'buyTypeItem2':index==1,'buyTypeItem3':index==2}" class="buyTypeItem">
-                    <div class="typeTitle fs24">{{ item.levelName }}</div>
-                    <div class="fs32 m-t-1 m-b-1"><span class="fs24">￥</span>{{ item.sellingPrice | fen2yuan }}</div>
-                </div>
-            </div>
-            <div class="color-gray m-t-3">
-                <m-icon xlink="#icon-xiangqing"></m-icon>
-                支付并邀请好友开团，{{ data.promotionInstance.promotionRuleGroup.liveTime }}小时内人数不足自动退款
+                <div class="">团号：111</div>
             </div>
         </div>
-        <!--特色描述-->
-        <div v-if="data.promotionInstance.featrueDescription" class="cell cell-box bg-white m-t-3">
-            <div class="m-b-3">特色描述</div>
-            <div v-html="data.promotionInstance.featrueDescription.replace(/\n/ig, '<br>')"></div>
-        </div>
-        <!--可参与的团-->
-        <div v-if="data.promotionInstance.featrueDescription" class="cell cell-box bg-white m-t-3">
-            <div class="m-b-3">
-                <span v-if="groupList && groupList.length == 0"> 暂无可参与的团 </span>
-                <span v-else> 你的小伙伴正在等你抱团 </span>
+        <!--团情况-->
+        <div class="cell cell-box bg-white m-t-3" >
+            <div class="HotDate"><span class="hot-date">已结束</span></div>
+            <div class="cell cell-box bg-default">
+                <div>123</div>
             </div>
-            <div>
-                <div v-for="item in groupList" class="listItem cell cell-box" layout="row">
-                    <!--<div><img :src="item | mSrc2(require('assets/imgs/nullimg.jpg'))"></div>-->
-                    <div class="m-r-1"><img :src="require('assets/imgs/nullimg.jpg')"></div>
-                    <div flex layout="column" layout-align="center start">
-                        <div>团长:123</div>
-                        <div class="color-gray"><m-icon xlink="#icon-shalou"></m-icon>12:12:12</div>
-                    </div>
-                    <div  layout="column" layout-align="center end">
-                        <span class="btn">来抱团</span>
-                    </div>
-                </div>
-
+            <div class="color-gray p-t-2 p-b-2">
+                <span>已经超过拼团时间了</span>
             </div>
-            <div v-if="groupCount && groupCount > 2" class="text-center m-t-3">
-                <span class="color-primary">查看更多...</span>
-            </div>
-            <div v-else class="text-center m-t-3">
-                <span class="color-gray">活动刚开始，快来抢沙发</span>
-            </div>
+            <button class="group-buy-category">快去别的团抢占先机</button>
         </div>
         <!--我的团拼记录-->
         <div @click="goRecording" class="cell cell-box bg-white m-t-3" layout="row" layout-align="start center">
@@ -91,31 +63,6 @@
                     <div>{{ item.itemName }}</div>
                     <div>{{ item.itemContent }}</div>
                     <div>{{item.itemPrice | fen2yuan}}</div>
-                </div>
-            </div>
-        </div>
-        <!--我的团拼记录-->
-        <div class="cell cell-box bg-white m-t-3" >
-            <div class="m-b-3">拼团玩法 <m-icon class="color-primary" xlink="#icon-xunwen"></m-icon></div>
-            <div class="rule-item" layout="row" layout-align="space-between start">
-                <div flex="20" layout="column" layout-align="center center">
-                    <m-icon class="color-primary rule-icon" xlink="#icon-tuangou1"></m-icon>
-                    <span class="fs22">开团或参团</span>
-                </div>
-                <m-icon class="fs32 color-gray m-t-4" flex="5" xlink="#icon-zuojiantou"></m-icon>
-                <div flex="20" layout="column" layout-align="center center">
-                    <m-icon class="color-primary rule-icon" xlink="#icon-zhifu"></m-icon>
-                    <span class="fs22">付款</span>
-                </div>
-                <m-icon class="fs32 color-gray m-t-4" flex="5" xlink="#icon-zuojiantou"></m-icon>
-                <div flex="23" layout="column" layout-align="center center">
-                    <m-icon class="color-primary rule-icon" xlink="#icon-wangzhan-pintuan"></m-icon>
-                    <span class="fs22">邀请好友拼团</span>
-                </div>
-                <m-icon class="fs32 color-gray m-t-4" flex="5" xlink="#icon-zuojiantou"></m-icon>
-                <div flex="20" layout="column" layout-align="center center">
-                    <m-icon class="color-primary rule-icon" xlink="#icon-xiaolian2"></m-icon>
-                    <span class="fs22">拼团成功</span>
                 </div>
             </div>
         </div>
@@ -160,6 +107,15 @@
                 <p>· 活动图片由商户提供，若侵害到您的权益请联系我们，若情况属实，我们将第一时间删除所有相关图片；</p>
             </div>
         </div>
+        <!--分享提示-->
+        <div v-show="showShare" @click="showShare = false" class="share-shadow">
+            <div class="jiantou"></div>
+            <div class="content">
+                <p>你想尽快成团吗？</p>
+                <p>动动手指点击右上角“…”，</p>
+                <p>邀请您的小伙伴一起来参团吧~</p>
+            </div>
+        </div>
 
         <!-- 图文详情-->
         <div v-if="data.promotionInstance.htmlContent" class="jsonHtml cell cell-box bg-white m-t-3">
@@ -167,6 +123,21 @@
             <div v-html="data.promotionInstance.htmlContent"> </div>
         </div>
 
+        <div class="btn-group-padding"></div>
+        <div class="btn-group text-center" layout="row" layout-align="space-around center">
+            <div>
+                <div><m-icon class="icon" xlink="#icon-goumaijilu01"></m-icon></div>
+                <div>消费记录</div>
+            </div>
+            <div @click="showShare = true">
+                <div><m-icon class="icon" xlink="#icon-fenxiang"></m-icon></div>
+                <div>邀请好友</div>
+            </div>
+            <div @click="goIndex">
+                <div><m-icon class="icon" xlink="#icon-pintuan"></m-icon></div>
+                <div>我要开团</div>
+            </div>
+        </div>
         <mt-popup v-model="buyPop" position="bottom" class="buy-popup">
             <div class="cell cell-box">
                 <div class="cell"><span class="color-black fs40 fwb">购买信息</span></div>
@@ -213,6 +184,7 @@
                 buyPop: false,
                 storeShowNum: 2, // 默认显示门店数量
                 activeBuyItem: {}, // 选中的项目
+                showShare: false, // 显示分享引导
                 address: {},
                 groupList: [{}, {}],
                 groupCount: 1,
@@ -282,6 +254,9 @@
             chooseAddress() {
                 this.$router.push('/address-list/select');
             },
+            goIndex() {
+                this.$router.push('/promotion-at-tp');
+            },
             goRecording() {
                 this.$router.push('/promotion-at-tp-recording');
             },
@@ -322,6 +297,14 @@
         }
         .rotate180{
             transform: rotate(180deg);
+        }
+        .btn-count{
+            padding: 0 2vw;
+            line-height:1.4;
+            box-sizing: border-box;
+            border-radius: 4px;
+            color: #a2a2a2;
+            border: 1px solid #a2a2a2;
         }
         .swipe-box {
             padding: 0;
@@ -404,6 +387,76 @@
                 background:linear-gradient(180deg,rgba(255,153,216,1),rgba(252,93,192,1),rgba(255,53,104,1));
                 border-radius:14px;
                 margin-top:40px;
+            }
+        }
+        .HotDate{
+            white-space: nowrap;
+            text-align: center;
+            height: 36px;
+            line-height: 36px;
+            width:100%;
+            &:before{
+                content: '——— •';
+                color: #ddd;
+                vertical-align: middle;
+            }
+            &:after{
+                content: '• ———';
+                color: #ddd;
+            }
+            .hot-date{
+                text-align: cnter;
+                width: 150px;
+                display: inline-block;
+            }
+        }
+        .group-buy-category{
+            width:100%;
+            background: @color-primary;
+            color:#fff;
+            border-radius: 4px;
+            padding: @l24 0;
+            font-size:@fs32;
+            text-align: center;
+            display: block;
+        }
+        .btn-group-padding{
+            height:56px;
+        }
+        .btn-group{
+            position: fixed;
+            background:@white;
+            bottom: 0;
+            left:0;
+            border:1px solid @border-gay;
+            width: 100%;
+            height: 56px;
+            .icon{
+                font-size:28px;
+            }
+        }
+        .share-shadow{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: fade(black,70%);
+            color: white;
+            z-index: 20086;
+            .content{
+                p{
+                    text-align: center;
+                    margin: 0;
+                }
+            }
+            .jiantou{
+                margin: 10vw;
+                background: url("~assets/imgs/integral-mall/jiantou.png") no-repeat top right;
+                background-size: contain;
+                width: 80vw;
+                height: 60vw;
+                align-self: flex-start;
             }
         }
     }

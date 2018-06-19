@@ -18,6 +18,9 @@ const changePSW = resolve => require(['./pages/personal/changePwd'], resolve);
 const supplierForm = resolve => require(['./pages/supplier-form'], resolve);
 const supplierList = resolve => require(['./pages/list/supplier-list'], resolve);
 const promotionAtTp = resolve => require(['./pages/promotions/at_tp/index'], resolve);
+const promotionAtTpList = resolve => require(['./pages/promotions/at_tp/list'], resolve);
+const promotionAtTpDetail = resolve => require(['./pages/promotions/at_tp/detail'], resolve);
+const promotionAtTpRecording = resolve => require(['./pages/promotions/at_tp/recording'], resolve);
 
 export default [{
     path: '/sign-in',
@@ -87,4 +90,16 @@ export default [{
     path: '/promotion-at-tp',
     name: 'promotion-at-tp',
     component: promotionAtTp
+}, {
+    path: '/promotion-at-tp-list',
+    name: 'promotion-at-tp-list',
+    component: promotionAtTpList
+}, {
+    path: '/promotion-at-tp-detail',
+    name: 'promotion-at-tp-detail',
+    component: promotionAtTpDetail
+}, {
+    path: '/promotion-at-tp-recording',
+    name: 'promotion-at-tp-recording',
+    component: promotionAtTpRecording
 }];
