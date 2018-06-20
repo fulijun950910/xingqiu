@@ -1,19 +1,19 @@
 <template>
-    <div class="order-list" v-title="'我的订单'">
-        <div class="top-tab" flex layout="row" layout-align="start center">
-            <div class="tab-left" flex="95" layout="row" layout-align="start center">
+<div class="order-list" v-title="'我的订单'">
+    <div class="top-tab" flex layout="row" layout-align="start center">
+        <div class="tab-left" flex="95" layout="row" layout-align="start center">
             <div class="tab-index fs30 color-gray" @click="tabClick(item)" :class="{'active':item.value == isActive}" v-for="(item,index) in tabList" :key="index">
                 {{item.name}}
             </div>
-            </div>
-            <div class="menu" flex="5" @click="menuClick">
-                <m-icon class="fs35" xlink="#icon-shaixuan1"></m-icon>
-            </div>
-            <div class="right-menu" :class="{'display': rightTab}">
-                <div class="mask" @click="menuClick"></div>
-                <div class="right-menu-con" :class="{'display': rightTab}">
-                    <div>
-                        <div v-for="(item, index) in rightMenu" :key="index" class="type-item">
+        </div>
+        <div class="menu" flex="5" @click="menuClick">
+            <m-icon class="fs35" xlink="#icon-shaixuan1"></m-icon>
+        </div>
+        <div class="right-menu" :class="{'display': rightTab}">
+            <div class="mask" @click="menuClick"></div>
+            <div class="right-menu-con" :class="{'display': rightTab}">
+                <div>
+                    <div v-for="(item, index) in rightMenu" :key="index" class="type-item">
                         <div class="color-black fs40 fwb tab-title">{{item.name}}</div>
                         <div v-if="index == 0" layout="row" class="tab-item" layout-align="start center" flex-wrap="wrap">
                             <span v-for="(tab,tIndex) in item.tab" :key="tIndex" :class="{'active': item.typeselect == tab.value}" class="fs22 extra-light-black" @click="choose(item,tIndex)">
@@ -22,39 +22,39 @@
                         </div>
                         <div flex v-if="index == 1">
                             <div class="time" flex layout="row" layout-align="start center">
-                            <input type="text" readonly v-model="item.startTime" placeholder="YYYY-MM-DD" @click="showDatePicker(1)">&nbsp;&nbsp;-&nbsp;&nbsp;
-                            <input type="text" v-model="item.endTime" readonly placeholder="YYYY-MM-DD" @click="showDatePicker(2)">
+                                <input type="text" readonly v-model="item.startTime" placeholder="YYYY-MM-DD" @click="showDatePicker(1)">&nbsp;&nbsp;-&nbsp;&nbsp;
+                                <input type="text" v-model="item.endTime" readonly placeholder="YYYY-MM-DD" @click="showDatePicker(2)">
 
                             </div>
-                        </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="temp-con">
-        <div class="list-container" v-infinite-scroll="loadMore"  :infinite-scroll-disabled="loading"  infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
+    </div>
+    <div class="temp-con">
+        <div class="list-container" v-infinite-scroll="loadMore" :infinite-scroll-disabled="loading" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
             <div class="list-box" v-for="(item, index) in dataList" :key="index">
                 <div layout="row" class="order-no" layout-align="space-between center">
                     <div class="color-gray fs22">订单号：{{item.tradeNo}}</div>
                 </div>
                 <div class="top" layout="row" layout-align="space-between center">
-                <div class="fs24 color-white" :style="item.tradeTypeStyle">【{{item.tradeType | tradeType}}】</div>
-                <div class="fs24 color-orange-yellow">{{item.status | payStatus}}</div>
+                    <div class="fs24 color-white" :style="item.tradeTypeStyle">【{{item.tradeType | tradeType}}】</div>
+                    <div class="fs24 color-orange-yellow">{{item.status | payStatus}}</div>
                 </div>
                 <div class="middle" layout="row" layout-align="space-between center">
-                  <div flex="70">
-                      <div class="fs34 color-black">{{item.itemName}}&nbsp;&nbsp;&nbsp;{{item.quantity}}个</div>
-                      <div class="fs28 color-gray">合计：{{item.payDoudouAmount}}美豆豆&nbsp;/&nbsp;{{item.payMoney | fen2yuan}}元</div>
-                  </div>
-                  <div flex="30" class="img" layout="row" layout-align="end center" v-if="item.itemImage">
-                     <img class="img-auto" :src="item.itemImage | nSrc(require('assets/imgs/female.png'))"  alt="">
-                  </div>
+                    <div flex="70">
+                        <div class="fs34 color-black">{{item.itemName}}&nbsp;&nbsp;&nbsp;{{item.quantity}}个</div>
+                        <div class="fs28 color-gray">合计：{{item.payDoudouAmount}}美豆豆&nbsp;/&nbsp;{{item.payMoney | fen2yuan}}元</div>
+                    </div>
+                    <div flex="30" class="img" layout="row" layout-align="end center" v-if="item.itemImage">
+                        <img class="img-auto" :src="item.itemImage | nSrc(require('assets/imgs/female.png'))" alt="">
+                    </div>
                 </div>
                 <div flex v-if="item.tradeDelivery">
                     <div class="fs28 color-gray">配送地址：{{item.tradeDelivery.fullAddress}}</div>
                     <div class="fs28 color-gray">快递公司：{{item.tradeDelivery.logisticsCompany}}</div>
-                     <div class="fs28 color-gray">快递单号：{{item.tradeDelivery.logisticsNo}}</div>
+                    <div class="fs28 color-gray">快递单号：{{item.tradeDelivery.logisticsNo}}</div>
                 </div>
                 <div layout="row" layout-align="space-between center" class="bottom">
                     <div class="fs24 color-gray">{{item.createdTime | amDateFormat}}</div>
@@ -62,17 +62,14 @@
                     <!-- <div @click="cancelOrder(item)" v-if="item.status == 0">取消订单</div> -->
                 </div>
             </div>
-        <no-more :show-more="dataList.length != 0 || loading" more-text="不要再看了，我是有底线的"></no-more>
+            <no-more :show-more="dataList.length != 0 || loading" more-text="不要再看了，我是有底线的"></no-more>
             <no-data :visible="dataList.length == 0 && !loading" :showButton="false"></no-data>
         </div>
-        </div>
-<buy-message type="2"  @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>
-         <mt-datetime-picker
-    ref="picker"
-    type="date"
-     @confirm="handleConfirm">
-  </mt-datetime-picker>
     </div>
+    <buy-message type="2" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>
+    <mt-datetime-picker ref="picker" type="date" @confirm="handleConfirm">
+    </mt-datetime-picker>
+</div>
 </template>
 <script>
 import noMore from 'components/integral-mall/no-more';

@@ -28,7 +28,7 @@
         </div>
         <div class="list-personal" flex>
             <div layout="row" class="item" layout-align="space-between center">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-shenfen"></m-icon>登陆人类型</span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-shenfen"></m-icon>登入账号身份</span>
                 <span class="color-gray">{{party.userType | userType}}</span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(3)">
@@ -242,9 +242,9 @@
             }
         }
         .list-personal {
-            padding: 12px 0;
+            padding: 12px 15px;
             .item {
-                padding: 16px 15px;
+                padding: 16px 0;
                 border-bottom: 1px solid @border-gay;
                 span {
                     .icon {

@@ -109,6 +109,7 @@
                 this.$indicator.open();
                 api_party.getMissionList(this.$store.state.party.partyId).then(res => {
                     this.$indicator.close();
+                    console.log(res.data);
                     this.dataList = res.data;
                 });
             },
