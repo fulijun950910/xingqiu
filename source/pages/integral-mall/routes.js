@@ -8,6 +8,8 @@ const activityList = resolve => require(['./pages/list/activity-list'], resolve)
 const productList = resolve => require(['./pages/list/product-list'], resolve);
 const productDetail = resolve => require(['./pages/detail/product-detail'], resolve);
 const orderList = resolve => require(['./pages/list/order-list'], resolve);
+const b2bOrderList = resolve => require(['./pages/list/b2b-order-list'], resolve);
+const logisticsList = resolve => require(['./pages/list/logistics-list'], resolve);
 const voucherList = resolve => require(['./pages/list/voucher-list'], resolve);
 const personal = resolve => require(['./pages/personal/index'], resolve);
 const ruleEntry = resolve => require(['./pages/ruleEntry/index'], resolve);
@@ -21,6 +23,7 @@ const promotionAtTp = resolve => require(['./pages/promotions/at_tp/index'], res
 const promotionAtTpList = resolve => require(['./pages/promotions/at_tp/list'], resolve);
 const promotionAtTpDetail = resolve => require(['./pages/promotions/at_tp/detail'], resolve);
 const promotionAtTpRecording = resolve => require(['./pages/promotions/at_tp/recording'], resolve);
+const promotionAtTpRule = resolve => require(['./pages/promotions/at_tp/rule'], resolve);
 
 export default [{
     path: '/sign-in',
@@ -50,6 +53,14 @@ export default [{
     path: '/order-list',
     name: 'order-list',
     component: orderList
+}, {
+    path: '/b2b-order-list',
+    name: 'b2b-order-list',
+    component: b2bOrderList
+}, {
+    path: '/logistics-list',
+    name: 'logistics-list',
+    component: logisticsList
 }, {
     path: '/voucher-list',
     name: 'voucher-list',
@@ -87,8 +98,9 @@ export default [{
     name: 'supplier-list',
     component: supplierList
 }, {
-    path: '/promotion-at-tp',
+    path: '/promotion-at-tp/:promotionId?/:openid?',
     name: 'promotion-at-tp',
+    props: true,
     component: promotionAtTp
 }, {
     path: '/promotion-at-tp-list',
@@ -102,4 +114,8 @@ export default [{
     path: '/promotion-at-tp-recording',
     name: 'promotion-at-tp-recording',
     component: promotionAtTpRecording
+}, {
+    path: '/promotion-at-tp-rule',
+    name: 'promotion-at-tp-rule',
+    component: promotionAtTpRule
 }];

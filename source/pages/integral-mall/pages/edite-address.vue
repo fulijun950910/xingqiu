@@ -142,7 +142,7 @@ export default {
             };
             api_party.deliveryAddress(parameter).then(msg=> {
                 Toast(this.addressId ? '地址修改成功' : '地址创建成功');
-                this.$router.push('/address-list/view');
+                this.$router.back();
             }, msg=> {
 
             });

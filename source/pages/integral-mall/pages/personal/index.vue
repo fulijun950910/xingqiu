@@ -35,6 +35,10 @@
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-wodedingdan"></m-icon>我的订单</span>
                 <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
+            <div layout="row" class="item" layout-align="space-between center" @click="routeTo(9)">
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-navicon-cgdh"></m-icon>我的采购单</span>
+                <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+            </div>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(8)">
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-jieshao"></m-icon>推荐商户列表</span>
                 <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
@@ -156,6 +160,9 @@
                         break;
                     case 8:
                         this.$router.push('/supplier-list');
+                        break;
+                    case 9:
+                        this.$router.push('/b2b-order-list');
                         break;
                 };
             },

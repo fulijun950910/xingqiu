@@ -68,12 +68,12 @@ const router = new VueRouter({
 });
 
 let routerCheckPath = path => {
-    let reg = /(^\/sign-in)|(^\/main)|(^\/bbsPage)|(^\/alliance)|(^\/booking)/;
+    let reg = /(^\/sign-in)|(^\/main)|(^\/bbsPage)|(^\/alliance)|(^\/booking)|(^\/promotion-at-tp)/;
     return reg.test(path);
 };
 
 router.beforeEach(({ meta, path }, from, next) => {
-    if (routerCheckPath(path) || store.getters.isLogin) {
+    if (routerCheckPath(path) || store.getters.isLogin || store.state.party) {
         next();
     } else {
         if (process.env.NODE_ENV === 'development') {

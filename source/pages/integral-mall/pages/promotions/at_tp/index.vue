@@ -2,38 +2,38 @@
     <div class="tp-index">
         <div class="swipe-box">
             <mt-swipe :auto="4000">
-                <mt-swipe-item v-for="item in data.promotionInstance.promotionRuleGroup.titleImages" :key="item">
+                <mt-swipe-item v-for="item in data.groupRule.titleImages" :key="item">
                     <img :src="item | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                 </mt-swipe-item>
             </mt-swipe>
         </div>
         <div class="cell cell-box bg-white">
-            <div class="fs36">{{data.promotionInstance.title}}</div>
-            <div class="mt5 fs24 color-gray">{{data.promotionInstance.description}}</div>
+            <div class="fs36">{{data.title}}</div>
+            <div class="mt5 fs24 color-gray">{{data.description}}</div>
             <div class="color-gray border-bottom" layout="row" layout-align="space-between center">
                 <div>
-                    <span class="color-primary fs32">￥{{ data.promotionInstance.originPrice | fen2yuan }}</span> 市场价
+                    <span class="color-primary fs32">￥{{ data.originPrice | fen2yuan }}</span> 市场价
                 </div>
-                <div class="cell">{{data.promotionInstance.allBuyCount | buyCount}}+ 人购买</div>
+                <div class="cell">{{data.allBuyCount | buyCount}}+ 人购买</div>
             </div>
             <div class="m-t-4" layout="row" layout-align="space-between center">
-                <div @click="showBuy(item)" v-for="(item,index) in data.promotionInstance.promotionRuleGroup.promotionRuleGroupExts" flex="30" :class="{'buyTypeItem1':index==0,'buyTypeItem2':index==1,'buyTypeItem3':index==2}" class="buyTypeItem">
+                <div @click="showBuy(item)" v-for="(item,index) in data.groupRule.groupRuleExts" flex="30" :class="{'buyTypeItem1':index==0,'buyTypeItem2':index==1,'buyTypeItem3':index==2}" class="buyTypeItem">
                     <div class="typeTitle fs24">{{ item.levelName }}</div>
                     <div class="fs32 m-t-1 m-b-1"><span class="fs24">￥</span>{{ item.sellingPrice | fen2yuan }}</div>
                 </div>
             </div>
             <div class="color-gray m-t-3">
                 <m-icon xlink="#icon-xiangqing"></m-icon>
-                支付并邀请好友开团，{{ data.promotionInstance.promotionRuleGroup.liveTime }}小时内人数不足自动退款
+                支付并邀请好友开团，{{ data.groupRule.liveTime }}小时内人数不足自动退款
             </div>
         </div>
         <!--特色描述-->
-        <div v-if="data.promotionInstance.featrueDescription" class="cell cell-box bg-white m-t-3">
+        <div v-if="data.featrueDescription" class="cell cell-box bg-white m-t-3">
             <div class="m-b-3">特色描述</div>
-            <div v-html="data.promotionInstance.featrueDescription.replace(/\n/ig, '<br>')"></div>
+            <div v-html="data.featrueDescription.replace(/\n/ig, '<br>')"></div>
         </div>
         <!--可参与的团-->
-        <div v-if="data.promotionInstance.featrueDescription" class="cell cell-box bg-white m-t-3">
+        <div v-if="data.featrueDescription" class="cell cell-box bg-white m-t-3">
             <div class="m-b-3">
                 <span v-if="groupList && groupList.length == 0"> 暂无可参与的团 </span>
                 <span v-else> 你的小伙伴正在等你抱团 </span>
@@ -64,30 +64,12 @@
             <div flex>我的团拼记录</div>
             <m-icon class="fs32" xlink="#icon-zuojiantou"></m-icon>
         </div>
-        <!--可参与的团-->
-        <div class="cell cell-box bg-white m-t-3">
-            <div class="m-b-3">适用门店</div>
-            <div>
-                <div v-for="(item,index) in data.storeList" v-if="index < storeShowNum" class="listItem cell cell-box" layout="row">
-                    <div @click="openLocation(item)" flex layout="column" layout-align="center start">
-                        <div>{{item.storeName}}</div>
-                        <div class="fs24">{{item.address}}</div>
-                    </div>
-                    <div  layout="column" layout-align="center end">
-                        <a class="p-1" :href="'tel:' + item.mobile"><m-icon class="color-primary" xlink="#icon-telephone"></m-icon></a>
-                    </div>
-                </div>
-            </div>
-            <div v-if="data.storeList && data.storeList.length > 2" class="text-center border-top m-t-3 p-t-2">
-                <div v-if="storeShowNum == 2" @click="changeShowStoreNum(1)">查看全部门店 <m-icon xlink="#icon-huabanfuben5"></m-icon></div>
-                <div v-else @click="changeShowStoreNum">收起 <m-icon class="rotate180" xlink="#icon-huabanfuben5"></m-icon></div>
-            </div>
-        </div>
+
         <!-- 活动内容 -->
         <div class="cell cell-box bg-white m-t-3">
             <div class="m-b-3">活动内容</div>
             <div>
-                <div class="p-t-3 p-b-3 border-bottom" v-for="item in data.promotionInstance.promotionRuleGroup.promotionRuleGroupContentExts" layout="row" layout-align="space-between center">
+                <div class="p-t-3 p-b-3 border-bottom" v-for="item in data.groupRule.groupRuleContentExts" layout="row" layout-align="space-between center">
                     <div>{{ item.itemName }}</div>
                     <div>{{ item.itemContent }}</div>
                     <div>{{item.itemPrice | fen2yuan}}</div>
@@ -96,7 +78,7 @@
         </div>
         <!--我的团拼记录-->
         <div class="cell cell-box bg-white m-t-3" >
-            <div class="m-b-3">拼团玩法 <m-icon class="color-primary" xlink="#icon-xunwen"></m-icon></div>
+            <div class="m-b-3" @click="goRule">拼团玩法 <m-icon class="color-primary" xlink="#icon-xunwen"></m-icon></div>
             <div class="rule-item" layout="row" layout-align="space-between start">
                 <div flex="20" layout="column" layout-align="center center">
                     <m-icon class="color-primary rule-icon" xlink="#icon-tuangou1"></m-icon>
@@ -123,33 +105,33 @@
         <div class="cell cell-box bg-white m-t-3" >
             <div class="m-b-4">
                 <div>活动有效期</div>
-                <p>{{ data.promotionInstance.startDate | date('yyyy-MM-dd') }} 至 {{ data.promotionInstance.startDate | date('yyyy-MM-dd') }}</p>
+                <p>{{ data.startTime | date('yyyy-MM-dd') }} 至 {{ data.startTime | date('yyyy-MM-dd') }}</p>
             </div>
-            <div v-if="data.promotionInstance.validTime" class="m-b-4">
+            <div v-if="data.validTime" class="m-b-4">
                 <div>优惠券有效期</div>
-                <p>{{ data.promotionInstance.validTime | couponDate }}</p>
+                <p>{{ data.validTime | couponDate }}</p>
             </div>
 
             <!-- 预约信息 -->
-            <div v-if="data.promotionInstance.groupInfo.appoint" class="m-b-4">
+            <div v-if="data.groupInfo.appoint" class="m-b-4">
                 <p >预约信息</p>
-                <p v-for="item in data.promotionInstance.groupInfo.appoint">
+                <p v-for="item in data.groupInfo.appoint">
                     · {{ item.content }}
                 </p>
             </div>
 
             <!-- 适用人群 -->
-            <div v-if="data.promotionInstance.groupInfo.suit" class="m-b-4">
+            <div v-if="data.groupInfo.suit" class="m-b-4">
                 <p >预约信息</p>
-                <p v-for="item in data.promotionInstance.groupInfo.suit">
+                <p v-for="item in data.groupInfo.suit">
                     · {{ item.content }}
                 </p>
             </div>
 
             <!-- 规则提醒 -->
-            <div v-if="data.promotionInstance.groupInfo.rule" class="m-b-4">
+            <div v-if="data.groupInfo.rule" class="m-b-4">
                 <p >预约信息</p>
-                <p v-for="item in data.promotionInstance.groupInfo.rule">
+                <p v-for="item in data.groupInfo.rule">
                     · {{ item.content }}
                 </p>
             </div>
@@ -162,9 +144,9 @@
         </div>
 
         <!-- 图文详情-->
-        <div v-if="data.promotionInstance.htmlContent" class="jsonHtml cell cell-box bg-white m-t-3">
+        <div v-if="data.htmlContent" class="jsonHtml cell cell-box bg-white m-t-3">
             <div class="m-b-3">活动内容</div>
-            <div v-html="data.promotionInstance.htmlContent"> </div>
+            <div v-html="data.htmlContent"> </div>
         </div>
 
         <mt-popup v-model="buyPop" position="bottom" class="buy-popup">
@@ -188,7 +170,7 @@
                     <span flex></span>
                     <span class="fs30 color-black fwb">{{activeBuyItem.sellingPrice | fen2yuan}}元</span>
                 </div>
-                <div class="pay-btn fs38 color-white" layout="row" layout-align="center center">
+                <div @click="submit" class="pay-btn fs38 color-white" layout="row" layout-align="center center">
                     支付
                 </div>
             </div>
@@ -203,11 +185,13 @@
     import api_party from 'services/api.party';
     import apiGetJSSignature from 'services/api.getJSSignature';
     import {Swipe, SwipeItem, Popup} from 'mint-ui';
+    import Q from 'q';
     Vue.component(Swipe.name, Swipe);
     Vue.component(SwipeItem.name, SwipeItem);
     Vue.component(Popup.name, Popup);
     export default {
         name: 'index',
+        props: ['promotionId', 'openid'],
         data() {
             return {
                 buyPop: false,
@@ -218,7 +202,7 @@
                 groupCount: 1,
                 data: {
                     promotionInstance: {
-                        promotionRuleGroup: {},
+                        groupRule: {},
                         groupInfo: {}
                     }
                 }
@@ -231,12 +215,18 @@
         },
         mounted() {
             this.init();
-            this.loadAddress();
+            // 如果是选完地址回来；
+            if (this.$store.state.promotionAtTpData && this.$store.state.promotionAtTpData.loadAddress) {
+                this.loadAddress();
+                this.buyPop = true;
+                this.activeBuyItem = this.$store.state.promotionAtTpData.activeBuyItem;
+            };
+            this.$store.state.promotionAtTpData = {};
         },
         methods: {
             init() {
                 let data = {
-                    id: 6608574587825216
+                    id: this.promotionId
                 };
                 this.$indicator.open();
                 apiPromotion.view(data).then(result => {
@@ -244,27 +234,27 @@
                     if (result && result.data) {
                         this.data = result.data;
                         // 计算活动原价（活动内容价目之和）
-                        this.data.promotionInstance.originPrice = 0;
-                        this.data.promotionInstance.promotionRuleGroup.promotionRuleGroupContentExts.forEach(item => {
-                            this.data.promotionInstance.originPrice += item.itemPrice;
+                        this.data.originPrice = 0;
+                        this.data.groupRule.groupRuleContentExts.forEach(item => {
+                            this.data.originPrice += item.itemPrice;
                         });
 
                         // 规则分组
-                        result.data.promotionInstance.groupInfo = {};
+                        result.data.groupInfo = {};
                         // 活动规则
-                        if (result.data.promotionInstance.promotionRuleGroup.promotionRuleDescriptions && result.data.promotionInstance.promotionRuleGroup.promotionRuleDescriptions) {
-                            result.data.promotionInstance.promotionRuleGroup.promotionRuleDescriptions.forEach((v, i) => {
+                        if (result.data.groupRule.promotionRuleDescriptions && result.data.groupRule.promotionRuleDescriptions) {
+                            result.data.groupRule.promotionRuleDescriptions.forEach((v, i) => {
                                 if (v.code && v.code.indexOf('_') > -1) {
                                     var name = v.code.split('_')[0];
-                                    if (!result.data.promotionInstance.groupInfo[name] || result.data.promotionInstance.groupInfo[name].lenth < 1) {
-                                        result.data.promotionInstance.groupInfo[name] = [];
+                                    if (!result.data.groupInfo[name] || result.data.groupInfo[name].lenth < 1) {
+                                        result.data.groupInfo[name] = [];
                                     }
-                                    result.data.promotionInstance.groupInfo[name].push(v);
+                                    result.data.groupInfo[name].push(v);
                                 } else if (v.content && v.content != '') {
-                                    if (!result.data.promotionInstance.groupInfo.rule || result.data.promotionInstance.groupInfo.rule.lenth < 1) {
-                                        result.data.promotionInstance.groupInfo.rule = [];
+                                    if (!result.data.groupInfo.rule || result.data.groupInfo.rule.lenth < 1) {
+                                        result.data.groupInfo.rule = [];
                                     }
-                                    result.data.promotionInstance.groupInfo.rule.push(v);
+                                    result.data.groupInfo.rule.push(v);
                                 }
                             });
                         }
@@ -272,20 +262,50 @@
                 });
             },
             async loadAddress() {
+                var deferred = Q.defer();
                 if (this.$store.state.integralMallActAddress) {
                     this.address = this.$store.state.integralMallActAddress;
                 } else {
                     let { data } = await api_party.getDefaultAddress(this.$store.state.party.partyId, this.$store.state.party.id);
-                    this.address = data;
+                    this.address = data || {};
                 }
+                deferred.resolve(true);
+                return deferred.promise;
+
             },
             chooseAddress() {
+                this.$store.state.promotionAtTpData = {
+                    loadAddress: true,
+                    activeBuyItem: this.activeBuyItem
+                };
+                this.$store.state.loadAddress = true;
                 this.$router.push('/address-list/select');
             },
             goRecording() {
                 this.$router.push('/promotion-at-tp-recording');
             },
-            showBuy(item) {
+            goRule() {
+                this.$router.push('/promotion-at-tp-rule');
+            },
+            async checkBuy() {
+                var deferred = Q.defer();
+                if (!this.$store.state || !this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
+                    let { data } = await apiPromotion.login({openid: this.openid});
+                    let employeeData = {
+                        party: data
+                    };
+                    window.localStorage.employee = JSON.stringify(employeeData);
+                    this.$store.commit('UPDATE_LOCAL');
+                }
+                deferred.resolve(true);
+                return deferred.promise;
+            },
+            async showBuy(item) {
+                await this.checkBuy();
+                // 没有地址加载地址
+                if (!this.address.id) {
+                    await this.loadAddress();
+                }
                 this.activeBuyItem = item;
                 this.buyPop = true;
             },
@@ -295,6 +315,24 @@
                 } else {
                     this.storeShowNum = 2;
                 }
+            },
+            submit() {
+                let data = {
+                    merchantId: this.$store.state.party.merchantId,
+                    partyId: this.$store.state.party.partyId,
+                    userId: this.$store.state.party.id,
+                    openid: this.openid,
+                    mobile: this.$store.state.party.userName,
+                    nickName: this.$store.state.party.nickName,
+                    campaignName: this.data.title,
+                    promotionInstanceId: this.promotionId,
+                    promotionRuleGroupExtId: this.activeBuyItem.id,
+                    groupType: 1, // 1.开团 2.参团
+                    createSource: 1, // 创建来源 1：美问星球
+                    kind: 1,
+                    deliveryAddressId: this.address.id
+                };
+                apiPromotion.purchase(data);
             },
             async openLocation(item) {
                 let data = {
