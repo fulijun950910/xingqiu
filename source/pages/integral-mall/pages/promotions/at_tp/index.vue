@@ -10,11 +10,11 @@
         <div class="cell cell-box bg-white">
             <div class="fs36">{{data.title}}</div>
             <div class="mt5 fs24 color-gray">{{data.description}}</div>
-            <div class="color-gray border-bottom" layout="row" layout-align="space-between center">
+            <div class="color-gray border-bottom cell" layout="row" layout-align="space-between center">
                 <div>
                     <span class="color-primary fs32">￥{{ data.originPrice | fen2yuan }}</span> 市场价
                 </div>
-                <div class="cell">{{data.allBuyCount | buyCount}}+ 人购买</div>
+                <!--<div class="">{{data.allBuyCount | buyCount}}+ 人购买</div>-->
             </div>
             <div class="m-t-4" layout="row" layout-align="space-between center">
                 <div @click="showBuy(item)" v-for="(item,index) in data.groupRule.groupRuleExts" flex="30" :class="{'buyTypeItem1':index==0,'buyTypeItem2':index==1,'buyTypeItem3':index==2}" class="buyTypeItem">
@@ -33,18 +33,24 @@
             <div v-html="data.featrueDescription.replace(/\n/ig, '<br>')"></div>
         </div>
         <!--可参与的团-->
-        <div v-if="data.featrueDescription" class="cell cell-box bg-white m-t-3">
+        <div class="cell cell-box bg-white m-t-3">
             <div class="m-b-3">
-                <span v-if="groupList && groupList.length == 0"> 暂无可参与的团 </span>
+                <span v-if="groupCount == 0"> 暂无可参与的团 </span>
                 <span v-else> 你的小伙伴正在等你抱团 </span>
             </div>
             <div>
                 <div v-for="item in groupList" class="listItem cell cell-box" layout="row">
-                    <!--<div><img :src="item | mSrc2(require('assets/imgs/nullimg.jpg'))"></div>-->
-                    <div class="m-r-1"><img :src="require('assets/imgs/nullimg.jpg')"></div>
-                    <div flex layout="column" layout-align="center start">
+                    <div class="m-r-1"><img :src="item.fileId | mSrc2(require('assets/imgs/nullimg.jpg'))"></div>
+                    <div class="m-r-4" flex layout="column" layout-align="center start">
                         <div>团长:123</div>
-                        <div class="color-gray"><m-icon xlink="#icon-shalou"></m-icon>12:12:12</div>
+                        <div layout="row" class="w100">
+                            <div flex v-if="item.status == 1" class="color-gray"><m-icon xlink="#icon-shalou"></m-icon>{{item.surplusSecond}}</div>
+                            <div flex v-if="item.status == 2" class="color-gray">已结束</div>
+                            <div flex v-if="item.status == 3" class="color-gray">已成团</div>
+                            <div flex v-if="item.status == 4" class="color-gray">处理中</div>
+                            <span class="num m-r-4">{{item.groupLevel}}人团</span>
+                        </div>
+
                     </div>
                     <div  layout="column" layout-align="center end">
                         <span class="btn">来抱团</span>
@@ -52,8 +58,8 @@
                 </div>
 
             </div>
-            <div v-if="groupCount && groupCount > 2" class="text-center m-t-3">
-                <span class="color-primary">查看更多...</span>
+            <div @click="goPromotionList" v-if="groupCount > 2" class="text-center m-t-3">
+                <span  class="color-primary">查看更多...</span>
             </div>
             <div v-else class="text-center m-t-3">
                 <span class="color-gray">活动刚开始，快来抢沙发</span>
@@ -198,8 +204,8 @@
                 storeShowNum: 2, // 默认显示门店数量
                 activeBuyItem: {}, // 选中的项目
                 address: {},
-                groupList: [{}, {}],
-                groupCount: 1,
+                groupList: [],
+                groupCount: 0,
                 data: {
                     promotionInstance: {
                         groupRule: {},
@@ -215,6 +221,8 @@
         },
         mounted() {
             this.init();
+            this.loadGroupList();
+            this.js_sdk_check();
             // 如果是选完地址回来；
             if (this.$store.state.promotionAtTpData && this.$store.state.promotionAtTpData.loadAddress) {
                 this.loadAddress();
@@ -238,7 +246,17 @@
                         this.data.groupRule.groupRuleContentExts.forEach(item => {
                             this.data.originPrice += item.itemPrice;
                         });
-
+                        // 更新数据
+                        let json = {
+                            at_tp: {}
+                        };
+                        json.at_tp.title = this.data.title;
+                        json.at_tp.promotionId = this.promotionId;
+                        json.at_tp.desc = this.data.description;
+                        json.at_tp.link = this.data.promotionAuthUrl;
+                        json.at_tp.imgUrl = this.data.groupRule.titleImages[0];
+                        window.sessionStorage.promotionsData = JSON.stringify(json);
+                        this.$store.commit('UPDATE_PROMOTION');
                         // 规则分组
                         result.data.groupInfo = {};
                         // 活动规则
@@ -273,6 +291,32 @@
                 return deferred.promise;
 
             },
+            async loadGroupList() {
+                let queryData = {
+                    promotionInstanceId: this.promotionId,
+                    page: 1,
+                    size: 100
+                };
+                let { data } = await apiPromotion.getGroupJoinList(queryData);
+                if (data && data.rows) {
+                    this.groupCount = data.rows.length;
+                    this.groupList = data.rows.filter((a) => {
+                        return a.status == '1';
+                    }).slice(0, 2);
+                    if (this.groupList.length < 2) {
+                        let handling = data.rows.filter((a) => {
+                            return a.status == '4';
+                        }).slice(0, (2 - this.groupList.length));
+                        this.groupList = this.groupList.concat(handling);
+                    }
+                    if (this.groupList.length < 2) {
+                        let handling = data.rows.filter((a) => {
+                            return a.status == '3';
+                        }).slice(0, (2 - this.groupList.length));
+                        this.groupList = this.groupList.concat(handling);
+                    }
+                }
+            },
             chooseAddress() {
                 this.$store.state.promotionAtTpData = {
                     loadAddress: true,
@@ -286,6 +330,9 @@
             },
             goRule() {
                 this.$router.push('/promotion-at-tp-rule');
+            },
+            goPromotionList() {
+                this.$router.push('/promotion-at-tp-list');
             },
             async checkBuy() {
                 var deferred = Q.defer();
@@ -356,8 +403,31 @@
                         this.$toast(JSON.stringify(res));
                     }
                 };
-                console.log(payData);
                 apiGetJSSignature.wxPay(payData);
+            },
+            js_sdk_check() {
+                let time = setInterval(() => {
+                    if (this.$store.state.isLoadSdk) {
+                        this.js_sdk();
+                        clearInterval(time);
+                    }
+                }, 600);
+            },
+            js_sdk() {
+                let _this = this;
+                let share = {
+                    title: _this.$store.state.at_tp.title,
+                    desc: _this.$store.state.at_tp.desc,
+                    link: _this.$store.state.at_tp.promotionAuthUrl,
+                    imgUrl: window.location.origin + '/api/file/' + _this.$store.state.at_tp.imgUrl,
+                    type: 'link',
+                    dataUrl: '',
+                    success: function() {
+                    },
+                    cancel: null
+                };
+                apiGetJSSignature.hideMenuItems();
+                apiGetJSSignature.shareAppMessage(share);
             },
             async openLocation(item) {
                 let data = {
@@ -380,6 +450,9 @@
         font-size: 14px;
         min-height:100vh;
         background:@bg-gray;
+        .w100{
+            width:100%;
+        }
         .border-top{
             border-top:1px solid @border-gay;
         }
@@ -418,6 +491,14 @@
         .listItem{
             background:@bg-gray;
             margin-top: @l16;
+            .num{
+                border: 1px solid #a2a2a2;
+                color: #a2a2a2;
+                font-size:@fs22;
+                line-height:1.4;
+                padding:0 4px;
+                border-radius: 2px;
+            }
             img{
                 width:60px;
                 height:60px;

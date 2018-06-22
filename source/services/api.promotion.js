@@ -15,5 +15,10 @@ export default {
     purchase(data) {
         var url = '/api/b2bGroupJoin/purchase';
         return request(url, data, 'post');
+    },
+    // 3.获得活动团列表
+    getGroupJoinList(data) {
+        var url = '/api/b2bGroupJoin/getGroupJoinList';
+        return request(url, data, 'post');
     }
 };

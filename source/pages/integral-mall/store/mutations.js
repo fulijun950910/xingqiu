@@ -56,5 +56,11 @@ var getLocalInfo = () => {
 export default {
     [types.UPDATE_LOCAL](state) {
         Object.assign(state, getLocalInfo());
+    },
+    // 活动相关
+    [types.UPDATE_PROMOTION](state) {
+        if (window.sessionStorage.promotionsData) {
+            Object.assign(state, JSON.parse(window.sessionStorage.promotionsData));
+        }
     }
 };

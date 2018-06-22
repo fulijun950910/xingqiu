@@ -1,29 +1,17 @@
 <template>
     <div class="tp-list">
         <div class="tabBar bg-white text-center" layout="row" layout-align="space-between center">
-            <div @click="itemClick(1)" flex="33"><div :class="{'act': selected == 1}" class="tabBarItem cell">全部团</div></div>
-            <div @click="itemClick(2)" flex="33"><div :class="{'act': selected == 2}" class="tabBarItem cell">团满啦</div></div>
-            <div @click="itemClick(3)" flex="33"><div :class="{'act': selected == 3}" class="tabBarItem cell">团ING</div></div>
+            <div @click="itemClick(0)" flex="33"><div :class="{'act': selected == 0}" class="tabBarItem cell">全部团</div></div>
+            <div @click="itemClick(3)" flex="33"><div :class="{'act': selected == 3}" class="tabBarItem cell">团满啦</div></div>
+            <div @click="itemClick(1)" flex="33"><div :class="{'act': selected == 1}" class="tabBarItem cell">团ING</div></div>
         </div>
         <div class="main cell-box">
-            <div class="list-item cell cell-box" layout="row" layout-align="start center">
+            <div v-for="item in dataList" class="list-item cell cell-box" layout="row" layout-align="start center">
                 <img class="img m-r-2" :src="null | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                 <div flex>
                     <div>团长：123</div>
-                    <div class="color-gray fs24">匹配中</div>
-                    <div class="color-gray"><span class="color-primary">￥123</span> <s>￥123</s></div>
-                </div>
-                <div flex="25" class="text-center"  layout="column" layout-align="space-between stretch">
-                    <div><m-icon xlink="#icon-shalou"></m-icon>12:12:12</div>
-                    <button class="goDetailBtn">来抱团</button>
-                </div>
-            </div>
-            <div class="list-item cell cell-box" layout="row" layout-align="start center">
-                <img class="img m-r-2" :src="null | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
-                <div flex>
-                    <div>团长：123</div>
-                    <div class="color-gray fs24">匹配中</div>
-                    <div class="color-gray"><span class="color-primary">￥123</span> <s>￥123</s></div>
+                    <div class="color-gray fs24">{{item.status | getName(PROMOTION_TP_STATUS)}}</div>
+                    <div class="color-gray"><span class="color-primary">￥{{item.price}}</span> <s>￥123</s></div>
                 </div>
                 <div flex="25" class="text-center"  layout="column" layout-align="space-between stretch">
                     <div><m-icon xlink="#icon-shalou"></m-icon>12:12:12</div>
@@ -36,18 +24,39 @@
 </template>
 
 <script>
+    import {
+        PROMOTION_TP_STATUS
+    } from 'config/mixins';
+    import apiPromotion from 'services/api.promotion';
+
     export default {
         name: 'list',
         data() {
             return {
-                selected: 1
+                selected: 0,
+                PROMOTION_TP_STATUS: PROMOTION_TP_STATUS,
+                dataList: []
             };
         },
         mounted() {
+            this.loadData();
         },
         methods: {
             itemClick(index) {
                 this.selected = index;
+                this.loadData();
+            },
+            async loadData() {
+                let queryData = {
+                    promotionInstanceId: this.$store.state.at_tp.promotionId,
+                    page: 1,
+                    size: 10000
+                };
+                if (this.selected > 0) {
+                    queryData.status = this.selected;
+                }
+                let { data } = await apiPromotion.getGroupJoinList(queryData);
+                this.dataList = data.rows;
             }
         }
     };
