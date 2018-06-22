@@ -103,6 +103,7 @@ export default {
                         deferred.resolve(true);
                     }
                 }, err => {
+                    alert(err);
                     deferred.resolve(false);
                 }
             );
