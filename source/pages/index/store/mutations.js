@@ -46,7 +46,7 @@ var getLocalInfo = () => {
             if (!employee.storeList.length) {
                 employee.storeList.push(employee.store);
             }
-        } else if (employee.storeList.length) {
+        } else if (employee.storeList && employee.storeList.length) {
             data.store = employee.storeList[0];
         }
     }
