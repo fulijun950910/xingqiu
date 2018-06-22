@@ -333,13 +333,13 @@
                     deliveryAddressId: this.address.id
                 };
                 let res = await apiPromotion.purchase(data);
-                data.success = (ers) => {
+                res.data.success = (ers) => {
                     this.$toast(JSON.stringify(ers));
                 };
-                data.error = (err) => {
+                res.data.error = (err) => {
                     this.$toast(JSON.stringify(err));
                 };
-                apiGetJSSignature.wxPay(data);
+                apiGetJSSignature.wxPay(res.data);
             },
             async openLocation(item) {
                 let data = {
