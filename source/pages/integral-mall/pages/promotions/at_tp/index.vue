@@ -316,7 +316,7 @@
                     this.storeShowNum = 2;
                 }
             },
-            submit() {
+            async submit() {
                 let data = {
                     merchantId: this.$store.state.party.merchantId,
                     partyId: this.$store.state.party.partyId,
@@ -332,7 +332,9 @@
                     kind: 1,
                     deliveryAddressId: this.address.id
                 };
-                apiPromotion.purchase(data);
+                let res = await apiPromotion.purchase(data);
+                apiGetJSSignature.wxPay(res.data);
+                this.$toast('success');
             },
             async openLocation(item) {
                 let data = {
