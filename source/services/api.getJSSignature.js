@@ -1,5 +1,6 @@
 import request from './request.js';
 const wx = require('weixin-js-sdk');
+import Q from 'q';
 
 export default {
     getJSSignature(data) {
@@ -87,7 +88,6 @@ export default {
     },
     wxPay(setting) {
         if (WeixinJSBridge) {   // eslint-disable-line
-            let deferred = Q.defer();
             WeixinJSBridge.invoke(  // eslint-disable-line
                 'getBrandWCPayRequest', {
                     'appId': setting.appId, // 公众号名称，由商户传入
