@@ -334,13 +334,26 @@
                 };
                 let res = await apiPromotion.purchase(data);
                 res.data.success = (res) => {
-                    this.$toast(JSON.stringify(res));
                 };
                 res.data.error = (err) => {
                     this.$toast(JSON.stringify(err));
                 };
-                this.$toast(JSON.stringify(res.data));
-                apiGetJSSignature.wxPay(res.data);
+                let payData = {
+                    appId: res.data.appId,
+                    signType: res.data.signType,
+                    paySign: res.data.paySign,
+                    timeStamp: res.data.timeStamp,
+                    nonceStr: res.data.nonceStr,
+                    package: res.data.package,
+                    error(res) {
+                        this.$toast(JSON.stringify(res));
+                    },
+                    error(res) {
+                        this.$toast(JSON.stringify(res));
+                    }
+                }
+                console.log(payData);
+                apiGetJSSignature.wxPay(payData);
             },
             async openLocation(item) {
                 let data = {
