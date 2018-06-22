@@ -39,7 +39,7 @@
         </div>
         <div class="placeholder" :class="{active1:noData}" flex>
         </div>
-        <div class="dynamics" :class="{active1:noData}"  v-infinite-scroll="loadMore"  :infinite-scroll-disabled="loading"  infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
+        <div class="dynamics" :class="{active1:noData}"  v-infinite-scroll="loadMore" :infinite-scroll-disabled="loading" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
             <no-Data :visible="noData"></no-Data>
             <div class="div-box" :class="{'has-del': item.employeeId == $store.state.user.id}" v-for="(item,pIndex) in dataList" :key="item.id">
                 <p class="text-right" v-if="item.employeeId == $store.state.user.id">
@@ -470,7 +470,7 @@ export default {
             if (this.$route.params.type) {
                 parameter.type = this.$route.params.type;
             }
-
+            this.loading = true;
             service.messageServiceList(parameter).then(res => {
                 if (res.data.rows.length > 0) {
                     for (let i = 0; i < res.data.rows.length; i++) {
