@@ -1,6 +1,5 @@
 import request from './request.js';
 const wx = require('weixin-js-sdk');
-import Q from 'q';
 
 export default {
     getJSSignature(data) {
