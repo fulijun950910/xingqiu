@@ -345,13 +345,13 @@
                     timeStamp: res.data.timeStamp,
                     nonceStr: res.data.nonceStr,
                     package: res.data.package,
-                    error(res) {
+                    success(res) {
                         this.$toast(JSON.stringify(res));
                     },
                     error(res) {
                         this.$toast(JSON.stringify(res));
                     }
-                }
+                };
                 console.log(payData);
                 apiGetJSSignature.wxPay(payData);
             },
