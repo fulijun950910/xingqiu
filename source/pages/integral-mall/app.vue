@@ -4,6 +4,8 @@
     <!--</transition>-->
 </template>
 <script>
+import apiGetJSSignature from 'services/api.getJSSignature';
+
 export default {
     name: 'app',
     data() {
@@ -25,6 +27,7 @@ export default {
     mounted() {
         window.addEventListener('resize', this.handleResize);
         this.handleResize();
+        this.js_sdk();
     },
     beforeDestroy() {
         window.removeEventListener('resize', this.handleResize);
@@ -33,6 +36,11 @@ export default {
         handleResize() {
             var w = document.documentElement.clientWidth;
             document.getElementsByTagName('html')[0].style['font-size'] = Math.min((w / 10).toFixed(1), 540 / 10) + 'px';
+        },
+        js_sdk() {
+            apiGetJSSignature.getJSSignature({
+                url: encodeURIComponent(window.location.href.split('#')[0])
+            });
         }
     }
 };
