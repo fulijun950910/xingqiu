@@ -357,7 +357,6 @@
                     }
                 };
                 console.log(payData);
-                await apiGetJSSignature.getJSSignature({url: encodeURIComponent(window.location.href.split('#')[0])});
                 apiGetJSSignature.wxPay(payData);
             },
             async openLocation(item) {
