@@ -1,4 +1,4 @@
-import request from './request.js';
+import request from './request_new.js';
 
 export default {
     // 1. 活动查询
