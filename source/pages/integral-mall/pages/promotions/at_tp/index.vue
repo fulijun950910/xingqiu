@@ -334,6 +334,7 @@
                 this.$router.push('/promotion-at-tp-list');
             },
             goPromotionDetail(id) {
+                this.$toast(id);
                 this.$router.push(`/promotion-at-tp-detail/${this.promotionId}/${this.openid}/${id}`);
             },
             async checkBuy() {
@@ -399,7 +400,6 @@
                     nonceStr: res.data.nonceStr,
                     package: res.data.package,
                     success(res) {
-                        _this.$toast(JSON.stringify(res));
                         _this.goPromotionDetail(res.data.groupJoinId);
                     },
                     error(res) {

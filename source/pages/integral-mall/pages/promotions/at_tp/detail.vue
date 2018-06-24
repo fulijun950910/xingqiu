@@ -127,15 +127,15 @@
         <div class="btn-group text-center" layout="row" layout-align="space-around center">
             <div @click="goOrderList">
                 <div><m-icon class="icon" xlink="#icon-goumaijilu01"></m-icon></div>
-                <div>消费记录</div>
+                <div class="fs24">消费记录</div>
             </div>
             <div @click="showShare = true">
                 <div><m-icon class="icon" xlink="#icon-fenxiang"></m-icon></div>
-                <div>邀请好友</div>
+                <div class="fs24">邀请好友</div>
             </div>
             <div @click="goIndex">
                 <div><m-icon class="icon" xlink="#icon-pintuan"></m-icon></div>
-                <div>我要开团</div>
+                <div class="fs24">我要开团</div>
             </div>
         </div>
         <mt-popup v-model="buyPop" position="bottom" class="buy-popup">
