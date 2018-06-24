@@ -24,6 +24,7 @@ const promotionAtTpList = resolve => require(['./pages/promotions/at_tp/list'], 
 const promotionAtTpDetail = resolve => require(['./pages/promotions/at_tp/detail'], resolve);
 const promotionAtTpRecording = resolve => require(['./pages/promotions/at_tp/recording'], resolve);
 const promotionAtTpRule = resolve => require(['./pages/promotions/at_tp/rule'], resolve);
+const bigWheel = resolve => require(['./pages/big-wheel/index'], resolve);
 
 export default [{
     path: '/sign-in',
@@ -118,4 +119,8 @@ export default [{
     path: '/promotion-at-tp-rule',
     name: 'promotion-at-tp-rule',
     component: promotionAtTpRule
+}, {
+    path: '/big-wheel',
+    name: 'big-wheel',
+    component: bigWheel
 }];
