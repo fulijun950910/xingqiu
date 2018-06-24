@@ -58,7 +58,8 @@ export default [{
     name: 'b2b-order-list',
     component: b2bOrderList
 }, {
-    path: '/logistics-list',
+    path: '/logistics-list/:orderId',
+    props: true,
     name: 'logistics-list',
     component: logisticsList
 }, {
@@ -98,7 +99,7 @@ export default [{
     name: 'supplier-list',
     component: supplierList
 }, {
-    path: '/promotion-at-tp/:promotionId?/:openid?',
+    path: '/promotion-at-tp/:promotionId/:openid',
     name: 'promotion-at-tp',
     props: true,
     component: promotionAtTp
@@ -107,7 +108,8 @@ export default [{
     name: 'promotion-at-tp-list',
     component: promotionAtTpList
 }, {
-    path: '/promotion-at-tp-detail',
+    path: '/promotion-at-tp-detail/:promotionId/:openid/:groupJoinId',
+    props: true,
     name: 'promotion-at-tp-detail',
     component: promotionAtTpDetail
 }, {

@@ -29,14 +29,29 @@
 </template>
 
 <script>
+    import apiPromotion from 'services/api.promotion';
     export default {
         name: 'logistics-list',
+        props: ['orderId'],
         data() {
-            return {};
+            return {
+                dataList: []
+            };
         },
         mounted() {
+            this.loadData();
         },
-        methods: {}
+        methods: {
+            async loadData() {
+                let queryData = {
+                    b2bOrderId: this.orderId
+                };
+                this.$indicator.open();
+                let { data } = await apiPromotion.getGroupJoinList(queryData);
+                this.$indicator.close();
+                this.dataList = data.rows;
+            }
+        }
     };
 </script>
 

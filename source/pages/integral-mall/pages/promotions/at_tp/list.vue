@@ -6,16 +6,29 @@
             <div @click="itemClick(1)" flex="33"><div :class="{'act': selected == 1}" class="tabBarItem cell">团ING</div></div>
         </div>
         <div class="main cell-box">
-            <div v-for="item in dataList" class="list-item cell cell-box" layout="row" layout-align="start center">
-                <img class="img m-r-2" :src="null | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
+            <div @click="goPromotionDetail(item.id)" v-for="item in dataList" class="list-item cell cell-box" layout="row" layout-align="start center">
+                <img class="img m-r-2" :src="item.captainAvatarId | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                 <div flex>
-                    <div>团长：123</div>
-                    <div class="color-gray fs24">{{item.status | getName(PROMOTION_TP_STATUS)}}</div>
-                    <div class="color-gray"><span class="color-primary">￥{{item.price}}</span> <s>￥123</s></div>
+                    <div>团长：{{item.captainName}}</div>
+                    <div class="color-gray fs24">
+                        {{item.status | getName(PROMOTION_TP_STATUS)}}
+                        &nbsp;&nbsp;
+                        <span class="color-orange">{{item.groupLevel}}</span>人团
+                    </div>
+                    <div class="color-gray"><span class="color-primary">￥{{item.sellingPrice | fen2yuan}}</span> <s>￥{{item.originalPrice | fen2yuan}}</s></div>
                 </div>
-                <div flex="25" class="text-center"  layout="column" layout-align="space-between stretch">
-                    <div><m-icon xlink="#icon-shalou"></m-icon>12:12:12</div>
-                    <button class="goDetailBtn">来抱团</button>
+                <div flex="25" class="text-center"  >
+                    <div v-if="item.status == 1" layout="column" layout-align="space-between stretch">
+                        <div><m-icon xlink="#icon-shalou"></m-icon>{{item.remainSecond}}</div>
+                        <button class="goDetailBtn">来抱团</button>
+                    </div>
+                    <div v-else-if="item.status == 3" layout="column" layout-align="space-between stretch">
+                        <m-icon class="success-icon color-primary" xlink="#icon-yueman"></m-icon>
+                    </div>
+                    <div v-else layout="column" layout-align="space-between stretch">
+                        <span class="color-gray">已结束</span>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -46,6 +59,9 @@
                 this.selected = index;
                 this.loadData();
             },
+            goPromotionDetail(id) {
+                this.$router.push(`/promotion-at-tp-detail/${this.$store.state.at_tp.promotionId}/${this.$store.state.at_tp.openid}/${id}`);
+            },
             async loadData() {
                 let queryData = {
                     promotionInstanceId: this.$store.state.at_tp.promotionId,
@@ -55,7 +71,9 @@
                 if (this.selected > 0) {
                     queryData.status = this.selected;
                 }
+                this.$indicator.open();
                 let { data } = await apiPromotion.getGroupJoinList(queryData);
+                this.$indicator.close();
                 this.dataList = data.rows;
             }
         }
@@ -67,6 +85,9 @@
     .tp-list{
         min-height:100vh;
         background: @bg-gray;
+        .color-orange{
+            color:#EEA637;
+        }
         .tabBar {
             position: fixed;
             width: 100%;
@@ -106,6 +127,9 @@
                     border-radius: 4px;
                     padding:@l8 @l24;
                 }
+            }
+            .success-icon{
+                font-size: 72px;
             }
         }
     }

@@ -20,5 +20,25 @@ export default {
     getGroupJoinList(data) {
         var url = '/api/b2bGroupJoin/getGroupJoinList';
         return request(url, data, 'post');
+    },
+    // 4.获取团详情
+    getGroupDetail(groupJoinId) {
+        var url = `/api/b2bGroupJoin/getGroupDetail/${groupJoinId}`;
+        return request(url, null, 'get');
+    },
+    // 5.查询我的团拼记录
+    getMyGroupJoinList(data) {
+        var url = '/api/b2bGroupJoin/getMyGroupJoinList';
+        return request(url, data, 'post');
+    },
+    // 6.查询我的团拼记录
+    getOrderList(data) {
+        var url = '/api/b2bPromotionMobile/getOrderList';
+        return request(url, data, 'post');
+    },
+    // 7.查询物流信息
+    getOrderExpressDetail(data) {
+        var url = '/api/b2bPromotionMobile/getOrderExpressDetail';
+        return request(url, data, 'post');
     }
 };

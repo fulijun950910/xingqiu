@@ -39,10 +39,10 @@
                 <span v-else> 你的小伙伴正在等你抱团 </span>
             </div>
             <div>
-                <div v-for="item in groupList" class="listItem cell cell-box" layout="row">
-                    <div class="m-r-1"><img :src="item.fileId | mSrc2(require('assets/imgs/nullimg.jpg'))"></div>
+                <div @click="goPromotionDetail(item.id)" v-for="item in groupList" class="listItem cell cell-box" layout="row">
+                    <div class="m-r-1"><img :src="item.captainAvatarId | mSrc2(require('assets/imgs/nullimg.jpg'))"></div>
                     <div class="m-r-4" flex layout="column" layout-align="center start">
-                        <div>团长:123</div>
+                        <div>团长:{{item.captainName}}</div>
                         <div layout="row" class="w100">
                             <div flex v-if="item.status == 1" class="color-gray"><m-icon xlink="#icon-shalou"></m-icon>{{item.surplusSecond}}</div>
                             <div flex v-if="item.status == 2" class="color-gray">已结束</div>
@@ -53,7 +53,9 @@
 
                     </div>
                     <div  layout="column" layout-align="center end">
-                        <span class="btn">来抱团</span>
+                        <span v-if="item.status == 1" class="btn">来抱团</span>
+                        <m-icon v-else-if="item.status == 3" class="success-icon color-primary" xlink="#icon-yueman"></m-icon>
+                        <span v-else class="color-gray">已结束</span>
                     </div>
                 </div>
 
@@ -112,10 +114,6 @@
             <div class="m-b-4">
                 <div>活动有效期</div>
                 <p>{{ data.startTime | date('yyyy-MM-dd') }} 至 {{ data.startTime | date('yyyy-MM-dd') }}</p>
-            </div>
-            <div v-if="data.validTime" class="m-b-4">
-                <div>优惠券有效期</div>
-                <p>{{ data.validTime | couponDate }}</p>
             </div>
 
             <!-- 预约信息 -->
@@ -207,7 +205,7 @@
                 groupList: [],
                 groupCount: 0,
                 data: {
-                    promotionInstance: {
+                    groupRule: {
                         groupRule: {},
                         groupInfo: {}
                     }
@@ -252,6 +250,8 @@
                         };
                         json.at_tp.title = this.data.title;
                         json.at_tp.promotionId = this.promotionId;
+                        json.at_tp.merchantId = this.data.groupRule.merchantId;
+                        json.at_tp.openid = this.openid;
                         json.at_tp.desc = this.data.description;
                         json.at_tp.link = this.data.promotionAuthUrl;
                         json.at_tp.imgUrl = this.data.groupRule.titleImages[0];
@@ -322,7 +322,6 @@
                     loadAddress: true,
                     activeBuyItem: this.activeBuyItem
                 };
-                this.$store.state.loadAddress = true;
                 this.$router.push('/address-list/select');
             },
             goRecording() {
@@ -333,6 +332,9 @@
             },
             goPromotionList() {
                 this.$router.push('/promotion-at-tp-list');
+            },
+            goPromotionDetail(id) {
+                this.$router.push(`/promotion-at-tp-detail/${this.promotionId}/${this.openid}/${id}`);
             },
             async checkBuy() {
                 var deferred = Q.defer();
@@ -369,7 +371,7 @@
                     return;
                 }
                 let data = {
-                    merchantId: this.$store.state.party.merchantId,
+                    merchantId: this.$store.state.at_tp.merchantId,
                     partyId: this.$store.state.party.partyId,
                     userId: this.$store.state.party.id,
                     openid: this.openid,
@@ -397,10 +399,9 @@
                     nonceStr: res.data.nonceStr,
                     package: res.data.package,
                     success(res) {
-                        this.$toast(JSON.stringify(res));
+                        this.goPromotionDetail(res.data.groupJoinId);
                     },
                     error(res) {
-                        this.$toast(JSON.stringify(res));
                     }
                 };
                 apiGetJSSignature.wxPay(payData);
@@ -491,6 +492,9 @@
         .listItem{
             background:@bg-gray;
             margin-top: @l16;
+            .success-icon{
+                font-size: 58px;
+            }
             .num{
                 border: 1px solid #a2a2a2;
                 color: #a2a2a2;
