@@ -388,7 +388,6 @@
                 };
                 let res = await apiPromotion.purchase(data);
                 this.pay(res);
-
             },
             pay(res) {
                 let _this = this;
@@ -399,10 +398,8 @@
                     timeStamp: res.data.timeStamp,
                     nonceStr: res.data.nonceStr,
                     package: res.data.package,
-                    success(res) {
+                    success() {
                         _this.goPromotionDetail(res.data.groupJoinId);
-                    },
-                    error(res) {
                     }
                 });
             },

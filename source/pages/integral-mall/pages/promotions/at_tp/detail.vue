@@ -353,7 +353,7 @@
                 };
                 let res = await apiPromotion.purchase(data);
                 let _this = this;
-                let payData = {
+                apiGetJSSignature.wxPay({
                     appId: res.data.appId,
                     signType: res.data.signType,
                     paySign: res.data.paySign,
@@ -366,8 +366,7 @@
                     },
                     error(res) {
                     }
-                };
-                apiGetJSSignature.wxPay(payData);
+                });
             },
             async openLocation(item) {
                 let data = {
