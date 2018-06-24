@@ -386,8 +386,12 @@
                     deliveryAddressId: this.address.id
                 };
                 let res = await apiPromotion.purchase(data);
+                this.pay(res);
+
+            },
+            pay(res) {
                 let _this = this;
-                let payData = {
+                apiGetJSSignature.wxPay({
                     appId: res.data.appId,
                     signType: res.data.signType,
                     paySign: res.data.paySign,
@@ -395,14 +399,12 @@
                     nonceStr: res.data.nonceStr,
                     package: res.data.package,
                     success(res) {
-                        this.$toast(JSON.stringify(res));
+                        _this.$toast(JSON.stringify(res));
                         _this.goPromotionDetail(res.data.groupJoinId);
-
                     },
                     error(res) {
                     }
-                };
-                apiGetJSSignature.wxPay(payData);
+                });
             },
             js_sdk_check() {
                 let time = setInterval(() => {
