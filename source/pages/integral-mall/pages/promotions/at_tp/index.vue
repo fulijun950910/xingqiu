@@ -395,7 +395,9 @@
                     nonceStr: res.data.nonceStr,
                     package: res.data.package,
                     success(res) {
+                        this.$toast(JSON.stringify(res));
                         _this.goPromotionDetail(res.data.groupJoinId);
+
                     },
                     error(res) {
                     }
