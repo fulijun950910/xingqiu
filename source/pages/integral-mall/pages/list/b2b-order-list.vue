@@ -17,7 +17,7 @@
                     </div>
                     <div class="middle" layout="row" layout-align="space-between center">
                         <div flex="70">
-                            <div class="fs34 color-black">{{item.promotionName}}</div>
+                            <div class="fs34 color-black">{{item.holdTypeName}}</div>
                             <div class="fs28 color-gray">合计：{{item.receiveMoney | fen2yuan}}元</div>
                         </div>
                         <!--<div flex="30" class="img" layout="row" layout-align="end center" v-if="item.itemImage">-->

@@ -344,18 +344,15 @@
                     nickName: this.$store.state.party.nickName,
                     campaignName: this.data.title,
                     promotionInstanceId: this.promotionId,
-                    promotionRuleGroupExtId: this.groupData.id,
+                    promotionRuleGroupExtId: this.groupData.groupRuleExtId,
                     groupType: 2, // 1.开团 2.参团
+                    promotionGroupJoinId: this.groupData.id,
                     createSource: 1, // 创建来源 1：美问星球
                     kind: 1,
                     deliveryAddressId: this.address.id
                 };
                 let res = await apiPromotion.purchase(data);
-                res.data.success = (res) => {
-                };
-                res.data.error = (err) => {
-                    this.$toast(JSON.stringify(err));
-                };
+                let _this = this;
                 let payData = {
                     appId: res.data.appId,
                     signType: res.data.signType,
@@ -364,8 +361,8 @@
                     nonceStr: res.data.nonceStr,
                     package: res.data.package,
                     success(res) {
-                        this.loadDetail();
-                        this.showShare();
+                        _this.loadDetail();
+                        _this.showShare();
                     },
                     error(res) {
                     }

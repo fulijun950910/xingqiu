@@ -386,11 +386,7 @@
                     deliveryAddressId: this.address.id
                 };
                 let res = await apiPromotion.purchase(data);
-                res.data.success = (res) => {
-                };
-                res.data.error = (err) => {
-                    this.$toast(JSON.stringify(err));
-                };
+                let _this = this;
                 let payData = {
                     appId: res.data.appId,
                     signType: res.data.signType,
@@ -399,7 +395,7 @@
                     nonceStr: res.data.nonceStr,
                     package: res.data.package,
                     success(res) {
-                        this.goPromotionDetail(res.data.groupJoinId);
+                        _this.goPromotionDetail(res.data.groupJoinId);
                     },
                     error(res) {
                     }
@@ -499,9 +495,10 @@
                 border: 1px solid #a2a2a2;
                 color: #a2a2a2;
                 font-size:@fs22;
-                line-height:1.4;
-                padding:0 4px;
-                border-radius: 2px;
+                height:22px;
+                line-height:22px;
+                padding: 0 4px;
+                border-radius: 4px;
             }
             img{
                 width:60px;
