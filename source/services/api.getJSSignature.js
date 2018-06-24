@@ -9,7 +9,7 @@ export default {
         request(url, null, 'get').then(function(res) {
             if (res.success) {
                 wx.config({
-                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                     appId: res.data.appId, // 必填，公众号的唯一标识
                     timestamp: res.data.timestamp, // 必填，生成签名的时间戳
                     nonceStr: res.data.nonceStr, // 必填，生成签名的随机串
@@ -98,6 +98,7 @@ export default {
                     'package': setting.package // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
                 }, res => {
                     setting.success(res);
+                    alert(JSON.stringify(res));
                     if (res.err_msg == 'get_brand_wcpay_request:ok') {
                         // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠
                     }
