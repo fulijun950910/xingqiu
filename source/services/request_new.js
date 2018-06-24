@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Q from 'q';
 
-export default function(url, data, method, messageFlag = true) {
+export default function(url, method, data, messageFlag = true) {
     var deferred = Q.defer();
     Vue.http({
         url: url,
