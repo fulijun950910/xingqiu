@@ -40,7 +40,7 @@ export default {
         async js_sdk() {
             let _this = this;
             await apiGetJSSignature.getJSSignature({
-                url: encodeURIComponent(window.location.href.split('#')[0]),
+                url: encodeURIComponent(window.location.href.split('#')[0])
             });
             _this.$store.state.isLoadSdk = true;
         }
