@@ -424,6 +424,7 @@
             },
             js_sdk() {
                 let _this = this;
+                apiGetJSSignature.hideMenuItems();
                 let share = {
                     title: _this.$store.state.at_tp.title,
                     desc: _this.$store.state.at_tp.desc,
@@ -435,7 +436,6 @@
                     },
                     cancel: null
                 };
-                apiGetJSSignature.hideMenuItems();
                 apiGetJSSignature.shareAppMessage(share);
             },
             async openLocation(item) {
