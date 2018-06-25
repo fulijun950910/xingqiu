@@ -8,6 +8,7 @@ Vue.prototype.$toast = message => Toast({ message: message, duration: 1500 });
 Vue.prototype.$indicator = Indicator;
 Vue.prototype.$messageBox = MessageBox;
 Vue.prototype.$signLocation = process.env.NODE_ENV === 'development' ? '#/sign-in' : '/userinfo.html#/user_login';
+Vue.prototype.$isDev = process.env.NODE_ENV === 'development' ? true : false;
 Vue.prototype.$wxc_url = process.env.NODE_ENV === 'production' ? 'https://wechat.mei1.com' : 'https://wechat.mei1.info';
 Vue.prototype.$rootPath = process.env.NODE_ENV === 'development' ? '/' : '/service/';
 

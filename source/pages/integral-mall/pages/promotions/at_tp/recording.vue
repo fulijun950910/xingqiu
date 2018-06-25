@@ -21,6 +21,7 @@
         PROMOTION_TP_STATUS
     } from 'config/mixins';
     import apiPromotion from 'services/api.promotion';
+    import apiGetJSSignature from 'services/api.getJSSignature';
 
     export default {
         name: 'recording',
@@ -32,6 +33,7 @@
         },
         mounted() {
             this.loadData();
+            this.js_sdk();
         },
         methods: {
             goDetail(item) {
@@ -45,6 +47,22 @@
                 let { data } = await apiPromotion.getMyGroupJoinList(queryData);
                 this.$indicator.close();
                 this.dataList = data.rows;
+            },
+            js_sdk() {
+                let _this = this;
+                let share = {
+                    title: _this.$store.state.at_tp.title,
+                    desc: _this.$store.state.at_tp.desc,
+                    link: _this.$store.state.at_tp.promotionAuthUrl,
+                    imgUrl: window.location.origin + '/api/file/' + _this.$store.state.at_tp.imgUrl,
+                    type: 'link',
+                    dataUrl: '',
+                    success: function() {
+                    },
+                    cancel: null
+                };
+                apiGetJSSignature.hideMenuItems();
+                apiGetJSSignature.shareAppMessage(share);
             }
         }
     };

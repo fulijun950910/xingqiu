@@ -41,6 +41,7 @@
         PROMOTION_TP_STATUS
     } from 'config/mixins';
     import apiPromotion from 'services/api.promotion';
+    import apiGetJSSignature from 'services/api.getJSSignature';
 
     export default {
         name: 'list',
@@ -54,6 +55,7 @@
         mounted() {
             this.loadData();
             this.dynamicTime();
+            this.js_sdk();
         },
         methods: {
             itemClick(index) {
@@ -72,6 +74,22 @@
                     }
                     this.dynamicTime();
                 }, 1000);
+            },
+            js_sdk() {
+                let _this = this;
+                let share = {
+                    title: _this.$store.state.at_tp.title,
+                    desc: _this.$store.state.at_tp.desc,
+                    link: _this.$store.state.at_tp.promotionAuthUrl,
+                    imgUrl: window.location.origin + '/api/file/' + _this.$store.state.at_tp.imgUrl,
+                    type: 'link',
+                    dataUrl: '',
+                    success: function() {
+                    },
+                    cancel: null
+                };
+                apiGetJSSignature.hideMenuItems();
+                apiGetJSSignature.shareAppMessage(share);
             },
             async loadData() {
                 let queryData = {

@@ -477,6 +477,9 @@ app.userinfo = {
                                                                             if (employee.merchant && (employee.merchant.functionVersion == 4 || employee.merchant.functionVersion == 5)) { //营销版
                                                                                 url = "/lite/index.html";
                                                                             }
+                                                                        } else if (keyGetValue('type') == 2) {
+                                                                            window.history.back();
+                                                                            return;
                                                                         }
                                                                         if (location.pathname == '/main.html'){
                                                                             location.reload();
