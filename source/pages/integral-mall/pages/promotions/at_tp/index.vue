@@ -351,7 +351,11 @@
             async checkBuy() {
                 var deferred = Q.defer();
                 if (!this.$store.state || !this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
-                    window.location.href = this.$signLocation;
+                    if (this.$isDev) {
+                        window.location.href = this.$signLocation;
+                    } else {
+                        window.location.href = '/userinfo.html?type=2#/user_login';
+                    }
                 }
                 deferred.resolve(true);
                 return deferred.promise;
