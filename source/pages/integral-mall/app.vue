@@ -24,10 +24,12 @@ export default {
             }
         }
     },
+    created() {
+        this.js_sdk();
+    },
     mounted() {
         window.addEventListener('resize', this.handleResize);
         this.handleResize();
-        this.js_sdk();
     },
     beforeDestroy() {
         window.removeEventListener('resize', this.handleResize);
