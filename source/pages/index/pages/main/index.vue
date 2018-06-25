@@ -1,76 +1,92 @@
 <template>
-    <div class="main" v-title="'美问星球'">
-        <div class="headBox cell cell-box">
-            <div @click="goLink1" class="bannerBox"><img  :src="require('assets/imgs/index/20180614.jpg')" alt=""></div>
-            <div class="iconList" layout="row" layout-align="space-between center">
-                <div @click="goBbsPage">
-                    <div class="iconBox iconBox1" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-huaban7"></m-icon></div>
-                    <div class="fs24 color-gray">美问美答</div>
-                </div>
-                <div>
-                    <div @click="goMbh" class="iconBox iconBox2" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-huaban5"></m-icon></div>
-                    <div class="fs24 color-gray">美博汇</div>
-                </div>
-                <div>
-                    <div @click="goWxbus" class="iconBox iconBox3" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-huaban3"></m-icon></div>
-                    <div class="fs24 color-gray">店务助手</div>
-                </div>
-                <div @click="goAllianceBeta">
-                    <div class="iconBox iconBox4" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-huaban4"></m-icon></div>
-                    <div class="fs24 color-gray">异业共赢</div>
-                </div>
-                <div @click="goCheckIn">
-                    <div class="iconBox iconBox5" layout="row" layout-align="center center"><m-icon class="icon"  xlink="#icon-huaban8"></m-icon></div>
-                    <div class="fs24 color-gray">每日签到</div>
-                </div>
+  <div class="main" v-title="'美问星球'">
+    <div class="headBox cell cell-box">
+        <div class="bannerBox">
+            <mt-swipe :show-indicators="true" class="banner-swiper">
+                <mt-swipe-item><img @click="goLink1(1)" :src="require('assets/imgs/index/20180614.jpg')" alt=""></mt-swipe-item>
+            </mt-swipe>
             </div>
-        </div>
-        <div class="mainBox cell-box">
-            <div class="cell fs40"><strong>精华推荐</strong></div>
+        <div class="iconList" layout="row" layout-align="space-between center">
+            <div @click="goBbsPage">
+                <div class="iconBox iconBox1" layout="row" layout-align="center center">
+                    <m-icon class="icon" xlink="#icon-huaban7"></m-icon>
+                </div>
+                <div class="fs24 color-gray">美问美答</div>
+            </div>
             <div>
-                <div @click="goBbs(item.url)" class="list-item cell" v-for="item in bbsData" :key="item.id">
-                    <div layout="row" layout-align="space-between center">
-                        <div layout="row" layout-align="start center">
-                            <div class="face"><img  class="avatar" :src="item.authorImage" alt=""></div>
-                            <div class="fs24 color-gray">{{item.author || '匿名'}}</div>
-                        </div>
-                        <div class="color-yellow-orange fs22">{{item.forum}}</div>
+                <div @click="goMbh" class="iconBox iconBox2" layout="row" layout-align="center center">
+                    <m-icon class="icon" xlink="#icon-huaban5"></m-icon>
+                </div>
+                <div class="fs24 color-gray">美博汇</div>
+            </div>
+            <div>
+                <div @click="goWxbus" class="iconBox iconBox3" layout="row" layout-align="center center">
+                    <m-icon class="icon" xlink="#icon-huaban3"></m-icon>
+                </div>
+                <div class="fs24 color-gray">店务助手</div>
+            </div>
+            <div @click="goAllianceBeta">
+                <div class="iconBox iconBox4" layout="row" layout-align="center center">
+                    <m-icon class="icon" xlink="#icon-huaban4"></m-icon>
+                </div>
+                <div class="fs24 color-gray">异业共赢</div>
+            </div>
+            <div @click="goCheckIn">
+                <div class="iconBox iconBox5" layout="row" layout-align="center center">
+                    <m-icon class="icon" xlink="#icon-huaban8"></m-icon>
+                </div>
+                <div class="fs24 color-gray">每日签到</div>
+            </div>
+        </div>
+    </div>
+    <div class="mainBox cell-box">
+        <div class="cell fs40"><strong>精华推荐</strong></div>
+        <div>
+            <div @click="goBbs(item.url)" class="list-item cell" v-for="item in bbsData" :key="item.id">
+                <div layout="row" layout-align="space-between center">
+                    <div layout="row" layout-align="start center">
+                        <div class="face"><img class="avatar" :src="item.authorImage" alt=""></div>
+                        <div class="fs24 color-gray">{{item.author || '匿名'}}</div>
                     </div>
-                    <div class="mt16" layout="row" layout-align="start stretch">
-                        <div flex layout="column" layout-align="space-between start">
-                            <div class="fs28 color-black">{{item.subject}}</div>
-                        </div>
-                        <div class="imgBox" layout="row" layout-align="center center">
-                            <img :src="item.attachment || require('assets/imgs/index/501657390978523645.jpg')" alt="">
-                        </div>
+                    <div class="color-yellow-orange fs22">{{item.forum}}</div>
+                </div>
+                <div class="mt16" layout="row" layout-align="start stretch">
+                    <div flex layout="column" layout-align="space-between start">
+                        <div class="fs28 color-black">{{item.subject}}</div>
                     </div>
-                    <div class="mt-20">
-                     <m-icon class="fs32 color-gray" xlink="#icon-dianzan"></m-icon>
-                     <span class="color-gray fs22">{{item.recommendAdd}}</span>
-                     &nbsp;&nbsp;
-                     <m-icon class="fs32 color-gray" xlink="#icon-huifu"></m-icon>
-                     <span class="color-gray fs22">{{item.replies}}</span>
-                     &nbsp;&nbsp;
-                     <m-icon class="fs32 color-gray" xlink="#icon-yanjing"></m-icon>
-                     <span class="color-gray fs22">{{item.views}}</span>
-                 </div>
+                    <div class="imgBox" layout="row" layout-align="center center">
+                        <img :src="item.attachment || require('assets/imgs/index/501657390978523645.jpg')" alt="">
+                    </div>
+                </div>
+                <div class="mt-20">
+                    <m-icon class="fs32 color-gray" xlink="#icon-dianzan"></m-icon>
+                    <span class="color-gray fs22">{{item.recommendAdd}}</span> &nbsp;&nbsp;
+                    <m-icon class="fs32 color-gray" xlink="#icon-huifu"></m-icon>
+                    <span class="color-gray fs22">{{item.replies}}</span> &nbsp;&nbsp;
+                    <m-icon class="fs32 color-gray" xlink="#icon-yanjing"></m-icon>
+                    <span class="color-gray fs22">{{item.views}}</span>
                 </div>
             </div>
+        </div>
 
-        </div>
-        <div class="bottomBarPadding"></div>
-        <div class="bottomBar color-gray" layout="row">
-            <div class="item act " flex layout="column" layout-align="center center">
-                <div><m-icon class="icon "  xlink="#icon-huaban6"></m-icon></div>
-                <div class="fs20 ">首页</div>
-            </div>
-            <div @click="goUserInfo" class="item" flex layout="column" layout-align="center center">
-                <div><m-icon class="icon "  xlink="#icon-huaban1"></m-icon></div>
-                <div class="fs20 ">我的</div>
-            </div>
-        </div>
-        <new-present :show-mask="isNew" :ads-detail="adsDetail" @hideMask="hideMask"></new-present>
     </div>
+    <div class="bottomBarPadding"></div>
+    <div class="bottomBar color-gray" layout="row">
+        <div class="item act " flex layout="column" layout-align="center center">
+            <div>
+                <m-icon class="icon " xlink="#icon-huaban6"></m-icon>
+            </div>
+            <div class="fs20 ">首页</div>
+        </div>
+        <div @click="goUserInfo" class="item" flex layout="column" layout-align="center center">
+            <div>
+                <m-icon class="icon " xlink="#icon-huaban1"></m-icon>
+            </div>
+            <div class="fs20 ">我的</div>
+        </div>
+    </div>
+    <new-present :show-mask="isNew" :ads-detail="adsDetail" @hideMask="hideMask"></new-present>
+</div>
 </template>
 
 <script>
@@ -79,7 +95,10 @@
     import api_signIn from 'services/api.signIn';
     import reLogin from '../../models/relogin';
     import Q from 'q';
-    import { Toast } from 'mint-ui';
+    import Vue from 'vue';
+    import { Toast, Swipe, SwipeItem } from 'mint-ui';
+    Vue.component(Swipe.name, Swipe);
+    Vue.component(SwipeItem.name, SwipeItem);
 
     export default {
         name: 'main',
@@ -92,7 +111,11 @@
                 isNew: false,
                 bean: '500',
                 employee: JSON.parse(localStorage.getItem('employee')),
-                adsDetail: {}
+                adsDetail: {},
+                swipeConfig: {
+                    auto: 4000,
+                    showIndicators: false
+                }
             };
         },
         mounted() {
@@ -145,8 +168,12 @@
             goBbs(url) {
                 window.location.href = url;
             },
-            goLink1() {
-                window.location.href = `${this.$rootPath}integral-mall.html#/rule-entry`;
+            goLink1(type) {
+                switch (type) {
+                    case 1:
+                        window.location.href = `${this.$rootPath}integral-mall.html#/rule-entry`;
+                        break;
+                }
             },
             goBbsPage() {
                 this.$router.push({name: 'bbsPage'});
@@ -217,6 +244,16 @@
         box-shadow: 0 2px 2px #ddd;
         border-radius: 12px;
         overflow:hidden;
+        height: 152px;
+        width: 100%;
+        .banner-swiper{
+            width: 100%;
+            height: 100%;
+            .mint-swipe-items-wrap > div{
+                border-radius: 12px;
+                overflow: hidden;
+            }
+        }
     }
     .headBox{
         background:@white;
