@@ -422,3 +422,19 @@ Vue.filter('couponDate', function(date) {
     }
     return text;
 });
+
+Vue.filter('mTime', function(second) {
+    var reg = /^\d$/;
+    var d = Math.floor(second / 60 / 60 / 24);
+    var h = Math.floor(second / 60 / 60 % 24);
+    h = reg.test(h) ? '0' + h : h;
+    var m = Math.floor(second / 60 % 60);
+    m = reg.test(m) ? '0' + m : m;
+    var s = Math.floor(second % 60);
+    s = reg.test(s) ? '0' + s : s;
+    var str = d + '天 ' + h + ':' + m + ':' + s;
+    if (d == 0) {
+        str = h + ':' + m + ':' + s;
+    }
+    return str;
+});

@@ -19,7 +19,7 @@
                 </div>
                 <div flex="25" class="text-center"  >
                     <div v-if="item.status == 1" layout="column" layout-align="space-between stretch">
-                        <div><m-icon xlink="#icon-shalou"></m-icon>{{item.remainSecond}}</div>
+                        <div><m-icon xlink="#icon-shalou"></m-icon>{{item.remainSecond | mTime}}</div>
                         <button class="goDetailBtn">来抱团</button>
                     </div>
                     <div v-else-if="item.status == 3" layout="column" layout-align="space-between stretch">
@@ -53,6 +53,7 @@
         },
         mounted() {
             this.loadData();
+            this.dynamicTime();
         },
         methods: {
             itemClick(index) {
@@ -61,6 +62,16 @@
             },
             goPromotionDetail(id) {
                 this.$router.push(`/promotion-at-tp-detail/${this.$store.state.at_tp.promotionId}/${this.$store.state.at_tp.openid}/${id}`);
+            },
+            dynamicTime() {
+                setTimeout(() => {
+                    for (let i = 0; i < this.dataList.length; i++) {
+                        if (this.dataList[i].remainSecond > 0) {
+                            this.dataList[i].remainSecond -= 1;
+                        }
+                    }
+                    this.dynamicTime();
+                }, 1000);
             },
             async loadData() {
                 let queryData = {

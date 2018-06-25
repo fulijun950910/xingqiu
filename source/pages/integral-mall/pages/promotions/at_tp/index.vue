@@ -44,7 +44,7 @@
                     <div class="m-r-4" flex layout="column" layout-align="center start">
                         <div>团长:{{item.captainName}}</div>
                         <div layout="row" class="w100">
-                            <div flex v-if="item.status == 1" class="color-gray"><m-icon xlink="#icon-shalou"></m-icon>{{item.surplusSecond}}</div>
+                            <div flex v-if="item.status == 1" class="color-gray"><m-icon xlink="#icon-shalou"></m-icon>{{item.remainSecond | mTime}}</div>
                             <div flex v-if="item.status == 2" class="color-gray">已结束</div>
                             <div flex v-if="item.status == 3" class="color-gray">已成团</div>
                             <div flex v-if="item.status == 4" class="color-gray">处理中</div>
@@ -221,6 +221,7 @@
             this.init();
             this.loadGroupList();
             this.js_sdk_check();
+            this.dynamicTime();
             // 如果是选完地址回来；
             if (this.$store.state.promotionAtTpData && this.$store.state.promotionAtTpData.loadAddress) {
                 this.loadAddress();
@@ -291,6 +292,16 @@
                 return deferred.promise;
 
             },
+            dynamicTime() {
+                setTimeout(() => {
+                    for (let i = 0; i < this.groupList.length; i++) {
+                        if (this.groupList[i].remainSecond > 0) {
+                            this.groupList[i].remainSecond -= 1;
+                        }
+                    }
+                    this.dynamicTime();
+                }, 1000);
+            },
             async loadGroupList() {
                 let queryData = {
                     promotionInstanceId: this.promotionId,
@@ -334,7 +345,6 @@
                 this.$router.push('/promotion-at-tp-list');
             },
             goPromotionDetail(id) {
-                this.$toast(id);
                 this.$router.push(`/promotion-at-tp-detail/${this.promotionId}/${this.openid}/${id}`);
             },
             async checkBuy() {

@@ -27,8 +27,8 @@
                     <div class="fs24 p-t-3 bottom" layout="row" layout-align="space-between center">
                         <div class="color-gray">{{item.createdTime | amDateFormat}}</div>
                         <div layout="row" layout-align="end center">
-                            <div v-if="item.status == 22" @click="goLogistics" class="color-pink m-l-1 m-r-1" >查看物流</div>
-                            <div v-if="item.status == 22" class="color-blue m-l-1 m-r-1" >确认收货</div>
+                            <div v-if="item.status == 22" @click="goLogistics(item)" class="color-pink m-l-1 m-r-1" >查看物流</div>
+                            <div v-if="item.status == 22" @click="receiveExpress(item, index)" class="color-blue m-l-1 m-r-1" >确认收货</div>
                         </div>
 
                     </div>
@@ -124,8 +124,21 @@
                     this.queryData.page++;
                 });
             },
-            goLogistics() {
-                this.$router.push('/logistics-list/');
+            receiveExpress(item, index) {
+                this.$messageBox.confirm('确认收货？').then(action => {
+                    this.receiveExpressCallBack(item, index);
+                });
+            },
+            async receiveExpressCallBack(item, index) {
+                let data = {
+                    b2bOrderId: item.id
+                };
+                await apiPromotion.receiveExpress(data);
+                this.dataList.splice(index, 1);
+                this.$toast('收货成功？');
+            },
+            goLogistics(item) {
+                this.$router.push(`/logistics-list/${item.id}`);
             },
             tabClick(item) {
                 this.isActive = item.value;

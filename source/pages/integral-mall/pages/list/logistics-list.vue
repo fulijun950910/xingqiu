@@ -3,25 +3,18 @@
         <div class="fs24 color-gray logisticsInfo" layout="row" layout-align="start center">
             <div class="m-r-2"><img :src="null | mSrc2(require('assets/imgs/nullimg.jpg'))" alt=""></div>
             <div>
-                <div>物流公司：申通快递</div>
-                <div>物流单号：12345</div>
-                <div>物流电话：12345</div>
+                <div >物流公司：{{expInfo.expressName}}</div>
+                <div>物流单号：{{data.nu}}</div>
+                <!--<div>物流电话：12345</div>-->
             </div>
         </div>
         <div class="logistics-box m-t-4" >
             <div class="fs32 fwb m-b-4">物流状态</div>
-            <div class="logisticsItem" layout="row" layout-align="start stretch">
+            <div v-for="item in data.data" class="logisticsItem" layout="row" layout-align="start stretch">
                 <div class="left m-l-5 m-r-5"><m-icon class="icon color-green" xlink="#icon-webicon318"></m-icon></div>
                 <div flex class="border-top color-gray p-t-1 p-b-1">
-                    <div>123121231223123123</div>
-                    <div class="fs22">2010-10-10 02:11:12</div>
-                </div>
-            </div>
-            <div class="logisticsItem" layout="row" layout-align="start stretch">
-                <div class="left m-l-5 m-r-5"><m-icon class="icon color-gray" xlink="#icon-webicon318"></m-icon></div>
-                <div flex class="border-top color-gray p-t-1 p-b-1">
-                    <div>123121231223123123</div>
-                    <div class="fs24">2010-10-10 02:11:12</div>
+                    <div>{{item.context}}</div>
+                    <div class="fs22">{{item.time}}</div>
                 </div>
             </div>
         </div>
@@ -35,7 +28,8 @@
         props: ['orderId'],
         data() {
             return {
-                dataList: []
+                expInfo: {},
+                data: {}
             };
         },
         mounted() {
@@ -47,10 +41,16 @@
                     b2bOrderId: this.orderId
                 };
                 this.$indicator.open();
-                let { data } = await apiPromotion.getGroupJoinList(queryData);
+                let { data } = await apiPromotion.getOrderExpressDetail(queryData);
                 this.$indicator.close();
-                this.dataList = data.rows;
+                this.data = JSON.parse(data);
+                if (this.data.com) {
+                    let res = await apiPromotion.getExpressByCode(this.data.com);
+                    this.expInfo = res.data;
+                }
+
             }
+
         }
     };
 </script>

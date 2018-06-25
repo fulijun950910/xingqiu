@@ -40,5 +40,15 @@ export default {
     getOrderExpressDetail(data) {
         var url = '/api/b2bPromotionMobile/getOrderExpressDetail';
         return request(url, 'post', data);
+    },
+    // 8.订单确认收货
+    receiveExpress(data) {
+        var url = '/api/b2bOrder/receiveExpress';
+        return request(url, 'post', data);
+    },
+    // 8.查询物流公司信息
+    getExpressByCode(code) {
+        var url = `/api/express/getExpressByCode/${code}`;
+        return request(url, 'get');
     }
 };

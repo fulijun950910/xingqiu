@@ -25,7 +25,7 @@
         <div class="cell cell-box bg-white m-t-3" >
             <div class="HotDate"><div class="hot-date">
                 <div v-if="groupData.status == 3">团长人气太高，团满了</div>
-                <div v-else-if="groupData.surplusSecond > 0" class="color-primary"><m-icon xlink="#icon-shalou"></m-icon>{{item.surplusSecond}}</div>
+                <div v-else-if="groupData.remainSecond > 0" class="color-primary"><m-icon xlink="#icon-shalou"></m-icon>{{groupData.remainSecond | mTime}}</div>
                 <div v-else>已结束</div>
             </div></div>
             <div class="cell cell-box bg-default">
@@ -208,6 +208,7 @@
         mounted() {
             this.init();
             this.loadDetail();
+            this.dynamicTime();
             // 如果是选完地址回来；
             if (this.$store.state.promotionAtTpData && this.$store.state.promotionAtTpData.loadAddress) {
                 this.loadAddress();
@@ -330,6 +331,14 @@
                 }
                 this.buyPop = true;
             },
+            dynamicTime() {
+                setTimeout(() => {
+                    if (this.groupData.remainSecond > 0) {
+                        this.groupData.remainSecond -= 1;
+                    }
+                    this.dynamicTime();
+                }, 1000);
+            },
             async submit() {
                 if (!this.address.id) {
                     this.$toast('请选择您的收货地址');
@@ -362,7 +371,8 @@
                     package: res.data.package,
                     success(res) {
                         _this.loadDetail();
-                        _this.showShare();
+                        _this.showShare = true;
+                        _this.buyPop = false;
                     },
                     error(res) {
                     }
