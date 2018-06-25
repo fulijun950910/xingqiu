@@ -74,7 +74,7 @@
         </div>
 
         <!-- 活动内容 -->
-        <div class="cell cell-box bg-white m-t-3">
+        <div class="cell cell-box bg-white m-t-3" v-if="data.groupRule.groupRuleContentExts&&data.groupRule.groupRuleContentExts.length>0">
             <div class="m-b-3">活动内容</div>
             <div>
                 <div class="p-t-3 p-b-3 border-bottom" v-for="item in data.groupRule.groupRuleContentExts" layout="row" layout-align="space-between center">

@@ -38,11 +38,12 @@ export default {
             document.getElementsByTagName('html')[0].style['font-size'] = Math.min((w / 10).toFixed(1), 540 / 10) + 'px';
         },
         async js_sdk() {
-            let _this = this;
-            await apiGetJSSignature.getJSSignature({
+            let res = await apiGetJSSignature.getJSSignature({
                 url: encodeURIComponent(window.location.href.split('#')[0])
             });
-            _this.$store.state.isLoadSdk = true;
+            if (res) {
+                this.$store.state.isLoadSdk = true;
+            }
         }
     }
 };
