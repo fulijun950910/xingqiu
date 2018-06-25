@@ -1,5 +1,5 @@
 <template>
-    <div class="tp-list">
+    <div class="tp-list" v-title="$store.state.at_tp.title">
         <div class="tabBar bg-white text-center" layout="row" layout-align="space-between center">
             <div @click="itemClick(0)" flex="33"><div :class="{'act': selected == 0}" class="tabBarItem cell">全部团</div></div>
             <div @click="itemClick(3)" flex="33"><div :class="{'act': selected == 3}" class="tabBarItem cell">团满啦</div></div>

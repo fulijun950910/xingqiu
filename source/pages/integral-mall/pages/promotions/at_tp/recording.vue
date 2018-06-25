@@ -1,5 +1,5 @@
 <template>
-    <div class="tp-recording">
+    <div class="tp-recording" v-title="$store.state.at_tp.title">
         <div @click="goDetail(item)" v-for="item in dataList" class="cell cell-box border-bottom" layout="row" >
             <div class="img" layout="row" layout-align="center cneter"><img :src="item.id | mSrc2(require('assets/imgs/nullimg.jpg'))" alt=""></div>
             <div flex layout="column" layout-align="space-between stretch">

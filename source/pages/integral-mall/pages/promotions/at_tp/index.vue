@@ -1,5 +1,5 @@
 <template>
-    <div class="tp-index">
+    <div class="tp-index" v-title="$store.state.at_tp.title">
         <div class="swipe-box">
             <mt-swipe :auto="4000">
                 <mt-swipe-item v-for="item in data.groupRule.titleImages" :key="item">
@@ -78,9 +78,9 @@
             <div class="m-b-3">活动内容</div>
             <div>
                 <div class="p-t-3 p-b-3 border-bottom" v-for="item in data.groupRule.groupRuleContentExts" layout="row" layout-align="space-between center">
-                    <div>{{ item.itemName }}</div>
-                    <div>{{ item.itemContent }}</div>
-                    <div>{{item.itemPrice | fen2yuan}}</div>
+                    <div flex="45">{{ item.itemName }}</div>
+                    <div flex="25" class="text-center">{{ item.itemContent }}</div>
+                    <div flex="25" class="text-right">{{item.itemPrice | fen2yuan}}</div>
                 </div>
             </div>
         </div>
@@ -113,7 +113,7 @@
         <div class="cell cell-box bg-white m-t-3" >
             <div class="m-b-4">
                 <div>活动有效期</div>
-                <p>{{ data.startTime | date('yyyy-MM-dd') }} 至 {{ data.startTime | date('yyyy-MM-dd') }}</p>
+                <p>{{ data.startTime | date('yyyy-MM-dd') }} 至 {{ data.endTime | date('yyyy-MM-dd') }}</p>
             </div>
 
             <!-- 预约信息 -->
