@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import App from './app';
 require('vendor/polyfill');
+require('weixin-js-sdk');
 import 'mint-ui/lib/style.css';
 import { Toast, Indicator, MessageBox } from 'mint-ui';
 
