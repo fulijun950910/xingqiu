@@ -237,7 +237,7 @@
                             at_tp: {}
                         };
                         json.at_tp.title = this.data.title;
-                        this.title = json.at_tp.title;
+                        document.title = json.at_tp.title;
                         json.at_tp.promotionId = this.promotionId;
                         json.at_tp.merchantId = this.data.groupRule.merchantId;
                         json.at_tp.openid = this.openid;
