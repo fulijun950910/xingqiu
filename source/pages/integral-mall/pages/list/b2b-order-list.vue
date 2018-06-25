@@ -25,7 +25,7 @@
                         <!--</div>-->
                     </div>
                     <div class="fs24 p-t-3 bottom" layout="row" layout-align="space-between center">
-                        <div class="color-gray">{{item.createdTime | amDateFormat}}</div>
+                        <div class="color-gray">{{item.createTime | amDateFormat}}</div>
                         <div layout="row" layout-align="end center">
                             <div v-if="item.status == 22 || item.status == 23" @click="goLogistics(item)" class="color-pink m-l-1 m-r-1" >查看物流</div>
                             <div v-if="item.status == 22" @click="receiveExpress(item, index)" class="color-blue m-l-1 m-r-1" >确认收货</div>

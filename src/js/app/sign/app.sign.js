@@ -5,7 +5,6 @@ app.global_merchantId = null;
 app.global_storeId = null;
 app.closeFun = null;
 
-
 /**
  * Created by wzc on 16/7/8.
  */
