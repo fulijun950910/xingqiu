@@ -7,6 +7,7 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
     <% for (var i in htmlWebpackPlugin.options.cdn.css) { %><link rel="stylesheet" href="<%= htmlWebpackPlugin.options.cdn.css[i] %>"><% } %>
     <link rel="shortcut icon" type="image/ico" href="./static/favicon.ico">
+    <script src="./static/jweixin-1.2.0.js"></script>
   </head>
   <body>
     <div id="app"></div>
