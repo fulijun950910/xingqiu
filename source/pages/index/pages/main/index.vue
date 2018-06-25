@@ -1,11 +1,13 @@
 <template>
-  <div class="main" v-title="'美问星球'">
+ <div class="main" v-title="'美问星球'">
     <div class="headBox cell cell-box">
         <div class="bannerBox">
             <mt-swipe :show-indicators="true" class="banner-swiper">
-                <mt-swipe-item><img @click="goLink1(1)" :src="require('assets/imgs/index/20180614.jpg')" alt=""></mt-swipe-item>
+                <mt-swipe-item v-for="(item, index) in bannerList" v-if="bannerList.length" :key="index">
+                       <img @click="goLink1(item.url)" :src="item.image | nSrc(require('assets/imgs/index/20180614.jpg'))" alt="">
+                       </mt-swipe-item>
             </mt-swipe>
-            </div>
+        </div>
         <div class="iconList" layout="row" layout-align="space-between center">
             <div @click="goBbsPage">
                 <div class="iconBox iconBox1" layout="row" layout-align="center center">
@@ -115,15 +117,16 @@
                 swipeConfig: {
                     auto: 4000,
                     showIndicators: false
-                }
+                },
+                bannerList: []
             };
         },
         mounted() {
             this.loadData();
+            this.listBanner();
             if (this.$store.state.party.adsList.length) {
                 this.isNew = true;
                 this.adsDetail = this.$store.state.party.adsList[0];
-                console.log(this.adsDetail);
                 if (this.adsDetail.code == 'home_001') {
                     this.givingBean();
                 };
@@ -168,12 +171,12 @@
             goBbs(url) {
                 window.location.href = url;
             },
-            goLink1(type) {
-                switch (type) {
-                    case 1:
-                        window.location.href = `${this.$rootPath}integral-mall.html#/rule-entry`;
-                        break;
-                }
+            goLink1(item) {
+                if (item.indexOf('html') > -1) {
+                    location.href = item;
+                } else {
+                    this.$router.push(item);
+                };
             },
             goBbsPage() {
                 this.$router.push({name: 'bbsPage'});
@@ -204,7 +207,6 @@
                 window.location.href = `${this.$rootPath}integral-mall.html#/personal`;
             },
             hideMask() {
-                debugger;
                 this.isNew = false;
                 let tempLocal = JSON.parse(localStorage.getItem('employee'));
                 tempLocal.party.newUser = false;
@@ -221,6 +223,12 @@
                     Toast(msg.message);
                 }, msg=> {
                     Toast(msg.message);
+                });
+            },
+            listBanner() {
+                api_party.listBanner('00001', this.$store.state.party.partyId).then(msg=> {
+                    this.bannerList = msg.data;
+                }, msg=> {
                 });
             }
         }
