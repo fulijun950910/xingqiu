@@ -1,5 +1,5 @@
 <template>
-    <div class="tp-index" v-title="$store.state.at_tp.title">
+    <div class="tp-index" v-title="title">
         <div class="swipe-box">
             <mt-swipe :auto="4000">
                 <mt-swipe-item v-for="item in data.groupRule.titleImages" :key="item">
@@ -183,6 +183,7 @@
         props: ['promotionId', 'openid', 'groupJoinId'],
         data() {
             return {
+                title: '',
                 buyPop: false,
                 storeShowNum: 2, // 默认显示门店数量
                 activeBuyItem: {}, // 选中的项目
@@ -236,6 +237,7 @@
                             at_tp: {}
                         };
                         json.at_tp.title = this.data.title;
+                        this.title = json.at_tp.title;
                         json.at_tp.promotionId = this.promotionId;
                         json.at_tp.merchantId = this.data.groupRule.merchantId;
                         json.at_tp.openid = this.openid;
