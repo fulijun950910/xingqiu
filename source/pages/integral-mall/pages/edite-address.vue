@@ -153,6 +153,7 @@ export default {
                 this.address.province = msg.data.province;
                 this.address.city = msg.data.city;
                 this.address.town = msg.data.town;
+                this.isDefault = msg.data.isDefault;
             }, msg=> {
 
             });

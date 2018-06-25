@@ -185,5 +185,10 @@ export default {
         // 取消显示广告位
         let url = `/api/party/notShowAds/${parameter.partyId}/${parameter.userId}/${parameter.adsId}`;
         return request(url, 'post');
+    },
+    listBanner(postion, userId) {
+        // 广告位
+        let url = `/api/ads/listBanner/${postion}/${userId}`;
+        return request(url, 'get');
     }
 };
