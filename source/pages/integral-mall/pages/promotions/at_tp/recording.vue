@@ -1,5 +1,5 @@
 <template>
-    <div class="tp-recording">
+    <div class="tp-recording" v-title="$store.state.at_tp.title">
         <div @click="goDetail(item)" v-for="item in dataList" class="cell cell-box border-bottom" layout="row" >
             <div class="img" layout="row" layout-align="center cneter"><img :src="item.id | mSrc2(require('assets/imgs/nullimg.jpg'))" alt=""></div>
             <div flex layout="column" layout-align="space-between stretch">
@@ -53,7 +53,7 @@
                 let share = {
                     title: _this.$store.state.at_tp.title,
                     desc: _this.$store.state.at_tp.desc,
-                    link: _this.$store.state.at_tp.promotionAuthUrl,
+                    link: `${window.location.origin}/api/b2bPromotionMobile/promotionAuthUrl/${this.$store.state.at_tp.promotionId}`,
                     imgUrl: window.location.origin + '/api/file/' + _this.$store.state.at_tp.imgUrl,
                     type: 'link',
                     dataUrl: '',

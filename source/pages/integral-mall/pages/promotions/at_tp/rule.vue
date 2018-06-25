@@ -1,5 +1,7 @@
 <template>
-    <img :src="require('assets/imgs/integral-mall/process.jpg')" alt="">
+    <div v-title="$store.state.at_tp.title">
+        <img :src="require('assets/imgs/integral-mall/process.jpg')" alt="">
+    </div>
 </template>
 
 <script>

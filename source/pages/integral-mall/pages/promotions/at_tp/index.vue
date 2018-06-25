@@ -1,5 +1,5 @@
 <template>
-    <div class="tp-index">
+    <div class="tp-index" >
         <div class="swipe-box">
             <mt-swipe :auto="4000">
                 <mt-swipe-item v-for="item in data.groupRule.titleImages" :key="item">
@@ -74,13 +74,13 @@
         </div>
 
         <!-- 活动内容 -->
-        <div class="cell cell-box bg-white m-t-3">
+        <div class="cell cell-box bg-white m-t-3" v-if="data.groupRule.groupRuleContentExts&&data.groupRule.groupRuleContentExts.length>0">
             <div class="m-b-3">活动内容</div>
             <div>
                 <div class="p-t-3 p-b-3 border-bottom" v-for="item in data.groupRule.groupRuleContentExts" layout="row" layout-align="space-between center">
-                    <div>{{ item.itemName }}</div>
-                    <div>{{ item.itemContent }}</div>
-                    <div>{{item.itemPrice | fen2yuan}}</div>
+                    <div flex="45">{{ item.itemName }}</div>
+                    <div flex="25" class="text-center">{{ item.itemContent }}</div>
+                    <div flex="25" class="text-right">{{item.itemPrice | fen2yuan}}</div>
                 </div>
             </div>
         </div>
@@ -113,7 +113,7 @@
         <div class="cell cell-box bg-white m-t-3" >
             <div class="m-b-4">
                 <div>活动有效期</div>
-                <p>{{ data.startTime | date('yyyy-MM-dd') }} 至 {{ data.startTime | date('yyyy-MM-dd') }}</p>
+                <p>{{ data.startTime | date('yyyy-MM-dd') }} 至 {{ data.endTime | date('yyyy-MM-dd') }}</p>
             </div>
 
             <!-- 预约信息 -->
@@ -249,6 +249,7 @@
                             at_tp: {}
                         };
                         json.at_tp.title = this.data.title;
+                        document.title = json.at_tp.title;
                         json.at_tp.promotionId = this.promotionId;
                         json.at_tp.merchantId = this.data.groupRule.merchantId;
                         json.at_tp.openid = this.openid;
@@ -423,10 +424,11 @@
             },
             js_sdk() {
                 let _this = this;
+                apiGetJSSignature.hideMenuItems();
                 let share = {
                     title: _this.$store.state.at_tp.title,
                     desc: _this.$store.state.at_tp.desc,
-                    link: _this.$store.state.at_tp.promotionAuthUrl,
+                    link: `${window.location.origin}/api/b2bPromotionMobile/promotionAuthUrl/${_this.promotionId}`,
                     imgUrl: window.location.origin + '/api/file/' + _this.$store.state.at_tp.imgUrl,
                     type: 'link',
                     dataUrl: '',
@@ -434,7 +436,6 @@
                     },
                     cancel: null
                 };
-                apiGetJSSignature.hideMenuItems();
                 apiGetJSSignature.shareAppMessage(share);
             },
             async openLocation(item) {

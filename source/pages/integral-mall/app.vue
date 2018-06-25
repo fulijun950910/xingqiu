@@ -37,14 +37,13 @@ export default {
             var w = document.documentElement.clientWidth;
             document.getElementsByTagName('html')[0].style['font-size'] = Math.min((w / 10).toFixed(1), 540 / 10) + 'px';
         },
-        js_sdk() {
-            let _this = this;
-            apiGetJSSignature.getJSSignature({
-                url: encodeURIComponent(window.location.href.split('#')[0]),
-                success: function(res) {
-                    _this.$store.state.isLoadSdk = true;
-                }
+        async js_sdk() {
+            let res = await apiGetJSSignature.getJSSignature({
+                url: encodeURIComponent(window.location.href.split('#')[0])
             });
+            if (res) {
+                this.$store.state.isLoadSdk = true;
+            }
         }
     }
 };
