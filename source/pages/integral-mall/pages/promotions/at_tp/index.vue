@@ -220,7 +220,6 @@
         mounted() {
             this.init();
             this.loadGroupList();
-            this.js_sdk_check();
             this.dynamicTime();
             // 如果是选完地址回来；
             if (this.$store.state.promotionAtTpData && this.$store.state.promotionAtTpData.loadAddress) {
@@ -277,6 +276,8 @@
                                 }
                             });
                         }
+                        // jssdk分享
+                        this.js_sdk_check();
                     }
                 });
             },
@@ -350,12 +351,7 @@
             async checkBuy() {
                 var deferred = Q.defer();
                 if (!this.$store.state || !this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
-                    let { data } = await apiPromotion.login({openid: this.openid});
-                    let employeeData = {
-                        party: data
-                    };
-                    window.localStorage.employee = JSON.stringify(employeeData);
-                    this.$store.commit('UPDATE_LOCAL');
+                    window.location.href = this.$signLocation;
                 }
                 deferred.resolve(true);
                 return deferred.promise;

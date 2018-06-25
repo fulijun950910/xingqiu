@@ -263,6 +263,8 @@
                                 }
                             });
                         }
+                        // jsskd分享
+                        this.js_sdk_check();
                     }
                 });
             },
@@ -313,12 +315,7 @@
             async checkBuy() {
                 var deferred = Q.defer();
                 if (!this.$store.state || !this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
-                    let { data } = await apiPromotion.login({openid: this.openid});
-                    let employeeData = {
-                        party: data
-                    };
-                    window.localStorage.employee = JSON.stringify(employeeData);
-                    this.$store.commit('UPDATE_LOCAL');
+                    window.location.href = this.$signLocation;
                 }
                 deferred.resolve(true);
                 return deferred.promise;
@@ -377,6 +374,30 @@
                     error(res) {
                     }
                 });
+            },
+            js_sdk_check() {
+                let time = setInterval(() => {
+                    if (this.$store.state.isLoadSdk) {
+                        this.js_sdk();
+                        clearInterval(time);
+                    }
+                }, 600);
+            },
+            js_sdk() {
+                let _this = this;
+                let share = {
+                    title: _this.$store.state.at_tp.title,
+                    desc: _this.$store.state.at_tp.desc,
+                    link: `api/b2bPromotionMobile/joinGroupAuthUrl/${_this.promotionId}/${_this.groupJoinId}`,
+                    imgUrl: window.location.origin + '/api/file/' + _this.$store.state.at_tp.imgUrl,
+                    type: 'link',
+                    dataUrl: '',
+                    success: function() {
+                    },
+                    cancel: null
+                };
+                apiGetJSSignature.hideMenuItems();
+                apiGetJSSignature.shareAppMessage(share);
             },
             async openLocation(item) {
                 let data = {
