@@ -278,7 +278,7 @@
                             });
                         }
                         // jssdk分享
-                        this.js_sdk_check();
+                        this.js_sdk();
                     }
                 });
             },
@@ -423,7 +423,6 @@
                 }, 600);
             },
             js_sdk() {
-                this.$toast(this.$store.state.isLoadSdk);
                 let _this = this;
                 let share = {
                     title: _this.$store.state.at_tp.title,

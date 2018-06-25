@@ -266,7 +266,7 @@
                             });
                         }
                         // jsskd分享
-                        this.js_sdk_check();
+                        this.js_sdk();
                     }
                 });
             },
