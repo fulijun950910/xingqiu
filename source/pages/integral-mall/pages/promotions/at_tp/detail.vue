@@ -394,7 +394,7 @@
                 let share = {
                     title: _this.$store.state.at_tp.title,
                     desc: _this.$store.state.at_tp.desc,
-                    link: `api/b2bPromotionMobile/joinGroupAuthUrl/${_this.promotionId}/${_this.groupJoinId}`,
+                    link: `${window.location.origin}/api/b2bPromotionMobile/joinGroupAuthUrl/${_this.promotionId}/${_this.groupJoinId}`,
                     imgUrl: window.location.origin + '/api/file/' + _this.$store.state.at_tp.imgUrl,
                     type: 'link',
                     dataUrl: '',

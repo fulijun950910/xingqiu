@@ -427,7 +427,7 @@
                 let share = {
                     title: _this.$store.state.at_tp.title,
                     desc: _this.$store.state.at_tp.desc,
-                    link: _this.$store.state.at_tp.promotionAuthUrl,
+                    link: `${window.location.origin}/api/b2bPromotionMobile/promotionAuthUrl/${_this.promotionId}`,
                     imgUrl: window.location.origin + '/api/file/' + _this.$store.state.at_tp.imgUrl,
                     type: 'link',
                     dataUrl: '',
