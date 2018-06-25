@@ -24,7 +24,12 @@ export default {
                         'getLocation'
                     ]
                 });
-                deferred.resolve(res.data);
+                let time = setInterval(() => {
+                    if (wx) {
+                        clearInterval(time);
+                        deferred.resolve(res.data);
+                    }
+                }, 600);
             }
             deferred.reject(res.data);
         }, function(res) {
