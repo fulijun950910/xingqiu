@@ -460,13 +460,13 @@
                     left: 50%;
                     top: 0;
                     display: block;
-                    width: 4vw;
+                    width: 16px;
+                    height: 16px;
                     text-align: center;
-                    font-size: 3vw;
-                    line-height: 4vw;
+                    font-size: @fs22;
+                    line-height: 18px;
                     padding: 1px;
                     box-sizing: content-box;
-                    height: 4vw;
                     margin-left:8px;
                     border-radius:50%;
                     border: 1px solid white;
