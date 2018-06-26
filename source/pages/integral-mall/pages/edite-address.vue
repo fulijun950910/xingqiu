@@ -140,7 +140,9 @@ export default {
             if (this.addressId) {
                 parameter.id = this.addressId;
             };
+            this.$indicator.open();
             api_party.deliveryAddress(parameter).then(msg=> {
+                this.$indicator.close();
                 Toast(this.addressId ? '地址修改成功' : '地址创建成功');
                 this.$router.back();
             }, msg=> {
