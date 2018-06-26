@@ -415,18 +415,15 @@
                 });
             },
             js_sdk_check() {
-                // let time = setInterval(() => {
-                //     if (this.$store.state.isLoadSdk) {
-                //         this.js_sdk();
-                //         clearInterval(time);
-                //     }
-                // }, 600);
+                let time = setInterval(() => {
+                    if (this.$store.state.isLoadSdk) {
+                        this.js_sdk();
+                        clearInterval(time);
+                    }
+                }, 600);
                 this.js_sdk();
             },
             async js_sdk() {
-                await apiGetJSSignature.getJSSignature({
-                    url: encodeURIComponent(window.location.href.split('#')[0])
-                });
                 let _this = this;
                 let share = {
                     title: _this.$store.state.at_tp.title,
