@@ -17,7 +17,7 @@
         "cdn": {}
     }, {
         "entry": "integral-mall",
-        "title": "积分商城",
+        "title": "",
         "cdn": {}
     }],
     "basePath": "./source/pages/",
