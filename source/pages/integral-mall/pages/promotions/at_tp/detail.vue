@@ -32,7 +32,7 @@
                 <div class="groupImgList" layout="row" layout-align="center center" flex-wrap="wrap">
                     <div flex="20" class="img" v-for="item in groupData.groupJoinInfoList">
                         <img :src="item.avatarId | mSrc2(require('assets/imgs/female.png'))" alt="">
-                        <span class="member-name">团</span>
+                        <span class="member-name" v-if="item.groupRole == 1">团</span>
                     </div>
                     <div v-if="groupData.status != 3" flex="20" class="img" v-for="item in groupJoinNeedNum">
                         <img :src="require('assets/imgs/integral-mall/undefindFace.png')" alt="">
@@ -286,7 +286,7 @@
                 let { data } = await apiPromotion.getGroupDetail(this.groupJoinId);
                 this.groupData = data;
                 if (this.groupData.groupJoinInfoList && this.groupData.groupJoinInfoList.length > 0) {
-                    this.groupJoinNeedNum = this.groupData.groupLevel - this.groupData.groupJoinInfoList.length;
+                    this.groupJoinNeedNum = Math.max(this.groupData.groupLevel - this.groupData.groupJoinInfoList.length, 0);
                 }
             },
             chooseAddress() {
