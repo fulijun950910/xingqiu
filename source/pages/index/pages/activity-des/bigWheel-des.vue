@@ -59,7 +59,18 @@
                 </div>
             </div>
         </div>
-        <div flex class="text-center">
+    </div>
+    <div>
+        <div flex class="text-center bottom-qr-code">
+            <div layout="row" layout-align="center center" class="bottom-title">
+                <div class="cube"></div>
+                <div class="bottom-text"><div class="fs38 color-zi">关注美问星球</div>
+                <div class="fs38 color-zi">发现更多惊喜</div></div>
+                <div class="cube"></div>
+            </div>
+            <div class="qr-code">
+              <img :src="require('assets/imgs/activity-des/qrcode.jpg')" alt="">
+            </div>
                 <img class="img-auto meiwen" :src="require('assets/imgs/activity-des/word-meiwen-01.png')" alt="">
         </div>
     </div>
@@ -75,6 +86,9 @@
 
 <style lang="less" scoped>
 @import '~styles/_style';
+.color-zi{
+    color: #7268FF;
+}
 .bigwheel-des {
     .img-con{
         font-size: 0;
@@ -141,9 +155,35 @@
              }
          }
      }
+ }
+ .bottom-qr-code{
+    background: url('~assets/imgs/activity-des/bg-07.jpg') no-repeat #0b0c3a bottom;
+    background-size: 100% auto;
+    padding-bottom: 20px;
      .meiwen{
          width: 24px;
          height: auto;
+         display: block;
+         margin: 0 auto;
+     }
+     .bottom-title{
+         .bottom-text{
+             margin: 0 15px;
+         }
+         .cube{
+             width: 45.5px;
+             height: 19px;
+             background: url('~assets/imgs/activity-des/bg-09.png') no-repeat;
+         }
+     }
+     .qr-code{
+         width: 153px;
+         height: 152px;
+         margin: 20px auto;
+         overflow: hidden;
+         padding: 15px;
+         background: url('~assets/imgs/activity-des/bg-08.png') no-repeat;
+         background-size: 100% 100%;
      }
  }
 
