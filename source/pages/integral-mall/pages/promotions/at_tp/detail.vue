@@ -51,7 +51,7 @@
                 <button class="group-buy-category" @click="showBuy">来抱团</button>
             </div>
             <!--<button class="group-buy-category" @click="goList" v-else>快去别的团抢占先机</button>-->
-            <button class="group-buy-category" @click="showBuy" v-else>快去别的团抢占先机</button>
+            <button class="group-buy-category" @click="goIndex" v-else>快去别的团抢占先机</button>
         </div>
         <!--我的团拼记录-->
         <div @click="goRecording" class="cell cell-box bg-white m-t-3" layout="row" layout-align="start center">
