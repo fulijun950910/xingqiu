@@ -1,4 +1,5 @@
 import request from './request.js';
+const wx = require('weixin-js-sdk');
 import Q from 'q';
 
 export default {
@@ -7,7 +8,7 @@ export default {
         var url = '/api/wechat/signature?url=' + data.url;
         request(url, null, 'get').then(function(res) {
             if (res.success) {
-                window.wx.config({
+                wx.config({
                     debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                     appId: res.data.appId, // 必填，公众号的唯一标识
                     timestamp: res.data.timestamp, // 必填，生成签名的时间戳
@@ -32,8 +33,8 @@ export default {
         return deferred.promise;
     },
     hideMenuItems: function() {
-        if (window.wx) {
-            window.wx.hideMenuItems({
+        if (wx) {
+            wx.hideMenuItems({
                 menuList: [
                     'menuItem:share:qq', // 分享到QQ:
                     'menuItem:share:weiboApp', // 分享到Weibo:
@@ -48,9 +49,9 @@ export default {
         }
     },
     shareAppMessage: function(settings) {
-        if (window.wx) {
+        if (wx) {
             // 分享到朋友圈
-            window.wx.onMenuShareTimeline({
+            wx.onMenuShareTimeline({
                 title: settings.title, // 分享标题
                 desc: settings.desc, // 分享描述
                 link: settings.link, // 分享链接
@@ -61,7 +62,7 @@ export default {
                 cancel: settings.cancel
             });
             // 分享给朋友
-            window.wx.onMenuShareAppMessage({
+            wx.onMenuShareAppMessage({
                 title: settings.title, // 分享标题
                 desc: settings.desc, // 分享描述
                 link: settings.link, // 分享链接
@@ -74,8 +75,8 @@ export default {
         }
     },
     openLocation: function(settings) {
-        if (window.wx) {
-            window.wx.openLocation({
+        if (wx) {
+            wx.openLocation({
                 latitude: settings.latitude, // 纬度，浮点数，范围为90 ~ -90
                 longitude: settings.longitude, // 经度，浮点数，范围为180 ~ -180。
                 name: settings.name, // 位置名
@@ -107,7 +108,7 @@ export default {
         }
     },
     scanQRCode: function() {
-        window.wx.scanQRCode({
+        wx.scanQRCode({
             needResult: 0,
             scanType: ['qrCode', 'barCode'] // 可以指定扫二维码还是一维码，默认二者都有
         });

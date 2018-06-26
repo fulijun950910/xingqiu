@@ -414,13 +414,13 @@
                     }
                 });
             },
-            js_sdk_check() {
-                let time = setInterval(() => {
-                    if (this.$store.state.isLoadSdk) {
-                        this.js_sdk();
-                        clearInterval(time);
-                    }
-                }, 600);
+            async js_sdk_check() {
+                await apiGetJSSignature.getJSSignature({
+                    url: encodeURIComponent(window.location.href.split('#')[0])
+                });
+                if (this.$store.state.isLoadSdk) {
+                }
+                this.js_sdk();
             },
             js_sdk() {
                 let _this = this;
