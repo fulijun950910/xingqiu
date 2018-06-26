@@ -4,7 +4,7 @@
             <canvas id="cavans" height="301" width="301">
                 您的浏览器不支持cavans画布
             </canvas>
-            <div class="click-dicect">
+            <div class="click-dicect" @click="rotateWheel">
                 <img :src="require('assets/imgs/integral-mall/wheel-direct.png')" alt="">
             </div>
         </div>
@@ -14,6 +14,7 @@
 export default {
     data() {
         return {
+            cavans: null,
             wheelConfig: {
                 radius: 150, // 转盘半径
                 inCircleRadius: 0, // 用于非零环绕原则的内圆半径
@@ -60,6 +61,7 @@ export default {
     methods: {
         drawCircle() {
             let canvas = document.getElementById('cavans');
+            this.cavans = canvas;
             let config = this.wheelConfig;
             if (!canvas.getContext) {
                 return;
@@ -125,7 +127,8 @@ export default {
             // ctx.drawImage(img, 0, 0, 100, 100);
             // ctx.restore();
 
-        }
+        },
+        rotateWheel() {}
     },
     mounted() {
         this.wheelConfig.spinningTime += 20;
