@@ -18,6 +18,7 @@ const bbsPage = resolve => require(['./pages/bbsPage/index'], resolve);
 const alliance = resolve => require(['./pages/allianceBeta/index'], resolve);
 const bigWheelDes = resolve => require(['./pages/activity-des/bigWheel-des'], resolve);
 const b2bActivityList = resolve => require(['./pages/activity-des/b2b-activity-list'], resolve);
+const indexActivityDetail = resolve => require(['./pages/activity-des/detail'], resolve);
 
 export default [{
     path: '/alliance',
@@ -104,4 +105,8 @@ export default [{
     path: '/b2b-activity-list',
     name: 'b2b-activity-list',
     component: b2bActivityList
+}, {
+    path: '/index-activity-detail/:type?',
+    name: 'index-activity-detail',
+    component: indexActivityDetail
 }];
