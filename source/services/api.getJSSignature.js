@@ -24,12 +24,7 @@ export default {
                         'getLocation'
                     ]
                 });
-                wx.error((err) => {
-                    return deferred.reject(res.data);
-                });
-                wx.ready(() => {
-                    return deferred.resolve(res.data);
-                });
+                deferred.resolve(res.data);
             } else {
                 deferred.reject(res.data);
             }
@@ -37,6 +32,37 @@ export default {
             deferred.reject(res.data);
         });
         return deferred.promise;
+    },
+    getJSSignature2(data) {
+        var url = '/api/wechat/signature?url=' + data.url;
+        request(url, null, 'get').then(function(res) {
+            if (res.success) {
+                wx.config({
+                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: res.data.appId, // 必填，公众号的唯一标识
+                    timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+                    nonceStr: res.data.nonceStr, // 必填，生成签名的随机串
+                    signature: res.data.signature, // 必填，签名
+                    jsApiList: [
+                        'onMenuShareTimeline', // 分享朋友圈
+                        'onMenuShareAppMessage', // 分享朋友
+                        'openLocation', // 使用微信内置地图查看位置
+                        'chooseWXPay', // 发起一个微信支付请求
+                        'hideMenuItems', // 隐藏的菜单项
+                        'scanQRCode',
+                        'getLocation'
+                    ]
+                });
+                wx.error(function(err) {
+                    if (data.error) data.error(err);
+                });
+                wx.ready(function() {
+                    if (data.success) data.success(res);
+                });
+            } else {
+                if (data.error) data.error(null);
+            }
+        });
     },
     hideMenuItems: function() {
         if (wx) {
