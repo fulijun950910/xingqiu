@@ -382,6 +382,7 @@
                 });
             },
             js_sdk_check() {
+                this.js_sdk();
                 let time = setInterval(() => {
                     if (this.$store.state.isLoadSdk) {
                         this.js_sdk();

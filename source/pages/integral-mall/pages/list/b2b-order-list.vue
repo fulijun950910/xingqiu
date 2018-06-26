@@ -12,7 +12,7 @@
                         <div class="color-gray fs22">订单号：{{item.orderNo}}</div>
                     </div>
                     <div class="cell" layout="row" layout-align="space-between center">
-                        <div class="fs24 color-gray" >{{item.merchantName}}</div>
+                        <div class="fs24 color-gray" >{{item.itemName}}</div>
                         <div class="fs24 color-orange">{{item.status | payStatus}}</div>
                     </div>
                     <div class="middle" layout="row" layout-align="space-between center">
