@@ -25,7 +25,7 @@ export default {
         }
     },
     created() {
-        this.js_sdk();
+        // this.js_sdk();
     },
     mounted() {
         window.addEventListener('resize', this.handleResize);
