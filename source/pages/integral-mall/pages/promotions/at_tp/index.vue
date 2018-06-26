@@ -12,7 +12,7 @@
             <div class="mt5 fs24 color-gray">{{data.description}}</div>
             <div class="color-gray border-bottom cell" layout="row" layout-align="space-between center">
                 <div>
-                    <span class="color-primary fs32">￥{{ data.originPrice | fen2yuan }}</span> 市场价
+                    <s class="color-primary fs32">￥{{ data.originPrice | fen2yuan }}</s> 市场价
                 </div>
                 <!--<div class="">{{data.allBuyCount | buyCount}}+ 人购买</div>-->
             </div>
@@ -126,7 +126,7 @@
 
             <!-- 适用人群 -->
             <div v-if="data.groupInfo && data.groupInfo.suit" class="m-b-4">
-                <p >预约信息</p>
+                <p >适用人群</p>
                 <p v-for="item in data.groupInfo.suit">
                     · {{ item.content }}
                 </p>
@@ -134,7 +134,7 @@
 
             <!-- 规则提醒 -->
             <div v-if="data.groupInfo && data.groupInfo.rule" class="m-b-4">
-                <p >预约信息</p>
+                <p >规则提醒</p>
                 <p v-for="item in data.groupInfo.rule">
                     · {{ item.content }}
                 </p>
