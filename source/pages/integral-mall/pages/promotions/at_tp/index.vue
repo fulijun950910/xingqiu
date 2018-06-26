@@ -423,7 +423,10 @@
                 // }, 600);
                 this.js_sdk();
             },
-            js_sdk() {
+            async js_sdk() {
+                await apiGetJSSignature.getJSSignature({
+                    url: encodeURIComponent(window.location.href.split('#')[0])
+                });
                 let _this = this;
                 let share = {
                     title: _this.$store.state.at_tp.title,
