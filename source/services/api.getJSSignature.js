@@ -29,7 +29,7 @@ export default {
                         deferred.resolve(res.data);
                         clearInterval(time);
                     }
-                }, 600);
+                }, 1200);
             } else {
                 deferred.reject(res.data);
             }

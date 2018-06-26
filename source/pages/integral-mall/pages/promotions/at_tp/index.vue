@@ -435,7 +435,6 @@
                     },
                     cancel: null
                 };
-                this.$toast(JSON.parse(share));
                 apiGetJSSignature.hideMenuItems();
                 apiGetJSSignature.shareAppMessage(share);
             },
