@@ -226,7 +226,15 @@
                 });
             },
             listBanner() {
-                api_party.listBanner('00001', this.$store.state.party.partyId).then(msg=> {
+                let partyId = '0';
+                if (this.$store.state) {
+                    if (this.$store.state.party) {
+                        partyId = this.$store.state.party.partyId;
+                    }
+
+                }
+                // console.log(this.$store.state);
+                api_party.listBanner('00001', partyId).then(msg=> {
                     this.bannerList = msg.data;
                 }, msg=> {
                 });
