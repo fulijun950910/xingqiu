@@ -25,10 +25,10 @@ export default {
                     ]
                 });
                 wx.error((err) => {
-                    deferred.reject(res.data);
+                    return deferred.reject(res.data);
                 });
                 wx.ready(() => {
-                    deferred.resolve(res.data);
+                    return deferred.resolve(res.data);
                 });
             } else {
                 deferred.reject(res.data);
