@@ -87,7 +87,7 @@
 
             <!-- 适用人群 -->
             <div v-if="data.groupInfo.suit" class="m-b-4">
-                <p >预约信息</p>
+                <p >适用人群</p>
                 <p v-for="item in data.groupInfo.suit">
                     · {{ item.content }}
                 </p>
@@ -95,7 +95,7 @@
 
             <!-- 规则提醒 -->
             <div v-if="data.groupInfo.rule" class="m-b-4">
-                <p >预约信息</p>
+                <p >规则提醒</p>
                 <p v-for="item in data.groupInfo.rule">
                     · {{ item.content }}
                 </p>
