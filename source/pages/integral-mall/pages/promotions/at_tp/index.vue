@@ -414,15 +414,16 @@
                     }
                 });
             },
-            async js_sdk_check() {
-                await apiGetJSSignature.getJSSignature({
-                    url: encodeURIComponent(window.location.href.split('#')[0])
-                });
-                if (this.$store.state.isLoadSdk) {
-                }
-                this.js_sdk();
+            js_sdk_check() {
+                let time = setInterval(() => {
+                    if (this.$store.state.isLoadSdk) {
+                        this.js_sdk();
+                        clearInterval(time);
+                    }
+                }, 600);
             },
             js_sdk() {
+                this.$toast(11134);
                 let _this = this;
                 let share = {
                     title: _this.$store.state.at_tp.title,
