@@ -423,7 +423,6 @@
                 }, 600);
             },
             js_sdk() {
-                this.$toast(11134);
                 let _this = this;
                 let share = {
                     title: _this.$store.state.at_tp.title,
@@ -436,6 +435,7 @@
                     },
                     cancel: null
                 };
+                this.$toast(JSON.parse(share));
                 apiGetJSSignature.hideMenuItems();
                 apiGetJSSignature.shareAppMessage(share);
             },
