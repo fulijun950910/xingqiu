@@ -30,8 +30,9 @@ export default {
                         clearInterval(time);
                     }
                 }, 600);
+            } else {
+                deferred.reject(res.data);
             }
-            deferred.reject(res.data);
         }, function(res) {
             deferred.reject(res.data);
         });
