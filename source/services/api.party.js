@@ -190,5 +190,10 @@ export default {
         // 广告位
         let url = `/api/ads/listBanner/${postion}/${userId}`;
         return request(url, 'get');
+    },
+    api_b2bAcyivities(parameter) {
+        // 活动列表
+        let url = 'api/b2bPromotionMobile/list';
+        return request(url, 'post', parameter);
     }
 };
