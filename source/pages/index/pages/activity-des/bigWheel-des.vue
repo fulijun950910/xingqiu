@@ -23,9 +23,11 @@
                     <div class="box-title fs30" layout="row" layout-align="center start">
                         Miss eye dor
                     </div>
-                    <div layout="row" layout-align="start center">
-                        <div flex="35"></div>
-                        <div flex="65">
+                    <div layout="row" layout-align="start start">
+                        <div flex="40" class="img-left">
+                            <img class="img-auto" :src="require('assets/imgs/activity-des/20180626191644.jpg')" alt="">
+                        </div>
+                        <div flex="60">
                             <div class="fs24 color-white text">业内公认“睫毛中的爱马仕”！作为猫猫酱的指定睫毛产品，其接近完美的商品品质在日本掀起了无数国民性话题</div>
                             <a class="to-detail color-white fs30 fwb text-center" layout="row" layout-align="center center" @click="goDetail(1)">查看详情</a>
                         </div>
@@ -48,10 +50,10 @@
                     <div class="box-title fs30" layout="row" layout-align="center start">
                         朵依生物科技
                     </div>
-                    <div layout="row" layout-align="start center">
-                        <div flex="35"></div>
-                        <div flex="65">
-                            <div class="fs24 color-white text">作为国内少数拥有细胞级护肤技术的团队，朵依倚靠绝对前沿、量肤定制的美容科技，重新定义国内护肤品！从细胞层级出发，重新改写肌肤未来！
+                    <div>
+                        <div flex class="img-top"> <img class="img-auto" :src="require('assets/imgs/activity-des/20180626191636.jpg')" alt=""></div>
+                        <div flex>
+                            <div class="fs24 color-white text no-margin">作为国内少数拥有细胞级护肤技术的团队，朵依倚靠绝对前沿、量肤定制的美容科技，重新定义国内护肤品！从细胞层级出发，重新改写肌肤未来！
 </div>
                             <a class="to-detail color-white fs30 fwb text-center" layout="row" layout-align="center center" @click="goDetail(2)">查看详情</a>
                         </div>
@@ -137,6 +139,10 @@
              background-size: 100% 100%;
              padding: 25px;
              margin-bottom: 15px;
+             .img-left{
+                 padding: 15px;
+                 margin-top: 20px;
+             }
              .box-title {
                  width: 155px;
                  margin: 0 auto;
@@ -149,6 +155,13 @@
              .text{
                  line-height: 30px;
                  margin: 25px 0;
+             }
+             .no-margin{
+                 margin-top: 0;
+             }
+             .img-top{
+                 margin: 15px 0 10px 0;
+                 font-size: 0;
              }
              .to-detail{
                  display: block;

@@ -68,7 +68,7 @@ const router = new VueRouter({
 });
 
 let routerCheckPath = path => {
-    let reg = /(^\/sign-in)|(^\/main)|(^\/bbsPage)|(^\/alliance)|(^\/booking)/;
+    let reg = /(^\/sign-in)|(^\/main)|(^\/bbsPage)|(^\/alliance)|(^\/booking)|(^\/bigWheel-des)|(^\/index-activity-detail)/;
     return reg.test(path);
 };
 
