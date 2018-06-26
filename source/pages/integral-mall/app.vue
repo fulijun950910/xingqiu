@@ -41,8 +41,7 @@ export default {
         },
         async js_sdk() {
             let res = await apiGetJSSignature.getJSSignature({
-                // url: encodeURIComponent(window.location.href.split('#')[0])
-                url: encodeURIComponent(window.location.origin + window.location.pathname)
+                url: encodeURIComponent(window.location.href.split('#')[0])
             });
             if (res) {
                 this.$store.state.isLoadSdk = true;
