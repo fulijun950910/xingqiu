@@ -158,7 +158,7 @@
                             this.$store.commit('UPDATE_LOCAL');
                             deferred.resolve(a);
                         } else {
-                            window.location.href = this.$signLocation;
+                            window.location.href = this.$getSignLocation(window.location.search);
                         }
                     } else {
                         deferred.resolve(true);
