@@ -1,4 +1,4 @@
-<script type="text/html" id="tpl_update_pwd">
+<script type="text/html" id="tpl_person_login">
     <style type="text/css">
     .container {
         overflow: hidden;
@@ -30,24 +30,20 @@
                     <label for="verifycode" class="mei_label"><i class="ic primary-color">&#xe649;</i></label>
                     <div flex class="mei_cell"  layout="row" layout-align="start center">
                         <input flex name="verifycode" type="tel" class="mei_send" placeholder="验证码(6位数字)" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
-                        <a href="javascript:;" id="auth-user-validate" onclick="app.userinfo.authUserValidate(this)" class="primary-color font-size-12" style="float: right;line-height: 12vw;margin-right: 2vw;">获取验证码</a>
-                    </div>
-                </div>
-                <div class="mei_cell_box" layout="row" layout-align="start center" >
-                    <label for="password" class="mei_label"><i class="ic primary-color">&#xe617;</i></label>
-                    <div  flex class="mei_cell"  layout="row" layout-align="start center">
-                        <input flex name="password" type="password" class="mei_input password" placeholder="请输入密码">
-                        <label for="user_pwd" class="mei_label getPwd"><i class="ic font-secondary-color" >&#xe695;</i></label>
+                        <a href="javascript:;" id="auth-user-validate" onclick="app.userinfo.authUserPersonValidate(this)" class="primary-color font-size-12" style="float: right;line-height: 12vw;margin-right: 2vw;">获取验证码</a>
                     </div>
                 </div>
             </div>
             <div class="userinfo_bind">
-                <div class="userinfo_btm" layout="row" layout-align="space-between center">
-                    <a class="clause" onclick="history.back()">有账号？直接登录</a>
-                    <a class="clause" href="javascript:app.userinfo.generate()">语音验证码</a>
+                <div class="userinfo_btm" layout="row" layout-align="start center">
+                    <a class="clause" onclick="history.back()">商户登录</a>
+                    <!--<a class="clause" href="javascript:app.userinfo.generate(3)">语音验证码</a>-->
                 </div>
-                <div class="mei_bind"   onclick="app.userinfo.updatePassword()"  >
-                    <a href="javascript:;" class="login_btn" >修改</a>
+                <div class="mei_bind"  onclick="app.userinfo.personLogin()"  >
+                    <a href="javascript:;" class="login_btn" >登录</a>
+                </div>
+                <div class="userinfo_btm2" layout="row" layout-align="center center">
+                    <a class="clause" href="javascript:app.userinfo.goMwxq()">随便逛逛</a>
                 </div>
             </div>
         </div>

@@ -98,7 +98,7 @@ app.userinfo = {
     },
     getEmployee: function() {
         return new Promise(function(resolve, reject) {
-            if (localStorage.employee && localStorage.employee != 'null') {
+            if (localStorage.employee && localStorage.employee != 'null' && localStorage.employee.id) {
                 resolve(JSON.parse(localStorage.employee));
             } else {
                 app.api.userinfo.getEmployeeInfo({
@@ -721,7 +721,51 @@ app.userinfo = {
             }
         })
     },
-    generate: function() {
+    authUserPersonValidate: function(dom) {
+        //事件统计
+        baiduStatistical.add({
+            category: '验证码',
+            label: '获取验证码',
+            val: '',
+            action: 'click'
+        });
+        var $dom = $(dom);
+        if ($dom.hasClass('disabled'))
+            return;
+
+        var phone = $('input[name="phone"]').val();
+        if (!phone) {
+            app.userinfo.alertError('小主，请输入手机号');
+            return;
+        }
+        var param = {
+            identifier: phone,
+            type: 1,
+            purpose: 1
+        }
+        app.api.userinfo.authUserPersonValidate({
+            data: param,
+            success: function(resultValidate) {
+                if (resultValidate.success && resultValidate.data) {
+                    $('#auth-user-validate').addClass('disabled');
+                    $('#auth-user-validate').html('<span id="second">60</span>秒后获取');
+                    var secondInterval = setInterval(function() {
+                        var second = parseInt($('#second').html()) - 1
+                        $('#second').text(second);
+                        if (second == 0) {
+                            $('#auth-user-validate').removeClass('disabled');
+                            $('#auth-user-validate').html('获取验证码');
+                            clearInterval(secondInterval);
+                        }
+                    }, 1000)
+                }
+            },
+            error: function(a, b, c) {
+
+            }
+        })
+    },
+    generate: function(type) {
         var phone = $('input[name="phone"]').val();
         if (!phone) {
             app.userinfo.alertError('小主，请输入手机号');
@@ -740,6 +784,9 @@ app.userinfo = {
                     yzType: 1, // 0 文字短信 1语音验证
                     identifier: phone
                 };
+                if (type) {
+                    accountParam.purpose = type;
+                }
                 app.api.userinfo.generate({
                     data: accountParam,
                     success: function(results) {
@@ -809,6 +856,79 @@ app.userinfo = {
             error: function(a, b, c) {
                 //app.alert('验证码错误', '修改密码异常');
                 app.userinfo.alertError('小主，请输入正确的验证码');
+            }
+        })
+    },
+    personLogin: function() {
+        var phone = $('input[name="phone"]').val();
+        if (!phone) {
+            app.userinfo.alertError('小主，请输入手机号');
+            return;
+        }
+        var captcha = $('input[name="verifycode"]').val();
+        if (!captcha) {
+            app.userinfo.alertError('小主，请输入验证码');
+            return;
+        }
+        var data = {
+            phone: phone,
+            captcha: captcha,
+            rememberMe: true
+        }
+        //事件统计
+        baiduStatistical.add({
+            category: '登录',
+            label: '散客登录',
+            val: '',
+            action: 'click'
+        });
+        app.api.userinfo.personLogin({
+            data: data,
+            success: function(result) {
+                if (result.success && result.data) {
+                    // 绑定openid手机号
+                    app.api.userinfo.bindMobileToOpenId({
+                        data: {openId: keyGetValue('openid'),mobile:data.phone,code: data.captcha},
+                        success: function() {
+                        }
+                    });
+                    // 获取用户数据
+                    app.api.userinfo.loginByOpenId({
+                        data: {openId: keyGetValue('openid')},
+                        success: function(res) {
+                            if (res.success && res.data) {
+                                var employeeData = {
+                                    party: res.data
+                                };
+                                window.localStorage.employee = JSON.stringify(employeeData);
+                                app.api.userinfo.b2bUserLogin({
+                                    data: {
+                                        openId: keyGetValue('openid'),
+                                        phone: data.phone,
+                                        userId: result.data,
+                                        partyId: employeeData.party.partyId
+                                    },
+                                    success: function(res) {
+                                        if (res.success) {
+                                            location.href = '/service/index.html#/main'
+                                        } else {
+                                            app.userinfo.alertError(result.message);
+                                            return;
+                                        }
+                                    }
+                                })
+                            } else {
+                                app.userinfo.alertError(result.message);
+                                return;
+                            }
+                        }
+                    })
+                } else {
+                    app.userinfo.alertError(result.message);
+                    return;
+                }
+            },
+            error: function(a, b, c) {
             }
         })
     },

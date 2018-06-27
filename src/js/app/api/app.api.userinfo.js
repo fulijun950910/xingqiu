@@ -41,6 +41,42 @@ app.api.userinfo = {
             error: settings.error,
         })
     },
+    authUserPersonValidate: function(settings) {
+        app.api.ajax({
+            url: '/verifications/generate',
+            type: 'post',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data,
+        })
+    },
+    loginByOpenId: function(settings) {
+        app.api.ajax({
+            url: '/party/loginByOpenId/' + settings.data.openId,
+            type: 'put',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data,
+        })
+    },
+    bindMobileToOpenId: function(settings) {
+        app.api.ajax({
+            url: '/party/bindMobileToOpenId/' + settings.data.openId + '/' + settings.data.mobile + '/' + settings.data.code,
+            type: 'put',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data,
+        })
+    },
+    b2bUserLogin: function(settings) {
+        app.api.ajax({
+            url: '/b2bUser/login',
+            type: 'post',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data,
+        })
+    },
     generate: function(settings) {
         app.api.ajax({
             url: '/verifications/generate',
@@ -54,6 +90,15 @@ app.api.userinfo = {
         app.api.ajax({
             url: '/authUser/password',
             type: 'PUT',
+            success: settings.success,
+            error: settings.error,
+            data: settings.data
+        })
+    },
+    personLogin: function(settings) {
+        app.api.ajax({
+            url: '/auth/form',
+            type: 'post',
             success: settings.success,
             error: settings.error,
             data: settings.data

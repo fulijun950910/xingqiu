@@ -34,9 +34,7 @@ $(function() {
             return $('#tpl_user_home').html();
         },
         bind: function() {
-
             app.userinfo.find();
-
         }
     };
 
@@ -54,7 +52,20 @@ $(function() {
         }
     };
 
-    //登录
+    //散客登录
+    var personLogin = {
+        url: '/person_login',
+        className: 'person_login',
+        render: function() {
+            return $('#tpl_person_login').html();
+        },
+        bind: function() {
+            app.tools.changeTitle('散客登录');
+            init();
+        }
+    };
+
+    //商户登录
     var login = {
         url: '/user_login',
         className: 'user_login',
@@ -62,7 +73,7 @@ $(function() {
             return $('#tpl_user_login').html();
         },
         bind: function() {
-            app.tools.changeTitle('登录');
+            app.tools.changeTitle('商户登录');
             init();
             app.userinfo.initEvent();
             //缓存及cookie清理
@@ -85,6 +96,7 @@ $(function() {
 
     routerUser.push(userinfo)
         .push(updatepwd)
+        .push(personLogin)
         .push(login)
         .push(editUserInfo)
         .setDefault('/').init();
