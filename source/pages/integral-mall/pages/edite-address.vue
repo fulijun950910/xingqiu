@@ -140,9 +140,11 @@ export default {
             if (this.addressId) {
                 parameter.id = this.addressId;
             };
+            this.$indicator.open();
             api_party.deliveryAddress(parameter).then(msg=> {
+                this.$indicator.close();
                 Toast(this.addressId ? '地址修改成功' : '地址创建成功');
-                this.$router.push('/address-list/view');
+                this.$router.back();
             }, msg=> {
 
             });
@@ -153,6 +155,7 @@ export default {
                 this.address.province = msg.data.province;
                 this.address.city = msg.data.city;
                 this.address.town = msg.data.town;
+                this.isDefault = msg.data.isDefault;
             }, msg=> {
 
             });

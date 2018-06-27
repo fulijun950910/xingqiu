@@ -12,10 +12,18 @@ app.api = {
                 case 404:
                     break;
                 default:
-                    options.error(res)
+                    options.error(res);
                     break;
             }
         }
+        function success(res) {
+            if (res && res.code == 302 && res.data) {
+                window.location.href = res.data
+            } else {
+                options.success(res)
+            }
+        }
+
         var settings = {
             url: url,
             async: options.async || true,
@@ -26,7 +34,7 @@ app.api = {
                 'wechat': 'assistant'
             },
             dataType: 'json',
-            success: options.success,
+            success: success,
             error: error
         };
 

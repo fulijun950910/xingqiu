@@ -232,12 +232,12 @@ export default {
         },
         update() {
             let itemList = [];
-            if (this.timeList.findIndex((item) => {return item.value == this.bookingDate.startTime;}) >= this.timeList.findIndex((item) => {return item.value == this.bookingDate.endTime;})) {
+            this.data.startTime = Vue.filter('amDateFormat')(this.bookingDate.date, 'YYYY-MM-DD') + ' ' + this.bookingDate.startTime + ':00';
+            this.data.endTime = Vue.filter('amDateFormat')(this.bookingDate.date, 'YYYY-MM-DD') + ' ' + this.bookingDate.endTime + ':00';
+            if (new Date(this.data.startTime) > new Date(this.data.endTime)) {
                 this.$toast('预计结束时间不得早于到店时间');
                 return;
             }
-            this.data.startTime = Vue.filter('amDateFormat')(this.bookingDate.date, 'YYYY-MM-DD') + ' ' + this.bookingDate.startTime + ':00';
-            this.data.endTime = Vue.filter('amDateFormat')(this.bookingDate.date, 'YYYY-MM-DD') + ' ' + this.bookingDate.endTime + ':00';
             this.bookingDate.itemList.forEach(item => {
                 itemList.push({
                     itemId: item.value,

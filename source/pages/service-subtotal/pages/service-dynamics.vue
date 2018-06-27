@@ -39,7 +39,7 @@
         </div>
         <div class="placeholder" :class="{active1:noData}" flex>
         </div>
-        <div class="dynamics" :class="{active1:noData}" v-infinite-scroll="touchUpdate" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="50">
+        <div class="dynamics" :class="{active1:noData}"  v-infinite-scroll="loadMore" :infinite-scroll-disabled="loading" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
             <no-Data :visible="noData"></no-Data>
             <div class="div-box" :class="{'has-del': item.employeeId == $store.state.user.id}" v-for="(item,pIndex) in dataList" :key="item.id">
                 <p class="text-right" v-if="item.employeeId == $store.state.user.id">
@@ -94,7 +94,7 @@
                     <a>客户：{{item.memberName}}</a>
                 </div>
             </div>
-            <m-load-more :loading="!scrollDisabled" v-if="!noData"></m-load-more>
+            <m-load-more :loading="!scrollDisabled"></m-load-more>
         </div>
         <bottom-menu @click="link" :flex="vm.flex"></bottom-menu>
         <!-- 图片放大 -->
@@ -193,17 +193,16 @@ export default {
                     statu: false,
                     show: false,
                     text: '',
-                    main: ''
+                    main: this.$route.params.employeeName
                 },
                 flex: 25,
                 mask: false,
                 pickerValue: '',
                 selectedStoreId: this.$route.query.storeId,
-                timeInterval: {},
-                returnVisit: 321321,
-                record: 3321,
-                valued: 3213,
-                unvalued: 3511
+                timeInterval: {
+                    startDate: this.$route.params.startDate,
+                    endDate: this.$route.params.endDate
+                }
             },
             swipe: {
                 index: '',
@@ -216,12 +215,15 @@ export default {
             page: 1,
             rows: 20,
             user: this.$store.state.user,
-            scrollDisabled: false,
             scroll: false,
             routerEmployee: '',
             noData: false,
+            mainEmployee: {
+                id: this.$route.params.employeeId,
+                name: this.$route.params.employeeName
+            },
             loading: false,
-            mainEmployee: ''
+            scrollDisabled: false
         };
     },
     mounted() {
@@ -236,9 +238,13 @@ export default {
         let tempIndex = 0;
         var tempStores = [];
         this.$knife.deepCopy(this.$store.state.storeList, tempStores);
+        let tempStoreIds = [];
+        tempStores.map((item, index)=> {
+            tempStoreIds.push(item.id);
+        });
         if (tempStores.length > 1) {
             tempStores.unshift({
-                id: this.$store.getters.queryStoreIds,
+                id: tempStoreIds.join(','),
                 name: '全部门店'
             });
         }
@@ -287,31 +293,7 @@ export default {
                 this.scroll = false;
             }
         };
-
-        let tempEmployee = {};
-        if (this.$route.query.employeeName) {
-            tempEmployee.employeeName = this.$route.query.employeeName;
-        }
-        if (this.$route.query.employeeId) {
-            tempEmployee.employeeId = this.$route.query.employeeId;
-        }
-        if (this.$route.query.type) {
-            tempEmployee.type = this.$route.query.type;
-        }
-        if (this.$route.query.startDate) {
-            tempEmployee.startDate = this.$route.query.startDate;
-        }
-        if (this.$route.query.endDate) {
-            tempEmployee.endDate = this.$route.query.endDate;
-        }
-        // 判断是否是其他页面带参数跳转
-        this.routerEmployee = tempEmployee;
-        if (this.routerEmployee) {
-            this.messageServiceList(this.routerEmployee);
-        } else {
-            this.messageServiceList();
-        }
-
+        this.messageServiceList();
     },
     methods: {
         // 显示/隐藏搜索详情
@@ -367,13 +349,11 @@ export default {
         },
         // 清除显示的员工
         clearSearch() {
+            // debugger;
             this.vm.search.main = '';
-            this.routerEmployee = '';
+            // this.$route.params = {};
             this.mainEmployee = '';
-            this.page = 1;
-            this.loading = false;
-            this.scrollDisabled = false;
-            this.messageServiceList('item');
+            this.resetSreach();
         },
         // 点击返回顶部
         toTop() {
@@ -404,59 +384,33 @@ export default {
         },
         changeStore(item) {
             this.selectedStore = item[0];
+            this.resetSreach();
+        },
+        resetSreach() {
             this.page = 1;
             this.scrollDisabled = false;
-            if (typeof (this.routerEmployee) == 'object') {
-                this.messageServiceList(this.routerEmployee);
-            } else if (typeof (this.mainEmployee) == 'object') {
-                this.messageServiceList(this.mainEmployee);
-            } else {
-                this.messageServiceList('item');
-            }
+            this.dataList = [];
+            this.messageServiceList();
+
         },
         changestatus(item) {
             this.selectedstatus = item[0];
-            this.page = 1;
-            this.scrollDisabled = false;
-            if (typeof (this.routerEmployee) == 'object') {
-                this.routerEmployee.type = '';
-                this.messageServiceList(this.routerEmployee);
-            } else if (typeof (this.mainEmployee) == 'object') {
-                this.messageServiceList(this.mainEmployee);
-            } else {
-                this.messageServiceList('item');
-            }
-
+            this.resetSreach();
         },
         changeDateRange(start, end) {
+            // this.routerParameter.startDate = this.$moment(start).format('YYYY-MM-DD HH:mm:ss');
+            // this.routerParameter.endDate = this.$moment(end).format('YYYY-MM-DD HH:mm:ss');
             this.vm.timeInterval = {
-                startDate: this.$moment(start).startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-                endDate: this.$moment(end).endOf('day').format('YYYY-MM-DD HH:mm:ss')
+                startDate: this.$moment(start).format('YYYY-MM-DD HH:mm:ss'),
+                endDate: this.$moment(end).format('YYYY-MM-DD HH:mm:ss')
             };
-            this.page = 1;
-            this.scrollDisabled = false;
-            if (typeof (this.routerEmployee) == 'object') {
-                this.routerEmployee.type = '';
-                this.messageServiceList(this.routerEmployee);
-            } else if (typeof (this.mainEmployee) == 'object') {
-                this.messageServiceList(this.mainEmployee);
-            } else {
-                this.messageServiceList('item');
-            }
+            this.resetSreach();
         },
         selectedDateRange(item) {
             var tempItem = item.value;
             if (tempItem) {
                 this.vm.timeInterval = tempItem;
-                this.page = 1;
-                this.scrollDisabled = false;
-                if (typeof (this.routerEmployee) == 'object') {
-                    this.messageServiceList(this.routerEmployee);
-                } else if (typeof (this.mainEmployee) == 'object') {
-                    this.messageServiceList(this.mainEmployee);
-                } else {
-                    this.messageServiceList('item');
-                }
+                this.resetSreach();
             } else {
                 this.dateRangeVisible = true;
             };
@@ -466,15 +420,12 @@ export default {
             this.scrollDisabled = false;
             this.page = 1;
             this.mainEmployee = item;
-            this.messageServiceList(item);
+            this.messageServiceList();
         },
         // 获取员工列表
         getEmployeeList(text) {
             this.vm.search.text = text;
             let self = this;
-            // self.vm.mask = !this.vm.mask;
-            // self.vm.search.statu = !this.vm.search.statu;
-            // self.vm.search.show = !this.vm.search.show;
             let parameter = {
                 merchantId: self.merchantId,
                 storeIds: self.storeIds.join(','),
@@ -489,8 +440,11 @@ export default {
                 console.log('网络错误！');
             });
         },
-        messageServiceList(item) {
+        messageServiceList() {
             let self = this;
+            if (this.scrollDisabled) {
+                return;
+            }
             let parameter = {
                 merchantId: self.merchantId,
                 storeIds: self.storeIds.join(','),
@@ -504,7 +458,8 @@ export default {
                 parameter.type = self.selectedstatus.value;
             };
             if (self.mainEmployee) {
-                parameter.employeeId = self.mainEmployee.id;
+                parameter.employeeId = self.mainEmployee.id ? self.mainEmployee.id : '';
+                parameter.employeeName = self.mainEmployee.name ? self.mainEmployee.name : '';
             }
             if (self.vm.timeInterval.startDate) {
                 parameter.startDate = self.vm.timeInterval.startDate;
@@ -512,35 +467,10 @@ export default {
             if (self.vm.timeInterval.endDate) {
                 parameter.endDate = self.vm.timeInterval.endDate;
             };
-            if (self.scrollDisabled) {
-                return;
-            };
-            if (item) {
-                if (item.employeeName) {
-                    self.vm.search.main = item.employeeName;
-                    self.vm.search.text = item.employeeName;
-                };
-                if (item.employeeId) {
-                    parameter.employeeId = item.employeeId;
-                };
-                if (item.name) {
-                    self.vm.search.main = item.name;
-                    self.vm.search.text = item.name;
-                };
-                if (item.id) {
-                    parameter.employeeId = item.id;
-                };
-                if (item.type) {
-                    parameter.type = item.type;
-                };
-                if (item.startDate) {
-                    parameter.startDate = item.startDate;
-                };
-                if (item.endDate) {
-                    parameter.endDate = item.endDate;
-                };
-
-            };
+            if (this.$route.params.type) {
+                parameter.type = this.$route.params.type;
+            }
+            this.loading = true;
             service.messageServiceList(parameter).then(res => {
                 if (res.data.rows.length > 0) {
                     for (let i = 0; i < res.data.rows.length; i++) {
@@ -549,30 +479,14 @@ export default {
                         }
                     };
                 };
-                // 空页面是否出现
-                if (res.data.total == 0) {
-                    self.noData = true;
-                } else {
-                    self.noData = false;
-                }
-                // 是否出现加载动画
                 if (res.data.rows.length < self.rows) {
-                    self.scrollDisabled = true;
+                    this.scrollDisabled = true;
                 } else {
-                    self.scrollDisabled = false;
-                };
-                if (item) {
-                    self.dataList = res.data.rows;
-                    self.page++;
-                } else {
-                    if (res.data.rows.length > 0) {
-                        self.dataList = self.dataList.concat(res.data.rows);
-                        self.page++;
-                    } else {
-                        self.loading = true;
-                        self.page = 1;
-                    }
+                    this.scrollDisabled = false;
                 }
+                this.dataList = this.dataList.concat(res.data.rows);
+                this.loading = false;
+                self.page++;
             }, erro => {
                 console.log('网络错误！');
             });
@@ -601,15 +515,26 @@ export default {
 
         },
         toData() {
+            debugger;
+            let routeParameter = {
+                employeeId: this.mainEmployee ? this.mainEmployee.id : this.user.id
+            };
+            if (this.selectedStore) {
+                routeParameter.storeIds = this.selectedStore.id;
+            };
+            if (this.vm.timeInterval.startDate) {
+                routeParameter.startDate = this.$moment(this.vm.timeInterval.startDate).format('YYYY-MM-DD HH:mm:ss');
+            };
+            if (this.vm.timeInterval.endDate) {
+                routeParameter.endDate = this.$moment(this.vm.timeInterval.endDate).format('YYYY-MM-DD HH:mm:ss');
+            };
             this.$router.push({
                 name: 'data-view',
-                query: {
-                    storeIds: this.selectedStore ? this.selectedStore.id : '',
-                    startDate: (this.vm.timeInterval && this.vm.timeInterval.startDate) ? this.vm.timeInterval.startDate : '',
-                    endDate: (this.vm.timeInterval && this.vm.timeInterval.endDate) ? this.vm.timeInterval.endDate : '',
-                    employeeId: this.vm.search.main ? this.vm.search.main.id : this.user.id
-                }
+                params: routeParameter
             });
+        },
+        loadMore() {
+            this.messageServiceList();
         }
     }
 };

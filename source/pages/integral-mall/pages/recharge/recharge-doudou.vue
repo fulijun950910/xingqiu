@@ -1,38 +1,39 @@
 <template>
-    <div v-title="'充值美豆豆'" class="recharge">
-        <div v-if="state == 1">
-            <div class="border-bottom cell-box">
-                <div class="blanceBox" layout="column" layout-align="center start">
-                    <div><span class="blance">{{dataModel.doudouBalance}}</span>&nbsp;<span class="dark-gray">美豆豆</span></div>
-                    <div class="fs24 dark-gray">其中充值余额{{Math.max(dataModel.doudouBalance - dataModel.doudouPresent, 0)}}</div>
+<div v-title="'充值美豆豆'" class="recharge">
+    <div v-if="state == 1">
+        <div class="border-bottom cell-box">
+            <div class="blanceBox" layout="column" layout-align="center start">
+                <div><span class="blance">{{dataModel.doudouBalance}}</span>&nbsp;<span class="dark-gray">美豆豆</span></div>
+                <div class="fs24 dark-gray">其中充值余额{{Math.max(dataModel.doudouBalance - dataModel.doudouPresent, 0)}}</div>
+            </div>
+        </div>
+        <div class="cell-box">
+            <div class="cell">
+                选择充值金额
+            </div>
+            <div layout="row" layout-align="start center" flex-wrap="wrap">
+                <div @click="selectType(item)" v-for="item in list" :class="{'act': item.id == act}" class="list-item" layout="column" layout-align="center center" :key="item.id">
+                    <div>{{item.description}}</div>
+                    <div class="fs24 dark-gray" v-if="item.price">售价{{item.price | fen2yuan}}元</div>
+                    <div v-if="item.icon" class="tag fs24 color-white">{{item.icon}}</div>
                 </div>
             </div>
-            <div class="cell-box">
-                <div class="cell">
-                    选择充值金额
-                </div>
-                <div layout="row" layout-align="start center" flex-wrap="wrap">
-                    <div @click="selectType(item)" v-for="item in list" :class="{'act': item.id == act}" class="list-item" layout="column" layout-align="center center" :key="item.id">
-                        <div>{{item.description}}</div>
-                        <div class="fs24 dark-gray" v-if="item.price">售价{{item.price | fen2yuan}}元</div>
-                        <div v-if="item.icon" class="tag fs24 color-white">{{item.icon}}</div>
-                    </div>
-                </div>
-                <div flex class="input-price text-center" v-if="choose.id == -1">
-                    <input type="text" @change="priceChange" v-model="inputPrice" name="" placeholder="其他金额">
-                </div>
-                            <div class="rules" flex>
-                <div class="color-gray fs24 rule-title"><m-icon class="fs30" xlink="#icon-xiangqing"></m-icon>&nbsp;&nbsp;充值说明</div>
+            <div flex class="input-price text-center" v-if="choose.id == -1">
+                <input type="text" @change="priceChange" v-model="inputPrice" name="" placeholder="其他金额">
+            </div>
+            <div class="rules" flex>
+                <div class="color-gray fs24 rule-title">
+                    <m-icon class="fs30" xlink="#icon-xiangqing"></m-icon>&nbsp;&nbsp;充值说明</div>
                 <div class="color-gray fs22 rule-p">1. 美豆豆为虚拟货币，没有使用权限。只可用于本平台</div>
                 <div class="color-gray fs22 rule-p">2. 购买后将不退不换</div>
-                 <div class="color-gray fs22 rule-p">3. 10个美豆豆等于1元</div>
+                <div class="color-gray fs22 rule-p">3. 10个美豆豆等于1元</div>
             </div>
-                <div>
-                    <button @click="submit" class="fs32 subBtn">充值</button>
-                </div>
+            <div>
+                <button @click="submit" class="fs32 subBtn">充值</button>
             </div>
         </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -94,6 +95,7 @@
                     this.list.map((item, index)=> {
                         if (item.icon) {
                             this.act = item.id;
+                            this.choose = item;
                         };
                     });
                     // this.list.push({

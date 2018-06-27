@@ -205,7 +205,7 @@ app.index = {
             // location.href = "/userinfo.html?type=1#/user_login";
             this.resetLogin();
         }
-        if (JSON.parse(localStorage.employee).merchant && JSON.parse(localStorage.employee).merchant.functionVersion == 4) {
+        if (JSON.parse(localStorage.employee).merchant && (JSON.parse(localStorage.employee).merchant.functionVersion == 4 || JSON.parse(localStorage.employee).merchant.functionVersion == 5)) {
             location.href = "/lite/index.html";
         }
         app.index.userdata().then(function(userDate) {

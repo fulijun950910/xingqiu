@@ -16,6 +16,9 @@ const editUserInfo = resolve => require(['./pages/editUserInfo/index'], resolve)
 const rechargeMessage = resolve => require(['./pages/rechargeMessage/index'], resolve);
 const bbsPage = resolve => require(['./pages/bbsPage/index'], resolve);
 const alliance = resolve => require(['./pages/allianceBeta/index'], resolve);
+const bigWheelDes = resolve => require(['./pages/activity-des/bigWheel-des'], resolve);
+const b2bActivityList = resolve => require(['./pages/activity-des/b2b-activity-list'], resolve);
+const indexActivityDetail = resolve => require(['./pages/activity-des/detail'], resolve);
 
 export default [{
     path: '/alliance',
@@ -94,4 +97,16 @@ export default [{
     path: '/sign-in',
     name: 'sign-in',
     component: signIn
+}, {
+    path: '/bigWheel-des',
+    name: 'bigWheel-des',
+    component: bigWheelDes
+}, {
+    path: '/b2b-activity-list',
+    name: 'b2b-activity-list',
+    component: b2bActivityList
+}, {
+    path: '/index-activity-detail/:type?',
+    name: 'index-activity-detail',
+    component: indexActivityDetail
 }];

@@ -216,6 +216,15 @@ img {
 }
 .loop(5);
 
+/* Background
+-------------------------- */
+.bg-white{
+    background:@white;
+}
+.bg-default{
+    background:@bg-gray;
+}
+
 /* Colors
 -------------------------- */
 
@@ -532,8 +541,8 @@ img {
     padding-bottom: 12px;
 }
 .cell-box {
-    padding-left:16px;
-    padding-right:16px;
+    padding-left:12px;
+    padding-right:12px;
 }
 .popup-bottom {
     width: 100%;
@@ -550,4 +559,23 @@ div.native-image {
         height: 100%;
         width: 100%;
     }
+}
+// minit
+.mint-toast {
+    z-index: 2003 !important;
+}
+.mint-actionsheet {
+    z-index: 2002 !important;
+}
+.mint-indicator {
+    z-index: 2002 !important;
+}
+.mint-msgbox-wrapper {
+    z-index: 2002 !important;
+}
+.mint-popup {
+    z-index: 2002 !important;
+}
+.v-modal {
+    z-index: 2001 !important;
 }

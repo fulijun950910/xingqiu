@@ -3,7 +3,7 @@
         <div class="banner">
             <img class="img-auto" :src="require('assets/imgs/integral-mall/product-list-banner-min.png')" alt="">
             <div class="text">
-                <div class="fwb color-white fs40">美豆豆福利兑</div>
+                <div class="color-white fs50">美豆豆福利兑</div>
                 <div class="color-white fs30">小豆豆，大作用</div>
             </div>
         </div>
@@ -98,6 +98,9 @@ export default {
 @import '~styles/_style';
 .product-list{
     padding: 15px;
+    .fs50{
+        font-size: 25px;
+    }
     .banner{
         height: 120px;
         width: 100%;
@@ -113,7 +116,7 @@ export default {
         .text{
             position: absolute;
             z-index: 2;
-            bottom: 20px;
+            bottom: 30px;
             left: 20px;
         }
     }

@@ -6,5 +6,6 @@ export default {
     merchantRole: {},
     skills: [],
     store: {},
-    promotionTypes: []
+    promotionTypes: [],
+    at_ht: {} // 合体活动数据
 };

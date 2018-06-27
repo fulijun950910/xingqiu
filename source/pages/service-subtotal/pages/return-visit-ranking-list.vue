@@ -38,9 +38,9 @@ export default {
         return {
             query: {
                 merchantId: this.$store.getters.merchantId,
-                storeIds: this.$route.query.storeIds,
-                startDate: this.$route.query.startDate,
-                endDate: this.$route.query.endDate,
+                storeIds: this.$route.params.storeIds,
+                startDate: this.$route.params.startDate,
+                endDate: this.$route.params.endDate,
                 status: 1,
                 type: 2,
                 page: 1,
@@ -147,7 +147,7 @@ export default {
         editClick(item) {
             this.$router.push({
                 name: 'service-dynamics',
-                query: {
+                params: {
                     employeeId: item.employeeId,
                     endDate: this.query.endDate,
                     startDate: this.query.startDate,

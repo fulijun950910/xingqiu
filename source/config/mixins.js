@@ -46,3 +46,11 @@ export function CARD_TYPE() {
     });
     return tempCardType;
 }
+
+/* 团拼活动状态 */
+export const PROMOTION_TP_STATUS = [
+    { name: '拼团中', value: '1' },
+    { name: '已结束', value: '2' },
+    { name: '已成团', value: '3' },
+    { name: '处理中', value: '4' }
+];
