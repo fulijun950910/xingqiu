@@ -1,7 +1,7 @@
 <template>
 <div class="b2b-activity-list">
     <div class="activity-list">
-        <div class="activity-box" v-for="(item, index) in dataList" :key="index" layout="row" layout-align="start center">
+        <div class="activity-box" @click="toActivity(item)" v-for="(item, index) in dataList" :key="index" layout="row" layout-align="start center">
           <div flex="60">
               <span class="color-title no-wrap fs24 tag text-center">限时抢购</span>
               <div class="color-title fs30 no-wrap title">{{item.title}} <img :src="require('assets/imgs/activity-des/img-03.png')" />  </div>
@@ -41,6 +41,9 @@ export default {
             }, msg=> {
                 console.log('网络错误');
             });
+        },
+        toActivity(item) {
+            location.href = item.promotionAuthUrl;
         }
     },
     mounted() {
