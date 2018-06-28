@@ -9,7 +9,7 @@
         </div>
         <div class="wheel-con">
             <div class="big-wheel-cavans" layout="row" layout-align="center center">
-                <canvas id="cavans" height="281" width="281">
+                <canvas id="cavans" height="281" width="281" :style="wheelConfig.rotate">
                 您的浏览器不支持cavans画布
             </canvas>
                 <div class="click-dicect" @click="clickRotate">
@@ -41,7 +41,7 @@
 </div>
 </template>
 <script>
-import jq from 'jquery';
+// import jq from 'jquery';
 export default {
     data() {
         return {
@@ -55,11 +55,12 @@ export default {
                 centerX: 280 / 2,
                 centerY: 280 / 2,
                 startRadian: 0, // 起始角
-                during: 4000, // 旋转时间
-                velocity: 10, // 旋转速率
+                during: 3, // 旋转时间
+                times: 1, // 旋转速率
                 spinningTime: 0, // 旋转当前时间
                 spinTotalTime: 0, // 旋转时间总长
-                spinningChange: 0 // 旋转变化峰值
+                spinningChange: 0, // 旋转变化峰值
+                rotate: {}
             },
             awrads: [
                 {
@@ -184,22 +185,16 @@ export default {
         },
         clickRotate() {
             let config = this.wheelConfig;
-            config.spinningTime = 0;                                // 初始化当前时间
-            config.spinTotalTime = Math.random() * 3 + config.duration;    // 随机定义一个时间总量
-            config.spinningChange = Math.random() * 10 + config.velocity;  // 随机顶一个旋转速率
-            this.rotateWheel();
+            config.rotate = {};
+            this.rotateWheel(30);
         },
-        rotateWheel() {
-            // let config = this.wheelConfig;
-            console.log(jq('#cavans'));
-            // let canvas = document.getElementById('cavans');
-            // let ctx = canvas.getContext('2d');
-            // ctx.save();
-            // ctx.translate(config.radius, config.radius);
-            // setInterval(()=> {
-            //     canvas.getContext('2d').rotate(2 * Math.PI);
-            //     console.log(1);
-            // }, 3000);
+        rotateWheel(rotate) {
+            let config = this.wheelConfig;
+            config.rotate = {
+                transform: 'rotate' + '(' + 2 * 360 * config.times + rotate + 'deg' + ')',
+                transition: 'all ease ' + config.during + 's'
+            };
+            config.times++;
         }
     },
     mounted() {
