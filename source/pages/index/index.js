@@ -82,6 +82,11 @@ let routerCheckPartyPath = path => {
 
 router.beforeEach(({ meta, path }, from, next) => {
     if (routerCheckPath(path) || store.getters.isLogin) {
+        // 百度统计
+        try {
+            window._hmt.push(['_trackPageview', '/#' + path]);
+        } catch (e) {
+        }
         next();
     } else if (routerCheckPartyPath(path) || store.state.party) {
         next();
@@ -91,7 +96,6 @@ router.beforeEach(({ meta, path }, from, next) => {
         } else {
             window.location.href = '/userinfo.html#/user_login';
         }
-
     }
 });
 
