@@ -1,6 +1,12 @@
 <template>
-    <div class="big-wheel">
-        <div class="big-wheel-cavans">
+<div class="big-wheel">
+    <div class="biwheel-top">
+        <div class="top-title">             
+        </div>
+        <div class="chance">
+            <m-icon xlink=""></m-icon>10个美豆豆可抽奖一次，今日还剩<span class="color-chance">{{chance}}</span>次机会
+        </div>
+        <div class="big-wheel-cavans" layout="row" layout-align="center center">
             <canvas id="cavans" height="301" width="301">
                 您的浏览器不支持cavans画布
             </canvas>
@@ -9,6 +15,7 @@
             </div>
         </div>
     </div>
+</div>
 </template>
 <script>
 export default {
@@ -55,7 +62,8 @@ export default {
                     name: '6等奖',
                     color: 'black'
                 }
-            ]
+            ],
+            chance: 1
         };
     },
     methods: {
@@ -75,11 +83,11 @@ export default {
 
                 // 使用非零环绕原则，绘制圆盘
                 ctx.save();
-                ctx.strokeStyle = '#BEB0FF';
+                ctx.fillStyle = '#fff';
                 ctx.beginPath();
                 ctx.arc(canvas.width / 2, canvas.height / 2, config.radius, _startRadian, _endRadian, false);
                 ctx.arc(canvas.width / 2, canvas.height / 2, config.inCircleRadius, _endRadian, _startRadian, true);
-                ctx.stroke();
+                ctx.fill();
                 ctx.restore();
                 // 绘制外圈文字
                 ctx.save();
@@ -138,9 +146,34 @@ export default {
 </script>
 <style lang="less" scoped>
 .big-wheel{
-    .big-wheel-cavans{
-        padding: 20px;
+    .color-chance{
+        color: #DC888A;
+    }
+    .biwheel-top{
+        background: url('~assets/imgs/integral-mall/big-wheel-bg-base.jpg') no-repeat center;background-size: 100% 100%;
         position: relative;
+        padding-top: 180px;
+        .top-title{
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            z-index: 1;
+            background: url('~assets/imgs/integral-mall/big-wheel-top-bg.png') no-repeat top center;background-size: 100% auto;
+        }
+        .chance{
+
+        }
+    }
+    .big-wheel-cavans{
+        // padding: 20px;
+        position: relative;
+        height: 360px;
+        width: 360px;
+        z-index: 2;
+        margin: 0 auto;
+        animation: big-wheel infinite .6s;
         #cavans{
             display: block;
             margin: 0 auto;
@@ -159,6 +192,11 @@ export default {
         }
     }
 
+}
+
+@keyframes big-wheel {
+    from {background: url('~assets/imgs/integral-mall/big-wheel-bg1.png') no-repeat center;background-size: 100% 100%;}
+    to {background: url('~assets/imgs/integral-mall/big-wheel-bg2.png') no-repeat center;background-size: 100% 100%;}
 }
 </style>
 
