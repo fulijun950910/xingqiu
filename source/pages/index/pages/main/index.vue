@@ -185,7 +185,7 @@
                 this.$router.push({name: 'alliance'});
             },
             goMbh() {
-                window.location.href = '/service/shop.html#/leader';
+                window.location.href = this.$rootPath + 'shop.html#/leader';
             },
             async goWxbus() {
                 await this.checkUser();
