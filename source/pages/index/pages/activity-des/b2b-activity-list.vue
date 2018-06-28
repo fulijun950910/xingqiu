@@ -1,7 +1,7 @@
 <template>
-<div class="b2b-activity-list">
+<div class="b2b-activity-list" v-title="'美业新渠道'">
     <div class="activity-list">
-        <div class="activity-box" v-for="(item, index) in dataList" :key="index" layout="row" layout-align="start center">
+        <div class="activity-box" @click="toActivity(item)" v-for="(item, index) in dataList" :key="index" layout="row" layout-align="start center">
           <div flex="60">
               <span class="color-title no-wrap fs24 tag text-center">限时抢购</span>
               <div class="color-title fs30 no-wrap title">{{item.title}} <img :src="require('assets/imgs/activity-des/img-03.png')" />  </div>
@@ -41,6 +41,9 @@ export default {
             }, msg=> {
                 console.log('网络错误');
             });
+        },
+        toActivity(item) {
+            location.href = item.promotionAuthUrl;
         }
     },
     mounted() {
@@ -52,19 +55,19 @@ export default {
 <style lang="less" scoped>
 @import '~styles/_style';
 .color-title{
-    color: #FFF8D6FF;
+    color: #F8D6FF;
 };
 .color-des{
-    color: #FFDDD4FF;
+    color: #DDD4FF;
 }
 
 .b2b-activity-list{
     background: #120934;
     height: 100%;
-    padding: 20px;
+    padding: 10px;
     overflow-y: scroll;
     .activity-box{
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         background: #7051E7;
         padding: 14px 10px;
         border-radius: 4px;
