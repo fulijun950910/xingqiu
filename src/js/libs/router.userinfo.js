@@ -18,6 +18,11 @@ function init() {
     //     $('.userInfo').find('.password').attr('type', 'password');
     // });
 };
+function showPersonLogin(){
+    if (!keyGetValue('openid')) {
+        $('#personLogin').hide();
+    }
+}
 $(function() {
 
     var routerUser = new Router({
@@ -74,6 +79,7 @@ $(function() {
         },
         bind: function() {
             app.tools.changeTitle('商户登录');
+            showPersonLogin();
             init();
             app.userinfo.initEvent();
             //缓存及cookie清理
