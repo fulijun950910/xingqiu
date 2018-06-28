@@ -98,7 +98,7 @@ app.userinfo = {
     },
     getEmployee: function() {
         return new Promise(function(resolve, reject) {
-            if (localStorage.employee && localStorage.employee != 'null' && localStorage.employee.id) {
+            if (localStorage.employee && localStorage.employee != 'null' && JSON.parse(localStorage.employee).id) {
                 resolve(JSON.parse(localStorage.employee));
             } else {
                 app.api.userinfo.getEmployeeInfo({

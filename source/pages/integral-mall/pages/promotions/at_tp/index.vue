@@ -258,6 +258,12 @@
                         json.at_tp.imgUrl = this.data.groupRule.titleImages[0];
                         window.sessionStorage.promotionsData = JSON.stringify(json);
                         this.$store.commit('UPDATE_PROMOTION');
+                        //
+                        let employeeData = window.localStorage.employee || '{}';
+                        employeeData = JSON.parse(employeeData);
+                        employeeData.openId = json.at_tp.openid;
+                        window.localStorage.employee = JSON.stringify(employeeData);
+                        this.$store.commit('UPDATE_LOCAL');
                         // 规则分组
                         result.data.groupInfo = {};
                         // 活动规则
@@ -353,7 +359,7 @@
                 var deferred = Q.defer();
                 if (!this.$store.state || !this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
                     if (this.$isDev) {
-                        window.location.href = this.$signLocation;
+                        window.location.href = this.$getSignLocation(`?openid=${this.$store.state.user.openId}`);
                     } else {
                         window.location.href = '/userinfo.html?type=2#/user_login';
                     }

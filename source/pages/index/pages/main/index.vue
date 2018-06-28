@@ -177,7 +177,7 @@
                 return deferred.promise;
             },
             checkParty() {
-                if (this.$store.state.user && (!this.$store.state.user.id) && (this.$store.state.party && this.$store.state.party.partyId)) {
+                if (this.$store.getters.isPersonLogin) {
                     this.$toast('抱歉，个人用户，无权限进入');
                     return true;
                 }
