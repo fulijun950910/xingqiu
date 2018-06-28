@@ -2,7 +2,7 @@
     <div class="personal-container" v-title="'我的星球'">
         <div class="top-detail" layout="column" layout-align="space-between center" flex>
             <div v-if="$store.getters.isPersonLogin" class="person-describtion" layout="row" layout-align="space-between center" flex>
-                                <div>
+                <div>
                     <div class="fs34 color-white font-60">Hi,{{dataModelPerson.nickName}}</div>
                 </div>
                 <div class="m-r-2">
@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div v-else class="person-describtion" layout="row" layout-align="space-between center" flex>
-                                <div>
+                <div>
                     <div class="fs34 color-white font-60">Hi,{{dataModel.name}}</div>
                 </div>
                 <div class="m-r-2">
@@ -22,7 +22,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bottom-detail" layout="row" layout-align="start center" flex>
+            <div v-if="!$store.getters.isPersonLogin"  class="bottom-detail" layout="row" layout-align="start center" flex>
                 <div flex="70" layout="column">
                     <div  class="color-white fs30 doudou">
                         <span class="color-white">{{data.doudouBalance}}</span> 美豆豆
@@ -41,7 +41,7 @@
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-shenfen"></m-icon>登入账号身份</span>
                 <span class="color-gray">{{party.userType | userType}}</span>
             </div>
-            <div layout="row" class="item" layout-align="space-between center" @click="routeTo(3)">
+            <div v-if="!$store.getters.isPersonLogin" layout="row" class="item" layout-align="space-between center" @click="routeTo(3)">
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-wodedingdan"></m-icon>我的订单</span>
                 <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
@@ -49,7 +49,7 @@
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-navicon-cgdh"></m-icon>我的采购单</span>
                 <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
-            <div layout="row" class="item" layout-align="space-between center" @click="routeTo(8)">
+            <div v-if="!$store.getters.isPersonLogin" layout="row" class="item" layout-align="space-between center" @click="routeTo(8)">
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-jieshao"></m-icon>推荐商户列表</span>
                 <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
@@ -110,10 +110,12 @@
         },
         methods: {
             load() {
-                api_party.doudouAccount(this.employee.party.partyId).then(msg => {
-                    this.data = msg.data;
-                }, msg => {
-                });
+                if (!this.$store.getters.isPersonLogin) {
+                    api_party.doudouAccount(this.employee.party.partyId).then(msg => {
+                        this.data = msg.data;
+                    }, msg => {
+                    });
+                }
             },
             loadEmployeeData() {
                 this.$indicator.open();
@@ -130,15 +132,9 @@
                         this.$store.state.employeeData = this.dataModel;
                     });
                 }
-
-                api_party.getAccount(this.$store.state.party.partyId).then(res => {
-                    this.blanceTotal = res.data.doudouBalance;
-                });
-
             },
             async changeAvatar(data) {
                 let resData = await api_file.uploadImage(data);
-                console.log(resData);
                 let empData = {
                     id: this.dataModel.id,
                     userId: this.dataModel.userId,

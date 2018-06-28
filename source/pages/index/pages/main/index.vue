@@ -207,6 +207,9 @@
                 this.$toast('开发中，敬请期待');
             },
             async goCheckIn() {
+                if (this.checkParty()) {
+                    return;
+                }
                 await this.checkUser();
                 this.$router.push({name: 'checkIn'});
             },
