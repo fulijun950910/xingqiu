@@ -12,7 +12,7 @@ Vue.prototype.$wxc_url = process.env.NODE_ENV === 'production' ? 'https://wechat
 Vue.prototype.$rootPath = process.env.NODE_ENV === 'development' ? '/' : '/service/';
 Vue.prototype.$getSignLocation = (search) => {
     console.log(search);
-    let ref = '/userinfo.html' + search + '#/user_login';
+    let ref = process.env.NODE_ENV === 'development' ? search + '#/sign-in' : '/userinfo.html' + search + '#/user_login';
     return ref;
 };
 
