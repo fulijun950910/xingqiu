@@ -32,11 +32,9 @@ export default function(url, method, data, messageFlag = true) {
         }
     }, function(error) {
         Vue.prototype.$indicator.close();
-        console.log(error.status);
-        console.log(process.env.NODE_ENV === 'development');
         switch (error.status) {
             case 401:
-                window.location.href =  Vue.prototype.$getSignLocation(window.location.search);
+                window.location.href = Vue.prototype.$getSignLocation(window.location.search);
                 break;
             case 403:
                 break;
