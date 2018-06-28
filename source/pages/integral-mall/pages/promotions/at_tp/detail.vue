@@ -326,7 +326,7 @@
                     if (this.$isDev) {
                         window.location.href = this.$getSignLocation(`?openid=${this.$store.state.user.openId}`);
                     } else {
-                        window.location.href = '/userinfo.html?type=2#/user_login';
+                        window.location.href = '/userinfo.html?type=2&openid=${this.$store.state.user.openId}#/user_login';
                     }
                 }
                 deferred.resolve(true);
