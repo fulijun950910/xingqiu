@@ -63,24 +63,26 @@ const router = new VueRouter({
 //     let reg = /(^\/sign-in)|(^\/main)|(^\/bbsPage)|(^\/alliance)|(^\/booking)/;
 //     return reg.test(path);
 // };
+router.beforeEach(({ meta, path }, from, next) => {
+    // if (routerCheckPath(path) || store.getters.isLogin) {
+    //      // 百度统计
+    //     try {
+    //         window._hmt.push(['_trackPageview', '/#' + path]);
+    //     } catch (e) {
+    //     };
+    //     next();
+    // } else {
+    //     if (process.env.NODE_ENV === 'development') {
+    //         next({ name: 'sign-in' });
+    //     } else {
+    //         window.location.href = '/userinfo.html#/user_login';
+    //     }
 
-// router.beforeEach(({ meta, path }, from, next) => {
-//     if (routerCheckPath(path) || store.getters.isLogin) {
-//          // 百度统计
-//         try {
-//             window._hmt.push(['_trackPageview', '/#' + path]);
-//         } catch (e) {
-//         };
-//         next();
-//     } else {
-//         if (process.env.NODE_ENV === 'development') {
-//             next({ name: 'sign-in' });
-//         } else {
-//             window.location.href = '/userinfo.html#/user_login';
-//         }
-
-//     }
-// });
+    // }
+    if (path) {
+        next();
+    }
+});
 
 new Vue({
     router,
