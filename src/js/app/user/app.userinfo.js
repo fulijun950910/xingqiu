@@ -913,7 +913,11 @@ app.userinfo = {
                                     },
                                     success: function(res) {
                                         if (res.success) {
-                                            location.href = '/service/index.html#/main'
+                                            if (keyGetValue('type') == 2) {
+                                                window.history.back();
+                                            } else{
+                                                location.href = '/service/index.html#/main'
+                                            }
                                         } else {
                                             app.userinfo.alertError(result.message);
                                             return;
