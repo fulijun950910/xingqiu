@@ -75,6 +75,10 @@ let routerCheckPath = path => {
     let reg = /(^\/sign-in)|(^\/main)|(^\/bbsPage)|(^\/alliance)|(^\/booking)|(^\/bigWheel-des)|(^\/index-activity-detail)/;
     return reg.test(path);
 };
+let routerCheckPartyPath = path => {
+    let reg = /(^\/checkIn)/;
+    return reg.test(path);
+};
 
 router.beforeEach(({ meta, path }, from, next) => {
     if (routerCheckPath(path) || store.getters.isLogin) {
@@ -83,6 +87,8 @@ router.beforeEach(({ meta, path }, from, next) => {
             window._hmt.push(['_trackPageview', '/#' + path]);
         } catch (e) {
         }
+        next();
+    } else if (routerCheckPartyPath(path) || store.state.party) {
         next();
     } else {
         if (process.env.NODE_ENV === 'development') {

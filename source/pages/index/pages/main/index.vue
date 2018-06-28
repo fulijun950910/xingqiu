@@ -149,20 +149,12 @@
             },
             async checkUser() {
                 var deferred = Q.defer();
-                let saveOpenId = () => {
-                    // 存储openid
-                    let employeeData = window.localStorage.employee;
-                    employeeData = JSON.parse(employeeData);
-                    employeeData.openId = this.$knife.keyGetValue(window.location.search, 'openid');
-                    window.localStorage.employee = JSON.stringify(employeeData);
-                    this.$store.commit('UPDATE_LOCAL');
-                };
-                if (!this.$store.state || !this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
+                if ((!this.$store.state || !this.$store.state.user || !this.$store.state.user.id) && (!this.$store.state.party || !this.$store.state.party.partyId)) {
                     let res = await api_signIn.getEmployeeInfo();
                     if (res.success && res.data) {
                         let a = await reLogin.select(JSON.stringify(res.data));
                         if (a) {
-                            saveOpenId();
+                            this.$store.commit('UPDATE_LOCAL');
                             deferred.resolve(a);
                         } else {
                             window.location.href = this.$getSignLocation(window.location.search);
@@ -171,10 +163,15 @@
                         deferred.resolve(true);
                     }
                 } else {
-                    saveOpenId();
                     deferred.resolve(true);
                 }
                 return deferred.promise;
+            },
+            checkParty() {
+                if (this.$store.getters.isPersonLogin) {
+                    this.$toast('抱歉，个人用户，无权限进入');
+                    return true;
+                }
             },
             goBbs(url) {
                 window.location.href = url;
@@ -196,6 +193,9 @@
                 window.location.href = '/service/shop.html#/leader';
             },
             async goWxbus() {
+                if (this.checkParty()) {
+                    return;
+                }
                 await this.checkUser();
                 if (this.$store.state.user.merchant && (this.$store.state.user.merchant.functionVersion == 4 || this.$store.state.user.merchant.functionVersion == 5)) {
                     window.location.href = '/lite/index.html';
@@ -207,6 +207,9 @@
                 this.$toast('开发中，敬请期待');
             },
             async goCheckIn() {
+                if (this.checkParty()) {
+                    return;
+                }
                 await this.checkUser();
                 this.$router.push({name: 'checkIn'});
             },

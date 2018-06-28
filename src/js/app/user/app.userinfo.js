@@ -98,7 +98,7 @@ app.userinfo = {
     },
     getEmployee: function() {
         return new Promise(function(resolve, reject) {
-            if (localStorage.employee && localStorage.employee != 'null' && localStorage.employee.id) {
+            if (localStorage.employee && localStorage.employee != 'null' && JSON.parse(localStorage.employee).id) {
                 resolve(JSON.parse(localStorage.employee));
             } else {
                 app.api.userinfo.getEmployeeInfo({
@@ -551,6 +551,8 @@ app.userinfo = {
                 data: data,
                 success: function() {
                     window.localStorage.clear();
+                    document.cookie = 'rememberMe=';
+                    document.cookie = 'remeberMeRunAsRole=';
                     location.href = "/userinfo.html#/user_login";
                 },
                 error: function(a, b, c) {
@@ -898,6 +900,7 @@ app.userinfo = {
                         success: function(res) {
                             if (res.success && res.data) {
                                 var employeeData = {
+                                    openId: keyGetValue('openid'),
                                     party: res.data
                                 };
                                 window.localStorage.employee = JSON.stringify(employeeData);

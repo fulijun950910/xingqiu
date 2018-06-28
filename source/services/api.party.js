@@ -193,7 +193,17 @@ export default {
     },
     api_b2bAcyivities(parameter) {
         // 活动列表
-        let url = 'api/b2bPromotionMobile/list';
+        let url = '/api/b2bPromotionMobile/list';
         return request(url, 'post', parameter);
+    },
+    getB2BUserByOpenid(openid) {
+        // 获取用户信息b2b
+        let url = `/api/b2bUser/getB2BUserByOpenid/${openid}`;
+        return request(url, 'get');
+    },
+    pensonSignOut() {
+        // 获取用户信息b2b
+        let url = '/api/auth';
+        return request(url, 'DELETE');
     }
 };
