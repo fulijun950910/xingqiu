@@ -10,6 +10,10 @@ Vue.prototype.$messageBox = MessageBox;
 Vue.prototype.$signLocation = process.env.NODE_ENV === 'development' ? '#/sign-in' : '/userinfo.html#/user_login';
 Vue.prototype.$wxc_url = process.env.NODE_ENV === 'production' ? 'https://wechat.mei1.com' : 'https://wechat.mei1.info';
 Vue.prototype.$rootPath = process.env.NODE_ENV === 'development' ? '/' : '/service/';
+Vue.prototype.$getSignLocation = (search) => {
+    let ref = process.env.NODE_ENV === 'development' ? search + '#/sign-in' : '/userinfo.html' + search + '#/user_login';
+    return ref;
+};
 
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
@@ -71,6 +75,10 @@ let routerCheckPath = path => {
     let reg = /(^\/sign-in)|(^\/main)|(^\/bbsPage)|(^\/alliance)|(^\/booking)|(^\/bigWheel-des)|(^\/index-activity-detail)|(^\/b2b-activity-list)/;
     return reg.test(path);
 };
+let routerCheckPartyPath = path => {
+    let reg = /(^\/checkIn)/;
+    return reg.test(path);
+};
 
 router.beforeEach(({ meta, path }, from, next) => {
     if (routerCheckPath(path) || store.getters.isLogin) {
@@ -79,6 +87,8 @@ router.beforeEach(({ meta, path }, from, next) => {
             window._hmt.push(['_trackPageview', '/#' + path]);
         } catch (e) {
         }
+        next();
+    } else if (routerCheckPartyPath(path) || store.state.party) {
         next();
     } else {
         if (process.env.NODE_ENV === 'development') {

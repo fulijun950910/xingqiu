@@ -4,6 +4,7 @@ export default {
     storeId: state => state.store.id,
     storeName: state => state.store.name,
     isLogin: state => Boolean(state.user.id),
+    isPersonLogin: state => Boolean(!state.user.id && state.party && state.party.partyId),
     storeIds: state => {
         var storeIds = [];
         for (var i = 0, len = state.storeList.length; i < len; i++) {

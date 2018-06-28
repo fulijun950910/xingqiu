@@ -1,0 +1,338 @@
+<template>
+<div class="big-wheel">
+    <div class="biwheel-top">
+        <div class="top-title">
+        </div>
+        <div class="chance fs24 color-white text-center fwb" layout="row" layout-align="center center">
+            <m-icon xlink="#icon-laba" class="fs38"></m-icon>10个美豆豆可抽奖一次，今日还剩<span class="color-chance">{{chance}}</span>次机会
+        </div>
+        </div>
+        <div class="wheel-con">
+            <div class="big-wheel-cavans" layout="row" layout-align="center center">
+                <canvas id="cavans" height="281" width="281">
+                您的浏览器不支持cavans画布
+            </canvas>
+                <div class="click-dicect" @click="clickRotate">
+                    <img :src="require('assets/imgs/integral-mall/wheel-direct.png')" alt="">
+                </div>
+            </div>
+            <div class="wheel-bottom text-center">
+                <img class="stands" :src="require('assets/imgs/integral-mall/wheel-bottom.png')" alt="">
+            </div>
+        </div>
+        <div class="wheel-gift">
+            <div class="gift-title" layout="row" layout-align="center center">
+                <img :src="require('assets/imgs/integral-mall/title-left.png')" alt="">
+                <span class="fs36">我的奖品</span>
+                <img :src="require('assets/imgs/integral-mall/title-right.png')" alt="">
+            </div>
+            <div class="wheel-list">
+                <div class="whell-list-box" v-for="(item, index) in dataList" :key="index" layout="row" layout-align="space-between center">
+                       <div>
+                           <p class="fs28 color-white">{{item.name}}<span></span></p>
+                           <p class="color-fe fs24">{{item.time}}</p>
+                       </div>
+                       <div>
+                           <a class="color-white fs28 to-use text-center" layout="row" layout-align="center center">去使用</a>
+                       </div>
+                </div>
+            </div>
+        </div>
+</div>
+</template>
+<script>
+import jq from 'jquery';
+export default {
+    data() {
+        return {
+            cavans: null,
+            wheelConfig: {
+                radius: 140, // 转盘半径
+                inCircleRadius: 0, // 用于非零环绕原则的内圆半径
+                textRadius: 100, // 外圈文字半径
+                subTextRedius: 70, // 内圈文字半径
+                imgRedius: 50,
+                centerX: 280 / 2,
+                centerY: 280 / 2,
+                startRadian: 0, // 起始角
+                during: 4000, // 旋转时间
+                velocity: 10, // 旋转速率
+                spinningTime: 0, // 旋转当前时间
+                spinTotalTime: 0, // 旋转时间总长
+                spinningChange: 0 // 旋转变化峰值
+            },
+            awrads: [
+                {
+                    name: '1等奖',
+                    color: 'red'
+                },
+                {
+                    name: '2等奖',
+                    color: 'yellow'
+                },
+                {
+                    name: '3等奖',
+                    color: 'green'
+                },
+                {
+                    name: '4等奖',
+                    color: 'black'
+                },
+                {
+                    name: '5等奖',
+                    color: 'black'
+                },
+                {
+                    name: '6等奖',
+                    color: 'black'
+                }
+            ],
+            chance: 1,
+            dataList: [
+                {
+                    name: '礼物1',
+                    time: this.$moment().format('YYYY-MM-DD')
+                },
+                {
+                    name: '礼物1',
+                    time: this.$moment().format('YYYY-MM-DD')
+                },
+                {
+                    name: '礼物1',
+                    time: this.$moment().format('YYYY-MM-DD')
+                },
+                {
+                    name: '礼物1',
+                    time: this.$moment().format('YYYY-MM-DD')
+                },
+                {
+                    name: '礼物1',
+                    time: this.$moment().format('YYYY-MM-DD')
+                }
+            ]
+        };
+    },
+    methods: {
+        drawCircle() {
+            let canvas = document.getElementById('cavans');
+            this.cavans = canvas;
+            let config = this.wheelConfig;
+            if (!canvas.getContext) {
+                return;
+            };
+            let ctx = canvas.getContext('2d'); // 初始化画布
+            let awards = this.awrads;
+            let awardRadian = (Math.PI * 2) / awards.length; // 奖品均分角度
+            for (let i = 0; i < awards.length; i++) {
+                let _startRadian = config.startRadian + awardRadian * i;  // 每一个奖项所占的起始弧度
+                let _endRadian = _startRadian + awardRadian;     // 每一个奖项的终止弧度
+
+                // 使用非零环绕原则，绘制圆盘
+                ctx.save();
+                ctx.fillStyle = '#fff';
+                ctx.beginPath();
+                ctx.arc(config.radius, config.radius, config.radius, _startRadian, _endRadian, false);
+                ctx.arc(config.radius, config.radius, config.inCircleRadius, _endRadian, _startRadian, true);
+                ctx.fill();
+                ctx.restore();
+                // 绘制外圈文字
+                ctx.save();
+                ctx.font = '16px Helvetica, Arial';
+                ctx.fillStyle = '#B5ACDB';
+                ctx.translate(
+                    config.centerX + Math.cos(_startRadian + awardRadian / 2) * config.textRadius,
+                    config.centerY + Math.sin(_startRadian + awardRadian / 2) * config.textRadius
+                );
+                ctx.rotate(_startRadian + awardRadian / 2 + Math.PI / 2);
+                ctx.fillText(awards[i].name, -ctx.measureText(awards[i].name).width / 2, 0);
+                ctx.restore();
+
+                // 绘制内圈文字
+                ctx.save();
+                ctx.font = '12px Helvetica, Arial';
+                ctx.fillStyle = '#B5ACDB';
+                ctx.translate(
+                    config.centerX + Math.cos(_startRadian + awardRadian / 2) * config.subTextRedius,
+                    config.centerY + Math.sin(_startRadian + awardRadian / 2) * config.subTextRedius
+                );
+                ctx.rotate(_startRadian + awardRadian / 2 + Math.PI / 2);
+                ctx.fillText(awards[i].name, -ctx.measureText(awards[i].name).width / 2, 0);
+                ctx.restore();
+
+                // 绘制图片
+                ctx.save();
+                ctx.font = '12px Helvetica, Arial';
+                ctx.fillStyle = '#B5ACDB';
+                ctx.translate(
+                    config.centerX + Math.cos(_startRadian + awardRadian / 2) * config.imgRedius,
+                    config.centerY + Math.sin(_startRadian + awardRadian / 2) * config.imgRedius
+                );
+                ctx.rotate(_startRadian + awardRadian / 2 + Math.PI / 2);
+                let img = new Image();
+                img.src = require('assets/imgs/integral-mall/vocher.png');
+                ctx.drawImage(img, -ctx.measureText(awards[i].name).width / 2, 0, 30, 30);
+                ctx.restore();
+            };
+            // 绘制指针
+            // ctx.save();
+            // ctx.translate(150, 150);
+            // let img = new Image();
+            // img.src = require('assets/imgs/integral-mall/wheel-direct.png');
+            // ctx.drawImage(img, 0, 0, 100, 100);
+            // ctx.restore();
+
+        },
+        clickRotate() {
+            let config = this.wheelConfig;
+            config.spinningTime = 0;                                // 初始化当前时间
+            config.spinTotalTime = Math.random() * 3 + config.duration;    // 随机定义一个时间总量
+            config.spinningChange = Math.random() * 10 + config.velocity;  // 随机顶一个旋转速率
+            this.rotateWheel();
+        },
+        rotateWheel() {
+            // let config = this.wheelConfig;
+            console.log(jq('#cavans'));
+            // let canvas = document.getElementById('cavans');
+            // let ctx = canvas.getContext('2d');
+            // ctx.save();
+            // ctx.translate(config.radius, config.radius);
+            // setInterval(()=> {
+            //     canvas.getContext('2d').rotate(2 * Math.PI);
+            //     console.log(1);
+            // }, 3000);
+        }
+    },
+    mounted() {
+        this.wheelConfig.spinningTime += 20;
+        this.drawCircle();
+    }
+};
+</script>
+<style lang="less" scoped>
+@import '~styles/_style';
+.big-wheel {
+    .color-chance {
+        color: #DC888A;
+    }
+    .color-fe {
+        color: #FFFEFEFE;
+    }
+    .biwheel-top {
+        position: relative;
+        padding-top: 170px;
+        .top-title {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            z-index: 1;
+            background: url('~assets/imgs/integral-mall/big-wheel-top-bg.png'), url('~assets/imgs/integral-mall/big-wheel-top-bg-base.jpg');
+            background-size: 100% auto;
+        }
+        .chance {
+            position: relative;
+            z-index: 2;
+            width: 256.5px;
+            padding: 5px 0;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, .3);
+            border-radius: 15px;
+            color: #D8CBF1;
+        }
+    }
+    .wheel-con {
+        position: relative;
+        z-index: 2;
+        background: url('~assets/imgs/integral-mall/big-wheel-bg-base.jpg') no-repeat center;
+        background-size: 100% 100%;
+        .big-wheel-cavans {
+            // padding: 20px;
+            position: relative;
+            height: 360px;
+            width: 360px;
+            z-index: 2;
+            margin: 0 auto;
+            background-size: 92% 92%;
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: big-wheel infinite .6s;
+            #cavans {
+                display: block;
+                margin: 0 auto;
+                position: relative;
+                z-index: 1;
+            }
+            .click-dicect {
+                position: absolute;
+                z-index: 2;
+                left: 50%;
+                margin-left: -50px;
+                height: 100px;
+                width: 100px;
+                top: 50%;
+                margin-top: -100px;
+            }
+        }
+        .wheel-bottom {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            margin-top: -80px;
+            overflow: hidden;
+            .stands {
+                height: 120px;
+                width: auto;
+                margin-right: -15%;
+            }
+            .gift {
+                position: absolute;
+                width: 50px;
+                left: 0;
+            }
+        }
+    }
+    .wheel-gift {
+        background: url('~assets/imgs/integral-mall/gift-list-bg.jpg') no-repeat center;
+        padding: 0 15px;
+        .gift-title {
+            span {
+                margin: 0 15px;
+                background: linear-gradient(to bottom, #E0C25B, #CA6841);
+                -webkit-background-clip: text;
+                color: transparent;
+            }
+            img {
+                width: 15px;
+                height: auto;
+            }
+        }
+        .whell-list-box {
+            padding: 20px 0;
+            .to-use {
+                display: block;
+                width: 60px;
+                height: 34px;
+                background: #F84071;
+                line-height: 34px;
+            }
+            .disabled {
+                background: #FF57499B;
+                color: #6557B2;
+            }
+        }
+    }
+}
+
+@keyframes big-wheel {
+    from {
+        background: url('~assets/imgs/integral-mall/big-wheel-bg1.png') no-repeat center;
+        background-size: 92% 92%;
+    }
+    to {
+        background: url('~assets/imgs/integral-mall/big-wheel-bg2.png') no-repeat center;
+        background-size: 92% 92%;
+    }
+}
+</style>
+

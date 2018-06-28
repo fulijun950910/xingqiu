@@ -63,7 +63,6 @@ const router = new VueRouter({
 //     let reg = /(^\/sign-in)|(^\/main)|(^\/bbsPage)|(^\/alliance)|(^\/booking)/;
 //     return reg.test(path);
 // };
-
 router.beforeEach(({ meta, path }, from, next) => {
     // if (routerCheckPath(path) || store.getters.isLogin) {
     //      // 百度统计

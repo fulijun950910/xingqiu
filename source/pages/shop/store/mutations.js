@@ -33,9 +33,11 @@ var getLocalInfo = () => {
         data.party = employee.party;
         data.merchant = employee.merchant;
         data.storeList = employee.storeList;
-        data.storeList.forEach((item) => {
-            item.value = item.id;
-        });
+        if (data.storeList) {
+            data.storeList.forEach((item) => {
+                item.value = item.id;
+            });
+        }
         data.organization = employee.organization;
         data.merchantRole = employee.merchantRole;
         data.skills = employee.skills;
@@ -44,7 +46,7 @@ var getLocalInfo = () => {
             if (!employee.storeList.length) {
                 employee.storeList.push(employee.store);
             }
-        } else if (employee.storeList.length) {
+        } else if (employee.storeList && employee.storeList.length) {
             data.store = employee.storeList[0];
         }
     }

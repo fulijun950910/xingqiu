@@ -12,9 +12,9 @@
             <div class="mt5 fs24 color-gray">{{data.description}}</div>
             <div class="color-gray m-t-3" layout="row" layout-align="space-between center">
                 <div layout="row" layout-align="start end">
-                    <span class="color-primary fs32">￥{{ data.originPrice | fen2yuan }}</span>
+                    <span class="color-primary fs32">￥{{ groupData.sellingPrice | fen2yuan }}</span>
                     <span class="fs32">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                    <s class="fs24">￥{{ data.originPrice | fen2yuan }}</s>
+                    <s class="fs24">￥{{ groupData.originalPrice | fen2yuan }}</s>
                     <span class="btn-count fs24 m-l-2">{{groupData.groupLevel}}人团</span>
                 </div>
                 <div class="">团号：{{groupData.groupNo}}</div>
@@ -246,6 +246,12 @@
                         json.at_tp.imgUrl = this.data.groupRule.titleImages[0];
                         window.sessionStorage.promotionsData = JSON.stringify(json);
                         this.$store.commit('UPDATE_PROMOTION');
+                        //
+                        let employeeData = window.localStorage.employee || '{}';
+                        employeeData = JSON.parse(employeeData);
+                        employeeData.openId = json.at_tp.openid;
+                        window.localStorage.employee = JSON.stringify(employeeData);
+                        this.$store.commit('UPDATE_LOCAL');
                         // 规则分组
                         result.data.groupInfo = {};
                         // 活动规则
@@ -318,9 +324,9 @@
                 var deferred = Q.defer();
                 if (!this.$store.state || !this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
                     if (this.$isDev) {
-                        window.location.href = this.$signLocation;
+                        window.location.href = this.$getSignLocation(`?openid=${this.$store.state.user.openId}`);
                     } else {
-                        window.location.href = '/userinfo.html?type=2#/user_login';
+                        window.location.href = '/userinfo.html?type=2&openid=${this.$store.state.user.openId}#/user_login';
                     }
                 }
                 deferred.resolve(true);

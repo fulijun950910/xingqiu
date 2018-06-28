@@ -130,12 +130,24 @@
                 this.$router.push('/recharge-doudou');
                 // window.location.href = this.$rootPath + 'index.html#/recharge';
             },
+            checkParty() {
+                if (this.$store.getters.isPersonLogin) {
+                    this.$toast('抱歉，个人用户，无权限进入');
+                    return true;
+                }
+            },
             linkTo(type) {
                 switch (Number(type)) {
                     case 1:
+                        if (this.checkParty()) {
+                            return;
+                        }
                         this.$router.push('/recharge-message');
                         break;
                     case 2:
+                        if (this.checkParty()) {
+                            return;
+                        }
                         this.$router.push('/activity-list');
                         break;
                     case 3:

@@ -149,16 +149,15 @@
             },
             async checkUser() {
                 var deferred = Q.defer();
-                if (!this.$store.state || !this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
+                if ((!this.$store.state || !this.$store.state.user || !this.$store.state.user.id) && (!this.$store.state.party || !this.$store.state.party.partyId)) {
                     let res = await api_signIn.getEmployeeInfo();
                     if (res.success && res.data) {
                         let a = await reLogin.select(JSON.stringify(res.data));
                         if (a) {
-                            console.log('a' + a);
                             this.$store.commit('UPDATE_LOCAL');
                             deferred.resolve(a);
                         } else {
-                            window.location.href = this.$signLocation;
+                            window.location.href = this.$getSignLocation(window.location.search);
                         }
                     } else {
                         deferred.resolve(true);
@@ -167,6 +166,12 @@
                     deferred.resolve(true);
                 }
                 return deferred.promise;
+            },
+            checkParty() {
+                if (this.$store.getters.isPersonLogin) {
+                    this.$toast('抱歉，个人用户，无权限进入');
+                    return true;
+                }
             },
             goBbs(url) {
                 window.location.href = url;
@@ -188,6 +193,9 @@
                 window.location.href = this.$rootPath + 'shop.html#/leader';
             },
             async goWxbus() {
+                if (this.checkParty()) {
+                    return;
+                }
                 await this.checkUser();
                 if (this.$store.state.user.merchant && (this.$store.state.user.merchant.functionVersion == 4 || this.$store.state.user.merchant.functionVersion == 5)) {
                     window.location.href = '/lite/index.html';
@@ -199,6 +207,9 @@
                 this.$toast('开发中，敬请期待');
             },
             async goCheckIn() {
+                if (this.checkParty()) {
+                    return;
+                }
                 await this.checkUser();
                 this.$router.push({name: 'checkIn'});
             },

@@ -51,14 +51,16 @@
                 </div>
                 <!-- 绑定信息 -->
                 <div class="userinfo_bind">
-                    <div class="userinfo_btm">
-                        <a class="clause" href="userinfo.html#/update_pwd">忘记密码？</a>
+                    <div class="userinfo_btm" layout="row" layout-align="space-between center">
+                        <a id="personLogin" class="clause" href="#/person_login">散客登录</a>
+                        <div>&nbsp;</div>
+                        <a class="clause" href="#/update_pwd">忘记密码？</a>
                     </div>
                     <div class="mei_bind"  onclick="app.userinfo.login()"  >
                         <a href="javascript:;" class="login_btn" >登录</a>
                     </div>
-                    <div class="userinfo_btm2" layout="row" layout-align="space-between center">
-                        <a class="clause" href="javascript:app.userinfo.goRegistered()">新商户入驻通道</a>
+                    <div class="userinfo_btm2" layout="row" layout-align="center center">
+                        <!--<a class="clause" href="javascript:app.userinfo.goRegistered()">新商户入驻通道</a>-->
                         <a class="clause" href="javascript:app.userinfo.goMwxq()">随便逛逛</a>
                     </div>
                 </div>

@@ -32,15 +32,9 @@ export default function(url, method, data, messageFlag = true) {
         }
     }, function(error) {
         Vue.prototype.$indicator.close();
-        console.log(error.status);
-        console.log(process.env.NODE_ENV === 'development');
         switch (error.status) {
             case 401:
-                if (process.env.NODE_ENV === 'development') {
-                    window.location.href = '#/sign-in';
-                } else {
-                    window.location.href = '/userinfo.html#/user_login';
-                }
+                window.location.href = Vue.prototype.$getSignLocation(window.location.search);
                 break;
             case 403:
                 break;
