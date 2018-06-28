@@ -54,7 +54,10 @@ window.$Router = router;
 router.beforeEach(({ meta, path }, from, next) => {
     window.scrollTo(0, 0);
     if (path == '/sign-in' || store.getters.isLogin) {
-        window.document.title = meta.title;
+        try {
+            window._hmt.push(['_trackPageview', '/#' + path]);
+        } catch (e) {
+        }
         next();
     } else {
         if (process.env.NODE_ENV === 'development') {
