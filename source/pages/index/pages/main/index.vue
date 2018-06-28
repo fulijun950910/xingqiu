@@ -229,7 +229,7 @@
                 let partyId = '0';
                 if (this.$store.state) {
                     if (this.$store.state.party) {
-                        partyId = this.$store.state.party.partyId;
+                        partyId = this.$store.state.party.id;
                     }
 
                 }
