@@ -11,7 +11,8 @@ Vue.prototype.$signLocation = process.env.NODE_ENV === 'development' ? '#/sign-i
 Vue.prototype.$wxc_url = process.env.NODE_ENV === 'production' ? 'https://wechat.mei1.com' : 'https://wechat.mei1.info';
 Vue.prototype.$rootPath = process.env.NODE_ENV === 'development' ? '/' : '/service/';
 Vue.prototype.$getSignLocation = (search) => {
-    let ref = process.env.NODE_ENV === 'development' ? '#/sign-in' : '/userinfo.html' + search + '#/user_login';
+    console.log(search);
+    let ref = '/userinfo.html' + search + '#/user_login';
     return ref;
 };
 
