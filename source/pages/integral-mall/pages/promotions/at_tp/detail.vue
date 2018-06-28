@@ -12,9 +12,9 @@
             <div class="mt5 fs24 color-gray">{{data.description}}</div>
             <div class="color-gray m-t-3" layout="row" layout-align="space-between center">
                 <div layout="row" layout-align="start end">
-                    <span class="color-primary fs32">￥{{ data.sellingPrice | fen2yuan }}</span>
+                    <span class="color-primary fs32">￥{{ groupData.sellingPrice | fen2yuan }}</span>
                     <span class="fs32">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                    <s class="fs24">￥{{ data.originPrice | fen2yuan }}</s>
+                    <s class="fs24">￥{{ groupData.originalPrice | fen2yuan }}</s>
                     <span class="btn-count fs24 m-l-2">{{groupData.groupLevel}}人团</span>
                 </div>
                 <div class="">团号：{{groupData.groupNo}}</div>
