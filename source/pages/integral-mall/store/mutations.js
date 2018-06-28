@@ -4,6 +4,7 @@ var getLocalInfo = () => {
     let employee = null;
     try {
         employee = JSON.parse(localStorage.getItem('employee'));
+        console.log(employee);
     } catch (e) {
         employee = null;
     }

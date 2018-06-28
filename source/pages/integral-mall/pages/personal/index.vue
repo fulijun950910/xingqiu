@@ -1,7 +1,17 @@
 <template>
     <div class="personal-container" v-title="'我的星球'">
         <div class="top-detail" layout="column" layout-align="space-between center" flex>
-            <div class="person-describtion" layout="row" layout-align="space-between center" flex>
+            <div v-if="$store.getters.isPersonLogin" class="person-describtion" layout="row" layout-align="space-between center" flex>
+                                <div>
+                    <div class="fs34 color-white font-60">Hi,{{dataModelPerson.nickName}}</div>
+                </div>
+                <div class="m-r-2">
+                    <div class="img-con">
+                        <img :src="dataModelPerson.avatarFileId | nSrc(require('assets/imgs/female.png'))" alt="">
+                    </div>
+                </div>
+            </div>
+            <div v-else class="person-describtion" layout="row" layout-align="space-between center" flex>
                                 <div>
                     <div class="fs34 color-white font-60">Hi,{{dataModel.name}}</div>
                 </div>
@@ -43,7 +53,7 @@
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-jieshao"></m-icon>推荐商户列表</span>
                 <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
-            <div layout="row" class="item" layout-align="space-between center" @click="routeTo(4)">
+            <div v-if="!$store.getters.isPersonLogin" layout="row" class="item" layout-align="space-between center" @click="routeTo(4)">
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-gerenxinxi"></m-icon>个人信息</span>
                 <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
@@ -55,7 +65,7 @@
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-kefu"></m-icon>客服</span>
                 <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
-            <div layout="row" class="item" layout-align="space-between center" @click="routeTo(7)">
+            <div v-if="!$store.getters.isPersonLogin" layout="row" class="item" layout-align="space-between center" @click="routeTo(7)">
                 <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-11"></m-icon>修改密码</span>
                 <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
@@ -89,6 +99,7 @@
                 data: {},
                 logoImage: {},
                 dataModel: {},
+                dataModelPerson: {},
                 showService: false,
                 party: this.$store.state.party
             };
@@ -106,12 +117,20 @@
             },
             loadEmployeeData() {
                 this.$indicator.open();
-                api_party.getEmployee(this.$store.state.user.id).then(res => {
-                    this.$indicator.close();
-                    this.dataModel = res.data;
-                    this.$store.state.employeeData = this.dataModel;
-                    console.log(this.$store.state);
-                });
+                if (this.$store.getters.isPersonLogin) {
+                    console.log(this.$store.state.user);
+                    api_party.getB2BUserByOpenid(this.$store.state.user.openId).then(res => {
+                        this.$indicator.close();
+                        this.dataModelPerson = res.data;
+                    });
+                } else {
+                    api_party.getEmployee(this.$store.state.user.id).then(res => {
+                        this.$indicator.close();
+                        this.dataModel = res.data;
+                        this.$store.state.employeeData = this.dataModel;
+                    });
+                }
+
                 api_party.getAccount(this.$store.state.party.partyId).then(res => {
                     this.blanceTotal = res.data.doudouBalance;
                 });
@@ -167,16 +186,26 @@
                 };
             },
             signOut() {
-                let data = {
-                    employeeId: this.$store.state.user.id,
-                    userId: this.$store.state.user.userId
-                };
                 this.$indicator.open();
-                api_party.unbind(data).then(res => {
-                    this.$indicator.close();
-                    localStorage.clear();
-                    window.location.href = this.$getSignLocation(`?openid=${this.$store.state.user.openId}`);
-                });
+                if (this.$store.getters.isPersonLogin) {
+                    api_party.pensonSignOut().then(res => {
+                        this.$indicator.close();
+                        localStorage.clear();
+                        document.cookie = 'rememberMe=';
+                        window.location.href = this.$getSignLocation(`?openid=${this.$store.state.user.openId}`);
+                    });
+                } else {
+                    let data = {
+                        employeeId: this.$store.state.user.id,
+                        userId: this.$store.state.user.userId
+                    };
+                    api_party.unbind(data).then(res => {
+                        this.$indicator.close();
+                        localStorage.clear();
+                        document.cookie = 'rememberMe=';
+                        window.location.href = this.$getSignLocation(`?openid=${this.$store.state.user.openId}`);
+                    });
+                }
             }
         },
         mounted() {
