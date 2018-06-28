@@ -78,6 +78,11 @@ let routerCheckPath = path => {
 
 router.beforeEach(({ meta, path }, from, next) => {
     if (routerCheckPath(path) || store.getters.isLogin) {
+        // 百度统计
+        try {
+            window._hmt.push(['_trackPageview', '/#' + path]);
+        } catch (e) {
+        }
         next();
     } else {
         if (process.env.NODE_ENV === 'development') {
@@ -85,7 +90,6 @@ router.beforeEach(({ meta, path }, from, next) => {
         } else {
             window.location.href = '/userinfo.html#/user_login';
         }
-
     }
 });
 
