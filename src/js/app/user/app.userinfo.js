@@ -914,7 +914,7 @@ app.userinfo = {
                                     success: function(res) {
                                         if (res.success) {
                                             if (keyGetValue('type') == 2) {
-                                                window.history.back();
+                                                window.history.go(-2);
                                             } else{
                                                 location.href = '/service/index.html#/main'
                                             }
