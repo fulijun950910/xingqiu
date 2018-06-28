@@ -59,26 +59,29 @@ const router = new VueRouter({
     routes
 });
 
-let routerCheckPath = path => {
-    let reg = /(^\/sign-in)|(^\/main)|(^\/bbsPage)|(^\/alliance)|(^\/booking)/;
-    return reg.test(path);
-};
+// let routerCheckPath = path => {
+//     let reg = /(^\/sign-in)|(^\/main)|(^\/bbsPage)|(^\/alliance)|(^\/booking)/;
+//     return reg.test(path);
+// };
 
 router.beforeEach(({ meta, path }, from, next) => {
-    if (routerCheckPath(path) || store.getters.isLogin) {
-         // 百度统计
-        try {
-            window._hmt.push(['_trackPageview', '/#' + path]);
-        } catch (e) {
-        };
-        next();
-    } else {
-        if (process.env.NODE_ENV === 'development') {
-            next({ name: 'sign-in' });
-        } else {
-            window.location.href = '/userinfo.html#/user_login';
-        }
+    // if (routerCheckPath(path) || store.getters.isLogin) {
+    //      // 百度统计
+    //     try {
+    //         window._hmt.push(['_trackPageview', '/#' + path]);
+    //     } catch (e) {
+    //     };
+    //     next();
+    // } else {
+    //     if (process.env.NODE_ENV === 'development') {
+    //         next({ name: 'sign-in' });
+    //     } else {
+    //         window.location.href = '/userinfo.html#/user_login';
+    //     }
 
+    // }
+    if (path) {
+        next();
     }
 });
 
