@@ -175,7 +175,7 @@
                 api_party.unbind(data).then(res => {
                     this.$indicator.close();
                     localStorage.clear();
-                    window.location.href = this.$signLocation;
+                    window.location.href = this.$getSignLocation(`?openid=${this.$store.state.user.openId}`);
                 });
             }
         },

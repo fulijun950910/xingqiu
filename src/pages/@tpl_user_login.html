@@ -52,11 +52,8 @@
                 <!-- 绑定信息 -->
                 <div class="userinfo_bind">
                     <div class="userinfo_btm" layout="row" layout-align="space-between center">
-                        <!--% if(keyGetValue('openid')){ %-->
-                        <a class="clause" href="#/person_login">散客登录</a>
-                        <!--% }else{  %-->
+                        <a id="personLogin" class="clause" href="#/person_login">散客登录</a>
                         <div>&nbsp;</div>
-                        <!--% }  %-->
                         <a class="clause" href="#/update_pwd">忘记密码？</a>
                     </div>
                     <div class="mei_bind"  onclick="app.userinfo.login()"  >

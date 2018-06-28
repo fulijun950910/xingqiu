@@ -35,7 +35,7 @@ app.userinfo = {
     },
     goMwxq: function() {
         localStorage.clear();
-        location.href = '/service/index.html#/main'
+        location.href = '/service/index.html'+window.location.search+'#/main'
     },
     messageTime: function(o, data) {
         if (this.wait == 60 && data) {
