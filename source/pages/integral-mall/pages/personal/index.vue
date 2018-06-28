@@ -184,13 +184,11 @@
             signOut() {
                 this.$indicator.open();
                 if (this.$store.getters.isPersonLogin) {
-                    api_party.pensonSignOut().then(res => {
-                        this.$indicator.close();
-                        localStorage.clear();
-                        document.cookie = 'rememberMe=';
-                        document.cookie = 'remeberMeRunAsRole=';
-                        window.location.href = this.$getSignLocation(`?openid=${this.$store.state.user.openId}`);
-                    });
+                    this.$indicator.close();
+                    localStorage.clear();
+                    document.cookie = 'rememberMe=';
+                    document.cookie = 'remeberMeRunAsRole=';
+                    window.location.href = this.$getSignLocation(`?openid=${this.$store.state.user.openId}`);
                 } else {
                     let data = {
                         employeeId: this.$store.state.user.id,
