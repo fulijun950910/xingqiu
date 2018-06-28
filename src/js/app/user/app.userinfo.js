@@ -552,6 +552,7 @@ app.userinfo = {
                 success: function() {
                     window.localStorage.clear();
                     document.cookie = 'rememberMe=';
+                    document.cookie = 'remeberMeRunAsRole=';
                     location.href = "/userinfo.html#/user_login";
                 },
                 error: function(a, b, c) {

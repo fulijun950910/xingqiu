@@ -192,6 +192,7 @@
                         this.$indicator.close();
                         localStorage.clear();
                         document.cookie = 'rememberMe=';
+                        document.cookie = 'remeberMeRunAsRole=';
                         window.location.href = this.$getSignLocation(`?openid=${this.$store.state.user.openId}`);
                     });
                 } else {
@@ -203,6 +204,7 @@
                         this.$indicator.close();
                         localStorage.clear();
                         document.cookie = 'rememberMe=';
+                        document.cookie = 'remeberMeRunAsRole=';
                         window.location.href = this.$getSignLocation(`?openid=${this.$store.state.user.openId}`);
                     });
                 }
