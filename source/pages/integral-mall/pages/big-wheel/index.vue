@@ -152,9 +152,6 @@ export default {
                 });
                 let perRotate = 360 / this.awrads.length;
                 let rotate = perRotate * (awardIndex + 1);
-                if (rotate < 0) {
-                    rotate += 360;
-                };
                 if (config.turnRotate != 0) {
                     // 非第一次点击旋转
                     let circle = Number(config.turnRotate / 360).toFixed(0);
