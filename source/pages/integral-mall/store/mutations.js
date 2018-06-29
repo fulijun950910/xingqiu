@@ -44,7 +44,8 @@ var getLocalInfo = () => {
         data.skills = employee.skills;
         if (employee.store && employee.store.id) {
             data.store = employee.store;
-            if (!employee.storeList.length) {
+            if (!employee.storeList || !employee.storeList.length) {
+                employee.storeList = [];
                 employee.storeList.push(employee.store);
             }
         } else if (employee.storeList && employee.storeList.length) {

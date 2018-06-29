@@ -411,6 +411,7 @@ app.userinfo = {
                                         } else {
                                             app.userinfo.alertError("合同异常");
                                         }
+                                        window.localStorage.clear();
                                         app.endLoading();
                                         return;
                                     }
