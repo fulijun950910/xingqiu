@@ -160,7 +160,7 @@
                             window.location.href = this.$getSignLocation(window.location.search);
                         }
                     } else {
-                        deferred.resolve(true);
+                        window.location.href = this.$getSignLocation(window.location.search);
                     }
                 } else {
                     deferred.resolve(true);
