@@ -30,7 +30,7 @@
                 <div class="whell-list-box" v-for="(item, index) in dataList" :key="index" layout="row" layout-align="space-between center">
                        <div>
                            <p class="fs28 color-white">{{item.name}}<span></span></p>
-                           <p class="color-fe fs24">{{item.time}}</p>
+                           <p class="color-fe fs24">{{item.endTime}}</p>
                        </div>
                        <div>
                            <a class="color-white fs28 to-use text-center" layout="row" layout-align="center center">去使用</a>
@@ -41,7 +41,7 @@
 </div>
 </template>
 <script>
-// import jq from 'jquery';
+import api_party from 'services/api.party';
 export default {
     data() {
         return {
@@ -55,62 +55,14 @@ export default {
                 centerX: 280 / 2,
                 centerY: 280 / 2,
                 startRadian: 0, // 起始角
-                during: 3, // 旋转时间
+                during: 4, // 旋转时间
                 times: 1, // 旋转速率
-                spinningTime: 0, // 旋转当前时间
-                spinTotalTime: 0, // 旋转时间总长
-                spinningChange: 0, // 旋转变化峰值
+                turnRotate: 0,
                 rotate: {}
             },
-            awrads: [
-                {
-                    name: '1等奖',
-                    color: 'red'
-                },
-                {
-                    name: '2等奖',
-                    color: 'yellow'
-                },
-                {
-                    name: '3等奖',
-                    color: 'green'
-                },
-                {
-                    name: '4等奖',
-                    color: 'black'
-                },
-                {
-                    name: '5等奖',
-                    color: 'black'
-                },
-                {
-                    name: '6等奖',
-                    color: 'black'
-                }
-            ],
+            awrads: [],
             chance: 1,
-            dataList: [
-                {
-                    name: '礼物1',
-                    time: this.$moment().format('YYYY-MM-DD')
-                },
-                {
-                    name: '礼物1',
-                    time: this.$moment().format('YYYY-MM-DD')
-                },
-                {
-                    name: '礼物1',
-                    time: this.$moment().format('YYYY-MM-DD')
-                },
-                {
-                    name: '礼物1',
-                    time: this.$moment().format('YYYY-MM-DD')
-                },
-                {
-                    name: '礼物1',
-                    time: this.$moment().format('YYYY-MM-DD')
-                }
-            ]
+            dataList: []
         };
     },
     methods: {
@@ -145,7 +97,7 @@ export default {
                     config.centerY + Math.sin(_startRadian + awardRadian / 2) * config.textRadius
                 );
                 ctx.rotate(_startRadian + awardRadian / 2 + Math.PI / 2);
-                ctx.fillText(awards[i].name, -ctx.measureText(awards[i].name).width / 2, 0);
+                ctx.fillText(awards[i].description, -ctx.measureText(awards[i].name).width / 2, 0);
                 ctx.restore();
 
                 // 绘制内圈文字
@@ -185,21 +137,106 @@ export default {
         },
         clickRotate() {
             let config = this.wheelConfig;
-            config.rotate = {};
-            this.rotateWheel(30);
+            let parameter = {
+                partyId: this.$store.state.party.partyId,
+                userId: this.$store.state.party.id
+            };
+            api_party.getAward(parameter).then(msg=> {
+                let data = msg.data;
+                let awardIndex;
+                // 获取奖项在已知列表奖品中的位置索引
+                this.awrads.map((item, index)=> {
+                    if (item.id == data.prizeId) {
+                        awardIndex = index;
+                    };
+                });
+                let perRotate = 360 / this.awrads.length;
+                let rotate = perRotate * (awardIndex + 1);
+                if (rotate < 0) {
+                    rotate += 360;
+                };
+                if (config.turnRotate != 0) {
+                    // 非第一次点击旋转
+                    let circle = Number(config.turnRotate / 360).toFixed(0);
+                    let indexRotate = rotate - (config.turnRotate - 360 * 2);
+                    circle > 0 ? (indexRotate = rotate - (circle * 360 - config.turnRotate)) : (rotate - (360 - config.turnRotate));
+                    rotate = indexRotate + 90;
+                };
+                this.rotateWheel(rotate, msg.data);
+            }, msg=> {
+
+            });
         },
-        rotateWheel(rotate) {
+        rotateWheel(rotate, data) {
             let config = this.wheelConfig;
+            config.turnRotate = rotate;
             config.rotate = {
-                transform: 'rotate' + '(' + 2 * 360 * config.times + rotate + 'deg' + ')',
-                transition: 'all ease ' + config.during + 's'
+                transform: `rotate(${config.turnRotate}deg)`,
+                transition: `all ease ${config.during}s`
             };
             config.times++;
+            setTimeout(()=> {
+                console.log(data);
+            }, config.during * 1000);
+        },
+        loadPrizeList() {
+            this.$indicator.open('Loading...');
+            api_party.getPrizeList().then(msg=> {
+                this.$indicator.close();
+                this.awrads = msg.data;
+                this.drawCircle();
+            }, msg=> {
+            });
+        },
+        loadTimes() {
+            let parameter = {
+                partyId: this.$store.state.party.partyId,
+                userId: this.$store.state.party.id
+            };
+            this.$indicator.open('Loading...');
+            api_party.getDrawPrizeDailyTimes(parameter).then(msg=> {
+                this.$indicator.close();
+                this.chance = msg.data.userRemainTimes;
+            }, msg=> {
+            });
+
+        },
+        loadHasAwardedList() {
+            let parameter = {
+                query: [{
+                    field: 'merchantId',
+                    value: this.$store.state.party.merchantId
+                },
+                {
+                    field: 'partyId',
+                    value: this.$store.state.party.partyId
+                },
+                {
+                    field: 'userId',
+                    value: this.$store.state.party.id
+                },
+                {
+                    field: 'startTime',
+                    value: this.$moment().startOf('day').format('YYYY-MM-DD HH:mm:ss')
+                },
+                {
+                    field: 'endTime',
+                    value: this.$moment().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+                }]
+            };
+            api_party.hasAwardedList(parameter).then(msg=> {
+                this.dataList = msg.data.rows;
+            }, msg=> {
+            });
+        },
+        init() {
+            this.loadPrizeList();
+            this.loadHasAwardedList();
+            this.loadTimes();
         }
     },
     mounted() {
-        this.wheelConfig.spinningTime += 20;
-        this.drawCircle();
+        this.init();
     }
 };
 </script>
@@ -289,7 +326,8 @@ export default {
     }
     .wheel-gift {
         background: url('~assets/imgs/integral-mall/gift-list-bg.jpg') no-repeat center;
-        padding: 0 15px;
+        background-size: 100% 100%;
+        padding: 15px;
         .gift-title {
             span {
                 margin: 0 15px;

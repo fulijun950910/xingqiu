@@ -205,5 +205,26 @@ export default {
         // 获取用户信息b2b
         let url = '/api/auth';
         return request(url, 'DELETE');
+    },
+    getPrizeList() {
+        // 获取奖项列表
+        let url = '/api/prize/prizeList';
+        return request(url, 'get');
+    },
+    getDrawPrizeDailyTimes(parameter) {
+        // 获取获奖次数
+        let url = `/api/prize/getDrawPrizeDailyTimes/${parameter.partyId}/${parameter.userId}`;
+        return request(url, 'get');
+    },
+    getAward(parameter) {
+        // 获取抽奖
+        let url = `/api/prize/drawPrize/${parameter.partyId}/${parameter.userId}`;
+        return request(url, 'get');
+
+    },
+    hasAwardedList(parameter) {
+        // 已获奖项列表
+        let url = '/api/prize/search';
+        return request(url, 'post', parameter);
     }
 };
