@@ -124,7 +124,7 @@
         mounted() {
             this.loadData();
             this.listBanner();
-            if (this.$store.state.party.adsList.length) {
+            if (this.$store.state.party && this.$store.state.party.adsList && this.$store.state.party.adsList.length) {
                 this.isNew = true;
                 this.adsDetail = this.$store.state.party.adsList[0];
                 if (this.adsDetail.code == 'home_001') {
