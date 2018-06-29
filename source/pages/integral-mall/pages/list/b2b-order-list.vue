@@ -135,7 +135,7 @@
                 };
                 await apiPromotion.receiveExpress(data);
                 this.dataList.splice(index, 1);
-                this.$toast('收货成功？');
+                this.$toast('收货成功');
             },
             goLogistics(item) {
                 this.$router.push(`/logistics-list/${item.id}`);
