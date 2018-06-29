@@ -411,6 +411,8 @@ app.userinfo = {
                                         } else {
                                             app.userinfo.alertError("合同异常");
                                         }
+                                        document.cookie = 'rememberMe=';
+                                        document.cookie = 'remeberMeRunAsRole=';
                                         window.localStorage.clear();
                                         app.endLoading();
                                         return;
