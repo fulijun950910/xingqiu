@@ -74,7 +74,7 @@ router.beforeEach(({ meta, path }, from, next) => {
     if (routerCheckPath(path) || store.getters.isLogin || store.state.party) {
          // 百度统计
         try {
-            window._hmt.push(['_trackPageview', '/service/integral-mall/#' + path]);
+            window._hmt.push(['_trackPageview', '/service/integral-mall.html#' + path]);
         } catch (e) {
         }
         next();
