@@ -62,7 +62,7 @@ router.beforeEach(({ meta, path }, from, next) => {
     if (path == '/sign-in' || store.getters.isLogin) {
          // 百度统计
         try {
-            window._hmt.push(['_trackPageview', '/service/service-subtotal/#' + path]);
+            window._hmt.push(['_trackPageview', '/service/service-subtotal.html#' + path]);
         } catch (e) {
         };
         next();
