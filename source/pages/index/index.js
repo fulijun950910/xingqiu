@@ -84,7 +84,7 @@ router.beforeEach(({ meta, path }, from, next) => {
     if (routerCheckPath(path) || store.getters.isLogin) {
         // 百度统计
         try {
-            window._hmt.push(['_trackPageview', '/#' + path]);
+            window._hmt.push(['_trackPageview', '/service/index/#' + path]);
         } catch (e) {
         }
         next();

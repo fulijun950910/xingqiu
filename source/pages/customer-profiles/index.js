@@ -55,7 +55,7 @@ router.beforeEach(({ meta, path }, from, next) => {
     window.scrollTo(0, 0);
     if (path == '/sign-in' || store.getters.isLogin) {
         try {
-            window._hmt.push(['_trackPageview', '/#' + path]);
+            window._hmt.push(['_trackPageview', '/service/customer-profiles/#' + path]);
         } catch (e) {
         }
         next();
