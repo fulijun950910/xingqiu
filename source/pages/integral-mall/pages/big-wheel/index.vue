@@ -62,7 +62,8 @@ export default {
             },
             awrads: [],
             chance: 1,
-            dataList: []
+            dataList: [],
+            tempAward: null
         };
     },
     methods: {
@@ -141,7 +142,9 @@ export default {
                 partyId: this.$store.state.party.partyId,
                 userId: this.$store.state.party.id
             };
+            this.$indicator.open('Loading...');
             api_party.getAward(parameter).then(msg=> {
+                this.$indicator.close();
                 let data = msg.data;
                 let awardIndex;
                 // 获取奖项在已知列表奖品中的位置索引
@@ -151,14 +154,25 @@ export default {
                     };
                 });
                 let perRotate = 360 / this.awrads.length;
-                let rotate = perRotate * (awardIndex + 1);
+                let anyRotate = perRotate * (awardIndex + 1) + 90; // 实际要旋转多少度 画布从90度开始故要加90度
+                let rotate;
                 if (config.turnRotate != 0) {
                     // 非第一次点击旋转
-                    let circle = Number(config.turnRotate / 360).toFixed(0);
-                    let indexRotate = rotate - (config.turnRotate - 360 * 2);
-                    circle > 0 ? (indexRotate = rotate - (circle * 360 - config.turnRotate)) : (rotate - (360 - config.turnRotate));
-                    rotate = indexRotate + 90;
-                };
+                    let last;;
+                    let now;
+                    this.awrads.map((item, index)=> {
+                        if (item.id == this.tempAward.prizeId) {
+                            last = index + 1;
+                        };
+                        if (item.id == data.prizeId) {
+                            now = index + 1;
+                        };
+                    });
+                    let betwen = now - last;
+                    rotate = 360 - (betwen * perRotate);
+                } else {
+                    rotate = 360 - anyRotate + 0.5 * perRotate;
+                }
                 this.rotateWheel(rotate, msg.data);
             }, msg=> {
 
@@ -166,14 +180,16 @@ export default {
         },
         rotateWheel(rotate, data) {
             let config = this.wheelConfig;
-            config.turnRotate = rotate;
+            config.turnRotate += rotate + 4 * 360 * config.times;
             config.rotate = {
                 transform: `rotate(${config.turnRotate}deg)`,
                 transition: `all ease ${config.during}s`
             };
-            config.times++;
+            ++config.times;
             setTimeout(()=> {
-                console.log(data);
+                this.tempAward = data;
+                console.log(this.tempAward);
+                this.loadPrizeList();
             }, config.during * 1000);
         },
         loadPrizeList() {
