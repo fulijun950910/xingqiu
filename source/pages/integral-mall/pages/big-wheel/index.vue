@@ -38,6 +38,7 @@
                     </div>
                 </div>
             </div>
+            <div flex class="text-center color-light-purple fs24"><m-icon xlink="#icon-xiangqing"></m-icon>奖品有效期为3天，3天后自动删除</div>
         </div>
     </div>
     <div class="alert-result" layout="row" layout-align="center center" v-if="showAlert">
@@ -45,7 +46,20 @@
         <div class="snow" v-if="hideSnow"></div>
         <div class="main" layout="column" layout-align="space-around stretch">
             <div :class="{'one-dou' : tempAward.prizeType == 2 && tempAward.quantity == 1,'other-award' : tempAward.prizeType == 1 || tempAward.quantity > 1}" flex layout="row" layout-align="center center">
-                        <div class="award-detail" v-if="tempAward.prizeType == 1 || tempAward.quantity > 1"></div>
+                        <div class="award-detail" v-if="tempAward.prizeType == 2 && tempAward.quantity > 1">
+                            <img :src="require('assets/imgs/integral-mall/award-doudou.png')" alt="">
+                            <!-- 豆豆 -->
+                            <div class="award-text color-dark-purple fs36" layout="row" layout-align="center center">                               
+                                {{tempAward.name}}
+                            </div>
+                        </div>
+                        <div class="award-detail" v-if="tempAward.prizeType == 1">
+                             <img :src="require('assets/imgs/integral-mall/award-img.png')" alt="">
+                              <!-- 优惠券 -->
+                            <div class="award-text color-white fs36 color-dark-purple" layout="row" layout-align="center center">
+                                {{tempAward.name}}
+                            </div>
+                        </div>
             </div>
             <div layout="column" class="bottom" layout-align="space-between stretch">
                 <div class="bottom-des">
@@ -293,7 +307,12 @@ export default {
     }
     .color-yellow{
         color: #E08E0E;
-
+    }
+    .color-dark-purple{
+        color: #423B60;
+    }
+    .color-light-purple{
+        color: #8172CC;
     }
     
     .color-chance {
@@ -470,6 +489,22 @@ export default {
                 width: 100%;
                 bottom: -70px;
                 z-index: 3;
+            }
+            .award-detail{
+                position: relative;
+                .award-text{
+                    width: 160px;
+                    height: 80px;
+                    position: absolute;
+                    left: 50%;
+                    margin-left: -80px;
+                    top: 50%;
+                    margin-top: -40px;
+                }
+                img{
+                    height: 80px;
+                    width: auto;
+                }
             }
         }
     }
