@@ -455,6 +455,7 @@ app.userinfo = {
                                                     },
                                                     success: function(results) {
                                                         if (results && results.success) {}
+                                                        
                                                         //
                                                         app.userinfo.getEmployee().then(function(employee) {
                                                             if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
@@ -500,6 +501,8 @@ app.userinfo = {
                                                                     }
                                                                 });
                                                             } else {
+                                                                document.cookie = 'rememberMe=';
+                                                                document.cookie = 'remeberMeRunAsRole=';
                                                                 localStorage.clear();
                                                                 location.href = "/userinfo.html#/user_login";
                                                                 // app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
