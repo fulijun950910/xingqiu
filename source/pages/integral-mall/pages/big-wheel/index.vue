@@ -1,11 +1,12 @@
 <template>
 <div class="big-wheel">
-    <div class="biwheel-top">
-        <div class="top-title">
-        </div>
-        <div class="chance fs24 color-white text-center fwb" layout="row" layout-align="center center">
-            <m-icon xlink="#icon-laba" class="fs38"></m-icon>10个美豆豆可抽奖一次，今日还剩<span class="color-chance">{{chance}}</span>次机会
-        </div>
+    <div class="wheel-main">
+        <div class="biwheel-top text-center">
+            <div class="top-title">
+            </div>
+            <div class="chance fs24 color-white text-center fwb" layout="row" layout-align="center center">
+                <m-icon xlink="#icon-laba" class="fs34"></m-icon>10个美豆豆可抽奖一次，今日还剩<span class="color-chance">{{chance}}</span>次机会
+            </div>
         </div>
         <div class="wheel-con">
             <div class="big-wheel-cavans" layout="row" layout-align="center center">
@@ -28,16 +29,42 @@
             </div>
             <div class="wheel-list">
                 <div class="whell-list-box" v-for="(item, index) in dataList" :key="index" layout="row" layout-align="space-between center">
-                       <div>
-                           <p class="fs28 color-white">{{item.name}}<span></span></p>
-                           <p class="color-fe fs24">{{item.endTime}}</p>
-                       </div>
-                       <div>
-                           <a class="color-white fs28 to-use text-center" layout="row" layout-align="center center">去使用</a>
-                       </div>
+                    <div>
+                        <p class="fs28 color-white">{{item.name}}<span></span></p>
+                        <p class="color-fe fs24">{{item.endTime}}</p>
+                    </div>
+                    <div>
+                        <a class="color-white fs28 to-use text-center" layout="row" layout-align="center center">去使用</a>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="alert-result" layout="row" layout-align="center center" v-if="showAlert">
+        <div class="mask" @click="toggleAlert"></div>
+        <div class="snow" v-if="hideSnow"></div>
+        <div class="main" layout="column" layout-align="space-around stretch">
+            <div :class="{'one-dou' : tempAward.prizeType == 2 && tempAward.quantity == 1,'other-award' : tempAward.prizeType == 1 || tempAward.quantity > 1}" flex layout="row" layout-align="center center">
+                        <div class="award-detail" v-if="tempAward.prizeType == 1 || tempAward.quantity > 1"></div>
+            </div>
+            <div layout="column" class="bottom" layout-align="space-between stretch">
+                <div class="bottom-des">
+                    <div v-if="tempAward.prizeType == 1 || tempAward.quantity > 1">
+                        <p class="text-center fs38 color-purple">恭喜小主，斩获大奖</p>
+                        <p class="text-center fs26 color-purple">已位您放入<span class="color-yellow">“我的奖品”</span></p>
+                    </div>
+                    <div v-if="tempAward.prizeType == 2 && tempAward.quantity == 1">
+                        <p class="text-center fs38 color-purple">别灰心，一颗也是爱哦~</p>
+                        <p class="text-center fs26 color-purple">已位您放入<span class="color-yellow">“美豆豆钱包”</span></p>
+                    </div>
+                </div>
+                <div class="color-purple fs34 to-use text-center">去使用</div>
+            </div>
+            <div class="close text-center" @click="toggleAlert">
+                <m-icon class="color-white" xlink="#icon-huabanfuben29"></m-icon>
+            </div>
+        </div>
+    </div>
 </div>
 </template>
 <script>
@@ -63,7 +90,9 @@ export default {
             awrads: [],
             chance: 1,
             dataList: [],
-            tempAward: null
+            tempAward: null,
+            showAlert: false,
+            hideSnow: true
         };
     },
     methods: {
@@ -127,14 +156,6 @@ export default {
                 ctx.drawImage(img, -ctx.measureText(awards[i].name).width / 2, 0, 30, 30);
                 ctx.restore();
             };
-            // 绘制指针
-            // ctx.save();
-            // ctx.translate(150, 150);
-            // let img = new Image();
-            // img.src = require('assets/imgs/integral-mall/wheel-direct.png');
-            // ctx.drawImage(img, 0, 0, 100, 100);
-            // ctx.restore();
-
         },
         clickRotate() {
             let config = this.wheelConfig;
@@ -188,8 +209,12 @@ export default {
             ++config.times;
             setTimeout(()=> {
                 this.tempAward = data;
+                this.toggleAlert();
                 console.log(this.tempAward);
                 this.loadPrizeList();
+                setTimeout(()=> {
+                    this.hideSnow = false;
+                }, 1000);
             }, config.during * 1000);
         },
         loadPrizeList() {
@@ -242,6 +267,12 @@ export default {
             }, msg=> {
             });
         },
+        toggleAlert() {
+            this.showAlert = !this.showAlert;
+            if (this.showAlert) {
+                this.hideSnow = true;
+            };
+        },
         init() {
             this.loadPrizeList();
             this.loadHasAwardedList();
@@ -256,6 +287,15 @@ export default {
 <style lang="less" scoped>
 @import '~styles/_style';
 .big-wheel {
+    position: relative;
+    .color-purple{
+        color: #6557B2;
+    }
+    .color-yellow{
+        color: #E08E0E;
+
+    }
+    
     .color-chance {
         color: #DC888A;
     }
@@ -276,11 +316,10 @@ export default {
             background-size: 100% auto;
         }
         .chance {
+            display: inline-block;
             position: relative;
             z-index: 2;
-            width: 256.5px;
-            padding: 5px 0;
-            margin: 0 auto;
+            padding: 5px;
             background: rgba(0, 0, 0, .3);
             border-radius: 15px;
             color: #D8CBF1;
@@ -368,6 +407,72 @@ export default {
             }
         }
     }
+    .wheel-main{
+        position: relative;
+        z-index: 1;
+    }
+    .alert-result{
+        position: fixed;
+        left: 0;
+        right: 0;
+        top:0;
+        bottom: 0;
+        z-index: 2;
+        .mask{
+            position: fixed;
+            background: rgba(0,0,0,.5);
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            z-index: 1;
+        }
+        .snow{
+            position: absolute;
+            z-index: 3;
+            top:0;
+            animation: award 1 2s;
+            width: 100%;
+            height: 50%;
+        }
+        .main{
+            position: relative;
+            z-index: 2;  
+            width: 270px;
+            height: 296px; 
+            background:rgba(255,255,255,1);
+            border-radius: 7px;      
+            .bg-burple{
+                background: #6E58B7;                
+            }  
+            .other-award{
+                background: url('~assets/imgs/integral-mall/other-doudou-bg.png') no-repeat center;
+                background-size: 100% 100%;
+            }
+            .one-dou{
+                background: url('~assets/imgs/integral-mall/one-doudou-bg.png') no-repeat center;
+                background-size: 100% 100%;
+            }
+            .bottom{
+                padding: 0 0 0 0;
+                .bottom-des{
+                    padding: 33px 0;
+                }
+                .to-use{
+                    height: 50px;
+                    line-height: 50px;
+                    border-top: 1px solid #E4E2EA;
+                }
+            } 
+            .close{
+                position: absolute;
+                font-size: 35px;
+                width: 100%;
+                bottom: -70px;
+                z-index: 3;
+            }
+        }
+    }
 }
 
 @keyframes big-wheel {
@@ -379,6 +484,21 @@ export default {
         background: url('~assets/imgs/integral-mall/big-wheel-bg2.png') no-repeat center;
         background-size: 92% 92%;
     }
+}
+@keyframes award {
+    from {
+        background: url('~assets/imgs/integral-mall/alert-bg-01.png') no-repeat center;
+        background-size: 80% auto;
+        background-position-y: 0;
+        display: block;
+    }
+    to {
+        background: url('~assets/imgs/integral-mall/alert-bg-01.png') no-repeat center;
+        background-size: 80% auto;
+        background-position-y: 100px;   
+        display: none;     
+    }
+    
 }
 </style>
 
