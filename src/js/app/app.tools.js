@@ -308,6 +308,16 @@ app.tools = {
                     data.endDate = date.endDate;
                 }
                 break;
+            //明日
+            case 5:
+                data.startDate = moment().add(1, "days").format('YYYY-MM-DD ') + "00:00:00";
+                data.endDate = moment().add(1, "days").format('YYYY-MM-DD ') + "23:59:59";
+                break;
+            //后日
+            case 6:
+                data.startDate = moment().add(2, "days").format('YYYY-MM-DD ') + "00:00:00";
+                data.endDate = moment().add(2, "days").format('YYYY-MM-DD ') + "23:59:59";
+                break;
         }
     },
     getDateName: function(code, data) {

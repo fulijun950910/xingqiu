@@ -169,7 +169,7 @@ app.performance.appointment = {
             app.performance.appointment.initStoreList(); //初始化门店
             app.performance.appointment.initCystomDate(bookingList.dataType); //初始化自定义时间       
             //日期选中
-            $('.dateLists span').eq(parseInt(bookingList.dataType) - 1).addClass('active');
+            $('.dateLists .date_info').find('[data-type='+bookingList.dataType+']').addClass('active');
             //门店选中
             if (employee.storeList.length == 1) {
                 $('.booking_orderlist .storeLists .stores-info span').eq(1).addClass('active').append('<i></i>');
