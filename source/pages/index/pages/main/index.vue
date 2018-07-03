@@ -194,10 +194,10 @@
                 window.location.href = this.$rootPath + 'shop.html#/leader';
             },
             async goWxbus() {
-                if (this.checkParty(1)) {
+                if (this.checkParty()) {
                     return;
                 }
-                await this.checkUser();
+                await this.checkUser(1);
                 if (this.$store.state.user.merchant && (this.$store.state.user.merchant.functionVersion == 4 || this.$store.state.user.merchant.functionVersion == 5)) {
                     window.location.href = '/lite/index.html';
                 } else {

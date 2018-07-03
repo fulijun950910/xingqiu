@@ -35,7 +35,11 @@ app.userinfo = {
     },
     goMwxq: function() {
         localStorage.clear();
-        location.href = '/service/index.html'+window.location.search+'#/main'
+        var text = '';
+        if (keyGetValue('openid')) {
+            text = '?openid' + keyGetValue('openid');
+        }
+        location.href = '/service/index.html'+text+'#/main'
     },
     messageTime: function(o, data) {
         if (this.wait == 60 && data) {
