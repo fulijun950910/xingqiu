@@ -147,20 +147,21 @@
                     this.bbsData = res.data;
                 });
             },
-            async checkUser() {
+            async checkUser(type) {
+                // type 1 进入对应的店务助手 2.返回当前页 3，进入美问星球用户页面
                 var deferred = Q.defer();
                 if ((!this.$store.state || !this.$store.state.user || !this.$store.state.user.id) && (!this.$store.state.party || !this.$store.state.party.partyId)) {
-                    let res = await api_signIn.getEmployeeInfo();
+                    let res = await api_signIn.getEmployeeInfo([{type: 'type', value: type}]);
                     if (res.success && res.data) {
                         let a = await reLogin.select(JSON.stringify(res.data));
                         if (a) {
                             this.$store.commit('UPDATE_LOCAL');
                             deferred.resolve(a);
                         } else {
-                            window.location.href = this.$getSignLocation(window.location.search);
+                            window.location.href = this.$getSignLocation(this.$knife.addSearch(window.location.search, 'type', type));
                         }
                     } else {
-                        window.location.href = this.$getSignLocation(window.location.search);
+                        window.location.href = this.$getSignLocation(this.$knife.addSearch(window.location.search, 'type', type));
                     }
                 } else {
                     deferred.resolve(true);
@@ -193,7 +194,7 @@
                 window.location.href = this.$rootPath + 'shop.html#/leader';
             },
             async goWxbus() {
-                if (this.checkParty()) {
+                if (this.checkParty(1)) {
                     return;
                 }
                 await this.checkUser();
@@ -214,7 +215,7 @@
                 this.$router.push({name: 'checkIn'});
             },
             async goUserInfo() {
-                await this.checkUser();
+                await this.checkUser(3);
                 window.location.href = `${this.$rootPath}integral-mall.html#/personal`;
             },
             hideMask() {

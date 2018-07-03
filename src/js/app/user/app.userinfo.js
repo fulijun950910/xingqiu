@@ -484,6 +484,9 @@ app.userinfo = {
                                                                         } else if (keyGetValue('type') == 2) {
                                                                             window.history.back();
                                                                             return;
+                                                                        } else if (keyGetValue('type') == 3) {
+                                                                            url = "/service/integral-mall.html#/personal";
+                                                                            return;
                                                                         }
                                                                         if (location.pathname == '/main.html'){
                                                                             location.reload();
@@ -921,6 +924,8 @@ app.userinfo = {
                                         if (res.success) {
                                             if (keyGetValue('type') == 2) {
                                                 window.history.go(-2);
+                                            } else if (keyGetValue('type') == 3){
+                                                location.href = '/service/integral-mall.html#/personal'
                                             } else{
                                                 location.href = '/service/index.html#/main'
                                             }
