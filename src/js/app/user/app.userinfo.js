@@ -486,7 +486,6 @@ app.userinfo = {
                                                                             return;
                                                                         } else if (keyGetValue('type') == 3) {
                                                                             url = "/service/integral-mall.html#/personal";
-                                                                            return;
                                                                         }
                                                                         if (location.pathname == '/main.html'){
                                                                             location.reload();

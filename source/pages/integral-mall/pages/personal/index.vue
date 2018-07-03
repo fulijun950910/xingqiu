@@ -188,7 +188,7 @@
                     localStorage.clear();
                     document.cookie = 'rememberMe=';
                     document.cookie = 'remeberMeRunAsRole=';
-                    window.location.href = this.$getSignLocation(`?openid=${this.$store.state.user.openId}`);
+                    window.location.href = this.$getSignLocation(this.$knife.addSearch(window.location.search, 'openid', this.$store.state.user.openId));
                 } else {
                     let data = {
                         employeeId: this.$store.state.user.id,
@@ -199,7 +199,7 @@
                         localStorage.clear();
                         document.cookie = 'rememberMe=';
                         document.cookie = 'remeberMeRunAsRole=';
-                        window.location.href = this.$getSignLocation(`?openid=${this.$store.state.user.openId}`);
+                        window.location.href = this.$getSignLocation(this.$knife.addSearch(window.location.search, 'openid', this.$store.state.user.openId));
                     });
                 }
             }
