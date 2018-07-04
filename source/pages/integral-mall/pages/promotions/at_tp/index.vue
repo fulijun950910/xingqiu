@@ -500,9 +500,11 @@
             background:#854399;
         }
         .buyTypeItem2{
+            margin-left: 5%;
             background:#307BC1;
         }
         .buyTypeItem3{
+            margin-left: 5%;
             background:#13A59E;
         }
         .listItem{
