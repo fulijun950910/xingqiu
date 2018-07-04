@@ -93,8 +93,8 @@ export default {
             height: 83.5px;
             overflow: hidden;
             img{
-                width: 100%;
-                height: auto;
+                width: auto;
+                height: 100%;
             }
         }
     }
