@@ -116,7 +116,7 @@ router.beforeEach(async ({ meta, path }, from, next) => {
         if (process.env.NODE_ENV === 'development') {
             next({ name: 'sign-in' });
         } else {
-            let res = await checkUser;
+            let res = await checkUser();
             if (res) {
                 next();
             } else {
