@@ -68,7 +68,12 @@ export default {
         },
         buyNow() {
             // this.load();
-            this.showBuy = true;
+            this.$router.push({
+                name: 'pay-detail',
+                params: {
+                    itemId: this.$route.params.id
+                }
+            });
         },
         update(val) {
             this.showBuy = val;

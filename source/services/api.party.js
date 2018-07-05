@@ -226,5 +226,10 @@ export default {
         // 已获奖项列表
         let url = '/api/prize/search';
         return request(url, 'post', parameter);
+    },
+    getCouponList(parameter) {
+        // 获取券列表
+        let url = '/api/doudouTrade/getCouponList';
+        return request(url, 'post', parameter);
     }
 };
