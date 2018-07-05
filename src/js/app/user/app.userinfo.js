@@ -37,7 +37,7 @@ app.userinfo = {
         localStorage.clear();
         var text = '';
         if (keyGetValue('openid')) {
-            text = '?openid' + keyGetValue('openid');
+            text = '?openid=' + keyGetValue('openid');
         }
         location.href = '/service/index.html'+text+'#/main'
     },
@@ -490,6 +490,8 @@ app.userinfo = {
                                                                             return;
                                                                         } else if (keyGetValue('type') == 3) {
                                                                             url = "/service/integral-mall.html#/personal";
+                                                                        } else if (keyGetValue('type') == 4) {
+                                                                            url = "/service/index.html#/checkIn";
                                                                         }
                                                                         if (location.pathname == '/main.html'){
                                                                             location.reload();
@@ -929,7 +931,9 @@ app.userinfo = {
                                                 window.history.go(-2);
                                             } else if (keyGetValue('type') == 3){
                                                 location.href = '/service/integral-mall.html#/personal'
-                                            } else{
+                                            } else if (keyGetValue('type') == 4) {
+                                                location.href = "/service/index.html#/checkIn";
+                                            } else {
                                                 location.href = '/service/index.html#/main'
                                             }
                                         } else {

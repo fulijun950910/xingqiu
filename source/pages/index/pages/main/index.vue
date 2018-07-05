@@ -197,12 +197,13 @@
                 if (this.checkParty()) {
                     return;
                 }
-                await this.checkUser(1);
-                if (this.$store.state.user.merchant && (this.$store.state.user.merchant.functionVersion == 4 || this.$store.state.user.merchant.functionVersion == 5)) {
-                    window.location.href = '/lite/index.html';
-                } else {
-                    window.location.href = '/main.html#/index';
-                }
+                window.location.href = '/api/b2bPromotionMobile/oauthURI/performance_report';
+                // await this.checkUser(1);
+                // if (this.$store.state.user.merchant && (this.$store.state.user.merchant.functionVersion == 4 || this.$store.state.user.merchant.functionVersion == 5)) {
+                //     window.location.href = '/lite/index.html';
+                // } else {
+                //     window.location.href = '/main.html#/index';
+                // }
             },
             alertMessage() {
                 this.$toast('开发中，敬请期待');
@@ -211,12 +212,10 @@
                 if (this.checkParty()) {
                     return;
                 }
-                await this.checkUser();
-                this.$router.push({name: 'checkIn'});
+                window.location.href = '/api/b2bPromotionMobile/oauthURI/star_day_sign';
             },
             async goUserInfo() {
-                await this.checkUser(3);
-                window.location.href = `${this.$rootPath}integral-mall.html#/personal`;
+                window.location.href = '/api/b2bPromotionMobile/oauthURI/star_personal';
             },
             hideMask() {
                 this.isNew = false;

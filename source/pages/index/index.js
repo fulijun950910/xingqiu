@@ -9,6 +9,7 @@ Vue.prototype.$indicator = Indicator;
 Vue.prototype.$messageBox = MessageBox;
 Vue.prototype.$signLocation = process.env.NODE_ENV === 'development' ? '#/sign-in' : '/userinfo.html#/user_login';
 Vue.prototype.$wxc_url = process.env.NODE_ENV === 'production' ? 'https://wechat.mei1.com' : 'https://wechat.mei1.info';
+Vue.prototype.$wxb_url = process.env.NODE_ENV === 'production' ? 'http://assistant.mei1.info' : 'http://wxbus.mei1.com';
 Vue.prototype.$rootPath = process.env.NODE_ENV === 'development' ? '/' : '/service/';
 Vue.prototype.$getSignLocation = (search) => {
     let ref = process.env.NODE_ENV === 'development' ? search + '#/sign-in' : '/userinfo.html' + search + '#/user_login';
@@ -79,8 +80,29 @@ let routerCheckPartyPath = path => {
     let reg = /(^\/checkIn)/;
     return reg.test(path);
 };
+// ................................................
+import reLogin from './models/relogin';
+import Q from 'q';
+import api_signIn from 'services/api.signIn';
 
-router.beforeEach(({ meta, path }, from, next) => {
+let checkUser = async () => {
+    var deferred = Q.defer();
+    let res = await api_signIn.getEmployeeInfo();
+    if (res.success && res.data) {
+        let a = await reLogin.select(JSON.stringify(res.data));
+        if (a) {
+            store.commit('UPDATE_LOCAL');
+            deferred.resolve(a);
+        } else {
+            window.location.href = Vue.prototype.$getSignLocation;
+        }
+    } else {
+        window.location.href = Vue.prototype.$getSignLocation;
+    }
+    return deferred.promise;
+};
+
+router.beforeEach(async ({ meta, path }, from, next) => {
     if (routerCheckPath(path) || store.getters.isLogin) {
         // 百度统计
         try {
@@ -88,13 +110,18 @@ router.beforeEach(({ meta, path }, from, next) => {
         } catch (e) {
         }
         next();
-    } else if (routerCheckPartyPath(path) || store.state.party) {
+    } else if (routerCheckPartyPath(path) && (store.state.party && store.state.party.id)) {
         next();
     } else {
         if (process.env.NODE_ENV === 'development') {
             next({ name: 'sign-in' });
         } else {
-            window.location.href = '/userinfo.html#/user_login';
+            let res = await checkUser();
+            if (res) {
+                next();
+            } else {
+                window.location.href = Vue.prototype.$signLocation;
+            }
         }
     }
 });

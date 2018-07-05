@@ -192,6 +192,7 @@
                 } else {
                     let data = {
                         employeeId: this.$store.state.user.id,
+                        openId: this.$store.state.user.openId,
                         userId: this.$store.state.user.userId
                     };
                     api_party.unbind(data).then(res => {
