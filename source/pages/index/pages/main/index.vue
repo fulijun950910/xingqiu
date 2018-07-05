@@ -197,7 +197,7 @@
                 if (this.checkParty()) {
                     return;
                 }
-                window.location.href = `/api/b2bPromotionMobile/${encodeURIComponent(this.$wxb_url+'/main.html#/index')}/performance_report`;
+                window.location.href = '/api/b2bPromotionMobile/oauthURI/performance_report';
                 // await this.checkUser(1);
                 // if (this.$store.state.user.merchant && (this.$store.state.user.merchant.functionVersion == 4 || this.$store.state.user.merchant.functionVersion == 5)) {
                 //     window.location.href = '/lite/index.html';
