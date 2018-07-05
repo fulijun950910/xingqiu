@@ -94,10 +94,10 @@ let checkUser = async () => {
             store.commit('UPDATE_LOCAL');
             deferred.resolve(a);
         } else {
-            window.location.href = this.$getSignLocation();
+            window.location.href = Vue.prototype.$getSignLocation;
         }
     } else {
-        window.location.href = this.$getSignLocation();
+        window.location.href = Vue.prototype.$getSignLocation;
     }
     return deferred.promise;
 };
@@ -119,8 +119,9 @@ router.beforeEach(async ({ meta, path }, from, next) => {
             let res = await checkUser;
             if (res) {
                 next();
+            } else {
+                window.location.href = '/userinfo.html#/user_login';
             }
-            // window.location.href = '/userinfo.html#/user_login';
         }
     }
 });
