@@ -139,7 +139,7 @@ app.productEcharts = {
             //         }
             //     }
             // }
-            for (var i = result.data.itemSalesDetail.length - 1; i >= 0; i--) {
+            for (var i = 0; i < result.data.itemSalesDetail.length;i++) {
                 switch (result.data.itemSalesDetail[i][0]) {
                     case 'SERVICE_ITEM':
                         results.serviceItem.push(result.data.itemSalesDetail[i]);
