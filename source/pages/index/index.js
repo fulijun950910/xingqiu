@@ -120,7 +120,7 @@ router.beforeEach(async ({ meta, path }, from, next) => {
             if (res) {
                 next();
             } else {
-                window.location.href = '/userinfo.html#/user_login';
+                window.location.href = Vue.prototype.$signLocation;
             }
         }
     }
