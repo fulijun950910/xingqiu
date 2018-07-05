@@ -212,12 +212,10 @@
                 if (this.checkParty()) {
                     return;
                 }
-                await this.checkUser();
-                this.$router.push({name: 'checkIn'});
+                window.location.href = '/api/b2bPromotionMobile/oauthURI/star_day_sign';
             },
             async goUserInfo() {
-                await this.checkUser(3);
-                window.location.href = `${this.$rootPath}integral-mall.html#/personal`;
+                window.location.href = '/api/b2bPromotionMobile/oauthURI/star_personal';
             },
             hideMask() {
                 this.isNew = false;

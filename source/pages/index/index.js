@@ -80,8 +80,29 @@ let routerCheckPartyPath = path => {
     let reg = /(^\/checkIn)/;
     return reg.test(path);
 };
+// ................................................
+import reLogin from './models/relogin';
+import Q from 'q';
+import api_signIn from 'services/api.signIn';
 
-router.beforeEach(({ meta, path }, from, next) => {
+let checkUser = async () => {
+    var deferred = Q.defer();
+    let res = await api_signIn.getEmployeeInfo();
+    if (res.success && res.data) {
+        let a = await reLogin.select(JSON.stringify(res.data));
+        if (a) {
+            store.commit('UPDATE_LOCAL');
+            deferred.resolve(a);
+        } else {
+            window.location.href = this.$getSignLocation();
+        }
+    } else {
+        window.location.href = this.$getSignLocation();
+    }
+    return deferred.promise;
+};
+
+router.beforeEach(async ({ meta, path }, from, next) => {
     if (routerCheckPath(path) || store.getters.isLogin) {
         // 百度统计
         try {
@@ -95,7 +116,11 @@ router.beforeEach(({ meta, path }, from, next) => {
         if (process.env.NODE_ENV === 'development') {
             next({ name: 'sign-in' });
         } else {
-            window.location.href = '/userinfo.html#/user_login';
+            let res = await checkUser;
+            if (res) {
+                next();
+            }
+            // window.location.href = '/userinfo.html#/user_login';
         }
     }
 });
