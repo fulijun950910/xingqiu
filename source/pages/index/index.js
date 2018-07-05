@@ -110,7 +110,7 @@ router.beforeEach(async ({ meta, path }, from, next) => {
         } catch (e) {
         }
         next();
-    } else if (routerCheckPartyPath(path) || store.state.party) {
+    } else if (routerCheckPartyPath(path) && (store.state.party && store.state.party.id)) {
         next();
     } else {
         if (process.env.NODE_ENV === 'development') {
