@@ -45,7 +45,7 @@ export default {
     data() {
         return {
             id: this.$route.params.id,
-            data: null,
+            data: {},
             showBuy: false,
             chooseServiceItem: null,
             buyType: '2'

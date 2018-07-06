@@ -16,7 +16,7 @@
                 <div>{{address.province}}&nbsp;{{address.city}}&nbsp;{{address.fullAddress}}</div>
             </div>
         </div>
-        <div flex="20" layout="row" layout-align="end center">
+        <div flex="20" layout="row" layout-align="end center" @click="chooseAddress">
             <m-icon class="fs40 color-gray" xlink="#icon-zuojiantou"></m-icon>
         </div>
     </div>
@@ -41,7 +41,11 @@
             </div>
             <div layout="row" layout-align="space-between center">
                 <div class="fs28 extra-light-black">优惠券</div>
-                <div class="color-black">点击选择可用券<m-icon xlink="#icon-gengduoicon"></m-icon></div>
+                <div v-if="payDetail.tradeCouponList.length"></div>
+                <div class="color-black" @click="clickToVoucher">
+                    <div v-if="payDetail.tradeCouponList.length == 0">点击选择可用券<m-icon xlink="#icon-gengduoicon"></m-icon></div>
+                    <div v-if="payDetail.tradeCouponList.length">2342435</div>
+                    </div>
             </div>
         </div>
         <div class="p-b-5 p-t-5">
@@ -49,13 +53,13 @@
                 <div flex="80">
                     <div class="fs28 extra-light-black">商品总价</div>
                     </div>
-                <div class="color-black"></div>
+                <div class="color-black">￥{{item.price | fen2yuan}}</div>
             </div>
              <div layout="row" class="m-b-3" layout-align="space-between center">
                 <div flex="80">
                     <div class="fs28 extra-light-black">美豆豆换算金额</div>
                     </div>
-                <div class="color-black"></div>
+                <div class="color-black">￥{{payDetail.payDoudouAmount | dou2fen}}</div>
             </div>
              <div layout="row" class="m-b-3" layout-align="space-between center">
                 <div flex="80">
@@ -73,11 +77,11 @@
                <textarea class="p-1" placeholder="备注"></textarea>
             </div>
         </div>
-<div class="integral-btn fwb fs38 color-white m-t-3 m-b-3" layout="row" layout-align="center center">
+<div class="integral-btn fwb fs38 color-white m-t-3 m-b-3" @click="buy" layout="row" layout-align="center center">
 支付
 </div>
     </div>
-    <voucher m-voucher="selctVoucher"></voucher>
+    <voucher :mw-item="payDetail" :vocher-show="vocherShow" @update="clickToVoucher" @mClose="clickToVoucher"></voucher>
 </div>
 </template>
 <script>
@@ -106,9 +110,11 @@
                         itemId: this.$route.params.itemId,
                         quantity: 1,
                         tradeType: 6,
-                        deliverAddressId: this.address ? this.address.id : ''
-
-                    } 
+                        deliverAddressId: null,
+                        serviceApply: {},
+                        tradeCouponList: []
+                    },
+                    vocherShow: false
                 };
             },
             methods: {
@@ -127,7 +133,7 @@
                     api_party.getAccount(this.$store.state.party.partyId).then(msg=> {
                         this.$indicator.close();
                         this.account = msg.data;
-                        let price2dou = this.item.price * 10;
+                        let price2dou = this.item.price / 10;
                         let payDou = 0;
                         let payMoney = 0;
                         if (this.account.doudouBalance > price2dou) {
@@ -144,18 +150,42 @@
                 },
                 loadDefaultAddress() {
                     this.$indicator.open('Loading...');
-                    api_party.getDefaultAddress(this.$store.state.party.partyId, this.$store.state.party.id).then(msg=> {
-                        this.address = msg.data;
-                    }, msg=> {
-                    });
-
+                    if (this.$route.params.addressId) {
+                        console.log(this.$route.params.addressId);
+                    } else {
+                        api_party.getDefaultAddress(this.$store.state.party.partyId, this.$store.state.party.id).then(msg=> {
+                            this.address = msg.data;
+                        }, msg=> {});
+                    }
                 },
                 changeNum(val) {
                     this.quality = val;
                 },
+                clickToVoucher(data) {
+                    this.vocherShow = !this.vocherShow;
+                    if (this.vocherShow == false) {
+                        if (data) {
+                            this.payDetail = data;
+                        }
+                    };
+                },
+                chooseAddress() {
+                    this.$router.push(`/address-list/choose/${this.itemId}`);
+                },
+                initParameter() {
+                    if (this.$route.params.addressId) {
+                        // 选择地址
+                        this.payDetail.deliverAddressId = this.$route.params.address.id;
+                        this.address = this.$route.params.address;
+                    };
+                },
+                buy() {
+                    console.log(this.payDetail);
+                },
                 init() {
                     this.getDetail(); // 获取商品详情
                     this.loadDefaultAddress(); // 获取默认地址
+                    this.initParameter(); // 加载默认传进来的参数
                 }
             },
             mounted() {

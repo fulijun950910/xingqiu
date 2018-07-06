@@ -1,5 +1,5 @@
 <template>
-<div class="big-wheel">
+<div class="big-wheel" v-title="'美问大转盘'">
     <div class="wheel-main">
         <div class="biwheel-top text-center">
             <div class="top-title">
