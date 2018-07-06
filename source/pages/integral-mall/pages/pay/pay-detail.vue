@@ -6,7 +6,7 @@
         </div>
         <div class="color-black fs30 fwb">{{item.name}}</div>
     </div>
-    <div flex class="address p-t-5 p-b-5" layout="row" layout-align="start center">
+    <div flex class="address p-t-5 p-b-5" layout="row" layout-align="start center" @click="chooseAddress">
         <div flex="80">
             <div layout="row" layout-align="start center" class="color-black fwb fs28 m-b-1">
                 <div>{{address.contactPersion}}</div>&nbsp;&nbsp;
@@ -16,7 +16,7 @@
                 <div>{{address.province}}&nbsp;{{address.city}}&nbsp;{{address.fullAddress}}</div>
             </div>
         </div>
-        <div flex="20" layout="row" layout-align="end center" @click="chooseAddress">
+        <div flex="20" layout="row" layout-align="end center">
             <m-icon class="fs40 color-gray" xlink="#icon-zuojiantou"></m-icon>
         </div>
     </div>
@@ -39,13 +39,12 @@
                     </div>
                 <div class="color-black"><input class="input-style p-1" pattern="[0-9]*" v-model="payDetail.payDoudouAmount" type="number"></div>
             </div>
-            <div layout="row" layout-align="space-between center">
-                <div class="fs28 extra-light-black">优惠券</div>
-                <div v-if="payDetail.tradeCouponList.length"></div>
-                <div class="color-black" @click="clickToVoucher">
-                    <div v-if="payDetail.tradeCouponList.length == 0">点击选择可用券<m-icon xlink="#icon-gengduoicon"></m-icon></div>
-                    <div v-if="payDetail.tradeCouponList.length">2342435</div>
-                    </div>
+            <div flex @click="clickToVoucher">                
+                <div flex layout="row" layout-align="space-between center">
+                    <div class="fs28 extra-light-black">优惠券</div>
+                    <div class="fwb fs28" v-if="voucherDiscountMoney">优惠￥{{voucherDiscountMoney | fen2yuan}}</div>
+                    <div class="fwb fs28" v-if="!voucherDiscountMoney">点击选择优惠券</div>
+                </div>
             </div>
         </div>
         <div class="p-b-5 p-t-5">
@@ -59,13 +58,13 @@
                 <div flex="80">
                     <div class="fs28 extra-light-black">美豆豆换算金额</div>
                     </div>
-                <div class="color-black">￥{{payDetail.payDoudouAmount | dou2fen}}</div>
+                <div class="color-black">￥{{payDetail.payDoudouAmount | dou2yuan}}</div>
             </div>
              <div layout="row" class="m-b-3" layout-align="space-between center">
                 <div flex="80">
                     <div class="fs28 extra-light-black">优惠券抵扣金额</div>
                     </div>
-                <div class="color-black"></div>
+                <div class="color-black">{{voucherDiscountMoney | fen2yuan}}</div>
             </div>
             <div layout="row" class="m-b-3" layout-align="space-between center">
                 <div flex="80">
@@ -101,6 +100,7 @@
                     account: {}, // 账户详情
                     totalPay: 3000,
                     selectVoucher: {},
+                    voucherDiscountMoney: 0,
                     payDetail: {
                         merchantId: this.$store.state.party.merchantId,
                         partyId: this.$store.state.party.partyId,
@@ -149,11 +149,12 @@
                     });
                 },
                 loadDefaultAddress() {
-                    this.$indicator.open('Loading...');
                     if (this.$route.params.addressId) {
                         console.log(this.$route.params.addressId);
                     } else {
+                        this.$indicator.open('Loading...');
                         api_party.getDefaultAddress(this.$store.state.party.partyId, this.$store.state.party.id).then(msg=> {
+                            this.$indicator.close();
                             this.address = msg.data;
                         }, msg=> {});
                     }
@@ -166,8 +167,39 @@
                     if (this.vocherShow == false) {
                         if (data) {
                             this.payDetail = data;
+                            console.log(this.payDetail);
+                            this.caculateDiscountMoney();
                         }
                     };
+                },
+                caculateDiscountMoney() {
+                    this.$indicator.open('Loading...');
+                    api_party.calCouponMoney(this.payDetail).then(msg=> {
+                        this.$indicator.close();
+                        let discount = 0;
+                        msg.data.map((item, index)=> {
+                            discount += item.discountAmount;
+                        });
+                        this.voucherDiscountMoney = discount;
+                        this.caculateResult();
+                    }, msg=> {
+                    });
+                },
+                caculateResult() {
+                    // 添加优惠后的需支付详情
+                    let leftMoney = this.item.price * this.payDetail.quantity - this.voucherDiscountMoney; // 抵扣折扣券之后所剩的需支付金额（分）
+                    if (leftMoney > 0) {
+                        let balanceFen = this.account.doudouBalance / 10; // 豆豆转分
+                        if (leftMoney < balanceFen) {
+                            debugger;
+                            this.payDetail.payDoudouAmount = leftMoney / 10;
+                            this.payDetail.payMoney = 0;
+                        } else {
+                            this.payDetail.payDoudouAmount = balanceFen / 10;
+                            let afterLeft = leftMoney - balanceFen;
+                            this.payDetail.payMoney = afterLeft;
+                        }
+                    }
                 },
                 chooseAddress() {
                     this.$router.push(`/address-list/choose/${this.itemId}`);
@@ -175,7 +207,7 @@
                 initParameter() {
                     if (this.$route.params.addressId) {
                         // 选择地址
-                        this.payDetail.deliverAddressId = this.$route.params.address.id;
+                        this.payDetail.deliverAddressId = this.$route.params.addressId;
                         this.address = this.$route.params.address;
                     };
                 },
@@ -186,6 +218,7 @@
                     this.getDetail(); // 获取商品详情
                     this.loadDefaultAddress(); // 获取默认地址
                     this.initParameter(); // 加载默认传进来的参数
+                    console.log(this.$route.params);
                 }
             },
             mounted() {

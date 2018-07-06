@@ -135,7 +135,9 @@ export default {
                 this.$router.push({
                     name: 'pay-detail',
                     params: {
-                        addressId: item.id
+                        addressId: item.id,
+                        itemId: this.$route.params.productId,
+                        address: item
                     }
                 });
             } else if (this.type == 'select') {

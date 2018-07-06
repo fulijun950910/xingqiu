@@ -166,7 +166,7 @@ Vue.filter('dou2fen', function(value) {
     if (isNaN(value)) {
         return 0;
     }
-    return value / 10;
+    return value / 1000;
 });
 
 Vue.filter('dou2yuan', function(value) {

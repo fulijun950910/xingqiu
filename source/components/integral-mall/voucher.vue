@@ -15,10 +15,10 @@
                 </div>
             </div>
         </div>
-
             <div class="data-list p-l-4 p-r-4" flex>
-                <div class="box m-b-3" @click="chooseCoupon(item)" v-for="(item,index) in dalaList" :key="index" layout="row" layout-align="start stretch" :class="{'box-active' : item.status == 2}">
-                    <div class="mask-box"></div>
+                <div class="box m-b-3" v-for="(item,index) in dalaList" :key="index" layout="row" layout-align="start stretch" :class="{'box-active' : !item.canUsed}">
+                    <div class="mask-box" @click="reason(item)"></div>
+                    <div @click="chooseCoupon(item)" flex layout="row" layout-align="start stretch">
                     <div flex="70">
                         <div class="p-t-4">
                             <div class="color-pink fs40">￥{{item.price | fen2yuan}}</div>
@@ -28,6 +28,7 @@
                     </div>
                     <div layout="row" layout-align="center center" flex="30">
                         <m-icon class="border-gay fs48" :class="{'select-color-pink' : item.id == selected}" xlink="#icon-gouxuanshixin"></m-icon>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -61,7 +62,7 @@
         data() {
             return {
                 dalaList: [],
-                selected: '0',
+                selected: 0,
                 parameter: {
                     merchantId: this.$store.state.party.merchantId,
                     partyId: this.$store.state.party.partyId,
@@ -71,15 +72,22 @@
                     itemId: this.mwItem.itemId,
                     quantity: this.mwItem.quantity,
                     tradeType: this.mwItem.tradeType,
-                    tradeCouponList: []
+                    tradeCouponList: this.mwItem.tradeCouponList
                 }
             };
         },
         methods: {
             loadData() {
                 let parameter = this.parameter;
+                this.$indicator.open('Loading...');
                 api_party.getCouponList(parameter).then(msg=> {
+                    this.$indicator.close();
                     this.dalaList = msg.data;
+                    this.dalaList.map((item, index)=> {
+                        if (this.selected == item.id) {
+                            this.dalaList[index].canUsed = true;
+                        };
+                    });
                 }, msg=> {
                 });
             },
@@ -87,12 +95,34 @@
                 this.$emit('mClose', this.parameter);
             },
             chooseCoupon(item) {
-                this.selected = item.id;
-                this.parameter.tradeCouponList = [
-                    {
-                        userCouponId: this.selected
+                let that = this;
+                if (this.selected) {
+                    if (this.selected == item.id) {
+                        filterCoupon();
+                        this.selected = null;
+                    } else {
+                        this.selected = item.id;
+                        filterCoupon();
+                        this.parameter.tradeCouponList.push({
+                            userCouponId: this.selected
+                        });
                     }
-                ]; // 只选择一张券
+                } else {
+                    this.selected = item.id;
+                    this.parameter.tradeCouponList.push({
+                        userCouponId: this.selected
+                    });
+                };
+                this.loadData();
+                function filterCoupon() {
+                    that.parameter.tradeCouponList = that.parameter.tradeCouponList.filter((coupon, index)=> {
+                        return that.userCouponId != coupon.id;
+                    });
+                };
+                // console.log(this.parameter.tradeCouponList);
+            },
+            reason(item) {
+                this.$toast(item.canntUsedReason);
             }
 
         },
