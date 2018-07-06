@@ -7,7 +7,7 @@
                 <div class="boxContent list1" layout="row" layout-align="space-around start">
                     <div class="m-t-4 m-b-4 text-center" @click="linkTo(5)">
                         <div><img :src="require('assets/imgs/integral-mall/2018060505.png')" alt=""></div>
-                        <div class="fs32 fwb">每日签到</div>
+                        <div class="fs32">每日签到</div>
                         <div class="color-gray fs22 m-t-2">
                             <div>每日签到=1个</div>
                             <div>连续7天=16个</div>
@@ -15,7 +15,7 @@
                     </div>
                     <div class="m-t-4 m-b-4 text-center" @click="linkTo(8)"> 
                         <div class="img-right"><img :src="require('assets/imgs/integral-mall/2018060507.png')" alt=""></div>
-                        <div class="fs32 fwb">推荐商户</div>
+                        <div class="fs32">推荐商户</div>
                         <div class="color-gray fs22 m-t-2">
                             <div>介绍1个商户</div>
                             <div>=2000个</div>
@@ -23,7 +23,7 @@
                     </div>
                     <div class="m-t-4 m-b-4 text-center" @click="linkTo(7)">
                         <div><img :src="require('assets/imgs/integral-mall/2018060502.png')" alt=""></div>
-                        <div class="fs32 fwb">充值获取</div>
+                        <div class="fs32">充值获取</div>
                         <div class="color-gray fs22 m-t-2">
                             <div>充值即可获得</div>
                             <div>更多美豆豆</div>
