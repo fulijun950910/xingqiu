@@ -173,7 +173,7 @@ Vue.filter('dou2yuan', function(value) {
     if (isNaN(value)) {
         return 0;
     }
-    return value * 10;
+    return value / 10;
 });
 
 Vue.filter('fen2dou', function(value) {
@@ -194,6 +194,22 @@ Vue.filter('accountType', function(value) {
             break;
         case 2:
             text = 'RMN账户';
+            break;
+    }
+    return text;
+});
+
+Vue.filter('discountType', function(value) {
+    if (isNaN(value)) {
+        return 0;
+    }
+    let text = '';
+    switch (Number(value)) {
+        case 1:
+            text = '现金券';
+            break;
+        case 2:
+            text = '折扣券';
             break;
     }
     return text;

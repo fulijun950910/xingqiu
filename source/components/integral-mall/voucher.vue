@@ -63,31 +63,36 @@
             return {
                 dalaList: [],
                 selected: 0,
-                parameter: {
-                    merchantId: this.$store.state.party.merchantId,
-                    partyId: this.$store.state.party.partyId,
-                    userId: this.$store.state.party.id,
-                    payDoudouAmount: this.mwItem.price * 10,
-                    payMoney: this.mwItem.payMoney,
-                    itemId: this.mwItem.itemId,
-                    quantity: this.mwItem.quantity,
-                    tradeType: this.mwItem.tradeType,
-                    tradeCouponList: this.mwItem.tradeCouponList
-                }
+                parameter: this.mwItem
             };
         },
         methods: {
-            loadData() {
+            loadData(choose) {
+                // this.selected = 0;
                 let parameter = this.parameter;
                 this.$indicator.open('Loading...');
                 api_party.getCouponList(parameter).then(msg=> {
                     this.$indicator.close();
-                    this.dalaList = msg.data;
-                    this.dalaList.map((item, index)=> {
-                        if (this.selected == item.id) {
-                            this.dalaList[index].canUsed = true;
-                        };
-                    });
+                    if (!choose) {
+                        this.dalaList = msg.data;
+                    } else {
+                        msg.data.map((item, index)=> {
+                            let ls = this.dalaList.filter((item1, index1)=> {
+                                return item.id == item1.id;
+                            });
+                            if (ls.length) {
+                                Object.assign(ls[0], item);
+                            } else {
+                                this.dalaList.push(item);
+                            }
+                        });
+                        // 给到选择的那张券高亮
+                        this.dalaList.map((item, index)=> {
+                            if (this.selected == item.id) {
+                                this.dalaList[index].canUsed = true;
+                            };
+                        });
+                    }
                 }, msg=> {
                 });
             },
@@ -109,11 +114,12 @@
                     }
                 } else {
                     this.selected = item.id;
+                    this.parameter.tradeCouponList = []; // 只能使用一张券
                     this.parameter.tradeCouponList.push({
                         userCouponId: this.selected
                     });
                 };
-                this.loadData();
+                this.loadData('choose');
                 function filterCoupon() {
                     that.parameter.tradeCouponList = that.parameter.tradeCouponList.filter((coupon, index)=> {
                         return that.userCouponId != coupon.id;
@@ -182,6 +188,8 @@
             bottom: 10px;
             left: 15px;
             right: 15px;
+            width: auto;
+            text-align: center;
 
         }
         .copon-top{

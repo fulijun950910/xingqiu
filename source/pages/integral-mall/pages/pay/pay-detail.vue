@@ -35,15 +35,15 @@
             <div layout="row" class="m-b-3" layout-align="space-between start">
                 <div flex="80">
                     <div class="fs28 extra-light-black">美豆豆数量</div>
-                    <div class="fs28 extra-light-black">您共有<span class="color-black">{{account.doudouBalance}}</span>美豆豆，可<span class="color-pink">抵￥{{account.doudouBalance | dou2fen}}</span><m-icon class="fs30" xlink="#icon-xunwen"></m-icon></div>
+                    <div class="fs28 extra-light-black">您共有<span class="color-black">{{account.doudouBalance}}</span>美豆豆，可<span class="color-pink">抵￥{{account.doudouBalance | dou2yuan}}</span><m-icon class="fs30" xlink="#icon-xunwen"></m-icon></div>
                     </div>
-                <div class="color-black"><input class="input-style p-1" pattern="[0-9]*" v-model="payDetail.payDoudouAmount" type="number"></div>
+                <div class="color-black"><input class="input-style p-1 tetx-center" @change="changeDouAmount" pattern="[0-9]*" v-model="payDetail.payDoudouAmount" type="number"></div>
             </div>
             <div flex @click="clickToVoucher">                
                 <div flex layout="row" layout-align="space-between center">
                     <div class="fs28 extra-light-black">优惠券</div>
-                    <div class="fwb fs28" v-if="voucherDiscountMoney">优惠￥{{voucherDiscountMoney | fen2yuan}}</div>
-                    <div class="fwb fs28" v-if="!voucherDiscountMoney">点击选择优惠券</div>
+                    <div class="fwb fs28" v-if="voucherDiscountMoney">{{voucher.discountType | discountType}}<span v-if="voucher.discountType == 1">{{voucherDiscountMoney | fen2yuan}}</span><span v-if="voucher.discountType == 2">{{discount * 10}}折</span></div>
+                    <div class="fwb fs28" v-if="!voucherDiscountMoney">{{getCouponList.length > 0 ? '点击选择优惠券' : '暂无可用优惠券'}}</div>
                 </div>
             </div>
         </div>
@@ -64,21 +64,21 @@
                 <div flex="80">
                     <div class="fs28 extra-light-black">优惠券抵扣金额</div>
                     </div>
-                <div class="color-black">{{voucherDiscountMoney | fen2yuan}}</div>
+                <div class="color-black">￥{{discountMoney | fen2yuan}}</div>
             </div>
             <div layout="row" class="m-b-3" layout-align="space-between center">
-                <div flex="80">
+                <div flex="30">
                     <div class="fs30 color-black fwb">需支付</div>
                     </div>
                 <div class="color-black fs40 color-pink">￥{{payDetail.payMoney | fen2yuan}}</div>
             </div>
             <div flex class="textarea">
-               <textarea class="p-1" placeholder="备注"></textarea>
+               <textarea class="p-1" v-model="payDetail.remark" placeholder="备注"></textarea>
             </div>
         </div>
-<div class="integral-btn fwb fs38 color-white m-t-3 m-b-3" @click="buy" layout="row" layout-align="center center">
+<button :disabled="btnClick" class="integral-btn fwb fs38 color-white m-t-3 m-b-3" @click="buy" layout="row" layout-align="center center">
 支付
-</div>
+</button>
     </div>
     <voucher :mw-item="payDetail" :vocher-show="vocherShow" @update="clickToVoucher" @mClose="clickToVoucher"></voucher>
 </div>
@@ -100,7 +100,12 @@
                     account: {}, // 账户详情
                     totalPay: 3000,
                     selectVoucher: {},
+                    discountMoney: 0,
                     voucherDiscountMoney: 0,
+                    discount: 1,
+                    voucher: {},
+                    couponList: null,
+                    btnClick: false,
                     payDetail: {
                         merchantId: this.$store.state.party.merchantId,
                         partyId: this.$store.state.party.partyId,
@@ -112,7 +117,8 @@
                         tradeType: 6,
                         deliverAddressId: null,
                         serviceApply: {},
-                        tradeCouponList: []
+                        tradeCouponList: [],
+                        remark: null
                     },
                     vocherShow: false
                 };
@@ -124,6 +130,7 @@
                         this.$indicator.close();
                         this.item = msg.data;
                         this.loadPersonal();
+                        this.getCouponList();
                     }, msg=> {
                         console.log('网络错误');
                     });
@@ -133,41 +140,42 @@
                     api_party.getAccount(this.$store.state.party.partyId).then(msg=> {
                         this.$indicator.close();
                         this.account = msg.data;
-                        let price2dou = this.item.price / 10;
-                        let payDou = 0;
-                        let payMoney = 0;
-                        if (this.account.doudouBalance > price2dou) {
-                            payDou = price2dou;
-                            payMoney = 0;
+                        if (this.payDetail.tradeCouponList.length) {
+                            this.caculateDiscountMoney();
                         } else {
-                            payDou = this.account.doudouBalance;
-                            payMoney = (price2dou - payDou) / 10; // 豆豆转分
-                        };
-                        this.payDetail.payDoudouAmount = payDou;
-                        this.payDetail.payMoney = payMoney;
+                            this.caculateResult();
+                        }
                     }, msg=> {
                     });
                 },
                 loadDefaultAddress() {
                     if (this.$route.params.addressId) {
-                        console.log(this.$route.params.addressId);
+                        this.payDetail.deliverAddressId = this.$route.params.addressId;
                     } else {
                         this.$indicator.open('Loading...');
                         api_party.getDefaultAddress(this.$store.state.party.partyId, this.$store.state.party.id).then(msg=> {
                             this.$indicator.close();
                             this.address = msg.data;
+                            this.payDetail.deliverAddressId = this.address.id;
                         }, msg=> {});
                     }
                 },
                 changeNum(val) {
-                    this.quality = val;
+                    // this.$set(this.payDetail, 'quantity', val);
+                    let tempPayDetail = this.payDetail;
+                    tempPayDetail.quantity = val;
+                    this.payDetail = tempPayDetail;
+                    this.caculateResult();
                 },
                 clickToVoucher(data) {
+                    if (!this.getCouponList.length && !data) {
+                        this.$toast('暂无可用优惠券哦！');
+                        return;
+                    };
                     this.vocherShow = !this.vocherShow;
                     if (this.vocherShow == false) {
                         if (data) {
                             this.payDetail = data;
-                            console.log(this.payDetail);
                             this.caculateDiscountMoney();
                         }
                     };
@@ -180,26 +188,49 @@
                         msg.data.map((item, index)=> {
                             discount += item.discountAmount;
                         });
-                        this.voucherDiscountMoney = discount;
+                        this.voucher = msg.data[0];
+                        console.log(this.voucher);
+                        if (this.voucher.discountType == 1) {
+                            this.voucherDiscountMoney = discount;
+                        } else if (this.voucher.discountType == 2) {
+                            this.discount = this.voucher.discount;
+
+                        }
                         this.caculateResult();
                     }, msg=> {
                     });
                 },
                 caculateResult() {
                     // 添加优惠后的需支付详情
-                    let leftMoney = this.item.price * this.payDetail.quantity - this.voucherDiscountMoney; // 抵扣折扣券之后所剩的需支付金额（分）
+                    let payAll = this.item.price;
+                    let leftMoney = payAll;
+                    if (this.voucher) {
+                        // 如果选择了优惠券
+                        if (this.voucher.discountType == 1) {
+                            leftMoney = payAll - this.voucherDiscountMoney;
+                            this.discountMoney = this.voucherDiscountMoney;
+                        } else if (this.voucher.discountType == 2) {
+                            leftMoney = payAll * this.discount;
+                            this.discountMoney = Number(payAll * (1 - this.discount)).toFixed(2);
+                        };
+                    }
+                    leftMoney += this.item.price * (this.payDetail.quantity - 1);
                     if (leftMoney > 0) {
-                        let balanceFen = this.account.doudouBalance / 10; // 豆豆转分
+                        let balanceFen = this.translate('dou2fen', this.account.doudouBalance); // 豆豆转分
                         if (leftMoney < balanceFen) {
-                            debugger;
-                            this.payDetail.payDoudouAmount = leftMoney / 10;
+                            this.payDetail.payDoudouAmount = this.translate('fen2dou', leftMoney); // 分转豆豆
                             this.payDetail.payMoney = 0;
                         } else {
-                            this.payDetail.payDoudouAmount = balanceFen / 10;
+                            this.payDetail.payDoudouAmount = this.translate('fen2dou', balanceFen);
                             let afterLeft = leftMoney - balanceFen;
                             this.payDetail.payMoney = afterLeft;
                         }
                     }
+                },
+                changeDouAmount() {
+                    let tempPayDetail = this.payDetail;
+                    tempPayDetail.payMoney = this.item.price * tempPayDetail.quantity - this.voucherDiscountMoney - this.translate('dou2fen', tempPayDetail.payDoudouAmount);
+                    this.payDetail = tempPayDetail;
                 },
                 chooseAddress() {
                     this.$router.push(`/address-list/choose/${this.itemId}`);
@@ -211,17 +242,52 @@
                         this.address = this.$route.params.address;
                     };
                 },
+                getCouponList() {
+                    this.$indicator.open('Loading...');
+                    api_party.getCouponList(this.payDetail).then(msg=> {
+                        this.$indicator.close();
+                        this.couponList = msg.data.filter((item, index)=> {
+                            return item.canUsed;
+                        });
+                    }, msg=> {
+                        console.log('网络错误');
+                    });
+                },
                 buy() {
-                    console.log(this.payDetail);
+                    if (this.$route.params.serviceApply) {
+                        this.payDetail.serviceApply = this.$route.params.serviceApply;
+                    };
+                    api_party.doudouTrade(this.payDetail).then(msg=> {
+                        this.btnClick = true;
+                        if (msg.data.status == 0) {
+                            location.href = msg.data.payUrl + '?url=' + encodeURIComponent(location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/pay-success');
+                        } else {
+                            this.$router.push('pay-success');
+                        };
+                    }, msg=> {
+
+                    });
                 },
                 init() {
                     this.getDetail(); // 获取商品详情
                     this.loadDefaultAddress(); // 获取默认地址
                     this.initParameter(); // 加载默认传进来的参数
-                    console.log(this.$route.params);
+                },
+                translate(type, num) {
+                    let result;
+                    if (type == 'dou2fen') {
+                        result = num / 10 * 100;
+                    };
+                    if (type == 'fen2dou') {
+                        result = num / 100 * 10;
+                    };
+                    return result;
                 }
             },
             mounted() {
+                if (!this.$route.params.itemId) {
+                    this.$router.go(-1);
+                };
                 this.init();
             },
             components: {

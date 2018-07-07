@@ -18,7 +18,7 @@
         <div class="exchange-btn color-white fs38" @click="confirm" layout="row" layout-align="center center">
             确认
         </div>
-        <buy-message type="1" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>
+        <!-- <buy-message type="1" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message> -->
     </div>
 </template>
 <script>
@@ -62,7 +62,13 @@ export default {
                 return item.isActive == 2;
             });
             this.chooseServiceItem = temp[0];
-            this.showBuy = true;
+            // this.showBuy = true;
+            this.$router.push({
+                name: 'pay-detail',
+                params: {
+                    itemId: this.chooseServiceItem.id
+                }
+            });
         },
         update(val) {
             this.showBuy = val;

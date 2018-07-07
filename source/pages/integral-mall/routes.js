@@ -26,6 +26,7 @@ const promotionAtTpRecording = resolve => require(['./pages/promotions/at_tp/rec
 const promotionAtTpRule = resolve => require(['./pages/promotions/at_tp/rule'], resolve);
 const bigWheel = resolve => require(['./pages/big-wheel/index'], resolve);
 const payDetail = resolve => require(['./pages/pay/pay-detail'], resolve);
+const paySuccess = resolve => require(['./pages/pay/pay-success'], resolve);
 
 export default [{
     path: '/sign-in',
@@ -130,4 +131,8 @@ export default [{
     path: '/pay-detail',
     name: 'pay-detail',
     component: payDetail
+}, {
+    path: '/pay-success',
+    name: 'pay-success',
+    component: paySuccess
 }];

@@ -28,13 +28,11 @@
             <p class="fs24 color-gray"><span class="color-pink">·</span>此兑换由于商品特殊，不可退货，敬请原谅</p>            
         </div>
         <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm"  @integraConfirm="inteconfirm"></integral-confirm>
-        <buy-message type="1" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>   
     </div>
 </template>
 <script>
 import api_party from 'services/api.party';
 import integralConfirm from 'components/integral-mall/integral-confirm';
-import buyMessage from 'components/integral-mall/buy-message';
 import { Indicator } from 'mint-ui';
 export default {
     data() {
@@ -75,7 +73,12 @@ export default {
         },
         buy() {
             this.chooseServiceItem = this.dataList[0];
-            this.showBuy = true;
+            this.$router.push({
+                name: 'pay-detail',
+                params: {
+                    itemId: this.chooseServiceItem.id
+                }
+            });
         },
         searchBalance() {
             Indicator.open('loading...');
@@ -95,8 +98,7 @@ export default {
         this.init();
     },
     components: {
-        integralConfirm,
-        buyMessage
+        integralConfirm
     }
 };
 </script>
