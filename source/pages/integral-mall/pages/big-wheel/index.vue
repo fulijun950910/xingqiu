@@ -34,7 +34,7 @@
                         <p class="color-fe fs24">{{item.endTime}}</p>
                     </div>
                     <div>
-                        <a class="color-white fs28 to-use text-center" layout="row" layout-align="center center">去使用</a>
+                        <a class="color-white fs28 to-use text-center" layout="row" layout-align="center center" @click="goToUse(item)">去使用</a>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                         <p class="text-center fs26 color-purple">已位您放入<span class="color-yellow">“美豆豆钱包”</span></p>
                     </div>
                 </div>
-                <div class="color-purple fs34 to-use text-center">去使用</div>
+                <div class="color-purple fs34 to-use text-center" @click="goToUse(tempAward)">去使用</div>
             </div>
             <div class="close text-center" @click="toggleAlert">
                 <m-icon class="color-white" xlink="#icon-huabanfuben29"></m-icon>
@@ -90,9 +90,9 @@ export default {
             wheelConfig: {
                 radius: 140, // 转盘半径
                 inCircleRadius: 0, // 用于非零环绕原则的内圆半径
-                textRadius: 100, // 外圈文字半径
-                subTextRedius: 70, // 内圈文字半径
-                imgRedius: 50,
+                textRadius: 110, // 外圈文字半径
+                subTextRedius: 90, // 内圈文字半径
+                imgRedius: 75,
                 centerX: 280 / 2,
                 centerY: 280 / 2,
                 startRadian: 0, // 起始角
@@ -120,6 +120,14 @@ export default {
             let ctx = canvas.getContext('2d'); // 初始化画布
             let awards = this.awrads;
             let awardRadian = (Math.PI * 2) / awards.length; // 奖品均分角度
+            // let devicePixelRatio = window.devicePixelRatio || 1;
+            // let backingStoreRatio = ctx.webkitBackingStorePixelRatio || 1;
+            // let ratio = devicePixelRatio / backingStoreRatio;
+            // canvas.width = 70 * ratio;
+            // canvas.height = 70 * ratio;
+            // canvas.style.width = 140;
+            // canvas.style.height = 140;
+            // ctx.scale(ratio, ratio);
             for (let i = 0; i < awards.length; i++) {
                 let _startRadian = config.startRadian + awardRadian * i;  // 每一个奖项所占的起始弧度
                 let _endRadian = _startRadian + awardRadian;     // 每一个奖项的终止弧度
@@ -134,14 +142,14 @@ export default {
                 ctx.restore();
                 // 绘制外圈文字
                 ctx.save();
-                ctx.font = '16px Helvetica, Arial';
+                ctx.font = '14px Helvetica, Arial';
                 ctx.fillStyle = '#B5ACDB';
                 ctx.translate(
                     config.centerX + Math.cos(_startRadian + awardRadian / 2) * config.textRadius,
                     config.centerY + Math.sin(_startRadian + awardRadian / 2) * config.textRadius
                 );
                 ctx.rotate(_startRadian + awardRadian / 2 + Math.PI / 2);
-                ctx.fillText(awards[i].description, -ctx.measureText(awards[i].name).width / 2, 0);
+                ctx.fillText(awards[i].name, -ctx.measureText(awards[i].name).width / 2, 0);
                 ctx.restore();
 
                 // 绘制内圈文字
@@ -153,7 +161,7 @@ export default {
                     config.centerY + Math.sin(_startRadian + awardRadian / 2) * config.subTextRedius
                 );
                 ctx.rotate(_startRadian + awardRadian / 2 + Math.PI / 2);
-                ctx.fillText(awards[i].name, -ctx.measureText(awards[i].name).width / 2, 0);
+                ctx.fillText(awards[i].description, -ctx.measureText(awards[i].name).width / 4, 0);
                 ctx.restore();
 
                 // 绘制图片
@@ -167,7 +175,7 @@ export default {
                 ctx.rotate(_startRadian + awardRadian / 2 + Math.PI / 2);
                 let img = new Image();
                 img.src = require('assets/imgs/integral-mall/vocher.png');
-                ctx.drawImage(img, -ctx.measureText(awards[i].name).width / 2, 0, 30, 30);
+                ctx.drawImage(img, -ctx.measureText(awards[i].name).width / 4, 0, 30, 30);
                 ctx.restore();
             };
         },
@@ -226,6 +234,7 @@ export default {
                 this.toggleAlert();
                 console.log(this.tempAward);
                 this.loadPrizeList();
+                this.loadHasAwardedList();
                 setTimeout(()=> {
                     this.hideSnow = false;
                 }, 1000);
@@ -286,6 +295,9 @@ export default {
             if (this.showAlert) {
                 this.hideSnow = true;
             };
+        },
+        goToUse(item) {
+            console.log(item);
         },
         init() {
             this.loadPrizeList();

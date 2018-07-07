@@ -43,7 +43,7 @@
                 <div flex layout="row" layout-align="space-between center">
                     <div class="fs28 extra-light-black">优惠券</div>
                     <div class="fwb fs28" v-if="voucherDiscountMoney">{{voucher.discountType | discountType}}<span v-if="voucher.discountType == 1">{{voucherDiscountMoney | fen2yuan}}</span><span v-if="voucher.discountType == 2">{{discount * 10}}折</span></div>
-                    <div class="fwb fs28" v-if="!voucherDiscountMoney">{{getCouponList.length > 0 ? '点击选择优惠券' : '暂无可用优惠券'}}</div>
+                    <div class="fwb fs28" v-if="!voucherDiscountMoney">{{couponList.length > 0 ? '点击选择优惠券' : '暂无可用优惠券'}}</div>
                 </div>
             </div>
         </div>
@@ -104,7 +104,7 @@
                     voucherDiscountMoney: 0,
                     discount: 1,
                     voucher: {},
-                    couponList: null,
+                    couponList: [],
                     btnClick: false,
                     payDetail: {
                         merchantId: this.$store.state.party.merchantId,
@@ -168,7 +168,7 @@
                     this.caculateResult();
                 },
                 clickToVoucher(data) {
-                    if (!this.getCouponList.length && !data) {
+                    if (!this.couponList.length && !data.itemId) {
                         this.$toast('暂无可用优惠券哦！');
                         return;
                     };
@@ -249,6 +249,7 @@
                         this.couponList = msg.data.filter((item, index)=> {
                             return item.canUsed;
                         });
+                        console.log(this.couponList);
                     }, msg=> {
                         console.log('网络错误');
                     });
