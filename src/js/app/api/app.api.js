@@ -7,6 +7,7 @@ app.api = {
             switch (res.status) {
                 case 401:
                 case 403:
+                    localStorage.clear();
                     window.location.href = window.location.origin + "/userinfo.html#/user_login";
                     if (location.pathname == '/userinfo.html'){
                         location.reload();
@@ -21,6 +22,7 @@ app.api = {
         }
         function success(res) {
             if (res && res.code == 302 && res.data) {
+                localStorage.clear();
                 window.location.href = res.data
             } else {
                 options.success(res)
