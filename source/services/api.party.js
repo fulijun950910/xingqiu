@@ -226,5 +226,15 @@ export default {
         // 已获奖项列表
         let url = '/api/prize/search';
         return request(url, 'post', parameter);
+    },
+    getCouponList(parameter) {
+        // 获取券列表
+        let url = '/api/doudouTrade/getCouponList';
+        return request(url, 'post', parameter);
+    },
+    calCouponMoney(parameter) {
+        // 计算券抵扣金额
+        let url = '/api/doudouTrade/calCouponMoney';
+        return request(url, 'post', parameter);
     }
 };

@@ -11,6 +11,19 @@ export default {
         }
         return '';
     },
+    addSearch(search, addName, value) {
+        let text = '';
+        if (value) {
+            if (search) {
+                text = `${search}&${addName}=${value}`;
+            } else {
+                text = `?${addName}=${value}`;
+            }
+        }else {
+            text = search;
+        }
+        return text;
+    },
     // 浅拷贝
 	extendCopy(p) {
         let c = {};

@@ -35,7 +35,11 @@ app.userinfo = {
     },
     goMwxq: function() {
         localStorage.clear();
-        location.href = '/service/index.html'+window.location.search+'#/main'
+        var text = '';
+        if (keyGetValue('openid')) {
+            text = '?openid=' + keyGetValue('openid');
+        }
+        location.href = '/service/index.html'+text+'#/main'
     },
     messageTime: function(o, data) {
         if (this.wait == 60 && data) {
@@ -455,6 +459,7 @@ app.userinfo = {
                                                     },
                                                     success: function(results) {
                                                         if (results && results.success) {}
+                                                        
                                                         //
                                                         app.userinfo.getEmployee().then(function(employee) {
                                                             if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
@@ -483,6 +488,10 @@ app.userinfo = {
                                                                         } else if (keyGetValue('type') == 2) {
                                                                             window.history.back();
                                                                             return;
+                                                                        } else if (keyGetValue('type') == 3) {
+                                                                            url = "/service/integral-mall.html#/personal";
+                                                                        } else if (keyGetValue('type') == 4) {
+                                                                            url = "/service/index.html#/checkIn";
                                                                         }
                                                                         if (location.pathname == '/main.html'){
                                                                             location.reload();
@@ -500,6 +509,8 @@ app.userinfo = {
                                                                     }
                                                                 });
                                                             } else {
+                                                                document.cookie = 'rememberMe=';
+                                                                document.cookie = 'remeberMeRunAsRole=';
                                                                 localStorage.clear();
                                                                 location.href = "/userinfo.html#/user_login";
                                                                 // app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
@@ -918,7 +929,11 @@ app.userinfo = {
                                         if (res.success) {
                                             if (keyGetValue('type') == 2) {
                                                 window.history.go(-2);
-                                            } else{
+                                            } else if (keyGetValue('type') == 3){
+                                                location.href = '/service/integral-mall.html#/personal'
+                                            } else if (keyGetValue('type') == 4) {
+                                                location.href = "/service/index.html#/checkIn";
+                                            } else {
                                                 location.href = '/service/index.html#/main'
                                             }
                                         } else {

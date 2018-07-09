@@ -132,7 +132,14 @@ export default {
         },
         choose(item) {
             if (this.type == 'choose') {
-                this.$router.push(`/product-detail/finished/${this.$route.params.productId}/${item.id}`);
+                this.$router.push({
+                    name: 'pay-detail',
+                    params: {
+                        addressId: item.id,
+                        itemId: this.$route.params.productId,
+                        address: item
+                    }
+                });
             } else if (this.type == 'select') {
                 this.$store.state.integralMallActAddress = item;
                 this.$router.back();

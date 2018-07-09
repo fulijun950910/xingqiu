@@ -67,6 +67,10 @@
                         <div flex class=""> {{ ticketInfo.endDate }} </div>
                     </div>
                     <div class="textCell" layout="row" layout-align="start center">
+                        <div class="dark-gray">来源:&nbsp;</div>
+                        <div flex class=""> {{ ticketInfo.kind + '-'+ ticketInfo.source| getName(COUNON_KIND) }} </div>
+                    </div>
+                    <div class="textCell" layout="row" layout-align="start center">
                         <div class="dark-gray">操作人:&nbsp;</div>
                         <div flex class="">{{ ticketInfo.operatorName }}</div>
                     </div>
@@ -121,6 +125,10 @@
                     <div class="textCell" layout="row" layout-align="start center">
                         <div class="dark-gray">结束时间:&nbsp;</div>
                         <div flex class=""> {{ ticketInfo.endDate }} </div>
+                    </div>
+                    <div class="textCell" layout="row" layout-align="start center">
+                        <div class="dark-gray">来源:&nbsp;</div>
+                        <div flex class=""> {{ ticketInfo.kind + '-'+ ticketInfo.source| getName(COUNON_KIND) }} </div>
                     </div>
                     <div class="textCell" layout="row" layout-align="start center">
                         <div class="dark-gray">操作人:&nbsp;</div>
@@ -178,6 +186,10 @@
                         <div flex class=""> {{ ticketInfo.endDate }} </div>
                     </div>
                     <div class="textCell" layout="row" layout-align="start center">
+                        <div class="dark-gray">来源:&nbsp;</div>
+                        <div flex class=""> {{ ticketInfo.kind + '-'+ ticketInfo.source| getName(COUNON_KIND) }} </div>
+                    </div>
+                    <div class="textCell" layout="row" layout-align="start center">
                         <div class="dark-gray">操作人:&nbsp;</div>
                         <div flex class="">{{ ticketInfo.operatorName }}</div>
                     </div>
@@ -228,6 +240,10 @@
                     <div class="textCell" layout="row" layout-align="start center">
                         <div class="dark-gray">结束时间:&nbsp;</div>
                         <div flex class=""> {{ ticketInfo.endDate }} </div>
+                    </div>
+                    <div class="textCell" layout="row" layout-align="start center">
+                        <div class="dark-gray">来源:&nbsp;</div>
+                        <div flex class=""> {{ ticketInfo.kind + '-'+ ticketInfo.source| getName(COUNON_KIND) }} </div>
                     </div>
                     <div class="textCell" layout="row" layout-align="start center">
                         <div class="dark-gray">操作人:&nbsp;</div>
@@ -282,6 +298,10 @@
                         <div flex class=""> {{ ticketInfo.endDate }} </div>
                     </div>
                     <div class="textCell" layout="row" layout-align="start center">
+                        <div class="dark-gray">来源:&nbsp;</div>
+                        <div flex class=""> {{ ticketInfo.kind + '-'+ ticketInfo.source| getName(COUNON_KIND) }} </div>
+                    </div>
+                    <div class="textCell" layout="row" layout-align="start center">
                         <div class="dark-gray">操作人:&nbsp;</div>
                         <div flex class="">{{ ticketInfo.operatorName }}</div>
                     </div>
@@ -320,11 +340,13 @@ import apiTicket from 'services/api.couponVerify.js';
 import popupRight from 'components/popup-right';
 import popupRightList from 'components/popup-right-list';
 import api_getJSSignature from 'services/api.getJSSignature';
+import { COUNON_KIND } from 'config/mixins';
 
 export default {
     name: '',
     data() {
         return {
+            COUNON_KIND: COUNON_KIND,
             merchantId: this.$store.getters.merchantId,
             storeId: this.$store.getters.storeId,
             storeList: [],
@@ -417,6 +439,8 @@ export default {
                 this.ticketInfo.mobile = results.data.mobile;
                 this.ticketInfo.ticketName = results.data.ticketName;
                 this.ticketInfo.status = results.data.status;
+                this.ticketInfo.kind = results.data.kind;
+                this.ticketInfo.source = results.data.source;
                 // operatorName获取系统操作人
                 this.ticketInfo.operatorName = this.$store.state.user.name;
                 this.ticketInfo.startDate = results.data.startDate;

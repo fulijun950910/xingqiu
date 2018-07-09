@@ -45,73 +45,85 @@ function initEemployee() {
                             app.endLoading();
                             return;
                         }
-                        app.index.listEmployeeStoreList(listEmployeeStoreListData).then(function(result) {
-                                app.index.getEmployee(data.userId).then(function(employeeInfo) {
-                                        var employee = employeeInfo;
-                                        //       employee.openId = openId;
-                                        for (var j in employee) {
-                                            if (employee[j].id == data.employeeId) {
-                                                employee = employee[j];
-                                                employee.storeList = result;
-                                                break;
-                                            }
-                                        }
-                                        var storeIds = [];
-                                        for (var o in result) {
-                                            storeIds.push(result[o].id);
-                                        }
-                                        employee.storeIds = storeIds.join(',');
-                                        for (var j in employee.merchantRole.permissionPackage.permissions) {
-                                            var permission = employee.merchantRole.permissionPackage.permissions[j];
-                                            if (permission == app.constant.WECHAT_BUSINESS[1].code) {
-                                                employee.role = app.constant.WECHAT_BUSINESS[1].code;
-                                                break;
-                                            } else if (permission == app.constant.WECHAT_BUSINESS[2].code) {
-                                                employee.role = app.constant.WECHAT_BUSINESS[2].code;
-                                                break;
-                                            } else {
-                                                employee.role = null;
-                                            }
-                                        }
-                                        //员工登录
-                                        app.api.userinfo.emplogin({
-                                            data: {
-                                                empid: data.employeeId
-                                            },
-                                            success: function(results) {
-                                                if (results && results.success) {
-                                                    window.localStorage.employee = JSON.stringify(employee);
-                                                    app.api.userinfo.loginBySaasEmployee({
-                                                        data: {
-                                                            employeeId: employee.id
-                                                        },
-                                                        success: function (res) {
-                                                            var employeeData = window.localStorage.employee;
-                                                            if(employeeData){
-                                                                employeeData = JSON.parse(employeeData);
-                                                                employeeData.party = res.data;
-                                                                window.localStorage.employee = JSON.stringify(employeeData);
-                                                                initData();
-                                                                app.index.init();
-                                                            } else {
-                                                                app.userinfo.alertError('服务器开小差，请稍后再试');
-                                                            }
-
-                                                        },
-                                                        error: function () {
+                        app.index.listEmployeeStoreList(listEmployeeStoreListData).then(function (result) {
+                            app.index.getEmployee(data.userId).then(function (employeeInfo) {
+                                var employee = employeeInfo;
+                                //       employee.openId = openId;
+                                for (var j in employee) {
+                                    if (employee[j].id == data.employeeId) {
+                                        employee = employee[j];
+                                        employee.storeList = result;
+                                        break;
+                                    }
+                                }
+                                var storeIds = [];
+                                for (var o in result) {
+                                    storeIds.push(result[o].id);
+                                }
+                                employee.storeIds = storeIds.join(',');
+                                for (var j in employee.merchantRole.permissionPackage.permissions) {
+                                    var permission = employee.merchantRole.permissionPackage.permissions[j];
+                                    if (permission == app.constant.WECHAT_BUSINESS[1].code) {
+                                        employee.role = app.constant.WECHAT_BUSINESS[1].code;
+                                        break;
+                                    } else if (permission == app.constant.WECHAT_BUSINESS[2].code) {
+                                        employee.role = app.constant.WECHAT_BUSINESS[2].code;
+                                        break;
+                                    } else {
+                                        employee.role = null;
+                                    }
+                                }
+                                if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
+                                    //员工登录
+                                    app.api.userinfo.emplogin({
+                                        data: {
+                                            empid: data.employeeId
+                                        },
+                                        success: function (results) {
+                                            if (results && results.success) {
+                                                window.localStorage.employee = JSON.stringify(employee);
+                                                app.api.userinfo.loginBySaasEmployee({
+                                                    data: {
+                                                        employeeId: employee.id
+                                                    },
+                                                    success: function (res) {
+                                                        var employeeData = window.localStorage.employee;
+                                                        if (employeeData) {
+                                                            employeeData = JSON.parse(employeeData);
+                                                            employeeData.party = res.data;
+                                                            window.localStorage.employee = JSON.stringify(employeeData);
+                                                            initData();
+                                                            app.index.init();
+                                                        } else {
+                                                            app.userinfo.alertError('服务器开小差，请稍后再试');
                                                         }
-                                                    });
-                                                } else {
-                                                    app.alert('切换失败');
-                                                }
-                                            },
-                                            error: function() { app.alert('切换失败'); }
-                                        });
-                                    },
-                                    function() { app.alert('切换失败'); });
-                            },
-                            function() { app.alert('切换失败'); });
 
+                                                    },
+                                                    error: function () {
+                                                    }
+                                                });
+                                            } else {
+                                                app.alert('切换失败');
+                                            }
+                                        },
+                                        error: function () {
+                                            app.alert('切换失败');
+                                        }
+                                    });
+                                } else {
+                                    document.cookie = 'rememberMe=';
+                                    document.cookie = 'remeberMeRunAsRole=';
+                                    localStorage.clear();
+                                    app.alert('小主，您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!');
+                                    app.endLoading();
+                                    return;
+                                }
+                            }, function () {
+                                app.alert('切换失败');
+                            });
+                        }, function () {
+                            app.alert('切换失败');
+                        });
                     },
                     error: function(a, b, c) {
 

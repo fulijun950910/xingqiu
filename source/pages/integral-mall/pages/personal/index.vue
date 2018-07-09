@@ -70,7 +70,7 @@
                 <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="signOut()">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-tuichu"></m-icon>退出登陆</span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-tuichu"></m-icon>退出登录</span>
                 <span class="color-gray right-icon"></span>
             </div>
         </div>
@@ -188,10 +188,11 @@
                     localStorage.clear();
                     document.cookie = 'rememberMe=';
                     document.cookie = 'remeberMeRunAsRole=';
-                    window.location.href = this.$getSignLocation(`?openid=${this.$store.state.user.openId}`);
+                    window.location.href = this.$getSignLocation(this.$knife.addSearch(window.location.search, 'openid', this.$store.state.user.openId));
                 } else {
                     let data = {
                         employeeId: this.$store.state.user.id,
+                        openId: this.$store.state.user.openId,
                         userId: this.$store.state.user.userId
                     };
                     api_party.unbind(data).then(res => {
@@ -199,7 +200,7 @@
                         localStorage.clear();
                         document.cookie = 'rememberMe=';
                         document.cookie = 'remeberMeRunAsRole=';
-                        window.location.href = this.$getSignLocation(`?openid=${this.$store.state.user.openId}`);
+                        window.location.href = this.$getSignLocation(this.$knife.addSearch(window.location.search, 'openid', this.$store.state.user.openId));
                     });
                 }
             }

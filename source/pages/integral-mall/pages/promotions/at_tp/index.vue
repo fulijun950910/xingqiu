@@ -16,7 +16,7 @@
                 </div>
                 <!--<div class="">{{data.allBuyCount | buyCount}}+ 人购买</div>-->
             </div>
-            <div class="m-t-4" layout="row" layout-align="space-between center">
+            <div class="m-t-4" layout="row" layout-align="start center">
                 <div @click="showBuy(item)" v-for="(item,index) in data.groupRule.groupRuleExts" flex="30" :class="{'buyTypeItem1':index==0,'buyTypeItem2':index==1,'buyTypeItem3':index==2}" class="buyTypeItem">
                     <div class="typeTitle fs24">{{ item.levelName }}</div>
                     <div class="fs32 m-t-1 m-b-1"><span class="fs24">￥</span>{{ item.sellingPrice | fen2yuan }}</div>
@@ -500,9 +500,11 @@
             background:#854399;
         }
         .buyTypeItem2{
+            margin-left: 5%;
             background:#307BC1;
         }
         .buyTypeItem3{
+            margin-left: 5%;
             background:#13A59E;
         }
         .listItem{

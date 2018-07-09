@@ -54,3 +54,17 @@ export const PROMOTION_TP_STATUS = [
     { name: '已成团', value: '3' },
     { name: '处理中', value: '4' }
 ];
+
+export const COUNON_KIND = [
+    { name: '开卡赠送', value: '2-2' },
+    { name: '充值赠送', value: '2-3' },
+    { name: '直接赠送', value: '2-4' },
+    { name: '短信送券', value: '2-6' },
+    { name: '他人赠送', value: '1-7' },
+    { name: '他人赠送', value: '2-7'},
+    { name: '微信活动赠送', value: '2-5'},
+    { name: 'SaaS购买', value: '1-1' },
+    { name: '微信活动购买', value: '1-2'},
+    { name: '商城购买', value: '1-6' },
+    { name: '微信活动购买', value: '1- '}
+];

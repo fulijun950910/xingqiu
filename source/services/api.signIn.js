@@ -33,8 +33,8 @@ export default {
         var url = `/api/party/loginBySaasEmployee/${id}`;
         return request(url, 'PUT');
     },
-    getEmployeeInfo: function(id) {
+    getEmployeeInfo: function(searchData) {
         var url = '/api/employeeInfo';
-        return request(url, 'get');
+        return request(url, 'get', null, true, {searchData: searchData});
     }
 };

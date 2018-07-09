@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Q from 'q';
 
-export default function(url, method, data, messageFlag = true) {
+export default function(url, method, data, messageFlag = true, callBackData) {
     var deferred = Q.defer();
     Vue.http({
         url: url,
@@ -34,7 +34,13 @@ export default function(url, method, data, messageFlag = true) {
         Vue.prototype.$indicator.close();
         switch (error.status) {
             case 401:
-                window.location.href = Vue.prototype.$getSignLocation(window.location.search);
+                let search = window.location.search;
+                if (callBackData && callBackData.searchData) {
+                    callBackData.searchData.forEach(item => {
+                        search = Vue.prototype.$knife.addSearch(search, item.type, item.value);
+                    });
+                }
+                window.location.href = Vue.prototype.$getSignLocation(search);
                 break;
             case 403:
                 break;
