@@ -4,11 +4,11 @@
     <div class="main">
         <div class="copon-top">
             <div class="notice fs24 fwb color-white" layout="row" layout-align="center center">
-                已为您选择临近过期的抵用券
+                {{noticeText}}
             </div>
             <div layout="row" class="p-3" layout-align="space-between center">
                 <div class="color-black fs24" layout="row" layout-align="center center">
-                    <span class="fs40 fwb">优惠券</span>（共{{dalaList.length}}张可用）
+                    <span class="fs40 fwb">优惠券</span>（共{{canUse.length}}张可用）
                 </div>
                 <div @click="close">
                     <m-icon class="fs40" xlink="#icon-huabanfuben29"></m-icon>
@@ -64,7 +64,9 @@
             return {
                 dalaList: [],
                 selected: 0,
-                parameter: this.mwItem
+                parameter: this.mwItem,
+                canUse: [],
+                noticeText: '已为您选择最佳优惠券'
             };
         },
         methods: {
@@ -83,7 +85,9 @@
                                     item.canUsed = true;
                                 }
                             });
-                        };
+                        } else {
+                            this.selected = this.dalaList[0].id;
+                        }
                     } else {
                         msg.data.map((item, index)=> {
                             let ls = this.dalaList.filter((item1, index1)=> {
@@ -102,6 +106,10 @@
                             };
                         });
                     }
+                    this.canUse = this.dalaList.filter((item, index)=> {
+                        return item.canUsed;
+                    });
+
                 }, msg=> {
                 });
             },
@@ -114,8 +122,10 @@
                     if (this.selected == item.id) {
                         filterCoupon();
                         this.selected = null;
+                        this.noticeText = '已为您选择最佳优惠券';
                     } else {
                         this.selected = item.id;
+                        this.noticeText = '共可抵扣' + item.discount / 100 + '元';
                         filterCoupon();
                         this.parameter.tradeCouponList.push({
                             userCouponId: this.selected
@@ -124,6 +134,7 @@
                 } else {
                     this.selected = item.id;
                     this.parameter.tradeCouponList = []; // 只能使用一张券
+                    this.noticeText = '共可抵扣' + item.discount / 100 + '元';
                     this.parameter.tradeCouponList.push({
                         userCouponId: this.selected
                     });
