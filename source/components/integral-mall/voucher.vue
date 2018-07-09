@@ -46,6 +46,7 @@
  */
     import mIcon from 'components/m-icon';
     import api_party from 'services/api.party';
+    import { Indicator } from 'mint-ui';
     export default {
         props: {
             mwItem: {
@@ -70,9 +71,9 @@
             loadData(choose) {
                 // this.selected = 0;
                 let parameter = this.parameter;
-                this.$indicator.open('Loading...');
+                Indicator.open('Loading...');
                 api_party.getCouponList(parameter).then(msg=> {
-                    this.$indicator.close();
+                    Indicator.close();
                     if (!choose) {
                         this.dalaList = msg.data;
                         if (parameter.tradeCouponList.length) {

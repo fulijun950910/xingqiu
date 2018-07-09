@@ -10,7 +10,7 @@
         </div>
         <div class="wheel-con">
             <div class="big-wheel-cavans" layout="row" layout-align="center center">
-                <canvas id="cavans" height="281" width="281" :style="wheelConfig.rotate">
+                <canvas id="cavans" height="560" width="560" :style="wheelConfig.rotate">
                 您的浏览器不支持cavans画布
             </canvas>
                 <div class="click-dicect" @click="clickRotate">
@@ -88,13 +88,13 @@ export default {
         return {
             cavans: null,
             wheelConfig: {
-                radius: 140, // 转盘半径
+                radius: 280, // 转盘半径
                 inCircleRadius: 0, // 用于非零环绕原则的内圆半径
-                textRadius: 110, // 外圈文字半径
-                subTextRedius: 90, // 内圈文字半径
-                imgRedius: 75,
-                centerX: 280 / 2,
-                centerY: 280 / 2,
+                textRadius: 220, // 外圈文字半径
+                subTextRedius: 180, // 内圈文字半径
+                imgRedius: 160,
+                centerX: 560 / 2,
+                centerY: 560 / 2,
                 startRadian: 0, // 起始角
                 during: 4, // 旋转时间
                 times: 1, // 旋转速率
@@ -127,7 +127,6 @@ export default {
             // canvas.height = 70 * ratio;
             // canvas.style.width = 140;
             // canvas.style.height = 140;
-            // ctx.scale(ratio, ratio);
             for (let i = 0; i < awards.length; i++) {
                 let _startRadian = config.startRadian + awardRadian * i;  // 每一个奖项所占的起始弧度
                 let _endRadian = _startRadian + awardRadian;     // 每一个奖项的终止弧度
@@ -142,7 +141,7 @@ export default {
                 ctx.restore();
                 // 绘制外圈文字
                 ctx.save();
-                ctx.font = '14px Helvetica, Arial';
+                ctx.font = '26px Helvetica, Arial';
                 ctx.fillStyle = '#B5ACDB';
                 ctx.translate(
                     config.centerX + Math.cos(_startRadian + awardRadian / 2) * config.textRadius,
@@ -154,7 +153,7 @@ export default {
 
                 // 绘制内圈文字
                 ctx.save();
-                ctx.font = '12px Helvetica, Arial';
+                ctx.font = '28px Helvetica, Arial';
                 ctx.fillStyle = '#B5ACDB';
                 ctx.translate(
                     config.centerX + Math.cos(_startRadian + awardRadian / 2) * config.subTextRedius,
@@ -166,7 +165,7 @@ export default {
 
                 // 绘制图片
                 ctx.save();
-                ctx.font = '12px Helvetica, Arial';
+                ctx.font = '26px Helvetica, Arial';
                 ctx.fillStyle = '#B5ACDB';
                 ctx.translate(
                     config.centerX + Math.cos(_startRadian + awardRadian / 2) * config.imgRedius,
@@ -175,7 +174,7 @@ export default {
                 ctx.rotate(_startRadian + awardRadian / 2 + Math.PI / 2);
                 let img = new Image();
                 img.src = require('assets/imgs/integral-mall/vocher.png');
-                ctx.drawImage(img, -ctx.measureText(awards[i].name).width / 4, 0, 30, 30);
+                ctx.drawImage(img, -ctx.measureText(awards[i].name).width / 6, 0, 30, 30);
                 ctx.restore();
             };
         },
@@ -297,7 +296,17 @@ export default {
             };
         },
         goToUse(item) {
-            console.log(item);
+            let useCon = item.userCoupon.goodsIds.split(',');
+            if (useCon.length == 1) {
+                if (useCon[0] == 0) {
+                    this.$router.push('/rule-entry');
+                } else {
+                    this.$router.push(`/product-detail/choose/${useCon[0]}`);
+                }
+            } else {
+                this.$router.push('/rule-entry');
+            }
+
         },
         init() {
             this.loadPrizeList();
@@ -377,6 +386,7 @@ export default {
                 margin: 0 auto;
                 position: relative;
                 z-index: 1;
+                transform: scale(.5,.5);
             }
             .click-dicect {
                 position: absolute;

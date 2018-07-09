@@ -119,7 +119,6 @@ export default {
         },
         onValuesChange(value) {
             this.store = value[0];
-            console.log(this.store);
         },
         toPay() {
             debugger;
@@ -136,6 +135,7 @@ export default {
             this.parameter.storeId = this.store.id;
             this.parameter.storeName = this.store.name;
             this.parameter.storeAddress = this.store.address;
+            this.parameter.applyServiceDate = this.$moment(this.parameter.applyServiceDate).starteOf('day').format('YYYY-MM-DD HH:mm:ss');
             this.$router.push({
                 name: 'pay-detail',
                 params: {

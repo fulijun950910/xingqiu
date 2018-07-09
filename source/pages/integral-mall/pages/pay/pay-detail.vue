@@ -169,10 +169,6 @@
                     this.caculateDiscountMoney();
                 },
                 clickToVoucher(data) {
-                    if (!this.couponList.length && !data.itemId) {
-                        this.$toast('暂无可用优惠券哦！');
-                        return;
-                    };
                     this.voucher = {};
                     this.voucherDiscountMoney = 0;
                     this.vocherShow = !this.vocherShow;
