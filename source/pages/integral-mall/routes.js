@@ -29,6 +29,10 @@ const payDetail = resolve => require(['./pages/pay/pay-detail'], resolve);
 const paySuccess = resolve => require(['./pages/pay/pay-success'], resolve);
 
 export default [{
+    path: '/',
+    name: 'personal',
+    component: personal
+}, {
     path: '/sign-in',
     name: 'sign-in',
     component: signIn
