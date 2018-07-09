@@ -61,7 +61,6 @@
 <div class="submit color-pink fs40" layout="row" layout-align="center center" @click="toPay" flex>
     提交
 </div>
-  <buy-message @update="update" :selected-item="chooseServiceItem" :form-parameter="parameter" :show-buy="showBuy"></buy-message>
   <m-picker v-model="showStore" :slots="slots" valueKey="name" @confirm="onValuesChange"></m-picker>
     </div>
 </template>
@@ -69,7 +68,6 @@
 import Vue from 'vue';
 import { Switch, Indicator, Toast } from 'mint-ui';
 import api_party from 'services/api.party';
-import buyMessage from 'components/integral-mall/buy-message';
 import mPicker from 'components/m-picker';
 Vue.component(Switch.name, Switch);
 export default {
@@ -121,7 +119,6 @@ export default {
         },
         onValuesChange(value) {
             this.store = value[0];
-            console.log(this.store);
         },
         toPay() {
             debugger;
@@ -138,7 +135,14 @@ export default {
             this.parameter.storeId = this.store.id;
             this.parameter.storeName = this.store.name;
             this.parameter.storeAddress = this.store.address;
-            this.showBuy = true;
+            this.parameter.applyServiceDate = this.$moment(this.parameter.applyServiceDate).starteOf('day').format('YYYY-MM-DD HH:mm:ss');
+            this.$router.push({
+                name: 'pay-detail',
+                params: {
+                    itemId: this.chooseServiceItem.id,
+                    serviceApply: this.parameter
+                }
+            });
         },
         loadActivityDetail() {
             Indicator.open('loading...');
@@ -154,7 +158,6 @@ export default {
         this.init();
     },
     components: {
-        buyMessage,
         mPicker
     }
 };

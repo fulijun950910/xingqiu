@@ -1,5 +1,5 @@
 <template>
-<div class="big-wheel">
+<div class="big-wheel" v-title="'美问大转盘'">
     <div class="wheel-main">
         <div class="biwheel-top text-center">
             <div class="top-title">
@@ -10,7 +10,7 @@
         </div>
         <div class="wheel-con">
             <div class="big-wheel-cavans" layout="row" layout-align="center center">
-                <canvas id="cavans" height="281" width="281" :style="wheelConfig.rotate">
+                <canvas id="cavans" height="560" width="560" :style="wheelConfig.rotate">
                 您的浏览器不支持cavans画布
             </canvas>
                 <div class="click-dicect" @click="clickRotate">
@@ -31,10 +31,10 @@
                 <div class="whell-list-box" v-for="(item, index) in dataList" :key="index" layout="row" layout-align="space-between center">
                     <div>
                         <p class="fs28 color-white">{{item.name}}<span></span></p>
-                        <p class="color-fe fs24">{{item.endTime}}</p>
+                        <p class="color-fe fs24" v-if="item.userCoupon">{{item.userCoupon.endTime}}</p>
                     </div>
                     <div>
-                        <a class="color-white fs28 to-use text-center" layout="row" layout-align="center center">去使用</a>
+                        <a :class="{'disabled' : item.prizeType == 1 && item.userCoupon.status > 0}" class="color-white fs28 to-use text-center" layout="row" layout-align="center center" @click="goToUse(item)"><span v-if="item.prizeType == 1">{{item.userCoupon.status == 0 ? '去使用' : '已使用'}}</span><span v-if="item.prizeType == 2">去查看</span></a>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                         <p class="text-center fs26 color-purple">已位您放入<span class="color-yellow">“美豆豆钱包”</span></p>
                     </div>
                 </div>
-                <div class="color-purple fs34 to-use text-center">去使用</div>
+                <div class="color-purple fs34 to-use text-center" @click="goToUse(tempAward)"></div>
             </div>
             <div class="close text-center" @click="toggleAlert">
                 <m-icon class="color-white" xlink="#icon-huabanfuben29"></m-icon>
@@ -88,13 +88,13 @@ export default {
         return {
             cavans: null,
             wheelConfig: {
-                radius: 140, // 转盘半径
+                radius: 280, // 转盘半径
                 inCircleRadius: 0, // 用于非零环绕原则的内圆半径
-                textRadius: 100, // 外圈文字半径
-                subTextRedius: 70, // 内圈文字半径
-                imgRedius: 50,
-                centerX: 280 / 2,
-                centerY: 280 / 2,
+                textRadius: 220, // 外圈文字半径
+                subTextRedius: 180, // 内圈文字半径
+                imgRedius: 160,
+                centerX: 560 / 2,
+                centerY: 560 / 2,
                 startRadian: 0, // 起始角
                 during: 4, // 旋转时间
                 times: 1, // 旋转速率
@@ -120,6 +120,13 @@ export default {
             let ctx = canvas.getContext('2d'); // 初始化画布
             let awards = this.awrads;
             let awardRadian = (Math.PI * 2) / awards.length; // 奖品均分角度
+            // let devicePixelRatio = window.devicePixelRatio || 1;
+            // let backingStoreRatio = ctx.webkitBackingStorePixelRatio || 1;
+            // let ratio = devicePixelRatio / backingStoreRatio;
+            // canvas.width = 70 * ratio;
+            // canvas.height = 70 * ratio;
+            // canvas.style.width = 140;
+            // canvas.style.height = 140;
             for (let i = 0; i < awards.length; i++) {
                 let _startRadian = config.startRadian + awardRadian * i;  // 每一个奖项所占的起始弧度
                 let _endRadian = _startRadian + awardRadian;     // 每一个奖项的终止弧度
@@ -134,31 +141,31 @@ export default {
                 ctx.restore();
                 // 绘制外圈文字
                 ctx.save();
-                ctx.font = '16px Helvetica, Arial';
+                ctx.font = '26px Helvetica, Arial';
                 ctx.fillStyle = '#B5ACDB';
                 ctx.translate(
                     config.centerX + Math.cos(_startRadian + awardRadian / 2) * config.textRadius,
                     config.centerY + Math.sin(_startRadian + awardRadian / 2) * config.textRadius
                 );
                 ctx.rotate(_startRadian + awardRadian / 2 + Math.PI / 2);
-                ctx.fillText(awards[i].description, -ctx.measureText(awards[i].name).width / 2, 0);
+                ctx.fillText(awards[i].name, -ctx.measureText(awards[i].name).width / 2, 0);
                 ctx.restore();
 
                 // 绘制内圈文字
                 ctx.save();
-                ctx.font = '12px Helvetica, Arial';
+                ctx.font = '28px Helvetica, Arial';
                 ctx.fillStyle = '#B5ACDB';
                 ctx.translate(
                     config.centerX + Math.cos(_startRadian + awardRadian / 2) * config.subTextRedius,
                     config.centerY + Math.sin(_startRadian + awardRadian / 2) * config.subTextRedius
                 );
                 ctx.rotate(_startRadian + awardRadian / 2 + Math.PI / 2);
-                ctx.fillText(awards[i].name, -ctx.measureText(awards[i].name).width / 2, 0);
+                ctx.fillText(awards[i].description, -ctx.measureText(awards[i].name).width / 4, 0);
                 ctx.restore();
 
                 // 绘制图片
                 ctx.save();
-                ctx.font = '12px Helvetica, Arial';
+                ctx.font = '26px Helvetica, Arial';
                 ctx.fillStyle = '#B5ACDB';
                 ctx.translate(
                     config.centerX + Math.cos(_startRadian + awardRadian / 2) * config.imgRedius,
@@ -167,8 +174,11 @@ export default {
                 ctx.rotate(_startRadian + awardRadian / 2 + Math.PI / 2);
                 let img = new Image();
                 img.src = require('assets/imgs/integral-mall/vocher.png');
-                ctx.drawImage(img, -ctx.measureText(awards[i].name).width / 2, 0, 30, 30);
+                img.onload = function() {
+                    ctx.drawImage(img, -ctx.measureText(awards[i].name).width / 6, 0, 30, 30);
+                };
                 ctx.restore();
+
             };
         },
         clickRotate() {
@@ -215,17 +225,19 @@ export default {
         },
         rotateWheel(rotate, data) {
             let config = this.wheelConfig;
-            config.turnRotate += rotate + 4 * 360 * config.times;
+            config.turnRotate += rotate + 5 * 360;
             config.rotate = {
-                transform: `rotate(${config.turnRotate}deg)`,
+                transform: `rotate(${config.turnRotate}deg)` + ' ' + 'scale(.5,.5)',
                 transition: `all ease ${config.during}s`
             };
+            console.log(config.rotate);
             ++config.times;
             setTimeout(()=> {
                 this.tempAward = data;
                 this.toggleAlert();
                 console.log(this.tempAward);
                 this.loadPrizeList();
+                this.loadHasAwardedList();
                 setTimeout(()=> {
                     this.hideSnow = false;
                 }, 1000);
@@ -286,6 +298,27 @@ export default {
             if (this.showAlert) {
                 this.hideSnow = true;
             };
+        },
+        goToUse(item) {
+            if (item.userCoupon) {
+                let useCon = item.userCoupon.goodsIds.split(',');
+                if (useCon.length == 1) {
+                    if (useCon[0] == 0) {
+                        this.$router.push('/rule-entry');
+                    } else {
+                        this.$router.push(`/product-detail/choose/${useCon[0]}`);
+                    }
+                } else {
+                    this.$router.push('/rule-entry');
+                }
+            };
+            if (item.prizeType == 1 && item.userCoupon.status == 2) {
+                return;
+            };
+            if (item.prizeType == 2) {
+                this.$router.push('/personal');
+            }
+
         },
         init() {
             this.loadPrizeList();
@@ -365,6 +398,7 @@ export default {
                 margin: 0 auto;
                 position: relative;
                 z-index: 1;
+                transform: rotate(0deg) scale(.5,.5);
             }
             .click-dicect {
                 position: absolute;
@@ -421,7 +455,7 @@ export default {
                 line-height: 34px;
             }
             .disabled {
-                background: #FF57499B;
+                background: #574999;
                 color: #6557B2;
             }
         }
