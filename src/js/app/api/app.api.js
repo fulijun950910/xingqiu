@@ -8,6 +8,9 @@ app.api = {
                 case 401:
                 case 403:
                     window.location.href = window.location.origin + "/userinfo.html#/user_login";
+                    if (location.pathname == '/userinfo.html'){
+                        location.reload();
+                    }
                     break;
                 case 404:
                     break;

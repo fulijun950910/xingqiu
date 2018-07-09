@@ -77,6 +77,7 @@ import api_signIn from 'services/api.signIn';
 let checkUser = async () => {
     var deferred = Q.defer();
     let res = await api_signIn.getEmployeeInfo();
+    console.log(res);
     if (res.success && res.data) {
         let a = await reLogin.select(JSON.stringify(res.data));
         if (a) {
