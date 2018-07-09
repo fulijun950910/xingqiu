@@ -177,7 +177,9 @@
                             this.payDetail = data;
                             if (data.tradeCouponList.length) {
                                 this.caculateDiscountMoney();
-                            };
+                            } else {
+                                this.caculateResult();
+                            }
                         } else {
                             if (this.payDetail.tradeCouponList.length) {
                                 this.caculateDiscountMoney();

@@ -31,10 +31,10 @@
                 <div class="whell-list-box" v-for="(item, index) in dataList" :key="index" layout="row" layout-align="space-between center">
                     <div>
                         <p class="fs28 color-white">{{item.name}}<span></span></p>
-                        <p class="color-fe fs24">{{item.endTime}}</p>
+                        <p class="color-fe fs24" v-if="item.userCoupon">{{item.userCoupon.endTime}}</p>
                     </div>
                     <div>
-                        <a class="color-white fs28 to-use text-center" layout="row" layout-align="center center" @click="goToUse(item)">去使用</a>
+                        <a :class="{'disabled' : item.prizeType == 1 && item.userCoupon.status > 0}" class="color-white fs28 to-use text-center" layout="row" layout-align="center center" @click="goToUse(item)"><span v-if="item.prizeType == 1">{{item.userCoupon.status == 0 ? '去使用' : '已使用'}}</span><span v-if="item.prizeType == 2">去查看</span></a>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                         <p class="text-center fs26 color-purple">已位您放入<span class="color-yellow">“美豆豆钱包”</span></p>
                     </div>
                 </div>
-                <div class="color-purple fs34 to-use text-center" @click="goToUse(tempAward)">去使用</div>
+                <div class="color-purple fs34 to-use text-center" @click="goToUse(tempAward)"></div>
             </div>
             <div class="close text-center" @click="toggleAlert">
                 <m-icon class="color-white" xlink="#icon-huabanfuben29"></m-icon>
@@ -174,8 +174,11 @@ export default {
                 ctx.rotate(_startRadian + awardRadian / 2 + Math.PI / 2);
                 let img = new Image();
                 img.src = require('assets/imgs/integral-mall/vocher.png');
-                ctx.drawImage(img, -ctx.measureText(awards[i].name).width / 6, 0, 30, 30);
+                img.onload = function() {
+                    ctx.drawImage(img, -ctx.measureText(awards[i].name).width / 6, 0, 30, 30);
+                };
                 ctx.restore();
+
             };
         },
         clickRotate() {
@@ -222,11 +225,12 @@ export default {
         },
         rotateWheel(rotate, data) {
             let config = this.wheelConfig;
-            config.turnRotate += rotate + 4 * 360 * config.times;
+            config.turnRotate += rotate + 5 * 360;
             config.rotate = {
-                transform: `rotate(${config.turnRotate}deg)`,
+                transform: `rotate(${config.turnRotate}deg)` + ' ' + 'scale(.5,.5)',
                 transition: `all ease ${config.during}s`
             };
+            console.log(config.rotate);
             ++config.times;
             setTimeout(()=> {
                 this.tempAward = data;
@@ -296,15 +300,23 @@ export default {
             };
         },
         goToUse(item) {
-            let useCon = item.userCoupon.goodsIds.split(',');
-            if (useCon.length == 1) {
-                if (useCon[0] == 0) {
-                    this.$router.push('/rule-entry');
+            if (item.userCoupon) {
+                let useCon = item.userCoupon.goodsIds.split(',');
+                if (useCon.length == 1) {
+                    if (useCon[0] == 0) {
+                        this.$router.push('/rule-entry');
+                    } else {
+                        this.$router.push(`/product-detail/choose/${useCon[0]}`);
+                    }
                 } else {
-                    this.$router.push(`/product-detail/choose/${useCon[0]}`);
+                    this.$router.push('/rule-entry');
                 }
-            } else {
-                this.$router.push('/rule-entry');
+            };
+            if (item.prizeType == 1 && item.userCoupon.status == 2) {
+                return;
+            };
+            if (item.prizeType == 2) {
+                this.$router.push('/personal');
             }
 
         },
@@ -386,7 +398,7 @@ export default {
                 margin: 0 auto;
                 position: relative;
                 z-index: 1;
-                transform: scale(.5,.5);
+                transform: rotate(0deg) scale(.5,.5);
             }
             .click-dicect {
                 position: absolute;
@@ -443,7 +455,7 @@ export default {
                 line-height: 34px;
             }
             .disabled {
-                background: #FF57499B;
+                background: #574999;
                 color: #6557B2;
             }
         }

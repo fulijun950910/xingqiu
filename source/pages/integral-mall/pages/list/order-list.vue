@@ -45,7 +45,8 @@
                 <div class="middle" layout="row" layout-align="space-between center">
                     <div flex="70">
                         <div class="fs34 color-black">{{item.itemName}}&nbsp;&nbsp;&nbsp;{{item.quantity}}个</div>
-                        <div class="fs28 color-gray">合计：{{item.payDoudouAmount}}美豆豆&nbsp;/&nbsp;{{item.payMoney | fen2yuan}}元</div>
+                        <div class="fs28 color-gray">合计：{{item.payDoudouAmount}}美豆豆&nbsp;+&nbsp;{{item.payMoney | fen2yuan}}元</div>
+                        <div class="fs28 color-gray">共优惠￥{{item.couponMoney | fen2yuan}}</div>
                     </div>
                     <div flex="30" class="img" layout="row" layout-align="end center" v-if="item.itemImage">
                         <img class="img-auto" :src="item.itemImage | nSrc(require('assets/imgs/female.png'))" alt="">
@@ -66,7 +67,7 @@
             <no-data :visible="dataList.length == 0 && !loading" :showButton="false"></no-data>
         </div>
     </div>
-    <buy-message type="2" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>
+    <!-- <buy-message type="2" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message> -->
     <mt-datetime-picker ref="picker" type="date" @confirm="handleConfirm">
     </mt-datetime-picker>
 </div>
@@ -306,8 +307,7 @@ export default {
         clickToPay(item) {
             if (item.status == 0) {
                 api_party.repay(item.id).then(msg=> {
-                    debugger;
-                    location.href = msg.data + '?url' + location.protocol + '//' + location.host + this.$rootPath + encodeURIComponent('integral-mall.html#/order-list');
+                    location.href = msg.data + '?url' + location.protocol + '//' + location.host + this.$rootPath + encodeURIComponent('integral-mall.html#/pay-success');
                 }, msg=> {
                 });
             } else if (item.status == 1 || item.status == 6) {
@@ -484,7 +484,7 @@ export default {
                 }
             }
             .middle{
-                padding: 15px 0;
+                padding: 0 0 15px 0;
                 .img{
                     span{
                         display: block;
