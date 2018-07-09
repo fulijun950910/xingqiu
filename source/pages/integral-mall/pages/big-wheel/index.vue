@@ -30,7 +30,7 @@
             <div class="wheel-list">
                 <div class="whell-list-box" v-for="(item, index) in dataList" :key="index" layout="row" layout-align="space-between center">
                     <div>
-                        <p class="fs28 color-white">{{item.name}}<span></span></p>
+                        <p class="fs28 color-white">{{item.prizeType == 1 && item.prizeType.userCoupon ? item.prizeType.userCoupon.name : item.name}}<span></span></p>
                         <p class="color-fe fs24" v-if="item.userCoupon">{{item.userCoupon.endTime}}</p>
                     </div>
                     <div>
@@ -49,16 +49,18 @@
                         <div class="award-detail" v-if="tempAward.prizeType == 2 && tempAward.quantity > 1">
                             <img :src="require('assets/imgs/integral-mall/award-doudou.png')" alt="">
                             <!-- 豆豆 -->
-                            <div class="award-text color-dark-purple fs36" layout="row" layout-align="center center">                               
+                            <div class="award-text color-dark-purple fs28 fwb" layout="row" layout-align="center center">                               
                                 {{tempAward.name}}
                             </div>
                         </div>
                         <div class="award-detail" v-if="tempAward.prizeType == 1">
                              <img :src="require('assets/imgs/integral-mall/award-img.png')" alt="">
                               <!-- 优惠券 -->
-                            <div class="award-text color-white fs36 color-dark-purple" layout="row" layout-align="center center">
-                                {{tempAward.name}}
-                            </div>
+                            <div class="award-text color-white fs28 fwb color-dark-purple p-l-5" layout="column" layout-align="center center">
+                                <div class="fs40">抵用券</div>
+                                <div class="fs24">{{tempAward.name}}</div>
+                                <div layout="row" layout-align="center center" layout-wrap class="price color-white" v-if="tempAward.userCoupon">{{tempAward.userCoupon.discountType == 1 ? '￥'+(tempAward.userCoupon.discount / 100) : (tempAward.userCoupon.discount * 10) + '折'}}</div>
+                            </div>  
                         </div>
             </div>
             <div layout="column" class="bottom" layout-align="space-between stretch">
@@ -72,7 +74,9 @@
                         <p class="text-center fs26 color-purple">已位您放入<span class="color-yellow">“美豆豆钱包”</span></p>
                     </div>
                 </div>
-                <div class="color-purple fs34 to-use text-center" @click="goToUse(tempAward)"></div>
+                <div class="color-purple fs34 to-use text-center" @click="goToUse(tempAward)">
+                    {{tempAward.prizeType == 1 ? '去使用' : '去查看'}}
+                </div>
             </div>
             <div class="close text-center" @click="toggleAlert">
                 <m-icon class="color-white" xlink="#icon-huabanfuben29"></m-icon>
@@ -120,13 +124,6 @@ export default {
             let ctx = canvas.getContext('2d'); // 初始化画布
             let awards = this.awrads;
             let awardRadian = (Math.PI * 2) / awards.length; // 奖品均分角度
-            // let devicePixelRatio = window.devicePixelRatio || 1;
-            // let backingStoreRatio = ctx.webkitBackingStorePixelRatio || 1;
-            // let ratio = devicePixelRatio / backingStoreRatio;
-            // canvas.width = 70 * ratio;
-            // canvas.height = 70 * ratio;
-            // canvas.style.width = 140;
-            // canvas.style.height = 140;
             for (let i = 0; i < awards.length; i++) {
                 let _startRadian = config.startRadian + awardRadian * i;  // 每一个奖项所占的起始弧度
                 let _endRadian = _startRadian + awardRadian;     // 每一个奖项的终止弧度
@@ -164,20 +161,20 @@ export default {
                 ctx.restore();
 
                 // 绘制图片
-                ctx.save();
-                ctx.font = '26px Helvetica, Arial';
-                ctx.fillStyle = '#B5ACDB';
-                ctx.translate(
-                    config.centerX + Math.cos(_startRadian + awardRadian / 2) * config.imgRedius,
-                    config.centerY + Math.sin(_startRadian + awardRadian / 2) * config.imgRedius
-                );
-                ctx.rotate(_startRadian + awardRadian / 2 + Math.PI / 2);
-                let img = new Image();
-                img.src = require('assets/imgs/integral-mall/vocher.png');
-                img.onload = function() {
-                    ctx.drawImage(img, -ctx.measureText(awards[i].name).width / 6, 0, 30, 30);
-                };
-                ctx.restore();
+                // ctx.save();
+                // ctx.font = '26px Helvetica, Arial';
+                // ctx.fillStyle = '#B5ACDB';
+                // ctx.translate(
+                //     config.centerX + Math.cos(_startRadian + awardRadian / 2) * config.imgRedius,
+                //     config.centerY + Math.sin(_startRadian + awardRadian / 2) * config.imgRedius
+                // );
+                // ctx.rotate(_startRadian + awardRadian / 2 + Math.PI / 2);
+                // let img = new Image();
+                // img.src = require('assets/imgs/integral-mall/vocher.png');
+                // img.onload = function() {
+                //     ctx.drawImage(img, -ctx.measureText(awards[i].name).width / 6, 0, 30, 30);
+                // };
+                // ctx.restore();
 
             };
         },
@@ -238,6 +235,7 @@ export default {
                 console.log(this.tempAward);
                 this.loadPrizeList();
                 this.loadHasAwardedList();
+                this.loadTimes();
                 setTimeout(()=> {
                     this.hideSnow = false;
                 }, 1000);
@@ -300,6 +298,10 @@ export default {
             };
         },
         goToUse(item) {
+            if (item.prizeType == 1 && item.userCoupon.status == 2) {
+                this.$toast('已使用');
+                return;
+            };
             if (item.userCoupon) {
                 let useCon = item.userCoupon.goodsIds.split(',');
                 if (useCon.length == 1) {
@@ -311,9 +313,6 @@ export default {
                 } else {
                     this.$router.push('/rule-entry');
                 }
-            };
-            if (item.prizeType == 1 && item.userCoupon.status == 2) {
-                return;
             };
             if (item.prizeType == 2) {
                 this.$router.push('/personal');
@@ -527,13 +526,23 @@ export default {
             .award-detail{
                 position: relative;
                 .award-text{
-                    width: 160px;
-                    height: 80px;
+                    width: 176.5px;
+                    height: 86.5px;
                     position: absolute;
                     left: 50%;
-                    margin-left: -80px;
+                    margin-left: -88.26px;
                     top: 50%;
-                    margin-top: -40px;
+                    margin-top: -43.25px;
+                    padding-left: 40px;
+                    .price{
+                        position: absolute;
+                        width: 42.5px;
+                        height: 42.5px;
+                        background: #FB4F53;
+                        border-radius: 100%;
+                        right: -15px;
+                        top:-15px;
+                    }
                 }
                 img{
                     height: 80px;
