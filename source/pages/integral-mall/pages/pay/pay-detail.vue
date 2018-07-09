@@ -132,7 +132,7 @@
                         this.loadPersonal();
                         this.getCouponList();
                         if (this.item.type == 4) {
-                            this.loadDefaultAddress(); 
+                            this.loadDefaultAddress();
                         }
                     }, msg=> {
                         console.log('网络错误');
