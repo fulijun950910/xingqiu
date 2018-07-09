@@ -21,7 +21,7 @@
                     <div @click="chooseCoupon(item)" flex layout="row" layout-align="start stretch">
                     <div flex="70">
                         <div class="p-t-4">
-                            <div class="color-pink fs40">￥{{item.price | fen2yuan}}</div>
+                            <div class="color-pink fs40"><span v-if="item.discountType == 1">￥{{item.discount | fen2yuan}}</span><span v-if="item.discountType == 2">{{item.discount * 10}}折</span></div>
                             <div class="color-black fs30 m-b-2">{{item.name}}</div>
                             <div class="fs24 extra-light-black">有效期至{{item.endTime}}</div>
                         </div>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-            <div class="integral-btn bottom-btn fs34 color-white" @click="close" layout="row" layout-align="center center">
+            <div class="integral-btn bottom-btn fs34 color-white" @click="close(parameter)" layout="row" layout-align="center center">
                    确认
             </div>
     </div>
@@ -75,6 +75,14 @@
                     this.$indicator.close();
                     if (!choose) {
                         this.dalaList = msg.data;
+                        if (parameter.tradeCouponList.length) {
+                            this.selected = parameter.tradeCouponList[0].userCouponId;
+                            this.dalaList.map((item, index)=> {
+                                if (item.id == this.selected) {
+                                    item.canUsed = true;
+                                }
+                            });
+                        };
                     } else {
                         msg.data.map((item, index)=> {
                             let ls = this.dalaList.filter((item1, index1)=> {
@@ -96,8 +104,8 @@
                 }, msg=> {
                 });
             },
-            close() {
-                this.$emit('mClose', this.parameter);
+            close(parameter) {
+                this.$emit('mClose', parameter);
             },
             chooseCoupon(item) {
                 let that = this;

@@ -42,8 +42,8 @@
             <div flex @click="clickToVoucher">                
                 <div flex layout="row" layout-align="space-between center">
                     <div class="fs28 extra-light-black">优惠券</div>
-                    <div class="fwb fs28" v-if="voucherDiscountMoney">{{voucher.discountType | discountType}}<span v-if="voucher.discountType == 1">{{voucherDiscountMoney | fen2yuan}}</span><span v-if="voucher.discountType == 2">{{discount * 10}}折</span></div>
-                    <div class="fwb fs28" v-if="!voucherDiscountMoney">{{couponList.length > 0 ? '点击选择优惠券' : '暂无可用优惠券'}}</div>
+                    <div class="fwb fs28" v-if="voucherDiscountMoney">抵扣{{voucherDiscountMoney | fen2yuan}}</div>
+                    <div class="fwb fs28" v-if="!voucherDiscountMoney">{{couponList.length > 0 ? '点击选择优惠券' : '无可用'}}</div>
                 </div>
             </div>
         </div>
@@ -166,17 +166,26 @@
                     tempPayDetail.quantity = val;
                     this.payDetail = tempPayDetail;
                     this.caculateResult();
+                    this.caculateDiscountMoney();
                 },
                 clickToVoucher(data) {
                     if (!this.couponList.length && !data.itemId) {
                         this.$toast('暂无可用优惠券哦！');
                         return;
                     };
+                    this.voucher = {};
+                    this.voucherDiscountMoney = 0;
                     this.vocherShow = !this.vocherShow;
                     if (this.vocherShow == false) {
-                        if (data) {
+                        if (data.itemId) {
                             this.payDetail = data;
-                            this.caculateDiscountMoney();
+                            if (data.tradeCouponList.length) {
+                                this.caculateDiscountMoney();
+                            };
+                        } else {
+                            if (this.payDetail.tradeCouponList.length) {
+                                this.caculateDiscountMoney();
+                            };
                         }
                     };
                 },
@@ -188,14 +197,14 @@
                         msg.data.map((item, index)=> {
                             discount += item.discountAmount;
                         });
-                        this.voucher = msg.data[0];
-                        console.log(this.voucher);
-                        if (this.voucher.discountType == 1) {
-                            this.voucherDiscountMoney = discount;
-                        } else if (this.voucher.discountType == 2) {
-                            this.discount = this.voucher.discount;
+                        // this.voucher = msg.data[0];
+                        // if (this.voucher.discountType == 1) {
+                        debugger;
+                        this.voucherDiscountMoney = discount;
+                        // } else if (this.voucher.discountType == 2) {
+                        //     this.discount = this.voucher.discount;
 
-                        }
+                        // }
                         this.caculateResult();
                     }, msg=> {
                     });
@@ -204,16 +213,16 @@
                     // 添加优惠后的需支付详情
                     let payAll = this.item.price;
                     let leftMoney = payAll;
-                    if (this.voucher) {
+                    // if (this.voucher) {
                         // 如果选择了优惠券
-                        if (this.voucher.discountType == 1) {
-                            leftMoney = payAll - this.voucherDiscountMoney;
-                            this.discountMoney = this.voucherDiscountMoney;
-                        } else if (this.voucher.discountType == 2) {
-                            leftMoney = payAll * this.discount;
-                            this.discountMoney = Number(payAll * (1 - this.discount)).toFixed(2);
-                        };
-                    }
+                        // if (this.voucher.discountType == 1) {
+                    leftMoney = payAll - this.voucherDiscountMoney;
+                    this.discountMoney = this.voucherDiscountMoney;
+                        // } else if (this.voucher.discountType == 2) {
+                        //     leftMoney = payAll * this.discount;
+                        //     this.discountMoney = Number(payAll * (1 - this.discount)).toFixed(2);
+                        // };
+                    // }
                     leftMoney += this.item.price * (this.payDetail.quantity - 1);
                     if (leftMoney > 0) {
                         let balanceFen = this.translate('dou2fen', this.account.doudouBalance); // 豆豆转分
