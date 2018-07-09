@@ -560,7 +560,7 @@ app.index = {
             "field": "endTime",
             "value": query.endDate
         }]
-        if (query.storeIds.split(',').length == 1) {
+        if (query.storeIds && query.storeIds.split(',').length == 1) {
             queryData.push({
                 "field": "storeId",
                 "value": query.storeIds
