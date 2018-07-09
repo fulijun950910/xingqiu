@@ -6,7 +6,7 @@
         </div>
         <div class="color-black fs30 fwb">{{item.name}}</div>
     </div>
-    <div flex class="address p-t-5 p-b-5" layout="row" layout-align="start center" @click="chooseAddress">
+    <div flex class="address p-t-5 p-b-5" layout="row" layout-align="start center" v-if="item.type == 4" @click="chooseAddress">
         <div flex="80">
             <div layout="row" layout-align="start center" class="color-black fwb fs28 m-b-1">
                 <div>{{address.contactPersion}}</div>&nbsp;&nbsp;
@@ -131,6 +131,9 @@
                         this.item = msg.data;
                         this.loadPersonal();
                         this.getCouponList();
+                        if (this.item.type == 4) {
+                            this.loadDefaultAddress(); 
+                        }
                     }, msg=> {
                         console.log('网络错误');
                     });
@@ -278,7 +281,7 @@
                 },
                 init() {
                     this.getDetail(); // 获取商品详情
-                    this.loadDefaultAddress(); // 获取默认地址
+                    // this.loadDefaultAddress(); // 获取默认地址
                     this.initParameter(); // 加载默认传进来的参数
                 },
                 translate(type, num) {
