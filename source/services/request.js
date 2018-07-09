@@ -15,6 +15,7 @@ export default function(url, data, method, messageFlag = true) {
         if (res.data && res.data.success) {
             // 302 重定向
             if (res.data.code == 302 && res.data.data) {
+                localStorage.clear();
                 window.location.href = res.data.data;
             } else {
                 deferred.resolve(res.data);
@@ -29,6 +30,7 @@ export default function(url, data, method, messageFlag = true) {
         console.log(process.env.NODE_ENV === 'development');
         switch (error.status) {
             case 401:
+                localStorage.clear();
                 if (process.env.NODE_ENV === 'development') {
                     window.location.href = '#/sign-in';
                 } else {

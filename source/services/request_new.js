@@ -15,6 +15,7 @@ export default function(url, method, data, messageFlag = true, callBackData) {
         if (res.data && res.data.success) {
             // 302 重定向
             if (res.data.code == 302 && res.data.data) {
+                localStorage.clear();
                 window.location.href = res.data.data;
             } else {
                 deferred.resolve(res.data);
@@ -40,6 +41,7 @@ export default function(url, method, data, messageFlag = true, callBackData) {
                         search = Vue.prototype.$knife.addSearch(search, item.type, item.value);
                     });
                 }
+                localStorage.clear();
                 window.location.href = Vue.prototype.$getSignLocation(search);
                 break;
             case 403:
