@@ -196,7 +196,7 @@
                         } else {
                             if (this.payDetail.tradeCouponList.length) {
                                 this.caculateDiscountMoney();
-                                if (data.tradeCouponList && data.tradeCouponList.length == 1) {
+                                if (this.payDetail.tradeCouponList && this.payDetail.tradeCouponList.length == 1) {
                                     this.voucher = coupon;
                                 };
                             };
