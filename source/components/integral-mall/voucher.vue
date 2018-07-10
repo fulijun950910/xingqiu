@@ -73,6 +73,7 @@
         methods: {
             loadData(choose) {
                 // this.selected = 0;
+                debugger;
                 let parameter = this.parameter;
                 Indicator.open('Loading...');
                 api_party.getCouponList(parameter).then(msg=> {
@@ -87,13 +88,15 @@
                                 }
                             });
                         } else {
-                            this.selected = this.dalaList[0].id;
-                            this.chooseCouponItem = this.dalaList[0];
-                            this.parameter.tradeCouponList = [
-                                {
-                                    userCouponId: this.selected
-                                }
-                            ];
+                            this.selected = this.dalaList[0].canUsed ? this.dalaList[0].id : 0;
+                            if (this.selected) {
+                                this.chooseCouponItem = this.dalaList[0];
+                                this.parameter.tradeCouponList = [
+                                    {
+                                        userCouponId: this.selected
+                                    }
+                                ];
+                            }
                         }
                     } else {
                         msg.data.map((item, index)=> {
