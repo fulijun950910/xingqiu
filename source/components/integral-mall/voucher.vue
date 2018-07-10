@@ -85,6 +85,7 @@
                             this.dalaList.map((item, index)=> {
                                 if (item.id == this.selected) {
                                     item.canUsed = true;
+                                    this.chooseCouponItem = item;
                                 }
                             });
                         } else {

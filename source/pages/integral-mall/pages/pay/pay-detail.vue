@@ -178,6 +178,7 @@
                     this.caculateDiscountMoney();
                 },
                 clickToVoucher(data, coupon) {
+                    debugger;
                     this.voucher = {};
                     this.voucherDiscountMoney = 0;
                     this.vocherShow = !this.vocherShow;
@@ -271,7 +272,16 @@
                         this.couponList = msg.data.filter((item, index)=> {
                             return item.canUsed;
                         });
-                        console.log(this.couponList);
+                        debugger;
+                        if (this.couponList.length) {
+                            this.payDetail.tradeCouponList = [
+                                {
+                                    userCouponId: this.couponList[0].id
+                                }
+                            ];
+                            this.voucher = this.couponList[0];
+                            this.caculateDiscountMoney();
+                        };
                     }, msg=> {
                         console.log('网络错误');
                     });
