@@ -59,7 +59,10 @@
                 </div>
                 <div layout="row" layout-align="space-between center" class="bottom">
                     <div class="fs24 color-gray">{{item.createdTime | amDateFormat}}</div>
-                    <div class="payStatus fs30" @click="clickToPay(item)" :style="item.statusColor" v-if="item.status == 0 || item.status == 6" :class="{'color-pink fwb' : item.status == 0}">{{item.status | statusPay}}</div>
+                    <div layout="row" layout-align="center center">
+                    <div class="payStatus fs30" @click="clickToPay(item)" :style="item.statusColor" v-if="item.status == 0 || item.status == 6" :class="{'color-pink fwb' : item.status == 0}">{{item.status | statusPay}}</div><span class="m-l-4 fs30" v-if="item.status == 0" @click="cancelOrder(item)">取消订单</span>
+                    </div>
+
                     <!-- <div @click="cancelOrder(item)" v-if="item.status == 0">取消订单</div> -->
                 </div>
             </div>
