@@ -450,7 +450,7 @@ app.index = {
                     },
                     error: function(error) {
                         app.endLoading();
-                        reject(error.message);
+                        console.info(error);
                         reject(error);
                     }
                 });
