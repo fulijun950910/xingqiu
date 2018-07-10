@@ -87,6 +87,11 @@
                             });
                         } else {
                             this.selected = this.dalaList[0].id;
+                            this.parameter.tradeCouponList = [
+                                {
+                                    userCouponId: this.selected
+                                }
+                            ];
                         }
                     } else {
                         msg.data.map((item, index)=> {

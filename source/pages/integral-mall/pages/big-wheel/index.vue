@@ -279,7 +279,7 @@ export default {
                 },
                 {
                     field: 'startTime',
-                    value: this.$moment().startOf('day').format('YYYY-MM-DD HH:mm:ss')
+                    value: this.$moment().subtract(3, 'day').startOf('day').format('YYYY-MM-DD HH:mm:ss')
                 },
                 {
                     field: 'endTime',

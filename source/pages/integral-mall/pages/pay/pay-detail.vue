@@ -42,8 +42,11 @@
             <div flex @click="clickToVoucher">                
                 <div flex layout="row" layout-align="space-between center">
                     <div class="fs28 extra-light-black">优惠券</div>
+                    <div layout="row" layout-align="center center">
                     <div class="fwb fs28" v-if="voucherDiscountMoney">抵扣{{voucherDiscountMoney | fen2yuan}}</div>
-                    <div class="fwb fs28" v-if="!voucherDiscountMoney">{{couponList.length > 0 ? '点击选择优惠券' : '无可用'}}</div>
+                    <div class="fwb fs28" v-if="!voucherDiscountMoney">{{couponList.length > 0 ? '点击选择优惠券' : '无可用'}}</div>&nbsp;&nbsp;
+                    <m-icon class="fs36" xlink="#icon-gengduoicon"></m-icon>
+                    </div>
                 </div>
             </div>
         </div>
