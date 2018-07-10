@@ -37,13 +37,16 @@
                     <div class="fs28 extra-light-black">美豆豆数量</div>
                     <div class="fs28 extra-light-black">您共有<span class="color-black">{{account.doudouBalance}}</span>美豆豆，可<span class="color-pink">抵￥{{account.doudouBalance | dou2yuan}}</span><m-icon class="fs30" xlink="#icon-xunwen"></m-icon></div>
                     </div>
-                <div class="color-black"><input class="input-style p-1 tetx-center" @change="changeDouAmount" pattern="[0-9]*" v-model="payDetail.payDoudouAmount" type="number"></div>
+                <div class="color-black"><input class="input-style p-1 tetx-center" disabled @change="changeDouAmount" pattern="[0-9]*" v-model="payDetail.payDoudouAmount" type="number"></div>
             </div>
             <div flex @click="clickToVoucher">                
                 <div flex layout="row" layout-align="space-between center">
                     <div class="fs28 extra-light-black">优惠券</div>
                     <div layout="row" layout-align="center center">
-                    <div class="fwb fs28" v-if="voucherDiscountMoney">抵扣{{voucherDiscountMoney | fen2yuan}}</div>
+                        <div class="color-black fwb" v-if="voucher && voucherDiscountMoney">
+                            {{voucher.name}}
+                        </div>
+                    <div class="fwb fs28" v-if="voucherDiscountMoney && !voucher">优惠{{voucherDiscountMoney | fen2yuan}}</div>
                     <div class="fwb fs28" v-if="!voucherDiscountMoney">{{couponList.length > 0 ? '点击选择优惠券' : '无可用'}}</div>&nbsp;&nbsp;
                     <m-icon class="fs36" xlink="#icon-gengduoicon"></m-icon>
                     </div>
@@ -106,7 +109,7 @@
                     discountMoney: 0,
                     voucherDiscountMoney: 0,
                     discount: 1,
-                    voucher: {},
+                    voucher: null,
                     couponList: [],
                     btnClick: false,
                     payDetail: {
@@ -174,7 +177,7 @@
                     this.caculateResult();
                     this.caculateDiscountMoney();
                 },
-                clickToVoucher(data) {
+                clickToVoucher(data, coupon) {
                     this.voucher = {};
                     this.voucherDiscountMoney = 0;
                     this.vocherShow = !this.vocherShow;
@@ -183,12 +186,18 @@
                             this.payDetail = data;
                             if (data.tradeCouponList.length) {
                                 this.caculateDiscountMoney();
+                                if (data.tradeCouponList.length == 1) {
+                                    this.voucher = coupon;
+                                };
                             } else {
                                 this.caculateResult();
                             }
                         } else {
                             if (this.payDetail.tradeCouponList.length) {
                                 this.caculateDiscountMoney();
+                                if (data.tradeCouponList && data.tradeCouponList.length == 1) {
+                                    this.voucher = coupon;
+                                };
                             };
                         }
                     };

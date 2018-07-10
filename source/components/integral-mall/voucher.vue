@@ -66,7 +66,8 @@
                 selected: 0,
                 parameter: this.mwItem,
                 canUse: [],
-                noticeText: '已为您选择最佳优惠券'
+                noticeText: '已为您选择最佳优惠券',
+                chooseCouponItem: {}
             };
         },
         methods: {
@@ -87,6 +88,7 @@
                             });
                         } else {
                             this.selected = this.dalaList[0].id;
+                            this.chooseCouponItem = this.dalaList[0];
                             this.parameter.tradeCouponList = [
                                 {
                                     userCouponId: this.selected
@@ -119,7 +121,7 @@
                 });
             },
             close(parameter) {
-                this.$emit('mClose', parameter);
+                this.$emit('mClose', parameter, this.chooseCouponItem);
             },
             chooseCoupon(item) {
                 let that = this;
@@ -127,9 +129,11 @@
                     if (this.selected == item.id) {
                         filterCoupon();
                         this.selected = null;
+                        this.chooseCouponItem = {};
                         this.noticeText = '已为您选择最佳优惠券';
                     } else {
                         this.selected = item.id;
+                        this.chooseCouponItem = item;
                         this.noticeText = '共可抵扣' + item.discount / 100 + '元';
                         filterCoupon();
                         this.parameter.tradeCouponList.push({
@@ -138,6 +142,7 @@
                     }
                 } else {
                     this.selected = item.id;
+                    this.chooseCouponItem = item;
                     this.parameter.tradeCouponList = []; // 只能使用一张券
                     this.noticeText = '共可抵扣' + item.discount / 100 + '元';
                     this.parameter.tradeCouponList.push({

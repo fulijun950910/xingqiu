@@ -173,7 +173,7 @@ Vue.filter('dou2yuan', function(value) {
     if (isNaN(value)) {
         return 0;
     }
-    return value / 10;
+    return Number(value / 10).toFixed(2);
 });
 
 Vue.filter('fen2dou', function(value) {
