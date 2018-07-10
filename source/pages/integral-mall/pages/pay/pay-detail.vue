@@ -213,7 +213,6 @@
                         });
                         // this.voucher = msg.data[0];
                         // if (this.voucher.discountType == 1) {
-                        debugger;
                         this.voucherDiscountMoney = discount;
                         // } else if (this.voucher.discountType == 2) {
                         //     this.discount = this.voucher.discount;
@@ -272,7 +271,6 @@
                         this.couponList = msg.data.filter((item, index)=> {
                             return item.canUsed;
                         });
-                        debugger;
                         if (this.couponList.length) {
                             this.payDetail.tradeCouponList = [
                                 {

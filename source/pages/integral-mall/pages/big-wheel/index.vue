@@ -13,8 +13,9 @@
                 <canvas id="cavans" height="560" width="560" :style="wheelConfig.rotate">
                 您的浏览器不支持cavans画布
             </canvas>
-                <div class="click-dicect" @click="clickRotate">
+                <div class="click-dicect">
                     <img :src="require('assets/imgs/integral-mall/wheel-direct.png')" alt="">
+                    <button :disabled="btnClick" @click="clickRotate"></button>
                 </div>
             </div>
             <div class="wheel-bottom text-center">
@@ -30,7 +31,7 @@
             <div class="wheel-list">
                 <div class="whell-list-box" v-for="(item, index) in dataList" :key="index" layout="row" layout-align="space-between center">
                     <div>
-                        <p class="fs28 color-white">{{item.prizeType == 1 && item.prizeType.userCoupon ? item.prizeType.userCoupon.name : item.name}}<span></span></p>
+                        <p class="fs28 color-white" layout="row" layout-align="start center" flex-wrap="wrap">{{item.prizeType == 1 && item.userCoupon ? item.userCoupon.name : item.name}}</p>
                         <p class="color-fe fs24" v-if="item.userCoupon">{{item.userCoupon.endTime}}</p>
                     </div>
                     <div>
@@ -59,7 +60,7 @@
                             <div class="award-text color-white fs28 fwb color-dark-purple p-l-5" layout="column" layout-align="center center">
                                 <div class="fs40">抵用券</div>
                                 <div class="fs24">{{tempAward.name}}</div>
-                                <div layout="row" layout-align="center center" layout-wrap class="price color-white" v-if="tempAward.userCoupon">{{tempAward.userCoupon.discountType == 1 ? '￥'+(tempAward.userCoupon.discount / 100) : (tempAward.userCoupon.discount * 10) + '折'}}</div>
+                                <div layout="row" layout-align="center center" layout-wrap class="price color-white fs24" v-if="tempAward.userCoupon">{{tempAward.userCoupon.discountType == 1 ? (tempAward.userCoupon.discount / 100) + '/￥' : (tempAward.userCoupon.discount * 10) + '折'}}</div>
                             </div>  
                         </div>
             </div>
@@ -110,7 +111,8 @@ export default {
             dataList: [],
             tempAward: null,
             showAlert: false,
-            hideSnow: true
+            hideSnow: true,
+            btnClick: false
         };
     },
     methods: {
@@ -184,8 +186,10 @@ export default {
                 partyId: this.$store.state.party.partyId,
                 userId: this.$store.state.party.id
             };
+            this.btnClick = true;
             this.$indicator.open('Loading...');
             api_party.getAward(parameter).then(msg=> {
+                this.btnClick = false;
                 this.$indicator.close();
                 let data = msg.data;
                 let awardIndex;
@@ -217,7 +221,7 @@ export default {
                 }
                 this.rotateWheel(rotate, msg.data);
             }, msg=> {
-
+                this.btnClick = false;
             });
         },
         rotateWheel(rotate, data) {
@@ -259,6 +263,9 @@ export default {
             api_party.getDrawPrizeDailyTimes(parameter).then(msg=> {
                 this.$indicator.close();
                 this.chance = msg.data.userRemainTimes;
+                if (this.chance == 0) {
+                    this.btnClick = true;
+                };
             }, msg=> {
             });
 
@@ -407,7 +414,23 @@ export default {
                 height: 100px;
                 width: 100px;
                 top: 50%;
-                margin-top: -100px;
+                margin-top: -50px;
+                img{
+                    width: 100%;
+                    height: auto;
+                    margin-top: -50px;
+                }
+                button{
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    top:0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    background: transparent;
+                }
             }
         }
         .wheel-bottom {
@@ -541,6 +564,7 @@ export default {
                         background: #FB4F53;
                         border-radius: 100%;
                         right: -15px;
+                        line-height: 12px;
                         top:-15px;
                     }
                 }
