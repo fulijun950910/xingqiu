@@ -310,16 +310,7 @@ export default {
                 return;
             };
             if (item.userCoupon) {
-                let useCon = item.userCoupon.goodsIds.split(',');
-                if (useCon.length == 1) {
-                    if (useCon[0] == 0) {
-                        this.$router.push('/rule-entry');
-                    } else {
-                        this.$router.push(`/product-detail/choose/${useCon[0]}`);
-                    }
-                } else {
-                    this.$router.push('/rule-entry');
-                }
+                this.$router.push(item.userCoupon.useUrl);
             };
             if (item.prizeType == 2) {
                 this.$router.push('/personal');

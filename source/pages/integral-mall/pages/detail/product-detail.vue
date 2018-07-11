@@ -1,5 +1,5 @@
 <template>
-    <div class="product-detail">
+    <div class="product-detail" v-title="'商品详情'">
         <div class="goos-display">
         <mt-swipe :show-indicators="false" :auto="4000">
             <mt-swipe-item v-for="(item,index) in data.images" :key="index">
