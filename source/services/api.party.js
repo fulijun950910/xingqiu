@@ -236,5 +236,10 @@ export default {
         // 计算券抵扣金额
         let url = '/api/doudouTrade/calCouponMoney';
         return request(url, 'post', parameter);
+    },
+    rechargeRules() {
+        // 豆豆充值规则
+        let url = '/api/rechargeRule/list';
+        return request(url, 'get');
     }
 };

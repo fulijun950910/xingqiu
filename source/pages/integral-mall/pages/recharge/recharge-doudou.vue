@@ -11,15 +11,20 @@
             <div class="cell">
                 选择充值金额
             </div>
-            <div layout="row" layout-align="start center" flex-wrap="wrap">
-                <div @click="selectType(item)" v-for="item in list" :class="{'act': item.id == act}" class="list-item" layout="column" layout-align="center center" :key="item.id">
+            <div layout="row" layout-align="space-between center" flex-wrap="wrap">
+                <div @click="selectType(item)" v-for="item in list" :class="{'act': item.id == act , 'list-item' : item.code != 'custom_doudou','input-money' : item.code == 'custom_doudou'}" class="list-item m-b-4" :key="item.id">
+                    <div flex v-if="item.code != 'custom_doudou'" layout="column" layout-align="center center" class="item-in">
                     <div>{{item.description}}</div>
                     <div class="fs24 dark-gray" v-if="item.price">售价{{item.price | fen2yuan}}元</div>
                     <div v-if="item.icon" class="tag fs24 color-white">{{item.icon}}</div>
+                    </div>
+                    <div class="item-in" flex v-if="item.code == 'custom_doudou'" layout="row" layout-align="center center">
+                        <div>
+                         <input type="number" v-model="item.money" @change="caculateRechargeDou(item)" class="extra-light-black" placeholder="￥请输入充值金额" pattern="[0-9]*">
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div flex class="input-price text-center" v-if="choose.id == -1">
-                <input type="text" @change="priceChange" v-model="inputPrice" name="" placeholder="其他金额">
+                <div class="m-l-3 extra-light-black" v-if="choose.code == 'custom_doudou'">可兑换<span class="color-pink">{{transDou}}</span>美豆豆</div><div flex></div>
             </div>
             <div class="rules" flex>
                 <div class="color-gray fs24 rule-title">
@@ -48,12 +53,15 @@
                 dataModel: {},
                 list: [],
                 choose: {},
-                inputPrice: null
+                inputPrice: null,
+                transDou: 0,
+                rechargeRuleList: []
             };
         },
         mounted() {
             this.loadData();
             this.loadProduct();
+            this.rechargeRule();
         },
         methods: {
             loadData() {
@@ -69,7 +77,7 @@
                     partyId: this.$store.state.party.partyId,
                     userId: this.$store.state.party.id,
                     payDoudouAmount: 0,
-                    payMoney: this.choose.price,
+                    payMoney: this.choose.money ? (this.choose.money * 100) : this.choose.price,
                     itemId: this.choose.id,
                     quantity: 1,
                     tradeType: 6
@@ -110,6 +118,39 @@
                 this.choose = {
                     price: this.inputPrice * 100
                 };
+            },
+            rechargeRule() {
+                api_party.rechargeRules().then(msg=> {
+                    this.rechargeRuleList = msg.data;
+                }, msg=> {
+                });
+            },
+            caculateRechargeDou(item) {
+                if (!item.money) {
+                    return;
+                }
+                // console.log(this.adapterRechargeRule(item.money * 100));
+                this.transDou = item.money * 10 * this.adapterRechargeRule(item.money * 100);
+            },
+            adapterRechargeRule(money) {
+                let rulePany = [];
+                this.rechargeRuleList.map((item, index)=> {
+                    let temp = {
+                        index: index,
+                        area: [this.rechargeRuleList[index].payMoney, this.rechargeRuleList[index + 1] ? this.rechargeRuleList[index + 1].payMoney : Infinity]
+                    };
+                    rulePany.push(temp);
+                });
+                if (rulePany.length) {
+                    // console.log(rulePany);
+                    let ratio;
+                    rulePany.map((item, index)=> {
+                        if (money >= item.area[0] && money < item.area[1]) {
+                            ratio = this.rechargeRuleList[item.index].ratio;
+                        };
+                    });
+                    return ratio;
+                }
             }
         }
     };
@@ -156,13 +197,15 @@
         }
     }
     .list-item{
-        width:103px;
-        height:103px;
         border:1px solid @border-gay;
-        margin: 5px;
-        border-radius:2px;
+        border-radius:7px;
         position:relative;
+        width: 110px;
+        height: 80px;
         overflow:hidden;
+        .item-in{
+            height: 100%;
+        }
         .tag{
             position:absolute;
             background: linear-gradient(-136deg, #F869D5 0%, #5650DE 100%);
@@ -179,6 +222,20 @@
             // & div{
             //     color:@white;
             // }
+        }
+    }
+    .input-money{
+        width: 150px;
+        height: 50px;
+        .item-in{
+        width: 150px;
+        height: 50px;
+        }
+
+        input{
+            width: 100%;
+            height: 35px;
+            padding: 0 5px;
         }
     }
     .subBtn{
