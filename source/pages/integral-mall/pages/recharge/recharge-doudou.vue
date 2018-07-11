@@ -33,7 +33,7 @@
                 <div class="color-gray fs22 rule-p">2. 购买后将不退不换</div>
                 <div class="color-gray fs22 rule-p">3. 10个美豆豆等于1元</div>
             </div>
-            <div>
+            <div class="m-b-2">
                 <button @click="submit" class="fs32 subBtn">充值</button>
             </div>
         </div>
@@ -130,7 +130,7 @@
                     return;
                 }
                 // console.log(this.adapterRechargeRule(item.money * 100));
-                this.transDou = item.money * 10 * this.adapterRechargeRule(item.money * 100);
+                this.transDou = Number(item.money * 10 * this.adapterRechargeRule(item.money * 100)).toFixed(0);
             },
             adapterRechargeRule(money) {
                 let rulePany = [];
