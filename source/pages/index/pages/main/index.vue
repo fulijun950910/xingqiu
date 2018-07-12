@@ -88,9 +88,9 @@
         </div>
     </div>
     <new-present :show-mask="isNew" :ads-detail="adsDetail" @hideMask="hideMask"></new-present>
-    <!-- <div class="go-doudou">
-         <img @click="goToAuthentication('ruleEntry')" :src="require('assets/imgs/go-big-gift.png')" alt="">
-    </div> -->
+    <div class="go-doudou">
+         <img @click="goToAuthentication('rule_entry')" :src="require('assets/imgs/go-big-gift.png')" alt="">
+    </div>
 </div>
 </template>
 
