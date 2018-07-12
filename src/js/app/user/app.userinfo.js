@@ -4,19 +4,19 @@ app.userinfo = {
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
                 if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                    if (employee.merchant && (employee.merchant.functionVersion == 4 || employee.merchant.functionVersion == 5)) { //营销版
-                        location.href = "/lite/index.html";
+                    if (employee.merchant && (employee.merchant.functionVersion == 4 || employee.merchant.functionVersion == 5)) { // 营销版
+                        location.href = '/lite/index.html';
                     } else {
-                        location.href = "/main.html#/index";
+                        location.href = '/main.html#/index';
                     };
                 } else {
-                    location.href = "/userinfo.html#/user_login";
+                    location.href = '/userinfo.html#/user_login';
                     // app.alert('未查到您的身份,请登录美问saas平台设置您的员工身份!!', '操作失败');
                     app.userinfo.alertError('小主，未查到您的身份,请登录美问saas平台设置您的员工身份!!');
                 }
             }
         }, function() {});
-        //if (app.userinfo.getEmployee())
+        // if (app.userinfo.getEmployee())
     },
 
     initEvent: function() {
@@ -31,7 +31,7 @@ app.userinfo = {
         });
     },
     goRegistered: function() {
-        location.href = app.urlC + '/activity/registered/index.html?applyType=4'
+        location.href = app.urlC + '/activity/registered/index.html?applyType=4';
     },
     goMwxq: function() {
         localStorage.clear();
@@ -39,24 +39,24 @@ app.userinfo = {
         if (keyGetValue('openid')) {
             text = '?openid=' + keyGetValue('openid');
         }
-        location.href = '/service/index.html'+text+'#/main'
+        location.href = '/service/index.html' + text + '#/main';
     },
     messageTime: function(o, data) {
         if (this.wait == 60 && data) {
             app.userinfo.captcha(data, true);
         }
         if (this.wait == 0) {
-            o.removeAttribute("disabled");
-            //o.removeAttribute("style");
-            o.innerHTML = "获取验证码";
+            o.removeAttribute('disabled');
+            // o.removeAttribute("style");
+            o.innerHTML = '获取验证码';
             this.wait = 60;
         } else {
-            o.setAttribute("disabled", true);
-            //o.setAttribute("style", "background:#f5f5f5;");
-            o.innerHTML = "重新发送(" + this.wait + ")";
+            o.setAttribute('disabled', true);
+            // o.setAttribute("style", "background:#f5f5f5;");
+            o.innerHTML = '重新发送(' + this.wait + ')';
             this.wait--;
             setTimeout(function() {
-                app.userinfo.messageTime(o)
+                app.userinfo.messageTime(o);
             }, 1000);
         }
     },
@@ -68,15 +68,15 @@ app.userinfo = {
                     if (result && result.data && result.data.type == 'image') {
                         $('#yzPwd img').attr('src', result.data.value);
                         $('#yzPwd').show();
-                        $('#yzPwd').addClass("show");
+                        $('#yzPwd').addClass('show');
                     } else if (result && result.data && result.data.type == 'message') {
                         $('#messagePwd').show();
-                        $('#messagePwd').addClass("show");
+                        $('#messagePwd').addClass('show');
                     } else {
                         $('#yzPwd').hide();
-                        $('#yzPwd').removeClass("show");
+                        $('#yzPwd').removeClass('show');
                         $('#messagePwd').hide();
-                        $('#messagePwd').removeClass("show")
+                        $('#messagePwd').removeClass('show');
                     }
                 }
             },
@@ -92,10 +92,10 @@ app.userinfo = {
                 data: {
                     employeeId: id
                 },
-                success: function (res) {
+                success: function(res) {
                     resolve(res);
                 },
-                error: function () {
+                error: function() {
                 }
             });
         });
@@ -106,8 +106,8 @@ app.userinfo = {
                 resolve(JSON.parse(localStorage.employee));
             } else {
                 app.api.userinfo.getEmployeeInfo({
-                    success: function (resultEmployeeList) {
-                        if(resultEmployeeList.success && resultEmployeeList.data){
+                    success: function(resultEmployeeList) {
+                        if (resultEmployeeList.success && resultEmployeeList.data) {
                             var employee = resultEmployeeList.data;
                             for (var j in employee.merchantRole.permissionPackage.permissions) {
                                 var permission = employee.merchantRole.permissionPackage.permissions[j];
@@ -122,25 +122,25 @@ app.userinfo = {
                                 }
                             }
                             if (!employee) {
-                                location.href = "/userinfo.html?type=1#/user_login";
-                                app.userinfo.alertError('小主，未查到您的身份,请登录美问saas平台设置您的员工身份!!')
+                                location.href = '/userinfo.html?type=1#/user_login';
+                                app.userinfo.alertError('小主，未查到您的身份,请登录美问saas平台设置您的员工身份!!');
                                 throw new Error();
                             }
                             if (!employee.role) {
-                                location.href = "/userinfo.html?type=1#/user_login";
-                                app.userinfo.alertError('小主，您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!')
+                                location.href = '/userinfo.html?type=1#/user_login';
+                                app.userinfo.alertError('小主，您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!');
                                 throw new Error();
                             }
 
                             if (employee.positionStatus && employee.positionStatus != '1') {
-                                app.userinfo.alertError('小主，当前员工已离职,不可登录')
+                                app.userinfo.alertError('小主，当前员工已离职,不可登录');
                                 throw new Error();
                             }
 
                             var listEmployeeStoreListData = {
                                 employeeId: employee.id,
                                 merchantId: employee.merchantId
-                            }
+                            };
                             app.api.userinfo.listEmployeeStoreList({
                                 data: listEmployeeStoreListData,
                                 success: function(result) {
@@ -158,26 +158,26 @@ app.userinfo = {
                                     });
                                 },
                                 error: function(a, b, c) {
-                                    location.href = "/userinfo.html?type=1#/user_login";
+                                    location.href = '/userinfo.html?type=1#/user_login';
                                 }
-                            })
+                            });
                         } else {
-                            location.href = "/userinfo.html?type=1#/user_login";
+                            location.href = '/userinfo.html?type=1#/user_login';
                         }
                     },
-                    error: function () {
-                        location.href = "/userinfo.html?type=1#/user_login";
+                    error: function() {
+                        location.href = '/userinfo.html?type=1#/user_login';
                     }
                 });
             }
         });
     },
     selRoleBox: function(cb) {
-        //弹出选择角色门店信息列表
+        // 弹出选择角色门店信息列表
         $('#select_shade').hide();
     },
     alertError: function(text, second) {
-        var text = text || "小主，您当前的网络不给力,请稍后再试";
+        var text = text || '小主，您当前的网络不给力,请稍后再试';
         var second = second || 2500;
         $('.userInfo').find('.error').addClass('active');
         $('.errorText').text(text);
@@ -186,14 +186,14 @@ app.userinfo = {
         }, second);
         var close = function() {
             $('.userInfo').find('.error').removeClass('active');
-        }
+        };
         return {
             close: close
         };
     },
     login: function() {
         app.startLoading();
-        //缓存及cookie清理
+        // 缓存及cookie清理
         localStorage.clear();
         // sessionStorage.clear();
         var error_login = false,
@@ -220,7 +220,7 @@ app.userinfo = {
         //     }, 3000);
         //     return;
         // }
-        //事件统计
+        // 事件统计
         baiduStatistical.add({
             category: '登录',
             label: '用户登录',
@@ -231,13 +231,13 @@ app.userinfo = {
             username: $('input[name="username"]').val(),
             password: app.userinfo.base64Encode($('input[name="password"]').val()),
             rememberMe: true
+        };
+        if ($('#yzPwd').hasClass('show') && $('.yzPwd').val()) {
+            param.captcha = $('.yzPwd').val();
+        } else if ($('#messagePwd').hasClass('show') && $('.messagePwd').val()) {
+            param.captcha = $('.messagePwd').val();
         }
-        if ($("#yzPwd").hasClass("show") && $(".yzPwd").val()) {
-            param.captcha = $(".yzPwd").val();
-        } else if ($("#messagePwd").hasClass("show") && $(".messagePwd").val()) {
-            param.captcha = $(".messagePwd").val();
-        }
-        //查询用户
+        // 查询用户
         app.api.userinfo.auth({
             data: param,
             success: function(resultUser) {
@@ -258,7 +258,7 @@ app.userinfo = {
                 }
                 var accountParam = {
                     userId: resultUser.data
-                }
+                };
                 if (!accountParam.userId) {
                     // app.alert('用户名或密码错误', '登录异常');
                     app.userinfo.alertError('小主，用户名或密码错误', 3000);
@@ -290,7 +290,7 @@ app.userinfo = {
             error: function(a, b, c, d) {
 
             }
-        })
+        });
 
     },
     setPersonalNoun: function(merchantId) {
@@ -298,12 +298,12 @@ app.userinfo = {
             data: merchantId,
             success: function(msg) {
                 var temp = app.api.baseNoun(msg.data);
-                window.localStorage.setItem('personNoun',JSON.stringify(temp));
+                window.localStorage.setItem('personNoun', JSON.stringify(temp));
             },
             error: function(msg) {
-              console.log('会员自定义字段获取失败');
+                console.log('会员自定义字段获取失败');
             }
-        })
+        });
 
     },
     getMerchanntList: function(userObj) {
@@ -312,9 +312,9 @@ app.userinfo = {
                 data: userObj,
                 success: function(resultEmployeeList) {
                     if (!resultEmployeeList || !resultEmployeeList.success || !resultEmployeeList.data || resultEmployeeList.data.length <= 0) {
-                        //app.alert('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息。', '登录异常');
+                        // app.alert('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息。', '登录异常');
                         if (window.location.pathname != '/userinfo.html') {
-                            location.href = "/userinfo.html?type=1#/user_login";
+                            location.href = '/userinfo.html?type=1#/user_login';
                         }
                         app.userinfo.alertError('未查到您的可用身份或您已离职,请与商户管理员联系并设置您的身份信息', 3000);
                         app.endLoading();
@@ -327,7 +327,7 @@ app.userinfo = {
                         } else {
                             resultEmployeeList.data[i].loginStatus = '';
                         }
-                        if ((!resultEmployeeList.data[i].store && !resultEmployeeList.data[i].organization) || !resultEmployeeList.data[i].merchantRole) { //与saas登陆保持一致
+                        if ((!resultEmployeeList.data[i].store && !resultEmployeeList.data[i].organization) || !resultEmployeeList.data[i].merchantRole) { // 与saas登陆保持一致
                             resultEmployeeList.data.splice(i, 1);
                             i--;
                         }
@@ -343,23 +343,23 @@ app.userinfo = {
                 error: function(a, b, c) {
                     reject();
                 }
-            })
+            });
         });
 
     },
     base64Encode: function(str) {
-        var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+        var base64EncodeChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
         var out, i, len;
         var c1, c2, c3;
         len = str.length;
         i = 0;
-        out = "";
+        out = '';
         while (i < len) {
             c1 = str.charCodeAt(i++) & 0xff;
             if (i == len) {
                 out += base64EncodeChars.charAt(c1 >> 2);
                 out += base64EncodeChars.charAt((c1 & 0x3) << 4);
-                out += "==";
+                out += '==';
                 break;
             }
             c2 = str.charCodeAt(i++);
@@ -367,7 +367,7 @@ app.userinfo = {
                 out += base64EncodeChars.charAt(c1 >> 2);
                 out += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
                 out += base64EncodeChars.charAt((c2 & 0xF) << 2);
-                out += "=";
+                out += '=';
                 break;
             }
             c3 = str.charCodeAt(i++);
@@ -380,7 +380,7 @@ app.userinfo = {
     },
     loginEmployee: function(employee) {
         app.startLoading();
-        //事件统计
+        // 事件统计
         baiduStatistical.add({
             category: '选择身份',
             label: '选择身份登录门店',
@@ -399,7 +399,7 @@ app.userinfo = {
                 var data = {
                     userId: employee.userId,
                     employeeId: employee.id
-                }
+                };
                 app.api.userinfo.bind({
                     data: data,
                     success: function(result) {
@@ -408,12 +408,12 @@ app.userinfo = {
                                 data: employee.merchantId,
                                 success: function(res) {
                                     if (res.data === false && employee.merchant.functionVersion != 4) {
-                                        if (res.code == "000002") {
-                                            app.userinfo.alertError("亲~您的账户还没开通，请等待。系统激活日期：" + app.tools.toDate(res.message, 'yyyy年MM月dd日'));
-                                        } else if (res.code == "000003") {
-                                            app.userinfo.alertError("您的账号已经到期，如需继续使用请致电400-006-2020");
+                                        if (res.code == '000002') {
+                                            app.userinfo.alertError('亲~您的账户还没开通，请等待。系统激活日期：' + app.tools.toDate(res.message, 'yyyy年MM月dd日'));
+                                        } else if (res.code == '000003') {
+                                            app.userinfo.alertError('您的账号已经到期，如需继续使用请致电400-006-2020');
                                         } else {
-                                            app.userinfo.alertError("合同异常");
+                                            app.userinfo.alertError('合同异常');
                                         }
                                         document.cookie = 'rememberMe=';
                                         document.cookie = 'remeberMeRunAsRole=';
@@ -424,7 +424,7 @@ app.userinfo = {
                                     var listEmployeeStoreListData = {
                                         employeeId: employee.id,
                                         merchantId: employee.merchantId
-                                    }
+                                    };
                                     var openId = result.data;
                                     app.api.userinfo.listEmployeeStoreList({
                                         data: listEmployeeStoreListData,
@@ -452,14 +452,14 @@ app.userinfo = {
                                                 }
                                                 window.localStorage.employee = JSON.stringify(employee);
                                                 app.userinfo.setPersonalNoun(employee.merchantId);
-                                                //员工登录
+                                                // 员工登录
                                                 app.api.userinfo.emplogin({
                                                     data: {
                                                         empid: employee.id
                                                     },
                                                     success: function(results) {
                                                         if (results && results.success) {}
-                                                        
+
                                                         //
                                                         app.userinfo.getEmployee().then(function(employee) {
                                                             if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
@@ -475,25 +475,25 @@ app.userinfo = {
                                                                 // };
                                                                 app.userinfo.loginBySaasEmployee(employee.id).then(function(res) {
                                                                     var employeeData = window.localStorage.employee;
-                                                                    if(employeeData){
+                                                                    if (employeeData) {
                                                                         employeeData = JSON.parse(employeeData);
                                                                         employeeData.party = res.data;
                                                                         window.localStorage.employee = JSON.stringify(employeeData);
                                                                         var url = '/service/index.html#/main';
                                                                         if (keyGetValue('type') == 1 || loginType == 1) {
                                                                             url = '/main.html#/index';
-                                                                            if (employee.merchant && (employee.merchant.functionVersion == 4 || employee.merchant.functionVersion == 5)) { //营销版
-                                                                                url = "/lite/index.html";
+                                                                            if (employee.merchant && (employee.merchant.functionVersion == 4 || employee.merchant.functionVersion == 5)) { // 营销版
+                                                                                url = '/lite/index.html';
                                                                             }
                                                                         } else if (keyGetValue('type') == 2) {
                                                                             window.history.back();
                                                                             return;
                                                                         } else if (keyGetValue('type') == 3) {
-                                                                            url = "/service/integral-mall.html#/personal";
+                                                                            url = '/service/integral-mall.html#/personal';
                                                                         } else if (keyGetValue('type') == 4) {
-                                                                            url = "/service/index.html#/checkIn";
+                                                                            url = '/service/index.html#/checkIn';
                                                                         }
-                                                                        if (location.pathname == '/main.html'){
+                                                                        if (location.pathname == '/main.html') {
                                                                             location.reload();
                                                                         } else {
                                                                             location.href = url;
@@ -512,7 +512,7 @@ app.userinfo = {
                                                                 document.cookie = 'rememberMe=';
                                                                 document.cookie = 'remeberMeRunAsRole=';
                                                                 localStorage.clear();
-                                                                location.href = "/userinfo.html#/user_login";
+                                                                location.href = '/userinfo.html#/user_login';
                                                                 // app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
                                                                 app.userinfo.alertError('小主，您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!');
                                                                 app.endLoading();
@@ -530,7 +530,7 @@ app.userinfo = {
                                             app.endLoading();
 
                                         }
-                                    })
+                                    });
 
                                 },
                                 error: function(err) {
@@ -543,13 +543,13 @@ app.userinfo = {
                     error: function(a, b, c) {
 
                     }
-                })
+                });
             }
         }, function() {});
     },
     logout: function() {
         app.userinfo.getEmployee().then(function(employee) {
-            //事件统计
+            // 事件统计
             baiduStatistical.add({
                 category: '退出登录',
                 label: '退出登录',
@@ -559,21 +559,21 @@ app.userinfo = {
             var data = {
                 userId: employee.userId,
                 employeeId: employee.id,
-                openId: employee.openId,
-            }
+                openId: employee.openId
+            };
             app.api.userinfo.unbind({
                 data: data,
                 success: function() {
                     window.localStorage.clear();
                     document.cookie = 'rememberMe=';
                     document.cookie = 'remeberMeRunAsRole=';
-                    location.href = "/userinfo.html#/user_login";
+                    location.href = '/userinfo.html#/user_login';
                 },
                 error: function(a, b, c) {
                     window.localStorage.clear();
-                    location.href = "/userinfo.html#/user_login";
+                    location.href = '/userinfo.html#/user_login';
                 }
-            })
+            });
 
         }, function() {});
     },
@@ -582,7 +582,7 @@ app.userinfo = {
         app.userinfo.getEmployee().then(function(employee) {
             var data = {
                 employeeId: employee.id
-            }
+            };
             app.api.userinfo.find({
                 data: data,
                 success: function(result) {
@@ -596,7 +596,7 @@ app.userinfo = {
                         $('.headPic').find('.employee-name').text(userinfo.name);
                         $('.headPic').find('.employee-name').show();
                     }
-                    //签名
+                    // 签名
                     if (userinfo.description) {
                         $('.headPic').find('.employee-description').text(app.tools.sliceStr(userinfo.description, 60));
                         $('.headPic').find('.employee-description').show();
@@ -604,28 +604,27 @@ app.userinfo = {
 
                     window.sessionStorage.setItem('userInfo', JSON.stringify(userinfo));
                     // $('select[name="gender"]').val(userinfo.gender);
-                    if (userinfo.avatarFileId)
-                        $('#headarticle').prop('src', app.filePath + userinfo.avatarFileId);
+                    if (userinfo.avatarFileId)                        {$('#headarticle').prop('src', app.filePath + userinfo.avatarFileId);}
                     $('#headarticle').on('click', function() {
                         $('#headerfile').click();
                         $('#headerfile').change(function(dom) {
                             app.userinfo.changeImg(dom);
-                        })
-                    })
+                        });
+                    });
                 },
                 error: function(a, b, c) {
 
                 }
-            })
-        }, function() {})
+            });
+        }, function() {});
     },
-    //用户信息事件
+    // 用户信息事件
     editUser: function(type) {
-        window.location.href = "/userinfo.html#/editUserInfo?type=" + type;
+        window.location.href = '/userinfo.html#/editUserInfo?type=' + type;
     },
     updateEmployee: function(userinfo) {
         app.userinfo.getEmployee().then(function(employee) {
-            //事件统计
+            // 事件统计
             baiduStatistical.add({
                 category: '个人信息修改',
                 label: '个人信息修改',
@@ -642,9 +641,9 @@ app.userinfo = {
             //     description: $('input[name="description"]').val(),
             //     avatarFileId: app.userinfo.fileId
             // };
-            //转换格式
-            userinfo.birthday = userinfo.birthday ? userinfo.birthday + ' 00:00:00' : "";
-            userinfo.employmentDate = userinfo.employmentDate = userinfo.employmentDate ? userinfo.employmentDate + ' 00:00:00' : "";
+            // 转换格式
+            userinfo.birthday = userinfo.birthday ? userinfo.birthday + ' 00:00:00' : '';
+            userinfo.employmentDate = userinfo.employmentDate = userinfo.employmentDate ? userinfo.employmentDate + ' 00:00:00' : '';
             var avatarFileId = employee.avatarFileId;
             if (sessionStorage.userInfo) {
                 avatarFileId = JSON.parse(sessionStorage.userInfo).avatarFileId;
@@ -655,8 +654,9 @@ app.userinfo = {
                     if (result.success)
                         // app.alert('个人信息修改成功', '修改成功');
                         // app.userinfo.alertError('小主，个人信息修改成功');
-                        //清空本地Session
-                        app.userinfo.getEmployee().then(function(employee) {
+                        // 清空本地Session
+                        {
+app.userinfo.getEmployee().then(function(employee) {
                             var e1 = employee;
                             e1.name = employee.name;
                             e1.gender = employee.gender;
@@ -667,18 +667,19 @@ app.userinfo = {
                             localStorage.employee = JSON.stringify(e1);
                         }, function() {
                             app.userinfo.alertError('小主，个人信息修改异常,请稍后尝试');
-                        })
-                    location.href = "/userinfo.html#/";
+                        });
+};
+                    location.href = '/userinfo.html#/';
                 },
                 error: function(a, b, c) {
                     //   app.alert('个人信息修改异常,请稍后尝试', '修改异常');
-                    app.userinfo.alertError('小主，个人信息修改异常,请稍后尝试')
+                    app.userinfo.alertError('小主，个人信息修改异常,请稍后尝试');
                 }
-            })
-        }, function() {})
+            });
+        }, function() {});
     },
     authUserValidate: function(dom) {
-        //事件统计
+        // 事件统计
         baiduStatistical.add({
             category: '验证码',
             label: '获取验证码',
@@ -686,26 +687,25 @@ app.userinfo = {
             action: 'click'
         });
         var $dom = $(dom);
-        if ($dom.hasClass('disabled'))
-            return;
+        if ($dom.hasClass('disabled'))            {return;}
 
         var phone = $('input[name="phone"]').val();
         if (!phone) {
-            //app.alert('请输入手机号', '获取验证码异常');
+            // app.alert('请输入手机号', '获取验证码异常');
             app.userinfo.alertError('小主，请输入手机号');
             return;
         }
         var param = {
             username: phone
-        }
+        };
         app.api.userinfo.authUser({
             data: param,
             success: function(resultUser) {
                 var accountParam = {
                     authUserId: resultUser.data
-                }
+                };
                 if (!accountParam.authUserId) {
-                    //app.alert('未找到当前用户', '获取验证码异常');
+                    // app.alert('未找到当前用户', '获取验证码异常');
                     app.userinfo.alertError('小主，未找到当前用户');
                     return;
                 }
@@ -717,28 +717,28 @@ app.userinfo = {
                             $('#auth-user-validate').addClass('disabled');
                             $('#auth-user-validate').html('<span id="second">60</span>秒后获取');
                             var secondInterval = setInterval(function() {
-                                var second = parseInt($('#second').html()) - 1
+                                var second = parseInt($('#second').html()) - 1;
                                 $('#second').text(second);
                                 if (second == 0) {
                                     $('#auth-user-validate').removeClass('disabled');
                                     $('#auth-user-validate').html('获取验证码');
                                     clearInterval(secondInterval);
                                 }
-                            }, 1000)
+                            }, 1000);
                         }
                     },
                     error: function(a, b, c) {
 
                     }
-                })
+                });
             },
             error: function(a, b, c) {
 
             }
-        })
+        });
     },
     authUserPersonValidate: function(dom) {
-        //事件统计
+        // 事件统计
         baiduStatistical.add({
             category: '验证码',
             label: '获取验证码',
@@ -746,8 +746,7 @@ app.userinfo = {
             action: 'click'
         });
         var $dom = $(dom);
-        if ($dom.hasClass('disabled'))
-            return;
+        if ($dom.hasClass('disabled'))            {return;}
 
         var phone = $('input[name="phone"]').val();
         if (!phone) {
@@ -758,7 +757,7 @@ app.userinfo = {
             identifier: phone,
             type: 1,
             purpose: 1
-        }
+        };
         app.api.userinfo.authUserPersonValidate({
             data: param,
             success: function(resultValidate) {
@@ -766,20 +765,20 @@ app.userinfo = {
                     $('#auth-user-validate').addClass('disabled');
                     $('#auth-user-validate').html('<span id="second">60</span>秒后获取');
                     var secondInterval = setInterval(function() {
-                        var second = parseInt($('#second').html()) - 1
+                        var second = parseInt($('#second').html()) - 1;
                         $('#second').text(second);
                         if (second == 0) {
                             $('#auth-user-validate').removeClass('disabled');
                             $('#auth-user-validate').html('获取验证码');
                             clearInterval(secondInterval);
                         }
-                    }, 1000)
+                    }, 1000);
                 }
             },
             error: function(a, b, c) {
 
             }
-        })
+        });
     },
     generate: function(type) {
         var phone = $('input[name="phone"]').val();
@@ -789,7 +788,7 @@ app.userinfo = {
         }
         var param = {
             username: phone
-        }
+        };
         app.api.userinfo.authUser({
             data: param,
             success: function(resultUser) {
@@ -806,7 +805,7 @@ app.userinfo = {
                 app.api.userinfo.generate({
                     data: accountParam,
                     success: function(results) {
-                        if (results.code = "000000" && results.data) {
+                        if (results.code = '000000' && results.data) {
                             app.alert('成功发送语音验证码请求,请稍等片刻');
                         } else {
                             app.alert('小主,' + results.message);
@@ -815,24 +814,24 @@ app.userinfo = {
                     error: function() {
                         app.alert('小主,系统繁忙,请稍后再试!');
                     }
-                })
+                });
             },
             error: function(a, b, c) {
 
             }
-        })
+        });
 
     },
     updatePassword: function() {
         var phone = $('input[name="phone"]').val();
         if (!phone) {
-            //app.alert('请输入手机号', '获取验证码异常');
+            // app.alert('请输入手机号', '获取验证码异常');
             app.userinfo.alertError('小主，请输入手机号');
             return;
         }
         var verifycode = $('input[name="verifycode"]').val();
         if (!verifycode) {
-            //app.alert('请输入验证码', '修改密码异常');
+            // app.alert('请输入验证码', '修改密码异常');
             app.userinfo.alertError('小主，请输入验证码');
             return;
         }
@@ -852,8 +851,8 @@ app.userinfo = {
             authUserId: app.userinfo.authUserId,
             password: password,
             validateCode: verifycode
-        }
-        //事件统计
+        };
+        // 事件统计
         baiduStatistical.add({
             category: '找回密码',
             label: '用户找回密码',
@@ -870,10 +869,10 @@ app.userinfo = {
                 }
             },
             error: function(a, b, c) {
-                //app.alert('验证码错误', '修改密码异常');
+                // app.alert('验证码错误', '修改密码异常');
                 app.userinfo.alertError('小主，请输入正确的验证码');
             }
-        })
+        });
     },
     personLogin: function() {
         var phone = $('input[name="phone"]').val();
@@ -890,8 +889,8 @@ app.userinfo = {
             phone: phone,
             captcha: captcha,
             rememberMe: true
-        }
-        //事件统计
+        };
+        // 事件统计
         baiduStatistical.add({
             category: '登录',
             label: '散客登录',
@@ -904,7 +903,7 @@ app.userinfo = {
                 if (result.success && result.data) {
                     // 绑定openid手机号
                     app.api.userinfo.bindMobileToOpenId({
-                        data: {openId: keyGetValue('openid'),mobile:data.phone,code: data.captcha},
+                        data: {openId: keyGetValue('openid'), mobile: data.phone, code: data.captcha},
                         success: function() {
                         }
                     });
@@ -929,25 +928,27 @@ app.userinfo = {
                                         if (res.success) {
                                             if (keyGetValue('type') == 2) {
                                                 window.history.go(-2);
-                                            } else if (keyGetValue('type') == 3){
-                                                location.href = '/service/integral-mall.html#/personal'
+                                            } else if (keyGetValue('type') == 3) {
+                                                location.href = '/service/integral-mall.html#/personal';
                                             } else if (keyGetValue('type') == 4) {
-                                                location.href = "/service/index.html#/checkIn";
+                                                location.href = '/service/index.html#/checkIn';
+                                            } else if (keyGetValue('type') == 5) {
+                                                location.href = '/service/integral-mall.htm#/personal';
                                             } else {
-                                                location.href = '/service/index.html#/main'
+                                                location.href = '/service/index.html#/main';
                                             }
                                         } else {
                                             app.userinfo.alertError(result.message);
                                             return;
                                         }
                                     }
-                                })
+                                });
                             } else {
                                 app.userinfo.alertError(result.message);
                                 return;
                             }
                         }
-                    })
+                    });
                 } else {
                     app.userinfo.alertError(result.message);
                     return;
@@ -955,19 +956,18 @@ app.userinfo = {
             },
             error: function(a, b, c) {
             }
-        })
+        });
     },
     changeImg: function(dom) {
-        if (!dom || !dom.files || dom.files.length <= 0)
-            return;
+        if (!dom || !dom.files || dom.files.length <= 0)            {return;}
 
         var file = dom.files[0];
         var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function(evt) {
             var content = evt.target.result;
-            var tempAry = content.split(",");
-            var base64Str = (tempAry.length == 2) ? tempAry[1] : "";
+            var tempAry = content.split(',');
+            var base64Str = (tempAry.length == 2) ? tempAry[1] : '';
             var myImage = {
                 content: base64Str,
                 contentType: file.type,
@@ -990,7 +990,7 @@ app.userinfo = {
             });
         };
     },
-    //修改用户信息
+    // 修改用户信息
     editUserInfo: function() {
         if (sessionStorage.userInfo && JSON.parse(sessionStorage.userInfo)) {
             var userinfo = JSON.parse(sessionStorage.userInfo);
@@ -999,20 +999,20 @@ app.userinfo = {
             var tmplhtml = $('#tmpl-edit-userInfo-model').html();
             var resultTmpl = tmpl(tmplhtml, userinfo);
             $('#tmpl-edit-userInfo').html(resultTmpl);
-            if (userinfo.gender == 2) { //女
+            if (userinfo.gender == 2) { // 女
                 $('.female-info').addClass('female-active');
-            } else if (userinfo.gender == 1) { //男
+            } else if (userinfo.gender == 1) { // 男
                 $('.male-info').addClass('male-active');
             }
-            //绑定清除文本框事件
+            // 绑定清除文本框事件
             $('.edit-userInfo .form').on('touchstart', '.clearInfo', function(event) {
                 event.preventDefault();
-                $(this).prev().val("");
+                $(this).prev().val('');
             });
-            //查看密码
+            // 查看密码
             $('.edit-userInfo .form').on('touchstart', '.getPwd', function(event) {
                 event.preventDefault();
-                if ($(this).prev('input').attr('type') == "text") {
+                if ($(this).prev('input').attr('type') == 'text') {
                     $(this).prev('input').attr('type', 'password');
                     $(this).replaceWith('<i class="ic font-secondary-color getPwd">&#xe695;</i>');
                 } else {
@@ -1020,42 +1020,42 @@ app.userinfo = {
                     $(this).replaceWith('<i class="ic font-secondary-color getPwd">&#xe69d;</i>');
                 }
             });
-            //修改性别
+            // 修改性别
             $('.edit-userInfo').on('click', '.gender-info', function(event) {
                 event.preventDefault();
                 if ($(this).hasClass('female-info')) {
                     $(this).addClass('female-active');
                     $(this).next().removeClass('male-active');
                 } else {
-                    $(this).addClass('male-active')
+                    $(this).addClass('male-active');
                     $(this).prev().removeClass('female-active');
                 }
             });
-            //修改用户信息
+            // 修改用户信息
             $('.edit-userInfo').on('click', '.save_btn', function(event) {
                 event.preventDefault();
                 switch (parseInt(userinfo.type)) {
-                    case 1: //用户名
+                    case 1: // 用户名
                         if (!$('.edit-userInfo').find('.name').val()) {
                             app.userinfo.alertError('小主，取个闪亮的名字秀出美美的你吧~');
                             return;
                         }
                         userinfo.name = $('.edit-userInfo').find('.name').val();
                         break;
-                    case 2: //性别
+                    case 2: // 性别
                         userinfo.gender = $('.edit-userInfo').find('.gender-info').hasClass('female-active') ? 2 : 1;
                         break;
-                    case 3: //生日
-                        userinfo.birthday = $('.edit-userInfo').find('.birthday').val() ? $('.edit-userInfo').find('.birthday').val() + ' 00:00:00' : "";
+                    case 3: // 生日
+                        userinfo.birthday = $('.edit-userInfo').find('.birthday').val() ? $('.edit-userInfo').find('.birthday').val() + ' 00:00:00' : '';
                         break;
-                    case 4: //地址
+                    case 4: // 地址
                         userinfo.address = $('.edit-userInfo').find('.address').val();
                         break;
-                    case 5: //签名
+                    case 5: // 签名
                         userinfo.description = $('.edit-userInfo').find('.description').val();
                         break;
-                    case 6: //修改密码
-                        //事件统计
+                    case 6: // 修改密码
+                        // 事件统计
                         baiduStatistical.add({
                             category: '找回密码',
                             label: '用户找回密码',
@@ -1092,7 +1092,7 @@ app.userinfo = {
                             data: updatePassword,
                             success: function(result) {
                                 if (result.success && result.data) {
-                                    location.href = "/userinfo.html#/user_login";
+                                    location.href = '/userinfo.html#/user_login';
                                 } else {
                                     app.userinfo.alertError(result.message);
                                     return;
@@ -1109,7 +1109,7 @@ app.userinfo = {
                 app.userinfo.updateEmployee(userinfo);
             });
         } else {
-            location.href = "/userinfo.html#/";
+            location.href = '/userinfo.html#/';
         }
-    },
-}
+    }
+};
