@@ -253,7 +253,7 @@
                 }, msg=> {
                 });
             },
-            goToAuthentication(route) {                
+            goToAuthentication(route) {
                 window.location.href = `/api/b2bPromotionMobile/oauthURI/${route}`;
             }
         }
