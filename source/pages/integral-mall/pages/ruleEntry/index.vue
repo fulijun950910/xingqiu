@@ -232,7 +232,7 @@
         background: @white;
         &.list1, &.list2{
             img{
-                width:80px;
+                width:60px;
                 display:block;
                 margin:0 auto;
             }

@@ -25,7 +25,7 @@
         <div class="wheel-gift">
             <div class="gift-title" layout="row" layout-align="center center">
                 <img :src="require('assets/imgs/integral-mall/title-left.png')" alt="">
-                <span class="fs36">我的奖品</span>
+                <span class="fs32">我的奖品</span>
                 <img :src="require('assets/imgs/integral-mall/title-right.png')" alt="">
             </div>
             <div class="wheel-list">
@@ -39,7 +39,7 @@
                     </div>
                 </div>
             </div>
-            <div flex class="text-center color-light-purple fs24"><m-icon xlink="#icon-xiangqing"></m-icon>奖品有效期为3天，3天后自动删除</div>
+            <div flex class="text-center color-light-purple fs24"><m-icon xlink="#icon-xiangqing"></m-icon>抵用券有效期为3天，3天后自动删除</div>
         </div>
     </div>
     <div class="alert-result" layout="row" layout-align="center center" v-if="showAlert">
@@ -133,6 +133,7 @@ export default {
                 // 使用非零环绕原则，绘制圆盘
                 ctx.save();
                 ctx.fillStyle = '#fff';
+                ctx.strokeStyle = '#000';
                 ctx.beginPath();
                 ctx.arc(config.radius, config.radius, config.radius, _startRadian, _endRadian, false);
                 ctx.arc(config.radius, config.radius, config.inCircleRadius, _endRadian, _startRadian, true);
@@ -280,10 +281,10 @@ export default {
                     field: 'partyId',
                     value: this.$store.state.party.partyId
                 },
-                {
-                    field: 'userId',
-                    value: this.$store.state.party.id
-                },
+                // {
+                //     field: 'userId',
+                //     value: this.$store.state.party.id
+                // },
                 {
                     field: 'startTime',
                     value: this.$moment().subtract(3, 'day').startOf('day').format('YYYY-MM-DD HH:mm:ss')
@@ -349,11 +350,11 @@ export default {
         color: #DC888A;
     }
     .color-fe {
-        color: #FFFEFEFE;
+        color: rgba(255,255,255,.5);
     }
     .biwheel-top {
         position: relative;
-        padding-top: 170px;
+        padding-top: 150px;
         .top-title {
             position: absolute;
             left: 0;
@@ -368,7 +369,7 @@ export default {
             display: inline-block;
             position: relative;
             z-index: 2;
-            padding: 5px;
+            padding: 3px 15px 3px 15px;
             background: rgba(0, 0, 0, .3);
             border-radius: 15px;
             color: #D8CBF1;
@@ -401,11 +402,11 @@ export default {
                 position: absolute;
                 z-index: 2;
                 left: 50%;
-                margin-left: -50px;
-                height: 100px;
-                width: 100px;
+                margin-left: -40px;
+                height: 80px;
+                width: 80px;
                 top: 50%;
-                margin-top: -50px;
+                margin-top: -40px;
                 img{
                     width: 100%;
                     height: auto;
@@ -513,7 +514,7 @@ export default {
             }  
             .other-award{
                 background: url('~assets/imgs/integral-mall/other-doudou-bg.png') no-repeat center;
-                background-size: 100% 100%;
+                background-size: 100% auto;
             }
             .one-dou{
                 background: url('~assets/imgs/integral-mall/one-doudou-bg.png') no-repeat center;

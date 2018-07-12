@@ -88,6 +88,9 @@
         </div>
     </div>
     <new-present :show-mask="isNew" :ads-detail="adsDetail" @hideMask="hideMask"></new-present>
+    <!-- <div class="go-doudou">
+         <img @click="goToAuthentication('ruleEntry')" :src="require('assets/imgs/go-big-gift.png')" alt="">
+    </div> -->
 </div>
 </template>
 
@@ -249,6 +252,9 @@
                     this.bannerList = msg.data;
                 }, msg=> {
                 });
+            },
+            goToAuthentication(route) {                
+                window.location.href = `/api/b2bPromotionMobile/oauthURI/${route}`;
             }
         }
     };
@@ -373,5 +379,18 @@
                 color: @color-red-lighten;
             }
         }
+    }
+    .go-doudou{
+        position: fixed;
+        z-index: 10;
+        width: 60px;
+        bottom: 80px;
+        right: 31.5px;
+        img{
+            width: 60px;
+            height: auto;
+        }
+
+
     }
 </style>

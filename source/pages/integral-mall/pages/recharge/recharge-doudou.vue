@@ -2,20 +2,20 @@
 <div v-title="'充值美豆豆'" class="recharge">
     <div v-if="state == 1">
         <div class="border-bottom cell-box">
-            <div class="blanceBox" layout="column" layout-align="center start">
-                <div><span class="blance">{{dataModel.doudouBalance}}</span>&nbsp;<span class="dark-gray">美豆豆</span></div>
-                <div class="fs24 dark-gray">其中充值余额{{Math.max(dataModel.doudouBalance - dataModel.doudouPresent, 0)}}</div>
+            <div class="blanceBox" layout="column" layout-align="center center">
+                <div><span class="blance">{{dataModel.doudouBalance}}</span>&nbsp;<span class="color-black">美豆豆</span></div>
+                <!-- <div class="fs24 dark-gray">其中充值余额{{Math.max(dataModel.doudouBalance - dataModel.doudouPresent, 0)}}</div> -->
             </div>
         </div>
         <div class="cell-box">
-            <div class="cell">
+            <div class="cell extra-light-black fs30">
                 选择充值金额
             </div>
             <div layout="row" layout-align="space-between center" flex-wrap="wrap">
                 <div @click="selectType(item)" v-for="item in list" :class="{'act': item.id == act , 'list-item' : item.code != 'custom_doudou','input-money' : item.code == 'custom_doudou'}" class="list-item m-b-4" :key="item.id">
                     <div flex v-if="item.code != 'custom_doudou'" layout="column" layout-align="center center" class="item-in">
-                    <div>{{item.description}}</div>
-                    <div class="fs24 dark-gray" v-if="item.price">售价{{item.price | fen2yuan}}元</div>
+                    <div class="fs30 color-black">{{item.description}}</div>
+                    <div class="fs24 dark-gray" v-if="item.price">￥{{item.price | fen2yuan}}</div>
                     <div v-if="item.icon" class="tag fs24 color-white">{{item.icon}}</div>
                     </div>
                     <div class="item-in" flex v-if="item.code == 'custom_doudou'" layout="row" layout-align="center center">
@@ -24,7 +24,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="m-l-3 extra-light-black" v-if="choose.code == 'custom_doudou'">可兑换<span class="color-pink">{{transDou}}</span>美豆豆</div><div flex></div>
+                <div class="m-l-3 extra-light-black" >可兑换<span class="color-pink">{{transDou}}</span>美豆豆</div><div flex></div>
             </div>
             <div class="rules" flex>
                 <div class="color-gray fs24 rule-title">
@@ -94,6 +94,12 @@
             selectType(item) {
                 this.act = item.id;
                 this.choose = item;
+                this.list.map((pro, proIndex)=> {
+                    if (pro.money) {
+                        pro.money = 0;
+                        this.transDou = 0;
+                    };
+                });
             },
             loadProduct() {
                 api_party.goodsList(6).then(res=> {
@@ -190,7 +196,7 @@
     }
     .blanceBox{
         height:135px;
-        background:url("~assets/imgs/index/20180510173001.png") no-repeat center right;
+        // background:url("~assets/imgs/index/20180510173001.png") no-repeat center right;
         background-size: auto 60%;
         .blance{
             font-size:30px;
@@ -208,7 +214,7 @@
         }
         .tag{
             position:absolute;
-            background: linear-gradient(-136deg, #F869D5 0%, #5650DE 100%);
+            background-image: linear-gradient(-152deg, #FAD961 0%, #F76B1C 100%);
             padding:1px 30px;
             transform:rotate(45deg);
             top:8px;
@@ -218,7 +224,7 @@
             // background:@color-red-lighten;
             // border-color:@white;
             border-radius:4px;
-            border:1px solid #5650DE;
+            border:1px solid #F22167;
             // & div{
             //     color:@white;
             // }
