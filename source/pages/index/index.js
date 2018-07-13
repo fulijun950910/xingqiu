@@ -12,7 +12,12 @@ Vue.prototype.$wxc_url = process.env.NODE_ENV === 'production' ? 'https://wechat
 Vue.prototype.$wxb_url = process.env.NODE_ENV === 'production' ? 'http://assistant.mei1.info' : 'http://wxbus.mei1.com';
 Vue.prototype.$rootPath = process.env.NODE_ENV === 'development' ? '/' : '/service/';
 Vue.prototype.$getSignLocation = (search) => {
-    let ref = process.env.NODE_ENV === 'development' ? search + '#/sign-in' : '/userinfo.html' + search + '#/user_login';
+    let ref = '';
+    if (search) {
+        ref = process.env.NODE_ENV === 'development' ? search + '#/sign-in' : '/userinfo.html' + search + '#/user_login';
+    } else {
+        ref = process.env.NODE_ENV === 'development' ? '#/sign-in' : '/userinfo.html#/user_login';
+    }
     return ref;
 };
 
