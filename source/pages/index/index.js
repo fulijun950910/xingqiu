@@ -91,10 +91,10 @@ let checkUser = async () => {
             store.commit('UPDATE_LOCAL');
             deferred.resolve(a);
         } else {
-            window.location.href = Vue.prototype.$getSignLocation();
+            window.location.href = Vue.prototype.$getSignLocation(`?openid=${store.state.user.openId}`);
         }
     } else {
-        window.location.href = Vue.prototype.$getSignLocation();
+        window.location.href = Vue.prototype.$getSignLocation(`?openid=${store.state.user.openId}`);
     }
     return deferred.promise;
 };
