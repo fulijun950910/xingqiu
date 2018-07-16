@@ -127,6 +127,7 @@
         mounted() {
             this.loadData();
             this.listBanner();
+            this.saveUserInfo();
             if (this.$store.state.party && this.$store.state.party.adsList && this.$store.state.party.adsList.length) {
                 this.isNew = true;
                 this.adsDetail = this.$store.state.party.adsList[0];
@@ -149,6 +150,17 @@
                 api_party.getBbsList(data).then(res => {
                     this.bbsData = res.data;
                 });
+            },
+            saveUserInfo() {
+                let employee = localStorage.getItem('employee');
+                if (!employee) {
+                    employee = '{}';
+                }
+                employee = JSON.parse(employee);
+                if (this.$knife.keyGetValue(window.location.search, 'openid')) {
+                    employee.openId = this.$knife.keyGetValue(window.location.search, 'openid');
+                }
+                localStorage.setItem('employee', JSON.stringify(employee));
             },
             async checkUser(type) {
                 // type 1 进入对应的店务助手 2.返回当前页 3，进入美问星球用户页面
