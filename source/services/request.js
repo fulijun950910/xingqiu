@@ -22,6 +22,13 @@ export default function(url, data, method, messageFlag = true) {
             }
         } else {
             Vue.prototype.$indicator.close();
+            if (messageFlag) {
+                if (res.data.message) {
+                    Vue.prototype.$toast(res.data.message);
+                } else {
+                    Vue.prototype.$toast('服务器开小差，请稍后再试');
+                }
+            }
             deferred.reject(res.data);
         }
     }, function(error) {
@@ -43,6 +50,9 @@ export default function(url, data, method, messageFlag = true) {
                 // window.router.push({name: 'error', params: {code: 404}});
                 break;
             default:
+                if (messageFlag) {
+                    Vue.prototype.$toast('服务器开小差，请稍后再试');
+                }
                 deferred.reject(error);
                 break;
         }
