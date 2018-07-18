@@ -219,6 +219,7 @@ app.index = {
         }
         if (JSON.parse(localStorage.employee).merchant && (JSON.parse(localStorage.employee).merchant.functionVersion == 4 || JSON.parse(localStorage.employee).merchant.functionVersion == 5)) {
             location.href = "/lite/index.html";
+            return;
         }
         app.index.userdata().then(function(userDate) {
             if (!sessionStorage.getItem("employeeList")) {

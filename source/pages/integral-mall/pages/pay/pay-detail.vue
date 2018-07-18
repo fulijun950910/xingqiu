@@ -250,6 +250,11 @@
                     }
                 },
                 changeDouAmount() {
+                    if (this.payDetail.payDoudouAmount > this.account.doudouBalance) {
+                        this.$toast('账户豆豆不足哦~');
+                        this.payDetail.payDoudouAmount = this.account.doudouBalance;
+                        return;
+                    }
                     let tempPayDetail = this.payDetail;
                     tempPayDetail.payMoney = this.item.price * tempPayDetail.quantity - this.voucherDiscountMoney - this.translate('dou2fen', tempPayDetail.payDoudouAmount);
                     this.payDetail = tempPayDetail;
