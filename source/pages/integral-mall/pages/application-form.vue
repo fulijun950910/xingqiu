@@ -2,7 +2,11 @@
     <div class="application-form-con">
         <div class="activity-detail">
 <div class="img-con">
-   <img class="img-auto" :src="chooseServiceItem.image | nSrc(require('assets/imgs/female.png'))" alt="">
+   <mt-swipe :auto="4000">
+  <mt-swipe-item v-for="(item, index) in chooseServiceItem.images" :key="index">
+   <img class="img-auto" :src="item | nSrc(require('assets/imgs/female.png'))" alt="">      
+  </mt-swipe-item>
+</mt-swipe>
 </div>
 <div class="description">
     <div class="des-title fwb fs34 color-black">{{chooseServiceItem.name}}</div>
@@ -66,10 +70,12 @@
 </template>
 <script>
 import Vue from 'vue';
-import { Switch, Indicator, Toast } from 'mint-ui';
+import { Switch, Indicator, Toast, Swipe, SwipeItem } from 'mint-ui';
 import api_party from 'services/api.party';
 import mPicker from 'components/m-picker';
 Vue.component(Switch.name, Switch);
+Vue.component(Swipe.name, Swipe);
+Vue.component(SwipeItem.name, SwipeItem);
 export default {
     data() {
         return {
@@ -121,7 +127,6 @@ export default {
             this.store = value[0];
         },
         toPay() {
-            debugger;
             if (!this.parameter.applyServiceDate) {
                 Toast('请选择时间');
                 return ;
@@ -131,6 +136,10 @@ export default {
                     Toast('请输入助手名称');
                     return ;
                 };
+            };
+            if (!this.store.id) {
+                Toast('记得选择门店哦~');
+                return ;
             };
             this.parameter.storeId = this.store.id;
             this.parameter.storeName = this.store.name;
@@ -149,6 +158,7 @@ export default {
             api_party.productDetail(this.$route.params.id).then(msg=> {
                 Indicator.close();
                 this.chooseServiceItem = msg.data;
+                this.chooseServiceItem.images = this.chooseServiceItem.images.split(',');
             }, msg=> {
 
             });

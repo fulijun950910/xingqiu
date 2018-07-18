@@ -44,6 +44,10 @@ export default {
     height: 100%;
     .notice-img{
         padding: 72.5px 0;
+        img{
+            width: 120px;
+            height: auto;
+        }
     }
     .btn-group{
         .click-link{
