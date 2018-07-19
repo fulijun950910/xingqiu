@@ -171,6 +171,7 @@ export default {
             sheetVisible: false,
             dateRangeVisible: false,
             outerImg: [],
+            tempPage: 0,
             status: [{
                 flex: 1,
                 values: [{
@@ -441,6 +442,7 @@ export default {
             });
         },
         messageServiceList() {
+            console.log(this.page);
             let self = this;
             if (this.scrollDisabled) {
                 return;
@@ -471,6 +473,9 @@ export default {
                 parameter.type = this.$route.params.type;
             }
             this.loading = true;
+            if (this.tempPage == this.page) {
+                return;
+            }
             service.messageServiceList(parameter).then(res => {
                 if (res.data.rows.length > 0) {
                     for (let i = 0; i < res.data.rows.length; i++) {
@@ -486,6 +491,7 @@ export default {
                 }
                 this.dataList = this.dataList.concat(res.data.rows);
                 this.loading = false;
+                this.tempPage = this.page;
                 self.page++;
             }, erro => {
                 console.log('网络错误！');
