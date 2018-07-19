@@ -324,7 +324,7 @@ app.userinfo = {
                     for (var i = 0; i < resultEmployeeList.data.length; i++) {
                         var tempStatus = app.userinfo.checkidentityStatus(resultEmployeeList.data[i]);
                         if (tempStatus.status != '正常') {
-                            resultEmployeeList.data[i].loginStatus = '----' + tempStatus;
+                            resultEmployeeList.data[i].loginStatus = '----' + tempStatus.status;
                         }
                     }
                     if (resultEmployeeList.data.length <= 0) {
