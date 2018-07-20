@@ -2,7 +2,7 @@
 <div class="pay-detail" v-title="'确认订单'">
     <div class="top-des" flex layout="column" layout-align="center center">
         <div class="item-img m-b-1">
-            <img :src="item.image | nSrc(require('assets/imgs/female.png'))" alt="">
+            <img :src="item.image | nSrc(require('assets/imgs/integral-mall/normal-in-6.png'))" alt="">
         </div>
         <div class="color-black fs30 fwb">{{item.name}}</div>
     </div>
@@ -26,13 +26,13 @@
                 <div class="fs28 extra-light-black">商品总价</div>
                 <div class="color-black fwb">￥{{item.price | fen2yuan}} / {{item.price | fen2dou}}美豆豆</div>
             </div>
-            <div layout="row" layout-align="space-between center">
+            <div layout="row" layout-align="space-between center" v-if="!type">
                 <div class="fs28 extra-light-black">购买数量</div>
                 <div><integral-input @numOut="changeNum" @changeAmount="changeNum"></integral-input></div>
             </div>
         </div>
         <div class="p-b-5 p-t-5 border-b">
-            <div layout="row" class="m-b-3" layout-align="space-between start">
+            <div layout="row" class="m-b-3" layout-align="space-between start" v-if="!type">
                 <div flex="80">
                     <div class="fs28 extra-light-black">美豆豆数量</div>
                     <div class="fs28 extra-light-black">您共有<span class="color-black">{{account.doudouBalance}}</span>美豆豆，可<span class="color-pink">抵￥{{account.doudouBalance | dou2yuan}}</span><m-icon class="fs30" xlink="#icon-xunwen"></m-icon></div>
@@ -60,7 +60,7 @@
                     </div>
                 <div class="color-black">￥{{item.price | fen2yuan}}</div>
             </div>
-             <div layout="row" class="m-b-3" layout-align="space-between center">
+             <div layout="row" class="m-b-3" v-if="!type" layout-align="space-between center">
                 <div flex="80">
                     <div class="fs28 extra-light-black">美豆豆换算金额</div>
                     </div>
@@ -93,6 +93,8 @@
         /*
         @router
           itemId // 商品Id
+          type // 存在即充值豆豆
+          payMoney // 仅充值豆豆才会有
         */
         import voucher from 'components/integral-mall/voucher';
         import integralInput from 'components/integral-mall/integral-input';
@@ -101,6 +103,7 @@
             data() {
                 return {
                     itemId: this.$route.params.itemId, // 商品ID
+                    type: this.$route.params.type, // 豆豆充值
                     item: {}, // 商品详情
                     address: {}, // 默认地址
                     account: {}, // 账户详情
@@ -117,7 +120,7 @@
                         partyId: this.$store.state.party.partyId,
                         userId: this.$store.state.party.id,
                         payDoudouAmount: 0,
-                        payMoney: 0,
+                        payMoney: this.$route.params.payMoney ? this.$route.params.payMoney : 0,
                         itemId: this.$route.params.itemId,
                         quantity: 1,
                         tradeType: 6,
@@ -135,7 +138,15 @@
                     api_party.productDetail(this.itemId).then(msg=> {
                         this.$indicator.close();
                         this.item = msg.data;
-                        this.loadPersonal();
+                        debugger;
+                        if (!this.type) {
+                            this.loadPersonal();
+                        } else {
+                            let tempItem = msg.data;
+                            tempItem.price = this.$route.params.payMoney;
+                            this.item = tempItem;
+                            this.caculateDiscountMoney();
+                        };
                         this.getCouponList();
                         if (this.item.type == 4) {
                             this.loadDefaultAddress();
@@ -178,7 +189,6 @@
                     this.caculateDiscountMoney();
                 },
                 clickToVoucher(data, coupon) {
-                    debugger;
                     this.voucher = {};
                     this.voucherDiscountMoney = 0;
                     this.vocherShow = !this.vocherShow;
@@ -238,7 +248,7 @@
                     // }
                     leftMoney += this.item.price * (this.payDetail.quantity - 1);
                     if (leftMoney > 0) {
-                        let balanceFen = this.translate('dou2fen', this.account.doudouBalance); // 豆豆转分
+                        let balanceFen = this.translate('dou2fen', this.account.doudouBalance ? this.account.doudouBalance : 0); // 豆豆转分
                         if (leftMoney < balanceFen) {
                             this.payDetail.payDoudouAmount = this.translate('fen2dou', leftMoney); // 分转豆豆
                             this.payDetail.payMoney = 0;

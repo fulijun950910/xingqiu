@@ -34,7 +34,7 @@ export default {
         return deferred.promise;
     },
     getJSSignature2(data) {
-        var url = '/api/wechat/signature?url=' + data.url;
+        var url = `/api/wechat/signature?url=${data.url}`;
         request(url, null, 'get').then(function(res) {
             if (res.success) {
                 wx.config({

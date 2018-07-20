@@ -473,6 +473,7 @@ export default {
                 parameter.type = this.$route.params.type;
             }
             this.loading = true;
+            debugger;
             if (this.tempPage == this.page) {
                 return;
             }
