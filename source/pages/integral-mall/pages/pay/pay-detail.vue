@@ -306,6 +306,9 @@
                     if (this.$route.params.serviceApply) {
                         this.payDetail.serviceApply = this.$route.params.serviceApply;
                     };
+                    if (this.$route.params.type) {
+                        this.payDetail.payMoney = this.$route.params.payMoney;
+                    }
                     api_party.doudouTrade(this.payDetail).then(msg=> {
                         this.btnClick = true;
                         if (msg.data.status == 0) {
