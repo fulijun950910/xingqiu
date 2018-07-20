@@ -250,7 +250,7 @@
                         // };
                     // }
                     leftMoney += this.item.price * (this.payDetail.quantity - 1);
-                    if (leftMoney > 0) {
+                    if (leftMoney >= 0) {
                         let balanceFen = this.translate('dou2fen', this.account.doudouBalance ? this.account.doudouBalance : 0); // 豆豆转分
                         if (leftMoney < balanceFen) {
                             this.payDetail.payDoudouAmount = this.translate('fen2dou', leftMoney); // 分转豆豆
@@ -261,7 +261,6 @@
                             this.payDetail.payMoney = afterLeft;
                         }
                     }
-                    console.log(this.$route.params.payMoney);
                 },
                 changeDouAmount() {
                     if (this.payDetail.payDoudouAmount > this.account.doudouBalance) {
