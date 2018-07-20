@@ -13,7 +13,7 @@
     <div class="des-detail fs24 color-gray" v-html="chooseServiceItem.detail"></div>
 </div>
 </div>
-<div class="form-title text-center">
+<!-- <div class="form-title text-center">
     <div class="fs40 color-black">培训申请表</div>
     <p class="fs24 color-gray">亲爱的朋友，只有填完表但我们才能更好的为您服务哦</p>
 </div>
@@ -61,16 +61,16 @@
         <textarea class="color-black fs30" v-model="parameter.remark"></textarea>
     </div>
     </div>
-</div>
+</div> -->
 <div class="submit color-pink fs40" layout="row" layout-align="center center" @click="toPay" flex>
     提交
 </div>
-  <m-picker v-model="showStore" :slots="slots" valueKey="name" @confirm="onValuesChange"></m-picker>
+  <!-- <m-picker v-model="showStore" :slots="slots" valueKey="name" @confirm="onValuesChange"></m-picker> -->
     </div>
 </template>
 <script>
 import Vue from 'vue';
-import { Switch, Indicator, Toast, Swipe, SwipeItem } from 'mint-ui';
+import { Switch, Indicator, Swipe, SwipeItem } from 'mint-ui';
 import api_party from 'services/api.party';
 import mPicker from 'components/m-picker';
 Vue.component(Switch.name, Switch);
@@ -127,24 +127,24 @@ export default {
             this.store = value[0];
         },
         toPay() {
-            if (!this.parameter.applyServiceDate) {
-                Toast('请选择时间');
-                return ;
-            };
-            if (this.value) {
-                if (!this.parameter.employeeName) {
-                    Toast('请输入助手名称');
-                    return ;
-                };
-            };
-            if (!this.store.id) {
-                Toast('记得选择门店哦~');
-                return ;
-            };
-            this.parameter.storeId = this.store.id;
-            this.parameter.storeName = this.store.name;
-            this.parameter.storeAddress = this.store.address;
-            this.parameter.applyServiceDate = this.$moment(this.parameter.applyServiceDate).startOf('day').format('YYYY-MM-DD HH:mm:ss');
+            // if (!this.parameter.applyServiceDate) {
+            //     Toast('请选择时间');
+            //     return ;
+            // };
+            // if (this.value) {
+            //     if (!this.parameter.employeeName) {
+            //         Toast('请输入助手名称');
+            //         return ;
+            //     };
+            // };
+            // if (!this.store.id) {
+            //     Toast('记得选择门店哦~');
+            //     return ;
+            // };
+            // this.parameter.storeId = this.store.id;
+            // this.parameter.storeName = this.store.name;
+            // this.parameter.storeAddress = this.store.address;
+            // this.parameter.applyServiceDate = this.$moment(this.parameter.applyServiceDate).startOf('day').format('YYYY-MM-DD HH:mm:ss');
             this.$router.push({
                 name: 'pay-detail',
                 params: {
