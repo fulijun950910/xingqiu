@@ -138,7 +138,6 @@
                     api_party.productDetail(this.itemId).then(msg=> {
                         this.$indicator.close();
                         this.item = msg.data;
-                        debugger;
                         if (!this.type) {
                             this.loadPersonal();
                         } else {
@@ -211,6 +210,10 @@
                                 };
                             };
                         }
+                    } else {
+                        if (this.type) {
+                            this.payDetail.payMoney = (this.$route.params.payMoney ? this.$route.params.payMoney : 0);
+                        }
                     };
                 },
                 caculateDiscountMoney() {
@@ -258,6 +261,7 @@
                             this.payDetail.payMoney = afterLeft;
                         }
                     }
+                    console.log(this.$route.params.payMoney);
                 },
                 changeDouAmount() {
                     if (this.payDetail.payDoudouAmount > this.account.doudouBalance) {
