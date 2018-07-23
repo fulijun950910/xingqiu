@@ -1,5 +1,5 @@
 <template>
-    <div class="container" :class="{active:vm.mask}" v-title="'服务动态'">
+    <div class="container" :class="{active:vm.mask}" v-title="'服务动态'" v-infinite-scroll="loadMore" :infinite-scroll-disabled="loading" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
         <!--         <div class="mask" v-if="vm.mask" v-on:click="searchStatu()">
         </div> -->
         <div class="mask" v-if="swipe.show">
@@ -39,7 +39,7 @@
         </div>
         <div class="placeholder" :class="{active1:noData}" flex>
         </div>
-        <div class="dynamics" :class="{active1:noData}"  v-infinite-scroll="loadMore" :infinite-scroll-disabled="loading" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
+        <div class="dynamics" :class="{active1:noData}">
             <no-Data :visible="noData"></no-Data>
             <div class="div-box" :class="{'has-del': item.employeeId == $store.state.user.id}" v-for="(item,pIndex) in dataList" :key="item.id">
                 <p class="text-right" v-if="item.employeeId == $store.state.user.id">
@@ -442,11 +442,7 @@ export default {
             });
         },
         messageServiceList() {
-            console.log(this.page);
             let self = this;
-            if (this.scrollDisabled) {
-                return;
-            }
             let parameter = {
                 merchantId: self.merchantId,
                 storeIds: self.storeIds.join(','),
@@ -472,11 +468,10 @@ export default {
             if (this.$route.params.type) {
                 parameter.type = this.$route.params.type;
             }
-            this.loading = true;
-            debugger;
-            if (this.tempPage == this.page) {
+            if (this.loading) {
                 return;
             }
+            this.loading = true;
             service.messageServiceList(parameter).then(res => {
                 if (res.data.rows.length > 0) {
                     for (let i = 0; i < res.data.rows.length; i++) {
@@ -492,9 +487,9 @@ export default {
                 }
                 this.dataList = this.dataList.concat(res.data.rows);
                 this.loading = false;
-                this.tempPage = this.page;
                 self.page++;
             }, erro => {
+                this.loading = false;
                 console.log('网络错误！');
             });
         },
@@ -551,7 +546,7 @@ export default {
 .container {
     background: @color-bg;
     min-height: 100%;
-    height: 100%;
+    // height: 100%;
     // width: 100%;
     // overflow-x: hidden;
     position: relative;

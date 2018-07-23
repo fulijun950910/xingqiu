@@ -44,7 +44,7 @@ export default {
                 status: 1,
                 type: 2,
                 page: 1,
-                rows: 2000
+                rows: 20
             },
             employeeQuery: {
                 employeeName: '',
