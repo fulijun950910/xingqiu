@@ -217,6 +217,9 @@ export default {
                 );
             };
             Indicator.open('loading...');
+            if (this.loading) {
+                return;
+            };
             this.loading = true;
             api_party.orderList(parameter).then(res=> {
                 Indicator.close();
