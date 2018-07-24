@@ -83,7 +83,7 @@
             </div>
         </div>
 <button :disabled="btnClick" class="integral-btn fwb fs38 color-white m-t-3 m-b-3" @click="buy" layout="row" layout-align="center center">
-支付
+{{payText}}
 </button>
     </div>
     <voucher :mw-item="payDetail" :vocher-show="vocherShow" @update="clickToVoucher" @mClose="clickToVoucher"></voucher>
@@ -115,6 +115,7 @@
                     voucher: null,
                     couponList: [],
                     btnClick: false,
+                    payText: '支付',
                     payDetail: {
                         merchantId: this.$store.state.party.merchantId,
                         partyId: this.$store.state.party.partyId,
@@ -309,15 +310,21 @@
                     if (this.$route.params.type) {
                         this.payDetail.payMoney = this.$route.params.payMoney;
                     }
+                    if (this.btnClick) {
+                        return;
+                    };
+                    this.payText = '支付中...';
+                    this.btnClick = true;
                     api_party.doudouTrade(this.payDetail).then(msg=> {
-                        this.btnClick = true;
+                        this.btnClick = false;
+                        this.payText = '支付';
                         if (msg.data.status == 0) {
                             location.href = msg.data.payUrl + '?url=' + encodeURIComponent(location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/pay-success');
                         } else {
                             this.$router.push('pay-success');
                         };
                     }, msg=> {
-
+                        this.btnClick = false;
                     });
                 },
                 init() {
@@ -388,6 +395,10 @@
             background: @extra-light-gray;
             border-radius: 7px;
         }
+    }
+    [disabled="disabled"] {
+        background: #ccc;
+
     }
 }
 </style>
