@@ -20,6 +20,7 @@ Vue.prototype.$getSignLocation = (search) => {
     }
     return ref;
 };
+Vue.prototype.$enviroment = process.env.NODE_ENV;
 
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';

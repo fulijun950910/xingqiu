@@ -241,5 +241,10 @@ export default {
         // 豆豆充值规则
         let url = '/api/rechargeRule/list';
         return request(url, 'get');
+    },
+    bandWeichat(userId, openId) {
+        // 绑定微信
+        let url = `/api/party/bindOpenId/${userId}/${openId}`;
+        return request(url, 'put');
     }
 };
