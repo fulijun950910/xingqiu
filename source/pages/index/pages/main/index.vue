@@ -206,7 +206,7 @@
                 this.$router.push({name: 'alliance'});
             },
             goMbh() {
-                if (this.$enviroment === 'development') {
+                if (this.$enviroment != 'development') {
                     if (this.$store.state && this.$store.state.party && this.$store.state.party.partyId) {
                         let openId = this.$knife.keyGetValue(window.location.search, 'openid');
                         api_party.bandWeichat(this.$store.state.party.id, openId).then(msg=> {
@@ -216,8 +216,6 @@
 
                         });
                     }
-                } else {
-                    window.location.href = this.$rootPath + 'shop.html#/leader';
                 }
             },
             async goWxbus() {
