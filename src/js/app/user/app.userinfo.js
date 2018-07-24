@@ -488,6 +488,7 @@ app.userinfo = {
                                                                 employeeData.party = res.data;
                                                                 window.localStorage.employee = JSON.stringify(employeeData);
                                                                 var url = '/service/index.html#/main';
+                                                                debugger;
                                                                 if (keyGetValue('type') == 1 || loginType == 1) {
                                                                     url = '/main.html#/index';
                                                                     if (employee.merchant && (employee.merchant.functionVersion == 4 || employee.merchant.functionVersion == 5)) { // 营销版
@@ -500,6 +501,8 @@ app.userinfo = {
                                                                     url = '/service/integral-mall.html#/personal';
                                                                 } else if (keyGetValue('type') == 4) {
                                                                     url = '/service/index.html#/checkIn';
+                                                                } else if (keyGetValue('type') == 5) {
+                                                                    url = '/service/integral-mall.html#/rule-entry';
                                                                 }
                                                                 if (location.pathname == '/main.html') {
                                                                     location.reload();
