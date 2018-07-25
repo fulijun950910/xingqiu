@@ -215,7 +215,7 @@
                     }, msg=> {
                     });
                 } else {
-                    location.href = `userinfo.html?openid=${this.$knife.keyGetValue(window.location.search, 'openid')}#/user_login`;
+                    location.href = this.$signLocation;
 
                 }
                 // } else {
