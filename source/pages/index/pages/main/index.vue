@@ -132,7 +132,8 @@
                 this.isNew = true;
                 this.adsDetail = this.$store.state.party.adsList[0];
                 if (this.adsDetail.code == 'home_001') {
-                    this.givingBean();
+                    // #11105
+                    // this.givingBean();
                 };
             };
         },
