@@ -217,7 +217,7 @@
                     }, msg=> {
                     });
                 } else {
-                    location.href = this.$signLocation;
+                    location.href = this.$signLocation(`?openid=${this.$store.state.user.openId}`);
 
                 };
             },

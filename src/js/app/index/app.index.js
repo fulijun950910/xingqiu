@@ -1,4 +1,4 @@
-//初始化身份切换
+// 初始化身份切换
 function initEemployee() {
     $('.index').on('click', '.employeeRoleList ', function() {
         $('.bd').css('height', '100vh');
@@ -19,49 +19,55 @@ function initEemployee() {
         $('#employeeList .employee_item').find('.active').remove();
         $(this).append('<span class="active"><i class="ic">&#xe659;</i></span>');
         $('.index #employeeList .mask').click();
+        var userId = parseInt($(this).attr('data-userId'));
         var data = {
-            userId: parseInt($(this).attr('data-userId')),
+            userId: userId,
             employeeId: parseInt($(this).attr('data-employeeId'))
-        }
+        };
         var merchantId = parseInt($(this).attr('data-merchantId'));
         var functionVersion = parseInt($(this).attr('data-functionVersion'));
         app.index.bind(data).then(function(result) {
-                var listEmployeeStoreListData = {
-                    employeeId: data.employeeId,
-                    merchantId: merchantId
-                }
+            var listEmployeeStoreListData = {
+                employeeId: data.employeeId,
+                merchantId: merchantId
+            };
                 //  var openId = result.data;
-                app.api.index.checkMerchant({
-                    data: merchantId,
-                    success: function(res) {
-                        if (res.data === false && functionVersion != 4) {
-                            if (res.code == "000002") {
-                                alert("亲~您的账户还没开通，请等待。系统激活日期：" + app.tools.toDate(res.message, 'yyyy年MM月dd日'));
-                            } else if (res.code == "000003") {
-                                alert("您的账号已经到期，如需继续使用请致电400-006-2020");
+            // app.api.index.getOpenId(userId).then(function(backOpenId) {
+            //     console.log(backOpenId);
+            // }, function(backOpenId) {
+            //     console.log('获取openID失败');
+            // });
+            app.api.index.checkMerchant({
+                data: merchantId,
+                success: function(res) {
+                    if (res.data === false && functionVersion != 4) {
+                        if (res.code == '000002') {
+                            alert('亲~您的账户还没开通，请等待。系统激活日期：' + app.tools.toDate(res.message, 'yyyy年MM月dd日'));
+                        } else if (res.code == '000003') {
+                                alert('您的账号已经到期，如需继续使用请致电400-006-2020');
                             } else {
-                                alert("合同异常");
+                                alert('合同异常');
                             }
-                            app.endLoading();
-                            return;
-                        }
-                        app.index.listEmployeeStoreList(listEmployeeStoreListData).then(function (result) {
-                            app.index.getEmployee(data.userId).then(function (employeeInfo) {
-                                var employee = employeeInfo;
+                        app.endLoading();
+                        return;
+                    }
+                    app.index.listEmployeeStoreList(listEmployeeStoreListData).then(function(result) {
+                        app.index.getEmployee(data.userId).then(function(employeeInfo) {
+                            var employee = employeeInfo;
                                 //       employee.openId = openId;
-                                for (var j in employee) {
+                            for (var j in employee) {
                                     if (employee[j].id == data.employeeId) {
                                         employee = employee[j];
                                         employee.storeList = result;
                                         break;
                                     }
                                 }
-                                var storeIds = [];
-                                for (var o in result) {
+                            var storeIds = [];
+                            for (var o in result) {
                                     storeIds.push(result[o].id);
                                 }
-                                employee.storeIds = storeIds.join(',');
-                                for (var j in employee.merchantRole.permissionPackage.permissions) {
+                            employee.storeIds = storeIds.join(',');
+                            for (var j in employee.merchantRole.permissionPackage.permissions) {
                                     var permission = employee.merchantRole.permissionPackage.permissions[j];
                                     if (permission == app.constant.WECHAT_BUSINESS[1].code) {
                                         employee.role = app.constant.WECHAT_BUSINESS[1].code;
@@ -73,20 +79,20 @@ function initEemployee() {
                                         employee.role = null;
                                     }
                                 }
-                                if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                                    //员工登录
+                            if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
+                                    // 员工登录
                                     app.api.userinfo.emplogin({
                                         data: {
                                             empid: data.employeeId
                                         },
-                                        success: function (results) {
+                                        success: function(results) {
                                             if (results && results.success) {
                                                 window.localStorage.employee = JSON.stringify(employee);
                                                 app.api.userinfo.loginBySaasEmployee({
                                                     data: {
                                                         employeeId: employee.id
                                                     },
-                                                    success: function (res) {
+                                                    success: function(res) {
                                                         var employeeData = window.localStorage.employee;
                                                         if (employeeData) {
                                                             employeeData = JSON.parse(employeeData);
@@ -99,14 +105,14 @@ function initEemployee() {
                                                         }
 
                                                     },
-                                                    error: function () {
+                                                    error: function() {
                                                     }
                                                 });
                                             } else {
                                                 app.alert('切换失败');
                                             }
                                         },
-                                        error: function () {
+                                        error: function() {
                                             app.alert('切换失败');
                                         }
                                     });
@@ -118,25 +124,25 @@ function initEemployee() {
                                     app.endLoading();
                                     return;
                                 }
-                            }, function () {
-                                app.alert('切换失败');
-                            });
-                        }, function () {
+                        }, function() {
                             app.alert('切换失败');
                         });
-                    },
-                    error: function(a, b, c) {
+                    }, function() {
+                        app.alert('切换失败');
+                    });
+                },
+                error: function(a, b, c) {
 
-                    }
-                });
+                }
+            });
 
-            },
-            function() { app.alert('切换失败'); })
+        },
+            function() { app.alert('切换失败'); });
     });
 };
 
 function initData() {
-    $('.index .storeList .store_name').attr('data-storeId', "");
+    $('.index .storeList .store_name').attr('data-storeId', '');
     $('.index #employeeList .employee_item').attr('data-userId', '');
     $('.index #employeeList .employee_item').attr('data-employeeId', '');
     $('.index #employeeList .employee_item').attr('data-merchantId', '');
@@ -154,20 +160,20 @@ function goDetail() {
             merchantId: employee.merchant.id,
             storeId: employee.storeId
         });
-        location.href = "/echarts-index.html#/echartsEmployeeDetail";
+        location.href = '/echarts-index.html#/echartsEmployeeDetail';
     } else {
         app.alert('请重新登陆');
-        //失败重新登录
-        location.href = "/userinfo.html#/user_login";
+        // 失败重新登录
+        location.href = '/userinfo.html#/user_login';
     }
 }
 
-//初始化日期
+// 初始化日期
 app.index = {
     indexDate: {},
-    indexIdName: "tepm-index",
+    indexIdName: 'tepm-index',
     userdata: function() {
-        //初始化用户信息
+        // 初始化用户信息
         return new Promise(function(resolve, reject) {
             app.userinfo.getEmployee().then(function(user) {
                 resolve(user);
@@ -193,7 +199,7 @@ app.index = {
     },
     initCystomDate: function(type) {
         app.tools.initCystomDate(type, app.index.indexIdName);
-        //确定自定义时间选择
+        // 确定自定义时间选择
         $('.cystomDate').on('click', '.saveDate', function() {
             $('.index  .mask').click();
             app.index.performance(4, 'date');
@@ -201,7 +207,7 @@ app.index = {
     },
     initStoreList: function() {
         app.tools.initStoreList(app.index.indexIdName);
-        //点击切换门店
+        // 点击切换门店
         $('.index .storeLists .stores').on('click', 'span', function(event) {
             $('.storeLists span').removeClass('active').find('i').remove();
             $(this).addClass('active').append('<i></i>');
@@ -210,19 +216,19 @@ app.index = {
         });
     },
     init: function() {
-        window.localStorage.setItem("performanceInfo", "");
-        window.sessionStorage.setItem('employeeList', "");
+        window.localStorage.setItem('performanceInfo', '');
+        window.sessionStorage.setItem('employeeList', '');
         initData();
         if (!localStorage.employee || !JSON.parse(localStorage.employee)) {
             // location.href = "/userinfo.html?type=1#/user_login";
             this.resetLogin();
         }
         if (JSON.parse(localStorage.employee).merchant && (JSON.parse(localStorage.employee).merchant.functionVersion == 4 || JSON.parse(localStorage.employee).merchant.functionVersion == 5)) {
-            location.href = "/lite/index.html";
+            location.href = '/lite/index.html';
             return;
         }
         app.index.userdata().then(function(userDate) {
-            if (!sessionStorage.getItem("employeeList")) {
+            if (!sessionStorage.getItem('employeeList')) {
                 var userInfo = {
                     userId: JSON.parse(localStorage.employee).userId
                 };
@@ -230,33 +236,33 @@ app.index = {
                     window.sessionStorage.setItem('employeeList', JSON.stringify(employeeList.data));
                     app.index.performance();
                 }, function() {
-                    //失败重新登录
-                    location.href = "/userinfo.html#/user_login";
-                })
+                    // 失败重新登录
+                    location.href = '/userinfo.html#/user_login';
+                });
             } else {
                 app.index.performance();
             }
-        }, function() {})
+        }, function() {});
     },
     resetLogin: function() {
         app.api.userinfo.getEmployeeInfo({
-            success: function (res) {
-                if(res.success && res.data){
+            success: function(res) {
+                if (res.success && res.data) {
                     app.userinfo.loginEmployee(JSON.stringify(res.data));
                 } else {
-                    location.href = "/userinfo.html?type=1#/user_login";
+                    location.href = '/userinfo.html?type=1#/user_login';
                 }
             },
-            error: function () {
-                location.href = "/userinfo.html?type=1#/user_login";
+            error: function() {
+                location.href = '/userinfo.html?type=1#/user_login';
             }
         });
     },
     pageReloadEvent: function(memberData, data, employee) {
-        //修改html 的title
+        // 修改html 的title
         app.changeTitle('业绩看板');
         var tmplhtml;
-        if (employee.role == "wechat_business_normal") {
+        if (employee.role == 'wechat_business_normal') {
             tmplhtml = $('#tmpl-index-normal-model').html();
         } else {
             app.index.getOperatorStore(data);
@@ -281,15 +287,15 @@ app.index = {
                 }
             }
         }
-        if (employee.storeList.length == 1) { //门店权限判断
-            if (employee.role != "wechat_business_normal") {
+        if (employee.storeList.length == 1) { // 门店权限判断
+            if (employee.role != 'wechat_business_normal') {
                 $('.storeLists span:first').remove();
             }
             $('.index .storeList').find('.store_name').text(memberData.storeList[0].name);
         } else {
             $('.allStore').show();
         }
-        if (data.storeIds == employee.storeIds) { //门店默认选中
+        if (data.storeIds == employee.storeIds) { // 门店默认选中
             $('.storeLists span:first').addClass('active').append('<i></i>');
         } else {
             $('.allStore').show();
@@ -307,10 +313,10 @@ app.index = {
             }
         }
 
-        if (memberData.dataType == 4) { //日期类型判断
+        if (memberData.dataType == 4) { // 日期类型判断
             $('.index  .dateList').css({ 'left': '39vw', 'font-size': '.9rem' });
         }
-        //日期名称  初次加载放入名称
+        // 日期名称  初次加载放入名称
         $('.dateLists span').eq(parseInt(memberData.dataType) - 1).addClass('active');
         $('.index .dateList').find('.date_name').text(app.tools.getDateName(memberData.dataType, data));
         $('.index .storeList').find('.store_name').text(app.tools.sliceStr($('.index .storeList').find('.store_name').text(), 14));
@@ -325,9 +331,9 @@ app.index = {
             'merchantId': employee.merchantId,
             'employeeId': employee.id,
             'orderStatus': '20'
-        }
+        };
         var memberData = {
-            //门店列表
+            // 门店列表
             storeList: employee.storeList,
             storeIds: employee.storeIds,
             performanceInfo: {},
@@ -348,8 +354,8 @@ app.index = {
             app.tools.getDateType(memberData.dataType, data, app.index.indexDate);
         } else {
             memberData.dataType = 1;
-            data.startDate = moment().format('YYYY-MM-DD ') + "00:00:00";
-            data.endDate = moment().format('YYYY-MM-DD ') + "23:59:59";
+            data.startDate = moment().format('YYYY-MM-DD ') + '00:00:00';
+            data.endDate = moment().format('YYYY-MM-DD ') + '23:59:59';
         }
         switch (type) {
             case 'storeIds':
@@ -360,33 +366,33 @@ app.index = {
                 app.tools.getDateType(result, data, app.index.indexDate);
                 memberData.dataType = result;
         }
-        //缓存筛选条件
+        // 缓存筛选条件
         var performanceInfo = {
             startDate: data.startDate,
             endDate: data.endDate,
             performanceStoreIds: data.storeIds,
             dataType: memberData.dataType
         };
-        window.localStorage.setItem("performanceInfo", JSON.stringify(performanceInfo));
+        window.localStorage.setItem('performanceInfo', JSON.stringify(performanceInfo));
         data.storeId = parseInt(data.storeIds);
 
         app.index.performanceReport(data, employee.role).then(function(performanceInfoData) {
-                memberData.performanceInfo = performanceInfoData;
-                //计算业绩、提成、卡耗
+            memberData.performanceInfo = performanceInfoData;
+                // 计算业绩、提成、卡耗
 
-                app.index.pageReloadEvent(memberData, data, employee); //页面刷新事件
+            app.index.pageReloadEvent(memberData, data, employee); // 页面刷新事件
 
-                //业绩、
-                if ((memberData.performanceInfo.income + "").length > 6 || (memberData.performanceInfo.cardConsume + "").length > 6) {
-                    $('.achievementTotalAmount  .price').css('font-size', '6vw');
-                    $('.cardConsumeTotalAmount  .price').css('font-size', '6vw');
-                }
-            },
+                // 业绩、
+            if ((memberData.performanceInfo.income + '').length > 6 || (memberData.performanceInfo.cardConsume + '').length > 6) {
+                $('.achievementTotalAmount  .price').css('font-size', '6vw');
+                $('.cardConsumeTotalAmount  .price').css('font-size', '6vw');
+            }
+        },
             function() {
-                app.index.pageReloadEvent(memberData, data, employee); //页面刷新事件
-            })
+                app.index.pageReloadEvent(memberData, data, employee); // 页面刷新事件
+            });
     },
-    //产看可干预团数
+    // 产看可干预团数
     showGroupTotal: function() {
         app.api.index.queryGroupTotal({
             data: employee.merchantId,
@@ -403,7 +409,7 @@ app.index = {
                 if (res && res.success && res.data) {
                     var str = '';
                     for (var i = 0; i < res.data.length; i++) {
-                        str += '<img style="height:2rem;width: 2rem;border-radius: 50%;vertical-align:middle" src=\'' + app.filePath + res.data[i].avatarFileId + '\' onerror="this.src=\'images/default_female.png\'"/>&nbsp;&nbsp;又一个客户' + res.data[i].nickName + '购买了你的服务,' + res.data[i].price / 100 + '元' + '&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;'
+                        str += '<img style="height:2rem;width: 2rem;border-radius: 50%;vertical-align:middle" src=\'' + app.filePath + res.data[i].avatarFileId + '\' onerror="this.src=\'images/default_female.png\'"/>&nbsp;&nbsp;又一个客户' + res.data[i].nickName + '购买了你的服务,' + res.data[i].price / 100 + '元' + '&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;';
                     }
 
                     $('#promotionCustomerBuy').html(str);
@@ -412,7 +418,7 @@ app.index = {
             error: function(error) {}
         });
     },
-    //收账记录模块
+    // 收账记录模块
     showPayNotes: function() {
         app.api.index.showPayNotes({
             success: function(res) {
@@ -434,9 +440,9 @@ app.index = {
             error: function(error) {}
         });
     },
-    //获取业绩看板数据
+    // 获取业绩看板数据
     performanceReport: function(data, type) {
-        if (type != "wechat_business_normal") {
+        if (type != 'wechat_business_normal') {
             return new Promise(function(resolve, reject) {
                 app.startLoading();
                 app.api.index.performanceReport({
@@ -478,7 +484,7 @@ app.index = {
             });
         }
     },
-    //获取员工信息
+    // 获取员工信息
     getEmployee: function(data) {
         var userInfo = {
             userId: data
@@ -497,15 +503,15 @@ app.index = {
                 },
                 error: function(error) {
                     //   app.endLoading();
-                    //失败重新登录
-                    location.href = "/userinfo.html#/user_login";
+                    // 失败重新登录
+                    location.href = '/userinfo.html#/user_login';
                     console.info(error);
                     reject(error);
                 }
             });
         });
     },
-    //绑定信息
+    // 绑定信息
     bind: function(data) {
         return new Promise(function(resolve, reject) {
             app.startLoading();
@@ -527,7 +533,7 @@ app.index = {
             });
         });
     },
-    //获取员工门店列表
+    // 获取员工门店列表
     listEmployeeStoreList: function(data) {
         return new Promise(function(resolve, reject) {
             // app.startLoading();
@@ -549,36 +555,58 @@ app.index = {
             });
         });
     },
-    //获取事件数量
+    // 获取事件数量
     getOperatorStore: function(query) {
         var queryData = [{
-            "field": "merchantId",
-            "value": query.merchantId
+            'field': 'merchantId',
+            'value': query.merchantId
         }, {
-            "field": "startTime",
-            "value": query.startDate
+            'field': 'startTime',
+            'value': query.startDate
         }, {
-            "field": "endTime",
-            "value": query.endDate
-        }]
+            'field': 'endTime',
+            'value': query.endDate
+        }];
         if (query.storeIds && query.storeIds.split(',').length == 1) {
             queryData.push({
-                "field": "storeId",
-                "value": query.storeIds
-            })
+                'field': 'storeId',
+                'value': query.storeIds
+            });
         }
         app.api.operationLog.getOperatorStore({
             data: {
-                "query": queryData,
-                "page": 1,
-                "size": 10000
+                'query': queryData,
+                'page': 1,
+                'size': 10000
             },
             success: function(results) {
-                if (results.code == "000000") {
+                if (results.code == '000000') {
                     $('.recordCount').text(results.data);
                 }
             },
             error: function() {}
         });
+    },
+    // 获取员工门店列表
+    getOpenId: function(userId) {
+        return new Promise(function(resolve, reject) {
+            // app.startLoading();
+            app.api.userinfo.getOpenIdByUserId({
+                data: {userId: userId},
+                success: function(results) {
+                    //   app.endLoading();
+                    if (results.success) {
+                        resolve(results.data);
+                    } else {
+                        reject(results.message);
+                    }
+                },
+                error: function(error) {
+                    //   app.endLoading();
+                    console.info(error);
+                    reject(error);
+                }
+            });
+        });
     }
-}
+};
