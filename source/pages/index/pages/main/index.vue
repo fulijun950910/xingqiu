@@ -209,7 +209,7 @@
             goMbh() {
                 if (this.$store.state && this.$store.state.party && this.$store.state.party.partyId) {
                     let openId = this.$knife.keyGetValue(window.location.search, 'openid');
-                    if(!openId){
+                    if (!openId) {
                         openId = this.$store.state.user.openId;
                     }
                     api_party.bandWeichat(this.$store.state.party.id, openId).then(msg=> {
