@@ -209,6 +209,7 @@
             goMbh() {
                 // if (this.$enviroment === 'development') {
                 if (this.$store.state && this.$store.state.party && this.$store.state.party.partyId) {
+                    console.log(this.$store);
                     let openId = this.$knife.keyGetValue(window.location.search, 'openid');
                     api_party.bandWeichat(this.$store.state.party.id, openId).then(msg=> {
                         window.location.href = `http://b2b.mei1.info/app/index.php?i=1&c=entry&eid=41&saasUID=${this.$store.state.party.id}`;
