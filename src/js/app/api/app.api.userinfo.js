@@ -222,7 +222,7 @@ app.api.userinfo = {
     // 根据userId查询openId
     getOpenIdByUserId: function(settings) {
         app.api.ajax({
-            url: 'api/employeeInfo/userid/' + settings.data.userId,
+            url: '/employeeInfo/userid/' + settings.data.userId,
             type: 'get',
             success: settings.success,
             error: settings.error

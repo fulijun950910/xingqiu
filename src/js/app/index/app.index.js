@@ -19,55 +19,49 @@ function initEemployee() {
         $('#employeeList .employee_item').find('.active').remove();
         $(this).append('<span class="active"><i class="ic">&#xe659;</i></span>');
         $('.index #employeeList .mask').click();
-        var userId = parseInt($(this).attr('data-userId'));
         var data = {
-            userId: userId,
+            userId: parseInt($(this).attr('data-userId')),
             employeeId: parseInt($(this).attr('data-employeeId'))
         };
         var merchantId = parseInt($(this).attr('data-merchantId'));
         var functionVersion = parseInt($(this).attr('data-functionVersion'));
         app.index.bind(data).then(function(result) {
             var listEmployeeStoreListData = {
-                employeeId: data.employeeId,
-                merchantId: merchantId
-            };
+                    employeeId: data.employeeId,
+                    merchantId: merchantId
+                };
                 //  var openId = result.data;
-            // app.api.index.getOpenId(userId).then(function(backOpenId) {
-            //     console.log(backOpenId);
-            // }, function(backOpenId) {
-            //     console.log('获取openID失败');
-            // });
             app.api.index.checkMerchant({
-                data: merchantId,
-                success: function(res) {
-                    if (res.data === false && functionVersion != 4) {
-                        if (res.code == '000002') {
-                            alert('亲~您的账户还没开通，请等待。系统激活日期：' + app.tools.toDate(res.message, 'yyyy年MM月dd日'));
-                        } else if (res.code == '000003') {
+                    data: merchantId,
+                    success: function(res) {
+                        if (res.data === false && functionVersion != 4) {
+                            if (res.code == '000002') {
+                                alert('亲~您的账户还没开通，请等待。系统激活日期：' + app.tools.toDate(res.message, 'yyyy年MM月dd日'));
+                            } else if (res.code == '000003') {
                                 alert('您的账号已经到期，如需继续使用请致电400-006-2020');
                             } else {
                                 alert('合同异常');
                             }
-                        app.endLoading();
-                        return;
-                    }
-                    app.index.listEmployeeStoreList(listEmployeeStoreListData).then(function(result) {
-                        app.index.getEmployee(data.userId).then(function(employeeInfo) {
-                            var employee = employeeInfo;
+                            app.endLoading();
+                            return;
+                        }
+                        app.index.listEmployeeStoreList(listEmployeeStoreListData).then(function(result) {
+                            app.index.getEmployee(data.userId).then(function(employeeInfo) {
+                                var employee = employeeInfo;
                                 //       employee.openId = openId;
-                            for (var j in employee) {
+                                for (var j in employee) {
                                     if (employee[j].id == data.employeeId) {
                                         employee = employee[j];
                                         employee.storeList = result;
                                         break;
                                     }
                                 }
-                            var storeIds = [];
-                            for (var o in result) {
+                                var storeIds = [];
+                                for (var o in result) {
                                     storeIds.push(result[o].id);
                                 }
-                            employee.storeIds = storeIds.join(',');
-                            for (var j in employee.merchantRole.permissionPackage.permissions) {
+                                employee.storeIds = storeIds.join(',');
+                                for (var j in employee.merchantRole.permissionPackage.permissions) {
                                     var permission = employee.merchantRole.permissionPackage.permissions[j];
                                     if (permission == app.constant.WECHAT_BUSINESS[1].code) {
                                         employee.role = app.constant.WECHAT_BUSINESS[1].code;
@@ -79,7 +73,7 @@ function initEemployee() {
                                         employee.role = null;
                                     }
                                 }
-                            if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
+                                if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                                     // 员工登录
                                     app.api.userinfo.emplogin({
                                         data: {
@@ -124,17 +118,17 @@ function initEemployee() {
                                     app.endLoading();
                                     return;
                                 }
+                            }, function() {
+                                app.alert('切换失败');
+                            });
                         }, function() {
                             app.alert('切换失败');
                         });
-                    }, function() {
-                        app.alert('切换失败');
-                    });
-                },
-                error: function(a, b, c) {
+                    },
+                    error: function(a, b, c) {
 
-                }
-            });
+                    }
+                });
 
         },
             function() { app.alert('切换失败'); });
@@ -384,9 +378,9 @@ app.index = {
 
                 // 业绩、
             if ((memberData.performanceInfo.income + '').length > 6 || (memberData.performanceInfo.cardConsume + '').length > 6) {
-                $('.achievementTotalAmount  .price').css('font-size', '6vw');
-                $('.cardConsumeTotalAmount  .price').css('font-size', '6vw');
-            }
+                    $('.achievementTotalAmount  .price').css('font-size', '6vw');
+                    $('.cardConsumeTotalAmount  .price').css('font-size', '6vw');
+                }
         },
             function() {
                 app.index.pageReloadEvent(memberData, data, employee); // 页面刷新事件
@@ -585,28 +579,6 @@ app.index = {
                 }
             },
             error: function() {}
-        });
-    },
-    // 获取员工门店列表
-    getOpenId: function(userId) {
-        return new Promise(function(resolve, reject) {
-            // app.startLoading();
-            app.api.userinfo.getOpenIdByUserId({
-                data: {userId: userId},
-                success: function(results) {
-                    //   app.endLoading();
-                    if (results.success) {
-                        resolve(results.data);
-                    } else {
-                        reject(results.message);
-                    }
-                },
-                error: function(error) {
-                    //   app.endLoading();
-                    console.info(error);
-                    reject(error);
-                }
-            });
         });
     }
 };

@@ -208,16 +208,13 @@
             },
             goMbh() {
                 if (this.$store.state && this.$store.state.party && this.$store.state.party.partyId) {
-                    let openId = this.$knife.keyGetValue(window.location.search, 'openid');
-                    if (!openId) {
-                        openId = this.$store.state.user.openId;
-                    }
+                    let openId = this.$store.state.openId;
                     api_party.bandWeichat(this.$store.state.party.id, openId).then(msg=> {
                         window.location.href = `http://b2b.mei1.info/app/index.php?i=1&c=entry&eid=41&saasUID=${this.$store.state.party.id}`;
                     }, msg=> {
                     });
                 } else {
-                    location.href = this.$signLocation(`?openid=${this.$store.state.user.openId}`);
+                    location.href = this.$signLocation;
 
                 };
             },
