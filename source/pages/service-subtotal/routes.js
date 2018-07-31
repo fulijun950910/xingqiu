@@ -113,7 +113,7 @@ export default [
     // 客户档案
     {
         path: '/customers/detail/:customerId',
-        name: 'customer-detail',
+        name: 'customers-detail',
         component: customersDetail,
         meta: { auth: true, level: 2 }
     },
