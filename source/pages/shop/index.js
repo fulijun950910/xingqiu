@@ -23,8 +23,6 @@ import 'directives/directive';
 import './iconfont';
 import knife from 'vendor/knife';
 import mIcon from 'components/m-icon';
-import Raven from 'raven-js';
-import RavenVue from 'raven-js/plugins/vue';
 
 // 常用函数
 Vue.prototype.$knife = knife;
@@ -34,12 +32,6 @@ Vue.component('m-icon', mIcon);
 
 // 关闭启动信息
 Vue.config.productionTip = false;
-
-// 错误日志收集
-Raven
-    .config('https://4159bc2d37704ea9af9f2b0450c5ebe6@sentry.io/185441')
-    .addPlugin(RavenVue, Vue)
-    .install();
 
 // iOS 300ms延迟解决方案
 if ('addEventListener' in document) {
