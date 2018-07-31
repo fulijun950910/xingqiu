@@ -4,10 +4,21 @@
              class="cp-head"
              layout-align="start center">
             <div class="cp-head-item"
+                 v-show="!selectedRows.length"
                  @click="customerCountVisible = !customerCountVisible;">
                 <m-icon xlink="#icon-yipingjia"></m-icon>
                 查看数据
                 <m-icon :xlink="customerCountVisible ? '#icon-arrow-up' : '#icon-arrow-down'"></m-icon>
+            </div>
+            <div class="cp-head-item"
+                 v-show="selectedRows.length">
+                <span @click="selecteAll">
+                    <m-icon :xlink="isChecked ? '#icon-wsmp-complete' : '#icon-quan1'"></m-icon>
+                    全选</span>
+                <span class="fs20">已选{{selectedTotal}}人</span>
+                <span @click="cancelSelect">
+                    <m-icon xlink="#icon-close"></m-icon>
+                </span>
             </div>
             <div flex></div>
             <div class="cp-head-item">
@@ -23,32 +34,38 @@
              infinite-scroll-distance="50">
             <div class="cp-cont-item"
                  v-for="(item, index) in rows"
-                 @click="custoemrDetail(item)"
                  :key="index"
-                 layout="row"
-                 layout-align="start center">
-                <div class="cp-avatar cp-cont-cell">
-                    <img :src="item.avatarId | nSrc(require('assets/imgs/avatar.png'))" />
+                 layout="row">
+                <div flex
+                     @click="custoemrDetail(item)"
+                     layout="row"
+                     layout-align="start center">
+                    <div class="cp-avatar cp-cont-cell">
+                        <img :src="item.avatarId | nSrc(require('assets/imgs/avatar.png'))" />
+                    </div>
+                    <div class="cp-cont-cell"
+                         flex>{{item.name}}</div>
                 </div>
-                <div class="cp-cont-cell">{{item.name}}</div>
-                <div flex></div>
-                <div class="cp-cont-cell">
-                    <!-- <m-icon xlink="#icon-wsmp-complete"></m-icon> -->
+                <div class="cp-cont-cell fs32 radio-item"
+                     layout="row"
+                     layout-align="center center"
+                     @click.stop="selectCusotmer(item)">
+                    <m-icon :xlink="item.selected ? '#icon-wsmp-complete' : '#icon-quan1'"></m-icon>
                 </div>
             </div>
             <m-load-more :loading="!scrollDisabled"></m-load-more>
         </div>
         <div class="cp-foot"
              layout="row"
-             v-if="false"
+             v-if="selectedRows.length"
              layout-align="start center">
-            <div v-for="(item, index) in 4"
+            <div v-for="(item, index) in toolButtons"
                  :key="index"
                  flex
                  class="text-center">
-                <m-icon xlink="#icon-yipingjia"></m-icon>
+                <m-icon :xlink="item.icon"></m-icon>
                 <div class="fs24">
-                    打标签
+                    {{item.label}}
                 </div>
             </div>
         </div>
@@ -64,7 +81,7 @@
                      class="count-item">
                     <div>
                         <div>
-                            <m-icon xlink="#icon-yipingjia"></m-icon>
+                            <m-icon :xlink="item.icon"></m-icon>
                             <span>{{item.value || 0}}</span>
                         </div>
                         <div>{{item.label}}</div>
@@ -89,7 +106,17 @@ export default {
     components: {
         mLoadMore
     },
-    computed: {},
+    computed: {
+        selectedRows() {
+            return this.rows.filter(val => val.selected);
+        },
+        isChecked() {
+            return this.selectedRows.length && this.selectedRows.length === this.rows.length;
+        },
+        selectedTotal() {
+            return this.isChecked ? this.total : this.selectedRows.length;
+        }
+    },
     data() {
         return {
             rows: [],
@@ -98,6 +125,7 @@ export default {
             scrollDisabled: false,
             customerCounts: [],
             customerCountVisible: false,
+            toolButtons: [],
             params: {
                 page: 0,
                 size: 20
@@ -105,6 +133,7 @@ export default {
         };
     },
     mounted() {
+        this.loadToolButtons();
         this.loadCustomerCount();
     },
     methods: {
@@ -146,6 +175,22 @@ export default {
                 }
             });
         },
+        selectCusotmer(item) {
+            if (item) {
+                this.$set(item, 'selected', !item.selected);
+            }
+        },
+        selecteAll() {
+            let selected = this.isChecked;
+            this.rows.forEach(val => {
+                this.$set(val, 'selected', !selected);
+            });
+        },
+        cancelSelect() {
+            this.rows.forEach(val => {
+                this.$set(val, 'selected', false);
+            });
+        },
         loadCustomerCount(params) {
             api_customer.customerCount().then(
                 res => {
@@ -153,27 +198,51 @@ export default {
                         {
                             label: '访问量',
                             value: res.data.visitCount,
-                            icon: ''
+                            icon: '#icon-yipingjia'
                         },
                         {
                             label: '领券',
                             value: res.data.joinCount,
-                            icon: ''
+                            icon: '#icon-yipingjia'
                         },
                         {
                             label: '参与',
                             value: res.data.ticketReceiveCount,
-                            icon: ''
+                            icon: '#icon-yipingjia'
                         },
                         {
                             label: '到店核销',
                             value: res.data.ticketVerifyCount,
-                            icon: ''
+                            icon: '#icon-yipingjia'
                         }
                     ];
                 },
                 err => {}
             );
+        },
+        loadToolButtons() {
+            this.toolButtons = [
+                {
+                    label: '打标签',
+                    value: 1,
+                    icon: '#icon-yipingjia'
+                },
+                {
+                    label: '移动到',
+                    value: 2,
+                    icon: '#icon-yipingjia'
+                },
+                {
+                    label: '发短信',
+                    value: 3,
+                    icon: '#icon-yipingjia'
+                },
+                {
+                    label: '发券',
+                    value: 4,
+                    icon: '#icon-yipingjia'
+                }
+            ];
         }
     }
 };
@@ -197,12 +266,15 @@ export default {
     }
     .cp-cont {
         margin-top: @lheight;
-        margin-bottom: @lheight;
         &-item {
             border-bottom: 1px solid @border-gay; /*no*/
         }
         &-cell {
             padding: @l16;
+        }
+        .radio-item {
+            width: 60px;
+            min-width: 60px;
         }
     }
     .cp-avatar {
