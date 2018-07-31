@@ -24,6 +24,7 @@ import mIcon from 'components/m-icon';
 import Raven from 'raven-js';
 import RavenVue from 'raven-js/plugins/vue';
 
+console.info('当前环境：', process.env.NODE_ENV);
 // 常用函数
 Vue.prototype.$knife = knife;
 

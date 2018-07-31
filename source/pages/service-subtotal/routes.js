@@ -114,6 +114,7 @@ export default [
     {
         path: '/customers/detail/:customerId',
         name: 'customers-detail',
+        props: true,
         component: customersDetail,
         meta: { auth: true, level: 2 }
     },

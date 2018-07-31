@@ -1,7 +1,9 @@
+import apiCustomer from 'services/api.customer';
+
 export default {
     namespaced: true,
     state: {
-        detail: {}
+        currentCustomer: {}
     },
     mutations: {
         UPDATE_STATE(state, data) {
@@ -12,6 +14,16 @@ export default {
         }
     },
     getters: {
-        avatar: state => state.detail.avatarId
+    },
+    actions: {
+        async LOAD_CURRENT_CUSTOMER({ commit, state }, customerId) {
+            try {
+                let { data } = await apiCustomer.customerInfo(customerId);
+                commit('UPDATE_STATE', { currentCustomer: data || {} });
+                return Promise.resolve(data);
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        }
     }
 };
