@@ -21,8 +21,6 @@ import 'directives/directive';
 import './iconfont';
 import knife from 'vendor/knife';
 import mIcon from 'components/m-icon';
-// import Raven from 'raven-js';
-// import RavenVue from 'raven-js/plugins/vue';
 
 // 常用函数
 Vue.prototype.$knife = knife;
