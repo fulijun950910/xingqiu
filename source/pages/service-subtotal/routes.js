@@ -13,6 +13,7 @@ const unrecordedServiceList = resolve => require(['./pages/unrecorded-service-li
 const serviceDynamics = resolve => require(['./pages/service-dynamics'], resolve);
 const signIn = resolve => require(['./pages/sign-in'], resolve);
 const remitDetail = resolve => require(['./pages/remit-detail/index'], resolve);
+const customers = resolve => require(['./pages/customers'], resolve);
 
 export default [{
     path: '/data-view', // 数据查看页面
@@ -77,6 +78,11 @@ export default [{
     path: '/remit-detail/:merchantId/:drawMoneyId',
     name: 'remit-detail',
     component: remitDetail,
+    meta: { auth: true, level: 1 }
+}, {
+    path: '/customers',
+    name: 'customers',
+    component: customers,
     meta: { auth: true, level: 1 }
 }, {
     path: '*', // 服务动态（默认）
