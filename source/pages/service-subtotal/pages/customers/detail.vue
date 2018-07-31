@@ -15,25 +15,25 @@
         
         <!-- 顾客中心：打标签、编组、发短信、发券 -->
         <div class="info" layout="row" layout-align="space-around center">
-            <div class="item">
+            <div class="item" @click="goto({ name: 'customers-manage-tag' })">
                 <p class="m-b-2">
                     <span class="border round"><m-icon xlink="#icon-tag-alt"/></span>
                 </p>
                 <p>打标签</p>
             </div>
-            <div class="item">
+            <div class="item" @click="goto({ name: 'customers-manage-tag' })">
                 <p class="m-b-2">
                     <span class="border round"><m-icon xlink="#icon-add"/></span>
                 </p>
                 <p>编组</p>
             </div>
-            <div class="item">
+            <div class="item" @click="goto({ name: 'customers-manage-message' })">
                 <p class="m-b-2">
                     <span class="border round"><m-icon xlink="#icon-add"/></span>
                 </p>
                 <p>发短信</p>
             </div>
-            <div class="item">
+            <div class="item" @click="goto({ name: 'customers-manage-ticket' })">
                 <p class="m-b-2">
                     <span class="border round"><m-icon xlink="#icon-add"/></span>
                 </p>
@@ -90,6 +90,9 @@ export default {
     },
     methods: {
         moreTags() {
+        },
+        goto(routeName) {
+            this.$router.push(routeName);
         }
     }
 };
