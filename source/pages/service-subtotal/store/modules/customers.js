@@ -7,19 +7,41 @@ export default {
     },
     mutations: {
         UPDATE_STATE(state, data) {
-            console.info(state);
             if (data) {
                 Object.assign(state, data);
             }
         }
     },
     getters: {
+        currentCustomerTags: state => state.currentCustomer.tags
     },
     actions: {
-        async LOAD_CURRENT_CUSTOMER({ commit, state }, customerId) {
+        // 加载当前用户详情
+        async LOAD_CURRENT_CUSTOMER({ commit, state }, {
+            customerId,
+            refresh = true
+        }) {
             try {
+                if (!customerId) {
+                    return Promise.reject({
+                        message: '执行[customers/LOAD_CURRENT_CUSTOMER]action时缺少客户Id'
+                    });
+                }
+                customerId = window.parseInt(customerId);
+                if (state.currentCustomer && state.currentCustomer.id === customerId && !refresh) {
+                    return Promise.resolve(state.currentCustomer);
+                }
                 let { data } = await apiCustomer.customerInfo(customerId);
                 commit('UPDATE_STATE', { currentCustomer: data || {} });
+                return Promise.resolve(data);
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        },
+        // 加载客户标签库
+        async LOAD_CUSTOMER_TAGS({ commit, state }, customerId) {
+            try {
+                let { data } = await apiCustomer.customerTags();
                 return Promise.resolve(data);
             } catch (error) {
                 return Promise.reject(error);

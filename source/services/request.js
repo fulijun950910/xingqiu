@@ -26,7 +26,7 @@ export default function(url, data, method, messageFlag = true) {
                 if (res.data.message) {
                     Vue.prototype.$toast(res.data.message);
                 } else {
-                    Vue.prototype.$toast('服务器开小差，请稍后再试');
+                    Vue.prototype.$toast('服务器开小差了，请稍后再试');
                 }
             }
             deferred.reject(res.data);
@@ -49,7 +49,7 @@ export default function(url, data, method, messageFlag = true) {
                 break;
             default:
                 if (messageFlag) {
-                    Vue.prototype.$toast('服务器开小差，请稍后再试');
+                    Vue.prototype.$toast('服务器开小差了，请稍后再试');
                 }
                 deferred.reject(error);
                 break;
