@@ -13,7 +13,8 @@
             <div class="cp-head-item"
                  v-show="selectedRows.length">
                 <span @click="selecteAll">
-                    <m-icon :xlink="isChecked ? '#icon-wsmp-complete' : '#icon-quan1'"></m-icon>
+                    <m-icon class="fs36"
+                            :xlink="isChecked ? '#icon-wsmp-complete' : '#icon-quan1'"></m-icon>
                     全选</span>
                 <span class="fs20">已选{{selectedTotal}}人</span>
                 <span @click="cancelSelect">
@@ -22,16 +23,20 @@
             </div>
             <div flex></div>
             <div class="cp-head-item">
-                <m-icon xlink="#icon-yipingjia"></m-icon>
+                <m-icon class="fs36"
+                        xlink="#icon-yipingjia"></m-icon>
             </div>
-            <div class="cp-head-item">
-                <m-icon xlink="#icon-yipingjia"></m-icon>
+            <div class="cp-head-item"
+                 @click="searchVisible = true">
+                <m-icon class="fs36"
+                        xlink="#icon-search2"></m-icon>
             </div>
         </div>
         <div class="cp-cont"
              v-infinite-scroll="loadMore"
              infinite-scroll-disabled="loading"
-             infinite-scroll-distance="50">
+             infinite-scroll-distance="50"
+             v-show="!searchVisible">
             <div class="cp-cont-item"
                  v-for="(item, index) in rows"
                  :key="index"
@@ -89,16 +94,52 @@
                 </div>
             </div>
         </div>
+        <div class="cp-search-panel"
+             v-if="searchVisible">
+            <div class="cp-search-head"
+                 layout="row">
+                <div class="input-panel"
+                     flex
+                     layout="row"
+                     layout-align="start center">
+                    <m-icon class="fs36"
+                            xlink="#icon-search2"></m-icon>
+                    <input type="text"
+                           v-model="searchText"
+                           @keydown.enter="searchClick()"
+                           placeholder="搜索客户"
+                           flex>
+                </div>
+                <div @click="searchVisible = false;">取消</div>
+            </div>
+            <div class="cp-search-cont">
+                <div class="cp-search-cell hs-label"
+                     layout="row"
+                     layout-align="space-between center">
+                    <span>历史搜索</span>
+                    <span @click="cleanSearchHistory">
+                        <m-icon xlink="#icon-yichu"></m-icon>
+                    </span>
+                </div>
+                <div class="cp-search-cell"
+                     v-for="(item, index) in searchHistory"
+                     :key="index">
+                    <div @click="searchClick(item)">
+                        {{item}}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <script>
 import Vue from 'vue';
 import api_customer from '@/services/api.customer';
 import mLoadMore from 'components/m-load-more';
-import { Button, InfiniteScroll, Header } from 'mint-ui';
+import { InfiniteScroll } from 'mint-ui';
 Vue.use(InfiniteScroll);
-Vue.component(Button.name, Button);
-Vue.component(Header.name, Header);
+
+const SEARCH_KEY = 'CUSTOMERS_SEARCH_HISTORY';
 
 export default {
     name: 'customers',
@@ -123,12 +164,16 @@ export default {
             total: 0,
             loading: false,
             scrollDisabled: false,
+            searchVisible: false,
             customerCounts: [],
             customerCountVisible: false,
             toolButtons: [],
+            searchText: '',
+            searchHistory: [],
             params: {
                 page: 0,
-                size: 20
+                size: 20,
+                keyword: ''
             }
         };
     },
@@ -137,7 +182,10 @@ export default {
         this.loadCustomerCount();
     },
     methods: {
-        loadData() {
+        loadData(reset) {
+            if (reset) {
+                this.resetParams();
+            }
             this.loading = true;
             let query = this.queryFormat();
             api_customer.myCustomers(query).then(
@@ -155,10 +203,18 @@ export default {
             );
         },
         queryFormat() {
-            return {
+            let data = {
                 page: this.params.page,
-                size: this.params.size
+                size: this.params.size,
+                query: []
             };
+            if (this.params.keyword) {
+                data.query.push({
+                    field: 'keyword',
+                    value: this.params.keyword
+                });
+            }
+            return data;
         },
         loadMore() {
             if (this.scrollDisabled) {
@@ -243,6 +299,43 @@ export default {
                     icon: '#icon-yipingjia'
                 }
             ];
+        },
+        searchClick(query) {
+            if (query) {
+                this.params.keyword = query;
+            } else {
+                this.params.keyword = this.searchText;
+                // 添加搜索记录
+                if (this.params.keyword) {
+                    this.searchHistory.splice(0, 0, this.params.keyword);
+                    // 保留20条
+                    this.searchHistory = this.searchHistory.splice(0, 20);
+                    window.localStorage.setItem(SEARCH_KEY, JSON.stringify(this.searchHistory));
+                }
+            }
+            this.searchVisible = false;
+            this.loadData(true);
+        },
+        resetParams() {
+            this.params.page = 1;
+            this.rows = [];
+        },
+        loadSearchHistory() {
+            try {
+                this.searchHistory = JSON.parse(window.localStorage.getItem(SEARCH_KEY));
+            } catch (error) {
+                this.searchHistory = [];
+            }
+        },
+        cleanSearchHistory() {
+            // 清空搜索记录
+            this.$messageBox.confirm('确认清空历史记录?').then(
+                action => {
+                    this.searchHistory = [];
+                    window.localStorage.clear(SEARCH_KEY);
+                },
+                err => {}
+            );
         }
     }
 };
@@ -315,6 +408,51 @@ export default {
                 padding: @l24;
             }
         }
+    }
+    .cp-search-panel {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: @white;
+    }
+    .cp-search-head {
+        height: @lheight;
+        background-color: @bg-gray;
+        .input-panel {
+            margin: @l16 0 @l16 @l28;
+            padding-left: @l16;
+            background-color: @light-gray;
+            input {
+                height: 100%;
+                font-size: @fs28;
+            }
+        }
+        div:last-child {
+            line-height: @lheight;
+            padding-right: @l28;
+            padding-left: @l28;
+        }
+    }
+    .cp-search-cont {
+        position: absolute;
+        top: @lheight;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: auto;
+    }
+    .cp-search-cell {
+        padding: 0 @l28;
+        & > div {
+            padding: @l24 0;
+            border-bottom: 1px solid @border-gay; /*no*/
+        }
+    }
+    .hs-label {
+        font-size: @fs28;
+        padding-top: @l24;
     }
 }
 </style>
