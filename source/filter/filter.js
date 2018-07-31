@@ -461,3 +461,11 @@ Vue.filter('mTime', function(second) {
     }
     return str;
 });
+
+Vue.filter('phone', (value, notEncrypt = true) => {
+    if (value) {
+        return `${value.substr(0, 3)} ${notEncrypt ? value.substr(3, 4) : '****'} ${value.substr(
+            7
+        )}`;
+    }
+});

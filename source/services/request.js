@@ -33,8 +33,6 @@ export default function(url, data, method, messageFlag = true) {
         }
     }, function(error) {
         Vue.prototype.$indicator.close();
-        console.log(error.status);
-        console.log(process.env.NODE_ENV === 'development');
         switch (error.status) {
             case 401:
                 localStorage.clear();
