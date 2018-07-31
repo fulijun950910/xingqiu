@@ -22,7 +22,8 @@ const signIn = resolve => require(['./pages/sign-in'], resolve);
 const remitDetail = resolve => require(['./pages/remit-detail/index'], resolve);
 
 // 客户档案
-const customerDetail = resolve => require(['./pages/customers/detail'], resolve);
+const customersDetail = resolve => require(['./pages/customers/detail'], resolve);
+const customers = resolve => require(['./pages/customers'], resolve);
 
 export default [
     // 服务小计
@@ -103,11 +104,17 @@ export default [
         component: remitDetail,
         meta: { auth: true, level: 1 }
     },
+    {
+        path: '/customers',
+        name: 'customers',
+        component: customers,
+        meta: { auth: true, level: 2 }
+    },
     // 客户档案
     {
-        path: '/customer/detail/:customerId',
-        name: 'customer-detail',
-        component: customerDetail,
+        path: '/customers/detail/:customerId',
+        name: 'customers-detail',
+        component: customersDetail,
         meta: { auth: true, level: 2 }
     },
     {
