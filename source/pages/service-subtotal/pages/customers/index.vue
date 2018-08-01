@@ -1,5 +1,6 @@
 <template>
     <div class="customers-panel"
+         :style="{overflow: bodyOverflow}"
          v-title="'顾客档案'">
         <div layout="row"
              class="cp-head"
@@ -30,7 +31,8 @@
                 </span>
             </div>
             <div flex></div>
-            <div class="cp-head-item">
+            <div class="cp-head-item"
+                 @click="popupVisible = true">
                 <m-icon class="fs36"
                         xlink="#icon-yipingjia"></m-icon>
             </div>
@@ -157,6 +159,202 @@
                 </div>
             </div>
         </div>
+        <popup-right v-model="popupVisible"
+                     class="cp-popup-panel">
+            <div class="cp-popup-header"
+                 layout="row"
+                 v-if="popupType === 2">
+                <div class="p-2"
+                     @click="setPopupType(1)">
+                    <m-icon xlink="#icon-left-bold"></m-icon>
+                </div>
+                <div flex
+                     class="p-2">
+                    <input type="text"
+                           v-model="ticketData.searchText"
+                           @keydown.enter="loadTickets(true)"
+                           class="text-center"
+                           placeholder="查询券名称">
+                </div>
+                <div class="p-2"
+                     @click="loadTickets(true)">搜索</div>
+            </div>
+            <div class="cp-popup-content"
+                 v-if="popupType === 1">
+                <div class="cp-popup-section">
+                    <div layout="row"
+                         layout-align="start center"
+                         class="cp-popup-head"
+                         @click="groupData.visible = !groupData.visible">
+                        <div flex
+                             class="color-black fwb">分组筛选</div>
+                        <div class="extra-light-black">
+                            <span v-show="!groupData.visible">展开</span>
+                            <span v-show="groupData.visible">收起</span>
+                            <m-icon class="extra-black"
+                                    :xlink="groupData.visible ? '#icon-arrow-up' : '#icon-arrow-down'"></m-icon>
+                        </div>
+                    </div>
+                    <div layout="row"
+                         layout-align="start center"
+                         flex-wrap="wrap"
+                         class="cp-popup-cont"
+                         v-show="groupData.visible">
+                        <div class="cp-popup-tag"
+                             :class="{'cp-popup-tag-s': item.selected}"
+                             @click="filterClick(item, 'group')"
+                             v-for="(item, index) in groupData.rows"
+                             :key="index">{{item.label}}</div>
+                    </div>
+                </div>
+                <div class="cp-popup-section">
+                    <div layout="row"
+                         layout-align="start center"
+                         class="cp-popup-head"
+                         @click="timeData.visible = !timeData.visible">
+                        <div flex
+                             class="color-black fwb">访问时间</div>
+                        <div class="extra-light-black">
+                            <span v-show="!timeData.visible">展开</span>
+                            <span v-show="timeData.visible">收起</span>
+                            <m-icon class="extra-black"
+                                    :xlink="timeData.visible ? '#icon-arrow-up' : '#icon-arrow-down'"></m-icon>
+                        </div>
+                    </div>
+                    <div layout="row"
+                         layout-align="start center"
+                         flex-wrap="wrap"
+                         class="cp-popup-cont"
+                         v-show="timeData.visible">
+                        <div class="cp-popup-tag"
+                             :class="{'cp-popup-tag-s': item.selected}"
+                             @click="filterClick(item, 'lastVisitTime')"
+                             v-for="(item, index) in timeData.rows"
+                             :key="index">{{item.label}}</div>
+                    </div>
+                </div>
+                <div class="cp-popup-section">
+                    <div layout="row"
+                         layout-align="start center"
+                         class="cp-popup-head"
+                         @click="activityData.visible = !activityData.visible">
+                        <div flex
+                             class="color-black fwb">参加活动</div>
+                        <div class="extra-light-black">
+                            <span v-show="!activityData.visible">展开</span>
+                            <span v-show="activityData.visible">收起</span>
+                            <m-icon class="extra-black"
+                                    :xlink="activityData.visible ? '#icon-arrow-up' : '#icon-arrow-down'"></m-icon>
+                        </div>
+                    </div>
+                    <div layout="row"
+                         layout-align="start center"
+                         flex-wrap="wrap"
+                         class="cp-popup-cont"
+                         v-show="activityData.visible">
+                        <div class="cp-popup-tag"
+                             :class="{'cp-popup-tag-s': item.selected}"
+                             @click="filterClick(item, 'activity')"
+                             v-for="(item, index) in activityData.rows"
+                             :key="index">{{item.label}}</div>
+                    </div>
+                </div>
+                <div class="cp-popup-section">
+                    <div layout="row"
+                         layout-align="start center"
+                         class="cp-popup-head"
+                         @click="sourceData.visible = !sourceData.visible">
+                        <div flex
+                             class="color-black fwb">来源渠道</div>
+                        <div class="extra-light-black">
+                            <span v-show="!sourceData.visible">展开</span>
+                            <span v-show="sourceData.visible">收起</span>
+                            <m-icon class="extra-black"
+                                    :xlink="sourceData.visible ? '#icon-arrow-up' : '#icon-arrow-down'"></m-icon>
+                        </div>
+                    </div>
+                    <div layout="row"
+                         layout-align="start center"
+                         flex-wrap="wrap"
+                         class="cp-popup-cont"
+                         v-show="sourceData.visible">
+                        <div class="cp-popup-tag"
+                             :class="{'cp-popup-tag-s': item.selected}"
+                             @click="filterClick(item, 'source')"
+                             v-for="(item, index) in sourceData.rows"
+                             :key="index">{{item.label}}</div>
+                    </div>
+                </div>
+                <div class="cp-popup-section">
+                    <div layout="row"
+                         layout-align="start center"
+                         class="cp-popup-head">
+                        <div flex
+                             class="color-black fwb">持有券</div>
+                    </div>
+                    <div class="cp-popup-cell"
+                         layout="row"
+                         @click="setPopupType(2)"
+                         layout-align="start center">
+                        <div flex>查询客户的券</div>
+                        <m-icon xlink="#icon-weibiaoti34"></m-icon>
+                    </div>
+                </div>
+                <div class="cp-popup-section">
+                    <div layout="row"
+                         layout-align="start center"
+                         class="cp-popup-head">
+                        <div flex
+                             class="color-black fwb">客户标签</div>
+                        <div class="extra-light-black">
+                            <span>全部</span>
+                            <m-icon class="extra-black"
+                                    :xlink="true ? '#icon-arrow-up' : '#icon-arrow-down'"></m-icon>
+                        </div>
+                    </div>
+                    <div layout="row"
+                         layout-align="start center"
+                         flex-wrap="wrap"
+                         class="cp-popup-cont">
+                        <div class="cp-popup-tag"
+                             v-for="(item, index) in 0"
+                             :key="index">1234</div>
+                    </div>
+                </div>
+            </div>
+            <div class="cp-popup-content cp-popup-content-p"
+                 v-infinite-scroll="loadMoreTickets"
+                 infinite-scroll-disabled="ticketData.loading"
+                 infinite-scroll-distance="10"
+                 v-else-if="popupType === 2">
+                <div v-for="(item, index) in ticketData.rows"
+                     :key="index"
+                     class="p-3">
+                    {{item.label}}
+                </div>
+                <m-load-more :loading="!ticketData.scrollDisabled"></m-load-more>
+            </div>
+            <div class="cp-popup-content cp-popup-content-p"
+                 v-else-if="popupType === 3">
+                标签
+            </div>
+            <div class="cp-popup-footer"
+                 layout="row"
+                 layout-align="start center"
+                 v-if="popupType === 1">
+                <div flex="50"
+                     @click="resetFilter">重置</div>
+                <div flex="50"
+                     @click="saveFilter">确定</div>
+            </div>
+            <div class="cp-popup-footer"
+                 layout="row"
+                 layout-align="start center"
+                 v-if="popupType === 2 || popupType === 3">
+                <div flex="100"
+                     @click="setPopupType(1)">确定</div>
+            </div>
+        </popup-right>
     </div>
 </template>
 <script>
@@ -164,6 +362,9 @@ import Vue from 'vue';
 import api_customer from '@/services/api.customer';
 import mLoadMore from 'components/m-load-more';
 import { InfiniteScroll } from 'mint-ui';
+import popupRight from 'components/popup-right';
+import moment from 'moment';
+import { ACTIVITY_TYPES, SOURCE_TYPES } from 'config/mixins';
 Vue.use(InfiniteScroll);
 
 const SEARCH_KEY = 'CUSTOMERS_SEARCH_HISTORY';
@@ -172,7 +373,8 @@ export default {
     name: 'customers',
     props: {},
     components: {
-        mLoadMore
+        mLoadMore,
+        popupRight
     },
     computed: {
         selectedRows() {
@@ -183,6 +385,12 @@ export default {
         },
         selectedTotal() {
             return this.isChecked ? this.total : this.selectedRows.length;
+        },
+        bodyOverflow() {
+            if (this.popupVisible || this.customerCountVisible) {
+                return 'hidden';
+            }
+            return 'initial';
         }
     },
     data() {
@@ -197,6 +405,34 @@ export default {
             toolButtons: [],
             searchText: '',
             searchHistory: [],
+            popupVisible: true,
+            popupType: 1,
+            tickestVisible: false,
+            keys: ['group', 'lastVisitTime', 'activity', 'source'],
+            groupData: {
+                rows: [],
+                visible: true
+            },
+            timeData: {
+                rows: [],
+                visible: true
+            },
+            activityData: {
+                rows: [],
+                visible: true
+            },
+            sourceData: {
+                rows: [],
+                visible: false
+            },
+            ticketData: {
+                page: 0,
+                size: 20,
+                searchText: '',
+                loading: false,
+                scrollDisabled: false,
+                rows: []
+            },
             params: {
                 page: 0,
                 size: 20,
@@ -207,10 +443,13 @@ export default {
     mounted() {
         this.loadToolButtons();
         this.loadCustomerCount();
+        this.loadGroups();
+        this.loadFilterData();
     },
     methods: {
+        // 加载客户
         loadData(reset) {
-            if (reset) {
+            if (reset === true) {
                 this.resetParams();
             }
             this.loading = true;
@@ -226,9 +465,13 @@ export default {
                         this.scrollDisabled = false;
                     }
                 },
-                err => {}
+                err => {
+                    this.loading = false;
+                    this.scrollDisabled = false;
+                }
             );
         },
+        // 查询条件格式化
         queryFormat() {
             let data = {
                 page: this.params.page,
@@ -241,8 +484,17 @@ export default {
                     value: this.params.keyword
                 });
             }
+            this.keys.forEach(key => {
+                if (this.params[key]) {
+                    data.query.push({
+                        field: key,
+                        value: this.params[key].value
+                    });
+                }
+            });
             return data;
         },
+        // 上拉加载更多
         loadMore() {
             if (this.scrollDisabled) {
                 return;
@@ -250,6 +502,7 @@ export default {
             this.params.page++;
             this.loadData();
         },
+        // 客户详情
         custoemrDetail(item) {
             this.$router.push({
                 name: 'customers-detail',
@@ -258,6 +511,7 @@ export default {
                 }
             });
         },
+        // 选择一条数据
         selectCusotmer(item) {
             if (item) {
                 this.$set(item, 'selected', !item.selected);
@@ -269,11 +523,13 @@ export default {
                 this.$set(val, 'selected', !selected);
             });
         },
+        // 取消所有选择
         cancelSelect() {
             this.rows.forEach(val => {
                 this.$set(val, 'selected', false);
             });
         },
+        // 加载统计数据
         loadCustomerCount(params) {
             api_customer.customerCount().then(
                 res => {
@@ -303,6 +559,7 @@ export default {
                 err => {}
             );
         },
+        // 初始化功能按钮
         loadToolButtons() {
             this.toolButtons = [
                 {
@@ -327,6 +584,7 @@ export default {
                 }
             ];
         },
+        // 搜索事件
         searchClick(query) {
             if (query) {
                 this.params.keyword = query;
@@ -344,10 +602,12 @@ export default {
             this.customerCountVisible = false;
             this.loadData(true);
         },
+        // 重置参数
         resetParams() {
             this.params.page = 1;
             this.rows = [];
         },
+        // 本地加载搜索历史
         loadSearchHistory() {
             try {
                 this.searchHistory = JSON.parse(window.localStorage.getItem(SEARCH_KEY));
@@ -355,6 +615,7 @@ export default {
                 this.searchHistory = [];
             }
         },
+        // 清空搜索历史
         cleanSearchHistory() {
             // 清空搜索记录
             this.$messageBox.confirm('确认清空历史记录?').then(
@@ -364,6 +625,139 @@ export default {
                 },
                 err => {}
             );
+        },
+        // 加载分组数据
+        loadGroups() {
+            api_customer.customerGroups().then(
+                res => {
+                    this.groupData.rows = res.data.map(val => {
+                        return {
+                            label: val.name,
+                            value: val.id
+                        };
+                    });
+                },
+                err => {}
+            );
+        },
+        // 加载静态筛选数据
+        loadFilterData() {
+            this.timeData.rows = [
+                {
+                    label: '最近7天',
+                    value: moment()
+                        .subtract(7, 'd')
+                        .format('YYYY-MM-DD')
+                },
+                {
+                    label: '最近一个月',
+                    value: moment()
+                        .subtract(1, 'M')
+                        .format('YYYY-MM-DD')
+                },
+                {
+                    label: '最近两个月',
+                    value: moment()
+                        .subtract(2, 'M')
+                        .format('YYYY-MM-DD')
+                },
+                {
+                    label: '最近1年',
+                    value: moment()
+                        .subtract(1, 'y')
+                        .format('YYYY-MM-DD')
+                }
+            ];
+            this.activityData.rows = ACTIVITY_TYPES.map(val => {
+                return {
+                    label: val.name,
+                    value: val.value
+                };
+            });
+            this.sourceData.rows = SOURCE_TYPES.map(val => {
+                return {
+                    label: val.name,
+                    value: val.value
+                };
+            });
+        },
+        // 筛选条件事件
+        filterClick(item, key) {
+            if (this.keys.indexOf(key) !== -1) {
+                if (this.params[key]) {
+                    this.params[key].selected = false;
+                }
+                this.$set(item, 'selected', true);
+                this.params[key] = item;
+            }
+        },
+        // 重置筛选
+        resetFilter() {
+            this.keys.forEach(key => {
+                if (this.params[key]) {
+                    this.params[key].selected = false;
+                    this.params[key] = null;
+                }
+            });
+            this.saveFilter();
+        },
+        // 保存筛选条件
+        saveFilter() {
+            this.loadData(true);
+            this.popupVisible = false;
+        },
+        // 设置侧边栏显示内容
+        setPopupType(type) {
+            this.popupType = type;
+        },
+        // 加载券
+        loadTickets(reset) {
+            if (reset === true) {
+                this.ticketData.rows = [];
+                this.ticketData.page = 1;
+            }
+            const data = {
+                size: this.ticketData.size,
+                page: this.ticketData.page
+            };
+            if (this.timeData.searchText) {
+                data.query = [
+                    {
+                        field: 'keyword',
+                        value: this.timeData.searchText,
+                        operation: 'like'
+                    }
+                ];
+            }
+            this.ticketData.loading = true;
+            api_customer.customerSearchTickets(data).then(
+                res => {
+                    const rows = res.data.rows.map(val => {
+                        return {
+                            label: val.name,
+                            value: val.id
+                        };
+                    });
+                    this.ticketData.rows = [...this.ticketData.rows, ...rows];
+                    this.ticketData.loading = false;
+                    if (res.data.rows.length < this.ticketData.size) {
+                        this.ticketData.scrollDisabled = true;
+                    } else {
+                        this.ticketData.scrollDisabled = false;
+                    }
+                },
+                err => {
+                    this.ticketData.loading = false;
+                }
+            );
+        },
+        // 券上拉加载更多
+        loadMoreTickets() {
+            if (this.ticketData.scrollDisabled) {
+                return;
+            }
+            this.ticketData.page++;
+            this.loadTickets();
         }
     }
 };
@@ -373,6 +767,7 @@ export default {
 @lheight: 49px;
 .customers-panel {
     height: 100%;
+    overflow: hidden;
     .color-66a {
         color: #66acff;
     }
@@ -502,6 +897,82 @@ export default {
     .lc-icon {
         line-height: @fs48 * 1.6;
         color: @color-primary;
+    }
+    .cp-popup {
+        &-panel {
+            width: 80%;
+            overflow: hidden;
+        }
+        &-section {
+            padding: 0 15px;
+        }
+        &-head {
+            div {
+                padding: 15px 0;
+            }
+        }
+        &-cont {
+        }
+        &-cell {
+            font-size: @fs28;
+            margin: 0px -15px;
+            line-height: 50px;
+            padding: 0px 15px;
+            background-color: @bg-gray;
+            color: @extra-black;
+        }
+        &-tag {
+            color: @extra-black;
+            background-color: @bg-gray;
+            border-radius: 15px;
+            font-size: @fs28;
+            padding: 0 20px;
+            line-height: 30px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            text-align: center;
+            border: 1px solid @bg-gray;
+            &-s {
+                background-color: #fcf8ff;
+                border-color: @color-primary;
+                color: @color-primary;
+            }
+        }
+        &-header {
+            height: @lheight;
+            line-height: @lheight - 16px;
+            input {
+                height: 100%;
+                width: 100%;
+                background-color: @bg-gray;
+            }
+        }
+        &-content {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: @lheight;
+            overflow: auto;
+            &-p {
+                top: @lheight;
+            }
+        }
+        &-footer {
+            border-top: 1px solid @border-gay; /*no*/
+            line-height: @lheight;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-color: @bg-gray;
+            text-align: center;
+            color: @color-black;
+            div:last-child {
+                background-color: @color-primary;
+                color: @white;
+            }
+        }
     }
 }
 </style>
