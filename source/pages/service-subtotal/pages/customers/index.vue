@@ -405,9 +405,8 @@ export default {
             toolButtons: [],
             searchText: '',
             searchHistory: [],
-            popupVisible: true,
+            popupVisible: false,
             popupType: 1,
-            tickestVisible: false,
             keys: ['group', 'lastVisitTime', 'activity', 'source'],
             groupData: {
                 rows: [],
