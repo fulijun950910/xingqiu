@@ -1,24 +1,32 @@
 <template>
-    <div class="customers-panel">
+    <div class="customers-panel"
+         v-title="'顾客档案'">
         <div layout="row"
              class="cp-head"
              layout-align="start center">
             <div class="cp-head-item"
                  v-show="!selectedRows.length"
                  @click="customerCountVisible = !customerCountVisible;">
-                <m-icon xlink="#icon-yipingjia"></m-icon>
-                查看数据
-                <m-icon :xlink="customerCountVisible ? '#icon-arrow-up' : '#icon-arrow-down'"></m-icon>
+                <m-icon :class="customerCountVisible ? 'color-primary' : 'extra-black'"
+                        xlink="#icon-yipingjia"></m-icon>
+                <span class="extra-light-black">
+                    查看数据
+                </span>
+                <m-icon class="extra-black"
+                        :xlink="customerCountVisible ? '#icon-arrow-up' : '#icon-arrow-down'"></m-icon>
             </div>
             <div class="cp-head-item"
                  v-show="selectedRows.length">
                 <span @click="selecteAll">
                     <m-icon class="fs36"
+                            :class="{'color-primary': isChecked}"
                             :xlink="isChecked ? '#icon-wsmp-complete' : '#icon-quan1'"></m-icon>
-                    全选</span>
-                <span class="fs20">已选{{selectedTotal}}人</span>
+                    <span class="extra-black">全选</span>
+                </span>
+                <span class="fs20 extra-black">已选{{selectedTotal}}人</span>
                 <span @click="cancelSelect">
-                    <m-icon xlink="#icon-close"></m-icon>
+                    <m-icon class="color-66a"
+                            xlink="#icon-close"></m-icon>
                 </span>
             </div>
             <div flex></div>
@@ -48,12 +56,24 @@
                     <div class="cp-avatar cp-cont-cell">
                         <img :src="item.avatarId | nSrc(require('assets/imgs/avatar.png'))" />
                     </div>
-                    <div class="cp-cont-cell"
-                         flex>{{item.name}}</div>
+                    <div class="cp-cont-cell">
+                        <div class="color-black">{{item.name}}</div>
+                        <div layout="row"
+                             layout-align="start center"
+                             flex-wrap="wrap"
+                             class="extra-light-black">
+                            <m-icon class="m-r-2"
+                                    xlink="#icon-tag-alt"></m-icon>
+                            <div v-for="(tag, index) in item.tags"
+                                 class="fs24 m-r-2"
+                                 :key="index">{{tag.tagName}}</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="cp-cont-cell fs32 radio-item"
                      layout="row"
                      layout-align="center center"
+                     :class="{'color-primary': item.selected}"
                      @click.stop="selectCusotmer(item)">
                     <m-icon :xlink="item.selected ? '#icon-wsmp-complete' : '#icon-quan1'"></m-icon>
                 </div>
@@ -68,7 +88,7 @@
                  :key="index"
                  flex
                  class="text-center">
-                <m-icon :xlink="item.icon"></m-icon>
+                <m-icon class="fs36" :xlink="item.icon"></m-icon>
                 <div class="fs24">
                     {{item.label}}
                 </div>
@@ -76,7 +96,7 @@
         </div>
         <div class="count-panel"
              v-if="customerCountVisible"
-             @click="customerCountVisible = false;">
+             @click.self="customerCountVisible = false;">
             <div layout="row"
                  layout-align="start center"
                  flex-wrap="wrap">
@@ -84,12 +104,16 @@
                      v-for="(item, index) in customerCounts"
                      :key="index"
                      class="count-item">
-                    <div>
-                        <div>
+                    <div layout="row"
+                         layout-align="start start">
+                        <div flex="30"
+                             class="text-center fs36 lc-icon">
                             <m-icon :xlink="item.icon"></m-icon>
-                            <span>{{item.value || 0}}</span>
                         </div>
-                        <div>{{item.label}}</div>
+                        <div flex="70">
+                            <div class="fs48 color-black">{{item.value | bigNumber}}</div>
+                            <div class="fs30 color-gray">{{item.label}}</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -115,7 +139,8 @@
             <div class="cp-search-cont">
                 <div class="cp-search-cell hs-label"
                      layout="row"
-                     layout-align="space-between center">
+                     layout-align="space-between center"
+                     v-if="searchHistory.length">
                     <span>历史搜索</span>
                     <span @click="cleanSearchHistory">
                         <m-icon xlink="#icon-yichu"></m-icon>
@@ -281,22 +306,22 @@ export default {
                 {
                     label: '打标签',
                     value: 1,
-                    icon: '#icon-yipingjia'
+                    icon: '#icon-tag-alt'
                 },
                 {
                     label: '移动到',
                     value: 2,
-                    icon: '#icon-yipingjia'
+                    icon: '#icon-tuichu'
                 },
                 {
                     label: '发短信',
                     value: 3,
-                    icon: '#icon-yipingjia'
+                    icon: '#icon-duanxin'
                 },
                 {
                     label: '发券',
                     value: 4,
-                    icon: '#icon-yipingjia'
+                    icon: '#icon-weibiaoti2fuzhi02'
                 }
             ];
         },
@@ -314,6 +339,7 @@ export default {
                 }
             }
             this.searchVisible = false;
+            this.customerCountVisible = false;
             this.loadData(true);
         },
         resetParams() {
@@ -345,11 +371,15 @@ export default {
 @lheight: 49px;
 .customers-panel {
     height: 100%;
+    .color-66a {
+        color: #66acff;
+    }
     .cp-head {
         position: fixed;
         top: 0;
         height: @lheight;
-        background-color: @bg-gray;
+        background-color: @white;
+        border-bottom: 1px solid @border-gay; /*no*/
         width: 100%;
         left: 0;
         &-item {
@@ -373,6 +403,7 @@ export default {
     .cp-avatar {
         width: 35px;
         height: 35px;
+        min-width: 35px;
         overflow: hidden;
         border-radius: 50%;
         box-sizing: content-box;
@@ -419,11 +450,11 @@ export default {
     }
     .cp-search-head {
         height: @lheight;
-        background-color: @bg-gray;
+        border-bottom: 1px solid @border-gay; /*no*/
         .input-panel {
             margin: @l16 0 @l16 @l28;
             padding-left: @l16;
-            background-color: @light-gray;
+            background-color: @color-bg;
             input {
                 height: 100%;
                 font-size: @fs28;
@@ -453,6 +484,17 @@ export default {
     .hs-label {
         font-size: @fs28;
         padding-top: @l24;
+    }
+    .cp-customer {
+        max-width: 130px;
+        width: 130px;
+        & > div {
+            word-wrap: normal;
+        }
+    }
+    .lc-icon {
+        line-height: @fs48 * 1.6;
+        color: @color-primary;
     }
 }
 </style>

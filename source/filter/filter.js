@@ -469,3 +469,16 @@ Vue.filter('phone', (value, notEncrypt = true) => {
         )}`;
     }
 });
+
+Vue.filter('bigNumber', value => {
+    if (value) {
+        if (value > 1e5) {
+            return (value / 1e4).toFixed(0) + '万';
+        }
+        if (value > 1e4) {
+            return parseFloat((value / 1e4).toFixed(2)) + '万';
+        }
+        return value;
+    }
+    return 0;
+});
