@@ -48,8 +48,19 @@
                     <div class="cp-avatar cp-cont-cell">
                         <img :src="item.avatarId | nSrc(require('assets/imgs/avatar.png'))" />
                     </div>
-                    <div class="cp-cont-cell"
-                         flex>{{item.name}}</div>
+                    <div class="cp-cont-cell">
+                        <div class="color-black">{{item.name}}</div>
+                        <div layout="row"
+                             layout-align="start center"
+                             flex-wrap="wrap"
+                             class="extra-light-black">
+                            <m-icon class="m-r-2"
+                                    xlink="#icon-tag-alt"></m-icon>
+                            <div v-for="(tag, index) in item.tags"
+                                 class="fs24 m-r-2"
+                                 :key="index">{{tag.tagName}}</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="cp-cont-cell fs32 radio-item"
                      layout="row"
@@ -76,7 +87,7 @@
         </div>
         <div class="count-panel"
              v-if="customerCountVisible"
-             @click="customerCountVisible = false;">
+             @click.self="customerCountVisible = false;">
             <div layout="row"
                  layout-align="start center"
                  flex-wrap="wrap">
@@ -115,7 +126,8 @@
             <div class="cp-search-cont">
                 <div class="cp-search-cell hs-label"
                      layout="row"
-                     layout-align="space-between center">
+                     layout-align="space-between center"
+                     v-if="searchHistory.length">
                     <span>历史搜索</span>
                     <span @click="cleanSearchHistory">
                         <m-icon xlink="#icon-yichu"></m-icon>
@@ -314,6 +326,7 @@ export default {
                 }
             }
             this.searchVisible = false;
+            this.customerCountVisible = false;
             this.loadData(true);
         },
         resetParams() {
@@ -349,7 +362,8 @@ export default {
         position: fixed;
         top: 0;
         height: @lheight;
-        background-color: @bg-gray;
+        background-color: @white;
+        border-bottom: 1px solid @border-gay; /*no*/
         width: 100%;
         left: 0;
         &-item {
@@ -373,6 +387,7 @@ export default {
     .cp-avatar {
         width: 35px;
         height: 35px;
+        min-width: 35px;
         overflow: hidden;
         border-radius: 50%;
         box-sizing: content-box;
@@ -419,11 +434,11 @@ export default {
     }
     .cp-search-head {
         height: @lheight;
-        background-color: @bg-gray;
+        border-bottom: 1px solid @border-gay; /*no*/
         .input-panel {
             margin: @l16 0 @l16 @l28;
             padding-left: @l16;
-            background-color: @light-gray;
+            background-color: @color-bg;
             input {
                 height: 100%;
                 font-size: @fs28;
@@ -453,6 +468,13 @@ export default {
     .hs-label {
         font-size: @fs28;
         padding-top: @l24;
+    }
+    .cp-customer {
+        max-width: 130px;
+        width: 130px;
+        & > div {
+            word-wrap: normal;
+        }
     }
 }
 </style>
