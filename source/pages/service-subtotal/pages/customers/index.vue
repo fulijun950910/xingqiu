@@ -23,9 +23,9 @@
                             :xlink="isChecked ? '#icon-wsmp-complete' : '#icon-quan1'"></m-icon>
                     <span class="extra-black">全选</span>
                 </span>
-                <span class="fs20 extra-black">已选{{selectedTotal}}人</span>
+                <span class="fs20 extra-black m-r-2">已选{{selectedTotal}}人</span>
                 <span @click="cancelSelect">
-                    <m-icon class="color-66a"
+                    <m-icon class="fs36 color-66a"
                             xlink="#icon-close"></m-icon>
                 </span>
             </div>
@@ -48,6 +48,7 @@
             <div class="cp-cont-item"
                  v-for="(item, index) in rows"
                  :key="index"
+                 :class="{'cp-cont-item-s': item.selected}"
                  layout="row">
                 <div flex
                      @click="custoemrDetail(item)"
@@ -88,7 +89,8 @@
                  :key="index"
                  flex
                  class="text-center">
-                <m-icon class="fs36" :xlink="item.icon"></m-icon>
+                <m-icon class="fs36"
+                        :xlink="item.icon"></m-icon>
                 <div class="fs24">
                     {{item.label}}
                 </div>
@@ -392,6 +394,10 @@ export default {
         &-item {
             border-bottom: 1px solid @border-gay; /*no*/
         }
+        &-item-s {
+            background-color: @light-gray;
+            border-bottom-color: @extra-light-gray;
+        }
         &-cell {
             padding: @l16;
         }
@@ -410,6 +416,7 @@ export default {
         img {
             width: 100%;
             height: 100%;
+            border-radius: 50%;
         }
     }
     .cp-foot {
