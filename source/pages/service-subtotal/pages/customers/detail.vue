@@ -5,8 +5,8 @@
             <img class="avatar round m-b-1" :src="currentCustomer.avatarId | mSrc2" alt="">
             <p class="name">{{ currentCustomer.name }}</p>
             <p class="phone color-gray m-b-4">{{ currentCustomer.phone | phone }} <m-icon xlink="#icon-tel-alt"/></p>
-            <p class="color-gray">
-                <span v-for="item in tags" :key="item.id">
+            <p class="color-gray p-l-3 p-r-3">
+                <span class="inline-block" v-for="item in tags" :key="item.id">
                     {{ item.tagName }} <span class="p-l-1 p-r-1">·</span>
                 </span>
                 <span class="extra-light-black" @click="moreTags">更多 <m-icon xlink="#icon-weibiaoti34"/></span>
@@ -15,7 +15,7 @@
         
         <!-- 顾客中心：打标签、编组、发短信、发券 -->
         <div class="info" layout="row" layout-align="space-around center">
-            <div class="item" @click="goto({ name: 'customers-manage-tag' })">
+            <div class="item" @click="goto({ name: 'customers-manage-tag', query: { customerId: customerId } })">
                 <p class="m-b-2">
                     <span class="border round"><m-icon xlink="#icon-tag-alt"/></span>
                 </p>
@@ -86,13 +86,15 @@ export default {
         };
     },
     mounted() {
-        this.$store.dispatch('customers/LOAD_CURRENT_CUSTOMER', this.customerId);
+        this.$store.dispatch('customers/LOAD_CURRENT_CUSTOMER', {
+            customerId: this.customerId
+        });
     },
     methods: {
         moreTags() {
         },
-        goto(routeName) {
-            this.$router.push(routeName);
+        goto(route) {
+            this.$router.push(route);
         }
     }
 };
@@ -100,6 +102,9 @@ export default {
 <style lang="less">
 @import '~styles/_agile';
 
+.inline-block {
+    display: inline-block;
+}
 .customer-detail {
     border-top: 1px solid #eee;
     font-size: 14px;
