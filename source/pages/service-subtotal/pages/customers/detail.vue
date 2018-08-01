@@ -199,6 +199,7 @@ export default {
 .inline-block {
     display: inline-block;
 }
+@timeline: #E65317;
 .customer-detail {
     border-top: 1px solid #eee;
     font-size: 14px;
@@ -253,6 +254,14 @@ export default {
                 padding: 8px 12px;
                 margin: 12px;
                 line-height: 24px;
+            }
+            .m-timeline .line-node .day-block .label .line .ver-line,
+            .m-timeline .line-node .day-block .label .line .dot {
+                color: @timeline;
+                border-color: @timeline;
+            }
+            .m-timeline .line-node .month-block .label-month {
+                background-color: @timeline;
             }
         }
     }
