@@ -1,12 +1,12 @@
 <template>
-    <div class="activity-list">
+    <div class="activity-list" v-title="title">
      <div class="banner">
          <img :src="require('assets/imgs/integral-mall/activity-list-min.png')" alt="">
          <div class="text">
          <div class="fs50 color-white">
-             召唤超级助手
+             {{bannerDes.title}}
          </div>
-         <div class="color-white fs30">再也不想为培训运营掉头发</div>
+         <div class="color-white fs30">{{bannerDes.subTitle}}</div>
          </div>
      </div>
      <div class="activity-list-con">
@@ -42,7 +42,9 @@ export default {
             dataList: [],
             doudouBalance: 0,
             confirm: {},
-            type: 1
+            type: 1,
+            title: '美问星球',
+            bannerDes: {}
         };
     },
     components: {
@@ -51,7 +53,7 @@ export default {
     methods: {
         loadData() {
             Indicator.open('loading...');
-            api_party.goodsList(5).then(msg=> {
+            api_party.goodsList(this.$route.params.type).then(msg=> {
                 Indicator.close();
                 this.dataList = msg.data;
             }, msg=> {
@@ -60,7 +62,11 @@ export default {
 
         },
         useTo(item) {
-            this.$router.push(`/application-form/${item.id}`);
+            if (this.$route.params.type == 5) {
+                this.$router.push(`/application-form/${item.id}`);
+            } else if (this.$route.params.type == 9) {
+                this.$router.push(`/applicationMarket-form/${item.id}/${item.formType}`);
+            }
         },
         init() {
             this.loadData();
@@ -84,6 +90,22 @@ export default {
     },
     mounted() {
         this.init();
+        switch (this.$route.params.type) {
+            case '5':
+                this.title = '超级助手';
+                this.bannerDes = {
+                    title: '召唤超级助手',
+                    subTitle: '再也不想为培训运营掉头发'
+                };
+                break;
+            case '9':
+                this.title = '应用市场';
+                this.bannerDes = {
+                    title: '应用市场',
+                    subTitle: '方便，快捷'
+                };
+                break;
+        }
     }
 };
 </script>
