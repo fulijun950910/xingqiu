@@ -1,24 +1,32 @@
 <template>
-    <div class="customers-panel">
+    <div class="customers-panel"
+         v-title="'顾客档案'">
         <div layout="row"
              class="cp-head"
              layout-align="start center">
             <div class="cp-head-item"
                  v-show="!selectedRows.length"
                  @click="customerCountVisible = !customerCountVisible;">
-                <m-icon xlink="#icon-yipingjia"></m-icon>
-                查看数据
-                <m-icon :xlink="customerCountVisible ? '#icon-arrow-up' : '#icon-arrow-down'"></m-icon>
+                <m-icon :class="customerCountVisible ? 'color-primary' : 'extra-black'"
+                        xlink="#icon-yipingjia"></m-icon>
+                <span class="extra-light-black">
+                    查看数据
+                </span>
+                <m-icon class="extra-black"
+                        :xlink="customerCountVisible ? '#icon-arrow-up' : '#icon-arrow-down'"></m-icon>
             </div>
             <div class="cp-head-item"
                  v-show="selectedRows.length">
                 <span @click="selecteAll">
                     <m-icon class="fs36"
+                            :class="{'color-primary': isChecked}"
                             :xlink="isChecked ? '#icon-wsmp-complete' : '#icon-quan1'"></m-icon>
-                    全选</span>
-                <span class="fs20">已选{{selectedTotal}}人</span>
+                    <span class="extra-black">全选</span>
+                </span>
+                <span class="fs20 extra-black">已选{{selectedTotal}}人</span>
                 <span @click="cancelSelect">
-                    <m-icon xlink="#icon-close"></m-icon>
+                    <m-icon class="color-66a"
+                            xlink="#icon-close"></m-icon>
                 </span>
             </div>
             <div flex></div>
@@ -65,6 +73,7 @@
                 <div class="cp-cont-cell fs32 radio-item"
                      layout="row"
                      layout-align="center center"
+                     :class="{'color-primary': item.selected}"
                      @click.stop="selectCusotmer(item)">
                     <m-icon :xlink="item.selected ? '#icon-wsmp-complete' : '#icon-quan1'"></m-icon>
                 </div>
@@ -79,7 +88,7 @@
                  :key="index"
                  flex
                  class="text-center">
-                <m-icon :xlink="item.icon"></m-icon>
+                <m-icon class="fs36" :xlink="item.icon"></m-icon>
                 <div class="fs24">
                     {{item.label}}
                 </div>
@@ -95,12 +104,16 @@
                      v-for="(item, index) in customerCounts"
                      :key="index"
                      class="count-item">
-                    <div>
-                        <div>
+                    <div layout="row"
+                         layout-align="start start">
+                        <div flex="30"
+                             class="text-center fs36 lc-icon">
                             <m-icon :xlink="item.icon"></m-icon>
-                            <span>{{item.value || 0}}</span>
                         </div>
-                        <div>{{item.label}}</div>
+                        <div flex="70">
+                            <div class="fs48 color-black">{{item.value | bigNumber}}</div>
+                            <div class="fs30 color-gray">{{item.label}}</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -293,22 +306,22 @@ export default {
                 {
                     label: '打标签',
                     value: 1,
-                    icon: '#icon-yipingjia'
+                    icon: '#icon-tag-alt'
                 },
                 {
                     label: '移动到',
                     value: 2,
-                    icon: '#icon-yipingjia'
+                    icon: '#icon-tuichu'
                 },
                 {
                     label: '发短信',
                     value: 3,
-                    icon: '#icon-yipingjia'
+                    icon: '#icon-duanxin'
                 },
                 {
                     label: '发券',
                     value: 4,
-                    icon: '#icon-yipingjia'
+                    icon: '#icon-weibiaoti2fuzhi02'
                 }
             ];
         },
@@ -358,6 +371,9 @@ export default {
 @lheight: 49px;
 .customers-panel {
     height: 100%;
+    .color-66a {
+        color: #66acff;
+    }
     .cp-head {
         position: fixed;
         top: 0;
@@ -475,6 +491,10 @@ export default {
         & > div {
             word-wrap: normal;
         }
+    }
+    .lc-icon {
+        line-height: @fs48 * 1.6;
+        color: @color-primary;
     }
 }
 </style>
