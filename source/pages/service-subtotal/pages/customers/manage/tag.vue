@@ -3,7 +3,7 @@
         <!-- 添加标签 -->
         <div class="head text-center">
             <h5>
-                <span class="fs40" @click="addTags">添加标签</span>
+                <span class="fs40">添加标签</span>
             </h5>
             <p class="color-gray m-b-5">
                 <span v-if="customerId">正在给 {{ currentCustomer.name }} 打标签</span>
@@ -15,7 +15,7 @@
                  layout-align="space-between center">
                 <input flex ref="searchInput"
                        v-model="keyword"
-                       @blur="keyword = null"
+                       @blur="blurHandle"
                        type="text"
                        placeholder="新建或搜索标签">
                 <span class="btn color-primary" @click="createTag">
@@ -26,7 +26,7 @@
                     class="search-rasult">
                     <li v-for="tag in filterTags"
                         :key="tag.id"
-                        @click="selectTagHandle(tag)"
+                        @click="tagClickHandle(tag)"
                         layout="row"
                         layout-align="space-between center">
                         <span flex class="p-l-3 no-wrap">{{ tag.name }}</span>
@@ -40,19 +40,38 @@
 
         <!-- 最近标签 -->
         <div class="history">
-            <p class="color-gray text-center m-b-2">
+            <p class="color-gray text-center m-b-2 tle-1">
                 最近标签
+                <span v-if="deleteTags.length" class="remove" @click="removeTagHandle()">
+                    <m-icon xlink="#icon-yichu"/>
+                    ({{ deleteTags.length }})
+                </span>
             </p>
             <div class="tags">
-                <span class="tag no-wrap" :class="{ choose: selectTagIdList.includes(tag.id) }"
-                      flex="33"
-                      @click="selectTagHandle(tag)"
-                      v-for="tag in tags"
+                <!-- 已选标签 -->
+                <span v-for="tag in chooseTags"
+                      :key="tag.id"
+                      class="tag no-wrap choose"
+                    :class="{ selected: tag.selected }"
+                      @click="tagClickHandle(tag)"
+                      >
+                    <m-icon v-if="tag.selected" xlink="#icon-close" />
+                    <m-icon v-else xlink="#icon-yes" />
+                    <span>{{ tag.tagName }}</span>
+                </span>
+                <!-- 选中标签 -->
+                <span class="tag no-wrap"
+                :class="{ selected: tag.selected }"
+                    @click="tagClickHandle(tag)"
+                      v-for="tag in visibleTags"
                       :key="tag.id">
-                    <m-icon :xlink="`#icon-${selectTagIdList.includes(tag.id) ? 'yes' : 'add'}`" />
+                    <m-icon xlink="#icon-add" />
                     <span>{{ tag.name }}</span>
                 </span>
             </div>
+            <p class="text-center">
+                <span class="btn add-tag" @click="addTagHandle()">添加标签 ({{ addTags.length }})</span>
+            </p>
         </div>
     </div>
 </template>
@@ -70,6 +89,18 @@ import apiCustomer from 'services/api.customer';
 export default {
     name: 'customer-manage-tag',
     components: {},
+    data() {
+        return {
+            deleting: false,
+            keyword: null,
+            // 标签库
+            tags: [],
+            // 已选的标签
+            chooseTags: [],
+            // 选中的标签
+            selectTags: []
+        };
+    },
     computed: {
         ...mapState({
             currentCustomer: state => state.customers.currentCustomer
@@ -78,8 +109,8 @@ export default {
             currentCustomerTags: 'customers/currentCustomerTags'
         }),
         visibleTags() {
-            let selectTagIdList = this.selectTagIdList;
-            return this.tags.filter(x => !selectTagIdList.includes(x.id));
+            let chooseTagIds = this.chooseTags.map(x => x.tagId);
+            return this.tags.filter(x => !chooseTagIds.includes(x.id));
         },
         filterTags() {
             if (this.keyword) {
@@ -88,8 +119,13 @@ export default {
                 return [];
             }
         },
-        selectTagIdList() {
-            return this.selectTags.map(x => x.id);
+        // 待删除的已选中标签（customerId模式才存在）
+        deleteTags() {
+            return this.chooseTags.filter(x => x.selected);
+        },
+        // 待添加的未选中标签
+        addTags() {
+            return this.visibleTags.filter(x => x.selected);
         },
         // 路由参数
         customerId() {
@@ -107,15 +143,6 @@ export default {
             return Number(this.$route.query.customerCount) || this.customerIds.length || 0;
         }
     },
-    data() {
-        return {
-            keyword: null,
-            // 标签库
-            tags: [],
-            // 选中的标签
-            selectTags: []
-        };
-    },
     mounted() {
         this.$store
             .dispatch('customers/LOAD_CUSTOMER_TAGS')
@@ -131,15 +158,7 @@ export default {
                 customerId: this.customerId,
                 refresh: false
             }).then(res => {
-                // this.$knife.deepCopy(this.currentCustomerTags);
-                this.selectTags = this.currentCustomerTags.map(t => {
-                    return {
-                        createdTime: t.createdTime,
-                        id: t.tagId,
-                        merchantId: t.merchantId,
-                        name: t.tagName
-                    };
-                });
+                this.chooseTags = this.currentCustomerTags;
             });
         }
     },
@@ -161,7 +180,7 @@ export default {
                     this.tags.unshift(data);
                 }
                 // 选中标签
-                this.selectTagHandle(data);
+                this.tagClickHandle(data);
                 this.keyword = null;
             } catch (error) {
                 this.$toast('标签创建失败~ 过一会儿再试试吧 (๑•́ ₃ •̀๑)');
@@ -169,15 +188,12 @@ export default {
                 this.$indicator.close();
             }
         },
-        selectTagHandle(tag) {
-            if (this.selectTagIdList.includes(tag.id)) {
-                this.selectTags = this.selectTags.filter(x => x.id !== tag.id);
-            } else {
-                this.selectTags.unshift(tag);
-            }
-        },
         // 客户批量打标签
-        async addTags() {
+        async addTagHandle() {
+            if (!(this.addTags && this.addTags.length)) {
+                this.$toast('请选择要添加的标签');
+                return;
+            }
             let customerIds = null;
             if (this.customerId) {
                 customerIds = [this.customerId];
@@ -193,7 +209,7 @@ export default {
                 const paramData = {
                     search: this.searchBody,
                     promotionCustomerId: customerIds,
-                    tags: this.selectTags,
+                    tags: this.addTags,
                     employeeId: this.$store.getters.employeeId,
                     employeeName: this.$store.getters.employeeName
                 };
@@ -201,13 +217,43 @@ export default {
                 this.$router.go(-1);
             } catch (error) {
             }
+        },
+        // 移除客户标签
+        async removeTagHandle() {
+            if (!(this.deleteTags && this.deleteTags.length)) {
+                this.$toast('请选择要移除的标签');
+                return;
+            }
+            try {
+                this.deleting = true;
+                const tagIds = this.deleteTags.map(x => x.id);
+                await apiCustomer.customerBatchRemoveTag(tagIds);
+                this.$store.commit('customers/REMOVE_TAG', tagIds);
+            } catch (error) {
+                this.$toast('移除失败，请稍后重试~');
+            } finally {
+                this.deleting = false;
+            }
+        },
+        blurHandle() {
+            setTimeout(() => {
+                this.keyword = null;
+            });
+        },
+        // 点击标签
+        tagClickHandle(tag) {
+            if (tag.hasOwnProperty('selected')) {
+                tag.selected = !tag.selected;
+            } else {
+                this.$set(tag, 'selected', true);
+            }
         }
     }
 };
 </script>
 <style lang="less">
 @import '~styles/_agile';
-
+@choose: #BFC2C7;
 .customer-manage-tag {
     font-size: 14px;
     background-color: #f9f9f9;
@@ -254,7 +300,16 @@ export default {
     }
     .history {
         padding: 20px;
+        .tle-1 {
+            position: relative;
+            .remove {
+                position: absolute;
+                right: 0;
+            }
+        }
         .tags {
+            font-size: 0;
+            margin-bottom: 24px;
             .tag {
                 margin: 2% 3% 0 0;
                 padding: 0 12px;
@@ -270,10 +325,22 @@ export default {
                     margin-right: 0;
                 }
                 &.choose {
+                    background-color: @choose;
+                    color: white;
+                }
+                &.selected {
                     background-color: @color-primary;
                     color: white;
                 }
             }
+        }
+        .add-tag {
+            height: 32px;
+            line-height: 30px;
+            padding: 0 24px;
+            background-color: @color-primary;
+            color: white;
+            border-radius: 16px;
         }
     }
 }

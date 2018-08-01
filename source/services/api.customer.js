@@ -36,6 +36,11 @@ export default {
         var url = '/api/promotionCustomerTags/' + tagId;
         return request(url, null, 'DELETE');
     },
+    // 批量删除客户标签
+    customerBatchRemoveTag(tagIds) {
+        var url = '/api/promotionCustomerTags/batchDelete';
+        return request(url, { idList: tagIds }, 'DELETE');
+    },
     // 客户批量打标签
     customerAddTags(params) {
         var url = '/api/promotionCustomerTags/batchSave';
