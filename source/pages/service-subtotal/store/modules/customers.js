@@ -10,6 +10,9 @@ export default {
             if (data) {
                 Object.assign(state, data);
             }
+        },
+        REMOVE_TAG(state, tagIds) {
+            state.currentCustomer.tags = state.currentCustomer.tags.filter(x => !tagIds.includes(x.id));
         }
     },
     getters: {
