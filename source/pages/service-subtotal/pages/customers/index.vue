@@ -208,7 +208,7 @@
                          @click="groupData.visible = !groupData.visible">
                         <div flex
                              class="color-black fwb">分组筛选</div>
-                        <div class="extra-light-black">
+                        <div class="extra-light-black fs24">
                             <span v-show="!groupData.visible">展开</span>
                             <span v-show="groupData.visible">收起</span>
                             <m-icon class="extra-black"
@@ -235,7 +235,7 @@
                          @click="timeData.visible = !timeData.visible">
                         <div flex
                              class="color-black fwb">访问时间</div>
-                        <div class="extra-light-black">
+                        <div class="extra-light-black fs24">
                             <span v-show="!timeData.visible">展开</span>
                             <span v-show="timeData.visible">收起</span>
                             <m-icon class="extra-black"
@@ -262,7 +262,7 @@
                          @click="activityData.visible = !activityData.visible">
                         <div flex
                              class="color-black fwb">参加活动</div>
-                        <div class="extra-light-black">
+                        <div class="extra-light-black fs24">
                             <span v-show="!activityData.visible">展开</span>
                             <span v-show="activityData.visible">收起</span>
                             <m-icon class="extra-black"
@@ -289,7 +289,7 @@
                          @click="sourceData.visible = !sourceData.visible">
                         <div flex
                              class="color-black fwb">来源渠道</div>
-                        <div class="extra-light-black">
+                        <div class="extra-light-black fs24">
                             <span v-show="!sourceData.visible">展开</span>
                             <span v-show="sourceData.visible">收起</span>
                             <m-icon class="extra-black"
@@ -325,7 +325,7 @@
                             <span v-if="params.ticketDefineId">{{params.ticketDefineId.label}}</span>
                             <span v-else>查询客户的券</span>
                         </div>
-                        <div class="cp-w50"
+                        <div class="cp-w50 fs24"
                              @click.stop="ticketClear()">
                             <m-icon :xlink="params.ticketDefineId ? '#icon-guanbi' : '#icon-xiangyou'"></m-icon>
                         </div>
@@ -343,7 +343,7 @@
                              class="p-l-2 color-primary fs24 no-wrap">
                             {{selectedTagsStr}}
                         </div>
-                        <div class="extra-light-black">
+                        <div class="extra-light-black fs24">
                             <span v-show="!tagData.visible">展开</span>
                             <span v-show="tagData.visible">收起</span>
                             <m-icon class="extra-black"
