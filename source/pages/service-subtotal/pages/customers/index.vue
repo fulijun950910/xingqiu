@@ -8,20 +8,22 @@
             <div class="cp-head-item"
                  v-show="!selectedRows.length"
                  @click="customerCountVisible = !customerCountVisible;">
-                <m-icon :class="customerCountVisible ? 'color-primary' : 'extra-black'"
-                        xlink="#icon-yipingjia"></m-icon>
+                <m-icon class="fs34"
+                        :class="customerCountVisible ? 'color-primary' : 'extra-black'"
+                        xlink="#icon-shuju1"></m-icon>
                 <span class="extra-light-black">
                     查看数据
                 </span>
                 <m-icon class="extra-black"
-                        :xlink="customerCountVisible ? '#icon-arrow-up' : '#icon-arrow-down'"></m-icon>
+                        :class="{'tf-rX180': customerCountVisible}"
+                        xlink="#icon-xialacopy"></m-icon>
             </div>
             <div class="cp-head-item"
                  v-show="selectedRows.length">
                 <span @click="selecteAll">
                     <m-icon class="fs36"
                             :class="{'color-primary': isChecked}"
-                            :xlink="isChecked ? '#icon-wsmp-complete' : '#icon-quan1'"></m-icon>
+                            :xlink="isChecked ? '#icon-xuanzhonggou' : '#icon-quan1'"></m-icon>
                     <span class="extra-black">全选</span>
                 </span>
                 <span class="fs20 extra-black m-r-2">已选{{selectedTotal}}人</span>
@@ -34,12 +36,12 @@
             <div class="cp-head-item"
                  @click="popupVisible = true">
                 <m-icon class="fs36"
-                        xlink="#icon-yipingjia"></m-icon>
+                        xlink="#icon-shaixuan"></m-icon>
             </div>
             <div class="cp-head-item"
                  @click="searchVisible = true">
                 <m-icon class="fs36"
-                        xlink="#icon-search2"></m-icon>
+                        xlink="#icon-sousuo"></m-icon>
             </div>
         </div>
         <div class="cp-cont"
@@ -66,7 +68,7 @@
                              flex-wrap="wrap"
                              class="extra-light-black">
                             <m-icon class="m-r-2"
-                                    xlink="#icon-tag-alt"></m-icon>
+                                    xlink="#icon-biaoqian-"></m-icon>
                             <div v-for="(tag, index) in item.tags"
                                  class="fs24 m-r-2"
                                  :key="index">{{tag.tagName}}</div>
@@ -78,7 +80,7 @@
                      layout-align="center center"
                      :class="{'color-primary': item.selected}"
                      @click.stop="selectCusotmer(item)">
-                    <m-icon :xlink="item.selected ? '#icon-wsmp-complete' : '#icon-quan1'"></m-icon>
+                    <m-icon :xlink="item.selected ? '#icon-xuanzhonggou' : '#icon-quan1'"></m-icon>
                 </div>
             </div>
             <m-load-more :loading="!scrollDisabled"></m-load-more>
@@ -131,12 +133,17 @@
                      layout="row"
                      layout-align="start center">
                     <m-icon class="fs36"
-                            xlink="#icon-search2"></m-icon>
+                            xlink="#icon-sousuo"></m-icon>
                     <input type="text"
                            v-model="searchText"
                            @keydown.enter="searchClick()"
                            placeholder="搜索客户"
                            flex>
+                    <div @click.stop="searchText = '';searchClick();"
+                         v-if="searchText">
+                        <m-icon class="fs28"
+                                xlink="#icon-guanbi"></m-icon>
+                    </div>
                 </div>
                 <div @click="searchVisible = false;">取消</div>
             </div>
@@ -147,7 +154,7 @@
                      v-if="searchHistory.length">
                     <span>历史搜索</span>
                     <span @click="cleanSearchHistory">
-                        <m-icon xlink="#icon-yichu"></m-icon>
+                        <m-icon xlink="#icon-lajitong"></m-icon>
                     </span>
                 </div>
                 <div class="cp-search-cell"
@@ -192,7 +199,8 @@
                             <span v-show="!groupData.visible">展开</span>
                             <span v-show="groupData.visible">收起</span>
                             <m-icon class="extra-black"
-                                    :xlink="groupData.visible ? '#icon-arrow-up' : '#icon-arrow-down'"></m-icon>
+                                    :class="{'tf-rX180': groupData.visible}"
+                                    xlink="#icon-xialacopy"></m-icon>
                         </div>
                     </div>
                     <div layout="row"
@@ -218,7 +226,8 @@
                             <span v-show="!timeData.visible">展开</span>
                             <span v-show="timeData.visible">收起</span>
                             <m-icon class="extra-black"
-                                    :xlink="timeData.visible ? '#icon-arrow-up' : '#icon-arrow-down'"></m-icon>
+                                    :class="{'tf-rX180': timeData.visible}"
+                                    xlink="#icon-xialacopy"></m-icon>
                         </div>
                     </div>
                     <div layout="row"
@@ -244,7 +253,8 @@
                             <span v-show="!activityData.visible">展开</span>
                             <span v-show="activityData.visible">收起</span>
                             <m-icon class="extra-black"
-                                    :xlink="activityData.visible ? '#icon-arrow-up' : '#icon-arrow-down'"></m-icon>
+                                    :class="{'tf-rX180': activityData.visible}"
+                                    xlink="#icon-xialacopy"></m-icon>
                         </div>
                     </div>
                     <div layout="row"
@@ -270,7 +280,8 @@
                             <span v-show="!sourceData.visible">展开</span>
                             <span v-show="sourceData.visible">收起</span>
                             <m-icon class="extra-black"
-                                    :xlink="sourceData.visible ? '#icon-arrow-up' : '#icon-arrow-down'"></m-icon>
+                                    :class="{'tf-rX180': sourceData.visible}"
+                                    xlink="#icon-xialacopy"></m-icon>
                         </div>
                     </div>
                     <div layout="row"
@@ -303,7 +314,7 @@
                         </div>
                         <div class="cp-w50"
                              @click.stop="ticketClear()">
-                            <m-icon :xlink="params.ticketDefineId ? '#icon-cuowu' : '#icon-weibiaoti34'"></m-icon>
+                            <m-icon :xlink="params.ticketDefineId ? '#icon-guanbi' : '#icon-xiangyou'"></m-icon>
                         </div>
                     </div>
                 </div>
@@ -316,7 +327,8 @@
                         <div class="extra-light-black">
                             <span>全部</span>
                             <m-icon class="extra-black"
-                                    :xlink="true ? '#icon-arrow-up' : '#icon-arrow-down'"></m-icon>
+                                    :class="{'tf-rX180': true}"
+                                    xlink="#icon-xialacopy"></m-icon>
                         </div>
                     </div>
                     <div layout="row"
@@ -546,22 +558,22 @@ export default {
                         {
                             label: '访问量',
                             value: res.data.visitCount,
-                            icon: '#icon-yipingjia'
+                            icon: '#icon-canyuzhe'
                         },
                         {
                             label: '领券',
                             value: res.data.joinCount,
-                            icon: '#icon-yipingjia'
+                            icon: '#icon-youhuiquan'
                         },
                         {
                             label: '参与',
                             value: res.data.ticketReceiveCount,
-                            icon: '#icon-yipingjia'
+                            icon: '#icon-huodong'
                         },
                         {
                             label: '到店核销',
                             value: res.data.ticketVerifyCount,
-                            icon: '#icon-yipingjia'
+                            icon: '#icon-saoma1'
                         }
                     ];
                 },
@@ -574,22 +586,22 @@ export default {
                 {
                     label: '打标签',
                     value: 1,
-                    icon: '#icon-tag-alt'
+                    icon: '#icon-biaoqian-'
                 },
                 {
                     label: '移动到',
                     value: 2,
-                    icon: '#icon-tuichu'
+                    icon: '#icon-bianzu'
                 },
                 {
                     label: '发短信',
                     value: 3,
-                    icon: '#icon-duanxin'
+                    icon: '#icon-duanxin1'
                 },
                 {
                     label: '发券',
                     value: 4,
-                    icon: '#icon-weibiaoti2fuzhi02'
+                    icon: '#icon-youhuiquan'
                 }
             ];
         },
@@ -796,6 +808,9 @@ export default {
         min-width: 50px;
         text-align: right;
         padding-right: 15px;
+    }
+    .tf-rX180 {
+        transform: rotateX(180deg);
     }
     .cp-head {
         .border-b1;
