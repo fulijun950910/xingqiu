@@ -21,14 +21,6 @@ const serviceDynamics = resolve =>
 const signIn = resolve => require(['./pages/sign-in'], resolve);
 const remitDetail = resolve => require(['./pages/remit-detail/index'], resolve);
 
-// 客户档案
-const customersDetail = resolve => require(['./pages/customers/detail'], resolve);
-const customers = resolve => require(['./pages/customers'], resolve);
-const customersManage = resolve => require(['./pages/customers/manage/index'], resolve);
-const customersTag = resolve => require(['./pages/customers/manage/tag'], resolve);
-const customersTicket = resolve => require(['./pages/customers/manage/ticket'], resolve);
-const customersMessage = resolve => require(['./pages/customers/manage/message'], resolve);
-
 export default [
     // 服务小计
     {
@@ -107,46 +99,6 @@ export default [
         name: 'remit-detail',
         component: remitDetail,
         meta: { auth: true, level: 1 }
-    },
-    {
-        path: '/customers',
-        name: 'customers',
-        component: customers,
-        meta: { auth: true, level: 2 }
-    },
-    // 客户档案
-    {
-        path: '/customers/detail/:customerId',
-        name: 'customers-detail',
-        props: true,
-        component: customersDetail,
-        meta: { auth: true, level: 2 }
-    },
-    {
-        path: '/customers/manage',
-        name: 'customers-manage',
-        component: customersManage,
-        meta: { auth: true, level: 3 },
-        children: [
-            {
-                path: 'tag',
-                name: 'customers-manage-tag',
-                component: customersTag,
-                meta: { auth: true, level: 1 }
-            },
-            {
-                path: 'ticket',
-                name: 'customers-manage-ticket',
-                component: customersTicket,
-                meta: { auth: true, level: 1 }
-            },
-            {
-                path: 'message',
-                name: 'customers-manage-message',
-                component: customersMessage,
-                meta: { auth: true, level: 1 }
-            }
-        ]
     },
     {
         path: '*', // 服务动态（默认）
