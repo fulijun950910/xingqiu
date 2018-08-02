@@ -15,15 +15,12 @@
                     </div>
                     <div class="block" flex>
                         <span class="pop-left"></span>
-                        <p class="name mgb8">
-                            <img v-if="day.avatarId" class="avatar" :src="day.avatarId | mSrc2" alt="">
-                            <span>技师：{{day.name}}</span>
-                        </p>
-                        <p class="desc ft-light ft12 extra-light-black tidt2">{{day.desc}}</p>
-                        <div v-if="day.images" class="image" layout="row" layout-align="start start" flex-wrap="wrap">
+                        <p class="name mgb4">技师：{{day.name}}</p>
+                        <p class="desc ft-light ft12 dark-gray tidt2">{{day.desc}}</p>
+                        <div class="image" layout="row" layout-align="start start" flex-wrap="wrap">
                             <img v-for="(img, index) in day.images" :key="index" :src="img | mSrc(80, 80, require('assets/imgs/nullimg.jpg'))" @click="showNativeImg(img)" alt="">
                         </div>
-                        <p class="items dark-gray ft12" v-if="day.orderContent">
+                        <p class="items dark-gray ft12">
                             <m-icon xlink="#icon-item"/>
                             <span>{{day.orderContent}}</span>
                         </p>
@@ -39,13 +36,8 @@
 <script>
 /**
  * values: 列表数据
- * -time: 时间
- * -name: 技师名
- * -desc: 内容
- * -images: 图片列表
- * -orderContent: 订单信息
- * sort: 是否按时间排序（default: false）
- * sortType: 排序类型（true：升序，false：降序。default: false）
+ * sort: 是否按时间排序
+ * sortType: 排序类型（true：升序，false：降序）
  */
 import knife from 'vendor/knife';
 import mGallery from 'components/m-gallery';
@@ -150,11 +142,8 @@ export default {
 <style lang="less">
     @import '~styles/_agile.less';
 
-    .mgb8 {
-        margin-bottom: 8px;
-    }
-    .ft12 {
-        font-size: 12px;
+    .mgb4 {
+        margin-bottom: 4px;
     }
     .m-timeline {
         .line-node {
@@ -233,13 +222,6 @@ export default {
                     box-shadow: -1px 1px 4px 0 rgba(183,183,183,0.50);
                     padding: 12px;
                     background-color: white;
-                    .avatar {
-                        width: 24px;
-                        height: 24px;
-                        vertical-align: middle;
-                        border: 1px solid #eee;
-                        border-radius: 50%;
-                    }
                     .desc {
                         margin-bottom: 8px;
                     }
