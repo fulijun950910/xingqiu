@@ -32,34 +32,34 @@
                  @click="goto({ name: 'customers-manage-tag', query: { customerId: customerId } })">
                 <p class="m-b-2">
                     <span class="border round">
-                        <m-icon xlink="#icon-tag-alt" />
+                        <m-icon xlink="#icon-biaoqian-" />
                     </span>
                 </p>
                 <p>打标签</p>
             </div>
             <div class="item"
-                 @click="goto({ name: 'customers-manage-tag' })">
+                 @click="goto({ name: 'customers-manage-tag', query: { customerId: customerId } })">
                 <p class="m-b-2">
                     <span class="border round">
-                        <m-icon xlink="#icon-add" />
+                        <m-icon xlink="#icon-bianzu" />
                     </span>
                 </p>
                 <p>编组</p>
             </div>
             <div class="item"
-                 @click="goto({ name: 'customers-manage-message' })">
+                 @click="goto({ name: 'customers-manage-message', query: { customerId: customerId } })">
                 <p class="m-b-2">
                     <span class="border round">
-                        <m-icon xlink="#icon-add" />
+                        <m-icon xlink="#icon-duanxin1" />
                     </span>
                 </p>
                 <p>发短信</p>
             </div>
             <div class="item"
-                 @click="goto({ name: 'customers-manage-ticket' })">
+                 @click="goto({ name: 'customers-manage-ticket', query: { customerId: customerId } })">
                 <p class="m-b-2">
                     <span class="border round">
-                        <m-icon xlink="#icon-add" />
+                        <m-icon xlink="#icon-youhuiquan" />
                     </span>
                 </p>
                 <p>发券</p>
@@ -98,7 +98,7 @@
                     </div>
                 </div>
                 <div class="close-box">
-                    <m-icon @click.native="noteVisible = false"
+                    <m-icon @click.native="() => { note = ''; noteVisible = false; }"
                             xlink="#icon-close"></m-icon>
                 </div>
             </div>
@@ -183,8 +183,9 @@ export default {
                     employeeName: this.$store.getters.employeeName
                 };
                 await apiCustomer.customerAddNote(paramData);
-                this.noteVisible = false;
+                this.note = '';
                 this.loadCustomer();
+                this.noteVisible = false;
             } catch (error) {
             } finally {
                 this.noteSubmitting = false;
@@ -235,7 +236,7 @@ export default {
                 line-height: 46px;
                 border: 1px solid #eee;
                 .icon {
-                    font-size: 24px;
+                    font-size: 20px;
                 }
             }
         }
@@ -293,6 +294,7 @@ export default {
                 width: 190px;
                 padding: 0 24px;
                 background-color: @color-primary;
+                box-shadow:0px 7px 8px 0px rgba(180,77,206,0.21);
                 color: white;
                 border-radius: 25px;
             }

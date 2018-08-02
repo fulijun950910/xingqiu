@@ -68,3 +68,21 @@ export const COUNON_KIND = [
     { name: '商城购买', value: '1-6' },
     { name: '微信活动购买', value: '1- '}
 ];
+
+export const ACTIVITY_TYPES = [
+    { name: '团拼活动', value: 1 },
+    { name: '大转盘', value: 2 },
+    { name: '拼钱活动', value: 3 },
+    { name: '砍价活动', value: 4 },
+    { name: '买赠活动', value: 5 },
+    { name: '拼颜值抢红包', value: 6 }
+];
+
+export const SOURCE_TYPES = [
+    { name: '微信活动', value: 1 },
+    { name: '微信公众号', value: 2 },
+    { name: '微信小程序', value: 3 },
+    { name: '短信营销', value: 4 },
+    { name: '异业', value: 5 },
+    { name: '导入', value: 6 }
+];
