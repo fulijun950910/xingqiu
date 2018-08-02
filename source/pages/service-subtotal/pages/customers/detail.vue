@@ -17,7 +17,7 @@
                     {{ item.tagName }}
                     <span class="p-l-1 p-r-1">·</span>
                 </span>
-                <span class="extra-light-black"
+                <span class="extra-light-black inline-block"
                       @click="moreTags">更多
                     <m-icon xlink="#icon-weibiaoti34" />
                 </span>
@@ -38,7 +38,7 @@
                 <p>打标签</p>
             </div>
             <div class="item"
-                 @click="goto({ name: 'customers-manage-tag', query: { customerId: customerId } })">
+                 @click="goto({ name: 'customers-manage-group', query: { customerId: customerId } })">
                 <p class="m-b-2">
                     <span class="border round">
                         <m-icon xlink="#icon-bianzu" />

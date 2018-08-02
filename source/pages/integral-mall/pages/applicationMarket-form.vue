@@ -140,18 +140,18 @@ export default {
                     storeAddress: null,
                     storeContactPhone: null,
                     relationType: 1,
-                    specCode: null
+                    specCode: null,
+                    longitude: null,
+                    latitude: null
                 }
             ],
             baseParameter: {
                 specCode: null,
-                quantity: null,
+                quantity: 1,
                 storeId: null,
                 storeName: null,
                 storeAddress: null,
                 storeContactPhone: null,
-                longitude: null,
-                latitude: null,
                 relationType: null
             },
             formType: null
@@ -176,11 +176,14 @@ export default {
             if (!this.checkForm()) {
                 return;
             };
+            let parameter = [];
+            this.insertParameter(parameter);
             this.$router.push({
                 name: 'pay-detail',
                 params: {
                     itemId: this.chooseServiceItem.id,
-                    serviceApply: this.parameter
+                    tradeItemSpecList: parameter,
+                    type: 2
                 }
             });
         },
@@ -258,27 +261,51 @@ export default {
                         if (!item.storeName) {
                             this.$toast('记得填写门店名称哦~');
                             result = false;
+                            return result;
                         };
                         if (!item.storeAddress) {
                             this.$toast('门店地址为必填哦~');
                             result = false;
+                            return result;
                         };
                         if (!item.storeContactPhone) {
                             this.$toast('记得填写联系电话哦~');
                             result = false;
+                            return result;
                         }
                         if (!item.relationType) {
                             this.$toast('请选择门店类型哦~');
                             result = false;
+                            return result;
                         }
                     });
                     return result;
                 case '4':
                 case '2':
                 // 门店续费
+                    if (!this.chooseStore.length) {
+                        this.$toast('至少选择一个门店哦~');
+                        return false;
+                    };
                     break;
             }
-
+            return true;
+        },
+        insertParameter(insertCon) {
+            switch (this.formType) {
+                case '2' :
+                case '4' :
+                    this.chooseStore.map((item, index)=> {
+                        let temp = {};
+                        Object.assign(temp, this.baseParameter);
+                        temp.storeName = item.name;
+                        temp.storeId = item.id;
+                        temp.storeAddress = item.address;
+                        temp.storeContactPhone = item.phone;
+                        insertCon.push(temp);
+                    });
+                    break;
+            }
         }
     },
     mounted() {
