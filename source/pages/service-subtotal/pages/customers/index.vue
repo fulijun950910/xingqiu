@@ -57,7 +57,7 @@
                      layout="row"
                      layout-align="start center">
                     <div class="cp-avatar cp-cont-cell">
-                        <img :src="item.avatarId | nSrc(require('assets/imgs/avatar.png'))" />
+                        <img :src="item.avatarId | mSrc2(require('assets/imgs/avatar.png'))" />
                     </div>
                     <div class="cp-cont-cell">
                         <div class="color-black">{{item.name}}</div>
@@ -294,10 +294,17 @@
                     </div>
                     <div class="cp-popup-cell"
                          layout="row"
+                         layout-align="start center"
                          @click="setPopupType(2)"
-                         layout-align="start center">
-                        <div flex>查询客户的券</div>
-                        <m-icon xlink="#icon-weibiaoti34"></m-icon>
+                         style="padding-right:0;">
+                        <div flex>
+                            <span v-if="params.ticketDefineId">{{params.ticketDefineId.label}}</span>
+                            <span v-else>查询客户的券</span>
+                        </div>
+                        <div class="cp-w50"
+                             @click.stop="ticketClear()">
+                            <m-icon :xlink="params.ticketDefineId ? '#icon-cuowu' : '#icon-weibiaoti34'"></m-icon>
+                        </div>
                     </div>
                 </div>
                 <div class="cp-popup-section">
@@ -325,11 +332,14 @@
             <div class="cp-popup-content cp-popup-content-p"
                  v-infinite-scroll="loadMoreTickets"
                  infinite-scroll-disabled="ticketData.loading"
-                 infinite-scroll-distance="10"
+                 infinite-scroll-distance="20"
                  v-else-if="popupType === 2">
                 <div v-for="(item, index) in ticketData.rows"
                      :key="index"
-                     class="p-3">
+                     @click="filterClick(item, 'ticketDefineId');popupType = 1;"
+                     class="p-3 border-b1"
+                     layout="row"
+                     layout-align="start center">
                     {{item.label}}
                 </div>
                 <m-load-more :loading="!ticketData.scrollDisabled"></m-load-more>
@@ -407,7 +417,7 @@ export default {
             searchHistory: [],
             popupVisible: false,
             popupType: 1,
-            keys: ['group', 'lastVisitTime', 'activity', 'source'],
+            keys: ['group', 'lastVisitTime', 'activity', 'source', 'ticketDefineId'],
             groupData: {
                 rows: [],
                 visible: true
@@ -687,7 +697,7 @@ export default {
                     this.params[key].selected = false;
                 }
                 this.$set(item, 'selected', true);
-                this.params[key] = item;
+                this.$set(this.params, key, item);
             }
         },
         // 重置筛选
@@ -757,6 +767,14 @@ export default {
             }
             this.ticketData.page++;
             this.loadTickets();
+        },
+        // 删除已选择的券
+        ticketClear() {
+            if (this.params.ticketDefineId) {
+                this.params.ticketDefineId = null;
+            } else {
+                this.popupType = 2;
+            }
         }
     }
 };
@@ -767,15 +785,24 @@ export default {
 .customers-panel {
     height: 100%;
     overflow: hidden;
+    .border-b1 {
+        border-bottom: 1px solid @border-gay; /*no*/
+    }
     .color-66a {
         color: #66acff;
     }
+    .cp-w50 {
+        width: 50px;
+        min-width: 50px;
+        text-align: right;
+        padding-right: 15px;
+    }
     .cp-head {
+        .border-b1;
         position: fixed;
         top: 0;
         height: @lheight;
         background-color: @white;
-        border-bottom: 1px solid @border-gay; /*no*/
         width: 100%;
         left: 0;
         &-item {
@@ -786,7 +813,7 @@ export default {
     .cp-cont {
         margin-top: @lheight;
         &-item {
-            border-bottom: 1px solid @border-gay; /*no*/
+            .border-b1;
         }
         &-item-s {
             background-color: @light-gray;
@@ -850,8 +877,8 @@ export default {
         background-color: @white;
     }
     .cp-search-head {
+        .border-b1;
         height: @lheight;
-        border-bottom: 1px solid @border-gay; /*no*/
         .input-panel {
             margin: @l16 0 @l16 @l28;
             padding-left: @l16;
@@ -878,8 +905,8 @@ export default {
     .cp-search-cell {
         padding: 0 @l28;
         & > div {
+            .border-b1;
             padding: @l24 0;
-            border-bottom: 1px solid @border-gay; /*no*/
         }
     }
     .hs-label {
@@ -940,6 +967,7 @@ export default {
         &-header {
             height: @lheight;
             line-height: @lheight - 16px;
+            .border-b1;
             input {
                 height: 100%;
                 width: 100%;
