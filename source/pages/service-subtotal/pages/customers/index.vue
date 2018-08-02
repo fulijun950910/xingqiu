@@ -334,7 +334,8 @@
                 <div class="cp-popup-section">
                     <div layout="row"
                          layout-align="start end"
-                         class="cp-popup-head">
+                         class="cp-popup-head"
+                         @click="tagData.visible = !tagData.visible">
                         <div class="color-black fwb">
                             客户标签
                         </div>
@@ -343,15 +344,17 @@
                             {{selectedTagsStr}}
                         </div>
                         <div class="extra-light-black">
-                            <span>全部</span>
+                            <span v-show="!tagData.visible">展开</span>
+                            <span v-show="tagData.visible">收起</span>
                             <m-icon class="extra-black"
-                                    :class="{'tf-rX180': true}"
+                                    :class="{'tf-rX180': tagData.visible}"
                                     xlink="#icon-xialacopy"></m-icon>
                         </div>
                     </div>
                     <div layout="row"
                          layout-align="start center"
                          flex-wrap="wrap"
+                         v-show="tagData.visible"
                          class="cp-popup-cont">
                         <div class="cp-popup-tag"
                              :class="{'cp-popup-tag-s': item.selected}"
@@ -496,7 +499,8 @@ export default {
                 rows: []
             },
             tagData: {
-                rows: []
+                rows: [],
+                visible: false
             },
             params: {
                 page: 0,
