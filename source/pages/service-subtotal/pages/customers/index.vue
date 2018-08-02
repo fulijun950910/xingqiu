@@ -488,7 +488,7 @@ export default {
             },
             sourceData: {
                 rows: [],
-                visible: false
+                visible: true
             },
             ticketData: {
                 page: 0,
@@ -500,7 +500,7 @@ export default {
             },
             tagData: {
                 rows: [],
-                visible: false
+                visible: true
             },
             params: {
                 page: 0,
