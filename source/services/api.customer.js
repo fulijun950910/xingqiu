@@ -39,7 +39,7 @@ export default {
     // 批量删除客户标签
     customerBatchRemoveTag(tagIds) {
         var url = '/api/promotionCustomerTags/batchDelete';
-        return request(url, { idList: tagIds }, 'DELETE');
+        return request(url, tagIds, 'DELETE');
     },
     // 客户批量打标签
     customerAddTags(params) {
@@ -105,5 +105,13 @@ export default {
     customerUpdate(customerId, params) {
         var url = '/api/promotionCustomers/' + customerId;
         return request(url, params, 'PATCH');
+    },
+    // 批量给客户分组
+    batchMoveCustomer(groupId, customerIdList) {
+        var url = '/api/promotionCustomers/batchMove';
+        return request(url, {
+            groupId,
+            customerIdList
+        }, 'PUT');
     }
 };

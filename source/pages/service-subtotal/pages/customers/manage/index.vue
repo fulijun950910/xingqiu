@@ -34,6 +34,5 @@ export default {
 
 .customer-manage {
     font-size: 14px;
-    
 }
 </style>

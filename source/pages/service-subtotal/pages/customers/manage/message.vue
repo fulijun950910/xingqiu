@@ -7,7 +7,7 @@
             </h5>
             <p class="color-gray m-b-3">
                 <span v-if="customerId">正在给 {{ currentCustomer.name }} 发短信</span>
-                <span v-else-if="customerCount">正在给{{ customerCount }}位顾客发短信</span>
+                <span v-else-if="customerCount">正在给{{ customerCount }}位客户发短信</span>
                 <span v-else>发短信之前请选择客户！</span>
             </p>
             <div class="input-box">
