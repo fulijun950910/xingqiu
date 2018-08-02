@@ -52,7 +52,7 @@
 /**
  * query: 使用优先级为 1 > 2 > 3
  *  1. customerId=[a] a为客户Id eg：111
- *  2. customerIds=[a] a为客户Id逗号分隔字符串 eg：111,222,333
+ *  2. customers=[a] a为客户Id逗号分隔字符串 eg：111,222,333
  *  3. body=[a] a为有效JSON字符串, 序列化结果将直接用于客户查询接口, eg: body=encodeURIComponent(JSON.stringify(body))
  */
 import { mapState } from 'vuex';
@@ -82,8 +82,8 @@ export default {
             return this.$route.query.customerId;
         },
         customerIds() {
-            let customerIds = this.$route.query.customerIds;
-            return customerIds ? customerIds.split(',') : [];
+            let customerIds = this.$route.query.customers;
+            return customerIds ? customerIds.split(',').map(x => window.parseInt(x)) : [];
         },
         searchBody() {
             let body = this.$route.query.body;
@@ -123,21 +123,22 @@ export default {
             if (!this.selected || this.submitting) return;
             try {
                 this.submitting = true;
-                let paramData = {
-                    promotionCustomerGroupId: this.selected
-                };
                 let promise;
                 if (this.customerId) {
+                    let paramData = {
+                        promotionCustomerGroupId: this.selected
+                    };
                     promise = apiCustomer.customerUpdate(this.customerId, paramData);
                 } else {
-                    promise = apiCustomer.customerUpdate(this.customerId, paramData);
+                    if (!this.customerCount) {
+                        this.$toast('发券之前请选择客户！');
+                        return;
+                    }
+                    promise = apiCustomer.batchMoveCustomer(this.selected, this.customerIds);
                 }
                 await promise;
                 this.$toast('分组成功');
-                if (this.customerId && this.selected) {
-                    let customer = this.currentCustomer;
-                    customer.promotionCustomerGroupId = this.selected;
-                }
+                this.$router.go(-1);
             } catch (error) {
             } finally {
                 this.submitting = false;
