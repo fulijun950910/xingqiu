@@ -32,7 +32,7 @@
                  @click="goto({ name: 'customers-manage-tag', query: { customerId: customerId } })">
                 <p class="m-b-2">
                     <span class="border round">
-                        <m-icon xlink="#icon-tag-alt" />
+                        <m-icon xlink="#icon-biaoqian-" />
                     </span>
                 </p>
                 <p>打标签</p>
@@ -41,7 +41,7 @@
                  @click="goto({ name: 'customers-manage-tag', query: { customerId: customerId } })">
                 <p class="m-b-2">
                     <span class="border round">
-                        <m-icon xlink="#icon-add" />
+                        <m-icon xlink="#icon-bianzu" />
                     </span>
                 </p>
                 <p>编组</p>
@@ -50,7 +50,7 @@
                  @click="goto({ name: 'customers-manage-message', query: { customerId: customerId } })">
                 <p class="m-b-2">
                     <span class="border round">
-                        <m-icon xlink="#icon-add" />
+                        <m-icon xlink="#icon-duanxin1" />
                     </span>
                 </p>
                 <p>发短信</p>
@@ -59,7 +59,7 @@
                  @click="goto({ name: 'customers-manage-ticket', query: { customerId: customerId } })">
                 <p class="m-b-2">
                     <span class="border round">
-                        <m-icon xlink="#icon-add" />
+                        <m-icon xlink="#icon-youhuiquan" />
                     </span>
                 </p>
                 <p>发券</p>
@@ -98,7 +98,7 @@
                     </div>
                 </div>
                 <div class="close-box">
-                    <m-icon @click.native="noteVisible = false"
+                    <m-icon @click.native="() => { note = ''; noteVisible = false; }"
                             xlink="#icon-close"></m-icon>
                 </div>
             </div>
@@ -236,7 +236,7 @@ export default {
                 line-height: 46px;
                 border: 1px solid #eee;
                 .icon {
-                    font-size: 24px;
+                    font-size: 20px;
                 }
             }
         }
