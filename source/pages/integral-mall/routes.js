@@ -141,7 +141,7 @@ export default [{
     name: 'pay-success',
     component: paySuccess
 }, {
-    path: '/applicationMarket-form/:id/:type',
+    path: '/applicationMarket-form/:id',
     name: 'applicationMarket-form',
     component: applicationMarketForm
 }];

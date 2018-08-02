@@ -65,7 +65,7 @@ export default {
             if (this.$route.params.type == 5) {
                 this.$router.push(`/application-form/${item.id}`);
             } else if (this.$route.params.type == 9) {
-                this.$router.push(`/applicationMarket-form/${item.id}/${item.formType}`);
+                this.$router.push(`/applicationMarket-form/${item.id}`);
             }
         },
         init() {

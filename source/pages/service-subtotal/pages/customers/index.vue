@@ -90,6 +90,7 @@
              v-if="selectedRows.length"
              layout-align="start center">
             <div v-for="(item, index) in toolButtons"
+                 @click="toolClick(item.value)"
                  :key="index"
                  flex
                  class="text-center">
@@ -186,6 +187,18 @@
                 <div class="p-2"
                      @click="loadTickets(true)">搜索</div>
             </div>
+            <div class="cp-popup-header"
+                 layout="row"
+                 v-else-if="popupType === 3">
+                <div class="p-2"
+                     @click="setPopupType(1)">
+                    <m-icon xlink="#icon-left-bold"></m-icon>
+                </div>
+                <div flex
+                     class="p-2">
+                    <span class="fwb">客户标签</span>
+                </div>
+            </div>
             <div class="cp-popup-content"
                  v-if="popupType === 1">
                 <div class="cp-popup-section">
@@ -195,7 +208,7 @@
                          @click="groupData.visible = !groupData.visible">
                         <div flex
                              class="color-black fwb">分组筛选</div>
-                        <div class="extra-light-black">
+                        <div class="extra-light-black fs24">
                             <span v-show="!groupData.visible">展开</span>
                             <span v-show="groupData.visible">收起</span>
                             <m-icon class="extra-black"
@@ -222,7 +235,7 @@
                          @click="timeData.visible = !timeData.visible">
                         <div flex
                              class="color-black fwb">访问时间</div>
-                        <div class="extra-light-black">
+                        <div class="extra-light-black fs24">
                             <span v-show="!timeData.visible">展开</span>
                             <span v-show="timeData.visible">收起</span>
                             <m-icon class="extra-black"
@@ -249,7 +262,7 @@
                          @click="activityData.visible = !activityData.visible">
                         <div flex
                              class="color-black fwb">参加活动</div>
-                        <div class="extra-light-black">
+                        <div class="extra-light-black fs24">
                             <span v-show="!activityData.visible">展开</span>
                             <span v-show="activityData.visible">收起</span>
                             <m-icon class="extra-black"
@@ -276,7 +289,7 @@
                          @click="sourceData.visible = !sourceData.visible">
                         <div flex
                              class="color-black fwb">来源渠道</div>
-                        <div class="extra-light-black">
+                        <div class="extra-light-black fs24">
                             <span v-show="!sourceData.visible">展开</span>
                             <span v-show="sourceData.visible">收起</span>
                             <m-icon class="extra-black"
@@ -312,7 +325,7 @@
                             <span v-if="params.ticketDefineId">{{params.ticketDefineId.label}}</span>
                             <span v-else>查询客户的券</span>
                         </div>
-                        <div class="cp-w50"
+                        <div class="cp-w50 fs24"
                              @click.stop="ticketClear()">
                             <m-icon :xlink="params.ticketDefineId ? '#icon-guanbi' : '#icon-xiangyou'"></m-icon>
                         </div>
@@ -320,24 +333,36 @@
                 </div>
                 <div class="cp-popup-section">
                     <div layout="row"
-                         layout-align="start center"
-                         class="cp-popup-head">
+                         layout-align="start end"
+                         class="cp-popup-head"
+                         @click="tagData.visible = !tagData.visible">
+                        <div class="color-black fwb">
+                            客户标签
+                        </div>
                         <div flex
-                             class="color-black fwb">客户标签</div>
-                        <div class="extra-light-black">
-                            <span>全部</span>
+                             class="p-l-2 color-primary fs24 no-wrap">
+                            {{selectedTagsStr}}
+                        </div>
+                        <div class="extra-light-black fs24">
+                            <span v-show="!tagData.visible">展开</span>
+                            <span v-show="tagData.visible">收起</span>
                             <m-icon class="extra-black"
-                                    :class="{'tf-rX180': true}"
+                                    :class="{'tf-rX180': tagData.visible}"
                                     xlink="#icon-xialacopy"></m-icon>
                         </div>
                     </div>
                     <div layout="row"
                          layout-align="start center"
                          flex-wrap="wrap"
+                         v-show="tagData.visible"
                          class="cp-popup-cont">
                         <div class="cp-popup-tag"
-                             v-for="(item, index) in 0"
-                             :key="index">1234</div>
+                             :class="{'cp-popup-tag-s': item.selected}"
+                             v-for="(item, index) in recommendTags"
+                             @click="tagClick(item)"
+                             :key="index">{{item.label}}</div>
+                        <div class="cp-popup-tag cp-tag-more"
+                             @click="setPopupType(3)">更多标签...</div>
                     </div>
                 </div>
             </div>
@@ -348,7 +373,7 @@
                  v-else-if="popupType === 2">
                 <div v-for="(item, index) in ticketData.rows"
                      :key="index"
-                     @click="filterClick(item, 'ticketDefineId');popupType = 1;"
+                     @click="filterClick(item, 'ticketDefineId');setPopupType(1);"
                      class="p-3 border-b1"
                      layout="row"
                      layout-align="start center">
@@ -358,7 +383,17 @@
             </div>
             <div class="cp-popup-content cp-popup-content-p"
                  v-else-if="popupType === 3">
-                标签
+                <div v-for="(item, index) in tagData.rows"
+                     :key="index"
+                     @click="tagClick(item)"
+                     class="p-3 border-b1"
+                     :class="{'color-primary': item.selected}"
+                     layout="row"
+                     layout-align="start center">
+                    <div flex>{{item.label}}</div>
+                    <m-icon v-if="item.selected"
+                            xlink="#icon-gouxuan"></m-icon>
+                </div>
             </div>
             <div class="cp-popup-footer"
                  layout="row"
@@ -413,6 +448,15 @@ export default {
                 return 'hidden';
             }
             return 'initial';
+        },
+        recommendTags() {
+            return this.tagData.rows.slice(0, 11);
+        },
+        selectedTags() {
+            return this.tagData.rows.filter(val => val.selected);
+        },
+        selectedTagsStr() {
+            return this.selectedTags.map(val => val.label).toString();
         }
     },
     data() {
@@ -444,7 +488,7 @@ export default {
             },
             sourceData: {
                 rows: [],
-                visible: false
+                visible: true
             },
             ticketData: {
                 page: 0,
@@ -453,6 +497,10 @@ export default {
                 loading: false,
                 scrollDisabled: false,
                 rows: []
+            },
+            tagData: {
+                rows: [],
+                visible: true
             },
             params: {
                 page: 0,
@@ -466,6 +514,7 @@ export default {
         this.loadCustomerCount();
         this.loadGroups();
         this.loadFilterData();
+        this.loadTags();
     },
     methods: {
         // 加载客户
@@ -499,6 +548,7 @@ export default {
                 size: this.params.size,
                 query: []
             };
+            // 关键字
             if (this.params.keyword) {
                 data.query.push({
                     field: 'keyword',
@@ -513,6 +563,13 @@ export default {
                     });
                 }
             });
+            // 标签
+            if (this.selectedTags.length) {
+                data.query.push({
+                    field: 'tagIds',
+                    value: this.selectedTags.map(val => val.value).toString()
+                });
+            }
             return data;
         },
         // 上拉加载更多
@@ -585,22 +642,22 @@ export default {
             this.toolButtons = [
                 {
                     label: '打标签',
-                    value: 1,
+                    value: 'customers-manage-tag',
                     icon: '#icon-biaoqian-'
                 },
                 {
                     label: '移动到',
-                    value: 2,
+                    value: 'customers-manage-group',
                     icon: '#icon-bianzu'
                 },
                 {
                     label: '发短信',
-                    value: 3,
+                    value: 'customers-manage-message',
                     icon: '#icon-duanxin1'
                 },
                 {
                     label: '发券',
-                    value: 4,
+                    value: 'customers-manage-ticket',
                     icon: '#icon-youhuiquan'
                 }
             ];
@@ -707,6 +764,11 @@ export default {
             if (this.keys.indexOf(key) !== -1) {
                 if (this.params[key]) {
                     this.params[key].selected = false;
+                    // 反选
+                    if (item === this.params[key]) {
+                        this.params[key] = null;
+                        return;
+                    }
                 }
                 this.$set(item, 'selected', true);
                 this.$set(this.params, key, item);
@@ -718,6 +780,11 @@ export default {
                 if (this.params[key]) {
                     this.params[key].selected = false;
                     this.params[key] = null;
+                }
+            });
+            this.tagData.rows.forEach(val => {
+                if (val.selected) {
+                    val.selected = false;
                 }
             });
             this.saveFilter();
@@ -787,6 +854,62 @@ export default {
             } else {
                 this.popupType = 2;
             }
+        },
+        // 加载标签
+        loadTags() {
+            api_customer.customerTags().then(
+                res => {
+                    this.tagData.rows = res.data.map(val => {
+                        return {
+                            value: val.id,
+                            label: val.name
+                        };
+                    });
+                },
+                err => {}
+            );
+        },
+        // 选择标签
+        tagClick(item) {
+            this.$set(item, 'selected', !item.selected);
+        },
+        // 批量操作事件
+        toolClick(routeName) {
+            var query = {
+                customerCount: 0
+            };
+            if (this.isChecked) {
+                // 按条件操作客户
+                let search = this.queryFormat();
+                delete search.page;
+                delete search.size;
+                query.body = encodeURIComponent(JSON.stringify(search));
+                query.customerCount = this.total;
+            } else if (this.selectedRows.length === 1) {
+                // 只选一个客户
+                query.customerCount = 1;
+                query.customerId = this.selectedRows[0].id;
+            } else {
+                // 选择多个客户
+                query.customerCount = this.selectedRows.length;
+                query.customers = this.selectedRows.map(val => {
+                    // 打标签只需要id
+                    if (routeName === 'customers-manage-tag' || routeName === 'customers-manage-group') {
+                        return val.id;
+                    }
+                    return {
+                        id: val.id,
+                        name: val.name || '',
+                        phone: val.phone || ''
+                    };
+                });
+                query.customers = encodeURIComponent(JSON.stringify(query.customers));
+            }
+            // 路由跳转
+            this.$router.push({
+                name: routeName,
+                query
+            });
         }
     }
 };
@@ -816,10 +939,11 @@ export default {
         .border-b1;
         position: fixed;
         top: 0;
+        right: 0;
+        left: 0;
         height: @lheight;
         background-color: @white;
-        width: 100%;
-        left: 0;
+        box-shadow: 0px 2px 23px 0px rgba(0, 0, 0, 0.07); /*no*/
         &-item {
             padding: @l28;
             font-size: @fs28;
@@ -828,11 +952,17 @@ export default {
     .cp-cont {
         margin-top: @lheight;
         &-item {
-            .border-b1;
+            padding-left: 15px;
+            padding-right: 15px;
+            > div {
+                .border-b1;
+            }
         }
         &-item-s {
+            > div {
+                border-bottom-color: @extra-light-gray;
+            }
             background-color: @light-gray;
-            border-bottom-color: @extra-light-gray;
         }
         &-cell {
             padding: @l16;
@@ -840,6 +970,7 @@ export default {
         .radio-item {
             width: 60px;
             min-width: 60px;
+            padding-right: 0;
         }
     }
     .cp-avatar {
@@ -849,6 +980,7 @@ export default {
         overflow: hidden;
         border-radius: 50%;
         box-sizing: content-box;
+        padding-left: 0;
         img {
             width: 100%;
             height: 100%;
@@ -876,10 +1008,11 @@ export default {
             padding: @l8;
         }
         .count-item {
-            padding: @l8;
+            padding: @l16;
             & > div {
                 background: @white;
                 padding: @l24;
+                box-shadow: 0px 2px 23px 0px rgba(0, 0, 0, 0.07); /*no*/
             }
         }
     }
@@ -949,10 +1082,9 @@ export default {
         }
         &-head {
             div {
-                padding: 15px 0;
+                padding-top: 15px;
+                padding-bottom: 15px;
             }
-        }
-        &-cont {
         }
         &-cell {
             font-size: @fs28;
@@ -1015,6 +1147,11 @@ export default {
                 color: @white;
             }
         }
+    }
+    .cp-tag-more {
+        border: 1px solid @dark-gray; /*no*/
+        color: @extra-black;
+        background-color: @white;
     }
 }
 </style>
