@@ -26,13 +26,13 @@
                 <div class="fs28 extra-light-black">商品总价</div>
                 <div class="color-black fwb">￥{{item.price | fen2yuan}} / {{item.price | fen2dou}}美豆豆</div>
             </div>
-            <div layout="row" layout-align="space-between center" v-if="!type">
+            <div layout="row" layout-align="space-between center" v-if="type != 1 && type != 2">
                 <div class="fs28 extra-light-black">购买数量</div>
                 <div><integral-input @numOut="changeNum" @changeAmount="changeNum"></integral-input></div>
             </div>
         </div>
         <div class="p-b-5 p-t-5 border-b">
-            <div layout="row" class="m-b-3" layout-align="space-between start" v-if="!type">
+            <div layout="row" class="m-b-3" layout-align="space-between start" v-if="type != 1">
                 <div flex="80">
                     <div class="fs28 extra-light-black">美豆豆数量</div>
                     <div class="fs28 extra-light-black">您共有<span class="color-black">{{account.doudouBalance}}</span>美豆豆，可<span class="color-pink">抵￥{{account.doudouBalance | dou2yuan}}</span><m-icon class="fs30" xlink="#icon-xunwen"></m-icon></div>
@@ -60,7 +60,7 @@
                     </div>
                 <div class="color-black">￥{{item.price | fen2yuan}}</div>
             </div>
-             <div layout="row" class="m-b-3" v-if="!type" layout-align="space-between center">
+             <div layout="row" class="m-b-3" v-if="type != 1" layout-align="space-between center">
                 <div flex="80">
                     <div class="fs28 extra-light-black">美豆豆换算金额</div>
                     </div>
@@ -93,7 +93,7 @@
         /*
         @router
           itemId // 商品Id
-          type // 存在即充值豆豆
+          type // 1 充值豆豆 2应用市场
           payMoney // 仅充值豆豆才会有
         */
         import voucher from 'components/integral-mall/voucher';
@@ -128,7 +128,8 @@
                         deliverAddressId: null,
                         serviceApply: {},
                         tradeCouponList: [],
-                        remark: null
+                        remark: null,
+                        tradeItemSpecList: this.$route.params.tradeItemSpecList ? this.$route.params.tradeItemSpecList : []
                     },
                     vocherShow: false
                 };
@@ -139,7 +140,22 @@
                     api_party.productDetail(this.itemId).then(msg=> {
                         this.$indicator.close();
                         this.item = msg.data;
-                        if (!this.type) {
+                        debugger;
+                        if (this.type != 1 && this.type != 2) {
+                            this.loadPersonal();
+                        } else if (this.type == 2) {
+                            debugger;
+                            let tempItem = msg.data;
+                            tempItem.price = 0;
+                            this.payDetail.tradeItemSpecList.map((specList, index)=> {
+                                let ls = tempItem.goodsSpecList.filter((spec, specIndex)=> {
+                                    return spec.specCode == specList.specCode;
+                                });
+                                if (ls.length) {
+                                    tempItem.price += ls[0].price;
+                                }
+                            });
+                            this.item = tempItem;
                             this.loadPersonal();
                         } else {
                             let tempItem = msg.data;
@@ -307,7 +323,7 @@
                     if (this.$route.params.serviceApply) {
                         this.payDetail.serviceApply = this.$route.params.serviceApply;
                     };
-                    if (this.$route.params.type) {
+                    if (this.$route.params.type == 1) {
                         this.payDetail.payMoney = this.$route.params.payMoney;
                     }
                     if (this.btnClick) {
@@ -348,6 +364,7 @@
                     this.$router.go(-1);
                 };
                 this.init();
+                console.log(this.$route.params);
             },
             components: {
                 voucher,
