@@ -7,7 +7,7 @@
             </h5>
             <p class="color-gray m-b-5">
                 <span v-if="customerId">正在给 {{ currentCustomer.name }} 打标签</span>
-                <span v-else-if="customerCount">正在对{{ customerCount }}位顾客打标签</span>
+                <span v-else-if="customerCount">正在对{{ customerCount }}位客户打标签</span>
                 <span v-else>打标签之前请选择客户！</span>
             </p>
             <div class="input-box"
@@ -43,7 +43,7 @@
             <p class="color-gray text-center m-b-2 tle-1">
                 最近标签
                 <span v-if="deleteTags.length" class="remove" @click="removeTagHandle()">
-                    <m-icon xlink="#icon-yichu"/>
+                    <m-icon xlink="#icon-lajitong"/>
                     ({{ deleteTags.length }})
                 </span>
             </p>
@@ -80,7 +80,7 @@
 /**
  * query: 使用优先级为 1 > 2 > 3
  *  1. customerId=[a] a为客户Id eg：111
- *  2. customerIds=[a] a为客户Id逗号分隔字符串 eg：111,222,333
+ *  2. customers=[a] a为客户Id逗号分隔字符串 eg：111,222,333
  *  3. body=[a] a为有效JSON字符串, 序列化结果将直接用于客户查询接口, eg: body=encodeURIComponent(JSON.stringify(body))
  */
 import { mapState, mapGetters } from 'vuex';
@@ -131,8 +131,8 @@ export default {
         customerId() {
             return this.$route.query.customerId;
         },
-        customerIds() {
-            let customerIds = this.$route.query.customerIds;
+        customers() {
+            let customerIds = this.$route.query.customers;
             return customerIds ? customerIds.split(',') : [];
         },
         searchBody() {
@@ -140,7 +140,7 @@ export default {
             return body ? JSON.parse(decodeURIComponent(body)) : null;
         },
         customerCount() {
-            return Number(this.$route.query.customerCount) || this.customerIds.length || 0;
+            return Number(this.$route.query.customerCount) || this.customers.length || 0;
         }
     },
     mounted() {
@@ -158,7 +158,7 @@ export default {
                 customerId: this.customerId,
                 refresh: false
             }).then(res => {
-                this.chooseTags = this.currentCustomerTags;
+                this.initChoose();
             });
         }
     },
@@ -199,7 +199,7 @@ export default {
                 customerIds = [this.customerId];
             } else {
                 if (this.searchBody || this.customerCount) {
-                    customerIds = this.customerIds;
+                    customerIds = this.customers;
                 } else {
                     this.$toast('打标签之前请选择客户');
                     return;
@@ -214,6 +214,7 @@ export default {
                     employeeName: this.$store.getters.employeeName
                 };
                 await apiCustomer.customerAddTags(paramData);
+                this.$toast('添加成功');
                 this.$router.go(-1);
             } catch (error) {
             }
@@ -228,7 +229,9 @@ export default {
                 this.deleting = true;
                 const tagIds = this.deleteTags.map(x => x.id);
                 await apiCustomer.customerBatchRemoveTag(tagIds);
+                this.$toast('移除成功');
                 this.$store.commit('customers/REMOVE_TAG', tagIds);
+                this.initChoose();
             } catch (error) {
                 this.$toast('移除失败，请稍后重试~');
             } finally {
@@ -247,6 +250,9 @@ export default {
             } else {
                 this.$set(tag, 'selected', true);
             }
+        },
+        initChoose() {
+            this.chooseTags = this.currentCustomerTags;
         }
     }
 };

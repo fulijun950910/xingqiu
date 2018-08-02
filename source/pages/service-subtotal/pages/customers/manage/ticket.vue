@@ -7,7 +7,7 @@
             </h5>
             <p class="color-gray m-b-5">
                 <span v-if="customerId">正在给 {{ currentCustomer.name }} 打优惠券</span>
-                <span v-else-if="customerCount">正在对{{ customerCount }}位顾客打优惠券</span>
+                <span v-else-if="customerCount">正在对{{ customerCount }}位客户打优惠券</span>
                 <span v-else>打优惠券之前请选择客户！</span>
             </p>
             <div class="input-box"
@@ -240,6 +240,7 @@ export default {
                 };
                 await apiCustomer.customerSendTicket(paramData);
                 this.$toast('发券成功！σ`∀´)σ');
+                this.visible = false;
             } catch (error) {
             } finally {
                 this.submitting = false;

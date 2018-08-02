@@ -39,7 +39,7 @@ export default {
     // 批量删除客户标签
     customerBatchRemoveTag(tagIds) {
         var url = '/api/promotionCustomerTags/batchDelete';
-        return request(url, { idList: tagIds }, 'DELETE');
+        return request(url, tagIds, 'DELETE');
     },
     // 客户批量打标签
     customerAddTags(params) {
