@@ -939,10 +939,11 @@ export default {
         .border-b1;
         position: fixed;
         top: 0;
+        right: 0;
+        left: 0;
         height: @lheight;
         background-color: @white;
-        width: 100%;
-        left: 0;
+        box-shadow: 0px 2px 23px 0px rgba(0, 0, 0, 0.07); /*no*/
         &-item {
             padding: @l28;
             font-size: @fs28;
@@ -951,11 +952,17 @@ export default {
     .cp-cont {
         margin-top: @lheight;
         &-item {
-            .border-b1;
+            padding-left: 15px;
+            padding-right: 15px;
+            > div {
+                .border-b1;
+            }
         }
         &-item-s {
+            > div {
+                border-bottom-color: @extra-light-gray;
+            }
             background-color: @light-gray;
-            border-bottom-color: @extra-light-gray;
         }
         &-cell {
             padding: @l16;
@@ -963,6 +970,7 @@ export default {
         .radio-item {
             width: 60px;
             min-width: 60px;
+            padding-right: 0;
         }
     }
     .cp-avatar {
@@ -972,6 +980,7 @@ export default {
         overflow: hidden;
         border-radius: 50%;
         box-sizing: content-box;
+        padding-left: 0;
         img {
             width: 100%;
             height: 100%;
@@ -999,10 +1008,11 @@ export default {
             padding: @l8;
         }
         .count-item {
-            padding: @l8;
+            padding: @l16;
             & > div {
                 background: @white;
                 padding: @l24;
+                box-shadow: 0px 2px 23px 0px rgba(0, 0, 0, 0.07); /*no*/
             }
         }
     }
