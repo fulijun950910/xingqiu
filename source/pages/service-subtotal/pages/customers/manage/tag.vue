@@ -78,7 +78,7 @@
 
 <script>
 /**
- * query: 使用优先级为 1 > 2
+ * query: 使用优先级为 1 > 2 > 3
  *  1. customerId=[a] a为客户Id eg：111
  *  2. customerIds=[a] a为客户Id逗号分隔字符串 eg：111,222,333
  *  3. body=[a] a为有效JSON字符串, 序列化结果将直接用于客户查询接口, eg: body=encodeURIComponent(JSON.stringify(body))

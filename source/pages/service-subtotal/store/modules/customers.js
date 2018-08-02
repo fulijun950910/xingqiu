@@ -3,7 +3,10 @@ import apiCustomer from 'services/api.customer';
 export default {
     namespaced: true,
     state: {
-        currentCustomer: {}
+        // 当前客户
+        currentCustomer: {},
+        // 商户短信
+        smsMerchant: {}
     },
     mutations: {
         UPDATE_STATE(state, data) {
@@ -45,6 +48,16 @@ export default {
         async LOAD_CUSTOMER_TAGS({ commit, state }, customerId) {
             try {
                 let { data } = await apiCustomer.customerTags();
+                return Promise.resolve(data);
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        },
+        // 加载客户标签库
+        async LOAD_MERCHANT_SMS({ commit, rootGetters }) {
+            try {
+                let { data } = await apiCustomer.customerSmsCount(rootGetters.merchantId);
+                commit('UPDATE_STATE', { smsMerchant: data || {} });
                 return Promise.resolve(data);
             } catch (error) {
                 return Promise.reject(error);

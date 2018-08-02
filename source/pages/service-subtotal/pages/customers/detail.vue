@@ -38,7 +38,7 @@
                 <p>打标签</p>
             </div>
             <div class="item"
-                 @click="goto({ name: 'customers-manage-tag' })">
+                 @click="goto({ name: 'customers-manage-tag', query: { customerId: customerId } })">
                 <p class="m-b-2">
                     <span class="border round">
                         <m-icon xlink="#icon-add" />
@@ -47,7 +47,7 @@
                 <p>编组</p>
             </div>
             <div class="item"
-                 @click="goto({ name: 'customers-manage-message' })">
+                 @click="goto({ name: 'customers-manage-message', query: { customerId: customerId } })">
                 <p class="m-b-2">
                     <span class="border round">
                         <m-icon xlink="#icon-add" />
@@ -56,7 +56,7 @@
                 <p>发短信</p>
             </div>
             <div class="item"
-                 @click="goto({ name: 'customers-manage-ticket' })">
+                 @click="goto({ name: 'customers-manage-ticket', query: { customerId: customerId } })">
                 <p class="m-b-2">
                     <span class="border round">
                         <m-icon xlink="#icon-add" />
@@ -183,8 +183,9 @@ export default {
                     employeeName: this.$store.getters.employeeName
                 };
                 await apiCustomer.customerAddNote(paramData);
-                this.noteVisible = false;
+                this.note = '';
                 this.loadCustomer();
+                this.noteVisible = false;
             } catch (error) {
             } finally {
                 this.noteSubmitting = false;
@@ -293,6 +294,7 @@ export default {
                 width: 190px;
                 padding: 0 24px;
                 background-color: @color-primary;
+                box-shadow:0px 7px 8px 0px rgba(180,77,206,0.21);
                 color: white;
                 border-radius: 25px;
             }
