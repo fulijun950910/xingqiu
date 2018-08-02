@@ -186,6 +186,18 @@
                 <div class="p-2"
                      @click="loadTickets(true)">搜索</div>
             </div>
+            <div class="cp-popup-header"
+                 layout="row"
+                 v-else-if="popupType === 3">
+                <div class="p-2"
+                     @click="setPopupType(1)">
+                    <m-icon xlink="#icon-left-bold"></m-icon>
+                </div>
+                <div flex
+                     class="p-2">
+                    <span class="fwb">客户标签</span>
+                </div>
+            </div>
             <div class="cp-popup-content"
                  v-if="popupType === 1">
                 <div class="cp-popup-section">
@@ -320,10 +332,15 @@
                 </div>
                 <div class="cp-popup-section">
                     <div layout="row"
-                         layout-align="start center"
+                         layout-align="start end"
                          class="cp-popup-head">
+                        <div class="color-black fwb">
+                            客户标签
+                        </div>
                         <div flex
-                             class="color-black fwb">客户标签</div>
+                             class="p-l-2 color-primary fs24 no-wrap">
+                            {{selectedTagsStr}}
+                        </div>
                         <div class="extra-light-black">
                             <span>全部</span>
                             <m-icon class="extra-black"
@@ -336,8 +353,12 @@
                          flex-wrap="wrap"
                          class="cp-popup-cont">
                         <div class="cp-popup-tag"
-                             v-for="(item, index) in 0"
-                             :key="index">1234</div>
+                             :class="{'cp-popup-tag-s': item.selected}"
+                             v-for="(item, index) in recommendTags"
+                             @click="tagClick(item)"
+                             :key="index">{{item.label}}</div>
+                        <div class="cp-popup-tag cp-tag-more"
+                             @click="setPopupType(3)">更多标签...</div>
                     </div>
                 </div>
             </div>
@@ -348,7 +369,7 @@
                  v-else-if="popupType === 2">
                 <div v-for="(item, index) in ticketData.rows"
                      :key="index"
-                     @click="filterClick(item, 'ticketDefineId');popupType = 1;"
+                     @click="filterClick(item, 'ticketDefineId');setPopupType(1);"
                      class="p-3 border-b1"
                      layout="row"
                      layout-align="start center">
@@ -358,7 +379,17 @@
             </div>
             <div class="cp-popup-content cp-popup-content-p"
                  v-else-if="popupType === 3">
-                标签
+                <div v-for="(item, index) in tagData.rows"
+                     :key="index"
+                     @click="tagClick(item)"
+                     class="p-3 border-b1"
+                     :class="{'color-primary': item.selected}"
+                     layout="row"
+                     layout-align="start center">
+                    <div flex>{{item.label}}</div>
+                    <m-icon v-if="item.selected"
+                            xlink="#icon-gouxuan"></m-icon>
+                </div>
             </div>
             <div class="cp-popup-footer"
                  layout="row"
@@ -413,6 +444,15 @@ export default {
                 return 'hidden';
             }
             return 'initial';
+        },
+        recommendTags() {
+            return this.tagData.rows.slice(0, 11);
+        },
+        selectedTags() {
+            return this.tagData.rows.filter(val => val.selected);
+        },
+        selectedTagsStr() {
+            return this.selectedTags.map(val => val.label).toString();
         }
     },
     data() {
@@ -454,6 +494,9 @@ export default {
                 scrollDisabled: false,
                 rows: []
             },
+            tagData: {
+                rows: []
+            },
             params: {
                 page: 0,
                 size: 20,
@@ -466,6 +509,7 @@ export default {
         this.loadCustomerCount();
         this.loadGroups();
         this.loadFilterData();
+        this.loadTags();
     },
     methods: {
         // 加载客户
@@ -499,6 +543,7 @@ export default {
                 size: this.params.size,
                 query: []
             };
+            // 关键字
             if (this.params.keyword) {
                 data.query.push({
                     field: 'keyword',
@@ -513,6 +558,13 @@ export default {
                     });
                 }
             });
+            // 标签
+            if (this.selectedTags.length) {
+                data.query.push({
+                    field: 'tagIds',
+                    value: this.selectedTags.map(val => val.value).toString()
+                });
+            }
             return data;
         },
         // 上拉加载更多
@@ -787,6 +839,24 @@ export default {
             } else {
                 this.popupType = 2;
             }
+        },
+        // 加载标签
+        loadTags() {
+            api_customer.customerTags().then(
+                res => {
+                    this.tagData.rows = res.data.map(val => {
+                        return {
+                            value: val.id,
+                            label: val.name
+                        };
+                    });
+                },
+                err => {}
+            );
+        },
+        // 选择标签
+        tagClick(item) {
+            this.$set(item, 'selected', !item.selected);
         }
     }
 };
@@ -949,10 +1019,9 @@ export default {
         }
         &-head {
             div {
-                padding: 15px 0;
+                padding-top: 15px;
+                padding-bottom: 15px;
             }
-        }
-        &-cont {
         }
         &-cell {
             font-size: @fs28;
@@ -1015,6 +1084,11 @@ export default {
                 color: @white;
             }
         }
+    }
+    .cp-tag-more {
+        border: 1px solid @dark-gray; /*no*/
+        color: @extra-black;
+        background-color: @white;
     }
 }
 </style>
