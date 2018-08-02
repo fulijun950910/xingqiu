@@ -23,7 +23,7 @@ export default {
     },
     employeeId: state => state.user.id,
     employeeName: state => state.user.name,
-    permissionStoreAll: state => state.merchantRole.permissionPackage.permissionStoreAll,
+    permissionStoreAll: state => state.merchantRole.permissionPackage ? state.merchantRole.permissionPackage.permissionStoreAll : false,
     queryStoreIds: state => {
         if (this.permissionStoreAll) {
             return '';
