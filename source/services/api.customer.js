@@ -105,5 +105,13 @@ export default {
     customerUpdate(customerId, params) {
         var url = '/api/promotionCustomers/' + customerId;
         return request(url, params, 'PATCH');
+    },
+    // 批量给客户分组
+    batchMoveCustomer(groupId, customerIdList) {
+        var url = '/api/promotionCustomers/batchMove';
+        return request(url, {
+            groupId,
+            customerIdList
+        }, 'PATCH');
     }
 };

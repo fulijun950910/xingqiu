@@ -91,6 +91,7 @@ export default {
     components: {},
     data() {
         return {
+            submitting: false,
             deleting: false,
             keyword: null,
             // 标签库
@@ -133,7 +134,7 @@ export default {
         },
         customers() {
             let customerIds = this.$route.query.customers;
-            return customerIds ? customerIds.split(',') : [];
+            return customerIds ? customerIds.split(',').map(x => window.parseInt(x)) : [];
         },
         searchBody() {
             let body = this.$route.query.body;
@@ -190,6 +191,7 @@ export default {
         },
         // 客户批量打标签
         async addTagHandle() {
+            if (this.submitting) return;
             if (!(this.addTags && this.addTags.length)) {
                 this.$toast('请选择要添加的标签');
                 return;
@@ -206,6 +208,7 @@ export default {
                 }
             }
             try {
+                this.submitting = true;
                 const paramData = {
                     search: this.searchBody,
                     promotionCustomerId: customerIds,
@@ -217,6 +220,8 @@ export default {
                 this.$toast('添加成功');
                 this.$router.go(-1);
             } catch (error) {
+            } finally {
+                this.submitting = false;
             }
         },
         // 移除客户标签
