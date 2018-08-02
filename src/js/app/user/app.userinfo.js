@@ -446,6 +446,14 @@ app.userinfo = {
                                             storeIds.push(employee.storeList[o].id);
                                         }
                                         employee.storeIds = storeIds.join(',');
+                                        if (!employee.merchantRole) {
+                                            app.userinfo.alertError('抱歉，您当前的帐号异常（没有身份），请联系系统管理员！');
+                                            document.cookie = 'rememberMe=';
+                                            document.cookie = 'remeberMeRunAsRole=';
+                                            window.localStorage.clear();
+                                            app.endLoading();
+                                            return;
+                                        }
                                         for (var j in employee.merchantRole.permissionPackage.permissions) {
                                             var permission = employee.merchantRole.permissionPackage.permissions[j];
                                             if (permission == app.constant.WECHAT_BUSINESS[1].code) {
