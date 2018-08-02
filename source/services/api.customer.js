@@ -112,6 +112,6 @@ export default {
         return request(url, {
             groupId,
             customerIdList
-        }, 'PATCH');
+        }, 'PUT');
     }
 };
