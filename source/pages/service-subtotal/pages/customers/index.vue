@@ -90,6 +90,7 @@
              v-if="selectedRows.length"
              layout-align="start center">
             <div v-for="(item, index) in toolButtons"
+                 @click="toolClick(item.value)"
                  :key="index"
                  flex
                  class="text-center">
@@ -637,22 +638,22 @@ export default {
             this.toolButtons = [
                 {
                     label: '打标签',
-                    value: 1,
+                    value: 'customers-manage-tag',
                     icon: '#icon-biaoqian-'
                 },
                 {
                     label: '移动到',
-                    value: 2,
+                    value: 'customers-manage-group',
                     icon: '#icon-bianzu'
                 },
                 {
                     label: '发短信',
-                    value: 3,
+                    value: 'customers-manage-message',
                     icon: '#icon-duanxin1'
                 },
                 {
                     label: '发券',
-                    value: 4,
+                    value: 'customers-manage-ticket',
                     icon: '#icon-youhuiquan'
                 }
             ];
@@ -759,6 +760,11 @@ export default {
             if (this.keys.indexOf(key) !== -1) {
                 if (this.params[key]) {
                     this.params[key].selected = false;
+                    // 反选
+                    if (item === this.params[key]) {
+                        this.params[key] = null;
+                        return;
+                    }
                 }
                 this.$set(item, 'selected', true);
                 this.$set(this.params, key, item);
@@ -770,6 +776,11 @@ export default {
                 if (this.params[key]) {
                     this.params[key].selected = false;
                     this.params[key] = null;
+                }
+            });
+            this.tagData.rows.forEach(val => {
+                if (val.selected) {
+                    val.selected = false;
                 }
             });
             this.saveFilter();
@@ -857,6 +868,44 @@ export default {
         // 选择标签
         tagClick(item) {
             this.$set(item, 'selected', !item.selected);
+        },
+        // 批量操作事件
+        toolClick(routeName) {
+            var query = {
+                customerCount: 0
+            };
+            if (this.isChecked) {
+                // 按条件操作客户
+                let search = this.queryFormat();
+                delete search.page;
+                delete search.size;
+                query.body = encodeURIComponent(JSON.stringify(search));
+                query.customerCount = this.total;
+            } else if (this.selectedRows.length === 1) {
+                // 只选一个客户
+                query.customerCount = 1;
+                query.customerId = this.selectedRows[0].id;
+            } else {
+                // 选择多个客户
+                query.customerCount = this.selectedRows.length;
+                query.customers = this.selectedRows.map(val => {
+                    // 打标签只需要id
+                    if (routeName === 'customers-manage-tag' || routeName === 'customers-manage-group') {
+                        return val.id;
+                    }
+                    return {
+                        id: val.id,
+                        name: val.name || '',
+                        phone: val.phone || ''
+                    };
+                });
+                query.customers = encodeURIComponent(JSON.stringify(query.customers));
+            }
+            // 路由跳转
+            this.$router.push({
+                name: routeName,
+                query
+            });
         }
     }
 };
