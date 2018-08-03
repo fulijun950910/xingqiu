@@ -96,7 +96,7 @@ export default {
     },
     getTown(id) {
         /**
-         * 获取城市
+         * 获取区
          */
         let url = `/api/administrativeArea/areas/${id}`;
         return request(url, 'get');

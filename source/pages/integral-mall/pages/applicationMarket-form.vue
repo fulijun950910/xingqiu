@@ -63,13 +63,13 @@
                 <div flex class="form-item" data-for-des="门店地址">
                     <div class="label fs24 color-black fwb">门店地址</div>
                     <div flex>
-                        <input flex class="color-black fs30" type="text" v-model="item.storeAddress">
+                        <input flex class="color-black fs30" type="text" @click="chooseAddress(item)" readonly v-model="item.storeAddress">
                     </div>
                 </div>
                 <div flex class="form-item" data-for-des="联系电话">
                     <div class="label fs24 color-black fwb">联系电话</div>
                     <div flex>
-                        <input flex class="color-black fs30" type="text" v-model="item.storeContactPhone">
+                        <input flex class="color-black fs30" type="number" pattern="[0-9]" v-model="item.storeContactPhone">
                     </div>
                 </div>
                 <div flex class="form-item p-b-3 no-border" data-for-des="门店类型">
@@ -80,6 +80,10 @@
                             <m-icon class="fs32 color-tiffany-blue" v-if="storeType.value == item.relationType" xlink="#icon-check__"></m-icon>
                         </div>
                     </div>
+                </div>
+                <div layout="row" :class="{'color-tiffany-blue' : item.specCode == time.specCode}" layout-align="space-between center" @click="clickChooseSpecCode(item, 4,time)" v-for="(time, timeIndex) in contractTime" :key="timeIndex" class="p-t-3 p-b-3 select-li">
+                    <span class="fs24">{{time.specName}}</span>
+                    <m-icon class="fs32" v-if="item.specCode == time.specCode" xlink="#icon-check__"></m-icon>
                 </div>
                 <div flex class="text-center" @click="removeStore(index)" v-if="addStoreData.length > 1">
                     <m-icon class="fs28 color-tiffany-blue" xlink="#icon-shanchu1"></m-icon>
@@ -100,6 +104,7 @@
     <div class="submit color-pink fs40" layout="row" layout-align="center center" @click="toPay" flex>
         提交
     </div>
+    <m-picker v-model="show" :type="pickerType" :slots="slots" valueKey="name" @confirm="onValuesChange"></m-picker>
 </div>
 </template>
 <script>
@@ -110,6 +115,7 @@
  * 4：门店续费
  */
 import Vue from 'vue';
+import mPicker from 'components/m-picker';
 import { Indicator, Swipe, SwipeItem } from 'mint-ui';
 import api_party from 'services/api.party';
 Vue.component(Swipe.name, Swipe);
@@ -140,9 +146,10 @@ export default {
                     storeAddress: null,
                     storeContactPhone: null,
                     relationType: 1,
-                    specCode: null,
+                    specCode: '6m',
                     longitude: null,
-                    latitude: null
+                    latitude: null,
+                    index: 1
                 }
             ],
             baseParameter: {
@@ -154,7 +161,20 @@ export default {
                 storeContactPhone: null,
                 relationType: null
             },
-            formType: null
+            formType: null,
+            slots: [
+                {
+                    flex: 1,
+                    values: [],
+                    className: 'slot1',
+                    textAlign: 'center'
+                }
+            ],
+            pickerType: '1',
+            show: false,
+            address: {},
+            clickTime: 0,
+            addresssIndex: ''
         };
     },
     methods: {
@@ -222,18 +242,25 @@ export default {
                     break;
                 case 3:
                     this.baseParameter.specCode = item.specCode;
+                    break;
+                case 4:
+                    item.specCode = data.specCode;
+                    break;
             }
         },
         add() {
+            let index = 2;
             this.addStoreData.push(
                 {
                     storeName: null,
                     storeAddress: null,
                     storeContactPhone: null,
                     relationType: null,
-                    specCode: null
+                    specCode: '3m',
+                    index: index
                 }
             );
+            index++;
 
         },
         removeStore(index) {
@@ -305,13 +332,76 @@ export default {
                         insertCon.push(temp);
                     });
                     break;
+                case '3' :
+                    this.addStoreData.map((item, index)=> {
+                        insertCon.push(item);
+                    });
+                    break;
             }
+        },
+        onValuesChange(value) {
+            if (this.pickerType == 2) {
+                if (this.clickTime == 1) {
+                    this.address.province = value[0];
+                    this.loadCity(value[0].code);
+                } else if (this.clickTime == 2) {
+                    this.loadTown(value[0].code);
+                    this.address.city = value[0];
+                } else if (this.clickTime == 3) {
+                    this.clickTime = 0;
+                    this.address.area = value[0];
+                    this.pickerType = '1';
+                    this.show = false;
+                }
+                console.log(this.address);
+            } else if (this.pickerType == 1) {
+                this.pickerType = '1';
+                this.parameter.industry = value[0].name;
+                this.parameter.industryId = value[0].id;
+                this.show = false;
+            };
+        },
+        loadProvince() {
+            Indicator.open('loading...');
+            api_party.getProvince().then(msg=> {
+                Indicator.close();
+                this.show = true;
+                this.slots[0].values = msg.data;
+                this.chooseType = 1;
+                this.clickTime++;
+            }, msg=> {
+
+            });
+
+        },
+        loadCity(id) {
+            api_party.getCity(id).then(msg=> {
+                this.clickTime++;
+                this.slots[0].values = msg.data;
+            }, msg=> {
+
+            });
+        },
+        loadTown(id) {
+            api_party.getTown(id).then(msg=> {
+                this.clickTime++;
+                this.slots[0].values = msg.data;
+            }, msg=> {
+            });
+
+        },
+        chooseAddress(item) {
+            this.pickerType = '2';
+            this.loadProvince();
+            this.addresssIndex = item.index;
         }
     },
     mounted() {
         this.init();
     },
-    components: {}
+    components: {
+        mPicker
+    }
 };
 </script>
 <style lang="less" scoped>

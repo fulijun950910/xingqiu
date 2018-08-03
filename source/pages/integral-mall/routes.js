@@ -28,6 +28,7 @@ const bigWheel = resolve => require(['./pages/big-wheel/index'], resolve);
 const payDetail = resolve => require(['./pages/pay/pay-detail'], resolve);
 const paySuccess = resolve => require(['./pages/pay/pay-success'], resolve);
 const applicationMarketForm = resolve => require(['./pages/applicationMarket-form'], resolve);
+const baiduMap = resolve => require(['./pages/baidu-map'], resolve);
 
 export default [{
     path: '/',
@@ -144,4 +145,8 @@ export default [{
     path: '/applicationMarket-form/:id',
     name: 'applicationMarket-form',
     component: applicationMarketForm
+}, {
+    path: '/baidu-map/:id',
+    name: 'baidu-map',
+    component: baiduMap
 }];
