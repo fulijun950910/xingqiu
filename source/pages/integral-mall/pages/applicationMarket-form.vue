@@ -149,7 +149,8 @@ export default {
                     specCode: '6m',
                     longitude: null,
                     latitude: null,
-                    index: 1
+                    index: '0',
+                    quantity: 1
                 }
             ],
             baseParameter: {
@@ -249,7 +250,7 @@ export default {
             }
         },
         add() {
-            let index = 2;
+            let index = 1;
             this.addStoreData.push(
                 {
                     storeName: null,
@@ -257,7 +258,7 @@ export default {
                     storeContactPhone: null,
                     relationType: null,
                     specCode: '3m',
-                    index: index
+                    index: index++
                 }
             );
             index++;
@@ -334,6 +335,7 @@ export default {
                     break;
                 case '3' :
                     this.addStoreData.map((item, index)=> {
+                        delete item.index;
                         insertCon.push(item);
                     });
                     break;
@@ -352,8 +354,11 @@ export default {
                     this.address.area = value[0];
                     this.pickerType = '1';
                     this.show = false;
+                    this.addStoreData[this.addresssIndex].storeAddress = `${this.address.province.name}${this.address.city.name}${this.address.area.name}`;
+                    this.addStoreData[this.addresssIndex].provinceCode = this.address.province.code;
+                    this.addStoreData[this.addresssIndex].cityCode = this.address.city.code;
+                    this.addStoreData[this.addresssIndex].areaCode = this.address.area.code;
                 }
-                console.log(this.address);
             } else if (this.pickerType == 1) {
                 this.pickerType = '1';
                 this.parameter.industry = value[0].name;
