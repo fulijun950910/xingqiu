@@ -140,21 +140,23 @@
                     api_party.productDetail(this.itemId).then(msg=> {
                         this.$indicator.close();
                         this.item = msg.data;
-                        debugger;
                         if (this.type != 1 && this.type != 2) {
                             this.loadPersonal();
                         } else if (this.type == 2) {
-                            debugger;
                             let tempItem = msg.data;
-                            tempItem.price = 0;
-                            this.payDetail.tradeItemSpecList.map((specList, index)=> {
-                                let ls = tempItem.goodsSpecList.filter((spec, specIndex)=> {
-                                    return spec.specCode == specList.specCode;
+                            if (this.payDetail.tradeItemSpecList && this.payDetail.tradeItemSpecList.length) {
+                                tempItem.price = 0;
+                                this.payDetail.tradeItemSpecList.map((specList, index)=> {
+                                    let ls = tempItem.goodsSpecList.filter((spec, specIndex)=> {
+                                        return spec.specCode == specList.specCode;
+                                    });
+                                    if (ls.length) {
+                                        tempItem.price += ls[0].price;
+                                    }
                                 });
-                                if (ls.length) {
-                                    tempItem.price += ls[0].price;
-                                }
-                            });
+                            } else {
+                                tempItem.price = this.item.price;
+                            }
                             this.item = tempItem;
                             this.loadPersonal();
                         } else {
