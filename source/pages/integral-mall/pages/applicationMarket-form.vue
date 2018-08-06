@@ -63,7 +63,7 @@
                 <div flex class="form-item" data-for-des="门店地址">
                     <div class="label fs24 color-black fwb">门店地址</div>
                     <div flex>
-                        <input flex class="color-black fs30" type="text" @click="chooseAddress(item)" readonly v-model="item.storeAddress">
+                        <input flex class="color-black fs30" type="text" @click="chooseAddress(item ,index)" readonly v-model="item.storeAddress">
                     </div>
                 </div>
                 <div flex class="form-item" data-for-des="联系电话">
@@ -149,7 +149,6 @@ export default {
                     specCode: '6m',
                     longitude: null,
                     latitude: null,
-                    index: '0',
                     quantity: 1
                 }
             ],
@@ -250,19 +249,15 @@ export default {
             }
         },
         add() {
-            let index = 1;
             this.addStoreData.push(
                 {
                     storeName: null,
                     storeAddress: null,
                     storeContactPhone: null,
                     relationType: null,
-                    specCode: '3m',
-                    index: index++
+                    specCode: '3m'
                 }
             );
-            index++;
-
         },
         removeStore(index) {
             if (this.addStoreData.length == 1) {
@@ -395,10 +390,10 @@ export default {
             });
 
         },
-        chooseAddress(item) {
+        chooseAddress(item, index) {
             this.pickerType = '2';
             this.loadProvince();
-            this.addresssIndex = item.index;
+            this.addresssIndex = index;
         }
     },
     mounted() {
