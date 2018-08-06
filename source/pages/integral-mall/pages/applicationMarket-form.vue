@@ -63,7 +63,7 @@
                 <div flex class="form-item" data-for-des="门店地址">
                     <div class="label fs24 color-black fwb">门店地址</div>
                     <div flex>
-                        <input flex class="color-black fs30" type="text" @click="chooseAddress(item ,index)" readonly v-model="item.storeAddress">
+                        <input flex class="color-black fs30" readonly type="text" @click="chooseAddress(item ,index)" readonly v-model="item.storeAddress">
                     </div>
                 </div>
                 <div flex class="form-item" data-for-des="联系电话">
