@@ -81,10 +81,14 @@
                         </div>
                     </div>
                 </div>
+                <div>
+                    <div class="label fs24 color-black fwb m-b-2">规格</div>
                 <div layout="row" :class="{'color-tiffany-blue' : item.specCode == time.specCode}" layout-align="space-between center" @click="clickChooseSpecCode(item, 4,time)" v-for="(time, timeIndex) in contractTime" :key="timeIndex" class="p-t-3 p-b-3 select-li">
-                    <span class="fs24">{{time.specName}}</span>
+                    <span class="fs24">{{time.specName}}(￥{{time.price | fen2yuan}})</span>
                     <m-icon class="fs32" v-if="item.specCode == time.specCode" xlink="#icon-check__"></m-icon>
                 </div>
+                </div>
+
                 <div flex class="text-center" @click="removeStore(index)" v-if="addStoreData.length > 1">
                     <m-icon class="fs28 color-tiffany-blue" xlink="#icon-shanchu1"></m-icon>
                 </div>
@@ -146,7 +150,7 @@ export default {
                     storeAddress: null,
                     storeContactPhone: null,
                     relationType: 1,
-                    specCode: '6m',
+                    specCode: '3m',
                     longitude: null,
                     latitude: null,
                     quantity: 1
