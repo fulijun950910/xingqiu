@@ -26,6 +26,20 @@
                 <div class="fs28 extra-light-black">商品总价</div>
                 <div class="color-black fwb">￥{{item.price | fen2yuan}} / {{item.price | fen2dou}}美豆豆</div>
             </div>
+            <div flex v-if="item.formType">
+                <div flex>
+                <div layout="row" class="m-b-3" layout-align="space-between center" flex >
+                    <div flex="40" class="fs28 extra-light-black text-left fwb">门店名称</div>
+                    <div flex="30" class="fs28 extra-light-black text-right fwb">时长</div>
+                      <div flex="30" class="fs28 extra-light-black text-right fwb">单价（元）</div>
+                </div>
+                <div layout="row" layout-align="start center" class="m-b-1"  v-for="(item, index) in buyStoreList" :key="index">
+                    <div flex="40" class="fs28 extra-light-black text-left">{{item.storeName}}</div>
+                    <div flex="30" class="fs28 extra-light-black text-right">{{item.specName}}</div>
+                    <div flex="30" class="fs28 extra-light-black text-right">￥{{item.price | fen2yuan}}</div>
+                </div>
+                </div>
+            </div>
             <div layout="row" layout-align="space-between center" v-if="type != 1 && type != 2">
                 <div class="fs28 extra-light-black">购买数量</div>
                 <div><integral-input @numOut="changeNum" @changeAmount="changeNum"></integral-input></div>
@@ -118,6 +132,7 @@
                     couponList: [],
                     btnClick: false,
                     payText: '支付',
+                    buyStoreList: [],
                     payDetail: {
                         merchantId: this.$store.state.party.merchantId,
                         partyId: this.$store.state.party.partyId,
@@ -148,6 +163,9 @@
                     api_party.productDetail(this.itemId).then(msg=> {
                         this.$indicator.close();
                         this.item = msg.data;
+                        if (this.item.goodsSpecList.length) {
+                            this.buyStoreListTranslate(this.item);
+                        };
                         if (this.type != 1 && this.type != 2) {
                             this.loadPersonal();
                         } else if (this.type == 2) {
@@ -386,6 +404,21 @@
                         this.buy();
                     }, data=> {
                         this.hideConfirm();
+                    });
+                },
+                buyStoreListTranslate(data) {
+                    this.payDetail.tradeItemSpecList.map((item, index)=> {
+                        let ls = data.goodsSpecList.filter((item1, index1)=> {
+                            return item.specCode == item1.specCode;
+                        });
+                        if (ls.length) {
+                            let temp = {
+                                storeName: item.storeName,
+                                price: ls[0].price,
+                                specName: ls[0].specName
+                            };
+                            this.buyStoreList.push(temp);
+                        }
                     });
                 }
             },
