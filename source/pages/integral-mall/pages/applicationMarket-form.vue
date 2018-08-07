@@ -257,7 +257,7 @@ export default {
                     storeName: null,
                     storeAddress: null,
                     storeContactPhone: null,
-                    relationType: null,
+                    relationType: 1,
                     specCode: '3m'
                 }
             );

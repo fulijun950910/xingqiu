@@ -82,11 +82,12 @@
                <textarea class="p-1" v-model="payDetail.remark" placeholder="备注"></textarea>
             </div>
         </div>
-<button :disabled="btnClick" class="integral-btn fwb fs38 color-white m-t-3 m-b-3" @click="buy" layout="row" layout-align="center center">
+<button :disabled="btnClick" class="integral-btn fwb fs38 color-white m-t-3 m-b-3" @click="hideConfirm" layout="row" layout-align="center center">
 {{payText}}
 </button>
     </div>
     <voucher :mw-item="payDetail" :vocher-show="vocherShow" @update="clickToVoucher" @mClose="clickToVoucher"></voucher>
+     <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm" @integraConfirm="inteconfirm"></integral-confirm>  
 </div>
 </template>
 <script>
@@ -99,6 +100,7 @@
         import voucher from 'components/integral-mall/voucher';
         import integralInput from 'components/integral-mall/integral-input';
         import api_party from 'services/api.party';
+        import integralConfirm from 'components/integral-mall/integral-confirm';
         export default {
             data() {
                 return {
@@ -131,7 +133,13 @@
                         remark: null,
                         tradeItemSpecList: this.$route.params.tradeItemSpecList ? this.$route.params.tradeItemSpecList : []
                     },
-                    vocherShow: false
+                    vocherShow: false,
+                    confirm: {
+                        show: false,
+                        message: '确认支付？',
+                        confirm: '确认',
+                        quiet: '再考虑下'
+                    }
                 };
             },
             methods: {
@@ -369,6 +377,16 @@
                         result = num / 100 * 10;
                     };
                     return result;
+                },
+                hideConfirm() {
+                    this.confirm.show = !this.confirm.show;
+                },
+                inteconfirm(msg) {
+                    msg.then(data=> {
+                        this.buy();
+                    }, data=> {
+                        this.hideConfirm();
+                    });
                 }
             },
             mounted() {
@@ -376,11 +394,11 @@
                     this.$router.go(-1);
                 };
                 this.init();
-                console.log(this.$route.params);
             },
             components: {
                 voucher,
-                integralInput
+                integralInput,
+                integralConfirm
             }
         };
 </script>
