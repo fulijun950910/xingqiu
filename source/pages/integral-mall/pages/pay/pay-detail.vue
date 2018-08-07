@@ -284,10 +284,12 @@
                 changeDouAmount() {
                     if (this.payDetail.payDoudouAmount > this.account.doudouBalance) {
                         this.$toast('账户豆豆不足哦~');
-                        this.payDetail.payDoudouAmount = this.account.doudouBalance;
-                        return;
+                        if (this.payDetail.payDoudouAmount > this.item.price / 10) {
+                            this.payDetail.payDoudouAmount = this.item.price / 10;
+                        } else {
+                            this.payDetail.payDoudouAmount = this.account.doudouBalance;
+                        };
                     }
-                    debugger;
                     if (this.payDetail.payDoudouAmount > this.item.price / 10) {
                         this.payDetail.payDoudouAmount = this.item.price / 10;
                         this.$toast('豆豆虽多，不要贪用哦~');
