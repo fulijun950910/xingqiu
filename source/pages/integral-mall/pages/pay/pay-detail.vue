@@ -336,12 +336,15 @@
                     api_party.doudouTrade(this.payDetail).then(msg=> {
                         this.btnClick = false;
                         this.payText = '支付';
+                        sessionStorage.tradeItemSpecList = '';
                         if (msg.data.status == 0) {
                             location.href = msg.data.payUrl + '?url=' + encodeURIComponent(location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/pay-success');
                         } else {
                             this.$router.push('pay-success');
                         };
                     }, msg=> {
+                        sessionStorage.tradeItemSpecList = '';
+                        this.payText = '支付';
                         this.btnClick = false;
                     });
                 },

@@ -202,6 +202,7 @@ export default {
             };
             let parameter = [];
             this.insertParameter(parameter);
+            sessionStorage.tradeItemSpecList = JSON.stringify(parameter);
             this.$router.push({
                 name: 'pay-detail',
                 params: {
@@ -402,6 +403,29 @@ export default {
     },
     mounted() {
         this.init();
+        try {
+            let localData = JSON.parse(sessionStorage.tradeItemSpecList);
+            // 反显数据
+            if (localData.length) {
+                this.addStoreData = [];
+                for (let i = 0; i < localData.length; i++) {
+                    let now = localData[i];
+                    let temp = {
+                        storeName: now.storeName,
+                        storeAddress: now.storeAddress,
+                        storeContactPhone: now.storeContactPhone,
+                        relationType: now.relationType,
+                        specCode: now.specCode,
+                        longitude: null,
+                        latitude: null,
+                        quantity: 1
+                    };
+                    this.addStoreData.push(temp);
+                }
+            }
+        } catch (e) {
+
+        };
     },
     components: {
         mPicker

@@ -74,6 +74,16 @@ let routerCheckPath = path => {
     let reg = /(^\/sign-in)|(^\/main)|(^\/bbsPage)|(^\/alliance)|(^\/booking)|(^\/promotion-at-tp)/;
     return reg.test(path);
 };
+
+let clearSessionStorage = path => {
+    let status = false;
+    if (path.indexOf('applicationMarket-form') > -1) {
+        status = true;
+    } else if (path.indexOf('pay-detail') > -1) {
+        status = true;
+    }
+    return status;
+};
 // ................................................
 import reLogin from './models/relogin';
 import Q from 'q';
@@ -97,6 +107,11 @@ let checkUser = async () => {
 };
 
 router.beforeEach(async ({ meta, path }, from, next) => {
+    // 只有支付详情和应用市场表单保存本地sessionStorage
+    if (!clearSessionStorage(path)) {
+        sessionStorage.tradeItemSpecList = '';
+    };
+
     if (routerCheckPath(path) || store.getters.isLogin || store.state.party) {
          // 百度统计
         try {
