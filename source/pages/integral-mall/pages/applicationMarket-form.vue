@@ -16,7 +16,7 @@
     <div class="form-con">
         <div class="form-box">
             <div flex class="form-item p-b-3" data-for-des="适用门店" v-if="formType == 2 || formType == 4">
-                <div class="label fs24 color-black fwb">适用门店</div>
+                <div class="label fs28 color-black fwb">适用门店</div>
                 <div flex>
                     <div layout="row" :class="{'color-tiffany-blue' : checkStoreSelect(item)}" layout-align="start center" @click="clickChooseSpecCode(item, 1)" v-for="(item, index) in storeList" :key="index" class="p-t-3 p-b-3 select-li">
                         <m-icon class="fs36 m-r-2" xlink="#icon-gouicon1"></m-icon>
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div flex class="form-item p-b-3 no-border" data-for-des="续约时间" v-if="formType == 2 || formType == 4">
-                <!-- <div class="label fs24 color-black">续约时间</div> -->
+                 <div class="label fs28 color-black fwb m-b-2">规格</div>
                 <div flex>
                     <div layout="row" :class="{'color-tiffany-blue' : item.specCode == baseParameter.specCode}" layout-align="space-between center" @click="clickChooseSpecCode(item, 3)" v-for="(item, index) in contractTime" :key="index" class="p-t-3 p-b-3 select-li">
                         <span class="fs24">{{item.specName}}(￥{{item.price | fen2yuan}})</span>
@@ -35,25 +35,25 @@
             </div>
             <div v-for="(item, index) in addStoreData" :key="index" v-if="formType == 3" class="add-store-group p-2 m-b-3">
                 <div flex class="form-item" data-for-des="门店名称">
-                    <div class="label fs24 color-black fwb">门店名称</div>
+                    <div class="label fs28 color-black fwb">门店名称</div>
                     <div flex>
                         <input flex class="color-black fs30" type="text" v-model="item.storeName">
                     </div>
                 </div>
                 <div flex class="form-item" data-for-des="门店地址">
-                    <div class="label fs24 color-black fwb">门店地址</div>
+                    <div class="label fs28 color-black fwb">门店地址</div>
                     <div flex>
                         <input flex class="color-black fs30" readonly type="text" @click="chooseAddress(item ,index)" readonly v-model="item.storeAddress">
                     </div>
                 </div>
                 <div flex class="form-item" data-for-des="联系电话">
-                    <div class="label fs24 color-black fwb">联系电话</div>
+                    <div class="label fs28 color-black fwb">联系电话</div>
                     <div flex>
                         <input flex class="color-black fs30" type="number" pattern="[0-9]" v-model="item.storeContactPhone">
                     </div>
                 </div>
                 <div flex class="form-item p-b-3 no-border" data-for-des="门店类型">
-                    <div class="label fs24 color-black fwb m-b-2">门店类型</div>
+                    <div class="label fs28 color-black fwb m-b-2">门店类型</div>
                     <div flex>
                         <div layout="row" layout-align="space-between center" @click="clickChooseSpecCode(storeType, 2, item)" v-for="(storeType, index) in relationType" :key="index" class="p-t-3 p-b-3 select-li">
                             <span class="fs24">{{storeType.name}}</span>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div>
-                    <div class="label fs24 color-black fwb m-b-2">规格</div>
+                    <div class="label fs28 color-black fwb m-b-2">规格</div>
                 <div layout="row" :class="{'color-tiffany-blue' : item.specCode == time.specCode}" layout-align="space-between center" @click="clickChooseSpecCode(item, 4,time)" v-for="(time, timeIndex) in contractTime" :key="timeIndex" class="p-t-3 p-b-3 select-li">
                     <span class="fs24">{{time.specName}}(￥{{time.price | fen2yuan}})</span>
                     <m-icon class="fs32" v-if="item.specCode == time.specCode" xlink="#icon-check__"></m-icon>
