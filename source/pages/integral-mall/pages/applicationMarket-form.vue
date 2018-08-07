@@ -14,26 +14,6 @@
         </div>
     </div>
     <div class="form-con">
-        <!-- <div class="form-box" data-for-des="基础表单提交数据">
-            <div flex class="form-item">
-                <div class="label fs24 color-black">商户名称</div>
-                <div flex>
-                    <input flex class="color-black fs30" type="text" v-model="baseParameter.">
-                </div>
-            </div>
-            <div flex class="form-item">
-                <div class="label fs24 color-black">联系人</div>
-                <div flex>
-                    <input flex class="color-black fs30" type="text" v-model="">
-                </div>
-            </div>
-            <div flex class="form-item">
-                <div class="label fs24 color-black">联系电话</div>
-                <div flex>
-                    <input flex class="color-black fs30" type="text" v-model="tradeItem.merchantName">
-                </div>
-            </div>
-        </div> -->
         <div class="form-box">
             <div flex class="form-item p-b-3" data-for-des="适用门店" v-if="formType == 2 || formType == 4">
                 <div class="label fs24 color-black fwb">适用门店</div>

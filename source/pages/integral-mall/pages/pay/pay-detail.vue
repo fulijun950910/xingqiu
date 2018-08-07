@@ -287,6 +287,11 @@
                         this.payDetail.payDoudouAmount = this.account.doudouBalance;
                         return;
                     }
+                    debugger;
+                    if (this.payDetail.payDoudouAmount > this.item.price / 10) {
+                        this.payDetail.payDoudouAmount = this.item.price / 10;
+                        this.$toast('豆豆虽多，不要贪用哦~');
+                    }
                     let tempPayDetail = this.payDetail;
                     tempPayDetail.payMoney = this.item.price * tempPayDetail.quantity - this.voucherDiscountMoney - this.translate('dou2fen', tempPayDetail.payDoudouAmount);
                     this.payDetail = tempPayDetail;
