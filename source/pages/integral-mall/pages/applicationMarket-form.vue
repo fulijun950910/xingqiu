@@ -18,7 +18,7 @@
             <div flex class="form-item p-b-3" data-for-des="适用门店" v-if="formType == 2 || formType == 4">
                 <div class="label fs28 color-black fwb">适用门店</div>
                 <div flex>
-                    <div layout="row" :class="{'color-tiffany-blue' : checkStoreSelect(item)}" layout-align="start center" @click="clickChooseSpecCode(item, 1)" v-for="(item, index) in storeList" :key="index" class="p-t-3 p-b-3 select-li">
+                    <div layout="row" :class="{'color-tiffany-blue' : checkStoreSelect(item),'no-border' :index == storeList.length - 1}" layout-align="start center" @click="clickChooseSpecCode(item, 1)" v-for="(item, index) in storeList" :key="index" class="p-t-3 p-b-3 select-li">
                         <m-icon class="fs36 m-r-2" xlink="#icon-gouicon1"></m-icon>
                         <span class="fs24">{{item.name}}</span>
                     </div>
@@ -43,7 +43,7 @@
                 <div flex class="form-item" data-for-des="门店地址">
                     <div class="label fs28 color-black fwb">门店地址</div>
                     <div flex>
-                        <input flex class="color-black fs30" readonly type="text" @click="chooseAddress(item ,index)" readonly v-model="item.storeAddress">
+                        <input flex class="color-black fs30" readonly type="text" @click="chooseAddress(item ,index)" v-model="item.storeAddress">
                     </div>
                 </div>
                 <div flex class="form-item" data-for-des="联系电话">
@@ -63,7 +63,7 @@
                 </div>
                 <div>
                     <div class="label fs28 color-black fwb m-b-2">规格</div>
-                <div layout="row" :class="{'color-tiffany-blue' : item.specCode == time.specCode}" layout-align="space-between center" @click="clickChooseSpecCode(item, 4,time)" v-for="(time, timeIndex) in contractTime" :key="timeIndex" class="p-t-3 p-b-3 select-li">
+                <div layout="row" :class="{'color-tiffany-blue' : item.specCode == time.specCode,'border-b' : timeIndex != contractTime.length - 1}" layout-align="space-between center" @click="clickChooseSpecCode(item, 4,time)" v-for="(time, timeIndex) in contractTime" :key="timeIndex" class="p-t-3 p-b-3 select-li">
                     <span class="fs24">{{time.specName}}(￥{{time.price | fen2yuan}})</span>
                     <m-icon class="fs32" v-if="item.specCode == time.specCode" xlink="#icon-check__"></m-icon>
                 </div>
@@ -488,7 +488,7 @@ export default {
             }
         }
         .no-border{
-            border: none;
+            border: none!important;
         }
         .form-item.last{
             border: none;
@@ -525,6 +525,9 @@ export default {
 .add-store-group{
     border: 1px solid @light-gray;
     border-radius: 5px;
+    .border-b{
+        border-bottom: 1px solid @light-gray;
+    }
 }
 }
 </style>

@@ -31,7 +31,7 @@
                 <div layout="row" class="m-b-3" layout-align="space-between center" flex >
                     <div flex="40" class="fs28 extra-light-black text-left fwb">门店名称</div>
                     <div flex="30" class="fs28 extra-light-black text-right fwb">时长</div>
-                      <div flex="30" class="fs28 extra-light-black text-right fwb">单价（元）</div>
+                      <div flex="30" class="fs28 extra-light-black text-right fwb">价格（元）</div>
                 </div>
                 <div layout="row" layout-align="start center" class="m-b-1"  v-for="(item, index) in buyStoreList" :key="index">
                     <div flex="40" class="fs28 extra-light-black text-left">{{item.storeName}}</div>
