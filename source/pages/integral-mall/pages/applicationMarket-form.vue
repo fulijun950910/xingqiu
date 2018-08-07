@@ -28,7 +28,7 @@
                 <!-- <div class="label fs24 color-black">续约时间</div> -->
                 <div flex>
                     <div layout="row" :class="{'color-tiffany-blue' : item.specCode == baseParameter.specCode}" layout-align="space-between center" @click="clickChooseSpecCode(item, 3)" v-for="(item, index) in contractTime" :key="index" class="p-t-3 p-b-3 select-li">
-                        <span class="fs24">{{item.specName}}</span>
+                        <span class="fs24">{{item.specName}}(￥{{item.price | fen2yuan}})</span>
                         <m-icon class="fs32" v-if="item.specCode == baseParameter.specCode" xlink="#icon-check__"></m-icon>
                     </div>
                 </div>
@@ -167,6 +167,10 @@ export default {
             api_party.storeList(this.$store.state.party.merchantId, this.$store.getters.employeeId).then(msg=> {
                 Indicator.close();
                 this.storeList = msg.data;
+                this.storeList.unshift({
+                    name: '全选',
+                    id: 'all'
+                });
                 this.parameter.storeId = this.storeList[0].id;
             }, msg=> {
 
@@ -200,8 +204,8 @@ export default {
                 this.contractTime = this.chooseServiceItem.goodsSpecList;
                 this.chooseServiceItem.images = this.chooseServiceItem.images ? this.chooseServiceItem.images.split(',') : this.chooseServiceItem.images;
                 this.formType = this.chooseServiceItem.formType;
-                if (this.formType == 2) {
-                    this.baseParameter.specCode = '1y';
+                if (this.formType == 2 || this.formType == 4) {
+                    this.baseParameter.specCode = this.chooseServiceItem.goodsSpecList[0].specCode;
                 }
             }, msg=> {
 
@@ -210,17 +214,31 @@ export default {
         clickChooseSpecCode(item, type, data) {
             switch (type) {
                 case 1:
-                    let tempIndex;
-                    this.chooseStore.map((store, index)=> {
-                        if (store == item) {
-                            tempIndex = index;
+                    if (item.id == 'all') {
+                        if (this.chooseStore.length > 1) {
+                            this.chooseStore = [];
+                        } else {
+                            this.chooseStore = JSON.parse(JSON.stringify(this.storeList));
                         }
-                    });
-                    if (tempIndex || tempIndex == 0) {
-                        this.chooseStore.splice(tempIndex, 1);
                     } else {
-                        this.chooseStore.push(item);
-                    };
+                        let tempIndex;
+                        this.chooseStore.map((store, index)=> {
+                            if (store.id == item.id) {
+                                tempIndex = index;
+                            }
+                        });
+                        if (tempIndex || tempIndex == 0) {
+                            debugger;
+                            this.chooseStore.splice(tempIndex, 1);
+                            this.chooseStore.map((store, storeIndex)=> {
+                                if (store.id == 'all') {
+                                    this.chooseStore.splice(storeIndex, 1);
+                                };
+                            });
+                        } else {
+                            this.chooseStore.push(item);
+                        };
+                    }
                     break;
                 case 2:
                     data.relationType = item.value;
@@ -253,7 +271,7 @@ export default {
         },
         checkStoreSelect(item) {
             let ls = this.chooseStore.filter((store, index)=> {
-                return store == item;
+                return store.id == item.id;
             });
             return ls.length;
         },
@@ -304,13 +322,15 @@ export default {
                 case '2' :
                 case '4' :
                     this.chooseStore.map((item, index)=> {
-                        let temp = {};
-                        Object.assign(temp, this.baseParameter);
-                        temp.storeName = item.name;
-                        temp.storeId = item.id;
-                        temp.storeAddress = item.address;
-                        temp.storeContactPhone = item.phone;
-                        insertCon.push(temp);
+                        if (item.id != 'all') {
+                            let temp = {};
+                            Object.assign(temp, this.baseParameter);
+                            temp.storeName = item.name;
+                            temp.storeId = item.id;
+                            temp.storeAddress = item.address;
+                            temp.storeContactPhone = item.phone;
+                            insertCon.push(temp);
+                        };
                     });
                     break;
                 case '3' :
