@@ -207,6 +207,7 @@ export default {
                 if (this.formType == 2 || this.formType == 4) {
                     this.baseParameter.specCode = this.chooseServiceItem.goodsSpecList[0].specCode;
                 }
+                this.backData(this.formType);
             }, msg=> {
 
             });
@@ -399,6 +400,41 @@ export default {
             this.pickerType = '2';
             this.loadProvince();
             this.addresssIndex = index;
+        },
+        backData(type) {
+            try {
+                let localData = JSON.parse(sessionStorage.tradeItemSpecList);
+                // 反显数据
+                if (type == 3) {
+                    if (localData.length) {
+                        this.addStoreData = [];
+                        for (let i = 0; i < localData.length; i++) {
+                            let now = localData[i];
+                            let temp = {
+                                storeName: now.storeName,
+                                storeAddress: now.storeAddress,
+                                storeContactPhone: now.storeContactPhone,
+                                relationType: now.relationType,
+                                specCode: now.specCode,
+                                longitude: null,
+                                latitude: null,
+                                quantity: 1
+                            };
+                            this.addStoreData.push(temp);
+                        }
+                    }
+                } else {
+                    this.baseParameter.specCode = localData[0].specCode;
+                    localData.map((item, index)=> {
+                        this.chooseStore.push({
+                            name: item.storeName,
+                            id: item.storeId
+                        });
+                    });
+                    console.log(localData);
+                }
+            } catch (e) {
+            };
         }
     },
     mounted() {
