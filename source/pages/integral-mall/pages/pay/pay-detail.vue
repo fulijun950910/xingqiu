@@ -26,7 +26,7 @@
                 <div class="fs28 extra-light-black">商品总价</div>
                 <div class="color-black fwb">￥{{item.price | fen2yuan}} / {{item.price | fen2dou}}美豆豆</div>
             </div>
-            <div flex v-if="item.formType">
+            <div flex v-if="item.formType && item.formType != 1">
                 <div flex>
                 <div layout="row" class="m-b-3" layout-align="space-between center" flex >
                     <div flex="40" class="fs28 extra-light-black text-left fwb">门店名称</div>

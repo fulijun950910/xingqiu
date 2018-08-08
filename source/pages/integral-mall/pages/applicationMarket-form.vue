@@ -69,7 +69,7 @@
                 </div>
                 </div>
 
-                <div flex class="text-center" @click="removeStore(index)" v-if="addStoreData.length > 1">
+                <div flex class="text-center m-t-3 m-b-3 del-btn" layout="row" layout-align="center center" @click="removeStore(index)" v-if="addStoreData.length > 1">
                     <m-icon class="fs28 color-tiffany-blue" xlink="#icon-shanchu1"></m-icon>
                 </div>
             </div>
@@ -527,6 +527,13 @@ export default {
     border-radius: 5px;
     .border-b{
         border-bottom: 1px solid @light-gray;
+    }
+    .del-btn{
+        width: 80px;
+        height: 30px;
+        border: 1px solid @color-tiffany-blue;
+        margin: 20px auto 10px auto;
+        border-radius: 15px;
     }
 }
 }
