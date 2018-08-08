@@ -1,7 +1,7 @@
 <template>
-    <!--<transition :name="transitionName" mode="out-in">-->
+    <transition :name="transitionName" mode="out-in">
         <router-view></router-view>
-    <!--</transition>-->
+    </transition>
 </template>
 <script>
 import apiGetJSSignature from 'services/api.getJSSignature';
