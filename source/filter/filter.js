@@ -333,6 +333,9 @@ Vue.filter('tradeType', function(value) {
         case 6:
             text = '充值豆豆';
             break;
+        case 9:
+            text = '应用市场';
+            break;
     }
     return text;
 });

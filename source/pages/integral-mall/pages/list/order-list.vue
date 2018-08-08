@@ -150,6 +150,10 @@ export default {
                         {
                             name: '充值豆豆',
                             value: 6
+                        },
+                        {
+                            name: '应用市场',
+                            value: 9
                         }
                     ]
                 },
@@ -260,6 +264,14 @@ export default {
                             };
                             break;
                         case 5:
+                            item.tradeTypeStyle = {
+                                background: '#4F97FF'
+                            };
+                            item.statusColor = {
+                                color: '#4F97FF'
+                            };
+                            break;
+                        case 9:
                             item.tradeTypeStyle = {
                                 background: '#4F97FF'
                             };
