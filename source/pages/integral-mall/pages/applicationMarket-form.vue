@@ -130,7 +130,7 @@ export default {
                     storeAddress: null,
                     storeContactPhone: null,
                     relationType: 1,
-                    specCode: '3m',
+                    specCode: null,
                     longitude: null,
                     latitude: null,
                     quantity: 1
@@ -207,6 +207,7 @@ export default {
                 if (this.formType == 2 || this.formType == 4 || this.formType == 1) {
                     this.baseParameter.specCode = this.chooseServiceItem.goodsSpecList[0].specCode;
                 };
+                this.addStoreData[0].specCode = this.chooseServiceItem.goodsSpecList[0].specCode;
                 this.backData(this.formType);
             }, msg=> {
 
@@ -253,15 +254,7 @@ export default {
             }
         },
         add() {
-            this.addStoreData.push(
-                {
-                    storeName: null,
-                    storeAddress: null,
-                    storeContactPhone: null,
-                    relationType: 1,
-                    specCode: '3m'
-                }
-            );
+            this.addStoreData.push(this.addStoreData[0]);
         },
         removeStore(index) {
             if (this.addStoreData.length == 1) {
