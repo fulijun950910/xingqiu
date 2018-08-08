@@ -413,7 +413,7 @@
                         });
                         if (ls.length) {
                             let temp = {
-                                storeName: item.storeName,
+                                storeName: item.storeName ? item.storeName : '商户级',
                                 price: ls[0].price,
                                 specName: ls[0].specName
                             };

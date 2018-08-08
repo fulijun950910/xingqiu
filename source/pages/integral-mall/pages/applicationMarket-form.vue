@@ -280,6 +280,11 @@ export default {
             switch (this.formType) {
                 case '1':
                 // 系统续费
+                    if (!this.baseParameter.specCode) {
+                        this.$toast('记得填写规格哦~');
+                        result = false;
+                        return result;
+                    };
                     return true;
                 case '3':
                 // 新增门店
@@ -339,6 +344,9 @@ export default {
                         delete item.index;
                         insertCon.push(item);
                     });
+                    break;
+                case '1' :
+                    insertCon.push(this.baseParameter);
                     break;
             }
         },
