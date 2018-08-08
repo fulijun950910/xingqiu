@@ -402,6 +402,7 @@
                 inteconfirm(msg) {
                     msg.then(data=> {
                         this.buy();
+                        this.hideConfirm();
                     }, data=> {
                         this.hideConfirm();
                     });
