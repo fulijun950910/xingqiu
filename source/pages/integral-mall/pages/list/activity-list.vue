@@ -146,7 +146,7 @@ export default {
             border-radius: 14px;
             margin-bottom: 15px;
             .activity-img{
-                height: 170px;
+                height: 200px;
                 width: 100%;
                 overflow: hidden;
                 margin-bottom: 15px;
