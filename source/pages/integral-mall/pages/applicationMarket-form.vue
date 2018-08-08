@@ -254,7 +254,15 @@ export default {
             }
         },
         add() {
-            this.addStoreData.push(this.addStoreData[0]);
+            this.addStoreData.push(
+                {
+                    storeName: null,
+                    storeAddress: null,
+                    storeContactPhone: null,
+                    relationType: 1,
+                    specCode: this.chooseServiceItem.goodsSpecList[0].specCode
+                }
+            );
         },
         removeStore(index) {
             if (this.addStoreData.length == 1) {
