@@ -204,9 +204,9 @@ export default {
                 this.contractTime = this.chooseServiceItem.goodsSpecList;
                 this.chooseServiceItem.images = this.chooseServiceItem.images ? this.chooseServiceItem.images.split(',') : this.chooseServiceItem.images;
                 this.formType = this.chooseServiceItem.formType;
-                if (this.formType == 2 || this.formType == 4) {
+                if (this.formType == 2 || this.formType == 4 || this.formType == 1) {
                     this.baseParameter.specCode = this.chooseServiceItem.goodsSpecList[0].specCode;
-                }
+                };
                 this.backData(this.formType);
             }, msg=> {
 
