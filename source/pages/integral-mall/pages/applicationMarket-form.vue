@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            <div flex class="form-item p-b-3 no-border" data-for-des="续约时间" v-if="formType == 2 || formType == 4">
+            <div flex class="form-item p-b-3 no-border" data-for-des="续约时间" v-if="formType == 2 || formType == 4 || formType == 1">
                  <div class="label fs28 color-black fwb m-b-2">规格</div>
                 <div flex>
                     <div layout="row" :class="{'color-tiffany-blue' : item.specCode == baseParameter.specCode}" layout-align="space-between center" @click="clickChooseSpecCode(item, 3)" v-for="(item, index) in contractTime" :key="index" class="p-t-3 p-b-3 select-li">
