@@ -303,7 +303,7 @@
                         } else {
                             this.payDetail.payDoudouAmount = this.translate('fen2dou', balanceFen);
                             let afterLeft = leftMoney - balanceFen;
-                            this.payDetail.payMoney = afterLeft;
+                            this.payDetail.payMoney = Number(afterLeft).toFixed();
                         }
                     }
                 },
