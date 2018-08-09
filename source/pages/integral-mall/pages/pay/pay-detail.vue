@@ -321,7 +321,7 @@
                         this.$toast('豆豆虽多，不要贪用哦~');
                     }
                     let tempPayDetail = this.payDetail;
-                    tempPayDetail.payMoney = this.item.price * tempPayDetail.quantity - this.voucherDiscountMoney - this.translate('dou2fen', tempPayDetail.payDoudouAmount);
+                    tempPayDetail.payMoney = Number(this.item.price * tempPayDetail.quantity - this.voucherDiscountMoney - Number(this.translate('dou2fen', tempPayDetail.payDoudouAmount)).toFixed()).toFixed();
                     this.payDetail = tempPayDetail;
                 },
                 chooseAddress() {
