@@ -159,7 +159,7 @@
                         if (this.checkParty()) {
                             return;
                         }
-                        this.$router.push('/activity-list');
+                        this.$router.push('/activity-list/5');
                         break;
                     case 3:
                         this.$router.push('/product-list');
@@ -183,7 +183,7 @@
                         this.$router.push('/big-wheel');
                         break;
                     case 10:
-                        this.$toast('程序员正在加紧时间开发中...');
+                        this.$router.push('/activity-list/9');
                         break;
                 }
             }

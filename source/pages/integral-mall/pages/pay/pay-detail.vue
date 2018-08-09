@@ -26,13 +26,27 @@
                 <div class="fs28 extra-light-black">商品总价</div>
                 <div class="color-black fwb">￥{{item.price | fen2yuan}} / {{item.price | fen2dou}}美豆豆</div>
             </div>
-            <div layout="row" layout-align="space-between center" v-if="!type">
+            <div flex v-if="item.goodsSpecList && item.goodsSpecList.length">
+                <div flex>
+                <div layout="row" class="m-b-3" layout-align="space-between center" flex >
+                    <div flex="40" class="fs28 extra-light-black text-left fwb">门店名称</div>
+                    <div flex="30" class="fs28 extra-light-black text-right fwb">时长</div>
+                      <div flex="30" class="fs28 extra-light-black text-right fwb">价格（元）</div>
+                </div>
+                <div layout="row" layout-align="start center" class="m-b-1"  v-for="(item, index) in buyStoreList" :key="index">
+                    <div flex="40" class="fs28 extra-light-black text-left">{{item.storeName}}</div>
+                    <div flex="30" class="fs28 extra-light-black text-right">{{item.specName}}</div>
+                    <div flex="30" class="fs28 extra-light-black text-right">￥{{item.price | fen2yuan}}</div>
+                </div>
+                </div>
+            </div>
+            <div layout="row" layout-align="space-between center" v-if="type != 1 && type != 2">
                 <div class="fs28 extra-light-black">购买数量</div>
                 <div><integral-input @numOut="changeNum" @changeAmount="changeNum"></integral-input></div>
             </div>
         </div>
         <div class="p-b-5 p-t-5 border-b">
-            <div layout="row" class="m-b-3" layout-align="space-between start" v-if="!type">
+            <div layout="row" class="m-b-3" layout-align="space-between start" v-if="type != 1">
                 <div flex="80">
                     <div class="fs28 extra-light-black">美豆豆数量</div>
                     <div class="fs28 extra-light-black">您共有<span class="color-black">{{account.doudouBalance}}</span>美豆豆，可<span class="color-pink">抵￥{{account.doudouBalance | dou2yuan}}</span><m-icon class="fs30" xlink="#icon-xunwen"></m-icon></div>
@@ -60,7 +74,7 @@
                     </div>
                 <div class="color-black">￥{{item.price | fen2yuan}}</div>
             </div>
-             <div layout="row" class="m-b-3" v-if="!type" layout-align="space-between center">
+             <div layout="row" class="m-b-3" v-if="type != 1" layout-align="space-between center">
                 <div flex="80">
                     <div class="fs28 extra-light-black">美豆豆换算金额</div>
                     </div>
@@ -82,23 +96,25 @@
                <textarea class="p-1" v-model="payDetail.remark" placeholder="备注"></textarea>
             </div>
         </div>
-<button :disabled="btnClick" class="integral-btn fwb fs38 color-white m-t-3 m-b-3" @click="buy" layout="row" layout-align="center center">
+<button :disabled="btnClick" class="integral-btn fwb fs38 color-white m-t-3 m-b-3" @click="hideConfirm" layout="row" layout-align="center center">
 {{payText}}
 </button>
     </div>
     <voucher :mw-item="payDetail" :vocher-show="vocherShow" @update="clickToVoucher" @mClose="clickToVoucher"></voucher>
+     <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm" @integraConfirm="inteconfirm"></integral-confirm>  
 </div>
 </template>
 <script>
         /*
         @router
           itemId // 商品Id
-          type // 存在即充值豆豆
+          type // 1 充值豆豆 2应用市场
           payMoney // 仅充值豆豆才会有
         */
         import voucher from 'components/integral-mall/voucher';
         import integralInput from 'components/integral-mall/integral-input';
         import api_party from 'services/api.party';
+        import integralConfirm from 'components/integral-mall/integral-confirm';
         export default {
             data() {
                 return {
@@ -116,6 +132,7 @@
                     couponList: [],
                     btnClick: false,
                     payText: '支付',
+                    buyStoreList: [],
                     payDetail: {
                         merchantId: this.$store.state.party.merchantId,
                         partyId: this.$store.state.party.partyId,
@@ -128,9 +145,16 @@
                         deliverAddressId: null,
                         serviceApply: {},
                         tradeCouponList: [],
-                        remark: null
+                        remark: null,
+                        tradeItemSpecList: this.$route.params.tradeItemSpecList ? this.$route.params.tradeItemSpecList : []
                     },
-                    vocherShow: false
+                    vocherShow: false,
+                    confirm: {
+                        show: false,
+                        message: '确认支付？',
+                        confirm: '确认',
+                        quiet: '再考虑下'
+                    }
                 };
             },
             methods: {
@@ -139,7 +163,27 @@
                     api_party.productDetail(this.itemId).then(msg=> {
                         this.$indicator.close();
                         this.item = msg.data;
-                        if (!this.type) {
+                        if (this.item.goodsSpecList.length) {
+                            this.buyStoreListTranslate(this.item);
+                        };
+                        if (this.type != 1 && this.type != 2) {
+                            this.loadPersonal();
+                        } else if (this.type == 2) {
+                            let tempItem = msg.data;
+                            if (this.payDetail.tradeItemSpecList && this.payDetail.tradeItemSpecList.length) {
+                                tempItem.price = 0;
+                                this.payDetail.tradeItemSpecList.map((specList, index)=> {
+                                    let ls = tempItem.goodsSpecList.filter((spec, specIndex)=> {
+                                        return spec.specCode == specList.specCode;
+                                    });
+                                    if (ls.length) {
+                                        tempItem.price += ls[0].price;
+                                    }
+                                });
+                            } else {
+                                tempItem.price = this.item.price;
+                            }
+                            this.item = tempItem;
                             this.loadPersonal();
                         } else {
                             let tempItem = msg.data;
@@ -266,8 +310,15 @@
                 changeDouAmount() {
                     if (this.payDetail.payDoudouAmount > this.account.doudouBalance) {
                         this.$toast('账户豆豆不足哦~');
-                        this.payDetail.payDoudouAmount = this.account.doudouBalance;
-                        return;
+                        if (this.payDetail.payDoudouAmount > this.item.price / 10) {
+                            this.payDetail.payDoudouAmount = this.item.price / 10;
+                        } else {
+                            this.payDetail.payDoudouAmount = this.account.doudouBalance;
+                        };
+                    }
+                    if (this.payDetail.payDoudouAmount > this.item.price / 10) {
+                        this.payDetail.payDoudouAmount = this.item.price / 10;
+                        this.$toast('豆豆虽多，不要贪用哦~');
                     }
                     let tempPayDetail = this.payDetail;
                     tempPayDetail.payMoney = this.item.price * tempPayDetail.quantity - this.voucherDiscountMoney - this.translate('dou2fen', tempPayDetail.payDoudouAmount);
@@ -307,7 +358,7 @@
                     if (this.$route.params.serviceApply) {
                         this.payDetail.serviceApply = this.$route.params.serviceApply;
                     };
-                    if (this.$route.params.type) {
+                    if (this.$route.params.type == 1) {
                         this.payDetail.payMoney = this.$route.params.payMoney;
                     }
                     if (this.btnClick) {
@@ -318,12 +369,15 @@
                     api_party.doudouTrade(this.payDetail).then(msg=> {
                         this.btnClick = false;
                         this.payText = '支付';
+                        sessionStorage.tradeItemSpecList = '';
                         if (msg.data.status == 0) {
                             location.href = msg.data.payUrl + '?url=' + encodeURIComponent(location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/pay-success');
                         } else {
                             this.$router.push('pay-success');
                         };
                     }, msg=> {
+                        sessionStorage.tradeItemSpecList = '';
+                        this.payText = '支付';
                         this.btnClick = false;
                     });
                 },
@@ -341,6 +395,32 @@
                         result = num / 100 * 10;
                     };
                     return result;
+                },
+                hideConfirm() {
+                    this.confirm.show = !this.confirm.show;
+                },
+                inteconfirm(msg) {
+                    msg.then(data=> {
+                        this.buy();
+                        this.hideConfirm();
+                    }, data=> {
+                        this.hideConfirm();
+                    });
+                },
+                buyStoreListTranslate(data) {
+                    this.payDetail.tradeItemSpecList.map((item, index)=> {
+                        let ls = data.goodsSpecList.filter((item1, index1)=> {
+                            return item.specCode == item1.specCode;
+                        });
+                        if (ls.length) {
+                            let temp = {
+                                storeName: item.storeName ? item.storeName : '商户级',
+                                price: ls[0].price,
+                                specName: ls[0].specName
+                            };
+                            this.buyStoreList.push(temp);
+                        }
+                    });
                 }
             },
             mounted() {
@@ -351,7 +431,8 @@
             },
             components: {
                 voucher,
-                integralInput
+                integralInput,
+                integralConfirm
             }
         };
 </script>

@@ -150,6 +150,10 @@ export default {
                         {
                             name: '充值豆豆',
                             value: 6
+                        },
+                        {
+                            name: '应用市场',
+                            value: 9
                         }
                     ]
                 },
@@ -267,6 +271,14 @@ export default {
                                 color: '#4F97FF'
                             };
                             break;
+                        case 9:
+                            item.tradeTypeStyle = {
+                                background: '#4F97FF'
+                            };
+                            item.statusColor = {
+                                color: '#4F97FF'
+                            };
+                            break;
                     }
 
                 });
@@ -313,7 +325,9 @@ export default {
         clickToPay(item) {
             if (item.status == 0) {
                 api_party.repay(item.id).then(msg=> {
-                    location.href = msg.data + '?url' + location.protocol + '//' + location.host + this.$rootPath + encodeURIComponent('integral-mall.html#/pay-success');
+                    debugger;
+                    let url = msg.data + '?url=' + location.protocol + '//' + location.host + this.$rootPath + encodeURIComponent('integral-mall.html#/pay-success');
+                    location.href = url;
                 }, msg=> {
                 });
             } else if (item.status == 1 || item.status == 6) {
