@@ -453,10 +453,11 @@
     .top-des{
         height: 151px;
         .item-img{
-            width: 64px;
+            width: 120px;
             height: 64px;
             border-radius: 7px;
             overflow: hidden;
+            // border: 1px solid @extra-light-gray;
             img{
                 width: auto;
                 height: 100%;
