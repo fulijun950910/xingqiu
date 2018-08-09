@@ -33,6 +33,7 @@
 
 <script>
 import api_party from 'services/api.party';
+import $ from 'jquery';
 import { Indicator } from 'mint-ui';
 import integralConfirm from 'components/integral-mall/integral-confirm';
 export default {
@@ -62,6 +63,11 @@ export default {
 
         },
         useTo(item) {
+            if (this.$store.state) {
+                console.log($(window).scrollTop());
+                this.$store.state.scroll = $(window).scrollTop();
+                this.$store.commit('UPDATE_LOCAL');
+            };
             if (this.$route.params.type == 5) {
                 this.$router.push(`/application-form/${item.id}`);
             } else if (this.$route.params.type == 9) {
@@ -70,6 +76,12 @@ export default {
         },
         init() {
             this.loadData();
+            if (this.$store.state.scroll) {
+                if (this.$store.state.scroll) {
+                    debugger;
+                    $(window).scrollTop(this.$store.state.scroll);
+                };
+            };
         },
         hideConfirm() {
             this.confirm.show = false;

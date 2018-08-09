@@ -88,7 +88,6 @@
                     tempLocal.party.adsList = [];
                     localStorage.setItem('employee', JSON.stringify(tempLocal));
                     this.$store.commit('UPDATE_LOCAL');
-                    console.log(this.$store.state.party);
                     this.$emit('hideMask');
                 }, msg=> {
 
