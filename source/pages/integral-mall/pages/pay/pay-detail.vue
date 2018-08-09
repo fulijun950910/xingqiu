@@ -453,7 +453,7 @@
     .top-des{
         height: 151px;
         .item-img{
-            width: 120px;
+            width: 106px;
             height: 64px;
             border-radius: 7px;
             overflow: hidden;
