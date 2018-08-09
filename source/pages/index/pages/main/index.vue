@@ -132,7 +132,8 @@
                 this.isNew = true;
                 this.adsDetail = this.$store.state.party.adsList[0];
                 if (this.adsDetail.code == 'home_001') {
-                    this.givingBean();
+                    // #11105
+                    // this.givingBean();
                 };
             };
         },
@@ -206,19 +207,16 @@
                 this.$router.push({name: 'alliance'});
             },
             goMbh() {
-                // if (this.$enviroment === 'development') {
-                //     if (this.$store.state && this.$store.state.party && this.$store.state.party.partyId) {
-                //         let openId = this.$knife.keyGetValue(window.location.search, 'openid');
-                //         api_party.bandWeichat(this.$store.state.party.id, openId).then(msg=> {
-                //             window.location.href = `http://b2b.mei1.info/app/index.php?i=1&c=entry&eid=41&saasUID=${this.$store.state.party.id}`;
+                if (this.$store.state && this.$store.state.party && this.$store.state.party.partyId) {
+                    let openId = JSON.parse(localStorage.getItem('employee')).openId;
+                    api_party.bandWeichat(this.$store.state.party.id, openId).then(msg=> {
+                        window.location.href = `http://b2b.mei1.info/app/index.php?i=1&c=entry&eid=41&saasUID=${this.$store.state.party.id}`;
+                    }, msg=> {
+                    });
+                } else {
+                    location.href = this.$signLocation;
 
-                //         }, msg=> {
-
-                //         });
-                //     }
-                // } else {
-                window.location.href = this.$rootPath + 'shop.html#/leader';
-                // }
+                };
             },
             async goWxbus() {
                 if (this.checkParty()) {

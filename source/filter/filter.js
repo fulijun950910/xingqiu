@@ -333,6 +333,9 @@ Vue.filter('tradeType', function(value) {
         case 6:
             text = '充值豆豆';
             break;
+        case 9:
+            text = '应用市场';
+            break;
     }
     return text;
 });
@@ -460,4 +463,25 @@ Vue.filter('mTime', function(second) {
         str = h + ':' + m + ':' + s;
     }
     return str;
+});
+
+Vue.filter('phone', (value, notEncrypt = true) => {
+    if (value) {
+        return `${value.substr(0, 3)} ${notEncrypt ? value.substr(3, 4) : '****'} ${value.substr(
+            7
+        )}`;
+    }
+});
+
+Vue.filter('bigNumber', value => {
+    if (value) {
+        if (value > 1e5) {
+            return (value / 1e4).toFixed(0) + '万';
+        }
+        if (value > 1e4) {
+            return parseFloat((value / 1e4).toFixed(2)) + '万';
+        }
+        return value;
+    }
+    return 0;
 });

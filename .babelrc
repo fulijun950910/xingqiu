@@ -17,7 +17,7 @@
             [
                 {
                     "libraryName": "mint-ui",
-                    "style": true
+                    "style": false
                 }
             ]
         ]
