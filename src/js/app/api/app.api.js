@@ -106,6 +106,10 @@ var employee = null;
 try {
     if (localStorage.employee && JSON.parse(localStorage.employee)) {
         employee = JSON.parse(localStorage.employee);
+        if (typeof employee != 'object') {
+            window.localStorage.clear();
+            window.location.href = '/userinfo.html#/user_login';
+        }
     }
 } catch (e) {
     window.localStorage.clear();

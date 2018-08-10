@@ -27,26 +27,26 @@ function initEemployee() {
         var functionVersion = parseInt($(this).attr('data-functionVersion'));
         app.index.bind(data).then(function(result) {
             var listEmployeeStoreListData = {
-                    employeeId: data.employeeId,
-                    merchantId: merchantId
-                };
+                employeeId: data.employeeId,
+                merchantId: merchantId
+            };
                 //  var openId = result.data;
             app.api.index.checkMerchant({
-                    data: merchantId,
-                    success: function(res) {
-                        if (res.data === false && functionVersion != 4) {
-                            if (res.code == '000002') {
+                data: merchantId,
+                success: function(res) {
+                    if (res.data === false && functionVersion != 4) {
+                        if (res.code == '000002') {
                                 alert('亲~您的账户还没开通，请等待。系统激活日期：' + app.tools.toDate(res.message, 'yyyy年MM月dd日'));
                             } else if (res.code == '000003') {
                                 alert('您的账号已经到期，如需继续使用请致电400-006-2020');
                             } else {
                                 alert('合同异常');
                             }
-                            app.endLoading();
-                            return;
-                        }
-                        app.index.listEmployeeStoreList(listEmployeeStoreListData).then(function(result) {
-                            app.index.getEmployee(data.userId).then(function(employeeInfo) {
+                        app.endLoading();
+                        return;
+                    }
+                    app.index.listEmployeeStoreList(listEmployeeStoreListData).then(function(result) {
+                        app.index.getEmployee(data.userId).then(function(employeeInfo) {
                                 var employee = employeeInfo;
                                 //       employee.openId = openId;
                                 for (var j in employee) {
@@ -121,14 +121,14 @@ function initEemployee() {
                             }, function() {
                                 app.alert('切换失败');
                             });
-                        }, function() {
-                            app.alert('切换失败');
-                        });
-                    },
-                    error: function(a, b, c) {
+                    }, function() {
+                        app.alert('切换失败');
+                    });
+                },
+                error: function(a, b, c) {
 
-                    }
-                });
+                }
+            });
 
         },
             function() { app.alert('切换失败'); });
@@ -213,7 +213,7 @@ app.index = {
         window.localStorage.setItem('performanceInfo', '');
         window.sessionStorage.setItem('employeeList', '');
         initData();
-        if (!localStorage.employee || !JSON.parse(localStorage.employee)) {
+        if (!localStorage.employee || !JSON.parse(localStorage.employee) || typeof JSON.parse(localStorage.employee) != 'object') {
             // location.href = "/userinfo.html?type=1#/user_login";
             this.resetLogin();
         }
@@ -378,9 +378,9 @@ app.index = {
 
                 // 业绩、
             if ((memberData.performanceInfo.income + '').length > 6 || (memberData.performanceInfo.cardConsume + '').length > 6) {
-                    $('.achievementTotalAmount  .price').css('font-size', '6vw');
-                    $('.cardConsumeTotalAmount  .price').css('font-size', '6vw');
-                }
+                $('.achievementTotalAmount  .price').css('font-size', '6vw');
+                $('.cardConsumeTotalAmount  .price').css('font-size', '6vw');
+            }
         },
             function() {
                 app.index.pageReloadEvent(memberData, data, employee); // 页面刷新事件
