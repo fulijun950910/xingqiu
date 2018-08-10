@@ -399,6 +399,10 @@ app.userinfo = {
             } else {
                 app.userinfo.alertError(translateStatus);
             }
+            document.cookie = 'rememberMe=';
+            document.cookie = 'remeberMeRunAsRole=';
+            window.localStorage.clear();
+            app.endLoading();
             return;
         }
         $('#select_shade').hide();

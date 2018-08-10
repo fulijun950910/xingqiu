@@ -108,11 +108,11 @@ try {
         employee = JSON.parse(localStorage.employee);
         if (typeof employee != 'object') {
             window.localStorage.clear();
-            window.location.href = '/userinfo.html#/user_login';
+            window.location.href = '/userinfo.html' + window.location.search + '#/user_login';
         }
     }
 } catch (e) {
     window.localStorage.clear();
-    window.location.href = '/userinfo.html#/user_login';
+    window.location.href = '/userinfo.html' + window.location.search + '#/user_login';
     console.info(e);
 }
