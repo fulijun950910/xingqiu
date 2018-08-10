@@ -8,8 +8,8 @@ app.api = {
                 case 401:
                 case 403:
                     localStorage.clear();
-                    window.location.href = window.location.origin + "/userinfo.html#/user_login";
-                    if (location.pathname == '/userinfo.html'){
+                    window.location.href = window.location.origin + '/userinfo.html#/user_login';
+                    if (location.pathname == '/userinfo.html') {
                         location.reload();
                     }
                     break;
@@ -23,9 +23,9 @@ app.api = {
         function success(res) {
             if (res && res.code == 302 && res.data) {
                 localStorage.clear();
-                window.location.href = res.data
+                window.location.href = res.data;
             } else {
-                options.success(res)
+                options.success(res);
             }
         }
 
@@ -44,7 +44,7 @@ app.api = {
         };
 
         if (options.success && options.code == 302 && options.data) {
-            alert("打开页面时间太长，需要重新验证您的身份。");
+            alert('打开页面时间太长，需要重新验证您的身份。');
             location.href = options.data;
         }
 
@@ -64,7 +64,7 @@ app.api = {
             { name: '疗程卡', value: 'treatmentCard' },
             { name: '项目', value: 'project' }
         ];
-        return fomartPersonalNoun(personalNoun)
+        return fomartPersonalNoun(personalNoun);
 
         function fomartPersonalNoun(backData) {
             var baseData = [];
@@ -87,18 +87,18 @@ app.api = {
                             result[item1.value] = item1.name;
                         }
                     }
-                })
+                });
             });
             return result;
         }
     },
-    personalNoun:function(settings){
-           app.api.ajax({
+    personalNoun: function(settings) {
+        app.api.ajax({
             url: '/nounConfig/list/' + settings.data,
             type: 'get',
             success: settings.success,
-            error: settings.error,
-        })
+            error: settings.error
+        });
     }
 };
 // employee项目多次使用，所以前提
@@ -108,5 +108,7 @@ try {
         employee = JSON.parse(localStorage.employee);
     }
 } catch (e) {
+    window.localStorage.clear();
+    window.location.href = '/userinfo.html#/user_login';
     console.info(e);
 }
