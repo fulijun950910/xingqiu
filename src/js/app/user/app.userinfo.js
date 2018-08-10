@@ -35,6 +35,8 @@ app.userinfo = {
     },
     goMwxq: function() {
         localStorage.clear();
+        document.cookie = 'rememberMe=';
+        document.cookie = 'remeberMeRunAsRole=';
         var text = '';
         if (keyGetValue('openid')) {
             text = '?openid=' + keyGetValue('openid');
