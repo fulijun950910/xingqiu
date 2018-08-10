@@ -279,7 +279,7 @@ app.userinfo = {
                     // 如果只有一个员工，默认登录该员工并且绑定，否则显示员工列表让用户选择
                     if (resultEmployeeList.data.length == 1) {
                         $('#show_employe_list label:first').click();
-                        app.userinfo.loginEmployee();
+                        app.userinfo.loginEmployee(resultEmployeeList.data[0]);
 
                     } else {
                         $('#select_shade').show();
