@@ -242,7 +242,7 @@ app.index = {
         app.api.userinfo.getEmployeeInfo({
             success: function(res) {
                 if (res.success && res.data) {
-                    app.userinfo.loginEmployee(JSON.stringify(res.data));
+                    app.userinfo.loginEmployee(JSON.stringify(res.data), 1);
                 } else {
                     location.href = '/userinfo.html?type=1#/user_login';
                 }

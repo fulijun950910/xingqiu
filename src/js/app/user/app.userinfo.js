@@ -281,7 +281,6 @@ app.userinfo = {
                     if (resultEmployeeList.data.length == 1) {
                         $('#show_employe_list label:first').click();
                         app.userinfo.loginEmployee(resultEmployeeList.data[0]);
-
                     } else {
                         $('#select_shade').show();
                         $('#show_employe_list label:first').click();
@@ -374,7 +373,7 @@ app.userinfo = {
         }
         return out;
     },
-    loginEmployee: function(employee) {
+    loginEmployee: function(employee, type) {
         app.startLoading();
         // 事件统计
         baiduStatistical.add({
@@ -384,10 +383,13 @@ app.userinfo = {
             action: 'click'
         });
         var selectEmp;
+        // 为1时跳入店务中心
+        if (type == 1){
+            var loginType = 1;
+        }
         if (employee) {
             window.localStorage.employee = JSON.stringify(employee);
             selectEmp = employee;
-            var loginType = 1; // 为1时跳入店务中心
         } else {
             window.localStorage.employee = JSON.stringify($('input[name="emp_data"]:checked').data('employee'));
             selectEmp = $('input[name="emp_data"]:checked').data('employee');
@@ -504,7 +506,6 @@ app.userinfo = {
                                                                 employeeData.party = res.data;
                                                                 window.localStorage.employee = JSON.stringify(employeeData);
                                                                 var url = '/service/index.html#/main';
-                                                                debugger;
                                                                 if (keyGetValue('type') == 1 || loginType == 1) {
                                                                     url = '/main.html#/index';
                                                                     if (employee.merchant && (employee.merchant.functionVersion == 4 || employee.merchant.functionVersion == 5)) { // 营销版
@@ -520,6 +521,7 @@ app.userinfo = {
                                                                 } else if (keyGetValue('type') == 5) {
                                                                     url = '/service/integral-mall.html#/rule-entry';
                                                                 }
+
                                                                 if (location.pathname == '/main.html') {
                                                                     location.reload();
                                                                 } else {
