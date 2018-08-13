@@ -35,6 +35,8 @@ app.userinfo = {
     },
     goMwxq: function() {
         localStorage.clear();
+        document.cookie = 'rememberMe=';
+        document.cookie = 'remeberMeRunAsRole=';
         var text = '';
         if (keyGetValue('openid')) {
             text = '?openid=' + keyGetValue('openid');
@@ -401,6 +403,10 @@ app.userinfo = {
             } else {
                 app.userinfo.alertError(translateStatus);
             }
+            document.cookie = 'rememberMe=';
+            document.cookie = 'remeberMeRunAsRole=';
+            window.localStorage.clear();
+            app.endLoading();
             return;
         }
         $('#select_shade').hide();
