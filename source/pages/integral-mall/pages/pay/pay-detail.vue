@@ -233,6 +233,7 @@
                     this.caculateDiscountMoney();
                 },
                 clickToVoucher(data, coupon) {
+                    this.changeDouAmount();
                     this.voucher = {};
                     this.voucherDiscountMoney = 0;
                     this.vocherShow = !this.vocherShow;
