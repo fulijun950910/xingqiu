@@ -102,6 +102,7 @@ import customerProfilesCell from 'components/customer-profiles-cell';
 import autoSearchbar from 'components/auto-search-bar';
 import knife from 'vendor/knife';
 import api_customerProfiles from 'services/api.customerProfiles';
+import { WECHAT_BUSINESS } from 'config/mixins';
 export default {
     name: 'customer-list',
     components: {
@@ -271,6 +272,14 @@ export default {
                     value: this.param[key]
                 });
             });
+            // 普通员工只能查看分配给我的会员所以employeeId固定传
+            if (this.$store.state.user.role == WECHAT_BUSINESS[2].code) {
+                paramData.query.forEach((item) => {
+                    if (item.field == 'employeeId') {
+                        item.value = this.$store.getters.employeeId;
+                    }
+                });
+            }
             if (this.sort) {
                 paramData.sort.push(this.sort);
             };
