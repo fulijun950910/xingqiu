@@ -7,7 +7,7 @@
         <div v-if="cards" class="card">
             <p class="title" layout="row" layout-align="space-between center" @click="showMemberCard = !showMemberCard">
                 <span><m-icon class="mr8" xlink="#icon-card"/> 会员卡</span>
-                <span class="light-gray ft12">
+                <span class="dark-gray ft12">
                     有效 <span class="color-primary ft16">{{cards.length || 0}}</span> 张
                     <span class="ml8 color-gray"><m-icon :xlink="showMemberCard?'#icon-arrow-up':'#icon-arrow-down'"/></span>
                 </span>

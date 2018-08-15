@@ -83,7 +83,7 @@ export default {
                 padding: 12px;
                 border-bottom: 1px solid #eee;
                 span {
-                    color: @light-gray;
+                    color: @gray;
                     width: 80px;
                 }
             }
