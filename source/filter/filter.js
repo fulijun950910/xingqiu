@@ -74,6 +74,17 @@ Vue.filter('nSrc', function(value, def) {
     return def;
 });
 
+Vue.filter('imgDetail', function(value, def) {
+    if (value) {
+        if (value) {
+            return value;
+        } else {
+            return `${BASE_IMG_PATH + value}`;
+        }
+    }
+    return def;
+});
+
 /**
  * 图片路径过滤（宽高）
  */

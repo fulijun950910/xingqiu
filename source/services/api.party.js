@@ -246,5 +246,19 @@ export default {
         // 绑定微信
         let url = `/api/party/bindOpenId/${userId}/${openId}`;
         return request(url, 'put');
+    },
+    bbsForumList(partyId, userId) {
+        // 查询板块
+        let url = `/api/bbs/forumList/${partyId}/${userId}`;
+        return request(url, 'get');
+
+    },
+    loadBBSMessage(parameter) {
+        let forumId = parameter.forumId;
+        let url = `/api/bbs/list/${parameter.partyId}/${parameter.page}/${parameter.pageSize}`;
+        if (forumId) {
+            url += `/${forumId}`;
+        }
+        return request(url, 'get');
     }
 };
