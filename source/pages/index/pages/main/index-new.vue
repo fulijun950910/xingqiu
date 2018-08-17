@@ -9,11 +9,11 @@
             </div>
         </div>
         <div class="banner">
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"></div>
-            </div>
-        </div>
+            <swiper :options="swiperOption">
+                <swiper-slide v-for="(item, index) in bannerList" :key="index">
+                    <img :src="item.image | nSrc(require('assets/imgs/female.png'))" alt="">
+                </swiper-slide>
+            </swiper>
         </div>
         <div class="break-line" flex></div>
         <div class="bbs-list p-l-4 p-r-4" flex>
@@ -35,13 +35,15 @@
                             </div>
                         </div>
                     </div>
-                    <div layout="row" layout-align="start center" class="p-t-2">
+                    <div layout="row" layout-align="space-between center" class="p-t-2">
                     <div layout="row" layout-align="start cneter" class="color-gray fs24">
                         <!-- <div>{{item.author}}</div>&nbsp;&nbsp; -->
                         <div>{{item.dateline | amCalendar('YYYY-MM-DD')}}</div>&nbsp;&nbsp;|&nbsp;&nbsp;
                         <div>{{item.views | bigNumber}}热度</div>
                     </div>
-                    <div layout="row"></div>
+                    <div layout="row">
+                        <m-icon xlink="#icon-gengduoicon" class="fs34 color-pink"></m-icon>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -51,7 +53,10 @@
 </template>
 
 <script>
-import Swiper from 'swiper';
+import Vue from 'vue';
+import VueAwesomeSwiper from 'vue-awesome-swiper';
+import 'swiper/dist/css/swiper.css';
+Vue.use(VueAwesomeSwiper);
 import api_party from 'services/api.party';
 export default {
     data() {
@@ -86,13 +91,15 @@ export default {
                 pageSize: 10,
                 partyId: this.$store.state.party.partyId,
                 forumId: ''
+            },
+            bannerList: [],
+            swiperOption: {
+                slidesPerView: 2,
+                spaceBetween: 20
             }
         };
     },
     methods: {
-        swiperInit() {
-            window.swiper = new Swiper('.swiper-container', {});
-        },
         loadBbsMenu() {
             api_party.bbsForumList(this.employee.party.partyId, this.employee.party.id).then(msg=> {
                 this.bbsMenu = msg.data;
@@ -110,9 +117,25 @@ export default {
             }, msg=> {
             });
         },
+        loadBanner() {
+            let partyId = '0';
+            if (this.$store.state) {
+                if (this.$store.state.party) {
+                    partyId = this.$store.state.party.id;
+                }
+            }
+            api_party.listBanner('00001', partyId).then(msg=> {
+                this.bannerList = msg.data;
+                console.log(this.bannerList);
+            }, msg=> {
+            });
+
+        },
         init() {
+            // 加载bbs菜单
             this.loadBbsMenu();
-            this.swiperInit();
+            // 加载banner
+            this.loadBanner();
         }
     },
     mounted() {
@@ -145,10 +168,15 @@ export default {
         }
         .banner{
             height: 135px;
+            width: 100%;
+            overflow: hidden;
             .swiper-container{
                 height: 110px;
                 width: 100%;
-                overflow: hidden;
+                 img{
+                height: 100%;
+                width: auto;
+            }
             }
         }
         .qiu-title{
@@ -170,10 +198,10 @@ export default {
                 .line{
                     position: absolute;
                     width: 40px;
-                    bottom: 0;
+                    bottom: -1px;
                     left: 2px;
-                    border-bottom:1px solid @color-pink;
-                    height: 1px;
+                    border-bottom:3px solid @color-pink;
+                    height: 3px;
                     z-index: 1;
                     opacity: 0;
                     transition: all ease .4s;
@@ -199,6 +227,7 @@ export default {
                     width: 105px;
                     position: relative;
                     overflow: hidden;
+                    border-radius: 10px;
                     img{
                         width: 248px;
                         height: 140px;
