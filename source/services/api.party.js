@@ -260,5 +260,15 @@ export default {
             url += `/${forumId}`;
         }
         return request(url, 'get');
+    },
+    favorite(parameter, type) {
+        // parameter.type 1添加收藏 2取消收藏
+        let url = '/api/bbs/';
+        if (type == 1) {
+            url += `favorite/${parameter.partyId}/${parameter.tid}`;
+        } else if (type == 2) {
+            url += `removeFavorite/${parameter.partyId}/${parameter.tid}`;
+        }
+        return request(url, 'get');
     }
 };

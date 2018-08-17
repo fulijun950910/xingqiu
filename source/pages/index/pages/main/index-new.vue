@@ -1,9 +1,9 @@
 <template>
-<div class="new-index" v-title="'美问星球'">
+<div class="new-index" v-title="'美问星球'" v-infinite-scroll="loadMore" :infinite-scroll-disabled="loading" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
     <div class="direction">
-        <div class="fs68 p-t-4 p-b-4 color-black fwb p-l-4 p-r-4">发现</div>
+        <div class="fs68 p-t-4 p-b-4 color-black p-l-4 p-r-4">发现</div>
         <div layout="row" layout-align="start center" class="p-l-4 p-r-4 m-b-4">
-            <div flex="20" layout="column" layout-align="center center" v-for="(item, index) in menu" :key="index" class="menu">
+            <div flex="20" layout="column" @click="linkTo(item.value)" layout-align="center center" v-for="(item, index) in menu" :key="index" class="menu">
                 <img :src="item.src" alt="">
                 <span class="extra-light-black fs24 m-t-2">{{item.name}}</span>
             </div>
@@ -14,10 +14,16 @@
                     <img :src="item.image | nSrc(require('assets/imgs/female.png'))" alt="">
                 </swiper-slide>
             </swiper>
+            <div class="swiper-pagination p-l-3 p-r-3"></div>
         </div>
         <div class="break-line" flex></div>
         <div class="bbs-list p-l-4 p-r-4" flex>
-            <div class="fs40 color-black fwb qiu-title">星球课题</div>
+            <div class="qiu-title" layout="row" layout-align="space-between center">
+                <div class="fs40 color-black fwb">星球课题</div>
+                <div>
+                    <div class="sign-on color-white fs28" @click="linkTo(6)" layout="row" layout-align="start center">&nbsp;&nbsp;&nbsp;&nbsp;签到</div>
+                </div>
+            </div>
             <div layout="row" layout-align="start center" class="bbs-menu">
                 <div class="p-r-3 p-b-4 item m-r-2" v-for="(item, index) in bbsMenu" :key="index" @click.stop="choosePart(item)" :class="{'active': item.id == parameter.forumId}">
                     <span class="fs28 color-gray">{{item.name}}</span>
@@ -26,8 +32,8 @@
             </div>
             <div class="list">
                 <div class="list-box p-b-3 m-t-2" v-for="(item, index) in dataList" :key="index">
-                    <div flex class="only-two-line fwb color-black fs34 m-b-3">{{item.subject}}</div>
-                    <div layout="row" layout-align="start start" class="m-b-2">
+                    <div flex class="only-two-line fwb color-black fs34 m-b-3" @click="bbsIn(item)">{{item.subject}}</div>
+                    <div layout="row" layout-align="start start" class="m-b-2" @click="bbsIn(item)">
                         <div flex="70" class="only-three fs28 extra-light-black">{{item.description}}</div>
                         <div flex="30">
                             <div class="img-con">
@@ -36,17 +42,34 @@
                         </div>
                     </div>
                     <div layout="row" layout-align="space-between center" class="p-t-2">
-                    <div layout="row" layout-align="start cneter" class="color-gray fs24">
-                        <!-- <div>{{item.author}}</div>&nbsp;&nbsp; -->
-                        <div>{{item.dateline | amCalendar('YYYY-MM-DD')}}</div>&nbsp;&nbsp;|&nbsp;&nbsp;
-                        <div>{{item.views | bigNumber}}热度</div>
-                    </div>
-                    <div layout="row">
-                        <m-icon xlink="#icon-gengduoicon" class="fs34 color-pink"></m-icon>
-                    </div>
+                        <div layout="row" layout-align="start cneter" class="color-gray fs24">
+                            <!-- <div>{{item.author}}</div>&nbsp;&nbsp; -->
+                            <div>{{item.dateline | amCalendar('YYYY-MM-DD')}}</div>&nbsp;&nbsp;|&nbsp;&nbsp;
+                            <div>{{item.views | bigNumber}}热度</div>
+                        </div>
+                        <div layout="row" @click.stop="showCollect(index)">
+                            <m-icon xlink="#icon-gengduoicon" class="fs34 color-pink"></m-icon>
+                        </div>
+                        <div class="collect" layout="row" layout-align="center center" @click.stop="collectEdite(item)" :class="{'like' : item.isFavorite , 'show' : item.collect}">
+                            <m-icon xlink="#icon-arrLeft-fill" class="fs40 sanjiao color-white"></m-icon>
+                            <div class="extra-light-black fs30">
+                                <m-icon xlink="#icon-shoucang" class="fs40"></m-icon>&nbsp;{{item.isFavorite ? '取消收藏' : '收藏'}}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <new-present :show-mask="isNew" :ads-detail="adsDetail" @hideMask="hideMask"></new-present>
+    <div class="main-menu" layout="row" layout-align="start stretch">
+        <div flex="50" layout="column" layout-align="center center"  class="fs28 extra-light-black">
+                <m-icon xlink="#icon-huaban6" class="color-pink fs40"></m-icon>
+                <span>首页</span>
+        </div>
+        <div flex="50" layout="column" layout-align="center center"  class="fs28 extra-light-black" @click="linkTo(7)">
+                <m-icon xlink="#icon-huaban1" class="fs40"></m-icon>
+                <span>我的</span>
         </div>
     </div>
 </div>
@@ -55,33 +78,44 @@
 <script>
 import Vue from 'vue';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
+import { InfiniteScroll } from 'mint-ui';
 import 'swiper/dist/css/swiper.css';
 Vue.use(VueAwesomeSwiper);
+Vue.use(InfiniteScroll);
 import api_party from 'services/api.party';
+import newPresent from 'components/new-present';
 export default {
     data() {
         return {
+            isNew: false,
+            adsDetail: {},
             employee: this.$store.state,
             menu: [
                 {
                     name: '美豆豆',
-                    src: require('assets/imgs/index/icon-img1.png')
+                    src: require('assets/imgs/index/icon-img1.png'),
+                    value: 1
+
                 },
                 {
                     name: '美博汇',
-                    src: require('assets/imgs/index/icon-img2.png')
+                    src: require('assets/imgs/index/icon-img2.png'),
+                    value: 2
                 },
                 {
                     name: '美问美答',
-                    src: require('assets/imgs/index/icon-img3.png')
+                    src: require('assets/imgs/index/icon-img3.png'),
+                    value: 3
                 },
                 {
                     name: '店务助手',
-                    src: require('assets/imgs/index/icon-img4.png')
+                    src: require('assets/imgs/index/icon-img4.png'),
+                    value: 4
                 },
                 {
                     name: '异业共赢',
-                    src: require('assets/imgs/index/icon-img5.png')
+                    src: require('assets/imgs/index/icon-img5.png'),
+                    value: 5
                 }
             ],
             bbsMenu: [],
@@ -94,9 +128,21 @@ export default {
             },
             bannerList: [],
             swiperOption: {
-                slidesPerView: 2,
-                spaceBetween: 20
-            }
+                // slidesPerView: 2,
+                // spaceBetween: 5,
+                speed: 3000,
+                loop: true,
+                autoplay: {
+                    delay: 3000
+                },
+                pagination: {
+                    el: '.swiper-pagination'
+                },
+                effect: 'coverflow'
+            },
+            loading: false,
+            scrollDisabled: false,
+            collect: ''
         };
     },
     methods: {
@@ -111,11 +157,36 @@ export default {
             this.parameter.forumId = item.id;
             this.loadData();
         },
-        loadData() {
+        loadData(type) {
+            if (!type) {
+                this.resetData();
+            };
+            if (this.scrollDisabled) {
+                return;
+            };
+            if (this.loading) {
+                return;
+            }
             api_party.loadBBSMessage(this.parameter).then(msg=> {
-                this.dataList = msg.data;
+                if (msg.data.length < this.parameter.pageSize) {
+                    this.scrollDisabled = true;
+                } else {
+                    this.scrollDisabled = false;
+                }
+                msg.data.map((item, index)=> {
+                    item.collect = false;
+                });
+                this.dataList = this.dataList.concat(msg.data);
+                this.loading = false;
+                this.parameter.page++;
             }, msg=> {
             });
+        },
+        resetData() {
+            this.parameter.page = 1;
+            this.scrollDisabled = false;
+            this.loading = false;
+            this.dataList = [];
         },
         loadBanner() {
             let partyId = '0';
@@ -126,27 +197,129 @@ export default {
             }
             api_party.listBanner('00001', partyId).then(msg=> {
                 this.bannerList = msg.data;
-                console.log(this.bannerList);
             }, msg=> {
             });
 
+        },
+        loadMore() {
+            this.loadData(1);
+        },
+        linkTo(type) {
+            switch (type) {
+                case 1:
+                // 玩转豆豆
+                    break;
+                case 2:
+                // 美博汇
+                    if (this.$store.state && this.$store.state.party && this.$store.state.party.partyId) {
+                        let openId = JSON.parse(localStorage.getItem('employee')).openId;
+                        api_party.bandWeichat(this.$store.state.party.id, openId).then(msg=> {
+                            window.location.href = `http://b2b.mei1.info/app/index.php?i=1&c=entry&eid=41&saasUID=${this.$store.state.party.id}`;
+                        }, msg=> {
+                        });
+                    } else {
+                        location.href = this.$signLocation;
+                    };
+                // location.href = `${this.$rootPath}shop.html#/leader`;
+                    break;
+                case 3:
+                // 美问美答
+                    this.$router.push({name: 'bbsPage'});
+                    break;
+                case 4:
+                // 店务助手
+                    if (this.checkParty()) {
+                        return;
+                    };
+                    window.location.href = '/api/b2bPromotionMobile/oauthURI/performance_report';
+                    break;
+                case 5:
+                // 异业共赢
+                    this.$router.push({name: 'alliance'});
+                    break;
+                case 6:
+                //  签到
+                    if (this.checkParty()) {
+                        return;
+                    };
+                    window.location.href = '/api/b2bPromotionMobile/oauthURI/star_day_sign';
+                    break;
+                case 7:
+                // 个人中心
+                    window.location.href = '/api/b2bPromotionMobile/oauthURI/star_personal';
+                    break;
+            }
+        },
+        checkParty() {
+            if (this.$store.getters.isPersonLogin) {
+                this.$toast('抱歉，个人用户，无权限进入');
+                return true;
+            }
+        },
+        bbsIn(item) {
+            location.href = item.url;
+        },
+        showCollect(index) {
+            // item.collect = !item.collect;
+            this.dataList[index].collect = !this.dataList[index].collect;
+            // let point = this.dataList[index].collect;
+            // this.$set(this.dataList[index].collect, point);
+        },
+        collectEdite(item) {
+            // 1添加收藏 2取消收藏
+            let type = item.isFavorite ? 2 : 1;
+            let parameter = {
+                partyId: this.$store.state.party.partyId,
+                tid: item.tid
+            };
+            api_party.favorite(parameter, type).then(msg=> {
+                this.loadData(1);
+            }, msg=> {
+            });
+        },
+        hideMask() {
+            this.isNew = false;
+            let tempLocal = JSON.parse(localStorage.getItem('employee'));
+            tempLocal.party.newUser = false;
+            localStorage.setItem('employee', JSON.stringify(tempLocal));
+            this.$store.state.party.newUser = false;
         },
         init() {
             // 加载bbs菜单
             this.loadBbsMenu();
             // 加载banner
             this.loadBanner();
+            if (this.$store.state.party && this.$store.state.party.adsList && this.$store.state.party.adsList.length) {
+                this.isNew = true;
+                this.adsDetail = this.$store.state.party.adsList[0];
+                if (this.adsDetail.code == 'home_001') {
+                };
+            };
         }
     },
     mounted() {
         this.init();
+    },
+    components: {
+        newPresent
     }
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
     @import '~styles/_style';
     .new-index{
+        margin-bottom: 60px;
+        .main-menu{
+            position: fixed;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            height: 60px;
+            bottom: 0;
+            background: white;
+        }
+        width: 100%;
         .only-three{
              width: 100%;
              word-break: break-all;
@@ -167,20 +340,58 @@ export default {
             }
         }
         .banner{
-            height: 135px;
+            height: 150px;
             width: 100%;
             overflow: hidden;
             .swiper-container{
-                height: 110px;
+                height: 120px;
                 width: 100%;
-                 img{
-                height: 100%;
-                width: auto;
+                .swiper-slide{
+                    overflow: hidden;
+                }
+                img{
+                    height: 100%;
+                    width: auto;
+                }
+                .swiper-slide{
+                    border-radius: 5px;
+                    overflow: hidden;
+                }
             }
+            .swiper-pagination {
+                width: 100%;
+                text-align: left;
+                .swiper-pagination-bullet{
+                    width: 20px;
+                    margin-right: 5px;
+                    height: 3px;
+                    border-radius: 0;
+                    background: @border-gay;
+                }
+                .swiper-pagination-bullet-active{
+                    background: @extra-shadow;
+                }
+
             }
+
         }
         .qiu-title{
             padding: 20px 0;
+            box-sizing: border-box;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .sign-on{
+            width: 100px;
+            height: 34px;
+            border-radius: 20px;
+            right: -50px;
+            background-image: linear-gradient(-135deg, #32FBFC 0%, #3214F2 50%);
+            box-shadow: 0 5px 8px 0 rgba(17,80,169,0.24);
+            border-radius: 50px;
+            position: fixed;
+            z-index: 10;
         }
         .break-line{
             height: 10px;
@@ -189,6 +400,7 @@ export default {
         .bbs-menu{
             border-bottom: 1px solid @border-gay;
             overflow-x:scroll;
+            overflow-y: hidden;
             ::-webkit-scrollbar{
                 display:none;
                 }
@@ -222,6 +434,7 @@ export default {
         .list{
             .list-box{
                 border-bottom: 1px solid @border-gay;
+                position: relative;
                 .img-con{
                     height: 70px;
                     width: 105px;
@@ -236,6 +449,34 @@ export default {
                         left: -124px;
                         top:50%;
                         margin-top: -70px;
+                    }
+                }
+                .collect{
+                    width: 0;
+                    height: 0;
+                    transition: all ease .3s;
+                    opacity: 0;
+                    position: absolute;
+                    right: 0;
+                    bottom: -40px;
+                }
+                .show{
+                    opacity: 1;
+                    width: 86px;
+                    height: 51px;
+                    z-index: 2;
+                    border-radius: 10px;
+                    box-shadow: 0 5px 8px 0 rgba(0,0,0,.3);
+                    background: white;
+                    .sanjiao{
+                        position: absolute;
+                        top:-5px;
+                        right: -5px;
+                    }
+                }
+                .like{
+                    div{
+                        color: @color-pink;
                     }
                 }
             }
