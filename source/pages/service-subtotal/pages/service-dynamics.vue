@@ -350,7 +350,6 @@ export default {
         },
         // 清除显示的员工
         clearSearch() {
-            // debugger;
             this.vm.search.main = '';
             // this.$route.params = {};
             this.mainEmployee = '';
@@ -517,7 +516,6 @@ export default {
 
         },
         toData() {
-            debugger;
             let routeParameter = {
                 employeeId: this.mainEmployee ? this.mainEmployee.id : this.user.id
             };

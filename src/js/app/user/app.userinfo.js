@@ -279,7 +279,6 @@ app.userinfo = {
                     $('#show_employe_list').html(result);
 
                     // 如果只有一个员工，默认登录该员工并且绑定，否则显示员工列表让用户选择
-                    debugger;
                     if (resultEmployeeList.data.length == 1) {
                         $('#show_employe_list label:first').click();
                         app.userinfo.loginEmployee(resultEmployeeList.data[0]);
@@ -386,7 +385,7 @@ app.userinfo = {
         });
         var selectEmp;
         // 为1时跳入店务中心
-        if (type == 1){
+        if (type == 1) {
             var loginType = 1;
         }
         if (employee) {
@@ -410,7 +409,6 @@ app.userinfo = {
             return;
         }
         $('#select_shade').hide();
-        debugger;
         app.userinfo.getEmployee().then(function(employee) {
             if (employee) {
                 var data = {
@@ -961,7 +959,6 @@ app.userinfo = {
                                     },
                                     success: function(res) {
                                         if (res.success) {
-                                            debugger;
                                             if (keyGetValue('type') == 2) {
                                                 window.history.go(-2);
                                             } else if (keyGetValue('type') == 3) {

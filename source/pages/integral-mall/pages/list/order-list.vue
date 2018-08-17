@@ -325,7 +325,6 @@ export default {
         clickToPay(item) {
             if (item.status == 0) {
                 api_party.repay(item.id).then(msg=> {
-                    debugger;
                     let url = msg.data + '?url=' + location.protocol + '//' + location.host + this.$rootPath + encodeURIComponent('integral-mall.html#/pay-success');
                     location.href = url;
                 }, msg=> {

@@ -230,7 +230,6 @@ export default {
                             }
                         });
                         if (tempIndex || tempIndex == 0) {
-                            debugger;
                             this.chooseStore.splice(tempIndex, 1);
                             this.chooseStore.map((store, storeIndex)=> {
                                 if (store.id == 'all') {

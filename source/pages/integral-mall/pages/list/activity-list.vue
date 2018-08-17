@@ -78,7 +78,6 @@ export default {
             this.loadData();
             if (this.$store.state.scroll) {
                 if (this.$store.state.scroll) {
-                    debugger;
                     $(window).scrollTop(this.$store.state.scroll);
                 };
             };

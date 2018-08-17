@@ -73,7 +73,6 @@
         methods: {
             loadData(choose) {
                 // this.selected = 0;
-                debugger;
                 let parameter = this.parameter;
                 Indicator.open('Loading...');
                 api_party.getCouponList(parameter).then(msg=> {
