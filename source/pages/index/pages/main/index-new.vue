@@ -447,7 +447,7 @@ export default {
 <style lang="less">
     @import '~styles/_style';
     .new-index {
-      margin-bottom: 60px;
+      margin-bottom: 80px;
       position: relative;
       .toTop {
           position: fixed;
