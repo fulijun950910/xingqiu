@@ -21,7 +21,7 @@
             <div class="qiu-title" layout="row" layout-align="space-between center">
                 <div class="fs40 color-black fwb">星球课题</div>
                 <div>
-                    <div class="sign-on color-white fs28" @click="linkTo(6)" layout="row" layout-align="start center">&nbsp;&nbsp;&nbsp;&nbsp;签到</div>
+                    <div v-if="state == 1" class="sign-on color-white fs28" @click="linkTo(6)" layout="row" layout-align="start center">&nbsp;&nbsp;&nbsp;&nbsp;签到</div>
                 </div>
             </div>
             <div layout="row" layout-align="start center" class="bbs-menu">
@@ -37,7 +37,7 @@
                         <div flex="70" class="only-three fs28 extra-light-black">{{item.description}}</div>
                         <div flex="30">
                             <div class="img-con">
-                                <img :src="item.attachment | imgDetail(require('assets/imgs/female.png'))" alt="">
+                                <img :src="item.attachment | imgDetail(require('assets/imgs/index/501657390978523645.jpg'))" alt="">
                             </div>
                         </div>
                     </div>
@@ -91,6 +91,8 @@ export default {
             isNew: false,
             adsDetail: {},
             employee: this.$store.state,
+            state: 1,
+            lastDay: {continueDays: 0},
             menu: [
                 {
                     name: '美豆豆',
@@ -148,7 +150,9 @@ export default {
     },
     methods: {
         loadBbsMenu() {
+            this.$indicator.open();
             api_party.bbsForumList(this.employee.party.partyId, this.employee.party.id).then(msg=> {
+                this.$indicator.close();
                 this.bbsMenu = msg.data;
                 this.parameter.forumId = this.bbsMenu[0].id;
                 this.loadData();
@@ -168,7 +172,9 @@ export default {
             if (this.loading) {
                 return;
             }
+            this.$indicator.open();
             api_party.loadBBSMessage(this.parameter).then(msg=> {
+                this.$indicator.close();
                 if (msg.data.length < this.parameter.pageSize) {
                     this.scrollDisabled = true;
                 } else {
@@ -196,7 +202,9 @@ export default {
                     partyId = this.$store.state.party.id;
                 }
             }
+            this.$indicator.open();
             api_party.listBanner('00001', partyId).then(msg=> {
+                this.$indicator.close();
                 this.bannerList = msg.data;
             }, msg=> {
             });
@@ -215,7 +223,9 @@ export default {
                 // 美博汇
                     if (this.$store.state && this.$store.state.party && this.$store.state.party.partyId) {
                         let openId = JSON.parse(localStorage.getItem('employee')).openId;
+                        this.$indicator.open();
                         api_party.bandWeichat(this.$store.state.party.id, openId).then(msg=> {
+                            this.$indicator.close();
                             window.location.href = `http://b2b.mei1.info/app/index.php?i=1&c=entry&eid=41&saasUID=${this.$store.state.party.id}`;
                         }, msg=> {
                         });
@@ -244,6 +254,9 @@ export default {
                     if (this.checkParty()) {
                         return;
                     };
+                    if (!this.$store.state || !this.$store.state.party || !this.$store.state.party.partyId) {
+                        window.location.href = this.prototype.$signLocation;
+                    };
                     window.location.href = '/api/b2bPromotionMobile/oauthURI/star_day_sign';
                     break;
                 case 7:
@@ -257,6 +270,18 @@ export default {
                 this.$toast('抱歉，个人用户，无权限进入');
                 return true;
             }
+        },
+        checkSignIn() {
+            this.$indicator.open();
+            api_party.listLastUserSign(this.$store.state.party.partyId).then(res => {
+                this.$indicator.close();
+                if (res.data && res.data.length > 0) {
+                    this.lastDay = res.data[res.data.length - 1];
+                    if (this.lastDay.todayDate === this.lastDay.signDate) {
+                        this.state = 2;
+                    }
+                }
+            });
         },
         bbsIn(item) {
             location.href = item.url;
@@ -274,7 +299,9 @@ export default {
                 partyId: this.$store.state.party.partyId,
                 tid: item.tid
             };
+            this.$indicator.open();
             api_party.favorite(parameter, type).then(msg=> {
+                this.$indicator.close();
                 let tempDataList = JSON.parse(JSON.stringify(this.dataList));
                 tempDataList[index].isFavorite = !tempDataList[index].isFavorite;
                 tempDataList[index].collect = false;
@@ -289,10 +316,23 @@ export default {
             localStorage.setItem('employee', JSON.stringify(tempLocal));
             this.$store.state.party.newUser = false;
         },
+        saveUserInfo() {
+            let employee = localStorage.getItem('employee');
+            if (!employee) {
+                employee = '{}';
+            }
+            employee = JSON.parse(employee);
+            if (this.$knife.keyGetValue(window.location.search, 'openid')) {
+                employee.openId = this.$knife.keyGetValue(window.location.search, 'openid');
+            }
+            localStorage.setItem('employee', JSON.stringify(employee));
+        },
         init() {
             // 加载bbs菜单
             this.loadBbsMenu();
+            this.saveUserInfo();
             // 加载banner
+            this.checkSignIn();
             this.loadBanner();
             if (this.$store.state.party && this.$store.state.party.adsList && this.$store.state.party.adsList.length) {
                 this.isNew = true;
@@ -392,6 +432,7 @@ export default {
             width: 100px;
             height: 34px;
             right: -50px;
+            top: 50%;
             background: url('~assets/imgs/index/sign-to-bg.png') no-repeat center;
             box-shadow: 0 5px 8px 0 rgba(17,80,169,0.24);
             border-radius: 50px;
@@ -481,6 +522,9 @@ export default {
                 }
                 .like{
                     div{
+                    .icon{
+                        color: @color-pink;
+                    }
                         color: @color-pink;
                     }
                 }
