@@ -395,19 +395,19 @@ export default {
             };
         },
         init() {
-            // 加载bbs菜单
-            this.loadBbsMenu();
             this.saveUserInfo();
             // 加载banner
-            this.checkSignIn();
             this.loadBanner();
             // 监听滑动事件
             window.addEventListener('scroll', this.scroll);
             if (this.$store.state && this.$store.state.party) {
                 this.parameter.partyId = this.$store.state.party.partyId;
+                this.checkSignIn();
             } else {
                 this.parameter.partyId = '0';
             }
+            // 加载bbs菜单
+            this.loadBbsMenu();
             if (this.$store.state.party && this.$store.state.party.adsList && this.$store.state.party.adsList.length) {
                 this.isNew = true;
                 this.adsDetail = this.$store.state.party.adsList[0];
