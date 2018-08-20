@@ -406,7 +406,7 @@ export default {
             if (this.$store.state && this.$store.state.party) {
                 this.parameter.partyId = this.$store.state.party.partyId;
             } else {
-                this.parameter.partyId = 0;
+                this.parameter.partyId = '0';
             }
             if (this.$store.state.party && this.$store.state.party.adsList && this.$store.state.party.adsList.length) {
                 this.isNew = true;
