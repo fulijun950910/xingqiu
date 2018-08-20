@@ -7,7 +7,7 @@
         <div layout="row" layout-align="start center" flex class="m-b-4">
             <div flex="20" layout="column" @click="linkTo(item.value)" layout-align="center center" v-for="(item, index) in menu" :key="index" class="menu">
                 <img :src="item.src" alt="">
-                <span class="extra-light-black fs24 m-t-2">{{item.name}}</span>
+                <span class="extra-light-black fs24 m-t-1">{{item.name}}</span>
             </div>
         </div>
         <div class="banner p-l-3">
@@ -56,7 +56,7 @@
                     <div class="collect" layout="row" layout-align="center center" @click.stop="collectEdite(item, index)" :class="{'like' : item.isFavorite , 'show' : item.collect}">
                         <m-icon xlink="#icon-arrLeft-fill" class="fs40 sanjiao color-white"></m-icon>
                         <div class="extra-light-black fs30">
-                            <m-icon xlink="#icon-shoucang" class="fs40"></m-icon>&nbsp;{{item.isFavorite ? '取消' : '收藏'}}
+                            <m-icon xlink="#icon-huodong" class="fs40"></m-icon>&nbsp;{{item.isFavorite ? '取消' : '收藏'}}
                         </div>
                     </div>
                 </div>
@@ -67,11 +67,11 @@
     <new-present :show-mask="isNew" :ads-detail="adsDetail" @hideMask="hideMask"></new-present>
     <div class="main-menu" layout="row" layout-align="start stretch">
         <div flex="50" layout="column" layout-align="center center" class="fs28 extra-light-black">
-            <m-icon xlink="#icon-huaban6" class="color-pink fs40"></m-icon>
+            <m-icon xlink="#icon-huaban6" class="color-pink fs48"></m-icon>
             <span>首页</span>
         </div>
         <div flex="50" layout="column" layout-align="center center" class="fs28 extra-light-black" @click="linkTo(7)">
-            <m-icon xlink="#icon-huaban1" class="fs40"></m-icon>
+            <m-icon xlink="#icon-huaban1" class="fs48"></m-icon>
             <span>我的</span>
         </div>
     </div>
@@ -99,11 +99,11 @@
             </div>
         </div>
     </div>
-    <div v-if="state != 2">
+    <div v-if="state == 1">
         <div class="sign-on color-white fs28" @click="linkTo(6)" layout="row" layout-align="start center">&nbsp;&nbsp;&nbsp;&nbsp;签到</div>
     </div>
 
-    <!-- <div class="toTop" @click="goTop" v-if="showGoTop"></div> -->
+    <div class="toTop" @click="goTop" v-if="showGoTop"></div>
 </div>
 </template>
 
@@ -168,16 +168,13 @@ export default {
             bannerList: [],
             swiperOption: {
                 slidesPerView: 2,
-                spaceBetween: 5,
-                speed: 3000,
+                spaceBetween: 10,
+                slidesPerGroup: 1,
                 loop: true,
-                autoplay: {
-                    delay: 3000
-                },
+                autoplay: 3000,
                 pagination: {
                     el: '.swiper-pagination'
-                }
-                // effect: 'coverflow'
+                }            
             },
             loading: false,
             scrollDisabled: false,
@@ -529,7 +526,7 @@ export default {
       }
       .menu {
           img {
-              width: 35px;
+              width: 40px;
               height: auto;
           }
       }
@@ -544,7 +541,7 @@ export default {
               left: 12px;
               top: 0;
               height: 110px;
-              width: 100%; // width: 600px;
+              width: 510px; // width: 600px;
               .swiper-slide {
                   overflow: hidden;
               }
@@ -565,7 +562,7 @@ export default {
               .swiper-pagination-bullet {
                   width: 20px;
                   margin-right: 5px;
-                  height: 3px;
+                  height: 2px;
                   border-radius: 0;
                   background: @border-gay;
               }
