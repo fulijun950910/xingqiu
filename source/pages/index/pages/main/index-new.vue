@@ -13,7 +13,7 @@
         <div class="banner p-l-3">
             <swiper :options="swiperOption">
                 <swiper-slide v-for="(item, index) in bannerList" :key="index">
-                    <img :src="item.image | nSrc(require('assets/imgs/female.png'))" alt="">
+                    <img :src="item.image | nSrc(require('assets/imgs/female.png'))" @click="bannerClick(item.url)" alt="">
                 </swiper-slide>
             </swiper>
             <div class="swiper-pagination p-l-3 p-r-3"></div>
@@ -376,6 +376,13 @@ export default {
         },
         showCircleMenu() {
             this.circleMenu = !this.circleMenu;
+        },
+        bannerClick(item) {
+            if (item.indexOf('html') > -1) {
+                location.href = item;
+            } else {
+                this.$router.push(item);
+            };
         },
         init() {
             // 加载bbs菜单
