@@ -172,7 +172,13 @@ export default {
     methods: {
         loadBbsMenu() {
             this.$indicator.open();
-            api_party.bbsForumList(this.employee.party.partyId, this.employee.party.id).then(msg=> {
+            let partyId = 0;
+            let id = 0;
+            if (this.employee && this.employee.party) {
+                partyId = this.employee.party.partyId;
+                id = this.employee.party.id;
+            };
+            api_party.bbsForumList(partyId, id).then(msg=> {
                 this.$indicator.close();
                 this.bbsMenu = msg.data;
                 this.parameter.forumId = this.bbsMenu[0].id;
@@ -391,9 +397,6 @@ export default {
             // 加载banner
             this.checkSignIn();
             this.loadBanner();
-            this.circleMenuTop = $('.qiu-title').offset().top;
-            $('html, body').scrollTop(this.circleMenuTop);
-            console.log(this.circleMenuTop);
             // 监听滑动事件
             window.addEventListener('scroll', this.scroll);
             if (this.$store.state.party && this.$store.state.party.adsList && this.$store.state.party.adsList.length) {
