@@ -174,7 +174,7 @@ export default {
                 autoplay: 3000,
                 pagination: {
                     el: '.swiper-pagination'
-                }            
+                }
             },
             loading: false,
             scrollDisabled: false,
