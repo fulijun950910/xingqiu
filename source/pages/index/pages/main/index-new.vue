@@ -50,15 +50,15 @@
                         <div layout="row" @click.stop="showCollect(index)">
                             <m-icon xlink="#icon-gengduoicon" class="fs34 color-pink"></m-icon>
                         </div>
-                        <div class="collect" layout="row" layout-align="center center" @click.stop="collectEdite(item)" :class="{'like' : item.isFavorite , 'show' : item.collect}">
+                        <div class="collect" layout="row" layout-align="center center" @click.stop="collectEdite(item, index)" :class="{'like' : item.isFavorite , 'show' : item.collect}">
                             <m-icon xlink="#icon-arrLeft-fill" class="fs40 sanjiao color-white"></m-icon>
                             <div class="extra-light-black fs30">
-                                <m-icon xlink="#icon-shoucang" class="fs40"></m-icon>&nbsp;{{item.isFavorite ? '取消收藏' : '收藏'}}
+                                <m-icon xlink="#icon-shoucang" class="fs40"></m-icon>&nbsp;{{item.isFavorite ? '取消' : '收藏'}}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div flex class="p-t-2 p-b-2"> 我是有底线的哦~</div>
+                <div flex class="p-t-2 p-b-2 text-center light-gray" v-if="scrollDisabled"> 我是有底线的哦~</div>
             </div>
         </div>
     </div>
@@ -266,7 +266,7 @@ export default {
             // let point = this.dataList[index].collect;
             // this.$set(this.dataList[index].collect, point);
         },
-        collectEdite(item) {
+        collectEdite(item, index) {
             // 1添加收藏 2取消收藏
             let type = item.isFavorite ? 2 : 1;
             let parameter = {
@@ -274,7 +274,10 @@ export default {
                 tid: item.tid
             };
             api_party.favorite(parameter, type).then(msg=> {
-                this.loadData(1);
+                let tempDataList = JSON.parse(JSON.stringify(this.dataList));
+                tempDataList[index].isFavorite = !tempDataList[index].isFavorite;
+                tempDataList[index].collect = false;
+                this.dataList = tempDataList;
             }, msg=> {
             });
         },
@@ -337,7 +340,7 @@ export default {
         }
         .menu{
             img{
-                width: 35px;
+                width: 50px;
                 height: auto;
             }
         }
@@ -387,9 +390,8 @@ export default {
         .sign-on{
             width: 100px;
             height: 34px;
-            border-radius: 20px;
             right: -50px;
-            background-image: linear-gradient(-135deg, #32FBFC 0%, #3214F2 50%);
+            background: url('~assets/imgs/index/sign-to-bg.png') no-repeat center;
             box-shadow: 0 5px 8px 0 rgba(17,80,169,0.24);
             border-radius: 50px;
             position: fixed;
