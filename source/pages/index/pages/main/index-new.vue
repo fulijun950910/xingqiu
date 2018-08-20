@@ -123,7 +123,7 @@ export default {
             isNew: false,
             adsDetail: {},
             employee: this.$store.state,
-            state: 2,
+            state: 1,
             lastDay: {continueDays: 0},
             circleMenu: false,
             circleMenuTop: 0,
@@ -420,6 +420,7 @@ export default {
             this.circleMenuTop = $('.qiu-title').offset().top;
             window.addEventListener('scroll', this.scroll);
             if (this.$store.state && this.$store.state.party) {
+                debugger;
                 this.parameter.partyId = this.$store.state.party.partyId;
                 this.checkSignIn();
             } else {
