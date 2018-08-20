@@ -146,7 +146,7 @@ export default {
             parameter: {
                 page: 1,
                 pageSize: 10,
-                partyId: this.$store.state.party.partyId,
+                // partyId: this.$store.state.party.partyId,
                 forumId: ''
             },
             bannerList: [],
@@ -172,8 +172,8 @@ export default {
     methods: {
         loadBbsMenu() {
             this.$indicator.open();
-            let partyId = 0;
-            let id = 0;
+            let partyId = '0';
+            let id = '0';
             if (this.employee && this.employee.party) {
                 partyId = this.employee.party.partyId;
                 id = this.employee.party.id;
@@ -329,8 +329,12 @@ export default {
         collectEdite(item, index) {
             // 1添加收藏 2取消收藏
             let type = item.isFavorite ? 2 : 1;
+            let partyId = '0';
+            if (this.$store.state && this.$store.state.party) {
+                partyId = this.$store.state.party.partyId;
+            }
             let parameter = {
-                partyId: this.$store.state.party.partyId,
+                partyId: partyId,
                 tid: item.tid
             };
             this.$indicator.open();
@@ -399,6 +403,11 @@ export default {
             this.loadBanner();
             // 监听滑动事件
             window.addEventListener('scroll', this.scroll);
+            if (this.$store.state && this.$store.state.party) {
+                this.parameter.partyId = this.$store.state.party.partyId;
+            } else {
+                this.parameter.partyId = 0;
+            }
             if (this.$store.state.party && this.$store.state.party.adsList && this.$store.state.party.adsList.length) {
                 this.isNew = true;
                 this.adsDetail = this.$store.state.party.adsList[0];
