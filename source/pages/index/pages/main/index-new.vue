@@ -88,12 +88,12 @@
             <div class="fs40 color-black fwb">星球课题</div>
             <div class="circle-menu" layout="row" layout-align="center center">
                 <div class="circle-icon" layout="row" layout-align="center center" @click="showCircleMenu">
-                    <m-icon class="color-white fs68" xlink="#icon-huaban3"></m-icon>
+                    <m-icon class="color-white fs40" xlink="#icon-gengduoliebiaoicon"></m-icon>
                 </div>
             </div>
         </div>
         <div layout="row" layout-align="start center" class="bbs-menu p-l-3 p-r-3">
-            <div class="p-r-3 p-b-4 item m-r-2" v-for="(item, index) in bbsMenu" :key="index" @click.stop="choosePart(item)" :class="{'active': item.id == parameter.forumId}">
+            <div class="p-r-3 p-b-4 item m-r-2" v-for="(item, index) in bbsMenu" :key="index" @click.stop="choosePart(item, 1)" :class="{'active': item.id == parameter.forumId}">
                 <span class="fs28 color-gray">{{item.name}}</span>
                 <i class="line"></i>
             </div>
@@ -198,11 +198,11 @@ export default {
                 this.loadData();
             });
         },
-        choosePart(item) {
+        choosePart(item, type) {
             this.parameter.forumId = item.id;
-            this.loadData();
+            this.loadData('', type);
         },
-        loadData(type) {
+        loadData(type, data) {
             if (!type) {
                 this.resetData();
             };
