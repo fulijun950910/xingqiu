@@ -5,7 +5,7 @@ const signIn = resolve => require(['./pages/sign-in'], resolve);
 const couponVerify = resolve => require(['./pages/coupon-verify'], resolve);
 const booking = resolve => require(['./pages/booking'], resolve);
 const transferTradeDetail = resolve => require(['./pages/transfer-trade-detail'], resolve);
-const main = resolve => require(['./pages/main/index'], resolve);
+const main = resolve => require(['./pages/main/index-new'], resolve);
 const userinfo = resolve => require(['./pages/userinfo/index'], resolve);
 const wallet = resolve => require(['./pages/wallet/index'], resolve);
 const payNotes = resolve => require(['./pages/payNotes/index'], resolve);
@@ -19,7 +19,7 @@ const alliance = resolve => require(['./pages/allianceBeta/index'], resolve);
 const bigWheelDes = resolve => require(['./pages/activity-des/bigWheel-des'], resolve);
 const b2bActivityList = resolve => require(['./pages/activity-des/b2b-activity-list'], resolve);
 const indexActivityDetail = resolve => require(['./pages/activity-des/detail'], resolve);
-const indexNew = resolve => require(['./pages/main/index-new'], resolve);
+const indexNew = resolve => require(['./pages/main/index'], resolve);
 
 export default [{
     path: '/alliance',

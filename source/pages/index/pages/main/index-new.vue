@@ -58,6 +58,7 @@
                         </div>
                     </div>
                 </div>
+                <div flex class="p-t-2 p-b-2"> 我是有底线的哦~</div>
             </div>
         </div>
     </div>
@@ -128,8 +129,8 @@ export default {
             },
             bannerList: [],
             swiperOption: {
-                // slidesPerView: 2,
-                // spaceBetween: 5,
+                slidesPerView: 2,
+                spaceBetween: 5,
                 speed: 3000,
                 loop: true,
                 autoplay: {
@@ -137,8 +138,8 @@ export default {
                 },
                 pagination: {
                     el: '.swiper-pagination'
-                },
-                effect: 'coverflow'
+                }
+                // effect: 'coverflow'
             },
             loading: false,
             scrollDisabled: false,
@@ -318,6 +319,7 @@ export default {
             height: 60px;
             bottom: 0;
             background: white;
+            border-top: 1px solid @light-gray;
         }
         width: 100%;
         .only-three{
@@ -344,7 +346,7 @@ export default {
             width: 100%;
             overflow: hidden;
             .swiper-container{
-                height: 120px;
+                height: 100px;
                 width: 100%;
                 .swiper-slide{
                     overflow: hidden;
