@@ -1,5 +1,5 @@
 <template>
-<div class="new-index" v-title="'美问星球'" v-infinite-scroll="loadMore" :infinite-scroll-disabled="loading" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
+<div class="new-index" v-title="'美问星球'" :class="{'over-hidden' : iconCircleMenu}" v-infinite-scroll="loadMore" :infinite-scroll-disabled="loading" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
     <div class="direction">
         <div class="fs68 p-t-4 p-b-4 color-black p-l-4 p-r-4" layout="row" layout-align="space-between center">
             <div>发现</div>
@@ -19,22 +19,10 @@
             <div class="swiper-pagination p-l-3 p-r-3"></div>
         </div>
         <div class="break-line" flex></div>
-        <div class="bbs-list p-l-4 p-r-4" flex>
+    </div>
+            <div class="bbs-list p-l-4 p-r-4" :class="{'bbs-fixed' :iconCircleMenu }" flex>
             <div class="qiu-title" layout="row" layout-align="space-between center">
                 <div class="fs40 color-black fwb">星球课题</div>
-                <div class="circle-menu" layout="row" layout-align="center center" v-if="iconCircleMenu">
-                    <div class="circle-icon" layout="row" layout-align="center center" @click="showCircleMenu">
-                        <m-icon class="color-white fs68" xlink="#icon-huaban3"></m-icon>
-                    </div>
-                    <div class="circle-menu-mask" @click="showCircleMenu" v-if="circleMenu"></div>
-                    <div class="circle-menu-list" layout="row" layout-align="center center" v-if="circleMenu">
-                        <m-icon xlink="#icon-arrLeft-fill" class="color-white"></m-icon>
-                        <div flex="20" layout="column" @click="linkTo(item.value)" layout-align="center center" v-for="(item, index) in menu" :key="index" class="menu">
-                            <img :src="item.src" alt="">
-                            <span class="extra-light-black fs24 m-t-2">{{item.name}}</span>
-                        </div>
-                    </div>
-                </div>
                 <div v-if="state != 2">
                     <div class="sign-on color-white fs28" @click="linkTo(6)" layout="row" layout-align="start center">&nbsp;&nbsp;&nbsp;&nbsp;签到</div>
                 </div>
@@ -76,7 +64,6 @@
                 <div flex class="p-t-2 p-b-2 text-center light-gray" v-if="scrollDisabled"> 我是有底线的哦~</div>
             </div>
         </div>
-    </div>
     <new-present :show-mask="isNew" :ads-detail="adsDetail" @hideMask="hideMask"></new-present>
     <div class="main-menu" layout="row" layout-align="start stretch">
         <div flex="50" layout="column" layout-align="center center" class="fs28 extra-light-black">
@@ -88,6 +75,25 @@
             <span>我的</span>
         </div>
     </div>
+    <div class="circle-menu-mask" @click="showCircleMenu" v-if="circleMenu"></div>
+    <div class="circle-menu-list" layout="row" layout-align="center center" v-if="circleMenu" :style="circleMenuStyle">
+        <m-icon xlink="#icon-arrLeft-fill" class="color-white"></m-icon>
+        <div flex="20" layout="column" @click="linkTo(item.value)" layout-align="center center" v-for="(item, index) in menu" :key="index" class="menu">
+            <img :src="item.src" alt="">
+            <span class="extra-light-black fs24 m-t-2">{{item.name}}</span>
+        </div>
+    </div>
+    <div class="qiu-title m-l-3 m-r-3 qiu-title-fixed" layout="row" layout-align="space-between center" v-if="iconCircleMenu">
+    <div class="fs40 color-black fwb">星球课题</div>
+    <div class="circle-menu" layout="row" layout-align="center center">
+        <div class="circle-icon" layout="row" layout-align="center center" @click="showCircleMenu">
+            <m-icon class="color-white fs68" xlink="#icon-huaban3"></m-icon>
+        </div>
+    </div>
+    <div v-if="state != 2">
+        <div class="sign-on color-white fs28" @click="linkTo(6)" layout="row" layout-align="start center">&nbsp;&nbsp;&nbsp;&nbsp;签到</div>
+    </div>
+            </div>
     <!-- <div class="toTop" @click="goTop" v-if="showGoTop"></div> -->
 </div>
 </template>
@@ -113,6 +119,7 @@ export default {
             circleMenu: false,
             circleMenuTop: 0,
             showGoTop: false,
+            circleMenuStyle: {},
             menu: [
                 {
                     name: '美豆豆',
@@ -384,8 +391,13 @@ export default {
                 scrollTop: 0
             }, 300);
         },
-        showCircleMenu() {
+        showCircleMenu(e) {
             this.circleMenu = !this.circleMenu;
+            if (this.circleMenu) {
+                this.circleMenuStyle = {
+                    top: e.y + 45 + 'px'
+                };
+            };
         },
         bannerClick(item) {
             if (item.indexOf('html') > -1) {
@@ -399,6 +411,7 @@ export default {
             // 加载banner
             this.loadBanner();
             // 监听滑动事件
+            this.circleMenuTop = $('.qiu-title').offset().top;
             window.addEventListener('scroll', this.scroll);
             if (this.$store.state && this.$store.state.party) {
                 this.parameter.partyId = this.$store.state.party.partyId;
@@ -427,245 +440,259 @@ export default {
 
 <style lang="less">
     @import '~styles/_style';
-    .new-index{
-        margin-bottom: 60px;
-        .toTop{
-            position: fixed;
-            right: 0;
-            bottom: 30px;
-            width: 50px;
-            height: 50px;
-            background: @color-pink;
-            z-index: 10;
-        }
-        .circle-menu{
-            position: relative;
-            z-index: 20;
-            .circle-icon{
-                z-index: 2;
-                width: 44px;
-                height: 44px;
-                border-radius: 100%;
-                background: @color-pink;
-            }
-            .circle-menu-list{
-                position: fixed;
-                top:100px;
-                left: 10px;
-                right: 10px;
-                height: 105px;
-                background: white;
-                z-index: 2;
-                border-radius: 7px;
-                .icon{
-                    position: absolute;
-                    top:-38px;
-                    right: 0;
-                    font-size: 70px;
-                }
-            }
-            .circle-menu-mask{
-                position: fixed;
-                left: 0;
-                right: 0;
-                top: 0;
-                bottom: 0;
-                background: rgba(0,0,0,.6);
-                z-index: 1;
-            }
+    .new-index {
+      margin-bottom: 60px;
+      position: relative;
+      .toTop {
+          position: fixed;
+          right: 0;
+          bottom: 30px;
+          width: 50px;
+          height: 50px;
+          background: @color-pink;
+          z-index: 10;
+      }
+      .circle-menu {
+          position: fixed;
+          right: 10px;
+          top:20px;
+          z-index: 20;
+      }
+      .circle-icon {
+          z-index: 2;
+          width: 44px;
+          height: 44px;
+          border-radius: 100%;
+          background: @color-pink;
+          opacity: .9;
+      }
+      .circle-menu-list {
+          position: fixed;
+          height: 105px;
+          background: white;
+          z-index: 12;
+          border-radius: 7px;
+          left: 10px;
+          right: 10px;
+          .icon {
+              position: absolute;
+              top: -38px;
+              right: 0;
+              font-size: 70px;
+          }
+      }
+      .circle-menu-mask {
+          position: fixed;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, .6);
+          z-index: 11;
+      }
+      .main-menu {
+          position: fixed;
+          left: 0;
+          right: 0;
+          z-index: 10;
+          height: 60px;
+          bottom: 0;
+          background: white;
+          border-top: 1px solid @light-gray;
+      }
+      width: 100%;
+      .only-three {
+          width: 100%;
+          word-break: break-all;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          /** 对象作为伸缩盒子模型显示 **/
+          -webkit-box-orient: vertical;
+          /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+          -webkit-line-clamp: 3;
+          /** 显示的行数 **/
+          overflow: hidden;
+          /** 隐藏超出的内容 **/
+      }
+      width: 100vw;
+      .direction {
+          background: white;
+      }
+      .menu {
+          img {
+              width: 35px;
+              height: auto;
+          }
+      }
+      .banner {
+          height: 140px;
+          width: 100%;
+          overflow: hidden;
+          position: relative;
+          z-index: 2;
+          .swiper-container {
+              position: absolute;
+              left: 12px;
+              top: 0;
+              height: 110px;
+              width: 100%; // width: 600px;
+              .swiper-slide {
+                  overflow: hidden;
+              }
+              img {
+                  height: 100%;
+                  width: auto;
+              }
+              .swiper-slide {
+                  border-radius: 5px;
+                  overflow: hidden;
+              }
+          }
+          .swiper-pagination {
+              width: 100%;
+              text-align: left;
+              position: absolute;
+              bottom: 10px;
+              .swiper-pagination-bullet {
+                  width: 20px;
+                  margin-right: 5px;
+                  height: 3px;
+                  border-radius: 0;
+                  background: @border-gay;
+              }
+              .swiper-pagination-bullet-active {
+                  background: @extra-shadow;
+              }
+          }
+      }
+      .qiu-title {
+          padding: 20px 0;
+          box-sizing: border-box;
+          width: 100%;
+          overflow: hidden;
+          position: relative;
+      }
+      .sign-on {
+          width: 100px;
+          height: 34px;
+          right: -50px;
+          top: 50%;
+          background: url('~assets/imgs/index/sign-to-bg.png') no-repeat center;
+          box-shadow: 0 5px 8px 0 rgba(17, 80, 169, 0.24);
+          border-radius: 50px;
+          position: fixed;
+          z-index: 10;
+      }
+      .break-line {
+          height: 10px;
+          background: #f8f8f8;
+      }
+      .bbs-menu {
+          border-bottom: 1px solid @border-gay;
+          overflow-x: scroll;
+          overflow-y: hidden;
+          ::-webkit-scrollbar {
+              display: none;
+          }
+          .item {
+              flex: none;
+              position: relative;
+              .line {
+                  position: absolute;
+                  width: 40px;
+                  bottom: -1px;
+                  left: 2px;
+                  border-bottom: 3px solid @color-pink;
+                  height: 3px;
+                  z-index: 1;
+                  opacity: 0;
+                  transition: all ease .4s;
+              }
+          }
+          .item.active {
+              span {
+                  color: @color-black;
+              }
+              .line {
+                  opacity: 1;
+              }
+          }
+      }
+      .bbs-list {
+          width: 100%;
+      }
+      .list {
+          .list-box {
+              border-bottom: 1px solid @border-gay;
+              position: relative;
+              .img-con {
+                  height: 70px;
+                  width: 105px;
+                  position: relative;
+                  overflow: hidden;
+                  border-radius: 10px;
+                  img {
+                      width: 248px;
+                      height: 140px;
+                      position: absolute;
+                      margin-left: 50%;
+                      left: -124px;
+                      top: 50%;
+                      margin-top: -70px;
+                  }
+              }
+              .collect {
+                  width: 0;
+                  height: 0;
+                  transition: all ease .3s;
+                  opacity: 0;
+                  position: absolute;
+                  right: 0;
+                  bottom: -40px;
+              }
+              .show {
+                  opacity: 1;
+                  width: 86px;
+                  height: 51px;
+                  z-index: 2;
+                  border-radius: 10px;
+                  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, .3);
+                  background: white;
+                  .sanjiao {
+                      position: absolute;
+                      top: -5px;
+                      right: -5px;
+                  }
+              }
+              .like {
+                  div {
+                      .icon {
+                          color: @color-pink;
+                      }
+                      color: @color-pink;
+                  }
+              }
+          }
+      }
+  }
 
-        }
-        .main-menu{
-            position: fixed;
-            left: 0;
-            right: 0;
-            z-index: 10;
-            height: 60px;
-            bottom: 0;
-            background: white;
-            border-top: 1px solid @light-gray;
-        }
-        width: 100%;
-        .only-three{
-             width: 100%;
-             word-break: break-all;
-             text-overflow: ellipsis;
-             display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-             -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-             -webkit-line-clamp: 3; /** 显示的行数 **/
-             overflow: hidden;  /** 隐藏超出的内容 **/
-        }
-        width: 100vw;
-        .direction{
-            background: white;
-        }
-        .menu{
-            img{
-                width: 35px;
-                height: auto;
-            }
-        }
-        .banner{
-            height: 140px;
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-            z-index: 2;
-            .swiper-container{
-                position: absolute;
-                left: 12px;
-                top:0;
-                height: 110px;
-                width: 100%;
-                // width: 600px;
-                .swiper-slide{
-                    overflow: hidden;
-                }
-                img{
-                    height: 100%;
-                    width: auto;
-                }
-                .swiper-slide{
-                    border-radius: 5px;
-                    overflow: hidden;
-                }
-            }
-            .swiper-pagination {
-                width: 100%;
-                text-align: left;
-                position: absolute;
-                bottom: 10px;
-                .swiper-pagination-bullet{
-                    width: 20px;
-                    margin-right: 5px;
-                    height: 3px;
-                    border-radius: 0;
-                    background: @border-gay;
-                }
-                .swiper-pagination-bullet-active{
-                    background: @extra-shadow;
-                }
+  .no-scroll {
+      overflow: hidden;
+  }
+  .over-hidden{
+      overflow: hidden;
+  }
+  .bbs-fixed {
 
-            }
-
-        }
-        .qiu-title{
-            padding: 20px 0;
-            box-sizing: border-box;
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-        }
-        .sign-on{
-            width: 100px;
-            height: 34px;
-            right: -50px;
-            top: 50%;
-            background: url('~assets/imgs/index/sign-to-bg.png') no-repeat center;
-            box-shadow: 0 5px 8px 0 rgba(17,80,169,0.24);
-            border-radius: 50px;
-            position: fixed;
-            z-index: 10;
-        }
-        .break-line{
-            height: 10px;
-            background: #f8f8f8;
-        }
-        .bbs-menu{
-            border-bottom: 1px solid @border-gay;
-            overflow-x:scroll;
-            overflow-y: hidden;
-            ::-webkit-scrollbar{
-                display:none;
-                }
-            .item{
-                flex: none;
-                position: relative;
-                .line{
-                    position: absolute;
-                    width: 40px;
-                    bottom: -1px;
-                    left: 2px;
-                    border-bottom:3px solid @color-pink;
-                    height: 3px;
-                    z-index: 1;
-                    opacity: 0;
-                    transition: all ease .4s;
-                }
-            }
-            .item.active{
-                span{
-                   color: @color-black;
-                }
-                .line{
-                    opacity: 1;
-                }
-            }
-        }
-        .bbs-list{
-            width: 100%;
-        }
-        .list{
-            .list-box{
-                border-bottom: 1px solid @border-gay;
-                position: relative;
-                .img-con{
-                    height: 70px;
-                    width: 105px;
-                    position: relative;
-                    overflow: hidden;
-                    border-radius: 10px;
-                    img{
-                        width: 248px;
-                        height: 140px;
-                        position: absolute;
-                        margin-left: 50%;
-                        left: -124px;
-                        top:50%;
-                        margin-top: -70px;
-                    }
-                }
-                .collect{
-                    width: 0;
-                    height: 0;
-                    transition: all ease .3s;
-                    opacity: 0;
-                    position: absolute;
-                    right: 0;
-                    bottom: -40px;
-                }
-                .show{
-                    opacity: 1;
-                    width: 86px;
-                    height: 51px;
-                    z-index: 2;
-                    border-radius: 10px;
-                    box-shadow: 0 5px 8px 0 rgba(0,0,0,.3);
-                    background: white;
-                    .sanjiao{
-                        position: absolute;
-                        top:-5px;
-                        right: -5px;
-                    }
-                }
-                .like{
-                    div{
-                    .icon{
-                        color: @color-pink;
-                    }
-                        color: @color-pink;
-                    }
-                }
-            }
-        }
-    }
-    .no-scroll{
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
-        margin: 0;
-        padding: 0;
-    }
+  }
+  .qiu-title-fixed{
+      position: fixed!important;
+      top:0;
+      left: 0;
+      right: 0;
+      background: white;
+      z-index: 10;
+  }
 
 </style>
 
