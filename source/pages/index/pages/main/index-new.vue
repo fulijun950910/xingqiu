@@ -20,50 +20,50 @@
         </div>
         <div class="break-line" flex></div>
     </div>
-            <div class="bbs-list p-l-4 p-r-4" :class="{'bbs-fixed' :iconCircleMenu }" flex>
-            <div class="qiu-title" layout="row" layout-align="space-between center">
-                <div class="fs40 color-black fwb">星球课题</div>
-                <div v-if="state != 2">
-                    <div class="sign-on color-white fs28" @click="linkTo(6)" layout="row" layout-align="start center">&nbsp;&nbsp;&nbsp;&nbsp;签到</div>
-                </div>
-            </div>
-            <div layout="row" layout-align="start center" class="bbs-menu">
-                <div class="p-r-3 p-b-4 item m-r-2" v-for="(item, index) in bbsMenu" :key="index" @click.stop="choosePart(item)" :class="{'active': item.id == parameter.forumId}">
-                    <span class="fs28 color-gray">{{item.name}}</span>
-                    <i class="line"></i>
-                </div>
-            </div>
-            <div class="list m-b-3">
-                <div class="list-box p-b-3 m-t-2" v-for="(item, index) in dataList" :key="index">
-                    <div flex class="only-two-line fwb color-black fs34 m-b-3" @click="bbsIn(item)">{{item.subject}}</div>
-                    <div layout="row" layout-align="start start" class="m-b-2" @click="bbsIn(item)">
-                        <div flex="70" class="only-three fs28 extra-light-black">{{item.description}}</div>
-                        <div flex="30">
-                            <div class="img-con">
-                                <img :src="item.attachment | imgDetail(require('assets/imgs/index/501657390978523645.jpg'))" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div layout="row" layout-align="space-between center" class="p-t-2">
-                        <div layout="row" layout-align="start cneter" class="color-gray fs24">
-                            <!-- <div>{{item.author}}</div>&nbsp;&nbsp; -->
-                            <div>{{item.dateline | amCalendar('YYYY-MM-DD')}}</div>&nbsp;&nbsp;|&nbsp;&nbsp;
-                            <div>{{item.views | bigNumber}}热度</div>
-                        </div>
-                        <div layout="row" @click.stop="showCollect(index)">
-                            <m-icon xlink="#icon-gengduoicon" class="fs34 color-pink"></m-icon>
-                        </div>
-                        <div class="collect" layout="row" layout-align="center center" @click.stop="collectEdite(item, index)" :class="{'like' : item.isFavorite , 'show' : item.collect}">
-                            <m-icon xlink="#icon-arrLeft-fill" class="fs40 sanjiao color-white"></m-icon>
-                            <div class="extra-light-black fs30">
-                                <m-icon xlink="#icon-shoucang" class="fs40"></m-icon>&nbsp;{{item.isFavorite ? '取消' : '收藏'}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div flex class="p-t-2 p-b-2 text-center light-gray" v-if="scrollDisabled"> 我是有底线的哦~</div>
+    <div class="bbs-list p-l-4 p-r-4" :class="{'bbs-fixed' :iconCircleMenu }" flex>
+        <div class="qiu-title" layout="row" layout-align="space-between center">
+            <div class="fs40 color-black fwb">星球课题</div>
+            <div v-if="state != 2">
+                <div class="sign-on color-white fs28" @click="linkTo(6)" layout="row" layout-align="start center">&nbsp;&nbsp;&nbsp;&nbsp;签到</div>
             </div>
         </div>
+        <div layout="row" layout-align="start center" class="bbs-menu">
+            <div class="p-r-3 p-b-4 item m-r-2" v-for="(item, index) in bbsMenu" :key="index" @click.stop="choosePart(item)" :class="{'active': item.id == parameter.forumId}">
+                <span class="fs28 color-gray">{{item.name}}</span>
+                <i class="line"></i>
+            </div>
+        </div>
+        <div class="list m-b-3">
+            <div class="list-box p-b-3 m-t-2" v-for="(item, index) in dataList" :key="index">
+                <div flex class="only-two-line fwb color-black fs34 m-b-3" @click="bbsIn(item)">{{item.subject}}</div>
+                <div layout="row" layout-align="start start" class="m-b-2" @click="bbsIn(item)">
+                    <div flex="70" class="only-three fs28 extra-light-black">{{item.description}}</div>
+                    <div flex="30">
+                        <div class="img-con">
+                            <img :src="item.attachment | imgDetail(require('assets/imgs/index/501657390978523645.jpg'))" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div layout="row" layout-align="space-between center" class="p-t-2">
+                    <div layout="row" layout-align="start cneter" class="color-gray fs24">
+                        <!-- <div>{{item.author}}</div>&nbsp;&nbsp; -->
+                        <div>{{item.dateline | amCalendar('YYYY-MM-DD')}}</div>&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <div>{{item.views | bigNumber}}热度</div>
+                    </div>
+                    <div layout="row" @click.stop="showCollect(index)">
+                        <m-icon xlink="#icon-gengduoicon" class="fs34 color-pink"></m-icon>
+                    </div>
+                    <div class="collect" layout="row" layout-align="center center" @click.stop="collectEdite(item, index)" :class="{'like' : item.isFavorite , 'show' : item.collect}">
+                        <m-icon xlink="#icon-arrLeft-fill" class="fs40 sanjiao color-white"></m-icon>
+                        <div class="extra-light-black fs30">
+                            <m-icon xlink="#icon-shoucang" class="fs40"></m-icon>&nbsp;{{item.isFavorite ? '取消' : '收藏'}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div flex class="p-t-2 p-b-2 text-center light-gray" v-if="scrollDisabled"> 我是有底线的哦~</div>
+        </div>
+    </div>
     <new-present :show-mask="isNew" :ads-detail="adsDetail" @hideMask="hideMask"></new-present>
     <div class="main-menu" layout="row" layout-align="start stretch">
         <div flex="50" layout="column" layout-align="center center" class="fs28 extra-light-black">
@@ -83,17 +83,26 @@
             <span class="extra-light-black fs24 m-t-2">{{item.name}}</span>
         </div>
     </div>
-    <div class="qiu-title m-l-3 m-r-3 qiu-title-fixed" layout="row" layout-align="space-between center" v-if="iconCircleMenu">
-    <div class="fs40 color-black fwb">星球课题</div>
-    <div class="circle-menu" layout="row" layout-align="center center">
-        <div class="circle-icon" layout="row" layout-align="center center" @click="showCircleMenu">
-            <m-icon class="color-white fs68" xlink="#icon-huaban3"></m-icon>
+    <div class="qiu-title-fixed" v-if="iconCircleMenu">
+        <div class="qiu-title m-l-3 m-r-3" layout="row" layout-align="space-between center">
+            <div class="fs40 color-black fwb">星球课题</div>
+            <div class="circle-menu" layout="row" layout-align="center center">
+                <div class="circle-icon" layout="row" layout-align="center center" @click="showCircleMenu">
+                    <m-icon class="color-white fs68" xlink="#icon-huaban3"></m-icon>
+                </div>
+            </div>
+        </div>
+        <div layout="row" layout-align="start center" class="bbs-menu p-l-3 p-r-3">
+            <div class="p-r-3 p-b-4 item m-r-2" v-for="(item, index) in bbsMenu" :key="index" @click.stop="choosePart(item)" :class="{'active': item.id == parameter.forumId}">
+                <span class="fs28 color-gray">{{item.name}}</span>
+                <i class="line"></i>
+            </div>
         </div>
     </div>
     <div v-if="state != 2">
         <div class="sign-on color-white fs28" @click="linkTo(6)" layout="row" layout-align="start center">&nbsp;&nbsp;&nbsp;&nbsp;签到</div>
     </div>
-            </div>
+
     <!-- <div class="toTop" @click="goTop" v-if="showGoTop"></div> -->
 </div>
 </template>
