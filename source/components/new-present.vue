@@ -128,7 +128,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 2;
+    z-index: 12;
     transform: translateY(-100%);
     transition: all ease .3s;
     .get-size{

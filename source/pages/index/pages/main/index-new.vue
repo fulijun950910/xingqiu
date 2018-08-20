@@ -1,14 +1,16 @@
 <template>
 <div class="new-index" v-title="'美问星球'" v-infinite-scroll="loadMore" :infinite-scroll-disabled="loading" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
     <div class="direction">
-        <div class="fs68 p-t-4 p-b-4 color-black p-l-4 p-r-4">发现</div>
-        <div layout="row" layout-align="start center" class="p-l-4 p-r-4 m-b-4">
+        <div class="fs68 p-t-4 p-b-4 color-black p-l-4 p-r-4" layout="row" layout-align="space-between center">
+            <div>发现</div>
+        </div>
+        <div layout="row" layout-align="start center" flex class="m-b-4">
             <div flex="20" layout="column" @click="linkTo(item.value)" layout-align="center center" v-for="(item, index) in menu" :key="index" class="menu">
                 <img :src="item.src" alt="">
                 <span class="extra-light-black fs24 m-t-2">{{item.name}}</span>
             </div>
         </div>
-        <div class="banner">
+        <div class="banner p-l-3">
             <swiper :options="swiperOption">
                 <swiper-slide v-for="(item, index) in bannerList" :key="index">
                     <img :src="item.image | nSrc(require('assets/imgs/female.png'))" alt="">
@@ -20,8 +22,21 @@
         <div class="bbs-list p-l-4 p-r-4" flex>
             <div class="qiu-title" layout="row" layout-align="space-between center">
                 <div class="fs40 color-black fwb">星球课题</div>
-                <div>
-                    <div v-if="state == 1" class="sign-on color-white fs28" @click="linkTo(6)" layout="row" layout-align="start center">&nbsp;&nbsp;&nbsp;&nbsp;签到</div>
+                <div class="circle-menu" layout="row" layout-align="center center" v-if="iconCircleMenu">
+                    <div class="circle-icon" layout="row" layout-align="center center" @click="showCircleMenu">
+                        <m-icon class="color-white fs68" xlink="#icon-huaban3"></m-icon>
+                    </div>
+                    <div class="circle-menu-mask" @click="showCircleMenu" v-if="circleMenu"></div>
+                    <div class="circle-menu-list" layout="row" layout-align="center center" v-if="circleMenu">
+                        <m-icon xlink="#icon-arrLeft-fill" class="color-white"></m-icon>
+                        <div flex="20" layout="column" @click="linkTo(item.value)" layout-align="center center" v-for="(item, index) in menu" :key="index" class="menu">
+                            <img :src="item.src" alt="">
+                            <span class="extra-light-black fs24 m-t-2">{{item.name}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="state != 2">
+                    <div class="sign-on color-white fs28" @click="linkTo(6)" layout="row" layout-align="start center">&nbsp;&nbsp;&nbsp;&nbsp;签到</div>
                 </div>
             </div>
             <div layout="row" layout-align="start center" class="bbs-menu">
@@ -30,7 +45,7 @@
                     <i class="line"></i>
                 </div>
             </div>
-            <div class="list">
+            <div class="list m-b-3">
                 <div class="list-box p-b-3 m-t-2" v-for="(item, index) in dataList" :key="index">
                     <div flex class="only-two-line fwb color-black fs34 m-b-3" @click="bbsIn(item)">{{item.subject}}</div>
                     <div layout="row" layout-align="start start" class="m-b-2" @click="bbsIn(item)">
@@ -64,15 +79,16 @@
     </div>
     <new-present :show-mask="isNew" :ads-detail="adsDetail" @hideMask="hideMask"></new-present>
     <div class="main-menu" layout="row" layout-align="start stretch">
-        <div flex="50" layout="column" layout-align="center center"  class="fs28 extra-light-black">
-                <m-icon xlink="#icon-huaban6" class="color-pink fs40"></m-icon>
-                <span>首页</span>
+        <div flex="50" layout="column" layout-align="center center" class="fs28 extra-light-black">
+            <m-icon xlink="#icon-huaban6" class="color-pink fs40"></m-icon>
+            <span>首页</span>
         </div>
-        <div flex="50" layout="column" layout-align="center center"  class="fs28 extra-light-black" @click="linkTo(7)">
-                <m-icon xlink="#icon-huaban1" class="fs40"></m-icon>
-                <span>我的</span>
+        <div flex="50" layout="column" layout-align="center center" class="fs28 extra-light-black" @click="linkTo(7)">
+            <m-icon xlink="#icon-huaban1" class="fs40"></m-icon>
+            <span>我的</span>
         </div>
     </div>
+    <!-- <div class="toTop" @click="goTop" v-if="showGoTop"></div> -->
 </div>
 </template>
 
@@ -85,14 +101,18 @@ Vue.use(VueAwesomeSwiper);
 Vue.use(InfiniteScroll);
 import api_party from 'services/api.party';
 import newPresent from 'components/new-present';
+import $ from 'jquery';
 export default {
     data() {
         return {
             isNew: false,
             adsDetail: {},
             employee: this.$store.state,
-            state: 1,
+            state: 2,
             lastDay: {continueDays: 0},
+            circleMenu: false,
+            circleMenuTop: 0,
+            showGoTop: false,
             menu: [
                 {
                     name: '美豆豆',
@@ -145,7 +165,8 @@ export default {
             },
             loading: false,
             scrollDisabled: false,
-            collect: ''
+            collect: '',
+            iconCircleMenu: false
         };
     },
     methods: {
@@ -236,7 +257,14 @@ export default {
                     break;
                 case 3:
                 // 美问美答
-                    this.$router.push({name: 'bbsPage'});
+                    // this.$router.push({name: 'bbsPage'});
+                    let url = '';
+                    if (this.$enviroment == 'development') {
+                        url += 'http://bbs.mei1.info/forum.php';
+                    } else {
+                        url += 'http://bbs.test.mei1.info/forum.php';
+                    };
+                    location.href = url;
                     break;
                 case 4:
                 // 店务助手
@@ -327,6 +355,28 @@ export default {
             }
             localStorage.setItem('employee', JSON.stringify(employee));
         },
+        scroll() {
+            // 显示圆圈菜单
+            if ($(window).scrollTop() >= this.circleMenuTop - 50) {
+                this.iconCircleMenu = true;
+            } else {
+                this.iconCircleMenu = false;
+            }
+            // 显示点击跳转顶部
+            if ($(window).scrollTop() >= $(window).height()) {
+                this.showGoTop = true;
+            } else {
+                this.showGoTop = false;
+            };
+        },
+        goTop() {
+            $('html,body').animate({
+                scrollTop: 0
+            }, 300);
+        },
+        showCircleMenu() {
+            this.circleMenu = !this.circleMenu;
+        },
         init() {
             // 加载bbs菜单
             this.loadBbsMenu();
@@ -334,6 +384,11 @@ export default {
             // 加载banner
             this.checkSignIn();
             this.loadBanner();
+            this.circleMenuTop = $('.qiu-title').offset().top;
+            $('html, body').scrollTop(this.circleMenuTop);
+            console.log(this.circleMenuTop);
+            // 监听滑动事件
+            window.addEventListener('scroll', this.scroll);
             if (this.$store.state.party && this.$store.state.party.adsList && this.$store.state.party.adsList.length) {
                 this.isNew = true;
                 this.adsDetail = this.$store.state.party.adsList[0];
@@ -355,6 +410,52 @@ export default {
     @import '~styles/_style';
     .new-index{
         margin-bottom: 60px;
+        .toTop{
+            position: fixed;
+            right: 0;
+            bottom: 30px;
+            width: 50px;
+            height: 50px;
+            background: @color-pink;
+            z-index: 10;
+        }
+        .circle-menu{
+            position: relative;
+            z-index: 20;
+            .circle-icon{
+                z-index: 2;
+                width: 44px;
+                height: 44px;
+                border-radius: 100%;
+                background: @color-pink;
+            }
+            .circle-menu-list{
+                position: fixed;
+                top:100px;
+                left: 10px;
+                right: 10px;
+                height: 105px;
+                background: white;
+                z-index: 2;
+                border-radius: 7px;
+                .icon{
+                    position: absolute;
+                    top:-38px;
+                    right: 0;
+                    font-size: 70px;
+                }
+            }
+            .circle-menu-mask{
+                position: fixed;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                background: rgba(0,0,0,.6);
+                z-index: 1;
+            }
+
+        }
         .main-menu{
             position: fixed;
             left: 0;
@@ -381,17 +482,23 @@ export default {
         }
         .menu{
             img{
-                width: 50px;
+                width: 35px;
                 height: auto;
             }
         }
         .banner{
-            height: 150px;
+            height: 140px;
             width: 100%;
             overflow: hidden;
+            position: relative;
+            z-index: 2;
             .swiper-container{
-                height: 100px;
+                position: absolute;
+                left: 12px;
+                top:0;
+                height: 110px;
                 width: 100%;
+                // width: 600px;
                 .swiper-slide{
                     overflow: hidden;
                 }
@@ -407,6 +514,8 @@ export default {
             .swiper-pagination {
                 width: 100%;
                 text-align: left;
+                position: absolute;
+                bottom: 10px;
                 .swiper-pagination-bullet{
                     width: 20px;
                     margin-right: 5px;
@@ -530,6 +639,13 @@ export default {
                 }
             }
         }
+    }
+    .no-scroll{
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
     }
 
 </style>
