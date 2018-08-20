@@ -209,7 +209,7 @@ export default {
             switch (type) {
                 case 1:
                 // 玩转豆豆
-                    window.location.href = `/api/b2bPromotionMobile/oauthURI/rule_entry`;
+                    window.location.href = '/api/b2bPromotionMobile/oauthURI/rule_entry';
                     break;
                 case 2:
                 // 美博汇
