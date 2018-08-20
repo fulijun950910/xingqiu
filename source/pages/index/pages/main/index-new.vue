@@ -374,7 +374,7 @@ export default {
         },
         scroll() {
             // 显示圆圈菜单
-            if ($(window).scrollTop() >= this.circleMenuTop - 50) {
+            if ($(window).scrollTop() >= this.circleMenuTop) {
                 this.iconCircleMenu = true;
             } else {
                 this.iconCircleMenu = false;
