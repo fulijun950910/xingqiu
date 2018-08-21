@@ -1,5 +1,5 @@
 <template>
-<div class="new-index" v-title="'美问星球'" :class="{'over-hidden' : iconCircleMenu}" v-infinite-scroll="loadMore" :infinite-scroll-disabled="loading" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
+<div class="new-index" v-title="'美问星球'" v-infinite-scroll="loadMore" :infinite-scroll-disabled="loading" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
     <div class="direction">
         <div class="fs68 p-t-4 p-b-4 color-black p-l-4 p-r-4" layout="row" layout-align="space-between center">
             <div>发现</div>
@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="banner p-l-3">
-            <swiper :options="swiperOption">
+            <swiper :options="swiperOption" ref="swiperOption">
                 <swiper-slide v-for="(item, index) in bannerList" :key="index">
                     <img :src="item.image | nSrc(require('assets/imgs/female.png'))" @click="bannerClick(item.url)" alt="">
                 </swiper-slide>
@@ -20,7 +20,7 @@
         </div>
         <div class="break-line" flex></div>
     </div>
-    <div class="bbs-list p-l-4 p-r-4" :class="{'bbs-fixed' :iconCircleMenu }" flex>
+    <div class="bbs-list p-l-4 p-r-4" flex>
         <div class="qiu-title" layout="row" layout-align="space-between center">
             <div class="fs40 color-black fwb">星球课题</div>
             <div v-if="state != 2">
@@ -33,7 +33,7 @@
                 <i class="line"></i>
             </div>
         </div>
-        <div class="list m-b-3">
+        <div class="list m-b-3" :class="{'list-min-h' : iconCircleMenu}">
             <div class="list-box p-b-3 m-t-2" v-for="(item, index) in dataList" :key="index">
                 <div flex class="only-two-line fwb color-black fs34 m-b-3" @click="bbsIn(item)">{{item.subject}}</div>
                 <div layout="row" layout-align="start start" class="m-b-2" @click="bbsIn(item)">
@@ -75,14 +75,6 @@
             <span>我的</span>
         </div>
     </div>
-    <div class="circle-menu-mask" @click="showCircleMenu" v-if="circleMenu"></div>
-    <div class="circle-menu-list" layout="row" layout-align="center center" v-if="circleMenu" :style="circleMenuStyle">
-        <m-icon xlink="#icon-arrLeft-fill" class="color-white"></m-icon>
-        <div flex="20" layout="column" @click="linkTo(item.value)" layout-align="center center" v-for="(item, index) in menu" :key="index" class="menu">
-            <img :src="item.src" alt="">
-            <span class="extra-light-black fs24 m-t-2">{{item.name}}</span>
-        </div>
-    </div>
     <div class="qiu-title-fixed" v-if="iconCircleMenu">
         <div class="qiu-title m-l-3 m-r-3" layout="row" layout-align="space-between center">
             <div class="fs40 color-black fwb">星球课题</div>
@@ -98,12 +90,20 @@
                 <i class="line"></i>
             </div>
         </div>
+            <div class="circle-menu-mask" @click="showCircleMenu" v-if="circleMenu"></div>
+    <div class="circle-menu-list" layout="row" layout-align="center center" v-if="circleMenu" :style="circleMenuStyle">
+        <m-icon xlink="#icon-arrLeft-fill" class="color-white"></m-icon>
+        <div flex="20" layout="column" @click="linkTo(item.value)" layout-align="center center" v-for="(item, index) in menu" :key="index" class="menu">
+            <img :src="item.src" alt="">
+            <span class="extra-light-black fs24 m-t-2">{{item.name}}</span>
+        </div>
+    </div>
     </div>
     <div v-if="state == 1">
         <div class="sign-on color-white fs28" @click="linkTo(6)" layout="row" layout-align="start center">&nbsp;&nbsp;&nbsp;&nbsp;签到</div>
     </div>
 
-    <div class="toTop" @click="goTop" v-if="showGoTop"></div>
+    <!-- <div class="toTop" @click="goTop" v-if="showGoTop"></div> -->
 </div>
 </template>
 
@@ -171,10 +171,8 @@ export default {
                 spaceBetween: 10,
                 slidesPerGroup: 1,
                 loop: true,
-                autoplay: 3000,
-                pagination: {
-                    el: '.swiper-pagination'
-                }
+                autoplay: 2000,
+                pagination: '.swiper-pagination'
             },
             loading: false,
             scrollDisabled: false,
@@ -420,7 +418,6 @@ export default {
             this.circleMenuTop = $('.qiu-title').offset().top;
             window.addEventListener('scroll', this.scroll);
             if (this.$store.state && this.$store.state.party) {
-                debugger;
                 this.parameter.partyId = this.$store.state.party.partyId;
                 this.checkSignIn();
             } else {
@@ -460,9 +457,9 @@ export default {
           z-index: 10;
       }
       .circle-menu {
-          position: fixed;
-          right: 10px;
-          top:20px;
+        //   position: fixed;
+        //   right: 10px;
+        //   top:20px;
           z-index: 20;
       }
       .circle-icon {
@@ -575,7 +572,7 @@ export default {
       .qiu-title {
           padding: 20px 0;
           box-sizing: border-box;
-          width: 100%;
+        //   width: 100%;
           overflow: hidden;
           position: relative;
       }
@@ -681,6 +678,9 @@ export default {
               }
           }
       }
+                .list-min-h{
+              min-height: 500px;
+          }
   }
 
   .no-scroll {
