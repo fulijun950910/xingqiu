@@ -2,7 +2,7 @@
 <div class="new-index" v-title="'美问星球'" v-infinite-scroll="loadMore" :infinite-scroll-disabled="loading" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
     <div class="direction">
         <div class="p-t-4 p-b-4  p-l-4 p-r-4" layout="row" layout-align="space-between center">
-            <div  class="fs40 color-black fwb">发现</div>
+            <div  class="fs48 color-black fwb">发现</div>
         </div>
         <div layout="row" layout-align="start center" flex class="m-b-4">
             <div flex="20" layout="column" @click="linkTo(item.value)" layout-align="center center" v-for="(item, index) in menu" :key="index" class="menu">
@@ -105,7 +105,7 @@
     </div>
 
     <div class="toTop" @click="goTop" v-if="showGoTop" layout="row" layout-align="center center">
-        <m-icon xlink="#icon-zhiding1" class="fs40 color-white"></m-icon>
+        <m-icon xlink="#icon-zhiding1" class="fs32 color-white"></m-icon>
     </div>
 </div>
 </template>
@@ -354,6 +354,8 @@ export default {
             this.$indicator.open();
             api_party.favorite(parameter, type).then(msg=> {
                 this.$indicator.close();
+                let text = type == 2 ? '取消收藏' : '添加收藏';
+                this.$toast(text);
                 let tempDataList = JSON.parse(JSON.stringify(this.dataList));
                 tempDataList[index].isFavorite = !tempDataList[index].isFavorite;
                 tempDataList[index].collect = false;
