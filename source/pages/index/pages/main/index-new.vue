@@ -56,7 +56,7 @@
                     <div class="collect" layout="row" layout-align="center center" @click.stop="collectEdite(item, index)" :class="{'like' : item.isFavorite , 'show' : item.collect}">
                         <m-icon xlink="#icon-arrLeft-fill" class="fs40 sanjiao color-white"></m-icon>
                         <div class="extra-light-black fs30">
-                            <m-icon xlink="#icon-huodong" class="fs40"></m-icon>&nbsp;{{item.isFavorite ? '取消' : '收藏'}}
+                            <m-icon xlink="#icon-huodong" class="fs30"></m-icon>&nbsp;{{item.isFavorite ? '取消' : '收藏'}}
                         </div>
                     </div>
                     <div class="collect-mask" v-if="item.collect" @click.stop="showCollect(index)"></div>                    
@@ -67,13 +67,13 @@
     </div>
     <new-present :show-mask="isNew" :ads-detail="adsDetail" @hideMask="hideMask"></new-present>
     <div class="main-menu" layout="row" layout-align="start stretch">
-        <div flex="50" layout="column" layout-align="center center" class="fs28 extra-light-black">
+        <div flex="50" layout="column" layout-align="center center" class="extra-light-black">
             <m-icon xlink="#icon-huaban6" class="color-pink fs48"></m-icon>
-            <span>首页</span>
+            <span class="fs24">首页</span>
         </div>
         <div flex="50" layout="column" layout-align="center center" class="fs28 extra-light-black" @click="linkTo(7)">
             <m-icon xlink="#icon-huaban1" class="fs48"></m-icon>
-            <span>我的</span>
+            <span class="fs24">我的</span>
         </div>
     </div>
     <div class="qiu-title-fixed" v-if="iconCircleMenu">
@@ -586,7 +586,7 @@ export default {
           box-shadow: 0 5px 8px 0 rgba(17, 80, 169, 0.24);
           border-radius: 50px;
           position: fixed;
-          z-index: 10;
+          z-index: 9;
       }
       .break-line {
           height: 10px;
@@ -635,7 +635,7 @@ export default {
                   width: 105px;
                   position: relative;
                   overflow: hidden;
-                  border-radius: 10px;
+                  border-radius: 10px!important;
                   img {
                       width: 248px;
                       height: 140px;
@@ -652,18 +652,20 @@ export default {
                   transition: all ease .3s;
                   opacity: 0;
                   position: absolute;
+                  display: none;
                   right: 0;
+                  border-radius: 10px;
+                  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, .2);
                   bottom: -40px;
               }
               .show {
                   opacity: 1;
                   width: 86px;
-                  height: 51px;
+                  height: 45px;
                   z-index: 2;
-                  border-radius: 10px;
-                  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, .3);
                   background: white;
                   z-index: 2;
+                  display: flex;
                   .sanjiao {
                       position: absolute;
                       top: -5px;
