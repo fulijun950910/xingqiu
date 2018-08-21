@@ -77,11 +77,11 @@
         <div class="bottom-tab color-gray" layout="row" layout-align="start center">
             <div layout="column" flex="50" @click="routeTo(1)" layout-align="center center" class="item">
                 <div><m-icon class="icon "  xlink="#icon-huaban6"></m-icon></div>
-                <div>首页</div>
+                <div class="fs24">首页</div>
             </div>
             <div layout="column" flex="50" @click="routeTo(2)" layout-align="center center" class="item act">
                 <div><m-icon class="icon "  xlink="#icon-huaban1"></m-icon></div>
-                <div>我的</div>
+                <div class="fs24">我的</div>
             </div>
         </div>
         <customer-service v-if="showService"></customer-service>

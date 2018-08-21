@@ -1,8 +1,8 @@
 <template>
 <div class="new-index" v-title="'美问星球'" v-infinite-scroll="loadMore" :infinite-scroll-disabled="loading" infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
     <div class="direction">
-        <div class="fs68 p-t-4 p-b-4 color-black p-l-4 p-r-4" layout="row" layout-align="space-between center">
-            <div>发现</div>
+        <div class="p-t-4 p-b-4  p-l-4 p-r-4" layout="row" layout-align="space-between center">
+            <div  class="fs48 color-black fwb">发现</div>
         </div>
         <div layout="row" layout-align="start center" flex class="m-b-4">
             <div flex="20" layout="column" @click="linkTo(item.value)" layout-align="center center" v-for="(item, index) in menu" :key="index" class="menu">
@@ -27,8 +27,8 @@
                 <div class="sign-on color-white fs28" @click="linkTo(6)" layout="row" layout-align="start center">&nbsp;&nbsp;&nbsp;&nbsp;签到</div>
             </div>
         </div>
-        <div layout="row" layout-align="start center" class="bbs-menu">
-            <div class="p-r-3 p-b-4 item m-r-2" v-for="(item, index) in bbsMenu" :key="index" @click.stop="choosePart(item)" :class="{'active': item.id == parameter.forumId}">
+        <div layout="row" layout-align="start center" class="bbs-menu m-b-4">
+            <div class="p-r-2 p-b-4 item m-r-2" v-for="(item, index) in bbsMenu" :key="index" @click.stop="choosePart(item)" :class="{'active': item.id == parameter.forumId}">
                 <span class="fs28 color-gray">{{item.name}}</span>
                 <i class="line"></i>
             </div>
@@ -56,7 +56,7 @@
                     <div class="collect" layout="row" layout-align="center center" @click.stop="collectEdite(item, index)" :class="{'like' : item.isFavorite , 'show' : item.collect}">
                         <m-icon xlink="#icon-arrLeft-fill" class="fs40 sanjiao color-white"></m-icon>
                         <div class="extra-light-black fs30">
-                            <m-icon xlink="#icon-huodong" class="fs40"></m-icon>&nbsp;{{item.isFavorite ? '取消' : '收藏'}}
+                            <m-icon xlink="#icon-huodong" class="fs30"></m-icon>&nbsp;{{item.isFavorite ? '取消' : '收藏'}}
                         </div>
                     </div>
                     <div class="collect-mask" v-if="item.collect" @click.stop="showCollect(index)"></div>                    
@@ -67,13 +67,13 @@
     </div>
     <new-present :show-mask="isNew" :ads-detail="adsDetail" @hideMask="hideMask"></new-present>
     <div class="main-menu" layout="row" layout-align="start stretch">
-        <div flex="50" layout="column" layout-align="center center" class="fs28 extra-light-black">
+        <div flex="50" layout="column" layout-align="center center" class="extra-light-black">
             <m-icon xlink="#icon-huaban6" class="color-pink fs48"></m-icon>
-            <span>首页</span>
+            <span class="fs24">首页</span>
         </div>
         <div flex="50" layout="column" layout-align="center center" class="fs28 extra-light-black" @click="linkTo(7)">
             <m-icon xlink="#icon-huaban1" class="fs48"></m-icon>
-            <span>我的</span>
+            <span class="fs24">我的</span>
         </div>
     </div>
     <div class="qiu-title-fixed" v-if="iconCircleMenu">
@@ -86,7 +86,7 @@
             </div>
         </div>
         <div layout="row" layout-align="start center" class="bbs-menu p-l-3 p-r-3">
-            <div class="p-r-3 p-b-4 item m-r-2" v-for="(item, index) in bbsMenu" :key="index" @click.stop="choosePart(item, 1)" :class="{'active': item.id == parameter.forumId}">
+            <div class="p-r-2 p-b-4 item m-r-2" v-for="(item, index) in bbsMenu" :key="index" @click.stop="choosePart(item, 1)" :class="{'active': item.id == parameter.forumId}">
                 <span class="fs28 color-gray">{{item.name}}</span>
                 <i class="line"></i>
             </div>
@@ -104,7 +104,9 @@
         <div class="sign-on color-white fs28" @click="linkTo(6)" layout="row" layout-align="start center">&nbsp;&nbsp;&nbsp;&nbsp;签到</div>
     </div>
 
-    <!-- <div class="toTop" @click="goTop" v-if="showGoTop"></div> -->
+    <div class="toTop" @click="goTop" v-if="showGoTop" layout="row" layout-align="center center">
+        <m-icon xlink="#icon-zhiding1" class="fs32 color-white"></m-icon>
+    </div>
 </div>
 </template>
 
@@ -260,18 +262,18 @@ export default {
                     break;
                 case 2:
                 // 美博汇
-                    if (this.$store.state && this.$store.state.party && this.$store.state.party.partyId) {
-                        let openId = JSON.parse(localStorage.getItem('employee')).openId;
-                        this.$indicator.open();
-                        api_party.bandWeichat(this.$store.state.party.id, openId).then(msg=> {
-                            this.$indicator.close();
-                            window.location.href = `http://b2b.mei1.info/app/index.php?i=1&c=entry&eid=41&saasUID=${this.$store.state.party.id}`;
-                        }, msg=> {
-                        });
-                    } else {
-                        location.href = this.$signLocation;
-                    };
-                // location.href = `${this.$rootPath}shop.html#/leader`;
+                    // if (this.$store.state && this.$store.state.party && this.$store.state.party.partyId) {
+                    //     let openId = JSON.parse(localStorage.getItem('employee')).openId;
+                    //     this.$indicator.open();
+                    //     api_party.bandWeichat(this.$store.state.party.id, openId).then(msg=> {
+                    //         this.$indicator.close();
+                    //         window.location.href = `http://b2b.mei1.info/app/index.php?i=1&c=entry&eid=41&saasUID=${this.$store.state.party.id}`;
+                    //     }, msg=> {
+                    //     });
+                    // } else {
+                    //     location.href = this.$signLocation;
+                    // };
+                    location.href = `${this.$rootPath}shop.html#/leader`;
                     break;
                 case 3:
                 // 美问美答
@@ -352,6 +354,8 @@ export default {
             this.$indicator.open();
             api_party.favorite(parameter, type).then(msg=> {
                 this.$indicator.close();
+                let text = type == 2 ? '取消收藏' : '添加收藏';
+                this.$toast(text);
                 let tempDataList = JSON.parse(JSON.stringify(this.dataList));
                 tempDataList[index].isFavorite = !tempDataList[index].isFavorite;
                 tempDataList[index].collect = false;
@@ -450,12 +454,13 @@ export default {
       position: relative;
       .toTop {
           position: fixed;
-          right: 0;
-          bottom: 30px;
-          width: 50px;
-          height: 50px;
-          background: @color-pink;
+          width: 44px;
+          height: 44px;
+          background: rgba(0,0,0,.4);
+          right: 15px;
+          bottom: 80px;
           z-index: 10;
+          border-radius: 100%;
       }
       .circle-menu {
         //   position: fixed;
@@ -586,7 +591,7 @@ export default {
           box-shadow: 0 5px 8px 0 rgba(17, 80, 169, 0.24);
           border-radius: 50px;
           position: fixed;
-          z-index: 10;
+          z-index: 9;
       }
       .break-line {
           height: 10px;
@@ -635,7 +640,7 @@ export default {
                   width: 105px;
                   position: relative;
                   overflow: hidden;
-                  border-radius: 10px;
+                  border-radius: 10px!important;
                   img {
                       width: 248px;
                       height: 140px;
@@ -652,18 +657,20 @@ export default {
                   transition: all ease .3s;
                   opacity: 0;
                   position: absolute;
+                  display: none;
                   right: 0;
+                  border-radius: 10px;
+                  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, .2);
                   bottom: -40px;
               }
               .show {
                   opacity: 1;
                   width: 86px;
-                  height: 51px;
+                  height: 45px;
                   z-index: 2;
-                  border-radius: 10px;
-                  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, .3);
                   background: white;
                   z-index: 2;
+                  display: flex;
                   .sanjiao {
                       position: absolute;
                       top: -5px;
