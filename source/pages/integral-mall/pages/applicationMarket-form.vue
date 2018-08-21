@@ -453,7 +453,7 @@ export default {
                 title: this.chooseServiceItem.name,
                 desc: this.chooseServiceItem.description,
                 link: window.location.href,
-                imgUrl: window.location.origin + this.chooseServiceItem.image,
+                imgUrl: window.location.origin + '/api/file/' + this.chooseServiceItem.image,
                 type: 'link',
                 dataUrl: '',
                 success: function() {
