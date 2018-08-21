@@ -59,6 +59,7 @@
                             <m-icon xlink="#icon-huodong" class="fs40"></m-icon>&nbsp;{{item.isFavorite ? '取消' : '收藏'}}
                         </div>
                     </div>
+                    <div class="collect-mask" v-if="item.collect" @click.stop="showCollect(index)"></div>                    
                 </div>
             </div>
             <div flex class="p-t-2 p-b-2 text-center light-gray" v-if="scrollDisabled"> 我是有底线的哦~</div>
@@ -662,6 +663,7 @@ export default {
                   border-radius: 10px;
                   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, .3);
                   background: white;
+                  z-index: 2;
                   .sanjiao {
                       position: absolute;
                       top: -5px;
@@ -675,6 +677,14 @@ export default {
                       }
                       color: @color-pink;
                   }
+              }
+              .collect-mask{
+                  position: fixed;
+                  left: 0;
+                  right: 0;
+                  top: 0;
+                  bottom: 0;
+                  z-index: 1;
               }
           }
       }
