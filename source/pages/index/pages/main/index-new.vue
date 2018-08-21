@@ -27,7 +27,7 @@
                 <div class="sign-on color-white fs28" @click="linkTo(6)" layout="row" layout-align="start center">&nbsp;&nbsp;&nbsp;&nbsp;签到</div>
             </div>
         </div>
-        <div layout="row" layout-align="start center" class="bbs-menu">
+        <div layout="row" layout-align="start center" class="bbs-menu m-b-4">
             <div class="p-r-2 p-b-4 item m-r-2" v-for="(item, index) in bbsMenu" :key="index" @click.stop="choosePart(item)" :class="{'active': item.id == parameter.forumId}">
                 <span class="fs28 color-gray">{{item.name}}</span>
                 <i class="line"></i>
