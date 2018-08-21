@@ -28,7 +28,7 @@
             </div>
         </div>
         <div layout="row" layout-align="start center" class="bbs-menu">
-            <div class="p-r-3 p-b-4 item m-r-2" v-for="(item, index) in bbsMenu" :key="index" @click.stop="choosePart(item)" :class="{'active': item.id == parameter.forumId}">
+            <div class="p-r-2 p-b-4 item m-r-2" v-for="(item, index) in bbsMenu" :key="index" @click.stop="choosePart(item)" :class="{'active': item.id == parameter.forumId}">
                 <span class="fs28 color-gray">{{item.name}}</span>
                 <i class="line"></i>
             </div>
@@ -86,7 +86,7 @@
             </div>
         </div>
         <div layout="row" layout-align="start center" class="bbs-menu p-l-3 p-r-3">
-            <div class="p-r-3 p-b-4 item m-r-2" v-for="(item, index) in bbsMenu" :key="index" @click.stop="choosePart(item, 1)" :class="{'active': item.id == parameter.forumId}">
+            <div class="p-r-2 p-b-4 item m-r-2" v-for="(item, index) in bbsMenu" :key="index" @click.stop="choosePart(item, 1)" :class="{'active': item.id == parameter.forumId}">
                 <span class="fs28 color-gray">{{item.name}}</span>
                 <i class="line"></i>
             </div>
