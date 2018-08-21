@@ -104,6 +104,7 @@
 
 <script>
     import api_party from 'services/api.party';
+    import apiGetJSSignature from 'services/api.getJSSignature';
 
     export default {
         name: 'index',
@@ -114,6 +115,7 @@
         },
         mounted() {
             this.loadData();
+            this.js_sdk();
         },
         methods: {
             loadData() {
@@ -186,6 +188,20 @@
                         this.$router.push('/activity-list/9');
                         break;
                 }
+            },
+            async js_sdk() {
+                let share = {
+                    title: '美豆豆',
+                    desc: '美豆豆，赚不停',
+                    link: window.location.href,
+                    imgUrl: window.location.origin + '/assets/imgs/integral-mall/2018060505.png',
+                    type: 'link',
+                    dataUrl: '',
+                    success: function() {
+                    },
+                    cancel: null
+                };
+                apiGetJSSignature.shareAppMessage(share);
             }
         }
     };

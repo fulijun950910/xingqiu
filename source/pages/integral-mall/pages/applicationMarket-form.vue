@@ -102,6 +102,7 @@ import Vue from 'vue';
 import mPicker from 'components/m-picker';
 import { Indicator, Swipe, SwipeItem } from 'mint-ui';
 import api_party from 'services/api.party';
+import apiGetJSSignature from 'services/api.getJSSignature';
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
 export default {
@@ -207,6 +208,7 @@ export default {
                 if (this.formType == 2 || this.formType == 4 || this.formType == 1) {
                     this.baseParameter.specCode = this.chooseServiceItem.goodsSpecList[0].specCode;
                 };
+                this.js_sdk();
                 this.addStoreData[0].specCode = this.chooseServiceItem.goodsSpecList[0].specCode;
                 this.backData(this.formType);
             }, msg=> {
@@ -443,9 +445,26 @@ export default {
                 }
             } catch (e) {
             };
+        },
+        async js_sdk() {
+            console.log(123);
+            console.log(this.chooseServiceItem);
+            let share = {
+                title: this.chooseServiceItem.name,
+                desc: this.chooseServiceItem.description,
+                link: window.location.href,
+                imgUrl: window.location.origin + this.chooseServiceItem.image,
+                type: 'link',
+                dataUrl: '',
+                success: function() {
+                },
+                cancel: null
+            };
+            apiGetJSSignature.shareAppMessage(share);
         }
     },
     mounted() {
+        console.log(123);
         this.init();
         try {
             let localData = JSON.parse(sessionStorage.tradeItemSpecList);
