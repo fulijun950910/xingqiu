@@ -105,7 +105,7 @@
     </div>
 
     <div class="toTop" @click="goTop" v-if="showGoTop" layout="row" layout-align="center center">
-        <m-icon xlink="#icon-zhiding" class="fs40 color-white"></m-icon>
+        <m-icon xlink="#icon-zhiding1" class="fs40 color-white"></m-icon>
     </div>
 </div>
 </template>
