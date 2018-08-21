@@ -126,7 +126,7 @@ export default {
             isNew: false,
             adsDetail: {},
             employee: this.$store.state,
-            state: 1,
+            state: 2,
             lastDay: {continueDays: 0},
             circleMenu: false,
             circleMenuTop: 0,
@@ -328,6 +328,8 @@ export default {
                     if (this.lastDay.todayDate === this.lastDay.signDate) {
                         this.state = 2;
                     }
+                } else {
+                    this.state = 1;
                 }
             });
         },
@@ -587,7 +589,8 @@ export default {
           height: 34px;
           right: -50px;
           top: 50%;
-          background: url('~assets/imgs/index/sign-to-bg.png') no-repeat center;
+          background: url('~assets/imgs/index/sign-to-bg.png') no-repeat left;
+          background-size: auto 100%;
           box-shadow: 0 5px 8px 0 rgba(17, 80, 169, 0.24);
           border-radius: 50px;
           position: fixed;
