@@ -216,6 +216,7 @@ app.index = {
         if (!localStorage.employee || !JSON.parse(localStorage.employee) || typeof JSON.parse(localStorage.employee) != 'object') {
             // location.href = "/userinfo.html?type=1#/user_login";
             this.resetLogin();
+            return;
         }
         if (JSON.parse(localStorage.employee).merchant && (JSON.parse(localStorage.employee).merchant.functionVersion == 4 || JSON.parse(localStorage.employee).merchant.functionVersion == 5)) {
             location.href = '/lite/index.html';
