@@ -447,8 +447,6 @@ export default {
             };
         },
         async js_sdk() {
-            console.log(123);
-            console.log(this.chooseServiceItem);
             let share = {
                 title: this.chooseServiceItem.name,
                 desc: this.chooseServiceItem.description,
@@ -464,7 +462,6 @@ export default {
         }
     },
     mounted() {
-        console.log(123);
         this.init();
         try {
             let localData = JSON.parse(sessionStorage.tradeItemSpecList);
