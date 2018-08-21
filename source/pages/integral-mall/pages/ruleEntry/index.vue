@@ -194,6 +194,7 @@
                     title: '美豆豆',
                     desc: '美豆豆，赚不停',
                     link: window.location.href,
+                    imgUrl: window.location.origin + '/service/static/2018060509.jpg',
                     type: 'link',
                     dataUrl: '',
                     success: function() {
