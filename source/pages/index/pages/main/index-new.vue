@@ -104,7 +104,9 @@
         <div class="sign-on color-white fs28" @click="linkTo(6)" layout="row" layout-align="start center">&nbsp;&nbsp;&nbsp;&nbsp;签到</div>
     </div>
 
-    <!-- <div class="toTop" @click="goTop" v-if="showGoTop"></div> -->
+    <div class="toTop" @click="goTop" v-if="showGoTop">
+        <m-icon xlink="#icon-zhiding" class="fs40"></m-icon>
+    </div>
 </div>
 </template>
 
@@ -450,11 +452,8 @@ export default {
       position: relative;
       .toTop {
           position: fixed;
-          right: 0;
-          bottom: 30px;
-          width: 50px;
-          height: 50px;
-          background: @color-pink;
+          right: 15px;
+          bottom: 80px;
           z-index: 10;
       }
       .circle-menu {
