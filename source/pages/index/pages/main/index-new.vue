@@ -588,7 +588,7 @@ export default {
           width: 100px;
           height: 34px;
           right: -50px;
-          top: 50%;
+          top: 42%;
           background: url('~assets/imgs/index/sign-to-bg.png') no-repeat left;
           background-size: auto 100%;
           box-shadow: 0 5px 8px 0 rgba(17, 80, 169, 0.24);
