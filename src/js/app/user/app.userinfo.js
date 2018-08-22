@@ -295,10 +295,10 @@ app.userinfo = {
 
     },
     setPersonalNoun: function(merchantId) {
-        app.api.personalNoun({
+        app.api.index.personalNoun({
             data: merchantId,
             success: function(msg) {
-                var temp = app.api.baseNoun(msg.data);
+                var temp = app.api.index.baseNoun(msg.data);
                 window.localStorage.setItem('personNoun', JSON.stringify(temp));
             },
             error: function(msg) {
