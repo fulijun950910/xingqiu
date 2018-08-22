@@ -92,6 +92,7 @@ app.api = {
             return result;
         }
     },
+
     personalNoun: function(settings) {
         app.api.ajax({
             url: '/nounConfig/list/' + settings.data,
