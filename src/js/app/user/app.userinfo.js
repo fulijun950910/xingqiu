@@ -473,8 +473,9 @@ app.userinfo = {
                                                 employee.role = null;
                                             }
                                         }
-
+                                        window.localStorage.employee = JSON.stringify(employee);
                                         app.userinfo.getOpenId(employee.userId).then(function(backOpenId) {
+                                            var employee = JSON.parse(localStorage.getItem('employee'));
                                             employee.openId = backOpenId;
                                             window.localStorage.employee = JSON.stringify(employee);
                                         }, function(backOpenId) {
@@ -488,70 +489,59 @@ app.userinfo = {
                                                 empid: employee.id
                                             },
                                             success: function(results) {
-                                                if (results && results.success) {}
-
-                                                        //
-                                                app.userinfo.getEmployee().then(function(employee) {
-                                                    if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
-                                                                // if (employee.merchant && employee.merchant.functionVersion == 4) { //营销版
-                                                                //     location.href = "/lite/index.html";
-                                                                // } else { //专业版
-                                                                //     if (window.history.replaceState) {
-                                                                //         window.history.replaceState({}, "0", window.location.origin + '/main.html#/index');
-                                                                //         window.location.reload();
-                                                                //     } else {
-                                                                //         location.href = "/main.html#/index";
-                                                                //     }
-                                                                // };
-                                                        app.userinfo.loginBySaasEmployee(employee.id).then(function(res) {
-                                                            var employeeData = window.localStorage.employee;
-                                                            if (employeeData) {
-                                                                employeeData = JSON.parse(employeeData);
-                                                                employeeData.party = res.data;
-                                                                window.localStorage.employee = JSON.stringify(employeeData);
-                                                                var url = '/service/index.html#/main';
-                                                                if (keyGetValue('type') == 1 || loginType == 1) {
-                                                                    url = '/main.html#/index';
-                                                                    if (employee.merchant && (employee.merchant.functionVersion == 4 || employee.merchant.functionVersion == 5)) { // 营销版
-                                                                        url = '/lite/index.html';
+                                                if (results && results.success) {
+                                                    app.userinfo.getEmployee().then(function(employee) {
+                                                        if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
+                                                            app.userinfo.loginBySaasEmployee(employee.id).then(function(res) {
+                                                                var employeeData = window.localStorage.employee;
+                                                                if (employeeData) {
+                                                                    employeeData = JSON.parse(employeeData);
+                                                                    employeeData.party = res.data;
+                                                                    window.localStorage.employee = JSON.stringify(employeeData);
+                                                                    var url = '/service/index.html#/main';
+                                                                    if (keyGetValue('type') == 1 || loginType == 1) {
+                                                                        url = '/main.html#/index';
+                                                                        if (employee.merchant && (employee.merchant.functionVersion == 4 || employee.merchant.functionVersion == 5)) { // 营销版
+                                                                            url = '/lite/index.html';
+                                                                        }
+                                                                    } else if (keyGetValue('type') == 2) {
+                                                                        window.history.back();
+                                                                        return;
+                                                                    } else if (keyGetValue('type') == 3) {
+                                                                        url = '/service/integral-mall.html#/personal';
+                                                                    } else if (keyGetValue('type') == 4) {
+                                                                        url = '/service/index.html#/checkIn';
+                                                                    } else if (keyGetValue('type') == 5) {
+                                                                        url = '/service/integral-mall.html#/rule-entry';
                                                                     }
-                                                                } else if (keyGetValue('type') == 2) {
-                                                                    window.history.back();
-                                                                    return;
-                                                                } else if (keyGetValue('type') == 3) {
-                                                                    url = '/service/integral-mall.html#/personal';
-                                                                } else if (keyGetValue('type') == 4) {
-                                                                    url = '/service/index.html#/checkIn';
-                                                                } else if (keyGetValue('type') == 5) {
-                                                                    url = '/service/integral-mall.html#/rule-entry';
-                                                                }
 
-                                                                if (location.pathname == '/main.html') {
-                                                                    location.reload();
+                                                                    if (location.pathname == '/main.html') {
+                                                                        location.reload();
+                                                                    } else {
+                                                                        location.href = url;
+                                                                    }
+                                                                    // if (window.history.replaceState) {
+                                                                    //     window.history.replaceState({}, "", window.location.origin + url);
+                                                                    //     window.history.go(0);
+                                                                    // } else {
+                                                                    //     location.href = url;
+                                                                    // }
                                                                 } else {
-                                                                    location.href = url;
+                                                                    app.userinfo.alertError('服务器开小差，请稍后再试');
                                                                 }
-                                                                        // if (window.history.replaceState) {
-                                                                        //     window.history.replaceState({}, "", window.location.origin + url);
-                                                                        //     window.history.go(0);
-                                                                        // } else {
-                                                                        //     location.href = url;
-                                                                        // }
-                                                            } else {
-                                                                app.userinfo.alertError('服务器开小差，请稍后再试');
-                                                            }
-                                                        });
-                                                    } else {
-                                                        document.cookie = 'rememberMe=';
-                                                        document.cookie = 'remeberMeRunAsRole=';
-                                                        localStorage.clear();
-                                                        location.href = '/userinfo.html#/user_login';
-                                                                // app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
-                                                        app.userinfo.alertError('小主，您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!');
-                                                        app.endLoading();
-                                                        return;
-                                                    }
-                                                });
+                                                            });
+                                                        } else {
+                                                            document.cookie = 'rememberMe=';
+                                                            document.cookie = 'remeberMeRunAsRole=';
+                                                            localStorage.clear();
+                                                            location.href = '/userinfo.html#/user_login';
+                                                            // app.alert('您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!', '操作失败');
+                                                            app.userinfo.alertError('小主，您没有访问店务助手权限,请登录美问saas平台设置店务助手权限!!');
+                                                            app.endLoading();
+                                                            return;
+                                                        }
+                                                    });
+                                                }
                                             },
                                             error: function() {
                                                 app.endLoading();
@@ -561,20 +551,11 @@ app.userinfo = {
                                 },
                                 error: function(a, b, c) {
                                     app.endLoading();
-
                                 }
                             });
-
-                                // },
-                                // error: function(err) {
-                                //     app.userinfo.alertError('服务器正在开小差。。。');
-
-                                // }
-                            // });
                         }
                     },
                     error: function(a, b, c) {
-
                     }
                 });
             }

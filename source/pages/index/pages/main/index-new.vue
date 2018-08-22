@@ -279,7 +279,7 @@ export default {
                 // 美问美答
                     // this.$router.push({name: 'bbsPage'});
                     let url = '';
-                    if (this.$enviroment == 'development') {
+                    if (this.$enviroment == 'production') {
                         url += 'http://bbs.mei1.info/forum.php';
                     } else {
                         url += 'http://bbs.test.mei1.info/forum.php';
