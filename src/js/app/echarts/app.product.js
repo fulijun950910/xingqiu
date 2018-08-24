@@ -178,10 +178,10 @@ app.productEcharts = {
             }
             $('.tool-tab ul li').eq(tooBarIndex).click(); // 还原选中tab
             // 自定义名词
-            app.api.personalNoun({
+            app.api.index.personalNoun({
                 data: employee.merchantId,
                 success: function(msg) {
-                    var psersonalNoun = app.api.baseNoun(msg.data);
+                    var psersonalNoun = app.api.index.baseNoun(msg.data);
                     $('.personalProject').html(psersonalNoun.project);
                 },
                 error: function(error) {
