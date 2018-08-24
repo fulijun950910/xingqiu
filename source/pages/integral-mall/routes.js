@@ -29,6 +29,7 @@ const payDetail = resolve => require(['./pages/pay/pay-detail'], resolve);
 const paySuccess = resolve => require(['./pages/pay/pay-success'], resolve);
 const applicationMarketForm = resolve => require(['./pages/applicationMarket-form'], resolve);
 const baiduMap = resolve => require(['./pages/baidu-map'], resolve);
+const packageDetail = resolve => require(['./pages/detail/package-detail'], resolve);
 
 export default [{
     path: '/',
@@ -145,7 +146,13 @@ export default [{
     path: '/applicationMarket-form/:id',
     name: 'applicationMarket-form',
     component: applicationMarketForm
-}, {
+},
+{
+    path: '/package-detail/:id',
+    name: 'package-detail',
+    component: packageDetail
+},
+{
     path: '/baidu-map/:id',
     name: 'baidu-map',
     component: baiduMap

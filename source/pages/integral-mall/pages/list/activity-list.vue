@@ -68,10 +68,12 @@ export default {
                 this.$store.state.scroll = $(window).scrollTop();
                 this.$store.commit('UPDATE_LOCAL');
             };
-            if (this.$route.params.type == 5) {
+            if (this.$route.params.type == 5 && item.priceType == 1) {
                 this.$router.push(`/application-form/${item.id}`);
-            } else if (this.$route.params.type == 9) {
+            } else if (this.$route.params.type == 9 && item.priceType == 1) {
                 this.$router.push(`/applicationMarket-form/${item.id}`);
+            } else if (this.$route.params.type == 9 && item.priceType == 2) {
+                this.$router.push(`/package-detail/${item.id}`);
             }
         },
         init() {
