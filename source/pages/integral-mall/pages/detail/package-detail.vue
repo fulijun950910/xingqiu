@@ -25,7 +25,7 @@
                         <div class="fwb fs24 m-b-2">{{sku.goodsName}}</div>
                         <div class="fs24">规格：{{sku.specification ? sku.specification.specName : '无'}}</div>
                     </div>
-                    <div layout="row" flex layout-align="end center" v-if="sku.formType !=4 && sku.formType !=2">
+                    <div layout="row" flex layout-align="end center" v-if="sku.formType !=4 && sku.formType !=3">
                         <m-icon class="fs40 steel-gray add m-r-3" xlink="#icon-gouxuanshixin"></m-icon>
                     </div>
                     </div>
@@ -35,7 +35,25 @@
                          <div class="fs24">{{store.name}}</div>
                          <div v-if="checkActive(sku.stores, store, 1)"><m-icon class="color-tiffany-blue" xlink="#icon-check__"></m-icon></div>
                      </div>
-                    </div>                    
+                    </div>    
+                    <div v-if="sku.formType == 3" flex name="新增门店">
+                        <div class="fs24 text-center color-tiffany-blue p-t-2 p-b-2" @click="toggle(sku, 'addStoreToggle', 'addStoreIcon')">点击填写添加门店<m-icon :xlink="sku.addStoreIcon"></m-icon></div>
+                        <div v-for="(newStore, newStoreIndex) in sku.addStores" :key="newStoreIndex" v-if="sku.addStoreToggle">
+                          <div layout="row" layout-align=" center" class="p-t-2 p-b-2" :class="{'border-bottom' :newStoreIndex!= sku.addStores.length -1 }">
+                              <input flex type="text" placeholder="请填写门店名称" v-model="newStore.storeName">
+                          </div>
+                          <div layout="row" layout-align=" center" class="p-t-2 p-b-2">
+                              <input flex type="text" placeholder="请填联系电话" v-model="newStore.storeName">
+                          </div>
+                          <div layout="row" layout-align=" center" class="p-t-2 p-b-2">
+                              <input flex type="text" placeholder="请填写门店类型" v-model="newStore.storeName">
+                          </div>
+                          <div layout="row" layout-align=" center" class="p-t-2 p-b-2">
+                              <input flex type="text" placeholder="请选择规格" v-model="newStore.storeName">
+                          </div>
+                        </div>
+                             <div @click="addStore(sku, newStoreIndex, 1)">添加门店</div>
+                        </div>                
                     <div flex v-if="sku.goodsGroupGoodsSpecList.length > 1" class="border-bottom" name="选择规格">
                         <div class="fs24 text-center color-tiffany-blue p-t-2 p-b-2" @click="toggle(sku, 'toggle', 'icon')" flex>点击选择规格<m-icon :xlink="sku.icon"></m-icon></div>
                         <div flex class="p-b-3 border-top" v-if="sku.toggle">
@@ -107,10 +125,17 @@ export default {
                                 this.$set(sku, 'icon', '#icon-xia');
                                 this.$set(sku, 'storeIcon', '#icon-xia');
                                 this.$set(sku, 'stores', []);
+                                this.$set(sku, 'addStoreToggle', false);
+                                this.$set(sku, 'addStoreIcon', '#icon-xia');
                                 this.$set(sku, 'storeToggle', false);
                                 this.$set(sku, 'toggle', false);
                                 this.$set(sku, 'active', false);
                                 this.$set(sku, 'storeList', data);
+                                this.$set(sku, 'addStores', [{
+                                    storeName: '',
+                                    storeContactPhone: '',
+                                    relationType: ''
+                                }]);
                                 if (data.length == 1) {
                                     this.$set(sku, 'stores', [data[0]]);
                                 }
@@ -136,6 +161,7 @@ export default {
             }
         },
         toggle(obj, type, icon) {
+            debugger;
             let toggle = obj[type];
             this.$set(obj, type, !toggle);
             if (obj[type]) {
@@ -145,7 +171,7 @@ export default {
             };
         },
         chooseActivity(sku, item) {
-            if (sku.formType == 2 || sku.formType == 4) {
+            if (sku.formType == 3 || sku.formType == 4) {
                 return;
             }
             let limit = item.quantity;
@@ -224,6 +250,18 @@ export default {
                     item.select.push(spec);
                 }
                 console.log(this.goodsGroupList);
+            }
+        },
+        addStore(obj, index, type) {
+            if (type == 1) {
+                // 添加门店
+                obj.push({
+                    storeName: '',
+                    storeContactPhone: '',
+                    relationType: ''
+                });
+            } else if (type == 2) {
+                obj.splice(index, 1);
             }
         },
         toPay() {
