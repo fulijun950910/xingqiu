@@ -1,7 +1,7 @@
 <template>
 <div class="pay-detail" v-title="'确认订单'">
     <div class="top-des" flex layout="column" layout-align="center center">
-        <div class="item-img m-b-1">
+        <div class="item-img m-b-1 text-center">
             <img :src="item.image | nSrc(require('assets/imgs/integral-mall/normal-in-6.png'))" alt="">
         </div>
         <div class="color-black fs30 fwb">{{item.name}}</div>
@@ -146,7 +146,8 @@
                         serviceApply: {},
                         tradeCouponList: [],
                         remark: null,
-                        tradeItemSpecList: this.$route.params.tradeItemSpecList ? this.$route.params.tradeItemSpecList : []
+                        tradeItemSpecList: this.$route.params.tradeItemSpecList ? this.$route.params.tradeItemSpecList : [],
+                        tradeGoodsGroupList: this.$route.params.tradeGoodsGroupList ? this.$route.params.tradeGoodsGroupList : []
                     },
                     vocherShow: false,
                     confirm: {
@@ -270,13 +271,7 @@
                         msg.data.map((item, index)=> {
                             discount += item.discountAmount;
                         });
-                        // this.voucher = msg.data[0];
-                        // if (this.voucher.discountType == 1) {
                         this.voucherDiscountMoney = discount;
-                        // } else if (this.voucher.discountType == 2) {
-                        //     this.discount = this.voucher.discount;
-
-                        // }
                         this.caculateResult();
                     }, msg=> {
                     });
@@ -285,16 +280,8 @@
                     // 添加优惠后的需支付详情
                     let payAll = this.item.price;
                     let leftMoney = payAll;
-                    // if (this.voucher) {
-                        // 如果选择了优惠券
-                        // if (this.voucher.discountType == 1) {
                     leftMoney = payAll - this.voucherDiscountMoney;
                     this.discountMoney = this.voucherDiscountMoney;
-                        // } else if (this.voucher.discountType == 2) {
-                        //     leftMoney = payAll * this.discount;
-                        //     this.discountMoney = Number(payAll * (1 - this.discount)).toFixed(2);
-                        // };
-                    // }
                     leftMoney += this.item.price * (this.payDetail.quantity - 1);
                     if (leftMoney >= 0) {
                         let balanceFen = this.translate('dou2fen', this.account.doudouBalance ? this.account.doudouBalance : 0); // 豆豆转分
@@ -384,7 +371,6 @@
                 },
                 init() {
                     this.getDetail(); // 获取商品详情
-                    // this.loadDefaultAddress(); // 获取默认地址
                     this.initParameter(); // 加载默认传进来的参数
                 },
                 translate(type, num) {
