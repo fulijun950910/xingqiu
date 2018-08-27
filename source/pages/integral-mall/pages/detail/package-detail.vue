@@ -8,7 +8,7 @@
         </div>
         <div class="bg-color-bg" flex>
             <div flex  v-for="(item, index) in goodsGroupList" :key="index" class="m-b-3 p-3 sku bg-white" :class="{'active' : checkActive(goodsGroupList[index].select, item), 'toggle' : item.toggle}">
-            <div layout="column" layout-align="center center" class="toggle p-t-2 p-b-2" @click="toggle(item)">
+            <div layout="column" layout-align="center center" class="toggle p-t-2 p-b-2" @click="toggle(item, 'toggle', 'icon')">
                 <div flex layout="row" layout-align="center center">
                 <span class="fs28 fwb">-选择{{item.groupName}}-</span>
                <span class="toggle-icon"><m-icon class="fs40 extra-light-gray" :xlink="item.icon"></m-icon></span>
@@ -25,16 +25,21 @@
                         <div class="fwb fs24 m-b-2">{{sku.goodsName}}</div>
                         <div class="fs24">规格：{{sku.specification ? sku.specification.specName : '无'}}</div>
                     </div>
-                    <div layout="row" flex layout-align="end center">
-                        <!-- <div class="add m-r-3" layout="row" layout-align="center center"> -->
+                    <div layout="row" flex layout-align="end center" v-if="sku.formType !=4 && sku.formType !=2">
                         <m-icon class="fs40 steel-gray add m-r-3" xlink="#icon-gouxuanshixin"></m-icon>
-                        <!-- </div> -->
                     </div>
                     </div>
-                    <div flex v-if="sku.goodsGroupGoodsSpecList.length > 1">
-                        <div class="fs24 text-center color-tiffany-blue p-t-2 p-b-2" @click="toggle(sku, item)" flex>点击选择规格<m-icon :xlink="sku.icon"></m-icon></div>
+                    <div flex class="border-bottom" name="续费门店" v-if="sku.formType == 4">
+                    <div class="fs24 text-center color-tiffany-blue p-t-2 p-b-2" @click="toggle(sku, 'storeToggle', 'storeIcon')">点击选择续费门店<m-icon :xlink="sku.storeIcon"></m-icon></div>
+                     <div layout="row" layout-align="space-between center" :class="{'border-bottom' : storeIndex != sku.storeList.length - 1}" v-if="sku.storeToggle" class="p-t-3 p-b-3" @click="choose(sku, store, 2, item)" v-for="(store, storeIndex) in sku.storeList" :key="storeIndex">
+                         <div class="fs24">{{store.name}}</div>
+                         <div v-if="checkActive(sku.stores, store, 1)"><m-icon class="color-tiffany-blue" xlink="#icon-check__"></m-icon></div>
+                     </div>
+                    </div>                    
+                    <div flex v-if="sku.goodsGroupGoodsSpecList.length > 1" class="border-bottom" name="选择规格">
+                        <div class="fs24 text-center color-tiffany-blue p-t-2 p-b-2" @click="toggle(sku, 'toggle', 'icon')" flex>点击选择规格<m-icon :xlink="sku.icon"></m-icon></div>
                         <div flex class="p-b-3 border-top" v-if="sku.toggle">
-                            <div class="p-b-3 p-t-3 border-bottom" @click="chooseSpec(sku, spec)" :class="{'color-tiffany-blue' : spec.active}" v-for="(spec, specIndex) in sku.goodsGroupGoodsSpecList" :key="specIndex" layout="row" layout-align="space-between center">
+                            <div class="p-b-3 p-t-3" @click="choose(sku, spec, 1)" :class="{'color-tiffany-blue' : spec.active,'border-bottom' : specIndex != sku.goodsGroupGoodsSpecList.length - 1}" v-for="(spec, specIndex) in sku.goodsGroupGoodsSpecList" :key="specIndex" layout="row" layout-align="space-between center">
                                <div class="fs24">{{spec.specName}}</div>
                                <div class="choose-circle color-tiffany-blue" v-if="checkActive(sku.specification, spec, 2)">
                                    <m-icon xlink="#icon-check__"></m-icon>
@@ -71,6 +76,21 @@ export default {
     methods: {
         loadData() {
             this.$indicator.open('loading...');
+            api_party.storeList(this.$store.state.party.merchantId, this.$store.getters.employeeId).then(msg=> {
+                this.$indicator.close();
+                // if (msg.data.length > 1) {
+                //     msg.data.unshift({
+                //         name: '全选',
+                //         id: 'all'
+                //     });
+                // };
+                this.productDetail(msg.data);
+            }, msg=> {
+
+            });
+        },
+        productDetail(data) {
+            this.$indicator.open('loading...');
             api_party.productDetail(this.productId).then(msg=> {
                 this.$indicator.close();
                 this.price = msg.data.priceType == 2 ? msg.data.price : 0;
@@ -84,11 +104,16 @@ export default {
                             item.goodsGroupGoodsList.map((sku, skuIndex)=> {
                                 this.$set(sku, 'specification', sku.goodsGroupGoodsSpecList[0]);
                                 this.$set(sku, 'select', []);
+                                this.$set(sku, 'icon', '#icon-xia');
+                                this.$set(sku, 'storeIcon', '#icon-xia');
+                                this.$set(sku, 'stores', []);
+                                this.$set(sku, 'storeToggle', false);
                                 this.$set(sku, 'toggle', false);
                                 this.$set(sku, 'active', false);
-                                sku.goodsGroupGoodsSpecList.map((spec, specIndex)=> {
-                                    spec.active = false;
-                                });
+                                this.$set(sku, 'storeList', data);
+                                if (data.length == 1) {
+                                    this.$set(sku, 'stores', [data[0]]);
+                                }
                             });
                         };
                     });
@@ -110,16 +135,19 @@ export default {
                 return list.id == item.id;
             }
         },
-        toggle(obj, item) {
-            let toggle = obj.toggle;
-            this.$set(obj, 'toggle', !toggle);
-            if (obj.toggle) {
-                this.$set(obj, 'icon', '#icon-shang');
+        toggle(obj, type, icon) {
+            let toggle = obj[type];
+            this.$set(obj, type, !toggle);
+            if (obj[type]) {
+                this.$set(obj, icon, '#icon-shang');
             } else {
-                this.$set(obj, 'icon', '#icon-xia');
+                this.$set(obj, icon, '#icon-xia');
             };
         },
         chooseActivity(sku, item) {
+            if (sku.formType == 2 || sku.formType == 4) {
+                return;
+            }
             let limit = item.quantity;
             let ls = item.select.filter((single, index)=> {
                 return single.id == sku.id;
@@ -138,7 +166,6 @@ export default {
                     item.select.push(sku);
                 };
             };
-            this.checkSubmit();
         },
         checkSubmit() {
             let ls = this.goodsGroupList.filter(ele=> {
@@ -147,11 +174,59 @@ export default {
             return ls.length;
 
         },
-        chooseSpec(sku, spec) {
-            this.$set(sku, 'specification', spec);
+        choose(sku, spec, type, item) {
+            // type 1期限 2门店
+            if (type == 1) {
+                this.$set(sku, 'specification', spec);
+            } else if (type == 2) {
+                let ls = sku.stores.filter(store=> {
+                    return store.id == spec.id;
+                });
+                if (sku.stores.length == item.quantity && !ls.length) {
+                    this.$toast(`最多选择${item.quantity}个门店哦`);
+                    return;
+                }
+                if (spec.id == 'all') {
+                    if (sku.stores.length == sku.storeList.length) {
+                        sku.stores = [];
+                    } else {
+                        sku.stores = sku.storeList;
+                    }
+                    return;
+                }
+                if (sku.stores.length == sku.storeList.length) {
+                    // 门店全选
+                    sku.stores = [spec];
+                } else {
+                    let ls = sku.stores.filter((store, index)=> {
+                        return spec.id == store.id;
+                    });
+                    if (ls.length) {
+                        sku.stores.map((store, index)=> {
+                            if (store.id == spec.id) {
+                                sku.stores.splice(index, 1);
+                            };
+                        });
+                    } else {
+                        sku.stores.push(spec);
+                    };
+                }
+                let storeLs = item.select.filter((store, storeIndex)=> {
+                    return spec.id == store.id;
+                });
+                if (storeLs.length) {
+                    item.select.map((store, storeIndex)=> {
+                        if (spec.id == store.id) {
+                            item.select.splice(storeIndex, 1);
+                        }
+                    });
+                } else {
+                    item.select.push(spec);
+                }
+                console.log(this.goodsGroupList);
+            }
         },
         toPay() {
-            console.log(this.goodsGroupList);
             this.goodsGroupList.map((item, index)=> {
                 let temp = {
                     goodsGroupId: item.id,
@@ -163,7 +238,16 @@ export default {
                         tradeGoodsGroupGoodsSpecList: [
                             {
                                 specCode: goods.specification ? goods.specification.specCode : '',
-                                quantity: 1
+                                quantity: 1,
+                                storeId: goods.id,
+                                storeName: goods.name,
+                                storeAddress: goods.address,
+                                provinceCode: goods.provinceCode,
+                                cityCode: goods.cityCode,
+                                storeContactPhone: goods.phone,
+                                longitude: goods.longitude,
+                                latitude: goods.latitude,
+                                relationType: goods.relationType
                             }
                         ]
                     };
@@ -171,6 +255,7 @@ export default {
                 });
                 this.tradeGoodsGroupList.push(temp);
             });
+            console.log(this.tradeGoodsGroupList);
             this.$router.push({
                 name: 'pay-detail',
                 params: {

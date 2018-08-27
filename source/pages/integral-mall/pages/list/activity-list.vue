@@ -12,7 +12,7 @@
      <div class="activity-list-con">
          <div class="activity-box" v-for="(item,index) in dataList" :key="index" @click="useTo(item)">
              <div class="activity-img">
-                   <img class="img-auto" :src="item.image | nSrc(require('assets/imgs/female.png'))" alt="">
+                   <img class="img-auto" :src="item.image | nSrc(require('assets/imgs/location.jpg'))" alt="">
              </div>
              <div class="activity-describle">
                  <p class="fwb fs34 color-black">{{item.name}}</p>
