@@ -44,7 +44,8 @@
                         <div class="fs24 text-center color-tiffany-blue p-t-2 p-b-2" @click="toggle(sku, 'addStoreToggle', 'addStoreIcon')">点击填写添加门店
                             <m-icon :xlink="sku.addStoreIcon"></m-icon>
                         </div>
-                        <div v-for="(newStore, newStoreIndex) in sku.addStores" :key="newStoreIndex" v-if="sku.addStoreToggle" :class="{'border-bottom' :newStoreIndex!= sku.addStores.length -1 }">
+                        <div v-if="sku.addStoreToggle">
+                        <div v-for="(newStore, newStoreIndex) in sku.addStores" :key="newStoreIndex" :class="{'border-bottom' :newStoreIndex!= sku.addStores.length -1 }">
                             <div flex layout="row" layout-align="center center" v-if="newStoreIndex != 0 && priceType == 3" @click="addStore(sku, newStoreIndex, 2)" class="p-t-3 p-b-3 border-bottom">删除&nbsp;&nbsp;<m-icon xlink="#icon-shanchuicon1" class="fs34"></m-icon></div>
                             <div layout="row" layout-align="start center" class="p-t-2 p-b-2 border-bottom">
                                 <input flex type="text" placeholder="请填写门店名称" v-model="newStore.storeName">
@@ -53,20 +54,19 @@
                                 <input flex type="number" placeholder="请填联系电话" v-model="newStore.storeContactPhone">
                             </div>
                             <div layout="row" layout-align="start center" class="p-t-2 p-b-2 border-bottom">
-                                <!-- <input flex type="text" placeholder="请填写门店类型" v-model="newStore.storeName"> -->
                                 <mt-radio title="选择门店类型" v-model="newStore.relationType" class="fs24" :options="newStore.storeType">
                                 </mt-radio>
                             </div>
                             <div layout="row" layout-align="start center" class="p-t-2 p-b-2 border-bottom">
                                 <mt-radio title="选择规格" v-model="newStore.specCode" class="fs24" :options="newStore.specList">
                                 </mt-radio>
-                                <!-- <input flex type="text" placeholder="请选择规格" v-model="newStore.storeName"> -->
                             </div>
                         </div>
                         <div flex layout="row" layout-align="center cneter" v-if="priceType == 3">
-                            <div class="add-store fs24 p-t-3 p-b-3" @click="addStore(sku, '', 1)" layout="row" layout-align="center center">添加门店&nbsp;
+                            <div class="add-store fs24 p-t-3 p-b-3" @click="addStore(sku, '', 1, item)" layout="row" layout-align="center center">添加门店&nbsp;
                                 <m-icon xlink="#icon-xingzhuang1" class="fs24"></m-icon>
                             </div>
+                        </div>
                         </div>
                     </div>
                     <div flex v-if="sku.goodsGroupGoodsSpecList.length > 1 && sku.formType != 3" class="border-bottom" name="选择规格">
@@ -110,7 +110,8 @@ export default {
             tradeGoodsGroupList: [],
             goodsGroupList: [],
             price: 0,
-            priceType: 2
+            priceType: 2,
+            storeData: null
         };
     },
     methods: {
@@ -167,6 +168,7 @@ export default {
                                     ],
                                     specList: []
                                 };
+                                this.storeData = storeData;
                                 sku.goodsGroupGoodsSpecList.forEach(element=> {
                                     storeData.specList.push({
                                         label: element.specName,
@@ -180,21 +182,14 @@ export default {
                                         tempStoreCon.push(storeData);
                                     }
                                 };
-                                if (sku.formType == 3) {
+                                if (sku.formType && sku.formType == 3) {
                                     this.$set(sku, 'addStores', tempStoreCon);
-                                    // this.$set(sku, 'select', tempStoreCon);
-                                };
-                                if (sku.formType == 4) {
-                                    // 传入进来的门店初始化
-                                    if (data.length == 1) {
-                                        this.$set(sku, 'stores', [data[0]]);
-                                    }
+                                    item.select.push(sku);
                                 };
                             });
                         };
                     });
                 };
-                console.log(this.goodsGroupList);
             }, msg=> {
             });
         },
@@ -213,7 +208,6 @@ export default {
             }
         },
         toggle(obj, type, icon) {
-            debugger;
             let toggle = obj[type];
             this.$set(obj, type, !toggle);
             if (obj[type]) {
@@ -250,13 +244,13 @@ export default {
                 return ele.quantity != ele.select.length;
             });
             return ls.length;
-
         },
         choose(sku, spec, type, item) {
-            // type 1期限 2门店
+            // type 1期限 2门店 3新增门店
             if (type == 1) {
                 this.$set(sku, 'specification', spec);
             } else if (type == 2) {
+                spec.specCode = sku.specification.specCode;
                 let ls = sku.stores.filter(store=> {
                     return store.id == spec.id;
                 });
@@ -288,45 +282,58 @@ export default {
                     } else {
                         sku.stores.push(spec);
                     };
-                }
-                let storeLs = item.select.filter((store, storeIndex)=> {
-                    return spec.id == store.id;
-                });
-                if (storeLs.length) {
-                    item.select.map((store, storeIndex)=> {
-                        if (spec.id == store.id) {
-                            item.select.splice(storeIndex, 1);
-                        }
-                    });
-                } else {
-                    item.select.push(spec);
-                }
-                console.log(this.goodsGroupList);
-            }
+                };
+                item.select = [sku];
+            } else if (type == 3) {
+                item.select.push(spec);
+            };
         },
-        addStore(obj, index, type) {
+        addStore(obj, index, type, item) {
             if (type == 1) {
                 // 添加门店
-                obj.addStores.push({
-                    storeName: '',
-                    storeContactPhone: '',
-                    relationType: '',
-                    storeType: [
-                        {
-                            label: '直营店',
-                            value: '1'
-                        },
-                        {
-                            label: '加盟店',
-                            value: '2'
-                        }
-                    ]
-                });
+                if (item.select.length == item.quantity && this.priceType == 2) {
+                    this.$toast('已选择最大数量门店！');
+                    return;
+                } else {
+                    obj.addStores.push(this.storeData);
+                    this.choose(obj, this.storeData, 3, item);
+                };
             } else if (type == 2) {
                 obj.addStores.splice(index, 1);
             }
         },
+        check() {
+            let point = 0;
+            this.goodsGroupList.forEach(item=> {
+                item.select.forEach(element=> {
+                    if (element.formType == 3) {
+                        element.addStores.forEach(ele=> {
+                            if (!ele.storeName) {
+                                this.$toast('门店名称不能玩为空');
+                                // this.toggle(item, 'addStoreToggle', 'addStoreIcon');
+                                point = 1;
+                                item.toggle = true;
+                                item.icon = '#icon-xia';
+                                return point;
+                            };
+                            if (!ele.storeContactPhone) {
+                                this.$toast('请填写门店联系方式');
+                                point = 1;
+                                item.toggle = true;
+                                item.icon = '#icon-xia';
+                                return point;
+                            };
+                        });
+                    };
+                });
+            });
+            return point;
+        },
         toPay() {
+            debugger;
+            if (this.check()) {
+                return;
+            }
             this.goodsGroupList.map((item, index)=> {
                 let temp = {
                     goodsGroupId: item.id,
@@ -351,6 +358,19 @@ export default {
                             }
                         ]
                     };
+                    debugger;
+                    if (goods.formType == 3) {
+                        tempGoods.tradeGoodsGroupGoodsSpecList = [];
+                        goods.addStores.forEach(ele=> {
+                            let t = {
+                                relationType: ele.relationType,
+                                specCode: ele.specCode,
+                                storeName: ele.storeName,
+                                storeContactPhone: ele.storeContactPhone
+                            };
+                            tempGoods.tradeGoodsGroupGoodsSpecList.push(t);
+                        });
+                    }
                     temp.tradeGoodsGroupGoodsList.push(tempGoods);
                 });
                 this.tradeGoodsGroupList.push(temp);

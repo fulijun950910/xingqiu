@@ -297,11 +297,11 @@ export default {
                             result = false;
                             return result;
                         };
-                        if (!item.storeAddress) {
-                            this.$toast('门店地址为必填哦~');
-                            result = false;
-                            return result;
-                        };
+                        // if (!item.storeAddress) {
+                        //     this.$toast('门店地址为必填哦~');
+                        //     result = false;
+                        //     return result;
+                        // };
                         if (!item.storeContactPhone) {
                             this.$toast('记得填写联系电话哦~');
                             result = false;

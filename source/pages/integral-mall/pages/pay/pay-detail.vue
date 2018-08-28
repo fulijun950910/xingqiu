@@ -414,6 +414,7 @@
                 if (!this.$route.params.itemId) {
                     this.$router.go(-1);
                 };
+                console.log(this.$route.params.tradeGoodsGroupList);
                 this.init();
             },
             components: {
