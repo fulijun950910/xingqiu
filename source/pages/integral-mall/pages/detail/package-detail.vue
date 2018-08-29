@@ -246,7 +246,7 @@ export default {
             return ls.length;
         },
         choose(sku, spec, type, item) {
-            // type 1期限 2门店 3新增门店
+            // type 1期限 2续费门店 3新增门店
             if (type == 1) {
                 this.$set(sku, 'specification', spec);
             } else if (type == 2) {
@@ -309,7 +309,7 @@ export default {
                     if (element.formType == 3) {
                         element.addStores.forEach(ele=> {
                             if (!ele.storeName) {
-                                this.$toast('门店名称不能玩为空');
+                                this.$toast('门店名称不能为空');
                                 // this.toggle(item, 'addStoreToggle', 'addStoreIcon');
                                 point = 1;
                                 item.toggle = true;
@@ -358,8 +358,8 @@ export default {
                             }
                         ]
                     };
-                    debugger;
                     if (goods.formType == 3) {
+                        // 新增门店
                         tempGoods.tradeGoodsGroupGoodsSpecList = [];
                         goods.addStores.forEach(ele=> {
                             let t = {
@@ -371,6 +371,26 @@ export default {
                             tempGoods.tradeGoodsGroupGoodsSpecList.push(t);
                         });
                     }
+                    if (goods.stores.length) {
+                        // 续费门店
+                        tempGoods.tradeGoodsGroupGoodsSpecList = [];
+                        goods.stores.forEach(ele=> {
+                            let t = {
+                                specCode: goods.specification ? goods.specification.specCode : '',
+                                quantity: 1,
+                                storeId: ele.id,
+                                storeName: ele.name,
+                                storeAddress: ele.address,
+                                provinceCode: ele.provinceCode,
+                                cityCode: ele.cityCode,
+                                storeContactPhone: ele.phone,
+                                longitude: ele.longitude,
+                                latitude: ele.latitude,
+                                relationType: ele.relationType
+                            };
+                            tempGoods.tradeGoodsGroupGoodsSpecList.push(t);
+                        });
+                    };
                     temp.tradeGoodsGroupGoodsList.push(tempGoods);
                 });
                 this.tradeGoodsGroupList.push(temp);
