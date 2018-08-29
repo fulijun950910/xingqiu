@@ -42,7 +42,7 @@
                     <div class="fs24 color-white" :style="item.tradeTypeStyle">【{{item.tradeType | tradeType}}】</div>
                     <div class="fs24 color-orange-yellow">{{item.status | payStatus}}</div>
                 </div>
-                <div class="middle" layout="row" layout-align="space-between center">
+                <div class="middle" layout="row" layout-align="space-between center" @click="toDetail(item)">
                     <div flex="70">
                         <div class="fs34 color-black">{{item.itemName}}&nbsp;&nbsp;&nbsp;{{item.quantity}}个</div>
                         <div class="fs28 color-gray">合计：{{item.payDoudouAmount}}美豆豆&nbsp;+&nbsp;{{item.payMoney | fen2yuan}}元</div>
@@ -52,7 +52,7 @@
                         <img class="img-auto" :src="item.itemImage | nSrc(require('assets/imgs/female.png'))" alt="">
                     </div>
                 </div>
-                <div flex v-if="item.tradeDelivery">
+                <div flex v-if="item.tradeDelivery" @click="toDetail(item)">
                     <div class="fs28 color-gray">配送地址：{{item.tradeDelivery.fullAddress}}</div>
                     <div class="fs28 color-gray">快递公司：{{item.tradeDelivery.logisticsCompany}}</div>
                     <div class="fs28 color-gray">快递单号：{{item.tradeDelivery.logisticsNo}}</div>
@@ -351,6 +351,9 @@ export default {
         },
         resetSearch() {
             this.pageChange.page = 1;
+        },
+        toDetail(item) {
+            this.$router.push({path: `/order-detail/${item.id}`});
         }
     },
     mounted() {

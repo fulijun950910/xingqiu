@@ -64,7 +64,6 @@ export default {
         },
         useTo(item) {
             if (this.$store.state) {
-                console.log($(window).scrollTop());
                 this.$store.state.scroll = $(window).scrollTop();
                 this.$store.commit('UPDATE_LOCAL');
             };

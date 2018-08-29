@@ -270,5 +270,10 @@ export default {
             url += `removeFavorite/${parameter.partyId}/${parameter.tid}`;
         }
         return request(url, 'get');
+    },
+    orderDetail(id) {
+        // 订单详情
+        let url = `/api/doudouTrade/${id}`;
+        return request(url, 'get');
     }
 };
