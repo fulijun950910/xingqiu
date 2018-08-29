@@ -330,7 +330,6 @@ export default {
             return point;
         },
         toPay() {
-            debugger;
             if (this.check()) {
                 return;
             }
