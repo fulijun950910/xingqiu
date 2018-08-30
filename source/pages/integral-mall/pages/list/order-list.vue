@@ -62,7 +62,6 @@
                     <div layout="row" layout-align="center center">
                     <div class="payStatus fs30" @click="clickToPay(item)" :style="item.statusColor" v-if="item.status == 0 || item.status == 6" :class="{'color-pink fwb' : item.status == 0}">{{item.status | statusPay}}</div><span class="m-l-4 fs30" v-if="item.status == 0" @click="cancelOrder(item)">取消订单</span>
                     </div>
-
                     <!-- <div @click="cancelOrder(item)" v-if="item.status == 0">取消订单</div> -->
                 </div>
             </div>
@@ -73,6 +72,7 @@
     <!-- <buy-message type="2" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message> -->
     <mt-datetime-picker ref="picker" type="date" @confirm="handleConfirm">
     </mt-datetime-picker>
+    <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm" @integraConfirm="inteconfirm"></integral-confirm>
 </div>
 </template>
 <script>
@@ -81,6 +81,7 @@ import { Indicator, DatetimePicker, InfiniteScroll, Toast } from 'mint-ui';
 import buyMessage from 'components/integral-mall/buy-message';
 import noData from 'components/no-data';
 import Vue from 'vue';
+import integralConfirm from 'components/integral-mall/integral-confirm';
 Vue.component(DatetimePicker.name, DatetimePicker);
 Vue.use(InfiniteScroll);
 import api_party from 'services/api.party';
@@ -164,7 +165,13 @@ export default {
                     endTime: ''
                 }
             ],
-            pickerType: null
+            pickerType: null,
+            confirm: {
+                show: false,
+                message: '即将抵扣豆豆',
+                confirm: '确认',
+                quiet: '再考虑下'
+            }
         };
     },
     methods: {
@@ -324,11 +331,16 @@ export default {
         },
         clickToPay(item) {
             if (item.status == 0) {
-                api_party.repay(item.id).then(msg=> {
-                    let url = msg.data + '?url=' + location.protocol + '//' + location.host + this.$rootPath + encodeURIComponent('integral-mall.html#/pay-success');
-                    location.href = url;
-                }, msg=> {
-                });
+                if (item.payMoney == 0) {
+                    this.confirm.show = true;
+                    this.confirm.item = item;
+                } else {
+                    api_party.repay(item.id).then(msg=> {
+                        let url = msg.data + '?url=' + location.protocol + '//' + location.host + this.$rootPath + encodeURIComponent('integral-mall.html#/pay-success');
+                        location.href = url;
+                    }, msg=> {
+                    });
+                }
             } else if (item.status == 1 || item.status == 6) {
                 api_party.confirmOrder(item.id).then(msg=> {
                     this.resetSearch();
@@ -338,6 +350,14 @@ export default {
 
                 });
             }
+        },
+        doudouPay(item) {
+            api_party.doudouPay(item.id).then(msg=> {
+                this.loadData();
+                this.$toast('支付成功');
+            }, msg=> {
+                console.log('网络错误');
+            });
         },
         cancelOrder(item) {
             api_party.cancelOrder(item.id).then(msg=> {
@@ -354,6 +374,17 @@ export default {
         },
         toDetail(item) {
             this.$router.push({path: `/order-detail/${item.id}`});
+        },
+        hideConfirm() {
+            this.confirm.show = !this.confirm.show;
+        },
+        inteconfirm(msg) {
+            msg.then(data=> {
+                this.doudouPay(this.confirm.item);
+                this.hideConfirm();
+            }, data=> {
+                this.hideConfirm();
+            });
         }
     },
     mounted() {
@@ -362,7 +393,8 @@ export default {
     components: {
         noMore,
         buyMessage,
-        noData
+        noData,
+        integralConfirm
     }
 };
 </script>

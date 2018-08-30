@@ -266,32 +266,34 @@ export default {
                     }
                     return;
                 }
-                if (sku.stores.length == sku.storeList.length) {
-                    // 门店全选
-                    sku.stores = [spec];
-                } else {
-                    let ls = sku.stores.filter((store, index)=> {
-                        return spec.id == store.id;
+                // if (sku.stores.length == sku.storeList.length) {
+                //     // 门店全选
+                //     sku.stores = [spec];
+                // } else {
+                let ls1 = sku.stores.filter((store, index)=> {
+                    return spec.id == store.id;
+                });
+                debugger;
+                if (ls1.length) {
+                    // console.log(item.select);
+                    sku.stores.map((store, index)=> {
+                        if (store.id == spec.id) {
+                            sku.stores.splice(index, 1);
+                        };
                     });
-                    if (ls.length) {
-                        // console.log(item.select);
-                        sku.stores.map((store, index)=> {
-                            if (store.id == spec.id) {
-                                sku.stores.splice(index, 1);
-                            };
-                        });
-                        item.select.map((sel, selindex)=> {
-                            if (sel.pointStoreId == spec.id) {
-                                item.select.splice(selindex, 1);
-                            }
-                        });
-                    } else {
-                        sku.stores.push(spec);
-                        sku.pointStoreId = spec.id;
-                        let destroy = JSON.parse(JSON.stringify(sku));
-                        item.select.push(destroy);
-                    };
+                    item.select.map((sel, selindex)=> {
+                        if (sel.pointStoreId == spec.id) {
+                            item.select.splice(selindex, 1);
+                        }
+                    });
+                } else {
+                    sku.stores.push(spec);
+                    sku.pointStoreId = spec.id;
+                    let destroy = JSON.parse(JSON.stringify(sku));
+                    item.select.push(destroy);
+                    console.log(item.select);
                 };
+                // ;
             } else if (type == 3) {
                 item.select.push(spec);
             };
@@ -321,6 +323,11 @@ export default {
                                 // this.toggle(item, 'addStoreToggle', 'addStoreIcon');
                                 point = 1;
                                 item.toggle = true;
+                                item.goodsGroupGoodsList.forEach(sku=> {
+                                    if (sku.id == element.id) {
+                                        this.$set(sku, 'toggle', true);
+                                    }
+                                });
                                 item.icon = '#icon-xia';
                                 return point;
                             };
@@ -328,6 +335,11 @@ export default {
                                 this.$toast('请填写门店联系方式');
                                 point = 1;
                                 item.toggle = true;
+                                item.goodsGroupGoodsList.forEach(sku=> {
+                                    if (sku.id == element.id) {
+                                        this.$set(sku, 'toggle', true);
+                                    }
+                                });
                                 item.icon = '#icon-xia';
                                 return point;
                             };
@@ -341,74 +353,82 @@ export default {
             if (this.check()) {
                 return;
             }
-            debugger;
-            this.goodsGroupList.map((item, index)=> {
-                let temp = {
-                    goodsGroupId: item.id,
-                    tradeGoodsGroupGoodsList: []
-                };
-                item.select.map((goods, goodIndex)=> {
-                    let tempGoods = {
-                        goodsGroupGoodsId: goods.id,
-                        tradeGoodsGroupGoodsSpecList: [
-                            {
-                                specCode: goods.specification ? goods.specification.specCode : '',
-                                quantity: 1,
-                                storeId: goods.id,
-                                storeName: goods.name,
-                                storeAddress: goods.address,
-                                provinceCode: goods.provinceCode,
-                                cityCode: goods.cityCode,
-                                storeContactPhone: goods.phone,
-                                longitude: goods.longitude,
-                                latitude: goods.latitude,
-                                relationType: goods.relationType
-                            }
-                        ]
-                    };
-                    if (goods.formType == 3) {
-                        // 新增门店
-                        tempGoods.tradeGoodsGroupGoodsSpecList = [];
-                        goods.addStores.forEach(ele=> {
-                            let t = {
-                                relationType: ele.relationType,
-                                specCode: ele.specCode,
-                                storeName: ele.storeName,
-                                storeContactPhone: ele.storeContactPhone
-                            };
-                            tempGoods.tradeGoodsGroupGoodsSpecList.push(t);
-                        });
-                    }
-                    if (goods.stores.length) {
-                        // 续费门店
-                        tempGoods.tradeGoodsGroupGoodsSpecList = [];
-                        goods.stores.forEach(ele=> {
-                            let t = {
-                                specCode: goods.specification ? goods.specification.specCode : '',
-                                quantity: 1,
-                                storeId: ele.id,
-                                storeName: ele.name,
-                                storeAddress: ele.address,
-                                provinceCode: ele.provinceCode,
-                                cityCode: ele.cityCode,
-                                storeContactPhone: ele.phone,
-                                longitude: ele.longitude,
-                                latitude: ele.latitude,
-                                relationType: ele.relationType
-                            };
-                            tempGoods.tradeGoodsGroupGoodsSpecList.push(t);
-                        });
-                    };
-                    temp.tradeGoodsGroupGoodsList.push(tempGoods);
-                });
-                this.tradeGoodsGroupList.push(temp);
-            });
+            // debugger;
+            // console.log(this.goodsGroupList);
+            this.setData();
             this.$router.push({
                 name: 'pay-detail',
                 params: {
                     itemId: this.$route.params.id,
                     tradeGoodsGroupList: this.tradeGoodsGroupList
                 }
+            });
+        },
+        setData() {
+            this.goodsGroupList.map((item, index)=> {
+                let temp = {
+                    goodsGroupId: item.id,
+                    tradeGoodsGroupGoodsList: []
+                };
+                item.goodsGroupGoodsList.forEach(sku=> {
+                    if (!sku.formType) {
+                        // 选择微信活动和微信应用
+                        let ls = item.select.filter(r=> {
+                            return r.id == sku.id;
+                        });
+                        if (!ls.length) {
+                            return;
+                        };
+                        let select = {
+                            goodsGroupGoodsId: sku.id,
+                            tradeGoodsGroupGoodsSpecList: [
+                                {
+                                    specCode: sku.specification ? sku.specification.specCode : ''
+                                }
+                            ]
+                        };
+                        temp.tradeGoodsGroupGoodsList.push(select);
+                    } else {
+                        let select = {
+                            goodsGroupGoodsId: sku.id,
+                            tradeGoodsGroupGoodsSpecList: []
+                        };
+                        if (sku.addStores && sku.addStores.length) {
+                            sku.addStores.forEach(store=> {
+                                // 新增门店
+                                let storeIn = {
+                                    specCode: store.specCode,
+                                    quantity: 1,
+                                    storeName: store.storeName,
+                                    storeContactPhone: store.storeContactPhone,
+                                    relationType: store.relationType
+                                };
+                                select.tradeGoodsGroupGoodsSpecList.push(storeIn);
+                            });
+                        };
+                        if (sku.stores && sku.stores.length) {
+                            sku.stores.forEach(store=> {
+                                let storeIn = {
+                                    specCode: store.specCode,
+                                    quantity: store.quantity,
+                                    storeId: store.id,
+                                    storeName: store.name,
+                                    storeAddress: store.address,
+                                    provinceCode: store.provinceCode,
+                                    cityCode: store.cityCode,
+                                    storeContactPhone: store.phone,
+                                    longitude: store.longitude,
+                                    latitude: store.latitude,
+                                    relationType: store.relationType
+                                };
+                                select.tradeGoodsGroupGoodsSpecList.push(storeIn);
+                            });
+                        };
+                        temp.tradeGoodsGroupGoodsList.push(select);
+                    };
+                });
+
+                this.tradeGoodsGroupList.push(temp);
             });
         },
         init() {
