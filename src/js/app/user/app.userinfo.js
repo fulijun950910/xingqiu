@@ -197,6 +197,7 @@ app.userinfo = {
         app.startLoading();
         // 缓存及cookie清理
         localStorage.clear();
+        debugger;
         // sessionStorage.clear();
         var error_login = false,
             msg = '';
@@ -400,7 +401,7 @@ app.userinfo = {
             if (translateStatus.status == '未开通') {
                 app.userinfo.alertError('客官稍候，系统将于' + translateStatus.time + '开通哦~');
             } else {
-                app.userinfo.alertError(translateStatus);
+                app.userinfo.alertError(translateStatus.status);
             }
             document.cookie = 'rememberMe=';
             document.cookie = 'remeberMeRunAsRole=';
