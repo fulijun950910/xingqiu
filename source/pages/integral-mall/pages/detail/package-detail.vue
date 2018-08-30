@@ -274,16 +274,24 @@ export default {
                         return spec.id == store.id;
                     });
                     if (ls.length) {
+                        // console.log(item.select);
                         sku.stores.map((store, index)=> {
                             if (store.id == spec.id) {
                                 sku.stores.splice(index, 1);
                             };
                         });
+                        item.select.map((sel, selindex)=> {
+                            if (sel.pointStoreId == spec.id) {
+                                item.select.splice(selindex, 1);
+                            }
+                        });
                     } else {
                         sku.stores.push(spec);
+                        sku.pointStoreId = spec.id;
+                        let destroy = JSON.parse(JSON.stringify(sku));
+                        item.select.push(destroy);
                     };
                 };
-                item.select = [sku];
             } else if (type == 3) {
                 item.select.push(spec);
             };
@@ -333,6 +341,7 @@ export default {
             if (this.check()) {
                 return;
             }
+            debugger;
             this.goodsGroupList.map((item, index)=> {
                 let temp = {
                     goodsGroupId: item.id,
