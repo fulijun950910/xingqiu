@@ -275,5 +275,10 @@ export default {
         // 订单详情
         let url = `/api/doudouTrade/${id}`;
         return request(url, 'get');
+    },
+    doudouPay(id) {
+        // 纯豆豆支付
+        let url = `/api/doudouTrade/pay/${id}`;
+        return request(url, 'get');
     }
 };
