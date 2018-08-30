@@ -113,8 +113,6 @@ export default {
             if (!file) return;
             let url = URL.createObjectURL(file);
             this.currentValue.origin = file;
-            // 渲染图片
-            this.img.src = url;
 
             this.img.onload = ()=> {
                 this.filRealitySize = {
@@ -152,6 +150,8 @@ export default {
                     };
                 };
             };
+            // 渲染图片
+            this.img.src = url;
         },
         loadImg() {
             let imgWidth = this.filRealitySize.width;
