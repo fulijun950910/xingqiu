@@ -266,32 +266,34 @@ export default {
                     }
                     return;
                 }
-                if (sku.stores.length == sku.storeList.length) {
-                    // 门店全选
-                    sku.stores = [spec];
-                } else {
-                    let ls = sku.stores.filter((store, index)=> {
-                        return spec.id == store.id;
+                // if (sku.stores.length == sku.storeList.length) {
+                //     // 门店全选
+                //     sku.stores = [spec];
+                // } else {
+                let ls1 = sku.stores.filter((store, index)=> {
+                    return spec.id == store.id;
+                });
+                debugger;
+                if (ls1.length) {
+                    // console.log(item.select);
+                    sku.stores.map((store, index)=> {
+                        if (store.id == spec.id) {
+                            sku.stores.splice(index, 1);
+                        };
                     });
-                    if (ls.length) {
-                        // console.log(item.select);
-                        sku.stores.map((store, index)=> {
-                            if (store.id == spec.id) {
-                                sku.stores.splice(index, 1);
-                            };
-                        });
-                        item.select.map((sel, selindex)=> {
-                            if (sel.pointStoreId == spec.id) {
-                                item.select.splice(selindex, 1);
-                            }
-                        });
-                    } else {
-                        sku.stores.push(spec);
-                        sku.pointStoreId = spec.id;
-                        let destroy = JSON.parse(JSON.stringify(sku));
-                        item.select.push(destroy);
-                    };
+                    item.select.map((sel, selindex)=> {
+                        if (sel.pointStoreId == spec.id) {
+                            item.select.splice(selindex, 1);
+                        }
+                    });
+                } else {
+                    sku.stores.push(spec);
+                    sku.pointStoreId = spec.id;
+                    let destroy = JSON.parse(JSON.stringify(sku));
+                    item.select.push(destroy);
+                    console.log(item.select);
                 };
+                // ;
             } else if (type == 3) {
                 item.select.push(spec);
             };
@@ -321,6 +323,11 @@ export default {
                                 // this.toggle(item, 'addStoreToggle', 'addStoreIcon');
                                 point = 1;
                                 item.toggle = true;
+                                item.goodsGroupGoodsList.forEach(sku=> {
+                                    if (sku.id == element.id) {
+                                        this.$set(sku, 'toggle', true);
+                                    }
+                                });
                                 item.icon = '#icon-xia';
                                 return point;
                             };
@@ -328,6 +335,11 @@ export default {
                                 this.$toast('请填写门店联系方式');
                                 point = 1;
                                 item.toggle = true;
+                                item.goodsGroupGoodsList.forEach(sku=> {
+                                    if (sku.id == element.id) {
+                                        this.$set(sku, 'toggle', true);
+                                    }
+                                });
                                 item.icon = '#icon-xia';
                                 return point;
                             };
