@@ -1,6 +1,12 @@
 <template>
     <div v-title="'美豆豆'">
-        <div class="plain1"><img :src="require('assets/imgs/integral-mall/2018060509.jpg')" alt=""></div>
+        <div class="plain1">
+        <swiper>
+            <swiper-slide v-for="(img, index) in banner" :key="index" :options="swiperOption">
+                <img :src="img.image | nSrc(require('assets/imgs/location.jpg'))" alt="">
+            </swiper-slide>
+        </swiper>
+        </div>
         <div class="plain2 cell-box-this">
             <div class="listBox m-b-4">
                 <div class="fwb fs40 p-t-4 p-b-4 border-bottom" layout="row" layout-align="start center">美豆豆，赚不停</div>
@@ -105,16 +111,22 @@
 <script>
     import api_party from 'services/api.party';
     import apiGetJSSignature from 'services/api.getJSSignature';
-
+    import 'swiper/dist/css/swiper.css';
+    import { swiper, swiperSlide } from 'vue-awesome-swiper';
     export default {
         name: 'index',
         data() {
             return {
-                dataList: []
+                dataList: [],
+                banner: [],
+                swiperOption: {
+                    loop: true
+                }
             };
         },
         mounted() {
             this.loadData();
+            this.loadBanner();
             this.js_sdk();
         },
         methods: {
@@ -202,7 +214,18 @@
                     cancel: null
                 };
                 apiGetJSSignature.shareAppMessage(share);
+            },
+            loadBanner() {
+                api_party.listBanner('00002', this.$store.state.party.id).then(msg=> {
+                    console.log(msg.data);
+                    this.banner = msg.data;
+                }, msg=> {
+                });
             }
+        },
+        components: {
+            swiper,
+            swiperSlide
         }
     };
 </script>

@@ -13,7 +13,7 @@
         <div class="banner p-l-3">
             <swiper :options="swiperOption" ref="swiperOption">
                 <swiper-slide v-for="(item, index) in bannerList" :key="index">
-                    <img :src="item.image | nSrc(require('assets/imgs/female.png'))" @click="bannerClick(item.url)" alt="">
+                    <img :src="item.image | nSrc(require('assets/imgs/location.jpg'))" @click="bannerClick(item.url)" alt="">
                 </swiper-slide>
             </swiper>
             <div class="swiper-pagination p-l-3 p-r-3"></div>
