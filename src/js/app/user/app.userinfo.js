@@ -330,7 +330,7 @@ app.userinfo = {
                         };
                         if (resultEmployeeList.data[i].store) {
                             if (!storeOpenStatus || storeOpenStatus == 3) {
-                                resultEmployeeList.data[i].loginStatus = '----门店状态异常';
+                                resultEmployeeList.data[i].loginStatus = '----门店已关闭';
                             }
                         }
                     }
