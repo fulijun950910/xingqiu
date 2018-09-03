@@ -22,7 +22,7 @@
         <div v-if="tradeGoodsGroupList.length">
             <div flex class="p-t-2 p-b-2 border-bottom extra-light-black fs24" v-for="(item, index) in tradeGoodsGroupList" :key="index" layout="row" layout-align="start center">
                 <div flex="70">{{item.name}}</div>
-                <div flex="30">{{item.time}} *&nbsp;{{item.quantity}}</div>
+                <div flex="30" v-if="item.time">{{item.time}} *&nbsp;{{item.quantity}}</div>
             </div>
         </div>
     </div>
@@ -111,14 +111,23 @@ export default {
                 if (this.order.tradeGoodsGroupList.length) {
                     this.order.tradeGoodsGroupList.forEach(element => {
                         element.tradeGoodsGroupGoodsList.forEach(sku=> {
-                            sku.tradeGoodsGroupGoodsSpecList.forEach(spec=> {
+                            if (sku.tradeGoodsGroupGoodsSpecList.length) {
+                                sku.tradeGoodsGroupGoodsSpecList.forEach(spec=> {
+                                    let t = {
+                                        name: spec.storeName ? `${spec.storeName}(${sku.goodsName})` : sku.goodsName,
+                                        time: spec.specName ? spec.specName : '无限期',
+                                        quantity: spec.quantity ? spec.quantity : 1
+                                    };
+                                    this.tradeGoodsGroupList.push(t);
+                                });
+                            } else {
                                 let t = {
-                                    name: spec.storeName ? `${spec.storeName}(${sku.goodsName})` : sku.goodsName,
-                                    time: spec.specName ? spec.specName : '无限期',
-                                    quantity: spec.quantity ? spec.quantity : 1
+                                    name: sku.goodsName,
+                                    time: '',
+                                    quantity: ''
                                 };
                                 this.tradeGoodsGroupList.push(t);
-                            });
+                            }
                         });
                     });
 
