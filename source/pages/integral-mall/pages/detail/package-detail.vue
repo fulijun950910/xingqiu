@@ -134,8 +134,8 @@ export default {
                     this.goodsGroupList = JSON.parse(JSON.stringify(msg.data.goodsGroupList));
                     this.goodsGroupList.map((item, index)=> {
                         this.$set(item, 'select', []);
-                        this.$set(item, 'toggle', false);
-                        this.$set(item, 'icon', '#icon-xia');
+                        this.$set(item, 'toggle', true);
+                        this.$set(item, 'icon', '#icon-shang');
                         if (item.goodsGroupGoodsList && item.goodsGroupGoodsList.length) {
                             item.goodsGroupGoodsList.map((sku, skuIndex)=> {
                                 this.$set(sku, 'specification', sku.goodsGroupGoodsSpecList[0]);
@@ -353,8 +353,6 @@ export default {
             if (this.check()) {
                 return;
             }
-            // debugger;
-            // console.log(this.goodsGroupList);
             this.setData();
             this.$router.push({
                 name: 'pay-detail',
