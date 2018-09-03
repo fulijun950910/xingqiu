@@ -197,7 +197,6 @@ app.userinfo = {
         app.startLoading();
         // 缓存及cookie清理
         localStorage.clear();
-        debugger;
         // sessionStorage.clear();
         var error_login = false,
             msg = '';
@@ -325,8 +324,14 @@ app.userinfo = {
                     // 判断账号状态
                     for (var i = 0; i < resultEmployeeList.data.length; i++) {
                         var tempStatus = app.userinfo.checkidentityStatus(resultEmployeeList.data[i]);
+                        var storeOpenStatus = resultEmployeeList.data[i].store ? resultEmployeeList.data[i].store.status : '';
                         if (tempStatus.status != '正常') {
                             resultEmployeeList.data[i].loginStatus = '----' + tempStatus.status;
+                        };
+                        if (resultEmployeeList.data[i].store) {
+                            if (!storeOpenStatus || storeOpenStatus == 3) {
+                                resultEmployeeList.data[i].loginStatus = '----门店状态异常';
+                            }
                         }
                     }
                     if (resultEmployeeList.data.length <= 0) {
