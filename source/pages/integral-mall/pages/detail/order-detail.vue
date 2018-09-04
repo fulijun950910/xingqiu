@@ -88,6 +88,10 @@
             </div>
             </div>
         </div>
+        <div class="back-btn m-t-4 p-b-4" layout="row" layout-align="center center">
+         <div @click="pay" class="bottom-btn steel-gray fs28 m-r-4" v-if="order.status == '0'" layout="row" layout-align="center center">去支付&nbsp;<m-icon class="fs34" xlink="#icon-zhifu1"></m-icon></div>            
+         <div @click="goBack" class="bottom-btn steel-gray fs28" layout="row" layout-align="center center">返回&nbsp;<m-icon xlink="#icon-zuojiantou"></m-icon></div>
+        </div>
         
 </div>
 </template>
@@ -135,6 +139,12 @@ export default {
             }, msg=> {
             });
         },
+        goBack() {
+            this.$router.go(-1);
+        },
+        pay() {
+            location.href = this.order.payUrl;
+        },
         init() {
             this.loadData();
         }
@@ -169,6 +179,12 @@ export default {
     }
     .bg-extra-light-gray{
         background: @extra-light-gray;
+    }
+    .bottom-btn{
+        width: 90px;
+        height: 40px;
+        border-radius: 10px;
+        border: 1px solid @color-primary-dark;
     }
 
 }
