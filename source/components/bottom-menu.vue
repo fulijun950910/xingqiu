@@ -1,6 +1,6 @@
 <template>
     <div layout="row" layout-align="center center" class="fixed-bottom">
-        <a @click="link(index, item)" v-for="(item, index) in clickAble" :flex="flex" layout="row" layout-align="center center" class="text-center">
+        <a @click="link(index, item)" v-for="(item, index) in clickAble" :key="index" :flex="flex" layout="row" layout-align="center center" class="text-center">
             <svg class="icon" aria-hidden="true">
                 <use :xlink:href="item.icon"></use>
             </svg>

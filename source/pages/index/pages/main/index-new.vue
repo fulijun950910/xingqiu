@@ -59,7 +59,7 @@
                             <m-icon xlink="#icon-huodong" class="fs30"></m-icon>&nbsp;{{item.isFavorite ? '取消' : '收藏'}}
                         </div>
                     </div>
-                    <div class="collect-mask" v-if="item.collect" @click.stop="showCollect(index)"></div>                    
+                    <div class="collect-mask" v-if="item.collect" @click.stop="showCollect(index)"></div>
                 </div>
             </div>
             <div flex class="p-t-2 p-b-2 text-center light-gray" v-if="scrollDisabled"> 我是有底线的哦~</div>
@@ -127,7 +127,7 @@ export default {
             adsDetail: {},
             employee: this.$store.state,
             state: 2,
-            lastDay: {continueDays: 0},
+            lastDay: { continueDays: 0 },
             circleMenu: false,
             circleMenuTop: 0,
             showGoTop: false,
@@ -192,7 +192,7 @@ export default {
                 partyId = this.employee.party.partyId;
                 id = this.employee.party.id;
             };
-            api_party.bbsForumList(partyId, id).then(msg=> {
+            api_party.bbsForumList(partyId, id).then(msg => {
                 this.$indicator.close();
                 this.bbsMenu = msg.data;
                 this.parameter.forumId = this.bbsMenu[0].id;
@@ -214,20 +214,20 @@ export default {
                 return;
             }
             this.$indicator.open();
-            api_party.loadBBSMessage(this.parameter).then(msg=> {
+            api_party.loadBBSMessage(this.parameter).then(msg => {
                 this.$indicator.close();
                 if (msg.data.length < this.parameter.pageSize) {
                     this.scrollDisabled = true;
                 } else {
                     this.scrollDisabled = false;
                 }
-                msg.data.map((item, index)=> {
+                msg.data.map((item, index) => {
                     item.collect = false;
                 });
                 this.dataList = this.dataList.concat(msg.data);
                 this.loading = false;
                 this.parameter.page++;
-            }, msg=> {
+            }, msg => {
             });
         },
         resetData() {
@@ -244,12 +244,11 @@ export default {
                 }
             }
             this.$indicator.open();
-            api_party.listBanner('00001', partyId).then(msg=> {
+            api_party.listBanner('00001', partyId).then(msg => {
                 this.$indicator.close();
                 this.bannerList = msg.data;
-            }, msg=> {
+            }, msg => {
             });
-
         },
         loadMore() {
             this.loadData(1);
@@ -265,10 +264,10 @@ export default {
                     if (this.$store.state && this.$store.state.party && this.$store.state.party.partyId) {
                         let openId = JSON.parse(localStorage.getItem('employee')).openId;
                         this.$indicator.open();
-                        api_party.bandWeichat(this.$store.state.party.id, openId).then(msg=> {
+                        api_party.bandWeichat(this.$store.state.party.id, openId).then(msg => {
                             this.$indicator.close();
                             window.location.href = `http://b2b.mei1.info/app/index.php?i=1&c=entry&eid=41&saasUID=${this.$store.state.party.id}`;
-                        }, msg=> {
+                        }, msg => {
                         });
                     } else {
                         location.href = this.$signLocation;
@@ -295,7 +294,7 @@ export default {
                     break;
                 case 5:
                 // 异业共赢
-                    this.$router.push({name: 'alliance'});
+                    this.$router.push({ name: 'alliance' });
                     break;
                 case 6:
                 //  签到
@@ -354,7 +353,7 @@ export default {
                 tid: item.tid
             };
             this.$indicator.open();
-            api_party.favorite(parameter, type).then(msg=> {
+            api_party.favorite(parameter, type).then(msg => {
                 this.$indicator.close();
                 let text = type == 2 ? '取消收藏' : '添加收藏';
                 this.$toast(text);
@@ -362,7 +361,7 @@ export default {
                 tempDataList[index].isFavorite = !tempDataList[index].isFavorite;
                 tempDataList[index].collect = false;
                 this.dataList = tempDataList;
-            }, msg=> {
+            }, msg => {
             });
         },
         hideMask() {
@@ -722,4 +721,3 @@ export default {
   }
 
 </style>
-

@@ -330,7 +330,6 @@
             </div>
         </div>
 
-
     </div>
 </template>
 <script>
@@ -396,19 +395,19 @@ export default {
                 url: encodeURIComponent(window.location.href.split('#')[0])
             };
             Indicator.open();
-            api_getJSSignature.getJSSignature(data).then(res =>{
+            api_getJSSignature.getJSSignature(data).then(res => {
                 Indicator.close();
                 api_getJSSignature.scanQRCode();
             });
         },
         initStoreData(storeStr) {
-            if (!storeStr) {return;}
+            if (!storeStr) { return; }
             let localStoreList = this.$store.state.storeList;
-            if (!localStoreList) {return;}
+            if (!localStoreList) { return; }
             let storeList = storeStr.split(',');
             this.storeList = [];
-            storeList.forEach((item)=> {
-                let store = localStoreList.find(function(value) {return value.id == item;});
+            storeList.forEach((item) => {
+                let store = localStoreList.find(function(value) { return value.id == item; });
                 if (store !== -1) {
                     this.storeList.push({
                         name: store.name,
@@ -480,7 +479,6 @@ export default {
                     }
                 });
             }, action => {});
-
         },
         verifyCoupon() {
             let merchantId = this.merchantId; // window.localStorage.employee.merchantId;

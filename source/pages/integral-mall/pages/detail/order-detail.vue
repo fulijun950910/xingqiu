@@ -88,7 +88,7 @@
             </div>
             </div>
         </div>
-        
+
 </div>
 </template>
 
@@ -105,14 +105,14 @@ export default {
     methods: {
         loadData() {
             this.$indicator.open('加载中...');
-            api_party.orderDetail(this.orderId).then(msg=> {
+            api_party.orderDetail(this.orderId).then(msg => {
                 this.$indicator.close();
                 this.order = msg.data;
                 if (this.order.tradeGoodsGroupList.length) {
                     this.order.tradeGoodsGroupList.forEach(element => {
-                        element.tradeGoodsGroupGoodsList.forEach(sku=> {
+                        element.tradeGoodsGroupGoodsList.forEach(sku => {
                             if (sku.tradeGoodsGroupGoodsSpecList.length) {
-                                sku.tradeGoodsGroupGoodsSpecList.forEach(spec=> {
+                                sku.tradeGoodsGroupGoodsSpecList.forEach(spec => {
                                     let t = {
                                         name: spec.storeName ? `${spec.storeName}(${sku.goodsName})` : sku.goodsName,
                                         time: spec.specName ? spec.specName : '无限期',
@@ -130,9 +130,8 @@ export default {
                             }
                         });
                     });
-
                 }
-            }, msg=> {
+            }, msg => {
             });
         },
         init() {

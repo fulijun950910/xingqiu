@@ -79,35 +79,33 @@ export default {
     methods: {
         chooseIndusty() {
             Indicator.open('loading...');
-            api_party.searchIndustry().then(msg=> {
+            api_party.searchIndustry().then(msg => {
                 Indicator.close();
                 this.show = true;
                 this.slots[0].values = msg.data;
                 this.chooseType = 2;
-            }, msg=> {
+            }, msg => {
             });
         },
         loadProvince() {
             Indicator.open('loading...');
-            api_party.getProvince().then(msg=> {
+            api_party.getProvince().then(msg => {
                 Indicator.close();
                 this.show = true;
                 this.slots[0].values = msg.data;
                 this.chooseType = 1;
                 this.clickTime++;
-            }, msg=> {
+            }, msg => {
 
             });
-
         },
         loadCity(id) {
-            api_party.getCity(id).then(msg=> {
+            api_party.getCity(id).then(msg => {
                 this.clickTime++;
                 this.slots[0].values = msg.data;
-            }, msg=> {
+            }, msg => {
 
             });
-
         },
         init() {
             this.loadIndustry();
@@ -120,9 +118,9 @@ export default {
             parameter.province = this.address.province.name;
             parameter.city = this.address.city.name;
             console.log(parameter);
-            api_party.addIntroduction(parameter).then(msg=> {
+            api_party.addIntroduction(parameter).then(msg => {
                 this.$router.push('/supplier-list');
-            }, msg=> {
+            }, msg => {
 
             });
         },
@@ -234,4 +232,3 @@ export default {
     }
 }
 </style>
-

@@ -22,7 +22,7 @@
         <!-- 主体-->
         <div class="popup-right-box" flex >
             <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10" >
-                <div v-for="item in dataList"  class="popup-right-list-cell" >
+                <div v-for="(item, index) in dataList" :key="index" class="popup-right-list-cell" >
                     <check-box :name="name" @click="emitEvent($event,item)" :type="multiple?'checkbox':'radio'" :option="item" v-model="currentValue"></check-box>
                 </div>
                 <m-load-more :loading="loadOver"></m-load-more>
@@ -63,10 +63,10 @@ export default {
                 page: 1,
                 size: 20,
                 query: [
-                    {field: 'merchantId', value: this.$store.getters.merchantId}
+                    { field: 'merchantId', value: this.$store.getters.merchantId }
                 ],
                 sort: [
-                    {field: 'code', sort: 'desc'}
+                    { field: 'code', sort: 'desc' }
                 ]
 
             },
@@ -111,9 +111,9 @@ export default {
                 this.dataList = [];
             }
             this.loading = true;
-            let query = JSON.parse(JSON.stringify(this.query));;
+            let query = JSON.parse(JSON.stringify(this.query)); ;
             if (this.keyword) {
-                query.query.push({field: 'keyword', value: this.keyword});
+                query.query.push({ field: 'keyword', value: this.keyword });
             };
             api_booking.searchItem(query).then(res => {
                 if (res.data.rows) {

@@ -75,28 +75,27 @@ export default {
             };
         },
         loadProvince() {
-            api_party.getProvince().then(msg=> {
+            api_party.getProvince().then(msg => {
                 this.slots[0].values = msg.data;
-            }, msg=> {
+            }, msg => {
 
             });
         },
         loadCity(code) {
-            api_party.getCity(code).then(msg=> {
+            api_party.getCity(code).then(msg => {
                 this.slots[0].values = msg.data;
                 this.type = 2;
-            }, msg=> {
+            }, msg => {
 
             });
         },
         loadToen(code) {
-            api_party.getTown(code).then(msg=> {
+            api_party.getTown(code).then(msg => {
                 this.slots[0].values = msg.data;
                 this.type = 3;
-            }, msg=> {
+            }, msg => {
 
             });
-
         },
         showPicker() {
             this.selectedProvince = !this.selectedProvince;
@@ -118,7 +117,6 @@ export default {
                 Toast('请输入详细地址');
                 return;
             };
-
         },
         submit() {
             this.check();
@@ -141,22 +139,22 @@ export default {
                 parameter.id = this.addressId;
             };
             this.$indicator.open();
-            api_party.deliveryAddress(parameter).then(msg=> {
+            api_party.deliveryAddress(parameter).then(msg => {
                 this.$indicator.close();
                 Toast(this.addressId ? '地址修改成功' : '地址创建成功');
                 this.$router.back();
-            }, msg=> {
+            }, msg => {
 
             });
         },
         getItem(id) {
-            api_party.getAddress(id).then(msg=> {
+            api_party.getAddress(id).then(msg => {
                 this.formParameter = msg.data;
                 this.address.province = msg.data.province;
                 this.address.city = msg.data.city;
                 this.address.town = msg.data.town;
                 this.isDefault = msg.data.isDefault;
-            }, msg=> {
+            }, msg => {
 
             });
         }

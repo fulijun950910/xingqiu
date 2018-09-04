@@ -60,80 +60,80 @@
 </template>
 
 <script>
-    import Vue from 'vue';
-    import mLoadMore from 'components/m-load-more';
-    import { InfiniteScroll } from 'mint-ui';
-    import api_party from 'services/api.party';
-    Vue.use(InfiniteScroll);
+import Vue from 'vue';
+import mLoadMore from 'components/m-load-more';
+import { InfiniteScroll } from 'mint-ui';
+import api_party from 'services/api.party';
+Vue.use(InfiniteScroll);
 
-    export default {
-        name: 'payNotes',
-        props: ['accountId'],
-        components: {
-            'm-load-more': mLoadMore
-        },
-        data() {
-            return {
-                date: this.$moment().format('YYYY/MM/DD'),
-                dataModel: {},
-                blanceTotal: 0,
-                dataList: [],
-                loading: false,
-                query: {
-                    page: 1,
-                    size: 15,
-                    query: [
-                        {field: 'accountId', value: this.accountId}
-                    ]
-                },
-                loadOver: true
-            };
-        },
-        mounted() {
-            this.load();
-            this.loadData();
-        },
-        methods: {
-            loadData() {
-                this.$indicator.open();
-                api_party.getAccount(this.$store.state.party.partyId).then(res => {
-                    this.$indicator.close();
-                    this.blanceTotal = res.data;
-                });
+export default {
+    name: 'payNotes',
+    props: ['accountId'],
+    components: {
+        'm-load-more': mLoadMore
+    },
+    data() {
+        return {
+            date: this.$moment().format('YYYY/MM/DD'),
+            dataModel: {},
+            blanceTotal: 0,
+            dataList: [],
+            loading: false,
+            query: {
+                page: 1,
+                size: 15,
+                query: [
+                    { field: 'accountId', value: this.accountId }
+                ]
             },
-            loadMore() {
-                if (this.loadOver) {
-                    this.load();
-                }
-            },
-            load(reset) {
-                if (reset) {
-                    this.query.page = 1;
-                    this.dataList = [];
-                }
-                this.loading = true;
-                let query = JSON.parse(JSON.stringify(this.query));
-                if (this.date) {
-                    query.query.push({field: 'startTime', value: this.$moment(this.date).startOf('month').format('YYYY-MM-DD HH:mm:ss')});
-                    query.query.push({field: 'endTime', value: this.$moment(this.date).endOf('month').format('YYYY-MM-DD HH:mm:ss')});
-                }
-
-                api_party.getAccountList(query).then(res => {
-                    if (res.data.list) {
-                        this.dataList = this.dataList.concat(res.data.list);
-                        this.dataModel = res.data;
-                        this.loading = false;
-                        this.query.page++;
-                        if (res.data.list.length < this.query.size) {
-                            this.loadOver = false;
-                        } else {
-                            this.loadOver = true;
-                        }
-                    }
-                });
+            loadOver: true
+        };
+    },
+    mounted() {
+        this.load();
+        this.loadData();
+    },
+    methods: {
+        loadData() {
+            this.$indicator.open();
+            api_party.getAccount(this.$store.state.party.partyId).then(res => {
+                this.$indicator.close();
+                this.blanceTotal = res.data;
+            });
+        },
+        loadMore() {
+            if (this.loadOver) {
+                this.load();
             }
+        },
+        load(reset) {
+            if (reset) {
+                this.query.page = 1;
+                this.dataList = [];
+            }
+            this.loading = true;
+            let query = JSON.parse(JSON.stringify(this.query));
+            if (this.date) {
+                query.query.push({ field: 'startTime', value: this.$moment(this.date).startOf('month').format('YYYY-MM-DD HH:mm:ss') });
+                query.query.push({ field: 'endTime', value: this.$moment(this.date).endOf('month').format('YYYY-MM-DD HH:mm:ss') });
+            }
+
+            api_party.getAccountList(query).then(res => {
+                if (res.data.list) {
+                    this.dataList = this.dataList.concat(res.data.list);
+                    this.dataModel = res.data;
+                    this.loading = false;
+                    this.query.page++;
+                    if (res.data.list.length < this.query.size) {
+                        this.loadOver = false;
+                    } else {
+                        this.loadOver = true;
+                    }
+                }
+            });
         }
-    };
+    }
+};
 </script>
 
 <style scoped lang='less'>

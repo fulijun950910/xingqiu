@@ -9,7 +9,7 @@
                         <span class="c-card-name no-wrap">{{serviceName}}</span>
                     </p>
                     <p class="c-card-subtitle" layout="row" layout-align="start center">
-                        <span class="dian" flex="10">●</span> 
+                        <span class="dian" flex="10">●</span>
                         <span class="ft-light no-wrap" flex="40">{{dataModel.memberName}}</span>
                     </p>
                 </div>
@@ -60,7 +60,7 @@ export default {
     },
     computed: {
         serviceName() {
-            return this.dataModel.serviceSmallNote ? this.dataModel.serviceSmallNote.item.map(x => {return x.itemName;}).join('+') : '无项目';
+            return this.dataModel.serviceSmallNote ? this.dataModel.serviceSmallNote.item.map(x => { return x.itemName; }).join('+') : '无项目';
         }
     },
     methods: {
@@ -128,7 +128,7 @@ export default {
                 api_serviceNote.createServiceNote(this.dataModel).then(res => {
                     this.$indicator.close();
                     this.$toast('记录成功！');
-                    this.$router.push({name: 'record-finish', query: {type: this.dataModel.type}});
+                    this.$router.push({ name: 'record-finish', query: { type: this.dataModel.type } });
                 }, err => {
                     this.$indicator.close();
                     this.$toast(err.message || '服务繁忙请稍后重试吧');
@@ -138,7 +138,7 @@ export default {
                 api_serviceNote.updateServiceNote(this.dataModel).then(res => {
                     this.$indicator.close();
                     this.$toast('修改成功！');
-                    this.$router.push({name: 'record-finish', query: {type: this.dataModel.type}});
+                    this.$router.push({ name: 'record-finish', query: { type: this.dataModel.type } });
                 }, err => {
                     this.$indicator.close();
                     this.$toast(err.message || '服务繁忙请稍后重试吧');

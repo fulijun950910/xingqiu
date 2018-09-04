@@ -11,12 +11,12 @@ const customerRecord = resolve => require(['./pages/customer-detail-record'], re
 const customerService = resolve => require(['./pages/customer-detail-service'], resolve);
 
 export default [{
-    path: '/list',  // （默认）客户档案列表
+    path: '/list', // （默认）客户档案列表
     name: 'list',
     component: customerList,
     meta: { auth: true, level: 1, title: '顾客档案' }
 }, {
-    path: '/detail/:customerId',    // 客户档案详情
+    path: '/detail/:customerId', // 客户档案详情
     name: 'detail',
     component: customerDetail,
     meta: { auth: true, level: 2, title: '顾客详情' },

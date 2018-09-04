@@ -165,7 +165,7 @@ export default {
     methods: {
         loadStoreList() {
             Indicator.open('loading...');
-            api_party.storeList(this.$store.state.party.merchantId, this.$store.getters.employeeId).then(msg=> {
+            api_party.storeList(this.$store.state.party.merchantId, this.$store.getters.employeeId).then(msg => {
                 Indicator.close();
                 this.storeList = msg.data;
                 this.storeList.unshift({
@@ -173,7 +173,7 @@ export default {
                     id: 'all'
                 });
                 this.parameter.storeId = this.storeList[0].id;
-            }, msg=> {
+            }, msg => {
 
             });
         },
@@ -199,7 +199,7 @@ export default {
         },
         loadActivityDetail() {
             Indicator.open('loading...');
-            api_party.productDetail(this.$route.params.id).then(msg=> {
+            api_party.productDetail(this.$route.params.id).then(msg => {
                 Indicator.close();
                 this.chooseServiceItem = msg.data;
                 this.contractTime = this.chooseServiceItem.goodsSpecList;
@@ -211,7 +211,7 @@ export default {
                 this.js_sdk();
                 this.addStoreData[0].specCode = this.chooseServiceItem.goodsSpecList[0].specCode;
                 this.backData(this.formType);
-            }, msg=> {
+            }, msg => {
 
             });
         },
@@ -226,14 +226,14 @@ export default {
                         }
                     } else {
                         let tempIndex;
-                        this.chooseStore.map((store, index)=> {
+                        this.chooseStore.map((store, index) => {
                             if (store.id == item.id) {
                                 tempIndex = index;
                             }
                         });
                         if (tempIndex || tempIndex == 0) {
                             this.chooseStore.splice(tempIndex, 1);
-                            this.chooseStore.map((store, storeIndex)=> {
+                            this.chooseStore.map((store, storeIndex) => {
                                 if (store.id == 'all') {
                                     this.chooseStore.splice(storeIndex, 1);
                                 };
@@ -273,7 +273,7 @@ export default {
             this.addStoreData.splice(index, 1);
         },
         checkStoreSelect(item) {
-            let ls = this.chooseStore.filter((store, index)=> {
+            let ls = this.chooseStore.filter((store, index) => {
                 return store.id == item.id;
             });
             return ls.length;
@@ -284,14 +284,13 @@ export default {
                 // 系统续费
                     if (!this.baseParameter.specCode) {
                         this.$toast('记得填写规格哦~');
-                        result = false;
-                        return result;
+                        return false;
                     };
                     return true;
                 case '3':
                 // 新增门店
                     let result = true;
-                    this.addStoreData.map((item, index)=> {
+                    this.addStoreData.map((item, index) => {
                         if (!item.storeName) {
                             this.$toast('记得填写门店名称哦~');
                             result = false;
@@ -329,7 +328,7 @@ export default {
             switch (this.formType) {
                 case '2' :
                 case '4' :
-                    this.chooseStore.map((item, index)=> {
+                    this.chooseStore.map((item, index) => {
                         if (item.id != 'all') {
                             let temp = {};
                             Object.assign(temp, this.baseParameter);
@@ -342,7 +341,7 @@ export default {
                     });
                     break;
                 case '3' :
-                    this.addStoreData.map((item, index)=> {
+                    this.addStoreData.map((item, index) => {
                         delete item.index;
                         insertCon.push(item);
                     });
@@ -379,32 +378,30 @@ export default {
         },
         loadProvince() {
             Indicator.open('loading...');
-            api_party.getProvince().then(msg=> {
+            api_party.getProvince().then(msg => {
                 Indicator.close();
                 this.show = true;
                 this.slots[0].values = msg.data;
                 this.chooseType = 1;
                 this.clickTime++;
-            }, msg=> {
+            }, msg => {
 
             });
-
         },
         loadCity(id) {
-            api_party.getCity(id).then(msg=> {
+            api_party.getCity(id).then(msg => {
                 this.clickTime++;
                 this.slots[0].values = msg.data;
-            }, msg=> {
+            }, msg => {
 
             });
         },
         loadTown(id) {
-            api_party.getTown(id).then(msg=> {
+            api_party.getTown(id).then(msg => {
                 this.clickTime++;
                 this.slots[0].values = msg.data;
-            }, msg=> {
+            }, msg => {
             });
-
         },
         chooseAddress(item, index) {
             this.pickerType = '2';
@@ -435,7 +432,7 @@ export default {
                     }
                 } else {
                     this.baseParameter.specCode = localData[0].specCode;
-                    localData.map((item, index)=> {
+                    localData.map((item, index) => {
                         this.chooseStore.push({
                             name: item.storeName,
                             id: item.storeId
@@ -562,4 +559,3 @@ export default {
 }
 }
 </style>
-

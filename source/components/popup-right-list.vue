@@ -6,7 +6,7 @@
         </div>
         <!-- 主体-->
         <div class="popup-right-box" flex>
-            <div v-for="item in options"  class="popup-right-list-cell" >
+            <div v-for="(item, index) in options" :key="index" class="popup-right-list-cell" >
                 <check-box :name="name" @click="emitEvent($event,item)" :type="multiple?'checkbox':'radio'" :option="item" v-model="currentValue"></check-box>
             </div>
             <slot name="descSlot" ></slot>
