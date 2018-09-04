@@ -22,23 +22,23 @@
     </div>
 </template>
 <script>
-    export default {
-        data() {
-            return {
-                showmask: false
-            };
-        },
-        methods: {
-            toIndex() {
-                this.$router.push('/index');
-            }
-        },
-        mounted() {
-            setTimeout(() => {
-                this.showmask = true;
-            }, 1500);
+export default {
+    data() {
+        return {
+            showmask: false
+        };
+    },
+    methods: {
+        toIndex() {
+            this.$router.push('/index');
         }
-    };
+    },
+    mounted() {
+        setTimeout(() => {
+            this.showmask = true;
+        }, 1500);
+    }
+};
 </script>
 <style lang="less">
       .leaser-page{

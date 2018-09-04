@@ -35,6 +35,6 @@ export default {
     },
     getEmployeeInfo: function(searchData) {
         var url = '/api/employeeInfo';
-        return request(url, 'get', null, true, {searchData: searchData});
+        return request(url, 'get', null, true, { searchData: searchData });
     }
 };

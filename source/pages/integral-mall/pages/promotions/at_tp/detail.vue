@@ -30,11 +30,11 @@
             </div></div>
             <div class="cell cell-box bg-default">
                 <div class="groupImgList" layout="row" layout-align="center center" flex-wrap="wrap">
-                    <div flex="20" class="img" v-for="item in groupData.groupJoinInfoList">
+                    <div flex="20" class="img" v-for="(item, index) in groupData.groupJoinInfoList" :key="index">
                         <img :src="item.avatarId | mSrc2(require('assets/imgs/female.png'))" alt="">
                         <span class="member-name" v-if="item.groupRole == 1">团</span>
                     </div>
-                    <div v-if="groupData.status != 3" flex="20" class="img" v-for="item in groupJoinNeedNum">
+                    <div v-if="groupData.status != 3" flex="20" class="img" v-for="(item, index) in groupJoinNeedNum" :key="index">
                         <img :src="require('assets/imgs/integral-mall/undefindFace.png')" alt="">
                     </div>
 
@@ -63,7 +63,7 @@
         <div class="cell cell-box bg-white m-t-3">
             <div class="m-b-3">活动内容</div>
             <div>
-                <div class="p-t-3 p-b-3 border-bottom" v-for="item in data.groupRule.groupRuleContentExts" layout="row" layout-align="space-between center">
+                <div class="p-t-3 p-b-3 border-bottom" v-for="(item, index) in data.groupRule.groupRuleContentExts" :key="index" layout="row" layout-align="space-between center">
                     <div flex="45" >{{ item.itemName }}</div>
                     <div flex="25" class="text-center">{{ item.itemContent }}</div>
                     <div flex="25" class="text-right">{{item.itemPrice | fen2yuan}}</div>
@@ -80,7 +80,7 @@
             <!-- 预约信息 -->
             <div v-if="data.groupInfo.appoint" class="m-b-4">
                 <p >预约信息</p>
-                <p v-for="item in data.groupInfo.appoint">
+                <p v-for="(item, index) in data.groupInfo.appoint" :key="index">
                     · {{ item.content }}
                 </p>
             </div>
@@ -88,7 +88,7 @@
             <!-- 适用人群 -->
             <div v-if="data.groupInfo.suit" class="m-b-4">
                 <p >适用人群</p>
-                <p v-for="item in data.groupInfo.suit">
+                <p v-for="(item, index) in data.groupInfo.suit" :key="index">
                     · {{ item.content }}
                 </p>
             </div>
@@ -96,7 +96,7 @@
             <!-- 规则提醒 -->
             <div v-if="data.groupInfo.rule" class="m-b-4">
                 <p >规则提醒</p>
-                <p v-for="item in data.groupInfo.rule">
+                <p v-for="(item, index) in data.groupInfo.rule" :key="index">
                     · {{ item.content }}
                 </p>
             </div>
@@ -169,261 +169,260 @@
 </template>
 
 <script>
-    import Vue from 'vue';
-    import apiPromotion from 'services/api.promotion';
-    import api_party from 'services/api.party';
-    import apiGetJSSignature from 'services/api.getJSSignature';
-    import {Swipe, SwipeItem, Popup} from 'mint-ui';
-    import Q from 'q';
-    Vue.component(Swipe.name, Swipe);
-    Vue.component(SwipeItem.name, SwipeItem);
-    Vue.component(Popup.name, Popup);
-    export default {
-        name: 'index',
-        props: ['promotionId', 'openid', 'groupJoinId'],
-        data() {
-            return {
-                title: '',
-                buyPop: false,
-                storeShowNum: 2, // 默认显示门店数量
-                activeBuyItem: {}, // 选中的项目
-                showShare: false, // 显示分享引导
-                address: {},
-                groupList: [{}, {}],
-                groupCount: 1,
-                groupData: {},
-                groupJoinNeedNum: 0, // 参团人数
-                data: {
-                    groupRule: {
-                        promotionRuleGroup: {}
-                    },
-                    groupInfo: {}
-                }
-            };
-        },
-        filters: {
-            buyCount(val) {
-                return Math.floor(val / 10) * 10 + 10;
+import Vue from 'vue';
+import apiPromotion from 'services/api.promotion';
+import api_party from 'services/api.party';
+import apiGetJSSignature from 'services/api.getJSSignature';
+import { Swipe, SwipeItem, Popup } from 'mint-ui';
+import Q from 'q';
+Vue.component(Swipe.name, Swipe);
+Vue.component(SwipeItem.name, SwipeItem);
+Vue.component(Popup.name, Popup);
+export default {
+    name: 'index',
+    props: ['promotionId', 'openid', 'groupJoinId'],
+    data() {
+        return {
+            title: '',
+            buyPop: false,
+            storeShowNum: 2, // 默认显示门店数量
+            activeBuyItem: {}, // 选中的项目
+            showShare: false, // 显示分享引导
+            address: {},
+            groupList: [{}, {}],
+            groupCount: 1,
+            groupData: {},
+            groupJoinNeedNum: 0, // 参团人数
+            data: {
+                groupRule: {
+                    promotionRuleGroup: {}
+                },
+                groupInfo: {}
             }
-        },
-        mounted() {
-            this.init();
-            this.loadDetail();
-            this.dynamicTime();
-            // 如果是选完地址回来；
-            if (this.$store.state.promotionAtTpData && this.$store.state.promotionAtTpData.loadAddress) {
-                this.loadAddress();
-                this.buyPop = true;
-            }
-            this.$store.state.promotionAtTpData = {};
-        },
-        methods: {
-            init() {
-                let data = {
-                    id: this.promotionId
-                };
-                this.$indicator.open();
-                apiPromotion.view(data).then(result => {
-                    this.$indicator.close();
-                    if (result && result.data) {
-                        this.data = result.data;
-                        // 计算活动原价（活动内容价目之和）
-                        this.data.originPrice = 0;
-                        this.data.groupRule.groupRuleContentExts.forEach(item => {
-                            this.data.originPrice += item.itemPrice;
-                        });
-                        // 更新数据
-                        let json = {
-                            at_tp: {}
-                        };
-                        json.at_tp.title = this.data.title;
-                        document.title = json.at_tp.title;
-                        json.at_tp.promotionId = this.promotionId;
-                        json.at_tp.merchantId = this.data.groupRule.merchantId;
-                        json.at_tp.openid = this.openid;
-                        json.at_tp.desc = this.data.description;
-                        json.at_tp.link = this.data.promotionAuthUrl;
-                        json.at_tp.imgUrl = this.data.groupRule.titleImages[0];
-                        window.sessionStorage.promotionsData = JSON.stringify(json);
-                        this.$store.commit('UPDATE_PROMOTION');
-                        //
-                        let employeeData = window.localStorage.employee || '{}';
-                        employeeData = JSON.parse(employeeData);
-                        employeeData.openId = json.at_tp.openid;
-                        window.localStorage.employee = JSON.stringify(employeeData);
-                        this.$store.commit('UPDATE_LOCAL');
-                        // 规则分组
-                        result.data.groupInfo = {};
-                        // 活动规则
-                        if (result.data.groupRule.promotionRuleDescriptions && result.data.groupRule.promotionRuleDescriptions) {
-                            result.data.groupRule.promotionRuleDescriptions.forEach((v, i) => {
-                                if (v.code && v.code.indexOf('_') > -1) {
-                                    var name = v.code.split('_')[0];
-                                    if (!result.data.groupInfo[name] || result.data.groupInfo[name].lenth < 1) {
-                                        result.data.groupInfo[name] = [];
-                                    }
-                                    result.data.groupInfo[name].push(v);
-                                } else if (v.content && v.content != '') {
-                                    if (!result.data.groupInfo.rule || result.data.groupInfo.rule.lenth < 1) {
-                                        result.data.groupInfo.rule = [];
-                                    }
-                                    result.data.groupInfo.rule.push(v);
-                                }
-                            });
-                        }
-                        // jsskd分享
-                        this.js_sdk_check();
-                    }
-                });
-            },
-            async loadAddress() {
-                var deferred = Q.defer();
-                if (this.$store.state.integralMallActAddress) {
-                    this.address = this.$store.state.integralMallActAddress;
-                } else {
-                    let { data } = await api_party.getDefaultAddress(this.$store.state.party.partyId, this.$store.state.party.id);
-                    this.address = data || {};
-                }
-                deferred.resolve(true);
-                return deferred.promise;
-
-            },
-            async loadDetail() {
-                let { data } = await apiPromotion.getGroupDetail(this.groupJoinId);
-                this.groupData = data;
-                if (this.groupData.groupJoinInfoList && this.groupData.groupJoinInfoList.length > 0) {
-                    this.groupJoinNeedNum = Math.max(this.groupData.groupLevel - this.groupData.groupJoinInfoList.length, 0);
-                }
-            },
-            chooseAddress() {
-                this.$store.state.promotionAtTpData = {
-                    loadAddress: true
-                };
-                this.$router.push('/address-list/select');
-            },
-            goIndex() {
-                this.$router.push(`/promotion-at-tp/${this.promotionId}/${this.openid}`);
-            },
-            goRecording() {
-                this.$router.push('/promotion-at-tp-recording');
-            },
-            goOrderList() {
-                this.$router.push('/b2b-order-list');
-            },
-            goList() {
-                this.$router.push('/promotion-at-tp-list');
-            },
-            changeShowStoreNum(type) {
-                if (type == 1) {
-                    this.storeShowNum = Number.POSITIVE_INFINITY;
-                } else {
-                    this.storeShowNum = 2;
-                }
-            },
-            async checkBuy() {
-                var deferred = Q.defer();
-                if (!this.$store.state || !this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
-                    if (this.$isDev) {
-                        window.location.href = this.$getSignLocation(`?openid=${this.$store.state.user.openId}`);
-                    } else {
-                        window.location.href = '/userinfo.html?type=2&openid=${this.$store.state.user.openId}#/user_login';
-                    }
-                }
-                deferred.resolve(true);
-                return deferred.promise;
-            },
-            async showBuy(item) {
-                await this.checkBuy();
-                // 没有地址加载地址
-                if (!this.address.id) {
-                    await this.loadAddress();
-                }
-                this.buyPop = true;
-            },
-            dynamicTime() {
-                setTimeout(() => {
-                    if (this.groupData.remainSecond > 0) {
-                        this.groupData.remainSecond -= 1;
-                    }
-                    this.dynamicTime();
-                }, 1000);
-            },
-            async submit() {
-                if (!this.address.id) {
-                    this.$toast('请选择您的收货地址');
-                    return;
-                }
-                let data = {
-                    merchantId: this.$store.state.at_tp.merchantId,
-                    partyId: this.$store.state.party.partyId,
-                    userId: this.$store.state.party.id,
-                    openid: this.openid,
-                    mobile: this.$store.state.party.userName,
-                    nickName: this.$store.state.party.nickName,
-                    campaignName: this.data.title,
-                    promotionInstanceId: this.promotionId,
-                    promotionRuleGroupExtId: this.groupData.groupRuleExtId,
-                    groupType: 2, // 1.开团 2.参团
-                    promotionGroupJoinId: this.groupData.id,
-                    createSource: 1, // 创建来源 1：美问星球
-                    kind: 1,
-                    deliveryAddressId: this.address.id
-                };
-                let res = await apiPromotion.purchase(data);
-                let _this = this;
-                apiGetJSSignature.wxPay({
-                    appId: res.data.appId,
-                    signType: res.data.signType,
-                    paySign: res.data.paySign,
-                    timeStamp: res.data.timeStamp,
-                    nonceStr: res.data.nonceStr,
-                    package: res.data.package,
-                    success(res) {
-                        _this.loadDetail();
-                        _this.showShare = true;
-                        _this.buyPop = false;
-                    },
-                    error(res) {
-                    }
-                });
-            },
-            js_sdk_check() {
-                this.js_sdk();
-                let time = setInterval(() => {
-                    if (this.$store.state.isLoadSdk) {
-                        this.js_sdk();
-                        clearInterval(time);
-                    }
-                }, 600);
-            },
-            js_sdk() {
-                let _this = this;
-                let share = {
-                    title: _this.$store.state.at_tp.title,
-                    desc: _this.$store.state.at_tp.desc,
-                    link: `${window.location.origin}/api/b2bPromotionMobile/joinGroupAuthUrl/${_this.promotionId}/${_this.groupJoinId}`,
-                    imgUrl: window.location.origin + '/api/file/' + _this.$store.state.at_tp.imgUrl,
-                    type: 'link',
-                    dataUrl: '',
-                    success: function() {
-                    },
-                    cancel: null
-                };
-                apiGetJSSignature.hideMenuItems();
-                apiGetJSSignature.shareAppMessage(share);
-            },
-            async openLocation(item) {
-                let data = {
-                    latitude: item.latitude,
-                    longitude: item.longitude,
-                    name: item.storeName,
-                    address: item.address
-                };
-                await apiGetJSSignature.getJSSignature({url: encodeURIComponent(window.location.href.split('#')[0])});
-                apiGetJSSignature.openLocation(data);
-            }
+        };
+    },
+    filters: {
+        buyCount(val) {
+            return Math.floor(val / 10) * 10 + 10;
         }
-    };
+    },
+    mounted() {
+        this.init();
+        this.loadDetail();
+        this.dynamicTime();
+        // 如果是选完地址回来；
+        if (this.$store.state.promotionAtTpData && this.$store.state.promotionAtTpData.loadAddress) {
+            this.loadAddress();
+            this.buyPop = true;
+        }
+        this.$store.state.promotionAtTpData = {};
+    },
+    methods: {
+        init() {
+            let data = {
+                id: this.promotionId
+            };
+            this.$indicator.open();
+            apiPromotion.view(data).then(result => {
+                this.$indicator.close();
+                if (result && result.data) {
+                    this.data = result.data;
+                    // 计算活动原价（活动内容价目之和）
+                    this.data.originPrice = 0;
+                    this.data.groupRule.groupRuleContentExts.forEach(item => {
+                        this.data.originPrice += item.itemPrice;
+                    });
+                    // 更新数据
+                    let json = {
+                        at_tp: {}
+                    };
+                    json.at_tp.title = this.data.title;
+                    document.title = json.at_tp.title;
+                    json.at_tp.promotionId = this.promotionId;
+                    json.at_tp.merchantId = this.data.groupRule.merchantId;
+                    json.at_tp.openid = this.openid;
+                    json.at_tp.desc = this.data.description;
+                    json.at_tp.link = this.data.promotionAuthUrl;
+                    json.at_tp.imgUrl = this.data.groupRule.titleImages[0];
+                    window.sessionStorage.promotionsData = JSON.stringify(json);
+                    this.$store.commit('UPDATE_PROMOTION');
+                    //
+                    let employeeData = window.localStorage.employee || '{}';
+                    employeeData = JSON.parse(employeeData);
+                    employeeData.openId = json.at_tp.openid;
+                    window.localStorage.employee = JSON.stringify(employeeData);
+                    this.$store.commit('UPDATE_LOCAL');
+                    // 规则分组
+                    result.data.groupInfo = {};
+                    // 活动规则
+                    if (result.data.groupRule.promotionRuleDescriptions && result.data.groupRule.promotionRuleDescriptions) {
+                        result.data.groupRule.promotionRuleDescriptions.forEach((v, i) => {
+                            if (v.code && v.code.indexOf('_') > -1) {
+                                var name = v.code.split('_')[0];
+                                if (!result.data.groupInfo[name] || result.data.groupInfo[name].lenth < 1) {
+                                    result.data.groupInfo[name] = [];
+                                }
+                                result.data.groupInfo[name].push(v);
+                            } else if (v.content && v.content != '') {
+                                if (!result.data.groupInfo.rule || result.data.groupInfo.rule.lenth < 1) {
+                                    result.data.groupInfo.rule = [];
+                                }
+                                result.data.groupInfo.rule.push(v);
+                            }
+                        });
+                    }
+                    // jsskd分享
+                    this.js_sdk_check();
+                }
+            });
+        },
+        async loadAddress() {
+            var deferred = Q.defer();
+            if (this.$store.state.integralMallActAddress) {
+                this.address = this.$store.state.integralMallActAddress;
+            } else {
+                let { data } = await api_party.getDefaultAddress(this.$store.state.party.partyId, this.$store.state.party.id);
+                this.address = data || {};
+            }
+            deferred.resolve(true);
+            return deferred.promise;
+        },
+        async loadDetail() {
+            let { data } = await apiPromotion.getGroupDetail(this.groupJoinId);
+            this.groupData = data;
+            if (this.groupData.groupJoinInfoList && this.groupData.groupJoinInfoList.length > 0) {
+                this.groupJoinNeedNum = Math.max(this.groupData.groupLevel - this.groupData.groupJoinInfoList.length, 0);
+            }
+        },
+        chooseAddress() {
+            this.$store.state.promotionAtTpData = {
+                loadAddress: true
+            };
+            this.$router.push('/address-list/select');
+        },
+        goIndex() {
+            this.$router.push(`/promotion-at-tp/${this.promotionId}/${this.openid}`);
+        },
+        goRecording() {
+            this.$router.push('/promotion-at-tp-recording');
+        },
+        goOrderList() {
+            this.$router.push('/b2b-order-list');
+        },
+        goList() {
+            this.$router.push('/promotion-at-tp-list');
+        },
+        changeShowStoreNum(type) {
+            if (type == 1) {
+                this.storeShowNum = Number.POSITIVE_INFINITY;
+            } else {
+                this.storeShowNum = 2;
+            }
+        },
+        async checkBuy() {
+            var deferred = Q.defer();
+            if (!this.$store.state || !this.$store.state.user || !this.$store.state.party || !this.$store.state.party.partyId) {
+                if (this.$isDev) {
+                    window.location.href = this.$getSignLocation(`?openid=${this.$store.state.user.openId}`);
+                } else {
+                    window.location.href = `/userinfo.html?type=2&openid=${this.$store.state.user.openId}#/user_login`;
+                }
+            }
+            deferred.resolve(true);
+            return deferred.promise;
+        },
+        async showBuy(item) {
+            await this.checkBuy();
+            // 没有地址加载地址
+            if (!this.address.id) {
+                await this.loadAddress();
+            }
+            this.buyPop = true;
+        },
+        dynamicTime() {
+            setTimeout(() => {
+                if (this.groupData.remainSecond > 0) {
+                    this.groupData.remainSecond -= 1;
+                }
+                this.dynamicTime();
+            }, 1000);
+        },
+        async submit() {
+            if (!this.address.id) {
+                this.$toast('请选择您的收货地址');
+                return;
+            }
+            let data = {
+                merchantId: this.$store.state.at_tp.merchantId,
+                partyId: this.$store.state.party.partyId,
+                userId: this.$store.state.party.id,
+                openid: this.openid,
+                mobile: this.$store.state.party.userName,
+                nickName: this.$store.state.party.nickName,
+                campaignName: this.data.title,
+                promotionInstanceId: this.promotionId,
+                promotionRuleGroupExtId: this.groupData.groupRuleExtId,
+                groupType: 2, // 1.开团 2.参团
+                promotionGroupJoinId: this.groupData.id,
+                createSource: 1, // 创建来源 1：美问星球
+                kind: 1,
+                deliveryAddressId: this.address.id
+            };
+            let res = await apiPromotion.purchase(data);
+            let _this = this;
+            apiGetJSSignature.wxPay({
+                appId: res.data.appId,
+                signType: res.data.signType,
+                paySign: res.data.paySign,
+                timeStamp: res.data.timeStamp,
+                nonceStr: res.data.nonceStr,
+                package: res.data.package,
+                success(res) {
+                    _this.loadDetail();
+                    _this.showShare = true;
+                    _this.buyPop = false;
+                },
+                error(res) {
+                }
+            });
+        },
+        js_sdk_check() {
+            this.js_sdk();
+            let time = setInterval(() => {
+                if (this.$store.state.isLoadSdk) {
+                    this.js_sdk();
+                    clearInterval(time);
+                }
+            }, 600);
+        },
+        js_sdk() {
+            let _this = this;
+            let share = {
+                title: _this.$store.state.at_tp.title,
+                desc: _this.$store.state.at_tp.desc,
+                link: `${window.location.origin}/api/b2bPromotionMobile/joinGroupAuthUrl/${_this.promotionId}/${_this.groupJoinId}`,
+                imgUrl: window.location.origin + '/api/file/' + _this.$store.state.at_tp.imgUrl,
+                type: 'link',
+                dataUrl: '',
+                success: function() {
+                },
+                cancel: null
+            };
+            apiGetJSSignature.hideMenuItems();
+            apiGetJSSignature.shareAppMessage(share);
+        },
+        async openLocation(item) {
+            let data = {
+                latitude: item.latitude,
+                longitude: item.longitude,
+                name: item.storeName,
+                address: item.address
+            };
+            await apiGetJSSignature.getJSSignature({ url: encodeURIComponent(window.location.href.split('#')[0]) });
+            apiGetJSSignature.openLocation(data);
+        }
+    }
+};
 </script>
 
 <style lang='less'>

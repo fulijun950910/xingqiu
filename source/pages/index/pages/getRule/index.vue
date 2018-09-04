@@ -15,7 +15,7 @@
                 <m-icon class="" xlink="#icon-right-bold"></m-icon>
             </div>
         </div>
-        <div v-for="item in dataList">
+        <div v-for="(item, index) in dataList" :key="index">
             <div v-if="item.missionCode == 'FIRST_LOGIN'" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
                 <div flex layout="row" layout-align="start start">
                     <div class="iconBox iconBox2" layout="row" layout-align="center center">
@@ -72,7 +72,7 @@
                         <m-icon class="" xlink="#icon-zengsong"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
-                    <div flex flex>
+                    <div flex>
                         <div><spna v-html="item.missionName"></spna>（{{item.value}}/{{Math.floor(item.conditionValue) || 0}}）</div>
                         <div class="fs24 dark-gray" v-html="item.missionDesc"></div>
                     </div>
@@ -158,49 +158,49 @@
 </template>
 
 <script>
-    import api_party from 'services/api.party';
+import api_party from 'services/api.party';
 
-    export default {
-        name: 'getRule',
-        data() {
-            return {
-                dataList: [],
-                dataModel: {
-                    FIRST_LOGIN: {},
-                    SIGN: {},
-                    RELEASE_PROMOTION: {},
-                    ORDER_COUNT: {},
-                    POS_TRADE: {}
-                }
-            };
-        },
-        mounted() {
-            this.loadData();
-        },
-        methods: {
-            loadData() {
-                this.$indicator.open();
-                api_party.getMissionList(this.$store.state.party.partyId).then(res => {
-                    this.$indicator.close();
-                    this.dataList = res.data;
-                    res.data.forEach(item => {
-                        if (item.missionCode) {
-                            this.dataModel[item.missionCode] = item;
-                        }
-                    });
-                });
-            },
-            goCheckIn() {
-                this.$router.push({name: 'checkIn'});
-            },
-            goPromotion() {
-                window.location.href = '/lite/index.html#/promotion-list';
-            },
-            goRecharge() {
-                this.$router.push({name: 'recharge'});
+export default {
+    name: 'getRule',
+    data() {
+        return {
+            dataList: [],
+            dataModel: {
+                FIRST_LOGIN: {},
+                SIGN: {},
+                RELEASE_PROMOTION: {},
+                ORDER_COUNT: {},
+                POS_TRADE: {}
             }
+        };
+    },
+    mounted() {
+        this.loadData();
+    },
+    methods: {
+        loadData() {
+            this.$indicator.open();
+            api_party.getMissionList(this.$store.state.party.partyId).then(res => {
+                this.$indicator.close();
+                this.dataList = res.data;
+                res.data.forEach(item => {
+                    if (item.missionCode) {
+                        this.dataModel[item.missionCode] = item;
+                    }
+                });
+            });
+        },
+        goCheckIn() {
+            this.$router.push({ name: 'checkIn' });
+        },
+        goPromotion() {
+            window.location.href = '/lite/index.html#/promotion-list';
+        },
+        goRecharge() {
+            this.$router.push({ name: 'recharge' });
         }
-    };
+    }
+};
 </script>
 
 <style scoped lang='less'>

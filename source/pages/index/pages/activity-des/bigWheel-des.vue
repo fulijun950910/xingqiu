@@ -29,7 +29,7 @@
                         </div>
                         <div flex="60">
                             <div class="fs24 color-white text">业内公认“睫毛中的爱马仕”！作为猫猫酱的指定睫毛产品，其接近完美的商品品质在日本掀起了无数国民性话题</div>
-                           
+
                         </div>
                     </div>
                      <a class="to-detail color-white fs30 fwb text-center" layout="row" layout-align="center center" @click="goDetail(1)">查看详情</a>
@@ -80,16 +80,16 @@
 </div>
 </template>
 <script>
-    export default {
-        data() {
-            return {};
-        },
-        methods: {
-            goDetail(type) {
-                this.$router.push(`/index-activity-detail/${type}`);
-            }
+export default {
+    data() {
+        return {};
+    },
+    methods: {
+        goDetail(type) {
+            this.$router.push(`/index-activity-detail/${type}`);
         }
-    };
+    }
+};
 </script>
 
 <style lang="less" scoped>
@@ -209,4 +209,3 @@
 
  }
 </style>
-

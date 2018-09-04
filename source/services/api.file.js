@@ -7,7 +7,7 @@ export default {
         // 如果id存在则返回{data:id}
         let deferred = Q.defer();
         if (!data) {
-            deferred.resolve({ data: null});
+            deferred.resolve({ data: null });
             return deferred.promise;
         }
         if (data.base64) {
@@ -22,7 +22,7 @@ export default {
         } else if (data.id) {
             deferred.resolve({ data: data.id });
         } else {
-            deferred.resolve({ data: null});
+            deferred.resolve({ data: null });
         }
         return deferred.promise;
     },

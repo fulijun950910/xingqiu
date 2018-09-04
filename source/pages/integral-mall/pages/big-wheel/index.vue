@@ -50,7 +50,7 @@
                         <div class="award-detail" v-if="tempAward.prizeType == 2 && tempAward.quantity > 1">
                             <img :src="require('assets/imgs/integral-mall/award-doudou.png')" alt="">
                             <!-- 豆豆 -->
-                            <div class="award-text color-dark-purple fs28 fwb" layout="row" layout-align="center center">                               
+                            <div class="award-text color-dark-purple fs28 fwb" layout="row" layout-align="center center">
                                 {{tempAward.name}}
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                                 <div class="fs40">抵用券</div>
                                 <div class="fs24">{{tempAward.name}}</div>
                                 <div layout="row" layout-align="center center" layout-wrap class="price color-white fs24" v-if="tempAward.userCoupon">{{tempAward.userCoupon.discountType == 1 ? (tempAward.userCoupon.discount / 100) + '/￥' : (tempAward.userCoupon.discount * 10) + '折'}}</div>
-                            </div>  
+                            </div>
                         </div>
             </div>
             <div layout="column" class="bottom" layout-align="space-between stretch">
@@ -127,8 +127,8 @@ export default {
             let awards = this.awrads;
             let awardRadian = (Math.PI * 2) / awards.length; // 奖品均分角度
             for (let i = 0; i < awards.length; i++) {
-                let _startRadian = config.startRadian + awardRadian * i;  // 每一个奖项所占的起始弧度
-                let _endRadian = _startRadian + awardRadian;     // 每一个奖项的终止弧度
+                let _startRadian = config.startRadian + awardRadian * i; // 每一个奖项所占的起始弧度
+                let _endRadian = _startRadian + awardRadian; // 每一个奖项的终止弧度
 
                 // 使用非零环绕原则，绘制圆盘
                 ctx.save();
@@ -178,7 +178,6 @@ export default {
                 //     ctx.drawImage(img, -ctx.measureText(awards[i].name).width / 6, 0, 30, 30);
                 // };
                 // ctx.restore();
-
             };
         },
         clickRotate() {
@@ -189,13 +188,13 @@ export default {
             };
             this.btnClick = true;
             this.$indicator.open('Loading...');
-            api_party.getAward(parameter).then(msg=> {
+            api_party.getAward(parameter).then(msg => {
                 this.btnClick = false;
                 this.$indicator.close();
                 let data = msg.data;
                 let awardIndex;
                 // 获取奖项在已知列表奖品中的位置索引
-                this.awrads.map((item, index)=> {
+                this.awrads.map((item, index) => {
                     if (item.id == data.prizeId) {
                         awardIndex = index;
                     };
@@ -205,9 +204,9 @@ export default {
                 let rotate;
                 if (config.turnRotate != 0) {
                     // 非第一次点击旋转
-                    let last;;
+                    let last; ;
                     let now;
-                    this.awrads.map((item, index)=> {
+                    this.awrads.map((item, index) => {
                         if (item.id == this.tempAward.prizeId) {
                             last = index + 1;
                         };
@@ -221,7 +220,7 @@ export default {
                     rotate = 360 - anyRotate + 0.5 * perRotate;
                 }
                 this.rotateWheel(rotate, msg.data);
-            }, msg=> {
+            }, msg => {
                 this.btnClick = false;
             });
         },
@@ -234,25 +233,25 @@ export default {
             };
             console.log(config.rotate);
             ++config.times;
-            setTimeout(()=> {
+            setTimeout(() => {
                 this.tempAward = data;
                 this.toggleAlert();
                 console.log(this.tempAward);
                 this.loadPrizeList();
                 this.loadHasAwardedList();
                 this.loadTimes();
-                setTimeout(()=> {
+                setTimeout(() => {
                     this.hideSnow = false;
                 }, 1000);
             }, config.during * 1000);
         },
         loadPrizeList() {
             this.$indicator.open('Loading...');
-            api_party.getPrizeList().then(msg=> {
+            api_party.getPrizeList().then(msg => {
                 this.$indicator.close();
                 this.awrads = msg.data;
                 this.drawCircle();
-            }, msg=> {
+            }, msg => {
             });
         },
         loadTimes() {
@@ -261,15 +260,14 @@ export default {
                 userId: this.$store.state.party.id
             };
             this.$indicator.open('Loading...');
-            api_party.getDrawPrizeDailyTimes(parameter).then(msg=> {
+            api_party.getDrawPrizeDailyTimes(parameter).then(msg => {
                 this.$indicator.close();
                 this.chance = msg.data.userRemainTimes;
                 if (this.chance == 0) {
                     this.btnClick = true;
                 };
-            }, msg=> {
+            }, msg => {
             });
-
         },
         loadHasAwardedList() {
             let parameter = {
@@ -294,9 +292,9 @@ export default {
                     value: this.$moment().endOf('day').format('YYYY-MM-DD HH:mm:ss')
                 }]
             };
-            api_party.hasAwardedList(parameter).then(msg=> {
+            api_party.hasAwardedList(parameter).then(msg => {
                 this.dataList = msg.data.rows;
-            }, msg=> {
+            }, msg => {
             });
         },
         toggleAlert() {
@@ -316,7 +314,6 @@ export default {
             if (item.prizeType == 2) {
                 this.$router.push('/personal');
             }
-
         },
         init() {
             this.loadPrizeList();
@@ -345,7 +342,7 @@ export default {
     .color-light-purple{
         color: #8172CC;
     }
-    
+
     .color-chance {
         color: #DC888A;
     }
@@ -504,14 +501,14 @@ export default {
         }
         .main{
             position: relative;
-            z-index: 2;  
+            z-index: 2;
             width: 270px;
-            height: 296px; 
+            height: 296px;
             background:rgba(255,255,255,1);
-            border-radius: 7px;      
+            border-radius: 7px;
             .bg-burple{
-                background: #6E58B7;                
-            }  
+                background: #6E58B7;
+            }
             .other-award{
                 background: url('~assets/imgs/integral-mall/other-doudou-bg.png') no-repeat center;
                 background-size: 100% auto;
@@ -530,7 +527,7 @@ export default {
                     line-height: 50px;
                     border-top: 1px solid #E4E2EA;
                 }
-            } 
+            }
             .close{
                 position: absolute;
                 font-size: 35px;
@@ -589,10 +586,9 @@ export default {
     to {
         background: url('~assets/imgs/integral-mall/alert-bg-01.png') no-repeat center;
         background-size: 80% auto;
-        background-position-y: 100px;   
-        display: none;     
+        background-position-y: 100px;
+        display: none;
     }
-    
+
 }
 </style>
-

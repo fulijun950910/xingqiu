@@ -16,21 +16,21 @@
     </div>
 </template>
 <script>
-    import mIcon from 'components/m-icon';
-    export default {
-        data() {
-            return {
-                show: true
-            };
-        },
-        components: {
-            mIcon
-        },
-        methods: {
-            toHide() {
-                this.show = false;
-            }
+import mIcon from 'components/m-icon';
+export default {
+    data() {
+        return {
+            show: true
+        };
+    },
+    components: {
+        mIcon
+    },
+    methods: {
+        toHide() {
+            this.show = false;
         }
+    }
 };
 </script>
 
@@ -81,4 +81,3 @@
     }
 }
 </style>
-

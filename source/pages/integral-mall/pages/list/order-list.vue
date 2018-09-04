@@ -232,14 +232,14 @@ export default {
                 return;
             };
             this.loading = true;
-            api_party.orderList(parameter).then(res=> {
+            api_party.orderList(parameter).then(res => {
                 Indicator.close();
                 if (res.data.rows.length < this.pageChange.size) {
                     this.scrollDisabled = true;
                 } else {
                     this.scrollDisabled = false;
                 }
-                res.data.rows.map((item, index)=> {
+                res.data.rows.map((item, index) => {
                     if (item.status == 0) {
                         item.count = this.$moment(item.createdTime).diff(this.$moment(), 'minutes', true);
                     }
@@ -287,12 +287,11 @@ export default {
                             };
                             break;
                     }
-
                 });
                 this.dataList = this.dataList.concat(res.data.rows);
                 this.loading = false;
                 this.pageChange.page++;
-            }, res=> {
+            }, res => {
 
             });
         },
@@ -335,54 +334,53 @@ export default {
                     this.confirm.show = true;
                     this.confirm.item = item;
                 } else {
-                    api_party.repay(item.id).then(msg=> {
+                    api_party.repay(item.id).then(msg => {
                         let url = msg.data + '?url=' + location.protocol + '//' + location.host + this.$rootPath + encodeURIComponent('integral-mall.html#/pay-success');
                         location.href = url;
-                    }, msg=> {
+                    }, msg => {
                     });
                 }
             } else if (item.status == 1 || item.status == 6) {
-                api_party.confirmOrder(item.id).then(msg=> {
+                api_party.confirmOrder(item.id).then(msg => {
                     this.resetSearch();
                     this.loadData();
                     Toast('订单已确认');
-                }, msg=> {
+                }, msg => {
 
                 });
             }
         },
         doudouPay(item) {
-            api_party.doudouPay(item.id).then(msg=> {
+            api_party.doudouPay(item.id).then(msg => {
                 this.loadData();
                 this.$toast('支付成功');
-            }, msg=> {
+            }, msg => {
                 console.log('网络错误');
             });
         },
         cancelOrder(item) {
-            api_party.cancelOrder(item.id).then(msg=> {
+            api_party.cancelOrder(item.id).then(msg => {
                 this.resetSearch();
                 this.loadData();
                 Toast('订单已取消');
-            }, msg=> {
+            }, msg => {
 
             });
-
         },
         resetSearch() {
             this.pageChange.page = 1;
         },
         toDetail(item) {
-            this.$router.push({path: `/order-detail/${item.id}`});
+            this.$router.push({ path: `/order-detail/${item.id}` });
         },
         hideConfirm() {
             this.confirm.show = !this.confirm.show;
         },
         inteconfirm(msg) {
-            msg.then(data=> {
+            msg.then(data => {
                 this.doudouPay(this.confirm.item);
                 this.hideConfirm();
-            }, data=> {
+            }, data => {
                 this.hideConfirm();
             });
         }
@@ -488,7 +486,7 @@ export default {
                         color: @extra-light-black;
                         text-align: center;
                     background: @extra-light-gray;
-                        
+
                     }
 
                 }
@@ -555,4 +553,3 @@ export default {
     }
 }
 </style>
-

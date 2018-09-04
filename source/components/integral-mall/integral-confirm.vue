@@ -4,7 +4,7 @@
         <div class="integral-confirm-con">
         <div class="text fs28 color-black text-center" layout="column" layout-align="center center">
             <p v-if="confirmText.message" class="fwb">{{confirmText.message}}</p>
-        <p v-if="confirmText.text">{{confirmText.text}}</p>            
+        <p v-if="confirmText.text">{{confirmText.text}}</p>
             </div>
         <div class="button-con" layout="row" layout-align="start center">
             <div flex="50" v-if="confirmText.quiet" class="text-center quite fs34 color-gray" @click="confirmClick(1)" layout="row" layout-align="center center">{{confirmText.quiet}}</div>
@@ -52,8 +52,6 @@ export default {
     }
 };
 </script>
-
-
 
 <style lang="less" scoped>
 @import '~styles/_style';
@@ -103,4 +101,3 @@ export default {
     }
 }
 </style>
-

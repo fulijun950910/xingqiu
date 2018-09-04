@@ -48,24 +48,24 @@
 </template>
 
 <script>
-    export default {
-        name: 'recommend-buy',
-        data() {
-            return {
-                type: this.$store.state.party.userType // 1:saas商户用户、2:saas员工用户、3:bbs账户、4:b2b账户
-            };
+export default {
+    name: 'recommend-buy',
+    data() {
+        return {
+            type: this.$store.state.party.userType // 1:saas商户用户、2:saas员工用户、3:bbs账户、4:b2b账户
+        };
+    },
+    mounted() {
+    },
+    methods: {
+        goRechargeMessage() {
+            this.$router.push({ name: 'rechargeMessage' });
         },
-        mounted() {
-        },
-        methods: {
-            goRechargeMessage() {
-                this.$router.push({name: 'rechargeMessage'});
-            },
-            goMwSalon() {
-                window.location.href = this.$wxc_url + '/pay/pay/mwsalon.html';
-            }
+        goMwSalon() {
+            window.location.href = this.$wxc_url + '/pay/pay/mwsalon.html';
         }
-    };
+    }
+};
 </script>
 
 <style scoped lang='less'>

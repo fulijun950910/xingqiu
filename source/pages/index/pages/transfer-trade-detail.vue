@@ -50,51 +50,51 @@
     </div>
 </template>
 <script>
-    import api_booking from 'services/api.booking';
+import api_booking from 'services/api.booking';
 
-    export default {
-        name: '',
-        data() {
-            return {
-                state: 1, // 1 编辑 2已确认 3已退款
-                orderNo: this.$route.params.orderNo,
-                data: {}
-            };
-        },
-        components: {},
-        mounted() {
-            this.init();
-        },
-        methods: {
-            init() {
-                this.$indicator.open();
-                api_booking.queryTransferTradeDetail(this.orderNo).then(res => {
-                    this.$indicator.close();
-                    if (!res.success) {
-                        this.$toast(res.message);
-                        return;
-                    }
-                    this.data = res.data && res.data.rows ? res.data.rows[0] : {};
-                    if (this.data.refundState == 10) {
-                        this.state = 3;
+export default {
+    name: '',
+    data() {
+        return {
+            state: 1, // 1 编辑 2已确认 3已退款
+            orderNo: this.$route.params.orderNo,
+            data: {}
+        };
+    },
+    components: {},
+    mounted() {
+        this.init();
+    },
+    methods: {
+        init() {
+            this.$indicator.open();
+            api_booking.queryTransferTradeDetail(this.orderNo).then(res => {
+                this.$indicator.close();
+                if (!res.success) {
+                    this.$toast(res.message);
+                    return;
+                }
+                this.data = res.data && res.data.rows ? res.data.rows[0] : {};
+                if (this.data.refundState == 10) {
+                    this.state = 3;
+                } else {
+                    if (this.data.transfer) {
+                        this.state = 2;
                     } else {
-                        if (this.data.transfer) {
-                            this.state = 2;
-                        } else {
-                            this.state = 1;
-                        }
+                        this.state = 1;
                     }
-                });
-            },
-            submit() {
-                this.$indicator.open();
-                api_booking.submitTransferTrade({orderNo: this.orderNo}).then(res => {
-                    this.$indicator.close();
-                    this.init();
-                });
-            }
+                }
+            });
+        },
+        submit() {
+            this.$indicator.open();
+            api_booking.submitTransferTrade({ orderNo: this.orderNo }).then(res => {
+                this.$indicator.close();
+                this.init();
+            });
         }
-    };
+    }
+};
 </script>
 <style lang="less" scoped>
     @import '~styles/_style';

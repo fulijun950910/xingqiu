@@ -13,14 +13,14 @@
                         </svg>
                         <span class="bar-text">搜索</span>
                     </div>
-                    <span v-if="vm.search.main" flex class="text-center"> 
+                    <span v-if="vm.search.main" flex class="text-center">
                     {{vm.search.main}}
                      </span>
                     <span v-if="!admin">{{user.name}}</span>
                     <span v-on:click.stop="clearSearch()" flex="20" v-if="vm.search.main">
                     <svg class="icon icon-close-grey icon-margin" aria-hidden="true">
                         <use xlink:href="#icon-close"></use>
-                    </svg>                         
+                    </svg>
                      </span>
                 </a>
                 <a class="bar-btn border-r" layout="row" layout-align="center center" flex v-if="!admin">
@@ -240,7 +240,7 @@ export default {
         var tempStores = [];
         this.$knife.deepCopy(this.$store.state.storeList, tempStores);
         let tempStoreIds = [];
-        tempStores.map((item, index)=> {
+        tempStores.map((item, index) => {
             tempStoreIds.push(item.id);
         });
         if (tempStores.length > 1) {
@@ -367,7 +367,6 @@ export default {
         imgHide() {
             this.vm.mask = false;
             this.swipe.show = false;
-
         },
         scaleImg(pIndex, index) {
             this.swipe.show = !this.swipe.show;
@@ -391,7 +390,6 @@ export default {
             this.scrollDisabled = false;
             this.dataList = [];
             this.messageServiceList();
-
         },
         changestatus(item) {
             this.selectedstatus = item[0];
@@ -513,7 +511,6 @@ export default {
             } else {
                 this.messageServiceList();
             }
-
         },
         toData() {
             let routeParameter = {
