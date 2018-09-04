@@ -154,7 +154,7 @@ export default {
         },
         pay() {
             if (this.order.payMoney > 0) {
-                location.href = this.order.payUrl;
+                location.href = this.order.payUrl + '?url=' + location.protocol + '//' + location.host + this.$rootPath + encodeURIComponent('integral-mall.html#/pay-success');
             } else {
                 this.hideConfirm();
             }
