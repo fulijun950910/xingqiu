@@ -33,7 +33,7 @@
                                 <div class="fs24 extra-light-black">{{item.changeDate | amDateFormat('MM.DD')}}</div>
                             </div>
                         </div>
-                        <div class="price" flex="20">
+                        <div class="price text-right" flex="20">
                             +{{item.changeAmount}}
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                                 <div class="fs24 extra-light-black">{{item.changeDate | amDateFormat('MM.DD')}}</div>
                             </div>
                         </div>
-                        <div class="price" flex="20">
+                        <div class="price text-right" flex="20">
                             {{item.changeAmount}}
                         </div>
                     </div>
