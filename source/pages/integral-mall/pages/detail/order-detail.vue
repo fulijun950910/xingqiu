@@ -92,19 +92,29 @@
          <div @click="pay" class="bottom-btn steel-gray fs28 m-r-4" v-if="order.status == '0'" layout="row" layout-align="center center">去支付&nbsp;<m-icon class="fs34" xlink="#icon-zhifu1"></m-icon></div>            
          <div @click="goBack" class="bottom-btn steel-gray fs28" layout="row" layout-align="center center">返回&nbsp;<m-icon xlink="#icon-zuojiantou"></m-icon></div>
         </div>
-        
+        <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm" @integraConfirm="inteconfirm"></integral-confirm>
 </div>
 </template>
 
 <script>
 import api_party from 'services/api.party';
+import integralConfirm from 'components/integral-mall/integral-confirm';
 export default {
     data() {
         return {
             orderId: this.$route.params.id,
             order: {},
-            tradeGoodsGroupList: []
+            tradeGoodsGroupList: [],
+            confirm: {
+                show: false,
+                message: '即将抵扣豆豆',
+                confirm: '确认',
+                quiet: '再考虑下'
+            }
         };
+    },
+    components: {
+        integralConfirm
     },
     methods: {
         loadData() {
@@ -143,7 +153,31 @@ export default {
             this.$router.go(-1);
         },
         pay() {
-            location.href = this.order.payUrl;
+            if (this.order.payMoney > 0) {
+                location.href = this.order.payUrl;
+            } else {
+                this.hideConfirm();
+            }
+        },
+        hideConfirm() {
+            this.confirm.show = !this.confirm.show;
+        },
+        inteconfirm(msg) {
+            msg.then(data=> {
+                this.doudouPay();
+                this.hideConfirm();
+            }, data=> {
+                this.hideConfirm();
+
+            });
+        },
+        doudouPay() {
+            api_party.doudouPay(this.order.id).then(msg=> {
+                this.loadData();
+                this.$toast('支付成功');
+            }, msg=> {
+                console.log('网络错误');
+            });
         },
         init() {
             this.loadData();
