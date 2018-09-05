@@ -96,9 +96,15 @@
                <textarea class="p-1" v-model="payDetail.remark" placeholder="备注"></textarea>
             </div>
         </div>
-<button :disabled="btnClick" class="integral-btn fwb fs38 color-white m-t-3 m-b-3" @click="hideConfirm" layout="row" layout-align="center center">
+        <div layout="row" layout-align="space-between center" class="p-t-3 p-b-3">
+<button flex="40" class="fwb fs38 color-white pay-btn" @click="offlinePay" layout="row" layout-align="center center">
+线下支付
+</button>
+<button flex="40" :disabled="btnClick" class="fwb fs38 color-white pay-btn" @click="hideConfirm" layout="row" layout-align="center center">
 {{payText}}
 </button>
+        </div>
+
     </div>
     <voucher :mw-item="payDetail" :vocher-show="vocherShow" @update="clickToVoucher" @mClose="clickToVoucher"></voucher>
      <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm" @integraConfirm="inteconfirm"></integral-confirm>  
@@ -131,7 +137,7 @@
                     voucher: null,
                     couponList: [],
                     btnClick: false,
-                    payText: '支付',
+                    payText: '在线支付',
                     buyStoreList: [],
                     payDetail: {
                         merchantId: this.$store.state.party.merchantId,
@@ -408,6 +414,14 @@
                             this.buyStoreList.push(temp);
                         }
                     });
+                },
+                offlinePay() {
+                    this.$router.push({
+                        name: 'offline-pay',
+                        params: {
+                            parameter: this.payDetail
+                        }
+                    });
                 }
             },
             mounted() {
@@ -465,6 +479,11 @@
             background: @extra-light-gray;
             border-radius: 7px;
         }
+    }
+    .pay-btn{
+        height: 45px;
+        background: @color-primary-dark;
+        border-radius: 12px;
     }
     [disabled="disabled"] {
         background: #ccc;
