@@ -12,7 +12,7 @@
         </div> -->
         <div class="select-title">
             <span class="color-black fs40 fwb">购买信息</span>
-        </div>   
+        </div>
         <div class="location" layout="row" layout-align="start center" v-if="type ==2">
             <div class="lest-detail" flex="90" @click="chooseAddress">
              <div layout="row" layout-align="space-between center">
@@ -26,11 +26,11 @@
             <div class="buy-more" flex="10" layout="row" layout-align="center center">
                 <m-icon xlink="#icon-zuojiantou"></m-icon>
             </div>
-            </div>   
+            </div>
             <div class="amount" layout="row" layout-align="space-between center" v-if="type ==2">
                 <div class="fs28 color-black">数量</div>
                 <integral-input @numOut="changeNum" @changeAmount="changeNum"></integral-input>
-            </div>     
+            </div>
             <div class="list-data" layout="row" layout-align="start center">
              <span class="color-gray fs30">商品总价</span>
              <span flex></span>
@@ -94,7 +94,7 @@ export default {
         },
         type: {
             type: String,
-            default: '0'  // 1买短信 2买商品
+            default: '0' // 1买短信 2买商品
         },
         location: {
             type: Object,
@@ -123,7 +123,7 @@ export default {
     methods: {
         searchBalance(price, quantity) {
             Indicator.open('loading...');
-            api_party.doudouAccount(this.$store.state.party.partyId).then(msg=> {
+            api_party.doudouAccount(this.$store.state.party.partyId).then(msg => {
                 Indicator.close();
                 this.realAvaliable = msg.data.doudouBalance;
                 this.caculateResult(price, quantity);
@@ -154,14 +154,14 @@ export default {
                 // this.formParameter = {};
             };
             Indicator.open('loading...');
-            api_party.doudouTrade(parameter).then(msg=> {
+            api_party.doudouTrade(parameter).then(msg => {
                 Indicator.close();
                 if (msg.data.status == 0) {
                     location.href = msg.data.payUrl + '?url=' + encodeURIComponent(location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/order-list');
                 } else {
                     this.success = true;
                 }
-            }, msg=> {
+            }, msg => {
 
             });
         },
@@ -216,7 +216,7 @@ export default {
         },
         loadFirstAddress() {
             Indicator.open('loading...');
-            api_party.getDefaultAddress(this.$store.state.party.partyId, this.$store.state.party.id).then(msg=> {
+            api_party.getDefaultAddress(this.$store.state.party.partyId, this.$store.state.party.id).then(msg => {
                 Indicator.close();
                 this.address = {
                     name: msg.data.fullAddress,
@@ -224,7 +224,7 @@ export default {
                     person: msg.data.contactPersion
                 };
                 this.localAddressId = msg.data.id;
-            }, msg=> {
+            }, msg => {
 
             });
         },
@@ -234,17 +234,16 @@ export default {
         loadChooseAddress() {
             if (this.addressId) {
                 Indicator.open('loading...');
-                api_party.getAddress(this.addressId).then(msg=> {
+                api_party.getAddress(this.addressId).then(msg => {
                     Indicator.close();
                     this.address = {
                         name: msg.data.fullAddress,
                         id: msg.data.id,
                         person: msg.data.contactPersion
                     };
-                }, msg=> {
+                }, msg => {
 
                 });
-
             }
         }
     },
@@ -289,7 +288,7 @@ export default {
     transform: translateY(100%);
     transition: all ease 1s;
     .con-mask{
-    background: rgba(0,0,0,.5);        
+    background: rgba(0,0,0,.5);
         position: fixed;
         z-index: 1;
         top:0;
@@ -364,7 +363,7 @@ export default {
             height: 35px;
             padding: 10px;
             resize: none;
-                
+
             }
         }
     }
@@ -373,5 +372,3 @@ export default {
     transform: translateY(0);
 }
 </style>
-
-

@@ -6,7 +6,7 @@
             <div @click="itemClick(1)" flex="33"><div :class="{'act': selected == 1}" class="tabBarItem cell">团ING</div></div>
         </div>
         <div class="main cell-box">
-            <div @click="goPromotionDetail(item.id)" v-for="item in dataList" class="list-item cell cell-box" layout="row" layout-align="start center">
+            <div @click="goPromotionDetail(item.id)" v-for="(item, index) in dataList" :key="index" class="list-item cell cell-box" layout="row" layout-align="start center">
                 <img class="img m-r-2" :src="item.captainAvatarId | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                 <div flex>
                     <div>团长：{{item.captainName}}</div>
@@ -37,76 +37,76 @@
 </template>
 
 <script>
-    import {
-        PROMOTION_TP_STATUS
-    } from 'config/mixins';
-    import apiPromotion from 'services/api.promotion';
-    import apiGetJSSignature from 'services/api.getJSSignature';
+import {
+    PROMOTION_TP_STATUS
+} from 'config/mixins';
+import apiPromotion from 'services/api.promotion';
+import apiGetJSSignature from 'services/api.getJSSignature';
 
-    export default {
-        name: 'list',
-        data() {
-            return {
-                selected: 0,
-                PROMOTION_TP_STATUS: PROMOTION_TP_STATUS,
-                dataList: []
-            };
-        },
-        mounted() {
+export default {
+    name: 'list',
+    data() {
+        return {
+            selected: 0,
+            PROMOTION_TP_STATUS: PROMOTION_TP_STATUS,
+            dataList: []
+        };
+    },
+    mounted() {
+        this.loadData();
+        this.dynamicTime();
+        this.js_sdk();
+    },
+    methods: {
+        itemClick(index) {
+            this.selected = index;
             this.loadData();
-            this.dynamicTime();
-            this.js_sdk();
         },
-        methods: {
-            itemClick(index) {
-                this.selected = index;
-                this.loadData();
-            },
-            goPromotionDetail(id) {
-                this.$router.push(`/promotion-at-tp-detail/${this.$store.state.at_tp.promotionId}/${this.$store.state.at_tp.openid}/${id}`);
-            },
-            dynamicTime() {
-                setTimeout(() => {
-                    for (let i = 0; i < this.dataList.length; i++) {
-                        if (this.dataList[i].remainSecond > 0) {
-                            this.dataList[i].remainSecond -= 1;
-                        }
+        goPromotionDetail(id) {
+            this.$router.push(`/promotion-at-tp-detail/${this.$store.state.at_tp.promotionId}/${this.$store.state.at_tp.openid}/${id}`);
+        },
+        dynamicTime() {
+            setTimeout(() => {
+                for (let i = 0; i < this.dataList.length; i++) {
+                    if (this.dataList[i].remainSecond > 0) {
+                        this.dataList[i].remainSecond -= 1;
                     }
-                    this.dynamicTime();
-                }, 1000);
-            },
-            js_sdk() {
-                let _this = this;
-                let share = {
-                    title: _this.$store.state.at_tp.title,
-                    desc: _this.$store.state.at_tp.desc,
-                    link: `${window.location.origin}/api/b2bPromotionMobile/promotionAuthUrl/${this.$store.state.at_tp.promotionId}`,
-                    imgUrl: window.location.origin + '/api/file/' + _this.$store.state.at_tp.imgUrl,
-                    type: 'link',
-                    dataUrl: '',
-                    success: function() {
-                    },
-                    cancel: null
-                };
-                apiGetJSSignature.hideMenuItems();
-                apiGetJSSignature.shareAppMessage(share);
-            },
-            async loadData() {
-                let queryData = {
-                    promotionInstanceId: this.$store.state.at_tp.promotionId,
-                    page: 1,
-                    size: 10000
-                };
-                if (this.selected > 0) {
-                    queryData.status = this.selected;
                 }
-                this.$indicator.open();
-                let { data } = await apiPromotion.getGroupJoinList(queryData);
-                this.$indicator.close();
-                this.dataList = data.rows;
+                this.dynamicTime();
+            }, 1000);
+        },
+        js_sdk() {
+            let _this = this;
+            let share = {
+                title: _this.$store.state.at_tp.title,
+                desc: _this.$store.state.at_tp.desc,
+                link: `${window.location.origin}/api/b2bPromotionMobile/promotionAuthUrl/${this.$store.state.at_tp.promotionId}`,
+                imgUrl: window.location.origin + '/api/file/' + _this.$store.state.at_tp.imgUrl,
+                type: 'link',
+                dataUrl: '',
+                success: function() {
+                },
+                cancel: null
+            };
+            apiGetJSSignature.hideMenuItems();
+            apiGetJSSignature.shareAppMessage(share);
+        },
+        async loadData() {
+            let queryData = {
+                promotionInstanceId: this.$store.state.at_tp.promotionId,
+                page: 1,
+                size: 10000
+            };
+            if (this.selected > 0) {
+                queryData.status = this.selected;
             }
+            this.$indicator.open();
+            let { data } = await apiPromotion.getGroupJoinList(queryData);
+            this.$indicator.close();
+            this.dataList = data.rows;
         }
-    };
+    }
+};
 </script>
 
 <style scoped lang='less'>

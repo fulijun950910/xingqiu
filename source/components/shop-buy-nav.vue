@@ -47,10 +47,10 @@ export default {
         color: #aaa;
     }
     .get-present{
-        border-right: 1px solid #eee; 
+        border-right: 1px solid #eee;
         font-size: 14px;
-        color: #8C5EE5;    
-        font-weight: 500;  
+        color: #8C5EE5;
+        font-weight: 500;
         .icon{
              margin-right: 5px;
         }
@@ -62,4 +62,3 @@ export default {
     }
 }
 </style>
-

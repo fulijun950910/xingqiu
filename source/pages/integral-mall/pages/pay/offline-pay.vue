@@ -45,9 +45,9 @@ export default {
             this.confirm.show = !this.confirm.show;
         },
         inteconfirm(msg) {
-            msg.then(data=> {
+            msg.then(data => {
                 this.hideConfirm();
-            }, data=> {
+            }, data => {
                 this.hideConfirm();
             });
         }
@@ -96,5 +96,3 @@ export default {
 }
 
 </style>
-
-

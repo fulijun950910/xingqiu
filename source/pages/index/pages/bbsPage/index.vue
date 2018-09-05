@@ -1,7 +1,7 @@
 <template>
     <div v-title="'美问美答'" class="bbsPage">
         <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10" >
-            <div @click="goBbs(item.url)" class="list-item cell cell-box bg-white" v-for="item in dataList">
+            <div @click="goBbs(item.url)" class="list-item cell cell-box bg-white" v-for="(item, index) in dataList" :key="index">
                 <div layout="row" layout-align="space-between center">
                     <div layout="row" layout-align="start center">
                         <div><img  class="avatar" :src="item.authorImage" alt=""></div>
@@ -34,66 +34,66 @@
 </template>
 
 <script>
-    import Vue from 'vue';
-    import mLoadMore from 'components/m-load-more';
-    import { InfiniteScroll } from 'mint-ui';
-    import api_party from 'services/api.party';
-    Vue.use(InfiniteScroll);
+import Vue from 'vue';
+import mLoadMore from 'components/m-load-more';
+import { InfiniteScroll } from 'mint-ui';
+import api_party from 'services/api.party';
+Vue.use(InfiniteScroll);
 
-    export default {
-        name: 'bbsPage',
-        components: {
-            'm-load-more': mLoadMore
-        },
-        data() {
-            return {
-                dataList: [],
-                loading: false,
-                query: {
-                    page: 1,
-                    size: 15,
-                    partyId: 0
-                },
-                loadOver: true
-            };
-        },
-        mounted() {
-            this.load();
-        },
-        methods: {
-            loadMore() {
-                if (this.loadOver) {
-                    this.load();
-                }
+export default {
+    name: 'bbsPage',
+    components: {
+        'm-load-more': mLoadMore
+    },
+    data() {
+        return {
+            dataList: [],
+            loading: false,
+            query: {
+                page: 1,
+                size: 15,
+                partyId: 0
             },
-            load(reset) {
-                if (reset) {
-                    this.query.page = 1;
-                    this.dataList = [];
-                }
-                this.loading = true;
-                let query = JSON.parse(JSON.stringify(this.query));
-                if (this.$store.state.party) {
-                    query.partyId = this.$store.state.party.partyId;
-                }
-                api_party.getBbsList(query).then(res => {
-                    if (res.data) {
-                        this.dataList = this.dataList.concat(res.data);
-                        this.loading = false;
-                        this.query.page++;
-                        if (res.data.length < this.query.size) {
-                            this.loadOver = false;
-                        } else {
-                            this.loadOver = true;
-                        }
-                    }
-                });
-            },
-            goBbs(url) {
-                window.location.href = url;
+            loadOver: true
+        };
+    },
+    mounted() {
+        this.load();
+    },
+    methods: {
+        loadMore() {
+            if (this.loadOver) {
+                this.load();
             }
+        },
+        load(reset) {
+            if (reset) {
+                this.query.page = 1;
+                this.dataList = [];
+            }
+            this.loading = true;
+            let query = JSON.parse(JSON.stringify(this.query));
+            if (this.$store.state.party) {
+                query.partyId = this.$store.state.party.partyId;
+            }
+            api_party.getBbsList(query).then(res => {
+                if (res.data) {
+                    this.dataList = this.dataList.concat(res.data);
+                    this.loading = false;
+                    this.query.page++;
+                    if (res.data.length < this.query.size) {
+                        this.loadOver = false;
+                    } else {
+                        this.loadOver = true;
+                    }
+                }
+            });
+        },
+        goBbs(url) {
+            window.location.href = url;
         }
-    };
+    }
+};
 </script>
 
 <style scoped lang='less'>

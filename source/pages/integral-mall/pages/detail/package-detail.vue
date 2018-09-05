@@ -117,27 +117,27 @@ export default {
     methods: {
         loadData() {
             this.$indicator.open('loading...');
-            api_party.storeList(this.$store.state.party.merchantId, this.$store.getters.employeeId).then(msg=> {
+            api_party.storeList(this.$store.state.party.merchantId, this.$store.getters.employeeId).then(msg => {
                 this.$indicator.close();
                 this.productDetail(msg.data);
-            }, msg=> {
+            }, msg => {
 
             });
         },
         productDetail(data) {
             this.$indicator.open('loading...');
-            api_party.productDetail(this.productId).then(msg=> {
+            api_party.productDetail(this.productId).then(msg => {
                 this.$indicator.close();
                 this.price = msg.data.priceType == 2 ? msg.data.price : 0;
                 this.priceType = msg.data.priceType;
                 if (msg.data && msg.data.goodsGroupList && msg.data.goodsGroupList.length) {
                     this.goodsGroupList = JSON.parse(JSON.stringify(msg.data.goodsGroupList));
-                    this.goodsGroupList.map((item, index)=> {
+                    this.goodsGroupList.map((item, index) => {
                         this.$set(item, 'select', []);
                         this.$set(item, 'toggle', true);
                         this.$set(item, 'icon', '#icon-shang');
                         if (item.goodsGroupGoodsList && item.goodsGroupGoodsList.length) {
-                            item.goodsGroupGoodsList.map((sku, skuIndex)=> {
+                            item.goodsGroupGoodsList.map((sku, skuIndex) => {
                                 this.$set(sku, 'specification', sku.goodsGroupGoodsSpecList[0]);
                                 this.$set(sku, 'select', []);
                                 this.$set(sku, 'icon', '#icon-xia');
@@ -169,7 +169,7 @@ export default {
                                     specList: []
                                 };
                                 this.storeData = storeData;
-                                sku.goodsGroupGoodsSpecList.forEach(element=> {
+                                sku.goodsGroupGoodsSpecList.forEach(element => {
                                     storeData.specList.push({
                                         label: element.specName,
                                         value: element.specCode
@@ -190,7 +190,7 @@ export default {
                         };
                     });
                 };
-            }, msg=> {
+            }, msg => {
             });
         },
         checkActive(list, item, type) {
@@ -199,7 +199,7 @@ export default {
                 return false;
             };
             if (type == 1) {
-                let ls = list.filter(i=> {
+                let ls = list.filter(i => {
                     return i.id == item.id;
                 });
                 return ls.length;
@@ -221,7 +221,7 @@ export default {
                 return;
             }
             let limit = item.quantity;
-            let ls = item.select.filter((single, index)=> {
+            let ls = item.select.filter((single, index) => {
                 return single.id == sku.id;
             });
             if (ls.length) {
@@ -240,7 +240,7 @@ export default {
             };
         },
         checkSubmit() {
-            let ls = this.goodsGroupList.filter(ele=> {
+            let ls = this.goodsGroupList.filter(ele => {
                 return ele.quantity != ele.select.length;
             });
             return ls.length;
@@ -251,7 +251,7 @@ export default {
                 this.$set(sku, 'specification', spec);
             } else if (type == 2) {
                 spec.specCode = sku.specification.specCode;
-                let ls = sku.stores.filter(store=> {
+                let ls = sku.stores.filter(store => {
                     return store.id == spec.id;
                 });
                 if (sku.stores.length == item.quantity && !ls.length) {
@@ -270,18 +270,18 @@ export default {
                 //     // 门店全选
                 //     sku.stores = [spec];
                 // } else {
-                let ls1 = sku.stores.filter((store, index)=> {
+                let ls1 = sku.stores.filter((store, index) => {
                     return spec.id == store.id;
                 });
                 debugger;
                 if (ls1.length) {
                     // console.log(item.select);
-                    sku.stores.map((store, index)=> {
+                    sku.stores.map((store, index) => {
                         if (store.id == spec.id) {
                             sku.stores.splice(index, 1);
                         };
                     });
-                    item.select.map((sel, selindex)=> {
+                    item.select.map((sel, selindex) => {
                         if (sel.pointStoreId == spec.id) {
                             item.select.splice(selindex, 1);
                         }
@@ -314,16 +314,16 @@ export default {
         },
         check() {
             let point = 0;
-            this.goodsGroupList.forEach(item=> {
-                item.select.forEach(element=> {
+            this.goodsGroupList.forEach(item => {
+                item.select.forEach(element => {
                     if (element.formType == 3) {
-                        element.addStores.forEach(ele=> {
+                        element.addStores.forEach(ele => {
                             if (!ele.storeName) {
                                 this.$toast('门店名称不能为空');
                                 // this.toggle(item, 'addStoreToggle', 'addStoreIcon');
                                 point = 1;
                                 item.toggle = true;
-                                item.goodsGroupGoodsList.forEach(sku=> {
+                                item.goodsGroupGoodsList.forEach(sku => {
                                     if (sku.id == element.id) {
                                         this.$set(sku, 'toggle', true);
                                     }
@@ -335,7 +335,7 @@ export default {
                                 this.$toast('请填写门店联系方式');
                                 point = 1;
                                 item.toggle = true;
-                                item.goodsGroupGoodsList.forEach(sku=> {
+                                item.goodsGroupGoodsList.forEach(sku => {
                                     if (sku.id == element.id) {
                                         this.$set(sku, 'toggle', true);
                                     }
@@ -363,15 +363,15 @@ export default {
             });
         },
         setData() {
-            this.goodsGroupList.map((item, index)=> {
+            this.goodsGroupList.map((item, index) => {
                 let temp = {
                     goodsGroupId: item.id,
                     tradeGoodsGroupGoodsList: []
                 };
-                item.goodsGroupGoodsList.forEach(sku=> {
+                item.goodsGroupGoodsList.forEach(sku => {
                     if (!sku.formType) {
                         // 选择微信活动和微信应用
-                        let ls = item.select.filter(r=> {
+                        let ls = item.select.filter(r => {
                             return r.id == sku.id;
                         });
                         if (!ls.length) {
@@ -392,7 +392,7 @@ export default {
                             tradeGoodsGroupGoodsSpecList: []
                         };
                         if (sku.addStores && sku.addStores.length) {
-                            sku.addStores.forEach(store=> {
+                            sku.addStores.forEach(store => {
                                 // 新增门店
                                 let storeIn = {
                                     specCode: store.specCode,
@@ -405,7 +405,7 @@ export default {
                             });
                         };
                         if (sku.stores && sku.stores.length) {
-                            sku.stores.forEach(store=> {
+                            sku.stores.forEach(store => {
                                 let storeIn = {
                                     specCode: store.specCode,
                                     quantity: store.quantity,
@@ -542,5 +542,3 @@ export default {
 
 }
 </style>
-
-

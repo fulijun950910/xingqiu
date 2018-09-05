@@ -72,7 +72,6 @@ export default {
                             window.localStorage.employee = JSON.stringify(employee);
                             deferred.resolve(JSON.parse(localStorage.employee));
                         });
-
                     }
                 });
             });

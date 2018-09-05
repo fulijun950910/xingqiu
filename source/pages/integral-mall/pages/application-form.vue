@@ -4,7 +4,7 @@
 <div class="img-con">
    <mt-swipe :auto="4000">
   <mt-swipe-item v-for="(item, index) in chooseServiceItem.images" :key="index">
-   <img class="img-auto" :src="item | nSrc(require('assets/imgs/female.png'))" alt="">      
+   <img class="img-auto" :src="item | nSrc(require('assets/imgs/female.png'))" alt="">
   </mt-swipe-item>
 </mt-swipe>
 </div>
@@ -56,10 +56,10 @@ export default {
         },
         loadStoreList() {
             Indicator.open('loading...');
-            api_party.storeList(this.$store.state.party.merchantId, this.$store.getters.employeeId).then(msg=> {
+            api_party.storeList(this.$store.state.party.merchantId, this.$store.getters.employeeId).then(msg => {
                 Indicator.close();
                 this.slots[0].values = msg.data;
-            }, msg=> {
+            }, msg => {
 
             });
         },
@@ -87,11 +87,11 @@ export default {
         },
         loadActivityDetail() {
             Indicator.open('loading...');
-            api_party.productDetail(this.$route.params.id).then(msg=> {
+            api_party.productDetail(this.$route.params.id).then(msg => {
                 Indicator.close();
                 this.chooseServiceItem = msg.data;
                 this.chooseServiceItem.images = this.chooseServiceItem.images.split(',');
-            }, msg=> {
+            }, msg => {
 
             });
         }
@@ -169,4 +169,3 @@ export default {
 }
 }
 </style>
-

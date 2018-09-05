@@ -65,7 +65,7 @@
                                    <div class="face">
                                     <img :src="sub.face" alt="">
                                        </div>
-                                    <h3>{{sub.name}}</h3>                                       
+                                    <h3>{{sub.name}}</h3>
                                  </div>
                                   <div class="notes-words" flex>
                          <div class="notes-text">
@@ -80,12 +80,12 @@
                                  </div>
                              </div>
                          </div>
-                         
+
                      </div>
               </div>
               <div class="total-notes" v-if="item.subNotes.length > 1">共299条回复</div>
                          </div>
-                         
+
                      </div>
               </div>
           </div>
@@ -373,4 +373,3 @@ export default {
    z-index: 99;
 }
 </style>
-

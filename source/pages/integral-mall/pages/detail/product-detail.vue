@@ -25,12 +25,12 @@
                 </div> -->
             </div>
         </div>
-        <div class="goods-detail" v-html="data.detail">            
+        <div class="goods-detail" v-html="data.detail">
         </div>
         </div>
         <div class="buy-now fs34 color-white" layout="row" layout-align="center center" @click="buyNow">
              立即购买
-        </div>       
+        </div>
         <!-- <buy-message :type="buyType" :pay-type="$route.params.type" :address-id="$route.params.addressId ? $route.params.addressId : ''" :product-id="id" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message>        -->
     </div>
 </template>
@@ -53,12 +53,12 @@ export default {
     },
     methods: {
         load() {
-            api_party.productDetail(this.id).then(msg=> {
+            api_party.productDetail(this.id).then(msg => {
                 this.data = msg.data;
                 this.data.images = this.data.images.split(',');
                 this.chooseServiceItem = this.data;
                 this.buyType = (this.data.type == 2 ? '1' : '2');
-            }, msg=>{});
+            }, msg => {});
         },
         init() {
             this.load();
@@ -125,5 +125,3 @@ export default {
         text-align: center;
     }
 </style>
-
-

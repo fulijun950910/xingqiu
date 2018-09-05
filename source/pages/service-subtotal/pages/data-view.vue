@@ -176,7 +176,6 @@ export default {
             this.selectedDateRange(this.actions[0]);
         }
         console.log(this.$route.params);
-
     },
     methods: {
         loadData() {

@@ -1,7 +1,7 @@
 <template>
     <div class="bottom-nav-con" layout="row" layout-align="space-around
  center">
-     <div flex class="nav text-center" :class="{active:item.active}" v-for="(item,index) in menu" :key="item.value" @click="toLink(item)" layout="column" layout-align="center center">
+     <div flex class="nav text-center" :class="{active:item.active}" v-for="item in menu" :key="item.value" @click="toLink(item)" layout="column" layout-align="center center">
            <m-icon :xlink="item.icon" class="fs24"></m-icon>
            <span>{{item.name}}</span>
      </div>
@@ -67,7 +67,7 @@ export default {
         }
     },
     mounted() {
-        this.menu.map((item1, index1) =>{
+        this.menu.map((item1, index1) => {
             if (item1.value == this.activeType) {
                 item1.active = true;
             }
@@ -102,4 +102,3 @@ export default {
     }
 }
 </style>
-

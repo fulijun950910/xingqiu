@@ -18,41 +18,41 @@
 </template>
 
 <script>
-    import api_party from 'services/api.party';
-    import recommendBuy from '../../models/recommend-buy';
+import api_party from 'services/api.party';
+import recommendBuy from '../../models/recommend-buy';
 
-    export default {
-        name: 'wallet',
-        components: {
-            recommendBuy
+export default {
+    name: 'wallet',
+    components: {
+        recommendBuy
+    },
+    data() {
+        return {
+            dataModel: {}
+        };
+    },
+    mounted() {
+        this.loadData();
+    },
+    methods: {
+        loadData() {
+            this.$indicator.open();
+            api_party.getAccount(this.$store.state.party.partyId).then(res => {
+                this.$indicator.close();
+                this.dataModel = res.data;
+            });
         },
-        data() {
-            return {
-                dataModel: {}
-            };
+        goPayNotes() {
+            this.$router.push({ name: 'payNotes', params: { accountId: this.dataModel.id } });
         },
-        mounted() {
-            this.loadData();
+        goGetRule() {
+            this.$router.push({ name: 'getRule' });
         },
-        methods: {
-            loadData() {
-                this.$indicator.open();
-                api_party.getAccount(this.$store.state.party.partyId).then(res => {
-                    this.$indicator.close();
-                    this.dataModel = res.data;
-                });
-            },
-            goPayNotes() {
-                this.$router.push({name: 'payNotes', params: {accountId: this.dataModel.id}});
-            },
-            goGetRule() {
-                this.$router.push({name: 'getRule'});
-            },
-            goRecharge() {
-                this.$router.push({name: 'recharge'});
-            }
+        goRecharge() {
+            this.$router.push({ name: 'recharge' });
         }
-    };
+    }
+};
 </script>
 
 <style scoped lang='less'>

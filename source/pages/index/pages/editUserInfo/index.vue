@@ -45,146 +45,146 @@
 </template>
 
 <script>
-    import popupRight from 'components/popup-right';
-    import popupRightList from 'components/popup-right-list';
-    import api_party from 'services/api.party';
-    import {
-        GENDERS
-    } from 'config/mixins';
+import popupRight from 'components/popup-right';
+import popupRightList from 'components/popup-right-list';
+import api_party from 'services/api.party';
+import {
+    GENDERS
+} from 'config/mixins';
 
-    export default {
-        name: 'editUserInfo',
-        props: ['type'],
-        components: {
-            'popup-right': popupRight,
-            'popup-right-list': popupRightList
-        },
-        data() {
-            return {
-                dataModel: {},
-                selectIndex: 1,
-                GENDERS: GENDERS,
-                showView: false
-            };
-        },
-        mounted() {
-            if (this.$store.state.employeeData) {
-                this.dataModel = this.$store.state.employeeData;
-            } else {
-                this.$router.back();
-            }
-        },
-        methods: {
-            submit() {
-                if (this.check()) {
-                    return;
-                }
-                if (this.type == 6) {
-                    this.changePass();
-                } else {
-                    this.changeEmpData();
-                }
-            },
-            check() {
-                let flag = false;
-                switch (this.type) {
-                    case 1:
-                        if (!this.dataModel.name) {
-                            flag = true;
-                            this.$toast('请输入用户名');
-                        }
-                        break;
-                    case 2:
-                        if (!this.dataModel.gender) {
-                            flag = true;
-                            this.$toast('请输入性别');
-                        }
-                        break;
-                    case 3:
-                        if (!this.dataModel.birthday) {
-                            flag = true;
-                            this.$toast('请输入生日');
-                        }
-                        break;
-                    case 4:
-                        if (!this.dataModel.address) {
-                            flag = true;
-                            this.$toast('请输入地址');
-                        }
-                        break;
-                    case 5:
-                        if (!this.dataModel.description) {
-                            flag = true;
-                            this.$toast('请输入签名');
-                        }
-                        break;
-                    case 6:
-                        if (!this.dataModel.oldPassword || !this.dataModel.newPassword || !this.dataModel.checkPassword) {
-                            flag = true;
-                            this.$toast('资料请填写完整');
-                            break;
-                        }
-                        if (this.dataModel.newPassword.length < 6) {
-                            flag = true;
-                            this.$toast('小主，密码安全性太弱啦~');
-                            break;
-                        }
-                        if (this.dataModel.newPassword !== this.dataModel.checkPassword) {
-                            flag = true;
-                            this.$toast('小主，两次密码输入不正确');
-                            break;
-                        }
-                        break;
-                }
-                return flag;
-            },
-            changePass() {
-                let data = {
-                    newPassword: this.dataModel.newPassword,
-                    oldPassword: this.dataModel.oldPassword,
-                    userId: this.dataModel.userId
-                };
-                this.$indicator.open();
-                api_party.newPassword(data).then(res => {
-                    this.$indicator.close();
-                    this.$router.back();
-                });
-            },
-            changeEmpData() {
-                let data = {
-                    id: this.dataModel.id,
-                    userId: this.dataModel.userId,
-                    type: this.type
-                };
-                switch (this.type) {
-                    case 1:
-                        data.name = this.dataModel.name;
-                        break;
-                    case 2:
-                        data.gender = this.dataModel.gender;
-                        break;
-                    case 3:
-                        data.birthday = this.$moment(this.dataModel.birthday).format('YYYY-MM-DD HH:mm:ss');
-                        break;
-                    case 4:
-                        data.address = this.dataModel.address;
-                        break;
-                    case 5:
-                        data.description = this.dataModel.description;
-                        break;
-                }
-                this.$indicator.open();
-                api_party.changeEmpData(data).then(res => {
-                    this.$indicator.close();
-                    this.$router.back();
-                });
-            },
-            slectView(index) {
-                this.selectIndex = index;
-                this.showView = true;
-            }
+export default {
+    name: 'editUserInfo',
+    props: ['type'],
+    components: {
+        'popup-right': popupRight,
+        'popup-right-list': popupRightList
+    },
+    data() {
+        return {
+            dataModel: {},
+            selectIndex: 1,
+            GENDERS: GENDERS,
+            showView: false
+        };
+    },
+    mounted() {
+        if (this.$store.state.employeeData) {
+            this.dataModel = this.$store.state.employeeData;
+        } else {
+            this.$router.back();
         }
-    };
+    },
+    methods: {
+        submit() {
+            if (this.check()) {
+                return;
+            }
+            if (this.type == 6) {
+                this.changePass();
+            } else {
+                this.changeEmpData();
+            }
+        },
+        check() {
+            let flag = false;
+            switch (this.type) {
+                case 1:
+                    if (!this.dataModel.name) {
+                        flag = true;
+                        this.$toast('请输入用户名');
+                    }
+                    break;
+                case 2:
+                    if (!this.dataModel.gender) {
+                        flag = true;
+                        this.$toast('请输入性别');
+                    }
+                    break;
+                case 3:
+                    if (!this.dataModel.birthday) {
+                        flag = true;
+                        this.$toast('请输入生日');
+                    }
+                    break;
+                case 4:
+                    if (!this.dataModel.address) {
+                        flag = true;
+                        this.$toast('请输入地址');
+                    }
+                    break;
+                case 5:
+                    if (!this.dataModel.description) {
+                        flag = true;
+                        this.$toast('请输入签名');
+                    }
+                    break;
+                case 6:
+                    if (!this.dataModel.oldPassword || !this.dataModel.newPassword || !this.dataModel.checkPassword) {
+                        flag = true;
+                        this.$toast('资料请填写完整');
+                        break;
+                    }
+                    if (this.dataModel.newPassword.length < 6) {
+                        flag = true;
+                        this.$toast('小主，密码安全性太弱啦~');
+                        break;
+                    }
+                    if (this.dataModel.newPassword !== this.dataModel.checkPassword) {
+                        flag = true;
+                        this.$toast('小主，两次密码输入不正确');
+                        break;
+                    }
+                    break;
+            }
+            return flag;
+        },
+        changePass() {
+            let data = {
+                newPassword: this.dataModel.newPassword,
+                oldPassword: this.dataModel.oldPassword,
+                userId: this.dataModel.userId
+            };
+            this.$indicator.open();
+            api_party.newPassword(data).then(res => {
+                this.$indicator.close();
+                this.$router.back();
+            });
+        },
+        changeEmpData() {
+            let data = {
+                id: this.dataModel.id,
+                userId: this.dataModel.userId,
+                type: this.type
+            };
+            switch (this.type) {
+                case 1:
+                    data.name = this.dataModel.name;
+                    break;
+                case 2:
+                    data.gender = this.dataModel.gender;
+                    break;
+                case 3:
+                    data.birthday = this.$moment(this.dataModel.birthday).format('YYYY-MM-DD HH:mm:ss');
+                    break;
+                case 4:
+                    data.address = this.dataModel.address;
+                    break;
+                case 5:
+                    data.description = this.dataModel.description;
+                    break;
+            }
+            this.$indicator.open();
+            api_party.changeEmpData(data).then(res => {
+                this.$indicator.close();
+                this.$router.back();
+            });
+        },
+        slectView(index) {
+            this.selectIndex = index;
+            this.showView = true;
+        }
+    }
+};
 </script>
 
 <style scoped lang='less'>
