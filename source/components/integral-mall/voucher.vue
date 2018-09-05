@@ -44,149 +44,148 @@
  * @vocherShow 是否显示
  * @
  */
-    import mIcon from 'components/m-icon';
-    import api_party from 'services/api.party';
-    import { Indicator } from 'mint-ui';
-    export default {
-        props: {
-            mwItem: {
-                type: Object,
-                default() {
-                    return {};
-                }
-            },
-            vocherShow: {
-                type: Boolean,
-                default: false
+import mIcon from 'components/m-icon';
+import api_party from 'services/api.party';
+import { Indicator } from 'mint-ui';
+export default {
+    props: {
+        mwItem: {
+            type: Object,
+            default() {
+                return {};
             }
         },
-        data() {
-            return {
-                dalaList: [],
-                selected: 0,
-                parameter: this.mwItem,
-                canUse: [],
-                noticeText: '已为您选择最佳优惠券',
-                chooseCouponItem: {}
-            };
-        },
-        methods: {
-            loadData(choose) {
-                // this.selected = 0;
-                let parameter = this.parameter;
-                Indicator.open('Loading...');
-                api_party.getCouponList(parameter).then(msg=> {
-                    Indicator.close();
-                    if (!choose) {
-                        this.dalaList = msg.data;
-                        if (parameter.tradeCouponList.length) {
-                            this.selected = parameter.tradeCouponList[0].userCouponId;
-                            this.dalaList.map((item, index)=> {
-                                if (item.id == this.selected) {
-                                    item.canUsed = true;
-                                    this.chooseCouponItem = item;
+        vocherShow: {
+            type: Boolean,
+            default: false
+        }
+    },
+    data() {
+        return {
+            dalaList: [],
+            selected: 0,
+            parameter: this.mwItem,
+            canUse: [],
+            noticeText: '已为您选择最佳优惠券',
+            chooseCouponItem: {}
+        };
+    },
+    methods: {
+        loadData(choose) {
+            // this.selected = 0;
+            let parameter = this.parameter;
+            Indicator.open('Loading...');
+            api_party.getCouponList(parameter).then(msg => {
+                Indicator.close();
+                if (!choose) {
+                    this.dalaList = msg.data;
+                    if (parameter.tradeCouponList.length) {
+                        this.selected = parameter.tradeCouponList[0].userCouponId;
+                        this.dalaList.map((item, index) => {
+                            if (item.id == this.selected) {
+                                item.canUsed = true;
+                                this.chooseCouponItem = item;
+                            }
+                        });
+                    } else {
+                        this.selected = this.dalaList[0].canUsed ? this.dalaList[0].id : 0;
+                        if (this.selected) {
+                            this.chooseCouponItem = this.dalaList[0];
+                            this.parameter.tradeCouponList = [
+                                {
+                                    userCouponId: this.selected
                                 }
-                            });
-                        } else {
-                            this.selected = this.dalaList[0].canUsed ? this.dalaList[0].id : 0;
-                            if (this.selected) {
-                                this.chooseCouponItem = this.dalaList[0];
-                                this.parameter.tradeCouponList = [
-                                    {
-                                        userCouponId: this.selected
-                                    }
-                                ];
-                            }
+                            ];
                         }
-                    } else {
-                        msg.data.map((item, index)=> {
-                            let ls = this.dalaList.filter((item1, index1)=> {
-                                return item.id == item1.id;
-                            });
-                            if (ls.length) {
-                                Object.assign(ls[0], item);
-                            } else {
-                                this.dalaList.push(item);
-                            }
-                        });
-                        // 给到选择的那张券高亮
-                        this.dalaList.map((item, index)=> {
-                            if (this.selected == item.id) {
-                                this.dalaList[index].canUsed = true;
-                            };
-                        });
                     }
-                    this.canUse = this.dalaList.filter((item, index)=> {
-                        return item.canUsed;
+                } else {
+                    msg.data.map((item, index) => {
+                        let ls = this.dalaList.filter((item1, index1) => {
+                            return item.id == item1.id;
+                        });
+                        if (ls.length) {
+                            Object.assign(ls[0], item);
+                        } else {
+                            this.dalaList.push(item);
+                        }
                     });
-
-                }, msg=> {
+                    // 给到选择的那张券高亮
+                    this.dalaList.map((item, index) => {
+                        if (this.selected == item.id) {
+                            this.dalaList[index].canUsed = true;
+                        };
+                    });
+                }
+                this.canUse = this.dalaList.filter((item, index) => {
+                    return item.canUsed;
                 });
-            },
-            close(parameter) {
-                this.$emit('mClose', parameter, this.chooseCouponItem);
-            },
-            chooseCoupon(item) {
-                let that = this;
-                if (this.selected) {
-                    if (this.selected == item.id) {
-                        filterCoupon();
-                        this.selected = null;
-                        this.chooseCouponItem = {};
-                        this.noticeText = '已为您选择最佳优惠券';
-                    } else {
-                        this.selected = item.id;
-                        this.chooseCouponItem = item;
-                        this.noticeText = '共可抵扣' + item.discount / 100 + '元';
-                        filterCoupon();
-                        this.parameter.tradeCouponList.push({
-                            userCouponId: this.selected
-                        });
-                    }
+            }, msg => {
+            });
+        },
+        close(parameter) {
+            this.$emit('mClose', parameter, this.chooseCouponItem);
+        },
+        chooseCoupon(item) {
+            let that = this;
+            if (this.selected) {
+                if (this.selected == item.id) {
+                    filterCoupon();
+                    this.selected = null;
+                    this.chooseCouponItem = {};
+                    this.noticeText = '已为您选择最佳优惠券';
                 } else {
                     this.selected = item.id;
                     this.chooseCouponItem = item;
-                    this.parameter.tradeCouponList = []; // 只能使用一张券
                     this.noticeText = '共可抵扣' + item.discount / 100 + '元';
+                    filterCoupon();
                     this.parameter.tradeCouponList.push({
                         userCouponId: this.selected
                     });
-                };
-                this.loadData('choose');
-                function filterCoupon() {
-                    that.parameter.tradeCouponList = that.parameter.tradeCouponList.filter((coupon, index)=> {
-                        return that.userCouponId != coupon.id;
-                    });
-                };
-                // console.log(this.parameter.tradeCouponList);
+                }
+            } else {
+                this.selected = item.id;
+                this.chooseCouponItem = item;
+                this.parameter.tradeCouponList = []; // 只能使用一张券
+                this.noticeText = '共可抵扣' + item.discount / 100 + '元';
+                this.parameter.tradeCouponList.push({
+                    userCouponId: this.selected
+                });
+            };
+            this.loadData('choose');
+            function filterCoupon() {
+                that.parameter.tradeCouponList = that.parameter.tradeCouponList.filter((coupon, index) => {
+                    return that.userCouponId != coupon.id;
+                });
+            };
+            // console.log(this.parameter.tradeCouponList);
+        },
+        reason(item) {
+            this.$toast(item.canntUsedReason);
+        }
+
+    },
+    components: {
+        mIcon
+    },
+    computed: {
+        showMain: {
+            get() {
+                return this.vocherShow;
             },
-            reason(item) {
-                this.$toast(item.canntUsedReason);
-            }
-
-        },
-        components: {
-            mIcon
-        },
-        computed: {
-            showMain: {
-                get() {
-                    return this.vocherShow;
-                },
-                set() {
-                    this.$emit('update');
-                }
-            }
-
-        },
-        watch: {
-            vocherShow(newValue, oldValue) {
-                if (newValue) {
-                    this.loadData();
-                }
+            set() {
+                this.$emit('update');
             }
         }
-    };
+
+    },
+    watch: {
+        vocherShow(newValue, oldValue) {
+            if (newValue) {
+                this.loadData();
+            }
+        }
+    }
+};
 </script>
 
 <style lang="less" scoped>
@@ -266,4 +265,3 @@
     }
 }
 </style>
-

@@ -36,9 +36,9 @@ export default {
                 page: this.paging.page,
                 size: this.paging.size
             };
-            api_party.api_b2bAcyivities(parameter).then(msg=> {
+            api_party.api_b2bAcyivities(parameter).then(msg => {
                 this.dataList = msg.data.rows;
-            }, msg=> {
+            }, msg => {
                 console.log('网络错误');
             });
         },
@@ -86,7 +86,7 @@ export default {
             width: 60px;
             height: 20px;
             background: url('~assets/imgs/activity-des/bg-06.png') no-repeat;
-            background-size: 100% 100%;            
+            background-size: 100% 100%;
         }
         .img-con{
             width: 83.5px;
@@ -100,5 +100,3 @@ export default {
     }
 }
 </style>
-
-

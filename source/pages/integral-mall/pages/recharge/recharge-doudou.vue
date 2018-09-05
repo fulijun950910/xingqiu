@@ -42,132 +42,132 @@
 </template>
 
 <script>
-    import api_party from 'services/api.party';
+import api_party from 'services/api.party';
 
-    export default {
-        name: 'recharge',
-        data() {
-            return {
-                state: 1, // 1充值 2 充值成功
-                act: 1,
-                dataModel: {},
-                list: [],
-                choose: {},
-                inputPrice: null,
-                transDou: 0,
-                rechargeRuleList: []
+export default {
+    name: 'recharge',
+    data() {
+        return {
+            state: 1, // 1充值 2 充值成功
+            act: 1,
+            dataModel: {},
+            list: [],
+            choose: {},
+            inputPrice: null,
+            transDou: 0,
+            rechargeRuleList: []
+        };
+    },
+    mounted() {
+        this.loadData();
+        this.loadProduct();
+        this.rechargeRule();
+    },
+    methods: {
+        loadData() {
+            this.$indicator.open();
+            api_party.getAccount(this.$store.state.party.partyId).then(res => {
+                this.$indicator.close();
+                this.dataModel = res.data;
+            });
+        },
+        submit() {
+            // let parameter = {
+            //     merchantId: this.$store.state.party.merchantId,
+            //     partyId: this.$store.state.party.partyId,
+            //     userId: this.$store.state.party.id,
+            //     payDoudouAmount: 0,
+            //     payMoney: this.choose.money ? (this.choose.money * 100) : this.choose.price,
+            //     itemId: this.choose.id,
+            //     quantity: 1,
+            //     tradeType: 6
+            // };
+            // api_party.doudouTrade(parameter).then(res=> {
+            //     location.href = res.data.payUrl + '?url=' + encodeURIComponent(location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/order-list');
+            // }, res=> {
+
+            // });
+            this.$router.push({
+                name: 'pay-detail',
+                params: {
+                    itemId: this.choose.id,
+                    payMoney: this.choose.money ? (this.choose.money * 100) : this.choose.price,
+                    type: 1
+                }
+            });
+        },
+        goWallet() {
+            this.$router.go(-1);
+        },
+        selectType(item) {
+            this.act = item.id;
+            this.choose = item;
+            this.list.map((pro, proIndex) => {
+                if (pro.money) {
+                    pro.money = 0;
+                    this.transDou = 0;
+                };
+            });
+        },
+        loadProduct() {
+            api_party.goodsList(6).then(res => {
+                this.list = res.data;
+                this.act = res.data[0].id;
+                this.choose = res.data[0];
+                this.list.map((item, index) => {
+                    if (item.icon) {
+                        this.act = item.id;
+                        this.choose = item;
+                    };
+                });
+                // this.list.push({
+                //     description: '其他金额',
+                //     id: '-1'
+                // });
+            }, msg => {
+
+            });
+        },
+        priceChange() {
+            this.choose = {
+                price: this.inputPrice * 100
             };
         },
-        mounted() {
-            this.loadData();
-            this.loadProduct();
-            this.rechargeRule();
+        rechargeRule() {
+            api_party.rechargeRules().then(msg => {
+                this.rechargeRuleList = msg.data;
+            }, msg => {
+            });
         },
-        methods: {
-            loadData() {
-                this.$indicator.open();
-                api_party.getAccount(this.$store.state.party.partyId).then(res => {
-                    this.$indicator.close();
-                    this.dataModel = res.data;
-                });
-            },
-            submit() {
-                // let parameter = {
-                //     merchantId: this.$store.state.party.merchantId,
-                //     partyId: this.$store.state.party.partyId,
-                //     userId: this.$store.state.party.id,
-                //     payDoudouAmount: 0,
-                //     payMoney: this.choose.money ? (this.choose.money * 100) : this.choose.price,
-                //     itemId: this.choose.id,
-                //     quantity: 1,
-                //     tradeType: 6
-                // };
-                // api_party.doudouTrade(parameter).then(res=> {
-                //     location.href = res.data.payUrl + '?url=' + encodeURIComponent(location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/order-list');
-                // }, res=> {
-
-                // });
-                this.$router.push({
-                    name: 'pay-detail',
-                    params: {
-                        itemId: this.choose.id,
-                        payMoney: this.choose.money ? (this.choose.money * 100) : this.choose.price,
-                        type: 1
-                    }
-                });
-            },
-            goWallet() {
-                this.$router.go(-1);
-            },
-            selectType(item) {
-                this.act = item.id;
-                this.choose = item;
-                this.list.map((pro, proIndex)=> {
-                    if (pro.money) {
-                        pro.money = 0;
-                        this.transDou = 0;
-                    };
-                });
-            },
-            loadProduct() {
-                api_party.goodsList(6).then(res=> {
-                    this.list = res.data;
-                    this.act = res.data[0].id;
-                    this.choose = res.data[0];
-                    this.list.map((item, index)=> {
-                        if (item.icon) {
-                            this.act = item.id;
-                            this.choose = item;
-                        };
-                    });
-                    // this.list.push({
-                    //     description: '其他金额',
-                    //     id: '-1'
-                    // });
-                }, msg=> {
-
-                });
-            },
-            priceChange() {
-                this.choose = {
-                    price: this.inputPrice * 100
+        caculateRechargeDou(item) {
+            if (!item.money) {
+                return;
+            }
+            // console.log(this.adapterRechargeRule(item.money * 100));
+            this.transDou = Number(item.money * 10 * this.adapterRechargeRule(item.money * 100)).toFixed(0);
+        },
+        adapterRechargeRule(money) {
+            let rulePany = [];
+            this.rechargeRuleList.map((item, index) => {
+                let temp = {
+                    index: index,
+                    area: [this.rechargeRuleList[index].payMoney, this.rechargeRuleList[index + 1] ? this.rechargeRuleList[index + 1].payMoney : Infinity]
                 };
-            },
-            rechargeRule() {
-                api_party.rechargeRules().then(msg=> {
-                    this.rechargeRuleList = msg.data;
-                }, msg=> {
-                });
-            },
-            caculateRechargeDou(item) {
-                if (!item.money) {
-                    return;
-                }
-                // console.log(this.adapterRechargeRule(item.money * 100));
-                this.transDou = Number(item.money * 10 * this.adapterRechargeRule(item.money * 100)).toFixed(0);
-            },
-            adapterRechargeRule(money) {
-                let rulePany = [];
-                this.rechargeRuleList.map((item, index)=> {
-                    let temp = {
-                        index: index,
-                        area: [this.rechargeRuleList[index].payMoney, this.rechargeRuleList[index + 1] ? this.rechargeRuleList[index + 1].payMoney : Infinity]
+                rulePany.push(temp);
+            });
+            if (rulePany.length) {
+                // console.log(rulePany);
+                let ratio;
+                rulePany.map((item, index) => {
+                    if (money >= item.area[0] && money < item.area[1]) {
+                        ratio = this.rechargeRuleList[item.index].ratio;
                     };
-                    rulePany.push(temp);
                 });
-                if (rulePany.length) {
-                    // console.log(rulePany);
-                    let ratio;
-                    rulePany.map((item, index)=> {
-                        if (money >= item.area[0] && money < item.area[1]) {
-                            ratio = this.rechargeRuleList[item.index].ratio;
-                        };
-                    });
-                    return ratio;
-                }
+                return ratio;
             }
         }
-    };
+    }
+};
 </script>
 
 <style scoped lang='less'>

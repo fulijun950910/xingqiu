@@ -1,7 +1,7 @@
 export default(Vue) => {
     Vue.directive('touch', {
         bind: function(el, binding, vnode) {
-            /* 传入的模式 press swipeRight swipeLeft swipeTop swipeDowm Tap move end*/
+            /* 传入的模式 press swipeRight swipeLeft swipeTop swipeDowm Tap move end */
             var touchType = binding.arg;
             var timeOutEvent = 0;
             var direction = '';
@@ -42,13 +42,12 @@ export default(Vue) => {
                 startY = ev.touches[0].pageY;
 
                 /* 判断长按 */
-                timeOutEvent = setTimeout(() =>{
-                    timeOutEvent = 0 ;
+                timeOutEvent = setTimeout(() => {
+                    timeOutEvent = 0;
                     if (touchType === 'press') {
                         binding.value(ev);
                     }
                 }, 500);
-
             }, false);
 
             el.addEventListener('touchmove', function(ev) {
@@ -58,12 +57,11 @@ export default(Vue) => {
                     if (touchType === 'move') {
                         binding.value(ev);
                     }
-                } else if(event.touches.length === 2){
+                } else if (event.touches.length === 2) {
                     if (touchType === 'scale') {
                         binding.value(ev);
                     }
                 }
-
             });
 
             el.addEventListener('touchend', function(ev) {

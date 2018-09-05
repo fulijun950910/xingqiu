@@ -85,7 +85,7 @@ export default {
                 size: this.pageChange.size
             };
             Indicator.open('loading...');
-            api_party.addressSearch(parameter).then(msg=> {
+            api_party.addressSearch(parameter).then(msg => {
                 Indicator.close();
                 if (msg.data.rows.length < this.pageChange.size) {
                     this.scrollDisabled = true;
@@ -95,7 +95,7 @@ export default {
                 this.dataList = this.dataList.concat(msg.data.rows);
                 this.loading = false;
                 this.pageChange.page++;
-            }, msg=> {
+            }, msg => {
 
             });
         },
@@ -104,13 +104,12 @@ export default {
         },
         addDefault(item) {
             Vue.set(item, 'isDefault', !item.isDefault);
-            api_party.deliveryAddress(item).then(msg=> {
+            api_party.deliveryAddress(item).then(msg => {
                 Toast('已设置默认');
                 this.loadData();
-            }, msg=> {
+            }, msg => {
 
             });
-
         },
         controllItem(item, type) {
             if (type == 1) {
@@ -126,7 +125,7 @@ export default {
                 // 编辑
                 // this.$router.push('/edite-address/' + item.id);
                 this.$router.push({
-                    name: 'edite-address', params: {id: item.id}
+                    name: 'edite-address', params: { id: item.id }
                 });
             }
         },
@@ -146,20 +145,19 @@ export default {
             }
         },
         deleteAddress(item) {
-            api_party.deleteAddress(item.id).then(msg=> {
+            api_party.deleteAddress(item.id).then(msg => {
                 Toast('地址已删除啦！');
                 this.confirmText.show = false;
                 this.pageChange.page = 1;
                 this.dataList = [];
                 this.loadData();
-            }, msg=> {
+            }, msg => {
             });
-
         },
         integraConfirm(msg) {
-            msg.then(res=> {
+            msg.then(res => {
                 this.deleteAddress(this.selectAddress);
-            }, res=> {
+            }, res => {
                 this.confirmText.show = false;
             });
         },
@@ -192,7 +190,7 @@ export default {
                 margin-bottom: 22px;
             }
             .default-address.default {
-                color: @color-pink;                
+                color: @color-pink;
             }
             .color-blue{
                 color: #4A90E2;
@@ -215,5 +213,3 @@ export default {
     }
 }
 </style>
-
-

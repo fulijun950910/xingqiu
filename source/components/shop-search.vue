@@ -7,7 +7,7 @@
             <m-top-search class="search-input text-center" v-model="currentValue" @keyup.enter="submit" :placeholder="placeholder"></m-top-search>
         </div>
 </div>
-        
+
 </template>
 <script>
 import mTopSearch from 'components/m-top-search';
@@ -73,7 +73,7 @@ export default {
                 background: #F2F3F8;
                 border-radius: 20px;
                 input{
-                text-align: center;                    
+                text-align: center;
                 }
                 input[placeholder]{
                     color: @extra-shadow;
@@ -81,9 +81,8 @@ export default {
                 }
             }
         }
-        
+
     }
     }
 
 </style>
-

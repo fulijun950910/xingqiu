@@ -38,7 +38,7 @@
   <stop-pages></stop-pages>
     </div>
 </template>
-    
+
 <script>
 import detailTop from 'components/detail-top';
 import shopBuyNav from 'components/shop-buy-nav';
@@ -169,5 +169,3 @@ export default {
     }
 }
 </style>
-
-

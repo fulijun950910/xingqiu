@@ -52,9 +52,15 @@ export default {
             this.confirm.show = !this.confirm.show;
         },
         inteconfirm(msg) {
+<<<<<<< HEAD
             msg.then(data=> {
                 this.uploadImg();
             }, data=> {
+=======
+            msg.then(data => {
+                this.hideConfirm();
+            }, data => {
+>>>>>>> b11d63813b370237c704e8e193e893cd3dc635cc
                 this.hideConfirm();
             });
         },
@@ -177,5 +183,3 @@ export default {
 }
 
 </style>
-
-

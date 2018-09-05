@@ -84,71 +84,71 @@
 </template>
 
 <script>
-    import file from 'components/file-slice';
-    import api_party from 'services/api.party';
-    import api_file from 'services/api.file';
-    import { GENDERS } from 'config/mixins';
+import file from 'components/file-slice';
+import api_party from 'services/api.party';
+import api_file from 'services/api.file';
+import { GENDERS } from 'config/mixins';
 
-    export default {
-        name: 'main',
-        components: {
-            file
+export default {
+    name: 'main',
+    components: {
+        file
+    },
+    data() {
+        return {
+            logoImage: {},
+            genderList: GENDERS,
+            blanceTotal: 0,
+            dataModel: {}
+        };
+    },
+    mounted() {
+        this.loadData();
+    },
+    methods: {
+        loadData() {
+            this.$indicator.open();
+            api_party.getEmployee(this.$store.state.user.id).then(res => {
+                this.$indicator.close();
+                this.dataModel = res.data;
+                this.$store.state.employeeData = this.dataModel;
+            });
+            api_party.getAccount(this.$store.state.party.partyId).then(res => {
+                this.blanceTotal = res.data.doudouBalance;
+            });
         },
-        data() {
-            return {
-                logoImage: {},
-                genderList: GENDERS,
-                blanceTotal: 0,
-                dataModel: {}
+        async changeAvatar(data) {
+            let resData = await api_file.uploadImage(data);
+            console.log(resData);
+            let empData = {
+                id: this.dataModel.id,
+                userId: this.dataModel.userId,
+                avatarFileId: resData.data
             };
+            api_party.changeEmpData(empData).then(res => {
+                this.loadData();
+            });
         },
-        mounted() {
-            this.loadData();
+        signOut() {
+            let data = {
+                employeeId: this.$store.state.user.id,
+                userId: this.$store.state.user.userId
+            };
+            this.$indicator.open();
+            api_party.unbind(data).then(res => {
+                this.$indicator.close();
+                localStorage.clear();
+                window.location.href = this.$signLocation;
+            });
         },
-        methods: {
-            loadData() {
-                this.$indicator.open();
-                api_party.getEmployee(this.$store.state.user.id).then(res => {
-                    this.$indicator.close();
-                    this.dataModel = res.data;
-                    this.$store.state.employeeData = this.dataModel;
-                });
-                api_party.getAccount(this.$store.state.party.partyId).then(res => {
-                    this.blanceTotal = res.data.doudouBalance;
-                });
-            },
-            async changeAvatar(data) {
-                let resData = await api_file.uploadImage(data);
-                console.log(resData);
-                let empData = {
-                    id: this.dataModel.id,
-                    userId: this.dataModel.userId,
-                    avatarFileId: resData.data
-                };
-                api_party.changeEmpData(empData).then(res => {
-                    this.loadData();
-                });
-            },
-            signOut() {
-                let data = {
-                    employeeId: this.$store.state.user.id,
-                    userId: this.$store.state.user.userId
-                };
-                this.$indicator.open();
-                api_party.unbind(data).then(res => {
-                    this.$indicator.close();
-                    localStorage.clear();
-                    window.location.href = this.$signLocation;
-                });
-            },
-            goWallet() {
-                this.$router.push({name: 'wallet'});
-            },
-            goEdit(type) {
-                this.$router.push({name: 'editUserInfo', params: {type: type}});
-            }
+        goWallet() {
+            this.$router.push({ name: 'wallet' });
+        },
+        goEdit(type) {
+            this.$router.push({ name: 'editUserInfo', params: { type: type } });
         }
-    };
+    }
+};
 </script>
 
 <style scoped lang='less'>

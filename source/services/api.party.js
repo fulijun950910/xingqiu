@@ -220,7 +220,6 @@ export default {
         // 获取抽奖
         let url = `/api/prize/drawPrize/${parameter.partyId}/${parameter.userId}`;
         return request(url, 'get');
-
     },
     hasAwardedList(parameter) {
         // 已获奖项列表
@@ -251,7 +250,6 @@ export default {
         // 查询板块
         let url = `/api/bbs/forumList/${partyId}/${userId}`;
         return request(url, 'get');
-
     },
     loadBBSMessage(parameter) {
         let forumId = parameter.forumId;

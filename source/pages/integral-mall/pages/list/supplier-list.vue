@@ -62,7 +62,7 @@ export default {
 
             };
             Indicator.open('loading...');
-            api_party.serchIntroduction(parameter).then(msg=> {
+            api_party.serchIntroduction(parameter).then(msg => {
                 Indicator.close();
                 if (msg.data.rows.length < this.pageChange.size) {
                     this.scrollDisabled = true;
@@ -72,7 +72,7 @@ export default {
                 this.dataList = this.dataList.concat(msg.data.rows);
                 this.loading = false;
                 this.pageChange.page++;
-            }, msg=> {
+            }, msg => {
 
             });
         },
@@ -114,5 +114,3 @@ export default {
 }
 
 </style>
-
-

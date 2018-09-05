@@ -42,7 +42,6 @@ export function CARD_TYPE() {
         } else if (item.name == 'TYPE_ITEM_PART') {
             item.label = `分${backNoun.treatmentCard}`;
         }
-
     });
     return tempCardType;
 }
@@ -61,12 +60,12 @@ export const COUNON_KIND = [
     { name: '直接赠送', value: '2-4' },
     { name: '短信送券', value: '2-6' },
     { name: '他人赠送', value: '1-7' },
-    { name: '他人赠送', value: '2-7'},
-    { name: '微信活动赠送', value: '2-5'},
+    { name: '他人赠送', value: '2-7' },
+    { name: '微信活动赠送', value: '2-5' },
     { name: 'SaaS购买', value: '1-1' },
-    { name: '微信活动购买', value: '1-2'},
+    { name: '微信活动购买', value: '1-2' },
     { name: '商城购买', value: '1-6' },
-    { name: '微信活动购买', value: '1- '}
+    { name: '微信活动购买', value: '1- ' }
 ];
 
 export const ACTIVITY_TYPES = [

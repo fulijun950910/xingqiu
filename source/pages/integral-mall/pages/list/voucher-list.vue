@@ -25,7 +25,7 @@
             <p class="fs24 color-gray"><span class="color-pink">·</span>100个美豆豆兑换一张入场券，每个账号最多可兑换一张。</p>
             <p class="fs24 color-gray"><span class="color-pink">·</span>兑换成功后入场码将以短信的形式发出</p>
             <p class="fs24 color-gray"><span class="color-pink">·</span>入场后请报入场码给到讲师，即完成兑换</p>
-            <p class="fs24 color-gray"><span class="color-pink">·</span>此兑换由于商品特殊，不可退货，敬请原谅</p>            
+            <p class="fs24 color-gray"><span class="color-pink">·</span>此兑换由于商品特殊，不可退货，敬请原谅</p>
         </div>
         <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm"  @integraConfirm="inteconfirm"></integral-confirm>
     </div>
@@ -48,9 +48,9 @@ export default {
     },
     methods: {
         loadData() {
-            api_party.goodsList(3).then(msg=> {
+            api_party.goodsList(3).then(msg => {
                 this.dataList = msg.data;
-            }, msg=> {
+            }, msg => {
 
             });
         },
@@ -59,7 +59,7 @@ export default {
             this.searchBalance();
         },
         inteconfirm(msg) {
-            msg.then(data=> {
+            msg.then(data => {
                 // 2豆豆足够
                 if (this.type == 2) {
                     this.$router.push('/personal');
@@ -67,7 +67,7 @@ export default {
                     // 豆豆不足
                     this.$router.push('/recharge-doudou');
                 };
-            }, data=> {
+            }, data => {
                 this.confirm.show = false;
             });
         },
@@ -82,7 +82,7 @@ export default {
         },
         searchBalance() {
             Indicator.open('loading...');
-            api_party.doudouAccount(this.employee.party.partyId).then(msg=> {
+            api_party.doudouAccount(this.employee.party.partyId).then(msg => {
                 Indicator.close();
                 this.personal = msg.data;
             }, msg => {});
@@ -153,4 +153,3 @@ export default {
     }
 }
 </style>
-

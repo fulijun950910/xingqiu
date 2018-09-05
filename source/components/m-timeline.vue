@@ -4,7 +4,7 @@
             <p class="year-block"><strong class="label-year">{{node.year}}</strong> </p>
             <div v-for="(month, index) in node.list" :key="index">
                 <p class="month-block"><span class="label-month">{{month.month+1}}月</span></p>
-                
+
                 <div class="day-block" v-for="(day, index) in month.list" :key="index" layout="row" layout-align="space-between start">
                     <div class="label" layout="row" layout-align="space-between start">
                         <p class="label-day" flex>{{day.time | day}}</p>
@@ -29,7 +29,7 @@
                 <m-gallery v-model="currentImg" :show.sync="showCurrentImg"></m-gallery>
             </div>
         </div>
-        
+
     </div>
 </template>
 
@@ -88,7 +88,7 @@ export default {
             let yearArr = [];
             let tempArr = [];
             let yearList = list.map(x => {
-                return new Date(x.time.replace(/\-/g, '/')).getFullYear();
+                return new Date(x.time.replace(/-/g, '/')).getFullYear();
             });
             yearList.forEach(x => {
                 if (!tempArr.includes(x)) {
@@ -101,13 +101,13 @@ export default {
                 };
                 let monthArr = [];
                 list.forEach(m => {
-                    if (year == new Date(m.time.replace(/\-/g, '/')).getFullYear() && !monthArr.map(k => { return k.month; }).includes(new Date(m.time.replace(/\-/g, '/')).getMonth())) {
+                    if (year == new Date(m.time.replace(/-/g, '/')).getFullYear() && !monthArr.map(k => { return k.month; }).includes(new Date(m.time.replace(/-/g, '/')).getMonth())) {
                         let monthObj = {
-                            month: new Date(m.time.replace(/\-/g, '/')).getMonth()
+                            month: new Date(m.time.replace(/-/g, '/')).getMonth()
                         };
                         let dayArr = [];
                         list.forEach(d => {
-                            if (year == new Date(d.time.replace(/\-/g, '/')).getFullYear() && new Date(m.time.replace(/\-/g, '/')).getMonth() == new Date(d.time.replace(/\-/g, '/')).getMonth()) {
+                            if (year == new Date(d.time.replace(/-/g, '/')).getFullYear() && new Date(m.time.replace(/-/g, '/')).getMonth() == new Date(d.time.replace(/-/g, '/')).getMonth()) {
                                 dayArr.push(d);
                             }
                         });
@@ -127,10 +127,10 @@ export default {
     },
     filters: {
         year(val) {
-            return new Date(val.replace(/\-/g, '/')).getFullYear();
+            return new Date(val.replace(/-/g, '/')).getFullYear();
         },
         month(val) {
-            return new Date(val.replace(/\-/g, '/')).getMonth() + 1;
+            return new Date(val.replace(/-/g, '/')).getMonth() + 1;
         },
         day(val) {
             return val.formatDate('MM.dd');
@@ -244,10 +244,9 @@ export default {
                         z-index: 1;
                         transform: rotate(45deg);
                         background-color: white;
-                    } 
+                    }
                 }
             }
         }
     }
 </style>
-

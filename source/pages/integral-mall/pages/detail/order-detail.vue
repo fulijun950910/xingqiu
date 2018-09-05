@@ -89,7 +89,7 @@
             </div>
         </div>
         <div class="back-btn m-t-4 p-b-4" layout="row" layout-align="center center">
-         <div @click="pay" class="bottom-btn steel-gray fs28 m-r-4" v-if="order.status == '0'" layout="row" layout-align="center center">去支付&nbsp;<m-icon class="fs34" xlink="#icon-zhifu1"></m-icon></div>            
+         <div @click="pay" class="bottom-btn steel-gray fs28 m-r-4" v-if="order.status == '0'" layout="row" layout-align="center center">去支付&nbsp;<m-icon class="fs34" xlink="#icon-zhifu1"></m-icon></div>
          <div @click="goBack" class="bottom-btn steel-gray fs28" layout="row" layout-align="center center">返回&nbsp;<m-icon xlink="#icon-zuojiantou"></m-icon></div>
         </div>
         <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm" @integraConfirm="inteconfirm"></integral-confirm>
@@ -119,14 +119,14 @@ export default {
     methods: {
         loadData() {
             this.$indicator.open('加载中...');
-            api_party.orderDetail(this.orderId).then(msg=> {
+            api_party.orderDetail(this.orderId).then(msg => {
                 this.$indicator.close();
                 this.order = msg.data;
                 if (this.order.tradeGoodsGroupList.length) {
                     this.order.tradeGoodsGroupList.forEach(element => {
-                        element.tradeGoodsGroupGoodsList.forEach(sku=> {
+                        element.tradeGoodsGroupGoodsList.forEach(sku => {
                             if (sku.tradeGoodsGroupGoodsSpecList.length) {
-                                sku.tradeGoodsGroupGoodsSpecList.forEach(spec=> {
+                                sku.tradeGoodsGroupGoodsSpecList.forEach(spec => {
                                     let t = {
                                         name: spec.storeName ? `${spec.storeName}(${sku.goodsName})` : sku.goodsName,
                                         time: spec.specName ? spec.specName : '无限期',
@@ -144,9 +144,8 @@ export default {
                             }
                         });
                     });
-
                 }
-            }, msg=> {
+            }, msg => {
             });
         },
         goBack() {
@@ -163,19 +162,18 @@ export default {
             this.confirm.show = !this.confirm.show;
         },
         inteconfirm(msg) {
-            msg.then(data=> {
+            msg.then(data => {
                 this.doudouPay();
                 this.hideConfirm();
-            }, data=> {
+            }, data => {
                 this.hideConfirm();
-
             });
         },
         doudouPay() {
-            api_party.doudouPay(this.order.id).then(msg=> {
+            api_party.doudouPay(this.order.id).then(msg => {
                 this.loadData();
                 this.$toast('支付成功');
-            }, msg=> {
+            }, msg => {
                 console.log('网络错误');
             });
         },
