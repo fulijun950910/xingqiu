@@ -4,3 +4,9 @@
 /vue-config/*.js
 /build/*.js
 src
+public
+config
+dist
+WebContent
+icomoon
+example
