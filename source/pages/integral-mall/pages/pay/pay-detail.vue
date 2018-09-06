@@ -96,14 +96,14 @@
                <textarea class="p-1" v-model="payDetail.remark" placeholder="备注"></textarea>
             </div>
         </div>
-        <div layout="row" layout-align="space-between center" class="p-t-3 p-b-3">
-<button flex="40" class="fwb fs38 color-white pay-btn" @click="offlinePay" layout="row" layout-align="center center">
-线下支付
-</button>
-<button flex="40" :disabled="btnClick" class="fwb fs38 color-white pay-btn" @click="hideConfirm" layout="row" layout-align="center center">
+        <div layout="row" layout-align="space-between center" class="p-t-3">
+<button :disabled="btnClick" class="fwb fs38 color-white integral-btn" @click="hideConfirm" layout="row" layout-align="center center">
 {{payText}}
 </button>
         </div>
+<div layout="row" layout-align="end center" flex  @click="offlinePay" class="fs24 p-t-3 p-b-3 color-tiffany-blue">
+       线下支付
+</div>
 
     </div>
     <voucher :mw-item="payDetail" :vocher-show="vocherShow" @update="clickToVoucher" @mClose="clickToVoucher"></voucher>

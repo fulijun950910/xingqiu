@@ -12,7 +12,7 @@
              <m-picture :picture="item"></m-picture>
                 </div>
              <div class="delete" @click.stop="deleteImg(index)">
-                 <m-icon class="fs40 extra-black" xlink="#icon-huabanfuben29"></m-icon>
+                 <m-icon class="fs40 extra-black fwb" xlink="#icon-huabanfuben29"></m-icon>
              </div>
              <div class="upload-mask" layout="column" layout-align="center center" v-if="item.base64">
                  <div v-show="!item.id" class="img-btn fs28 bg-tiifini-blue m-b-2" layout="row" @click="upLoadImg(item)" layout-align="center center">
@@ -62,7 +62,7 @@ export default {
         },
         inteconfirm(msg) {
             msg.then(data => {
-                // this.hideConfirm();
+                this.hideConfirm();
                 this.pay();
             }, data => {
                 this.hideConfirm();
@@ -88,14 +88,24 @@ export default {
             if (item.id) {
                 return;
             };
+            if (item.origin.size / (1024 * 1024) > 5) {
+                this.$toast('文件超过5M，请重新选择文件');
+                return;
+            };
             api_file.uploadImage(item).then(msg => {
-                debugger;
                 this.$set(item, 'id', msg.data);
                 this.voucherImage.push(msg.data);
             }, msg => {
             });
         },
         pay() {
+            let ls = this.uploadPics.filter(msg => {
+                return msg.base64;
+            });
+            if (ls.length != this.voucherImage.length) {
+                this.$toast('请上传已选择图片');
+                return;
+            };
             this.parameter.voucherImages = this.voucherImage.join(',');
             api_party.doudouTrade(this.parameter).then(msg => {
                 this.$router.push('pay-success');
