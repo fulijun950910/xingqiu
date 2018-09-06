@@ -52,15 +52,8 @@ export default {
             this.confirm.show = !this.confirm.show;
         },
         inteconfirm(msg) {
-<<<<<<< HEAD
-            msg.then(data=> {
-                this.uploadImg();
-            }, data=> {
-=======
             msg.then(data => {
                 this.hideConfirm();
-            }, data => {
->>>>>>> b11d63813b370237c704e8e193e893cd3dc635cc
                 this.hideConfirm();
             });
         },
@@ -82,20 +75,20 @@ export default {
                 };
                 promise.push(api_file.uploadImage(imgUp));
             });
-            Q.all(promise).then(msg=> {
-                msg.map(data=> {
+            Q.all(promise).then(msg => {
+                msg.map(data => {
                     this.voucherImage.push(data.data);
                 });
                 this.submitData();
-            }, msg=> {
+            }, msg => {
                 this.$toast('图片上传失败');
             });
         },
         submitData() {
             this.parameter.voucherImage = this.voucherImage.jpin(',');
-            api_party.doudouTrade(this.parameter).then(msg=> {
+            api_party.doudouTrade(this.parameter).then(msg => {
                 this.hideConfirm();
-            }, msg=> {
+            }, msg => {
                 this.hideConfirm();
             });
         },
@@ -118,7 +111,7 @@ export default {
         imgCon(newValue, oldValue) {
             if (newValue) {
                 if (this.imgCon.length > 1) {
-                    this.imgCon.map((msg, index)=> {
+                    this.imgCon.map((msg, index) => {
                         if (msg.base64 && msg.base64.length > 1024 * 5) {
                             newValue = newValue.splice(index, 1);
                             this.$toast(`${msg.origin.name}大小大于5M,请重新上传`);
@@ -131,7 +124,6 @@ export default {
                             picture: {}
                         };
                     }
-
                 }
             }
         }
