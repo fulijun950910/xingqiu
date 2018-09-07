@@ -6,9 +6,9 @@
                 请上传支付截图
             </div>
         </div>
-        <div layout="row" layout-align="start center" flex-wrap="wrap">
-            <div flex="45" :class="{'offset' : [1,3].indexOf(index) > -1}" :ref="'picture_'+index" class="upload-img m-b-3" v-for="(item, index) in uploadPics" :key="index">
-                <div  @click="chooseImg(index)" class="m-pic">
+        <div layout="row" layout-align="space-between center" flex-wrap="wrap">
+            <div flex="45" :ref="'picture_'+index" class="upload-img m-b-3" v-for="(item, index) in uploadPics" :key="index">
+                <div class="m-pic">
              <m-picture :picture="item"></m-picture>
                 </div>
              <div class="delete" @click.stop="deleteImg(index)">
@@ -23,6 +23,9 @@
                      <m-picture :picture="item"></m-picture>
                  </div>
              </div>
+            </div>
+            <div class="upload-img m-b-3" flex="45" layout="row" layout-align="center center" @click="chooseImg()" v-if="uploadPics.length < 5">
+                <m-icon xlink="#icon-jia" class="fs40 color-tiffany-blue"></m-icon>
             </div>
         </div>
         <div @click="hideConfirm" class="submit-btn integral-btn fs28 color-white" layout="row" layout-align="center center">提交</div>
@@ -69,10 +72,10 @@ export default {
             });
         },
         deleteImg(index) {
-            if (this.uploadPics.length == 1) {
-                this.$toast('重新选择吧');
-                return;
-            };
+            // if (this.uploadPics.length == 1) {
+            //     this.$toast('重新选择吧');
+            //     return;
+            // };
             let ava = this.$refs['picture_' + index];
             $(ava).find('.img-loading').remove();
             this.uploadPics.splice(index, 1);

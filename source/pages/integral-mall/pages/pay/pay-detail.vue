@@ -101,8 +101,9 @@
 {{payText}}
 </button>
         </div>
-<div layout="row" layout-align="end center" flex  @click="offlinePay" class="fs24 p-t-3 p-b-3 color-tiffany-blue">
-       线下支付
+<div layout="row" layout-align="end center" flex   class="fs24 p-t-3 p-b-3 color-tiffany-blue">
+       <div @click="offlinePay">线下支付</div>
+
 </div>
 
     </div>
