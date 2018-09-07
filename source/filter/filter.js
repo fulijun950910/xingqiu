@@ -253,6 +253,9 @@ Vue.filter('payStatus', function(value) {
         case 6:
             text = '已发货';
             break;
+        case 8:
+            text = '支付待确认';
+            break;
     }
     return text;
 });

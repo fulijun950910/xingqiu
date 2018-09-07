@@ -106,6 +106,10 @@ export default {
                 {
                     name: '已完成',
                     value: '5'
+                },
+                {
+                    name: '支付待确认',
+                    value: '8'
                 }
             ],
             pageChange: {
