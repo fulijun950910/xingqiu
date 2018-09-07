@@ -1,6 +1,18 @@
 <template>
     <div class="offline-pay" v-title="'线下支付'">
-        <div layout="row" layout-align="space-between center" class="p-t-3 p-b-3 m-b-3">
+        <div layout="row" layout-align="space-between center" class="p-t-3 p-b-3 border-bottom">
+            <div flex="25">豆豆支付：</div>
+            <div flex="70" class="color-black" flex-offset="5">
+                {{parameter.payDoudouAmount}}个
+            </div>
+        </div>
+                <div layout="row" layout-align="space-between center" class="p-t-3 p-b-3 border-bottom">
+            <div flex="25">线下需付：</div>
+            <div flex="70" class="color-tiffany-blue" flex-offset="5">
+                ￥{{parameter.payMoney | fen2yuan}}
+            </div>
+        </div>
+        <div layout="row" layout-align="space-between center" class="p-t-3 p-b-3 m-b-4 border-bottom">
             <div flex="25">支付凭证：</div>
             <div flex="70" class="color-pink" flex-offset="5">
                 请上传支付截图
@@ -118,6 +130,7 @@ export default {
         }
     },
     mounted() {
+        console.log(this.$route.params.parameter);
         if (!this.$route.params.parameter) {
             this.$router.go(-1);
         }
@@ -138,6 +151,9 @@ export default {
         bottom: 0;
         left: 0;
         right: 0;
+    }
+    .border-bottom{
+        border-bottom: 1px solid @border-gay;
     }
     .offset{
         margin-left: 10%;

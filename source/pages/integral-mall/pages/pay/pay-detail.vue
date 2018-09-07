@@ -101,8 +101,8 @@
 {{payText}}
 </button>
         </div>
-<div layout="row" layout-align="end center" flex   class="fs24 p-t-3 p-b-3 color-tiffany-blue">
-       <div @click="offlinePay">线下支付</div>
+<div layout="row" layout-align="end center" flex   class="fs24 p-t-3 p-b-3 color-tiffany-blue" v-if="payDetail.payMoney > 0">
+       <div @click="offlinePayConfirm">线下支付</div>
 
 </div>
 
@@ -162,7 +162,8 @@ export default {
                 message: '确认支付？',
                 confirm: '确认',
                 quiet: '再考虑下'
-            }
+            },
+            confirmType: 1 // 1直接支付 2线下支付
         };
     },
     methods: {
@@ -393,11 +394,37 @@ export default {
         hideConfirm() {
             this.confirm.show = !this.confirm.show;
         },
+        onlinePay() {
+            this.hideConfirm();
+            this.confirmType = 1;
+            this.confirm = {
+                show: false,
+                message: '确认支付？',
+                confirm: '确认',
+                quiet: '再考虑下'
+            };
+        },
         inteconfirm(msg) {
             msg.then(data => {
-                this.buy();
+                switch (this.confirmType) {
+                    case 1:
+                        this.buy();
+                        break;
+                    case 2:
+                        this.offlinePay();
+                        break;
+                };
                 this.hideConfirm();
             }, data => {
+                switch (this.confirmType) {
+                    case 1:
+                        break;
+                    case 2:
+                        this.payDetail.payMoney = 0;
+                        this.payDetail.payDoudouAmount = 0;
+                        this.offlinePay();
+                        break;
+                };
                 this.hideConfirm();
             });
         },
@@ -423,6 +450,13 @@ export default {
                     parameter: this.payDetail
                 }
             });
+        },
+        offlinePayConfirm() {
+            this.hideConfirm();
+            this.confirmType = 2;
+            this.confirm.message = `您已经使用豆豆抵扣${this.payDetail.payDoudouAmount / 10}元，是否清空已支付豆豆继续线下支付？`;
+            this.confirm.confirm = '保留';
+            this.confirm.quiet = '清空';
         }
     },
     mounted() {
