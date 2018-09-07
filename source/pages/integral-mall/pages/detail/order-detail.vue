@@ -90,6 +90,7 @@
         </div>
         <div class="back-btn m-t-4 p-b-4" layout="row" layout-align="center center">
          <div @click="pay" class="bottom-btn steel-gray fs28 m-r-4" v-if="order.status == '0'" layout="row" layout-align="center center">去支付&nbsp;<m-icon class="fs34" xlink="#icon-zhifu1"></m-icon></div>
+         <div @click="cancelPay" class="bottom-btn steel-gray fs28 m-r-4" v-if="order.status == '0'" layout="row" layout-align="center center">取消&nbsp;<m-icon class="fs34" xlink="#icon-huabanfuben29"></m-icon></div>
          <div @click="goBack" class="bottom-btn steel-gray fs28" layout="row" layout-align="center center">返回&nbsp;<m-icon xlink="#icon-zuojiantou"></m-icon></div>
         </div>
         <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm" @integraConfirm="inteconfirm"></integral-confirm>
@@ -175,6 +176,14 @@ export default {
                 this.$toast('支付成功');
             }, msg => {
                 console.log('网络错误');
+            });
+        },
+        cancelPay() {
+            api_party.cancelOrder(this.order.id).then(msg => {
+                this.resetSearch();
+                this.loadData();
+                this.$toast('订单已取消');
+            }, msg => {
             });
         },
         init() {
