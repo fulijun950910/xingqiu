@@ -454,7 +454,7 @@ export default {
         offlinePayConfirm() {
             this.hideConfirm();
             this.confirmType = 2;
-            this.confirm.message = `您已经使用豆豆抵扣${this.payDetail.payDoudouAmount / 10}元，是否清空已支付豆豆继续线下支付？`;
+            this.confirm.message = `您已经使用豆豆抵扣${Number(this.payDetail.payDoudouAmount / 10).toFixed(2)}元，是否清空已支付豆豆继续线下支付？`;
             this.confirm.confirm = '保留';
             this.confirm.quiet = '清空';
         }

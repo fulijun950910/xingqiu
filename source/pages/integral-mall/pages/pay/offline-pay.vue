@@ -3,7 +3,7 @@
         <div layout="row" layout-align="space-between center" class="p-t-3 p-b-3 border-bottom">
             <div flex="25">豆豆支付：</div>
             <div flex="70" class="color-black" flex-offset="5">
-                {{parameter.payDoudouAmount}}个
+                {{parameter.payDoudouAmount}}个(￥{{Number(parameter.payDoudouAmount/10).toFixed(2)}})
             </div>
         </div>
                 <div layout="row" layout-align="space-between center" class="p-t-3 p-b-3 border-bottom">
@@ -84,10 +84,6 @@ export default {
             });
         },
         deleteImg(index) {
-            // if (this.uploadPics.length == 1) {
-            //     this.$toast('重新选择吧');
-            //     return;
-            // };
             let ava = this.$refs['picture_' + index];
             $(ava).find('.img-loading').remove();
             this.uploadPics.splice(index, 1);
@@ -130,7 +126,6 @@ export default {
         }
     },
     mounted() {
-        console.log(this.$route.params.parameter);
         if (!this.$route.params.parameter) {
             this.$router.go(-1);
         }
