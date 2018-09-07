@@ -117,6 +117,10 @@ export default {
                 this.$toast('请上传已选择图片');
                 return;
             };
+            if (!this.voucherImage.length) {
+                this.$toast('请至少上传一张支付凭证');
+                return;
+            };
             this.parameter.voucherImages = this.voucherImage.join(',');
             this.parameter.payType = '2';
             api_party.doudouTrade(this.parameter).then(msg => {
