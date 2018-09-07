@@ -110,6 +110,7 @@ export default {
                 return;
             };
             this.parameter.voucherImages = this.voucherImage.join(',');
+            this.parameter.payType = '2';
             api_party.doudouTrade(this.parameter).then(msg => {
                 this.$router.push('pay-success');
             }, msg => {
