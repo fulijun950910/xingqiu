@@ -1,5 +1,5 @@
 <template>
-    <div v-title="'预约'">
+    <div v-title="'预约1'">
         <div class="bookingBox">
             <div class="mainBox">
                 <div class="avatarBox">
@@ -262,7 +262,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import '~styles/_style';
+@import '~styles/_agile';
 @color-link:#7386b6;
 .bookingBox{
     min-height:100vh;
@@ -305,7 +305,7 @@ export default {
     .editBtn{
         background:@bg-gray;
         color:@color-link;
-        .fs24;
+        font-size: @fs24;
         border-radius:2px;
         padding:4px 10px;
         display:inline-block;

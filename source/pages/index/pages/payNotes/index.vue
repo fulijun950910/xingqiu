@@ -137,7 +137,7 @@ export default {
 </script>
 
 <style scoped lang='less'>
-    @import '~styles/_style';
+    @import '~styles/_agile';
     @color-red-lighten: #EC3F6D;
     @color-success:#EE5253;
     @color-error:#14CC8A;

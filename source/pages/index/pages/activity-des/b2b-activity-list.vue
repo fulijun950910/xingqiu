@@ -53,7 +53,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '~styles/_style';
 .color-title{
     color: #F8D6FF;
 };

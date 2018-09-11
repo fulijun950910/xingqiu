@@ -449,7 +449,7 @@ export default {
 </script>
 
 <style lang="less">
-    @import '~styles/_style';
+    @import '~styles/_agile';
     .new-index {
       margin-bottom: 80px;
       position: relative;

@@ -520,7 +520,7 @@ export default {
 };
 </script>
 <style lang="less">
-@import '~styles/_style';
+@import '~styles/_agile';
 @inputFontSize: 14px;
 @pink: #DF508B;
 @color-blue:#73D0CC;
@@ -650,7 +650,7 @@ export default {
         border-radius: 4px;
         padding:8px 0;
         color:@white;
-        .fs32;
+        font-size: @fs32;
     }
     .couponBtn[disabled]{
         background:@light-gray;

@@ -97,7 +97,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-    @import '~styles/_style';
+    @import '~styles/_agile';
 
     @color-link: #7386b6;
     .bookingBox {
@@ -141,7 +141,7 @@ export default {
         .editBtn {
             background: @bg-gray;
             color: @color-link;
-            .fs24;
+            font-size: @fs24;
             border-radius: 2px;
             padding: 4px 10px;
             display: inline-block;
