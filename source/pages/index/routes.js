@@ -20,6 +20,7 @@ const bigWheelDes = resolve => require(['./pages/activity-des/bigWheel-des'], re
 const b2bActivityList = resolve => require(['./pages/activity-des/b2b-activity-list'], resolve);
 const indexActivityDetail = resolve => require(['./pages/activity-des/detail'], resolve);
 const indexNew = resolve => require(['./pages/main/index'], resolve);
+const bookingTable = resolve => require(['./pages/booking/table'], resolve);
 
 export default [{
     path: '/alliance',
@@ -114,4 +115,8 @@ export default [{
     path: '/index-new',
     name: 'index-new',
     component: indexNew
+}, {
+    path: '/booking-table',
+    name: 'booking-table',
+    component: bookingTable
 }];
