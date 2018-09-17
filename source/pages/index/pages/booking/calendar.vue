@@ -1,53 +1,79 @@
 <template>
-    <div class="cacendar-panel"
-         v-show="visible">
-        <div class="ca-mask"
-             @click="hide"></div>
-        <transition name="bounce">
-            <div v-if="visible"
-                 class="content-panel">
-                <div layout="row"
-                     layout-align="start center"
-                     class="ca-header text-center"
-                     @click="hide">
-                    <div flex="12-5"
-                         class="c-l-item color-black lh-1">
-                        <span class="fs20">今</span>
-                        <br/>
-                        <span class="fs22">{{today | amDateFormat('YYYY')}}</span>
-                        <br/>
-                        <span class="fs24">{{today | amDateFormat('M/D')}}</span>
-                    </div>
-                    <div v-for="(item, index) in weeks"
-                         :key="index"
-                         class="extra-light-black fs24"
-                         flex>{{item}}</div>
+    <div>
+        <div class="week-panel"
+             layout="column">
+            <div class="expand-btn"
+                 @click="show"></div>
+            <div layout="row"
+                 layout-align="space-between center"
+                 class="week-content"
+                 flex>
+                <div class="week-m"
+                     @click="show">
+                    {{date | amDateFormat('MMM')}}
                 </div>
-                <div class="ca-content">
+                <div class="week-d"
+                     :class="{'week-d-s' : item.isSame(date, 'd')}"
+                     v-for="(item, index) in weeks"
+                     :key="index"
+                     flex
+                     @click="weekClick(item)">
+                    <div>{{item | amDateFormat('ddd')}}</div>
+                    <div>{{item | amDateFormat('D')}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="cacendar-panel"
+             v-show="visible">
+            <div class="ca-mask"
+                 @click="hide"></div>
+            <transition name="bounce">
+                <div v-if="visible"
+                     class="content-panel">
                     <div layout="row"
-                         v-for="(item, index) in months"
-                         :key="index">
+                         layout-align="start center"
+                         class="ca-header text-center"
+                         @click="hide">
                         <div flex="12-5"
-                             class="c-l-item c-l-month">
-                            {{item.label}}
+                             class="c-l-item color-black lh-1"
+                             @click.stop="backToday">
+                            <span class="fs20">今</span>
+                            <br/>
+                            <span class="fs22">{{today | amDateFormat('YYYY')}}</span>
+                            <br/>
+                            <span class="fs24">{{today | amDateFormat('M/D')}}</span>
                         </div>
-                        <div flex
-                             layout="row"
-                             layout-align="start center"
-                             flex-wrap="wrap">
-                            <div class="ca-cell"
-                                 :class="{'ca-cell-s': day && day.value.isSame(date, 'day')}"
-                                 v-for="(day, dayIndex) in item.rows"
-                                 :key="dayIndex"
-                                 @click="cellClick(day)">
-                                <span v-if="day">{{day.label}}</span>
-                                <span v-else></span>
+                        <div v-for="(item, index) in weeks"
+                             :key="index"
+                             class="extra-light-black fs24"
+                             flex>{{item | amDateFormat('ddd')}}</div>
+                    </div>
+                    <div class="ca-content">
+                        <div layout="row"
+                             v-for="(item, index) in months"
+                             :key="index">
+                            <div flex="12-5"
+                                 class="c-l-item c-l-month">
+                                {{item.label}}
+                            </div>
+                            <div flex
+                                 layout="row"
+                                 layout-align="start center"
+                                 flex-wrap="wrap">
+                                <div class="ca-cell"
+                                     :class="{'ca-cell-s': day && day.value.isSame(date, 'd')}"
+                                     v-for="(day, dayIndex) in item.rows"
+                                     :key="dayIndex"
+                                     @click="cellClick(day)">
+                                    <span v-if="day">{{day.label}}</span>
+                                    <span v-else></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </transition>
+            </transition>
+        </div>
     </div>
 </template>
 <script>
@@ -74,8 +100,7 @@ export default {
     },
     methods: {
         loadMonths(month = 3) {
-            this.weeks = this.$moment.weekdaysShort();
-            this.weeks.push(this.weeks.shift());
+            this.loadWeeks();
             // 当月
             let date = this.$moment().startOf('M');
             for (let index = 0; index < month; index++) {
@@ -109,6 +134,18 @@ export default {
                 rows.push('');
             }
         },
+        loadWeeks(date) {
+            let weeks = [];
+            let first = this.$moment(date).startOf('w');
+            for (let index = 0; index < 7; index++) {
+                weeks.push(this.$moment(first));
+                first.add(1, 'd');
+            }
+            this.weeks = weeks;
+        },
+        show() {
+            this.$emit('update:visible', true);
+        },
         hide() {
             this.$emit('update:visible', false);
         },
@@ -116,19 +153,79 @@ export default {
             if (!day) {
                 return;
             }
+            this.loadWeeks(day.value);
             let date = day.value.format('YYYY-MM-DD HH:mm:ss');
             this.$emit('update:date', date);
             this.$emit('cellClick', date);
             this.hide();
+        },
+        backToday() {
+            this.cellClick({
+                value: this.$moment().startOf('d')
+            });
+        },
+        weekClick(item) {
+            this.cellClick({
+                value: item
+            });
         }
     }
 };
 </script>
 <style lang="less" scoped>
 @import '~styles/_agile';
-@header-h: 70px;
+@header-h: 72px;
 @item-h: 50px;
 @cell-l-w: 12.5%;
+@extra-color-1: #7d879c;
+
+.week-panel {
+    position: fixed;
+    height: @header-h;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #fefbff;
+    z-index: 2;
+    box-shadow:0px 3px 6px 0px rgba(63,62,77,0.09);
+}
+
+.expand-btn {
+    height: 27px;
+    background-color: #fefbff;
+}
+.week-m {
+    width: 60px - 13px;
+    font-size: @fs30;
+    text-align: center;
+    color: @color-black;
+    min-height: 100%;
+    line-height: 48px;
+}
+.week-d {
+    font-size: @fs24;
+    text-align: center;
+    color: @dark-gray;
+    div {
+        position: relative;
+        z-index: 1;
+    }
+    :nth-child(2) {
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        margin: 0 auto;
+    }
+}
+.week-d-s {
+    :nth-child(1) {
+        color: @color-black;
+    }
+    :nth-child(2) {
+        background-color: @color-black;
+    }
+}
 .cacendar-panel {
     position: fixed;
     left: 0;
@@ -152,7 +249,7 @@ export default {
     overflow: auto;
     background-color: white;
     z-index: 1;
-    color: #7d879c;
+    color: @extra-color-1;
 }
 .content-panel {
     position: absolute;
@@ -191,7 +288,7 @@ export default {
     border-bottom: 1px solid @bg-gray; /*no*/
     &-s {
         border-radius: 4px;
-        background-color: #7d879c;
+        background-color: @extra-color-1;
         color: white;
     }
 }
