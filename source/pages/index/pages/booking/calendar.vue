@@ -187,12 +187,22 @@ export default {
     right: 0;
     background-color: #fefbff;
     z-index: 2;
-    box-shadow:0px 3px 6px 0px rgba(63,62,77,0.09);
+    box-shadow: 0px 3px 6px 0px rgba(63, 62, 77, 0.09);
 }
 
 .expand-btn {
     height: 27px;
     background-color: #fefbff;
+    &::before {
+        content: '';
+        position: absolute;
+        width: 8%;
+        left: 46%;
+        height: 3px;
+        background-color: @color-black;
+        border-radius: 1px; /*no*/
+        top: 12px;
+    }
 }
 .week-m {
     width: 60px - 13px;
