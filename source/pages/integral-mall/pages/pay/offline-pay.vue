@@ -15,7 +15,7 @@
                 <div layout="row" layout-align="space-between center" class="p-t-3 p-b-3 border-bottom">
             <div flex="25">线下需付：</div>
             <div flex="70" class="color-tiffany-blue" flex-offset="5">
-                 ￥{{(parameter.payMoney - parameter.voucherDiscountMoney) | fen2yuan}}
+                 ￥{{(parameter.payMoney - (parameter.voucherDiscountMoney ? parameter.voucherDiscountMoney : 0)) | fen2yuan}}
             </div>
         </div>
         <div layout="row" layout-align="space-between center" class="p-t-3 p-b-3 m-b-4 border-bottom">
@@ -140,6 +140,7 @@ export default {
         }
     },
     mounted() {
+        console.log(this.$route.params.parameter);
         if (!this.$route.params.parameter) {
             this.$router.go(-1);
         }

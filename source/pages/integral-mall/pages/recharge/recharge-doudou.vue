@@ -92,7 +92,7 @@ export default {
                 params: {
                     itemId: this.choose.id,
                     payMoney: this.choose.money ? (this.choose.money * 100) : this.choose.price,
-                    type: 1
+                    type: this.choose.money ? 1 : 2
                 }
             });
         },
