@@ -19,7 +19,10 @@
                      flex
                      @click="weekClick(item)">
                     <div>{{item | amDateFormat('ddd')}}</div>
-                    <div>{{item | amDateFormat('D')}}</div>
+                    <div>
+                        <span v-if="item.isSame(today, 'day')">今</span>
+                        <span v-else>{{item | amDateFormat('D')}}</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -234,6 +237,9 @@ export default {
     }
     :nth-child(2) {
         background-color: @color-black;
+        span {
+            color: @dark-gray;
+        }
     }
 }
 .cacendar-panel {
