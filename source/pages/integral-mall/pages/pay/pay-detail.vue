@@ -97,7 +97,7 @@
             </div>
         </div>
         <div layout="row" layout-align="space-between center" class="p-t-3">
-<button :disabled="btnClick" class="fwb fs38 color-white integral-btn" @click="hideConfirm" layout="row" layout-align="center center">
+<button :disabled="btnClick" class="fwb fs38 color-white integral-btn" @click="onlinePay" layout="row" layout-align="center center">
 {{payText}}
 </button>
         </div>
@@ -156,6 +156,7 @@ export default {
                 tradeItemSpecList: this.$route.params.tradeItemSpecList ? this.$route.params.tradeItemSpecList : [],
                 tradeGoodsGroupList: this.$route.params.tradeGoodsGroupList ? this.$route.params.tradeGoodsGroupList : []
             },
+            copyPaydetail: {},
             vocherShow: false,
             confirm: {
                 show: false,
@@ -397,12 +398,9 @@ export default {
         onlinePay() {
             this.hideConfirm();
             this.confirmType = 1;
-            this.confirm = {
-                show: false,
-                message: '确认支付？',
-                confirm: '确认',
-                quiet: '再考虑下'
-            };
+            this.confirm.message = '确认支付？';
+            this.confirm.confirm = '确定';
+            this.confirm.quiet = '再考虑下';
         },
         inteconfirm(msg) {
             msg.then(data => {
@@ -411,6 +409,7 @@ export default {
                         this.buy();
                         break;
                     case 2:
+                        Object.assign(this.copyPaydetail, this.payDetail);
                         this.offlinePay();
                         break;
                 };
@@ -420,9 +419,10 @@ export default {
                     case 1:
                         break;
                     case 2:
-                        this.payDetail.payMoney = this.item.price;
-                        this.payDetail.payDoudouAmount = 0;
-                        if (this.payDetail.payDoudouAmount > 0) {
+                        Object.assign(this.copyPaydetail, this.payDetail);
+                        this.copyPaydetail.payMoney = this.item.price;
+                        this.copyPaydetail.payDoudouAmount = 0;
+                        if (this.copyPaydetail.payMoney > 0) {
                             this.offlinePay();
                         };
                         break;
@@ -449,7 +449,7 @@ export default {
             this.$router.push({
                 name: 'offline-pay',
                 params: {
-                    parameter: this.payDetail
+                    parameter: this.copyPaydetail
                 }
             });
         },
