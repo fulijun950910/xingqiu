@@ -79,9 +79,24 @@
                  :key="item.id"
                  :style="item.style"
                  class="bt-card-item">
-                <div :class="[`item${item.holderStatus}`]"></div>
+                <div :class="[`item${item.holderStatus}`]">
+                    <div class="no-wrap">{{item.name}}</div>
+                    <div class="no-wrap">{{item.startTime | amDateFormat('HH:mm')}}-{{item.endTime | amDateFormat('HH:mm')}}</div>
+                    <div class="no-wrap">
+                        <span v-for="(val, index) in item.items"
+                              :key="val.id">
+                            <span v-if="index">、</span>
+                            {{val.name}}</span>
+                    </div>
+                    <div class="no-wrap">
+                        <span>{{item.employeeName}}</span>
+                        <span v-if="item.employeeName && item.roomName">●</span>
+                        <span>{{item.roomName}}</span>
+                    </div>
+                </div>
             </div>
         </div>
+        <div>&nbsp;</div>
         <div class="bt-footer">
             <div flex="70"
                  layout="row"
@@ -250,7 +265,8 @@ export default {
                     { field: 'endTime', value: this.endTime },
                     { field: 'merchantId', value: this.$store.getters.merchantId },
                     { field: 'storeId', value: this.$store.getters.storeId },
-                    { field: 'holderType', value: 1 }
+                    { field: 'holderType', value: 1 },
+                    { field: 'holderStatus', value: '1,2,5', operation: 'like' }
                 ],
                 sort: []
             };
@@ -399,23 +415,30 @@ export default {
     &card-item {
         position: absolute;
         padding-left: 2px; /*no*/
+        font-size: 12px;
+        line-height: 1.3;
         & > div {
             background-color: #a43a8e;
             height: 100%;
             border-left: 5px solid; /*no*/
+            padding: 2px;
+            overflow: hidden;
         }
         .item1 {
             // 待确认
+            color: #b7683a;
             border-left-color: @status-0;
             background-color: fade(@status-0, 40%);
         }
         .item2 {
             // 已确认
+            color: #1f646d;
             border-left-color: @status-1;
             background-color: fade(@status-1, 40%);
         }
         .item5 {
             // 取消
+            color: #222222;
             border-left-color: @status-2;
             background-color: fade(@status-2, 40%);
         }
@@ -555,13 +578,13 @@ export default {
     }
     &add-btn {
         position: absolute;
-        width: 44px;
-        height: 44px;
-        top: -22px;
+        width: 50px;
+        height: 50px;
+        top: -25px;
         right: 26px;
         border-radius: 50%;
         text-align: center;
-        line-height: 44px;
+        line-height: 50px;
         background-color: @color1;
         box-shadow: 0px 4px 8px 0px rgba(182, 44, 168, 0.2);
         &::after {
