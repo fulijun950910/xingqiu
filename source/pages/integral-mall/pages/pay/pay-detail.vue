@@ -419,12 +419,14 @@ export default {
                     case 1:
                         break;
                     case 2:
-                        Object.assign(this.copyPaydetail, this.payDetail);
-                        this.copyPaydetail.payMoney = this.item.price;
-                        this.copyPaydetail.payDoudouAmount = 0;
-                        if (this.copyPaydetail.payMoney > 0) {
-                            this.offlinePay();
-                        };
+                        if (!this.type) {
+                            Object.assign(this.copyPaydetail, this.payDetail);
+                            this.copyPaydetail.payMoney = this.item.price;
+                            this.copyPaydetail.payDoudouAmount = 0;
+                            if (this.copyPaydetail.payMoney > 0) {
+                                this.offlinePay();
+                            };
+                        }
                         break;
                 };
                 this.hideConfirm();
@@ -466,6 +468,7 @@ export default {
         }
     },
     mounted() {
+        console.log(this.$route.params);
         if (!this.$route.params.itemId) {
             this.$router.go(-1);
         };
