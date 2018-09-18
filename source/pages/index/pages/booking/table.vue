@@ -3,21 +3,9 @@
         <calendar :visible.sync="visible"
                   :date.sync="params.date"
                   @cellClick="cellClick"></calendar>
-        <div class="bt-content"
-             :class="[statusClass]">
-            <!-- <div layout="row"
-                 layout-align="space-between center"
-                 class="bt-c-head"
-                 ref="head">
-                <div flex>一共{{total}}条预约</div>
-                <mt-spinner type="triple-bounce"
-                            v-show="loading"></mt-spinner>
-                <div flex
-                     class="text-right">
-                    <mt-button size="small"
-                               type="default">返回今日</mt-button>
-                </div>
-            </div> -->
+        <div class="bt-content bt-content-list"
+             :class="[statusClass]"
+             v-if="showList">
             <div class="bt-tab-panel">
                 <div layout="row"
                      layout-align="start center"
@@ -78,6 +66,14 @@
                 </div>
             </div>
         </div>
+        <div class="bt-content bt-content-calendar"
+             v-else>
+            <div v-for="item in 14"
+                 :key="item"
+                 class="bt-card-cell">
+                <div class="time">9:00</div>
+            </div>
+        </div>
         <div class="bt-footer">
             <div flex="70"
                  layout="row"
@@ -87,7 +83,8 @@
                      layout-align="center center"
                      class="bt-tool-btn"
                      v-for="(item, index) in tools"
-                     :key="index">
+                     :key="index"
+                     @click="toolsClick(item)">
                     <m-icon class="fs40 color-black"
                             :xlink="item.icon"></m-icon>
                 </div>
@@ -107,6 +104,9 @@ import apiBooking from '@/services/api.booking';
 Vue.component(Button.name, Button);
 Vue.component(Spinner.name, Spinner);
 
+const VIEW_TYPE_LIST = 1;
+const VIEW_TYPE_CARD = 2;
+
 export default {
     name: 'bookingTable',
     props: {},
@@ -122,11 +122,15 @@ export default {
         },
         statusClass() {
             return `bt-status-${this.tabIndex}`;
+        },
+        showList() {
+            return this.viewType === VIEW_TYPE_LIST;
         }
     },
     data() {
         return {
             tabs: [],
+            rows: [],
             visible: false,
             total: 0,
             tabIndex: 0,
@@ -137,7 +141,10 @@ export default {
             },
             tools: [],
             fiexdHead: false,
-            loading: false
+            loading: false,
+            viewType: VIEW_TYPE_CARD,
+            startTime: '',
+            endTime: ''
         };
     },
     mounted() {
@@ -148,7 +155,7 @@ export default {
         init() {
             this.tools = [{ icon: '#icon-qiehuanmoshi', index: 0 }, { icon: '#icon-yuyuedingdan', index: 1 }, { icon: '#icon-shaixuan', index: 2 }];
             this.initTabs();
-            // window.addEventListener('scroll', this.scroll);
+            this.initAppoinmentTime();
         },
         initTabs() {
             this.tabs = [
@@ -175,9 +182,30 @@ export default {
                 }
             ];
         },
+        initAppoinmentTime() {
+            let start = [8, 0];
+            let end = [23, 0];
+            if (this.store) {
+                if (this.store.appoinmentTimeStart) {
+                    start = this.store.appoinmentTimeStart.split(':');
+                }
+                if (this.store.appoinmentTimeEnd) {
+                    end = this.store.appoinmentTimeEnd.split(':');
+                }
+            }
+            this.startTime = this.$moment(this.params.date)
+                .add(start[0], 'h')
+                .add(start[1], 'm')
+                .format('YYYY-MM-DD HH:mm:ss');
+            this.endTime = this.$moment(this.params.date)
+                .add(end[0], 'h')
+                .add(end[1], 'm')
+                .format('YYYY-MM-DD HH:mm:ss');
+        },
         loadData() {
             this.initTabs();
             this.loading = true;
+
             apiBooking.bookingSearch(this.queryFormat()).then(
                 res => {
                     this.loading = false;
@@ -204,34 +232,14 @@ export default {
             );
         },
         queryFormat() {
-            // if (this.store) {
-            //     let { appoinmentTimeStart, appoinmentTimeEnd } = this.store;
-            //     if (!appoinmentTimeStart) {
-            //         appoinmentTimeStart = '8:00';
-            //     }
-            //     if (appoinmentTimeEnd) {
-            //         appoinmentTimeStart = '23:00';
-            //     }
-            // }
             let params = {
                 page: 1,
                 size: 10000,
                 query: [
-                    { field: 'startTime', value: this.params.date },
-                    {
-                        field: 'endTime',
-                        value: this.$moment(this.params.date)
-                            .endOf('d')
-                            .format('YYYY-MM-DD HH:mm:ss')
-                    },
-                    {
-                        field: 'merchantId',
-                        value: this.$store.getters.merchantId
-                    },
-                    {
-                        field: 'storeId',
-                        value: this.$store.getters.storeId
-                    },
+                    { field: 'startTime', value: this.startTime },
+                    { field: 'endTime', value: this.endTime },
+                    { field: 'merchantId', value: this.$store.getters.merchantId },
+                    { field: 'storeId', value: this.$store.getters.storeId },
                     { field: 'holderType', value: 1 }
                 ],
                 sort: []
@@ -242,16 +250,53 @@ export default {
             this.visible = true;
         },
         cellClick(date) {
+            this.initAppoinmentTime();
             this.loadData();
         },
         tabClick(index) {
             this.tabIndex = index;
         },
-        scroll() {
-            if (!this.$refs.head) {
-                return;
+        toolsClick(item) {
+            switch (item.index) {
+                case 0:
+                    this.viewType = this.viewType === VIEW_TYPE_LIST ? VIEW_TYPE_CARD : VIEW_TYPE_LIST;
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
             }
-            this.fiexdHead = window.scrollY > this.$refs.head.offsetHeight;
+        },
+        cardFormat() {
+            let list = [
+                {
+                    startTime: '2018-09-17 12:00:00',
+                    endTime: '2018-09-17 14:00:00'
+                },
+                {
+                    startTime: '2018-09-17 12:00:00',
+                    endTime: '2018-09-17 14:00:00'
+                },
+                {
+                    startTime: '2018-09-17 13:00:00',
+                    endTime: '2018-09-17 15:00:00'
+                },
+                {
+                    startTime: '2018-09-17 13:30:00',
+                    endTime: '2018-09-17 15:00:00'
+                },
+                {
+                    startTime: '2018-09-17 15:00:00',
+                    endTime: '2018-09-17 17:00:00'
+                }
+            ];
+            // x 时间在30分钟内一组，共享宽度
+            console.log(list);
+            // var tempList = [];
+            // var endTime = '';
+            // list.forEach(val => {
+            // });
+            this.rows = list;
         }
     }
 };
@@ -271,15 +316,34 @@ export default {
     font-size: 13px;
 }
 .bt- {
-    &content {
+    &content-list {
         min-height: 100vh;
-        padding: @header-h 14px @footer-h+22px 14px;
         background-color: #f9f7fc;
+        padding: @header-h 14px @footer-h+22px 14px;
         :nth-child(2)::before {
             top: 10px;
         }
         :nth-last-child(1)::before {
             height: 10px;
+        }
+    }
+    &content-calendar {
+        min-height: 100vh;
+        background-color: white;
+        padding: @header-h+11 0 @footer-h+22px 0;
+    }
+    &card-cell {
+        height: 50px;
+        border-top: 1px solid @light-gray; /*no*/
+        margin-left: 46px;
+        position: relative;
+        .time {
+            position: absolute;
+            top: -11px;
+            left: -46px;
+            width: 46px;
+            text-align: center;
+            color: @extra-light-black;
         }
     }
     &c-head {
