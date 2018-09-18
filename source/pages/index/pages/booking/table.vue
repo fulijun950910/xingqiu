@@ -68,10 +68,18 @@
         </div>
         <div class="bt-content bt-content-calendar"
              v-else>
-            <div v-for="item in 14"
-                 :key="item"
-                 class="bt-card-cell">
-                <div class="time">9:00</div>
+            <div class="bt-card-cont">
+                <div v-for="item in times"
+                     :key="item"
+                     class="bt-card-cell">
+                    <div class="time">{{item | amDateFormat('HH:mm')}}</div>
+                </div>
+            </div>
+            <div v-for="item in rows"
+                 :key="item.id"
+                 :style="item.style"
+                 class="bt-card-item">
+                <div :class="[`item${item.holderStatus}`]"></div>
             </div>
         </div>
         <div class="bt-footer">
@@ -144,7 +152,8 @@ export default {
             loading: false,
             viewType: VIEW_TYPE_CARD,
             startTime: '',
-            endTime: ''
+            endTime: '',
+            times: []
         };
     },
     mounted() {
@@ -156,6 +165,7 @@ export default {
             this.tools = [{ icon: '#icon-qiehuanmoshi', index: 0 }, { icon: '#icon-yuyuedingdan', index: 1 }, { icon: '#icon-shaixuan', index: 2 }];
             this.initTabs();
             this.initAppoinmentTime();
+            this.initTimes();
         },
         initTabs() {
             this.tabs = [
@@ -202,6 +212,20 @@ export default {
                 .add(end[1], 'm')
                 .format('YYYY-MM-DD HH:mm:ss');
         },
+        initTimes() {
+            let startTime = this.$moment(this.startTime);
+            let endTime = this.$moment(this.endTime);
+            if (startTime.minutes()) {
+                startTime.set('m', 0);
+            }
+            if (endTime.minutes()) {
+                endTime.set('m', 0).add(1, 'h');
+            }
+            while (!startTime.isAfter(endTime)) {
+                this.times.push(startTime.format('YYYY-MM-DD HH:mm:ss'));
+                startTime.add(1, 'h');
+            }
+        },
         loadData() {
             this.initTabs();
             this.loading = true;
@@ -209,22 +233,8 @@ export default {
             apiBooking.bookingSearch(this.queryFormat()).then(
                 res => {
                     this.loading = false;
-                    res.data.rows.forEach(booking => {
-                        let item = this.tabs.find(val => val.value.indexOf(booking.holderStatus) !== -1);
-                        if (item) {
-                            // 时间
-                            let timeItem = item.rows.find(val => val.value.isSame(booking.startTime, 'h'));
-                            if (!timeItem) {
-                                timeItem = {
-                                    value: this.$moment(booking.startTime).startOf('h'),
-                                    rows: []
-                                };
-                                item.rows.push(timeItem);
-                            }
-                            timeItem.rows.push(booking);
-                            item.total++;
-                        }
-                    });
+                    this.listFormat(res.data.rows);
+                    this.cardFormat(res.data.rows);
                 },
                 err => {
                     this.loading = false;
@@ -267,35 +277,68 @@ export default {
                     break;
             }
         },
-        cardFormat() {
-            let list = [
-                {
-                    startTime: '2018-09-17 12:00:00',
-                    endTime: '2018-09-17 14:00:00'
-                },
-                {
-                    startTime: '2018-09-17 12:00:00',
-                    endTime: '2018-09-17 14:00:00'
-                },
-                {
-                    startTime: '2018-09-17 13:00:00',
-                    endTime: '2018-09-17 15:00:00'
-                },
-                {
-                    startTime: '2018-09-17 13:30:00',
-                    endTime: '2018-09-17 15:00:00'
-                },
-                {
-                    startTime: '2018-09-17 15:00:00',
-                    endTime: '2018-09-17 17:00:00'
+        listFormat(list) {
+            list.forEach(booking => {
+                let item = this.tabs.find(val => val.value.indexOf(booking.holderStatus) !== -1);
+                if (item) {
+                    // 时间
+                    let timeItem = item.rows.find(val => val.value.isSame(booking.startTime, 'h'));
+                    if (!timeItem) {
+                        timeItem = {
+                            value: this.$moment(booking.startTime).startOf('h'),
+                            rows: []
+                        };
+                        item.rows.push(timeItem);
+                    }
+                    timeItem.rows.push(booking);
+                    item.total++;
                 }
-            ];
-            // x 时间在30分钟内一组，共享宽度
-            console.log(list);
-            // var tempList = [];
-            // var endTime = '';
-            // list.forEach(val => {
-            // });
+            });
+        },
+        cardFormat(list) {
+            if (!list.length) {
+                this.rows = list;
+                return;
+            }
+            // 按时间排序
+            list.sort((a, b) => {
+                return a.startTime > b.startTime;
+            });
+            // 按时间分组
+            let tempList = [[]];
+            let startTime = list[0].startTime;
+            let rows = tempList[0];
+            let minutes = this.$moment(this.endTime).diff(this.startTime, 'm');
+            list.forEach(val => {
+                if (this.$moment(val.startTime).diff(startTime, 'm') > 30) {
+                    tempList.push([]);
+                    rows = tempList[tempList.length - 1];
+                    startTime = val.startTime;
+                }
+                val.style = {
+                    top: this.$moment(val.startTime).diff(this.startTime, 'm') / minutes * 100 + '%',
+                    height: this.$moment(val.endTime).diff(val.startTime, 'm') / minutes * 100 + '%'
+                };
+                rows.push(val);
+            });
+            let tempBooking;
+            let leftWidth = 0;
+            tempList.forEach(item => {
+                if (tempBooking && tempBooking.endTime > item[0].startTime) {
+                    leftWidth += 2;
+                } else {
+                    leftWidth = 0;
+                }
+                item.sort((a, b) => {
+                    return a.endTime < b.endTime;
+                });
+                tempBooking = item[0];
+                let width = (100 - leftWidth) / item.length;
+                item.forEach((val, index) => {
+                    val.style.width = width + '%';
+                    val.style.left = width * index + leftWidth + '%';
+                });
+            });
             this.rows = list;
         }
     }
@@ -328,14 +371,16 @@ export default {
         }
     }
     &content-calendar {
+        position: relative;
         min-height: 100vh;
         background-color: white;
-        padding: @header-h+11 0 @footer-h+22px 0;
+        margin-top: @header-h + 11px;
+        margin-bottom: @footer-h + 30px;
+        margin-left: 46px;
     }
     &card-cell {
         height: 50px;
         border-top: 1px solid @light-gray; /*no*/
-        margin-left: 46px;
         position: relative;
         .time {
             position: absolute;
@@ -344,6 +389,35 @@ export default {
             width: 46px;
             text-align: center;
             color: @extra-light-black;
+        }
+    }
+    &card-cont {
+        :nth-last-child(1) {
+            height: 0;
+        }
+    }
+    &card-item {
+        position: absolute;
+        padding-left: 2px; /*no*/
+        & > div {
+            background-color: #a43a8e;
+            height: 100%;
+            border-left: 5px solid; /*no*/
+        }
+        .item1 {
+            // 待确认
+            border-left-color: @status-0;
+            background-color: fade(@status-0, 40%);
+        }
+        .item2 {
+            // 已确认
+            border-left-color: @status-1;
+            background-color: fade(@status-1, 40%);
+        }
+        .item5 {
+            // 取消
+            border-left-color: @status-2;
+            background-color: fade(@status-2, 40%);
         }
     }
     &c-head {
