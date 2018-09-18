@@ -188,7 +188,7 @@ export default {
 </script>
 
 <style scoped lang='less'>
-    @import '~styles/_style';
+    @import '~styles/_agile';
     @color-red-lighten: #EC3F6D;
 
     .editUser{

@@ -93,7 +93,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '~styles/_style';
+@import '~styles/_agile';
 .color-zi{
     color: #7268FF;
 }
