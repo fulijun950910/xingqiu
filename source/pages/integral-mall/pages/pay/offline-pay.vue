@@ -87,6 +87,7 @@ export default {
             let ava = this.$refs['picture_' + index];
             $(ava).find('.img-loading').remove();
             this.uploadPics.splice(index, 1);
+            this.voucherImage.splice(index, 1);
         },
         chooseImg() {
             if (this.uploadPics.length < 5) {
@@ -103,7 +104,9 @@ export default {
                 this.$toast('文件超过5M，请重新选择文件');
                 return;
             };
+            this.$indicator.open('waitting...');
             api_file.uploadImage(item).then(msg => {
+                this.$indicator.close();
                 this.$set(item, 'id', msg.data);
                 this.voucherImage.push(msg.data);
             }, msg => {
