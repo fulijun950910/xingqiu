@@ -286,6 +286,9 @@ export default {
             switch (item.index) {
                 case 0:
                     this.viewType = this.viewType === VIEW_TYPE_LIST ? VIEW_TYPE_CARD : VIEW_TYPE_LIST;
+                    this.$nextTick(() => {
+                        window.scrollTo(0, 0);
+                    });
                     break;
                 case 1:
                     break;
