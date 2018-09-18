@@ -446,6 +446,10 @@ export default {
             });
         },
         offlinePay() {
+            if (this.$route.params.type == 1) {
+                this.copyPaydetail.payMoney = this.$route.params.payMoney;
+                this.copyPaydetail.voucherDiscountMoney = this.voucherDiscountMoney;
+            }
             this.$router.push({
                 name: 'offline-pay',
                 params: {

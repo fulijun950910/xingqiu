@@ -7,9 +7,15 @@
             </div>
         </div>
                 <div layout="row" layout-align="space-between center" class="p-t-3 p-b-3 border-bottom">
+            <div flex="25">优惠券抵扣：</div>
+            <div flex="70" class="color-black" flex-offset="5">
+                ￥{{parameter.voucherDiscountMoney | fen2yuan}}
+            </div>
+        </div>
+                <div layout="row" layout-align="space-between center" class="p-t-3 p-b-3 border-bottom">
             <div flex="25">线下需付：</div>
             <div flex="70" class="color-tiffany-blue" flex-offset="5">
-                ￥{{parameter.payMoney | fen2yuan}}
+                 ￥{{(parameter.payMoney - parameter.voucherDiscountMoney) | fen2yuan}}
             </div>
         </div>
         <div layout="row" layout-align="space-between center" class="p-t-3 p-b-3 m-b-4 border-bottom">
@@ -126,6 +132,7 @@ export default {
             };
             this.parameter.voucherImages = this.voucherImage.join(',');
             this.parameter.payType = '2';
+            delete this.parameter.voucherDiscountMoney;
             api_party.doudouTrade(this.parameter).then(msg => {
                 this.$router.push('pay-success');
             }, msg => {
