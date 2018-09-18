@@ -468,7 +468,6 @@ export default {
         }
     },
     mounted() {
-        console.log(this.$route.params);
         if (!this.$route.params.itemId) {
             this.$router.go(-1);
         };
