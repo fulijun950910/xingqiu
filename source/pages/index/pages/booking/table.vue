@@ -165,7 +165,7 @@ export default {
             tools: [],
             fiexdHead: false,
             loading: false,
-            viewType: VIEW_TYPE_CARD,
+            viewType: VIEW_TYPE_LIST,
             startTime: '',
             endTime: '',
             times: []
@@ -266,7 +266,7 @@ export default {
                     { field: 'merchantId', value: this.$store.getters.merchantId },
                     { field: 'storeId', value: this.$store.getters.storeId },
                     { field: 'holderType', value: 1 },
-                    { field: 'holderStatus', value: '1,2,5', operation: 'like' }
+                    { field: 'holderStatus', value: '1,2,4,5', operation: 'like' }
                 ],
                 sort: []
             };
