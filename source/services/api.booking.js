@@ -50,5 +50,11 @@ export default {
     },
     getEmployees(storeId) {
         return request(`/api/employee/list/store/${storeId}`);
+    },
+    getRooms(merchantId, storeId) {
+        return request(`/api/room/list/${merchantId}/${storeId}`);
+    },
+    createBooking(params) {
+        return request('/api/appointment', params, 'post');
     }
 };

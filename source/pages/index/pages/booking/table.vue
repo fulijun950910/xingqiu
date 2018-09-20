@@ -112,7 +112,8 @@
                             :xlink="item.icon"></m-icon>
                 </div>
             </div>
-            <div class="bt-add-btn">
+            <div class="bt-add-btn"
+                 @click="addClick">
                 <m-icon class="fs32"
                         xlink="#icon-add"></m-icon>
             </div>
@@ -250,6 +251,9 @@ export default {
                     this.loading = false;
                     this.listFormat(res.data.rows);
                     this.cardFormat(res.data.rows);
+                    this.$nextTick(() => {
+                        window.scrollTo(0, 0);
+                    });
                 },
                 err => {
                     this.loading = false;
@@ -295,6 +299,14 @@ export default {
                 case 2:
                     break;
             }
+        },
+        addClick() {
+            this.$router.push({
+                name: 'booking-edit',
+                query: {
+                    date: this.$moment(this.params.date).format('YYYYMMDD')
+                }
+            });
         },
         listFormat(list) {
             list.forEach(booking => {

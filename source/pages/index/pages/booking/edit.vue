@@ -37,9 +37,8 @@
                     :subTitle="empName"
                     @click.native="popupEmpVisible = true"></m-cell>
             <m-cell title="房间"
-                    placeholder="默认">
-                <div class="ex-color">（不选择则默认分配）</div>
-            </m-cell>
+                    :subTitle="roomName"
+                    @click.native="popupRoomVisible = true"></m-cell>
             <div layout="row"
                  layout-align="space-between center"
                  class="be-title">
@@ -54,8 +53,8 @@
                 <div>时间</div>
             </div>
             <m-cell title="日期"
-                    subTitle="2018-09-20">
-            </m-cell>
+                    :subTitle="startDate | amDateFormat('YYYY-MM-DD')"
+                    @click.native="$refs.picker.open()"></m-cell>
             <div v-for="(item, index) in times"
                  :key="index">
                 <div class="be-time-head"
@@ -94,8 +93,10 @@
                       placeholder="备注信息"
                       type="textarea"
                       class="be-text"
+                      v-model="booking.information"
                       rows="4"></mt-field>
-            <button class="be-btn">确定</button>
+            <button class="be-btn"
+                    @click="saveClick">确定</button>
         </div>
         <!-- 门店 -->
         <m-popup-right v-model="popupStoreVisible"
@@ -146,12 +147,48 @@
                 </div>
             </div>
         </m-popup-right>
+
+        <!-- 房间 -->
+        <m-popup-right v-model="popupRoomVisible"
+                       class="be-popup-panel">
+            <div class="bp-cont">
+                <div class="bp-title">选择房间</div>
+                <div class="bp-search">
+                    <input type="text"
+                           v-model="roomKeyword"
+                           placeholder="搜索">
+                </div>
+                <div class="bp-cell"
+                     :class="{'bp-cell-s': booking.roomId == item.id}"
+                     v-for="item in filterRoomList"
+                     :key="item.id"
+                     @click="roomClick(item)"
+                     layout="row"
+                     layout-align="space-between center">
+                    <div flex>{{item.name}}</div>
+                    <m-icon class="fs24 be-tt color-black"
+                            v-if="booking.roomId == item.id"
+                            xlink="#icon-queding"></m-icon>
+                </div>
+            </div>
+        </m-popup-right>
+
+        <mt-datetime-picker ref="picker"
+                            type="date"
+                            year-format="{value} 年"
+                            month-format="{value} 月"
+                            date-format="{value} 日"
+                            :startDate="pickerOptions.startDate"
+                            :endDate="pickerOptions.endDate"
+                            @confirm="pickerConfirm"
+                            v-model="pickerOptions.date">
+        </mt-datetime-picker>
     </div>
 </template>
 
 <script>
 import Vue from 'vue';
-import { Switch, Cell, Field, InfiniteScroll } from 'mint-ui';
+import { Switch, Cell, Field, InfiniteScroll, DatetimePicker } from 'mint-ui';
 import mField from './field';
 import mCell from './cell';
 import mPopupRight from '@/components/popup-right';
@@ -159,6 +196,7 @@ import apiBooking from '@/services/api.booking';
 Vue.component(Switch.name, Switch);
 Vue.component(Cell.name, Cell);
 Vue.component(Field.name, Field);
+Vue.component(DatetimePicker.name, DatetimePicker);
 Vue.use(InfiniteScroll);
 
 export default {
@@ -182,6 +220,9 @@ export default {
                     val.acronym.indexOf(this.empKeyword) !== -1
             );
         },
+        filterRoomList() {
+            return this.roomList.filter(val => val.name.indexOf(this.empKeyword) !== -1 || val.code.indexOf(this.empKeyword) !== -1);
+        },
         storeName() {
             if (this.booking.storeId) {
                 return this.storeList.find(val => val.id === this.booking.storeId).name;
@@ -189,17 +230,34 @@ export default {
         },
         empName() {
             if (this.booking.employeeId) {
-                let emp = this.empList.find(val => val.id === this.booking.employeeId);
-                return emp ? emp.name : this.booking.employeeName;
+                let item = this.empList.find(val => val.id === this.booking.employeeId);
+                return item ? item.name : this.booking.employeeName;
+            }
+        },
+        roomName() {
+            if (this.booking.roomId) {
+                let item = this.roomList.find(val => val.id === this.booking.roomId);
+                return item ? item.name : this.booking.roomName;
             }
         }
     },
     data() {
         return {
             isMember: false,
+            loading: false,
             customer: {
                 name: '',
                 phone: ''
+            },
+            pickerOptions: {
+                date: this.$moment().toDate(),
+                startDate: this.$moment()
+                    .startOf('d')
+                    .toDate(),
+                endDate: this.$moment()
+                    .endOf('y')
+                    .add(1, 'y')
+                    .toDate()
             },
             times: [],
             store: {},
@@ -209,6 +267,10 @@ export default {
             empList: [],
             empKeyword: '',
             popupEmpVisible: false,
+            roomList: [],
+            roomKeyword: '',
+            popupRoomVisible: false,
+            startDate: '',
             booking: {
                 name: '',
                 phone: '',
@@ -223,7 +285,7 @@ export default {
                 endTime: '',
                 items: [],
                 storeId: '',
-                merchantId: '',
+                merchantId: this.$store.getters.merchantId,
                 roomId: '',
                 information: ''
             }
@@ -240,10 +302,11 @@ export default {
             this.initEmp();
             this.loadEmpList();
             // 房间
+            this.loadRoomList();
             // 项目
             // 日期
             // 时间
-            this.initTimes();
+            this.initTimes(this.$route.query.date ? this.$moment(this.$route.query.date, 'YYYYMMDD') : undefined);
         },
         initStore() {
             this.storeList = this.$store.state.storeList.map(val => {
@@ -265,13 +328,18 @@ export default {
         initEmp() {
             this.booking.employeeId = this.$store.getters.employeeId;
         },
-        initTimes() {
-            this.times = [
-                { label: '上午', expand: false, rows: [], icon: '#icon-shangwu1' },
-                { label: '下午', expand: false, rows: [], icon: '#icon-xiawu' },
-                { label: '晚上', expand: false, rows: [], icon: '#icon-wanshang' }
-            ];
-            // TODO: 默认展开当前范围
+        initTimes(date) {
+            if (!this.times.length) {
+                this.times = [
+                    { label: '上午', expand: true, rows: [], icon: '#icon-shangwu1' },
+                    { label: '下午', expand: false, rows: [], icon: '#icon-xiawu' },
+                    { label: '晚上', expand: false, rows: [], icon: '#icon-wanshang' }
+                ];
+            } else {
+                this.times.forEach(val => {
+                    val.rows = [];
+                });
+            }
             let start = [8, 0];
             let end = [23, 0];
             if (this.store) {
@@ -282,14 +350,15 @@ export default {
                     end = this.store.appoinmentTimeEnd.split(':');
                 }
             }
-            let startTime = this.$moment(this.$route.query.date)
+            let startTime = this.$moment(date)
                 .startOf('d')
                 .add(start[0], 'h')
                 .add(start[1], 'm');
-            let endTime = this.$moment(this.$route.query.date)
+            let endTime = this.$moment(date)
                 .startOf('d')
                 .add(end[0], 'h')
                 .add(end[1], 'm');
+
             let tempTime = this.$moment(startTime).startOf('d');
 
             while (!startTime.isAfter(endTime)) {
@@ -302,6 +371,8 @@ export default {
                 }
                 startTime.add(15, 'm');
             }
+            this.pickerOptions.date = startTime.toDate();
+            this.startDate = this.$moment(startTime);
         },
         loadEmpList() {
             apiBooking.getEmployees(this.store.id).then(
@@ -314,6 +385,20 @@ export default {
                             avatarFileId: val.avatarFileId,
                             code: val.code || '',
                             pinyin: val.pinyin || ''
+                        };
+                    });
+                },
+                err => {}
+            );
+        },
+        loadRoomList() {
+            apiBooking.getRooms(this.$store.getters.merchantId, this.store.id).then(
+                res => {
+                    this.roomList = res.data.map(val => {
+                        return {
+                            id: val.id,
+                            name: val.name,
+                            code: val.code || ''
                         };
                     });
                 },
@@ -336,19 +421,98 @@ export default {
         },
         storeClick(item) {
             if (item.id !== this.booking.storeId) {
-                // 切换门店清空已选员工
+                // 切换门店清空已选员工、房间
                 this.booking.employeeId = undefined;
+                this.booking.roomId = undefined;
             }
             this.booking.storeId = item.id;
             this.store = item;
             this.popupStoreVisible = false;
             // 门店可预约时间更新
-            this.initTimes();
+            this.initTimes(this.startDate);
             this.loadEmpList();
+            this.loadRoomList();
         },
         empClick(item) {
             this.booking.employeeId = item.id;
             this.popupEmpVisible = false;
+        },
+        roomClick(item) {
+            this.booking.roomId = item.id;
+            this.popupRoomVisible = false;
+        },
+        saveClick() {
+            // 会员校验
+            if (this.isMember && !this.booking.memberId) {
+                this.$toast('请选择会员');
+                return;
+            }
+            if (!this.isMember) {
+                if (!this.customer.name || !this.customer.phone) {
+                    this.$toast('请输入预约人信息');
+                    return;
+                }
+            }
+            // 时间校验
+            if (!this.booking.startTime) {
+                this.$toast('请选择预约时间');
+                return;
+            }
+            let params = {
+                id: this.booking.id,
+                merchantId: this.booking.merchantId,
+                storeId: this.booking.storeId,
+                employeeId: this.booking.employeeId,
+                employeeName: this.empName,
+                information: this.booking.information,
+                items: this.booking.items,
+                memberCount: this.booking.memberCount,
+                roomId: this.booking.roomId,
+                roomName: this.booking.roomName,
+                startTime: this.booking.startTime,
+                endTime: this.$moment(this.booking.startTime)
+                    .add(1, 'h')
+                    .format('YYYY-MM-DD HH:mm:ss')
+            };
+            // 是否会员
+            if (this.isMember) {
+                params.name = this.booking.name;
+                params.phone = this.booking.phone;
+                params.memberId = this.booking.memberId;
+                params.memberNo = this.booking.memberNo;
+                params.memberType = 1;
+            } else {
+                params.name = this.customer.name;
+                params.phone = this.customer.phone;
+            }
+            // 结束时间
+            if (params.items.length) {
+                let endTime = this.$moment(params.startTime);
+                params.items.forEach(val => {
+                    endTime.add(val.serviceDuration ? val.serviceDuration : 0);
+                });
+                params.endTime = endTime.format('YYYY-MM-DD HH:mm:ss');
+            }
+            this.loading = true;
+            apiBooking.createBooking(params).then(
+                res => {
+                    this.loading = true;
+                    this.$router.go(-1);
+                },
+                err => {
+                    this.loading = false;
+                }
+            );
+        },
+        pickerConfirm() {
+            this.startDate = this.$moment(this.pickerOptions.date);
+            this.initTimes(this.startDate);
+            if (this.booking.startTime) {
+                let startTime = this.$moment(this.booking.startTime);
+                this.booking.startTime = this.$moment(this.startDate)
+                    .set({ h: startTime.hour(), m: startTime.minute() })
+                    .format('YYYY-MM-DD HH:mm:ss');
+            }
         }
     }
 };
