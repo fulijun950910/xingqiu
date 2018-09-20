@@ -24,7 +24,6 @@ export default {
 };
 </script>
 
-
 <style lang="less">
 .detail-top{
     background: white;
@@ -38,4 +37,3 @@ export default {
     }
 }
 </style>
-

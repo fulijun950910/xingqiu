@@ -13,9 +13,9 @@
                         </span>
                     </p>
                     <p class="c-card-subtitle" layout="row" layout-align="start center">
-                        <span class="dian" flex="10">●</span> 
+                        <span class="dian" flex="10">●</span>
                         <span class="ft-light no-wrap" flex="40">{{dataModel.gradeName?dataModel.gradeName:'无会员等级'}}</span>&nbsp;&nbsp;
-                        <span class="dian" flex="10">●</span> 
+                        <span class="dian" flex="10">●</span>
                         <span class="ft-light no-wrap" flex="40">持卡 {{dataModel.cardCount?dataModel.cardCount:0}} 张</span>
                     </p>
                 </div>
@@ -129,7 +129,7 @@ export default {
             api_serviceNote.createCustomerConcern(this.dataModel).then(res => {
                 this.$indicator.close();
                 this.$toast('记录成功！');
-                this.$router.push({name: 'record-finish', query: {type: this.dataModel.type}});
+                this.$router.push({ name: 'record-finish', query: { type: this.dataModel.type } });
             }, err => {
                 this.$indicator.close();
                 this.$toast(err.message);

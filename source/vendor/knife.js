@@ -19,15 +19,15 @@ export default {
             } else {
                 text = `?${addName}=${value}`;
             }
-        }else {
+        } else {
             text = search;
         }
         return text;
     },
     // 浅拷贝
-	extendCopy(p) {
+    extendCopy(p) {
         let c = {};
-        for (let i in p) { 
+        for (let i in p) {
             c[i] = p[i];
         }
         c.uber = p;
@@ -63,28 +63,28 @@ export default {
     },
     // 收款数字格式化
     currencyParse(newString, oldNumber) {
-        var CleanParse = function (value) {
+        var CleanParse = function(value) {
             return { value: value };
-        }
-        var CurrencyWarning = function (warning, value) {
-            return { 
+        };
+        var CurrencyWarning = function(warning, value) {
+            return {
                 warning: warning,
                 value: value,
-                attempt: newString 
+                attempt: newString
             };
-        }
-        var NotAValidDollarAmountWarning = function (value) {
+        };
+        var NotAValidDollarAmountWarning = function(value) {
             return new CurrencyWarning(newString + ' is not a valid dollar amount', value);
-        }
-        var AutomaticConversionWarning = function (value) {
+        };
+        var AutomaticConversionWarning = function(value) {
             return new CurrencyWarning(newString + ' was automatically converted to ' + value, value);
-        }
-    
+        };
+
         var newNumber = Number(newString);
         var indexOfDot = newString.indexOf('.');
         var indexOfE = newString.indexOf('e');
-        
-        if (isNaN(newNumber)) { 
+
+        if (isNaN(newNumber)) {
             if (
                 indexOfDot === -1 &&
                 indexOfE > 0 &&
@@ -96,7 +96,7 @@ export default {
                 return new NotAValidDollarAmountWarning(oldNumber);
             }
         }
-        
+
         var newCurrencyString = this.currencyFormat(newNumber);
         var newCurrencyNumber = Number(newCurrencyString);
 
@@ -109,8 +109,8 @@ export default {
         } else {
             return new NotAValidDollarAmountWarning(
                 newNumber > newCurrencyNumber
-                ? newCurrencyNumber
-                : oldNumber
+                    ? newCurrencyNumber
+                    : oldNumber
             );
         }
     },
@@ -122,24 +122,24 @@ export default {
         return Object.prototype.toString.call(value) == '[object Array]';
     },
     toNumber(value) {
-      if (typeof value == 'number') {
-        return value;
-      }
-      if (isSymbol(value)) {
-        return NAN;
-      }
-      if (isObject(value)) {
-        var other = isFunction(value.valueOf) ? value.valueOf() : value;
-        value = isObject(other) ? (other + '') : other;
-      }
-      if (typeof value != 'string') {
-        return value === 0 ? value : +value;
-      }
-      value = value.replace(reTrim, '');
-      var isBinary = reIsBinary.test(value);
-      return (isBinary || reIsOctal.test(value))
-        ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
-        : (reIsBadHex.test(value) ? NAN : +value);
+        if (typeof value == 'number') {
+            return value;
+        }
+        if (isSymbol(value)) {
+            return NAN;
+        }
+        if (isObject(value)) {
+            var other = isFunction(value.valueOf) ? value.valueOf() : value;
+            value = isObject(other) ? (other + '') : other;
+        }
+        if (typeof value != 'string') {
+            return value === 0 ? value : +value;
+        }
+        value = value.replace(reTrim, '');
+        var isBinary = reIsBinary.test(value);
+        return (isBinary || reIsOctal.test(value))
+            ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+            : (reIsBadHex.test(value) ? NAN : +value);
     },
     // 延迟函数
     debounce(func, wait, options) {
@@ -260,21 +260,21 @@ export default {
         var _args = [].slice.call(arguments);
 
         // 在内部声明一个函数，利用闭包的特性保存_args并收集所有的参数值
-        var adder = function () {
+        var adder = function() {
             function _adder() {
                 [].push.apply(_args, [].slice.call(arguments));
                 return _adder;
             };
 
             // 利用隐式转换的特性，当最后执行时隐式转换，并计算最终的值返回
-            _adder.valueOf = function () {
-                return _args.reduce(function (a, b) {
+            _adder.valueOf = function() {
+                return _args.reduce(function(a, b) {
                     return a + b;
                 });
-            }
+            };
 
             return _adder;
-        }
+        };
         return adder.apply(null, [].slice.call(arguments));
     },
     // base64加密函数,用于生成字符串对应的base64加密字符串
@@ -296,7 +296,7 @@ export default {
     // 格式化时间
     formatDate(date, fmt) {
         if (/(y+)/.test(fmt)) {
-            fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
+            fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
         }
         let o = {
             'M+': date.getMonth() + 1,
@@ -304,17 +304,17 @@ export default {
             'h+': date.getHours(),
             'm+': date.getMinutes(),
             's+': date.getSeconds()
-        }
+        };
         for (let k in o) {
             if (new RegExp(`(${k})`).test(fmt)) {
-                let str = o[k] + ''
-                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : this.padLeftZero(str))
+                let str = o[k] + '';
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : this.padLeftZero(str));
             }
         }
-        return fmt
+        return fmt;
     },
     // 左填充 0
     padLeftZero(str) {
-        return ('00' + str).substr(str.length)
+        return ('00' + str).substr(str.length);
     }
-}
+};

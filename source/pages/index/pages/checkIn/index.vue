@@ -56,99 +56,99 @@
 </template>
 
 <script>
-    import Vue from 'vue';
-    import api_party from 'services/api.party';
-    import recommendBuy from '../../models/recommend-buy';
-    import { Popup } from 'mint-ui';
-    Vue.component(Popup.name, Popup);
+import Vue from 'vue';
+import api_party from 'services/api.party';
+import recommendBuy from '../../models/recommend-buy';
+import { Popup } from 'mint-ui';
+Vue.component(Popup.name, Popup);
 
-    export default {
-        name: 'checkIn',
-        data() {
-            return {
-                showPopup: false,
-                blanceTotal: 0,
-                state: 1, // 1 未签到 2已签到
-                lastDay: {continueDays: 0},
-                list1: [
-                    {
-                        day: 1,
-                        num: 1
-                    },
-                    {
-                        day: 2,
-                        num: 1
-                    },
-                    {
-                        day: 3,
-                        num: 1
-                    }
-                ],
-                list2: [
-                    {
-                        day: 7,
-                        num: 10,
-                        tag_present: true
-                    },
-                    {
-                        day: 6,
-                        num: 1
-                    },
-                    {
-                        day: 5,
-                        num: 1
-                    },
-                    {
-                        day: 4,
-                        num: 1
-                    }
-                ]
-            };
-        },
-        components: {
-            recommendBuy
-        },
-        mounted() {
-            this.loadData();
-        },
-        methods: {
-            loadData() {
-                this.$indicator.open();
-                api_party.listLastUserSign(this.$store.state.party.partyId).then(res => {
-                    this.$indicator.close();
-                    if (res.data && res.data.length > 0) {
-                        res.data.forEach((item, index) => {
-                            if (index < 3) {
-                                this.list1[index].num = item.rewardDouDouAmount;
-                            } else {
-                                this.list2[6 - index].num = item.rewardDouDouAmount;
-                            }
-                        });
-                        this.lastDay = res.data[res.data.length - 1];
-                        if (this.lastDay.todayDate === this.lastDay.signDate) {
-                            this.state = 2;
+export default {
+    name: 'checkIn',
+    data() {
+        return {
+            showPopup: false,
+            blanceTotal: 0,
+            state: 1, // 1 未签到 2已签到
+            lastDay: { continueDays: 0 },
+            list1: [
+                {
+                    day: 1,
+                    num: 1
+                },
+                {
+                    day: 2,
+                    num: 1
+                },
+                {
+                    day: 3,
+                    num: 1
+                }
+            ],
+            list2: [
+                {
+                    day: 7,
+                    num: 10,
+                    tag_present: true
+                },
+                {
+                    day: 6,
+                    num: 1
+                },
+                {
+                    day: 5,
+                    num: 1
+                },
+                {
+                    day: 4,
+                    num: 1
+                }
+            ]
+        };
+    },
+    components: {
+        recommendBuy
+    },
+    mounted() {
+        this.loadData();
+    },
+    methods: {
+        loadData() {
+            this.$indicator.open();
+            api_party.listLastUserSign(this.$store.state.party.partyId).then(res => {
+                this.$indicator.close();
+                if (res.data && res.data.length > 0) {
+                    res.data.forEach((item, index) => {
+                        if (index < 3) {
+                            this.list1[index].num = item.rewardDouDouAmount;
+                        } else {
+                            this.list2[6 - index].num = item.rewardDouDouAmount;
                         }
+                    });
+                    this.lastDay = res.data[res.data.length - 1];
+                    if (this.lastDay.todayDate === this.lastDay.signDate) {
+                        this.state = 2;
                     }
-                });
-                api_party.getAccount(this.$store.state.party.partyId).then(res => {
-                    this.blanceTotal = res.data;
-                });
-            },
-            submit() {
-                this.$indicator.open();
-                api_party.userSign(this.$store.state.party.partyId, this.$store.state.party.id).then(res => {
-                    this.$indicator.close();
-                    this.loadData();
-                });
-            },
-            showRule() {
-                this.showPopup = true;
-            },
-            toMorePlay() {
-                location.href = `${this.$rootPath}integral-mall.html#/rule-entry`;
-            }
+                }
+            });
+            api_party.getAccount(this.$store.state.party.partyId).then(res => {
+                this.blanceTotal = res.data;
+            });
+        },
+        submit() {
+            this.$indicator.open();
+            api_party.userSign(this.$store.state.party.partyId, this.$store.state.party.id).then(res => {
+                this.$indicator.close();
+                this.loadData();
+            });
+        },
+        showRule() {
+            this.showPopup = true;
+        },
+        toMorePlay() {
+            location.href = `${this.$rootPath}integral-mall.html#/rule-entry`;
         }
-    };
+    }
+};
 </script>
 
 <style scoped lang='less'>

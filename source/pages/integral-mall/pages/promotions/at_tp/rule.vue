@@ -5,15 +5,15 @@
 </template>
 
 <script>
-    export default {
-        name: 'rule',
-        data() {
-            return {};
-        },
-        mounted() {
-        },
-        methods: {}
-    };
+export default {
+    name: 'rule',
+    data() {
+        return {};
+    },
+    mounted() {
+    },
+    methods: {}
+};
 </script>
 
 <style scoped lang='less'>

@@ -20,13 +20,13 @@
              </div>
              <div class="box-bottom" layout="row" layout-align="space-between center">
                  <span class="fs30 color-pink fwb">{{item.price | fen2dou}}美豆豆</span>
-                 <div class="btn fs30 color-white text-center"> 
+                 <div class="btn fs30 color-white text-center">
                      兑换
                  </div>
              </div>
          </div>
          <div class="no-more"></div>
-         <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm" @integraConfirm="inteconfirm"></integral-confirm>   
+         <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm" @integraConfirm="inteconfirm"></integral-confirm>
      </div>
     </div>
 </template>
@@ -54,13 +54,12 @@ export default {
     methods: {
         loadData() {
             Indicator.open('loading...');
-            api_party.goodsList(this.$route.params.type).then(msg=> {
+            api_party.goodsList(this.$route.params.type).then(msg => {
                 Indicator.close();
                 this.dataList = msg.data;
-            }, msg=> {
+            }, msg => {
 
             });
-
         },
         useTo(item) {
             if (this.$store.state) {
@@ -87,15 +86,14 @@ export default {
             this.confirm.show = false;
         },
         inteconfirm(msg) {
-            msg.then(data=> {
+            msg.then(data => {
                 if (this.type == 2) {
                     // 充值
                     this.$router.push('/recharge-doudou');
                 } else if (this.type == 1) {
                     this.hideConfirm();
                 }
-
-            }, data=> {
+            }, data => {
                 this.hideConfirm();
             });
         }
@@ -183,4 +181,3 @@ export default {
 
 }
 </style>
-

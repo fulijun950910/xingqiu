@@ -26,8 +26,8 @@
                   </div>
               </div>
         </div>
-        <no-more :show-more="showNoMore" more-text="更多商品正在挖掘，敬请期待哦！"></no-more>      
-        <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm" @integraConfirm="inteconfirm"></integral-confirm>                
+        <no-more :show-more="showNoMore" more-text="更多商品正在挖掘，敬请期待哦！"></no-more>
+        <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm" @integraConfirm="inteconfirm"></integral-confirm>
     </div>
 </template>
 <script>
@@ -52,21 +52,20 @@ export default {
     },
     methods: {
         buy(item) {
-            this.$router.push({path: `/product-detail/choose/${item.id}`});
+            this.$router.push({ path: `/product-detail/choose/${item.id}` });
         },
         loadData() {
             Indicator.open('loading...');
-            api_party.goodsList(4).then(msg=> {
+            api_party.goodsList(4).then(msg => {
                 Indicator.close();
                 this.dataList = msg.data;
-            }, msg=> {
+            }, msg => {
 
             });
-
         },
         searchBalance() {
             Indicator.open('loading...');
-            api_party.doudouAccount(this.employee.party.partyId).then(msg=> {
+            api_party.doudouAccount(this.employee.party.partyId).then(msg => {
                 Indicator.close();
                 this.doudouBalance = msg.data.doudouBalance;
                 this.moneyBalance = msg.data.moneyBalance;
@@ -79,9 +78,9 @@ export default {
             this.searchBalance();
         },
         inteconfirm(msg) {
-            msg.then(data=> {
+            msg.then(data => {
                 this.$router.push('/recharge-doudou');
-            }, data=> {
+            }, data => {
                 this.confirm.show = false;
             });
         },
@@ -154,4 +153,3 @@ export default {
     }
 }
 </style>
-

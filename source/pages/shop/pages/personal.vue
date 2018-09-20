@@ -1,10 +1,10 @@
-<template>  
+<template>
 <div class="personal">
    <div class="search-bar-bg" flex>
             <div class="search-bar" layout="row" flex>
         <m-icon xlink="#icon-huabanfuben17" class="fs24" @click="goBack"></m-icon>
         <div flex></div>
-        <m-icon xlink="#icon-huabanfuben1" class="fs24"></m-icon> 
+        <m-icon xlink="#icon-huabanfuben1" class="fs24"></m-icon>
             </div>
         </div>
     <div class="container">
@@ -44,7 +44,7 @@
             <stop-pages></stop-pages>
     </div>
 </div>
-   
+
 </template>
 <script>
 import shopBottomNav from 'components/shop-bottom-nav';
@@ -198,7 +198,7 @@ export default {
         color: #222;
     }
     .status-tab{
-        padding-top: 27px; 
+        padding-top: 27px;
         .status-item{
             color: #8D6CB1;
             .icon{
@@ -210,11 +210,9 @@ export default {
        margin-top: 27px;
        padding: 25px 0;
        border-top:1px solid #eee;
-       border-bottom:1px solid #eee; 
+       border-bottom:1px solid #eee;
     }
        }
     }
 
 </style>
-
-

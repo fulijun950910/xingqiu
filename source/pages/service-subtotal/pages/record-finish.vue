@@ -26,7 +26,7 @@ export default {
         goList() {
             let type = this.$route.query.type;
             let toName = type == 1 ? 'service-record-list' : 'member-list';
-            this.$router.push({name: toName});
+            this.$router.push({ name: toName });
         }
     }
 };

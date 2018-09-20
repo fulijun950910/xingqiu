@@ -27,7 +27,9 @@ export default {
     props: {
         slots: {
             type: Array,
-            default: []
+            default() {
+                return [];
+            }
         },
         value: Boolean,
         selectedItem: null,

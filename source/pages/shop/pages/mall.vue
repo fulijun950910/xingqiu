@@ -6,7 +6,7 @@
         <h3 class="title">商城</h3>
         <div class="main-container" layout="row">
              <div class="left-menu" flex="25">
-                 <div class="tab-item" @click="selectMenu(item)" :class="{active:item.active == item.value}" v-for="(item,index) in tabList" :key="item.value" layout="column" layout-align="center center">
+                 <div class="tab-item" @click="selectMenu(item)" :class="{active:item.active == item.value}" v-for="(item) in tabList" :key="item.value" layout="column" layout-align="center center">
                               <m-icon :xlink="item.icon" class="fs24 color-7"></m-icon>
                               <span class="color-7">{{item.name}}</span>
                  </div>
@@ -26,7 +26,7 @@
                                       </span>
                                       <span class="des">{{detail.name}}</span>
                                 </div>
-                                   
+
                             </div>
                       </div>
                   </div>
@@ -284,5 +284,3 @@ export default {
     }
 }
 </style>
-
-

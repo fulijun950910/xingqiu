@@ -37,28 +37,28 @@ export default {
     methods: {
         loadData() {
             Indicator.open('loading...');
-            api_party.goodsList(1).then(msg=> {
+            api_party.goodsList(1).then(msg => {
                 Indicator.close();
                 this.dataList = msg.data;
-                this.dataList.map((item, index)=> {
+                this.dataList.map((item, index) => {
                     if (index != 0) {
                         item.isActive = 1;
                     } else {
                         item.isActive = 2;
                     }
                 });
-            }, msg=> {
+            }, msg => {
 
             });
         },
         chooseItem(item) {
-            this.dataList.map((item, index)=> {
+            this.dataList.map((item, index) => {
                 item.isActive = 1;
             });
             item.isActive = 2;
         },
         confirm() {
-            let temp = this.dataList.filter((item, index)=> {
+            let temp = this.dataList.filter((item, index) => {
                 return item.isActive == 2;
             });
             this.chooseServiceItem = temp[0];
@@ -110,11 +110,11 @@ export default {
             border: 1px solid @border-gay;
             border-radius: 7px;
             width: 49%;
-            margin-right:2%; 
-            margin-bottom: 2%;     
+            margin-right:2%;
+            margin-bottom: 2%;
         .icon{
                color: #FBE945;
-           }       
+           }
         .right-des{
             margin-left: 10px;
            }
@@ -142,4 +142,3 @@ export default {
     }
 }
 </style>
-

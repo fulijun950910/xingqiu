@@ -43,53 +43,53 @@
 </template>
 
 <script>
-    import api_merchant from 'services/api.merchant';
-    export default {
-        name: 'remit-detail',
-        data() {
-            return {
-                dataModel: {
-                    defAvatar: require('assets/imgs/avatar.png'),
-                    'startDate': '',
-                    'endDate': '',
-                    'verifyTickets': '',
-                    'income': '',
-                    'trades': []
-                }
-            };
-        },
-        mounted() {
-            this.init();
-        },
-        methods: {
-            init() {
-                var merchantId = this.$route.params.merchantId;
-                var drawMoneyId = this.$route.params.drawMoneyId;
-                this.getDrawMoneyDetail(merchantId, drawMoneyId);
-            },
-            getDrawMoneyDetail(merchantId, drawMoneyId) {
-                this.$indicator.open();
-                api_merchant.getDrawMoneyDetail(merchantId, drawMoneyId).then(res => {
-                    this.$indicator.close();
-                    this.dataModel = res.data;
-                }, err => {
-                    this.$indicator.close();
-                });
+import api_merchant from 'services/api.merchant';
+export default {
+    name: 'remit-detail',
+    data() {
+        return {
+            dataModel: {
+                defAvatar: require('assets/imgs/avatar.png'),
+                'startDate': '',
+                'endDate': '',
+                'verifyTickets': '',
+                'income': '',
+                'trades': []
             }
+        };
+    },
+    mounted() {
+        this.init();
+    },
+    methods: {
+        init() {
+            var merchantId = this.$route.params.merchantId;
+            var drawMoneyId = this.$route.params.drawMoneyId;
+            this.getDrawMoneyDetail(merchantId, drawMoneyId);
         },
-        filters: {
-            couponNo(val) {
-                let newStr = '';
-                if (val && typeof val == 'string' & val != '') {
-                    let len = Math.floor(val.length / 4);
-                    for (let i = 0; i < len; i++) {
-                        newStr += val.substr(4 * i, 4) + ' ';
-                    }
-                }
-                return newStr;
-            }
+        getDrawMoneyDetail(merchantId, drawMoneyId) {
+            this.$indicator.open();
+            api_merchant.getDrawMoneyDetail(merchantId, drawMoneyId).then(res => {
+                this.$indicator.close();
+                this.dataModel = res.data;
+            }, err => {
+                this.$indicator.close();
+            });
         }
-    };
+    },
+    filters: {
+        couponNo(val) {
+            let newStr = '';
+            if (val && typeof val == 'string' & val != '') {
+                let len = Math.floor(val.length / 4);
+                for (let i = 0; i < len; i++) {
+                    newStr += val.substr(4 * i, 4) + ' ';
+                }
+            }
+            return newStr;
+        }
+    }
+};
 </script>
 
 <style lang="less">

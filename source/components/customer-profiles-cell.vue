@@ -25,15 +25,15 @@
                     <span v-else>{{'未办卡客户'}}</span>
                 </p>
                 <p v-if="value.order.lastConsumeDate">
-                    <span class="back-golden"><m-icon xlink="#icon-cost"/></span> 
+                    <span class="back-golden"><m-icon xlink="#icon-cost"/></span>
                     {{moment(value.order.lastConsumeDate).fromNow()}}消费过
                 </p>
                 <p v-if="value.returnVisitLastDate">
-                    <span class="back-golden"><m-icon xlink="#icon-telephone"/></span> 
+                    <span class="back-golden"><m-icon xlink="#icon-telephone"/></span>
                     {{ moment(value.returnVisitLastDate).fromNow() }}回访过
                 </p>
                 <p v-if="value.memberTagList">
-                    <span class="back-golden"><m-icon xlink="#icon-tag-alt"/></span> 
+                    <span class="back-golden"><m-icon xlink="#icon-tag-alt"/></span>
                     {{value.memberTagList.map(x=>{return x.tagName}).slice(0, 4).join(' ')}}
                 </p>
             </div>

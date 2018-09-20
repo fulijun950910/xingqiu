@@ -12,7 +12,7 @@
                     选择充值金额
                 </div>
                 <div layout="row" layout-align="start center" flex-wrap="wrap">
-                    <div @click="selectType(item.id)" v-for="item in list" :class="{'act': item.id == act}" class="list-item" layout="column" layout-align="center center">
+                    <div @click="selectType(item.id)" v-for="(item, index) in list" :key="index" :class="{'act': item.id == act}" class="list-item" layout="column" layout-align="center center">
                         <div>{{item.num}}美豆豆</div>
                         <div class="fs24 dark-gray">售价{{item.price}}元</div>
                         <div v-if="item.tag == 1" class="tag fs24 color-white">推荐</div>
@@ -36,81 +36,81 @@
 </template>
 
 <script>
-    import api_party from 'services/api.party';
+import api_party from 'services/api.party';
 
-    export default {
-        name: 'recharge',
-        data() {
-            return {
-                state: 1, // 1充值 2 充值成功
-                act: 1,
-                dataModel: {},
-                list: [
-                    {
-                        num: 100,
-                        price: 10,
-                        tag: null,
-                        id: 1
-                    },
-                    {
-                        num: 500,
-                        price: 49,
-                        tag: null,
-                        id: 2
-                    },
-                    {
-                        num: 1000,
-                        price: 98,
-                        tag: 1,
-                        id: 3
-                    },
-                    {
-                        num: 2000,
-                        price: 196,
-                        tag: null,
-                        id: 4
-                    },
-                    {
-                        num: 5000,
-                        price: 490,
-                        tag: null,
-                        id: 5
-                    },
-                    {
-                        num: 10000,
-                        price: 980,
-                        tag: null,
-                        id: 6
-                    }
-                ]
-            };
+export default {
+    name: 'recharge',
+    data() {
+        return {
+            state: 1, // 1充值 2 充值成功
+            act: 1,
+            dataModel: {},
+            list: [
+                {
+                    num: 100,
+                    price: 10,
+                    tag: null,
+                    id: 1
+                },
+                {
+                    num: 500,
+                    price: 49,
+                    tag: null,
+                    id: 2
+                },
+                {
+                    num: 1000,
+                    price: 98,
+                    tag: 1,
+                    id: 3
+                },
+                {
+                    num: 2000,
+                    price: 196,
+                    tag: null,
+                    id: 4
+                },
+                {
+                    num: 5000,
+                    price: 490,
+                    tag: null,
+                    id: 5
+                },
+                {
+                    num: 10000,
+                    price: 980,
+                    tag: null,
+                    id: 6
+                }
+            ]
+        };
+    },
+    mounted() {
+        this.loadData();
+    },
+    methods: {
+        loadData() {
+            this.$indicator.open();
+            api_party.getAccount(this.$store.state.party.partyId).then(res => {
+                this.$indicator.close();
+                this.dataModel = res.data;
+            });
         },
-        mounted() {
-            this.loadData();
+        submit() {
+            this.$toast('开发中，敬请期待');
         },
-        methods: {
-            loadData() {
-                this.$indicator.open();
-                api_party.getAccount(this.$store.state.party.partyId).then(res => {
-                    this.$indicator.close();
-                    this.dataModel = res.data;
-                });
-            },
-            submit() {
-                this.$toast('开发中，敬请期待');
-            },
-            goWallet() {
-                this.$router.go(-1);
-            },
-            selectType(id) {
-                this.act = id;
-            }
+        goWallet() {
+            this.$router.go(-1);
+        },
+        selectType(id) {
+            this.act = id;
         }
-    };
+    }
+};
 </script>
 
 <style scoped lang='less'>
-    @import '~styles/_style';
+    @import '~styles/_agile';
     @color-red-lighten: #EC3F6D;
 
     .border-bottom{

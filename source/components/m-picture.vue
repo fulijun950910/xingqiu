@@ -8,70 +8,70 @@
 </template>
 
 <script>
-    /** 单个图片上传
+/** 单个图片上传
     * index : 在列表中的下标
     * picture : 图片
     * proportion : 宽高比例
     *
     * submit 提交图片时触发
     */
-    import { BASE_IMG_PATH } from 'config/mixins';
-    import imageSlic from 'components/image-slice';
-    export default {
-        name: 'm-picture',
-        props: {
-            index: {
-                type: Number,
-                default: 0
-            },
-            picture: {
-                type: Object,
-                default() {
-                    return {
-                        id: null,
-                        base64: null
-                    };
-                }
-            },
-            proportion: {
-                type: Object,
-                default() {
-                    return {
-                        w: 1,
-                        h: 1
-                    };
-                }
+import { BASE_IMG_PATH } from 'config/mixins';
+import imageSlic from 'components/image-slice';
+export default {
+    name: 'm-picture',
+    props: {
+        index: {
+            type: Number,
+            default: 0
+        },
+        picture: {
+            type: Object,
+            default() {
+                return {
+                    id: null,
+                    base64: null
+                };
             }
         },
-        components: {
-            'image-slice': imageSlic
-        },
-        data() {
-            return {
-                propor: {
+        proportion: {
+            type: Object,
+            default() {
+                return {
                     w: 1,
                     h: 1
-                }
-            };
-        },
-        methods: {
-            // 上传图片
-            submitPicture(img) {
-                this.$emit('submit', img, this.index);
+                };
             }
-        },
-        filters: {
-            fileSrc(value) {
-                if (value) {
-                    if (value.base64) {
-                        return value.base64;
-                    } else if (value.id) {
-                        return `${BASE_IMG_PATH + value.id}/120/120`;
-                    }
+        }
+    },
+    components: {
+        'image-slice': imageSlic
+    },
+    data() {
+        return {
+            propor: {
+                w: 1,
+                h: 1
+            }
+        };
+    },
+    methods: {
+        // 上传图片
+        submitPicture(img) {
+            this.$emit('submit', img, this.index);
+        }
+    },
+    filters: {
+        fileSrc(value) {
+            if (value) {
+                if (value.base64) {
+                    return value.base64;
+                } else if (value.id) {
+                    return `${BASE_IMG_PATH + value.id}/120/120`;
                 }
             }
         }
-    };
+    }
+};
 </script>
 <style lang="less">
     @import '~styles/_agile.less';
