@@ -47,5 +47,8 @@ export default {
     },
     bookingSearch(params) {
         return request('/api/appointment/search', params, 'post');
+    },
+    getEmployees(storeId) {
+        return request(`/api/employee/list/store/${storeId}`);
     }
 };

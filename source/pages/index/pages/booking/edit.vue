@@ -34,7 +34,7 @@
                     :subTitle="store.name"
                     @click.native="popupStoreVisible = true"></m-cell>
             <m-cell title="技师"
-                    :subTitle="emp.name"
+                    :subTitle="empName"
                     @click.native="popupEmpVisible = true"></m-cell>
             <m-cell title="房间"
                     placeholder="默认">
@@ -74,7 +74,7 @@
                      layout-align="start center"
                      flex-wrap="wrap"
                      class="be-time-cont"
-                     :class="{'be-time-expand': item.expand}">
+                     v-show="item.expand">
                     <div flex="25"
                          v-for="(time, index) in item.rows"
                          :key="index"
@@ -151,13 +151,15 @@
 
 <script>
 import Vue from 'vue';
-import { Switch, Cell, Field } from 'mint-ui';
+import { Switch, Cell, Field, InfiniteScroll } from 'mint-ui';
 import mField from './field';
 import mCell from './cell';
 import mPopupRight from '@/components/popup-right';
+import apiBooking from '@/services/api.booking';
 Vue.component(Switch.name, Switch);
 Vue.component(Cell.name, Cell);
 Vue.component(Field.name, Field);
+Vue.use(InfiniteScroll);
 
 export default {
     name: 'booking-edit',
@@ -172,13 +174,24 @@ export default {
             return this.storeList.filter(val => val.name.indexOf(this.storeKeyword) !== -1);
         },
         filterEmpList() {
-            return this.empList.filter(val => val.name.indexOf(this.storeKeyword) !== -1);
+            return this.empList.filter(
+                val =>
+                    val.name.indexOf(this.empKeyword) !== -1 ||
+                    val.code.indexOf(this.empKeyword) !== -1 ||
+                    val.pinyin.indexOf(this.empKeyword) !== -1 ||
+                    val.acronym.indexOf(this.empKeyword) !== -1
+            );
         },
         storeName() {
-            if (!this.booking.storeId) {
-                return '';
+            if (this.booking.storeId) {
+                return this.storeList.find(val => val.id === this.booking.storeId).name;
             }
-            return this.storeList.find(val => val.id === this.booking.storeId).name;
+        },
+        empName() {
+            if (this.booking.employeeId) {
+                let emp = this.empList.find(val => val.id === this.booking.employeeId);
+                return emp ? emp.name : this.booking.employeeName;
+            }
         }
     },
     data() {
@@ -193,7 +206,6 @@ export default {
             storeList: [],
             storeKeyword: '',
             popupStoreVisible: false,
-            emp: {},
             empList: [],
             empKeyword: '',
             popupEmpVisible: false,
@@ -226,6 +238,7 @@ export default {
             this.initStore();
             // 默认员工
             this.initEmp();
+            this.loadEmpList();
             // 房间
             // 项目
             // 日期
@@ -290,6 +303,23 @@ export default {
                 startTime.add(15, 'm');
             }
         },
+        loadEmpList() {
+            apiBooking.getEmployees(this.store.id).then(
+                res => {
+                    this.empList = res.data.map(val => {
+                        return {
+                            id: val.id,
+                            name: val.name,
+                            acronym: val.acronym || '',
+                            avatarFileId: val.avatarFileId,
+                            code: val.code || '',
+                            pinyin: val.pinyin || ''
+                        };
+                    });
+                },
+                err => {}
+            );
+        },
         timeHeadClick(item) {
             if (item.expand) {
                 return;
@@ -305,11 +335,20 @@ export default {
             this.booking.startTime = time;
         },
         storeClick(item) {
+            if (item.id !== this.booking.storeId) {
+                // 切换门店清空已选员工
+                this.booking.employeeId = undefined;
+            }
             this.booking.storeId = item.id;
             this.store = item;
             this.popupStoreVisible = false;
             // 门店可预约时间更新
             this.initTimes();
+            this.loadEmpList();
+        },
+        empClick(item) {
+            this.booking.employeeId = item.id;
+            this.popupEmpVisible = false;
         }
     }
 };
@@ -351,9 +390,6 @@ export default {
         transform: rotate(-180deg);
     }
     .be-time-cont {
-        .be-tt;
-        overflow: hidden;
-        max-height: 0;
         .be-item {
             line-height: 30px;
             font-size: 13px;
@@ -373,9 +409,6 @@ export default {
             border-color: @light-gray;
             color: @dark-gray;
         }
-    }
-    .be-time-expand {
-        max-height: 1000px;
     }
     .mint-switch-input:checked + .mint-switch-core {
         border-color: @ex-color-primary;
