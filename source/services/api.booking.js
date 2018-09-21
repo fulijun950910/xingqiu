@@ -56,5 +56,8 @@ export default {
     },
     createBooking(params) {
         return request('/api/appointment', params, 'post');
+    },
+    memberSearch(params) {
+        return request('/api/member/bill/list/search', params, 'post');
     }
 };

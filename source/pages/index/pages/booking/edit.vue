@@ -13,9 +13,13 @@
             </div>
             <div v-if="isMember">
                 <m-cell icon="#icon-xingming1"
-                        title="会员姓名"></m-cell>
+                        title="会员姓名"
+                        :subTitle="booking.name"
+                        @click.native="popupMemberVisible = true"></m-cell>
                 <m-cell icon="#icon-dianhua1"
-                        title="会员手机号"></m-cell>
+                        title="会员手机号"
+                        :subTitle="booking.phone"
+                        @click.native="popupMemberVisible = true"></m-cell>
             </div>
             <div v-else>
                 <m-field icon="#icon-xingming1"
@@ -98,15 +102,60 @@
             <button class="be-btn"
                     @click="saveClick">确定</button>
         </div>
+        <!-- 会员 -->
+        <m-popup-right v-model="popupMemberVisible"
+                       class="be-popup-panel">
+            <div class="bp-cont"
+                 v-infinite-scroll="loadMoreMember"
+                 infinite-scroll-disabled="memberQuery.loading"
+                 infinite-scroll-distance="10"
+                 infinite-scroll-immediate-check="false">
+                <div class="bp-title">选择预约会员</div>
+                <div class="bp-search"
+                     layout="row">
+                    <form action=""
+                          flex>
+                        <input type="search"
+                               @keydown.enter="searchMember"
+                               v-model="memberKeyword"
+                               placeholder="搜索会员">
+                    </form>
+                    <a @click="searchMember">搜索</a>
+                </div>
+                <div class="bp-cell"
+                     :class="{'bp-cell-s': booking.memberId == item.memberId}"
+                     v-for="item in memberList"
+                     :key="item.id"
+                     @click="memberClick(item)"
+                     layout="row"
+                     layout-align="space-between center">
+                    <div flex
+                         layout="row"
+                         layout-align="space-between center">
+                        <span class="m-r-1">{{item.name}}</span>
+                        <span class="fs24">{{item.mobile}}</span>
+                    </div>
+                    <m-icon class="fs24 bp-check"
+                            v-if="booking.memberId == item.memberId"
+                            xlink="#icon-queding"></m-icon>
+                </div>
+                <m-load-more :loading="!memberQuery.scrollDisabled"></m-load-more>
+            </div>
+        </m-popup-right>
+
         <!-- 门店 -->
         <m-popup-right v-model="popupStoreVisible"
                        class="be-popup-panel">
             <div class="bp-cont">
                 <div class="bp-title">选择服务门店</div>
-                <div class="bp-search">
-                    <input type="text"
-                           v-model="storeKeyword"
-                           placeholder="搜索">
+                <div class="bp-search"
+                     layout="row">
+                    <form action=""
+                          flex>
+                        <input type="search"
+                               v-model="storeKeyword"
+                               placeholder="搜索">
+                    </form>
                 </div>
                 <div class="bp-cell"
                      :class="{'bp-cell-s': booking.storeId == item.id}"
@@ -116,7 +165,7 @@
                      layout="row"
                      layout-align="space-between center">
                     <div flex>{{item.name}}</div>
-                    <m-icon class="fs24 be-tt color-black"
+                    <m-icon class="fs24 bp-check"
                             v-if="booking.storeId == item.id"
                             xlink="#icon-queding"></m-icon>
                 </div>
@@ -128,10 +177,14 @@
                        class="be-popup-panel">
             <div class="bp-cont">
                 <div class="bp-title">选择技师</div>
-                <div class="bp-search">
-                    <input type="text"
-                           v-model="empKeyword"
-                           placeholder="搜索">
+                <div class="bp-search"
+                     layout="row">
+                    <form action=""
+                          flex>
+                        <input type="text"
+                               v-model="empKeyword"
+                               placeholder="搜索">
+                    </form>
                 </div>
                 <div class="bp-cell"
                      :class="{'bp-cell-s': booking.employeeId == item.id}"
@@ -141,7 +194,7 @@
                      layout="row"
                      layout-align="space-between center">
                     <div flex>{{item.name}}</div>
-                    <m-icon class="fs24 be-tt color-black"
+                    <m-icon class="fs24 bp-check"
                             v-if="booking.employeeId == item.id"
                             xlink="#icon-queding"></m-icon>
                 </div>
@@ -153,10 +206,14 @@
                        class="be-popup-panel">
             <div class="bp-cont">
                 <div class="bp-title">选择房间</div>
-                <div class="bp-search">
-                    <input type="text"
-                           v-model="roomKeyword"
-                           placeholder="搜索">
+                <div class="bp-search"
+                     layout="row">
+                    <form action=""
+                          flex>
+                        <input type="text"
+                               v-model="roomKeyword"
+                               placeholder="搜索">
+                    </form>
                 </div>
                 <div class="bp-cell"
                      :class="{'bp-cell-s': booking.roomId == item.id}"
@@ -166,13 +223,13 @@
                      layout="row"
                      layout-align="space-between center">
                     <div flex>{{item.name}}</div>
-                    <m-icon class="fs24 be-tt color-black"
+                    <m-icon class="fs24 bp-check"
                             v-if="booking.roomId == item.id"
                             xlink="#icon-queding"></m-icon>
                 </div>
             </div>
         </m-popup-right>
-
+        <!-- 日期 -->
         <mt-datetime-picker ref="picker"
                             type="date"
                             year-format="{value} 年"
@@ -192,6 +249,7 @@ import { Switch, Cell, Field, InfiniteScroll, DatetimePicker } from 'mint-ui';
 import mField from './field';
 import mCell from './cell';
 import mPopupRight from '@/components/popup-right';
+import mLoadMore from '@/components/m-load-more';
 import apiBooking from '@/services/api.booking';
 Vue.component(Switch.name, Switch);
 Vue.component(Cell.name, Cell);
@@ -205,7 +263,8 @@ export default {
     components: {
         mField,
         mCell,
-        mPopupRight
+        mPopupRight,
+        mLoadMore
     },
     computed: {
         filterStoreList() {
@@ -221,7 +280,7 @@ export default {
             );
         },
         filterRoomList() {
-            return this.roomList.filter(val => val.name.indexOf(this.empKeyword) !== -1 || val.code.indexOf(this.empKeyword) !== -1);
+            return this.roomList.filter(val => val.name.indexOf(this.roomKeyword) !== -1 || val.code.indexOf(this.roomKeyword) !== -1);
         },
         storeName() {
             if (this.booking.storeId) {
@@ -261,6 +320,15 @@ export default {
             },
             times: [],
             store: {},
+            memberList: [],
+            memberKeyword: '',
+            popupMemberVisible: false,
+            memberQuery: {
+                size: 20,
+                page: 1,
+                loading: false,
+                scrollDisabled: false
+            },
             storeList: [],
             storeKeyword: '',
             popupStoreVisible: false,
@@ -301,11 +369,12 @@ export default {
             // 默认员工
             this.initEmp();
             this.loadEmpList();
+            // 会员
+            this.loadMemberList();
             // 房间
             this.loadRoomList();
             // 项目
-            // 日期
-            // 时间
+            // 日期时间
             this.initTimes(this.$route.query.date ? this.$moment(this.$route.query.date, 'YYYYMMDD') : undefined);
         },
         initStore() {
@@ -374,6 +443,49 @@ export default {
             this.pickerOptions.date = startTime.toDate();
             this.startDate = this.$moment(startTime);
         },
+        searchMember() {
+            this.memberQuery.scrollDisabled = false;
+            this.memberQuery.page = 1;
+            this.memberList = [];
+            this.loadMemberList();
+        },
+        loadMoreMember() {
+            if (this.memberQuery.loading) {
+                return;
+            }
+            this.loadMemberList();
+        },
+        loadMemberList() {
+            if (this.memberQuery.scrollDisabled) {
+                return;
+            }
+            this.memberQuery.loading = true;
+            let params = {
+                size: this.memberQuery.size,
+                page: this.memberQuery.page,
+                query: [
+                    { field: 'merchantId', value: this.booking.merchantId },
+                    { field: 'storeIds:', value: this.booking.storeId },
+                    { field: 'keyword', value: this.memberKeyword }
+                ],
+                sort: [{ field: 'storeId', sort: 'desc' }]
+            };
+            apiBooking.memberSearch(params).then(
+                res => {
+                    this.memberList = [...this.memberList, ...res.data.rows];
+                    if (this.memberList.length === res.data.total) {
+                        this.memberQuery.scrollDisabled = true;
+                    } else {
+                        this.memberQuery.scrollDisabled = false;
+                    }
+                    this.memberQuery.loading = false;
+                    this.memberQuery.page++;
+                },
+                err => {
+                    this.memberQuery.loading = true;
+                }
+            );
+        },
         loadEmpList() {
             apiBooking.getEmployees(this.store.id).then(
                 res => {
@@ -418,6 +530,13 @@ export default {
         },
         selectedStartTime(time) {
             this.booking.startTime = time;
+        },
+        memberClick(item) {
+            this.booking.name = item.name;
+            this.booking.phone = item.mobile;
+            this.booking.memberId = item.memberId;
+            this.booking.memberNo = item.memberNo;
+            this.popupMemberVisible = false;
         },
         storeClick(item) {
             if (item.id !== this.booking.storeId) {
@@ -623,13 +742,24 @@ export default {
             overflow: auto;
         }
         .bp-search {
-            padding: 0 20px;
+            padding: 6px 12px;
+            background: #f2f2f2;
             border-bottom: 1px solid @light-gray; /*no*/
             input {
-                height: 50px;
                 width: 100%;
-                padding: 0;
+                height: 35px;
                 font-size: 13px;
+                background: white;
+                padding-left: 12px;
+                border-radius: 4px;
+            }
+            a {
+                line-height: 35px;
+                padding-left: 12px;
+                padding-right: 12px;
+                margin-right: -12px;
+                font-size: 13px;
+                color: @extra-black;
             }
         }
         .bp-cell {
@@ -637,9 +767,19 @@ export default {
             border-bottom: 1px solid @light-gray; /*no*/
             padding: 12px 20px;
             color: @extra-black;
-            &-s {
-                color: @color-black;
+            padding-right: 30px;
+            & > div :nth-of-type(2) {
+                color: @gray;
             }
+            &-s,
+            &-s > div :nth-of-type(2),
+            &-s .icon {
+                color: @color-primary;
+            }
+        }
+        .bp-check {
+            position: absolute;
+            right: 8px;
         }
     }
 }
