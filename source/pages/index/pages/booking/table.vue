@@ -31,7 +31,7 @@
                          layout-align="space-between center"
                          class="cc-head">
                         <div>
-                            <div>{{booking.startTime | amDateFormat('HH:MM')}}-{{booking.endTime | amDateFormat('HH:MM')}}</div>
+                            <div>{{booking.startTime | amDateFormat('HH:mm')}}-{{booking.endTime | amDateFormat('HH:mm')}}</div>
                             <div>
                                 <span v-for="(item, index) in booking.items"
                                       :key="index">
@@ -403,7 +403,6 @@ export default {
     }
     &content-calendar {
         position: relative;
-        min-height: 100vh;
         background-color: white;
         margin-top: @header-h + 11px;
         margin-bottom: @footer-h + 30px;
