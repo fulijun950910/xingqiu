@@ -82,6 +82,7 @@ export default {
             this.showBuy = val;
         },
         async js_sdk(data) {
+            debugger;
             let img = data.images.split(',');
             let share = {
                 title: data.name,
