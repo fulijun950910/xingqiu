@@ -27,23 +27,23 @@
                 <div v-for="booking in val.rows"
                      :key="booking.id"
                      class="bt-cell-cont">
-                    <div layout="row"
-                         layout-align="space-between center"
-                         class="cc-head">
-                        <div>
+                    <div class="cc-head">
+                        <div layout="row"
+                             layout-align="space-between center">
                             <div>{{booking.startTime | amDateFormat('HH:mm')}}-{{booking.endTime | amDateFormat('HH:mm')}}</div>
                             <div>
-                                <span v-for="(item, index) in booking.items"
-                                      :key="index">
-                                    {{item.name}}
-                                </span>
+                                <span>{{booking.employeeName}}</span>
+                                <span v-if="booking.employeeName && booking.roomName">●</span>
+                                <span class="fs13">{{booking.roomName}}</span>
                             </div>
                         </div>
-                        <div>
-                            <span>{{booking.employeeName}}</span>
-                            <span v-if="booking.employeeName && booking.roomName">●</span>
-                            <span class="fs13">{{booking.roomName}}</span>
+                        <div class="no-wrap">
+                            <span v-for="(item, index) in booking.items"
+                                  :key="index">
+                                <span v-if="index">、</span>{{item.name}}
+                            </span>
                         </div>
+
                     </div>
                     <div layout="row"
                          layout-align="start center"
