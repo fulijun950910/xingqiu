@@ -36,6 +36,7 @@
 </template>
 <script>
 import api_party from 'services/api.party';
+import { BASE_IMG_PATH } from 'config/mixins';
 import Vue from 'vue';
 import { Swipe, SwipeItem } from 'mint-ui';
 import buyMessage from 'components/integral-mall/buy-message';
@@ -81,11 +82,12 @@ export default {
             this.showBuy = val;
         },
         async js_sdk(data) {
+            let img = data.images.join(',');
             let share = {
                 title: data.name,
                 desc: data.description,
                 link: window.location.href,
-                imgUrl: window.location.origin + '/service/static/2018060509.jpg',
+                imgUrl: window.location.origin + BASE_IMG_PATH + img[0],
                 type: 'link',
                 dataUrl: '',
                 success: function() {
