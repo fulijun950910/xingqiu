@@ -7,7 +7,7 @@
                 :xlink="icon"></m-icon>
         <div class="extra-light-black mc-m-l">{{title}}</div>
         <slot></slot>
-        <div class="extra-light-black text-right"
+        <div class="extra-light-black text-right mc-nowrap"
              flex>
             <span v-if="subTitle"
                   class="color-black">{{subTitle}}</span>
@@ -46,6 +46,11 @@ export default {
     }
     .icon {
         margin-left: 2px;
+    }
+    .mc-nowrap {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 }
 </style>

@@ -59,5 +59,11 @@ export default {
     },
     memberSearch(params) {
         return request('/api/member/bill/list/search', params, 'post');
+    },
+    itemCategory(params) {
+        return request('/api/serviceItemCategory/selectTree', params, 'post');
+    },
+    itemSearch(params) {
+        return request('/api/serviceItem/search', params, 'post');
     }
 };

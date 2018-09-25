@@ -49,8 +49,9 @@
                 <div>项目</div>
             </div>
             <m-cell title="项目"
-                    placeholder="选择预约项目">
-            </m-cell>
+                    placeholder="选择预约项目"
+                    :subTitle="itemsName"
+                    @click.native="popupItemsVisible = true"></m-cell>
             <div layout="row"
                  layout-align="space-between center"
                  class="be-title">
@@ -240,6 +241,17 @@
                             @confirm="pickerConfirm"
                             v-model="pickerOptions.date">
         </mt-datetime-picker>
+        <!-- 选择项目 -->
+        <m-tree-select v-model="popupItemsVisible"
+                       :heads="categoryList"
+                       :rows="itemList"
+                       :items="booking.items"
+                       :page.sync="itemPage"
+                       :loading="itemLoading"
+                       :scrollDisabled="itemScrollDisabled"
+                       @headClick="loadItemList"
+                       @loadMore="item => loadItemList(item, true)"
+                       @confirm="itemConfirm"></m-tree-select>
     </div>
 </template>
 
@@ -248,6 +260,7 @@ import Vue from 'vue';
 import { Switch, Cell, Field, InfiniteScroll, DatetimePicker } from 'mint-ui';
 import mField from './field';
 import mCell from './cell';
+import mTreeSelect from './tree-select';
 import mPopupRight from '@/components/popup-right';
 import mLoadMore from '@/components/m-load-more';
 import apiBooking from '@/services/api.booking';
@@ -264,7 +277,8 @@ export default {
         mField,
         mCell,
         mPopupRight,
-        mLoadMore
+        mLoadMore,
+        mTreeSelect
     },
     computed: {
         filterStoreList() {
@@ -297,6 +311,11 @@ export default {
             if (this.booking.roomId) {
                 let item = this.roomList.find(val => val.id === this.booking.roomId);
                 return item ? item.name : this.booking.roomName;
+            }
+        },
+        itemsName() {
+            if (this.booking.items) {
+                return this.booking.items.map(val => val.name).join('、');
             }
         }
     },
@@ -338,6 +357,12 @@ export default {
             roomList: [],
             roomKeyword: '',
             popupRoomVisible: false,
+            itemPage: 1,
+            itemList: [],
+            itemLoading: false,
+            categoryList: [],
+            itemScrollDisabled: false,
+            popupItemsVisible: false,
             startDate: '',
             booking: {
                 name: '',
@@ -374,6 +399,7 @@ export default {
             // 房间
             this.loadRoomList();
             // 项目
+            this.loadCategories();
             // 日期时间
             this.initTimes(this.$route.query.date ? this.$moment(this.$route.query.date, 'YYYYMMDD') : undefined);
         },
@@ -516,6 +542,71 @@ export default {
                 },
                 err => {}
             );
+        },
+        loadCategories() {
+            let params = { query: [{ field: 'merchantId', value: this.$store.getters.merchantId, operation: 'eq' }] };
+            apiBooking.itemCategory(params).then(
+                res => {
+                    this.categoryList = res.data.childNodes;
+                    this.loadItemList(this.categoryList[0]);
+                },
+                err => {}
+            );
+        },
+        loadItemList(item, more) {
+            if (this.itemLoading) {
+                return;
+            }
+            let params = {
+                page: this.itemPage,
+                size: 20,
+                query: [{ field: 'merchantId', value: this.$store.getters.merchantId }],
+                sort: [{ field: 'code', sort: 'desc' }]
+            };
+            if (item) {
+                let categoryLevel = item.code;
+                params.query.push({
+                    field: 'categoryLevel',
+                    value: categoryLevel
+                });
+            }
+            this.itemLoading = true;
+            apiBooking.itemSearch(params).then(
+                res => {
+                    this.itemLoading = false;
+                    let rows = res.data.rows.map(val => {
+                        return {
+                            amount: 1,
+                            itemId: val.id,
+                            name: val.name,
+                            price: val.sellingPrice,
+                            serviceDuration: val.serviceDuration,
+                            type: 'SERVICE_ITEM'
+                        };
+                    });
+                    if (more) {
+                        this.itemList = [...this.itemList, ...rows];
+                    } else {
+                        this.itemList = rows;
+                    }
+                    if (this.itemList.length === res.data.total) {
+                        this.itemScrollDisabled = true;
+                    } else {
+                        this.itemScrollDisabled = false;
+                    }
+                    this.itemPage++;
+                },
+                err => {
+                    this.itemLoading = false;
+                }
+            );
+        },
+        itemConfirm(items) {
+            if (items && items.length) {
+                this.booking.items = [...items];
+            } else {
+                this.booking.items = [];
+            }
         },
         timeHeadClick(item) {
             if (item.expand) {
