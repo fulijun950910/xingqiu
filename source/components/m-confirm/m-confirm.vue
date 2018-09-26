@@ -1,5 +1,5 @@
 <template>
-    <div class="mint-msgbox-wrapper">
+    <div class="mint-msgbox-wrapper m-confirm-panel">
         <transition name="msgbox-bounce">
             <div class="mint-msgbox"
                  v-show="value">
@@ -59,7 +59,7 @@ export default {
 </script>
 <style lang="less">
 @import '~styles/_agile';
-.mint-msgbox {
+.m-confirm-panel .mint-msgbox {
     width: 70%;
     .mbox-head {
         .img-panel {

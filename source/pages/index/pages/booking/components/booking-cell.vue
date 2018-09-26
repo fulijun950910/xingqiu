@@ -32,14 +32,14 @@
                 <div class="fs24 color-gray">{{value.information}}</div>
             </div>
             <div class="bc-edit-btn"
-                 @click="editing = !editing"
+                 @click.stop="editing = !editing"
                  v-if="tools && tools.length">
                 <m-icon class="fs28 color-black"
                         xlink="#icon-bianji"></m-icon>
             </div>
         </div>
         <div class="bc-modal"
-             @click.self="editing = false"
+             @click.self.stop="editing = false"
              v-show="editing">
             <div class="bc-tools-panel"
                  layout="row"
@@ -47,7 +47,7 @@
                 <div v-for="(item, index) in tools"
                      :key="index"
                      class="bct-item"
-                     @click="toolClick(item)">
+                     @click.stop="toolClick(item)">
                     <div>{{item.label}}</div>
                 </div>
             </div>

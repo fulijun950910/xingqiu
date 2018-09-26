@@ -28,7 +28,8 @@
                 <m-booking-cell v-for="booking in val.rows"
                                 :key="booking.holderTypeId"
                                 :value="booking"
-                                @toolClick="bookingToolClick"></m-booking-cell>
+                                @toolClick="bookingToolClick"
+                                @click.native="showDetail(booking)"></m-booking-cell>
             </div>
         </div>
         <div class="bt-content bt-content-calendar"
@@ -83,6 +84,7 @@
                         xlink="#icon-add"></m-icon>
             </div>
         </div>
+        <m-booking-detail ref="detail"></m-booking-detail>
     </div>
 </template>
 <script>
@@ -90,6 +92,7 @@ import Vue from 'vue';
 import { Button, Spinner } from 'mint-ui';
 import mCalendar from './components/calendar';
 import mBookingCell from './components/booking-cell';
+import mBookingDetail from './detail';
 import mConfirm from '@/components/m-confirm/index';
 import apiBooking from '@/services/api.booking';
 import mNoData from '@/components/no-data';
@@ -105,7 +108,8 @@ export default {
     components: {
         mCalendar,
         mBookingCell,
-        mNoData
+        mNoData,
+        mBookingDetail
     },
     computed: {
         store() {
@@ -297,7 +301,19 @@ export default {
                 });
             } else if (index === 3) {
                 // 确认预约
+                this.$indicator.open();
+                apiBooking.confirmBooking(value.holderTypeId).then(
+                    res => {
+                        this.loadData();
+                    },
+                    err => {
+                        this.$indicator.close();
+                    }
+                );
             }
+        },
+        showDetail(item) {
+            this.$refs.detail.show(item);
         },
         addClick() {
             this.$router.push({
