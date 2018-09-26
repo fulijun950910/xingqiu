@@ -37,7 +37,7 @@
                      上传
                  </div>
                  <div class="img-btn fs28 bg-green" layout="row" layout-align="center center">
-                     重新选择
+                     <span class="text" layout="row" layout-align="center center">重新选择</span>
                      <m-picture :picture="item"></m-picture>
                  </div>
              </div>
@@ -176,6 +176,7 @@ export default {
     }
 
 }
+
 .upload-img{
     height: 140px;
     position: relative;
@@ -189,6 +190,11 @@ export default {
         background: rgba(0,0,0,.7);
         z-index: 3;
         .img-btn{
+            .text{
+                position: absolute;
+                width: 100%;
+                height: 100%;
+            }
             width: 90px;
             height: 35px;
             color: white;
@@ -196,7 +202,10 @@ export default {
             position: relative;
             .ava{
                 opacity: 0;
-                position: absolute;
+                // position: absolute;
+                // width: 100%;
+                // height: 100%;
+                // z-index: 2;
             }
         }
     }
