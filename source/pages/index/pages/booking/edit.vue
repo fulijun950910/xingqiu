@@ -322,7 +322,6 @@ export default {
     data() {
         return {
             isMember: false,
-            loading: false,
             customer: {
                 name: '',
                 phone: ''
@@ -503,6 +502,7 @@ export default {
             this.loadMemberList();
         },
         loadData() {
+            this.$indicator.open();
             // 加载预约数据
             apiBooking.getAppointment({ id: this.$route.params.bookingId }).then(
                 res => {
@@ -531,8 +531,11 @@ export default {
                         this.customer.phone = res.data.phone;
                     }
                     this.init();
+                    this.$indicator.close();
                 },
-                err => {}
+                err => {
+                    this.$indicator.close();
+                }
             );
         },
         loadMoreMember() {
@@ -728,6 +731,7 @@ export default {
                 this.$toast('请选择预约时间');
                 return;
             }
+            this.$indicator.open();
             let params = {
                 appointmentId: this.booking.appointmentId,
                 merchantId: this.booking.merchantId,
@@ -763,14 +767,13 @@ export default {
                 });
                 params.endTime = endTime.format('YYYY-MM-DD HH:mm:ss');
             }
-            this.loading = true;
             apiBooking.saveBooking(params).then(
                 res => {
-                    this.loading = true;
+                    this.$indicator.close();
                     this.$router.go(-1);
                 },
                 err => {
-                    this.loading = false;
+                    this.$indicator.close();
                 }
             );
         },

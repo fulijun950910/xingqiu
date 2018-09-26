@@ -19,7 +19,8 @@
                     </div>
                 </div>
             </div>
-
+            <m-no-data :visible="!selectedTab.rows || !selectedTab.rows.length"
+                       :showButton="false"></m-no-data>
             <div v-for="(val, index) in selectedTab.rows"
                  :key="index"
                  class="bt-cell-panel">
@@ -90,6 +91,7 @@ import { Button, Spinner } from 'mint-ui';
 import mCalendar from './components/calendar';
 import mBookingCell from './components/booking-cell';
 import apiBooking from '@/services/api.booking';
+import mNoData from '@/components/no-data';
 Vue.component(Button.name, Button);
 Vue.component(Spinner.name, Spinner);
 
@@ -101,14 +103,15 @@ export default {
     props: {},
     components: {
         mCalendar,
-        mBookingCell
+        mBookingCell,
+        mNoData
     },
     computed: {
         store() {
             return this.$store.state.store;
         },
         selectedTab() {
-            return this.tabs[this.tabIndex] || [];
+            return this.tabs[this.tabIndex] || {};
         },
         showList() {
             return this.viewType === VIEW_TYPE_LIST;
@@ -128,7 +131,6 @@ export default {
             },
             tools: [],
             fiexdHead: false,
-            loading: false,
             viewType: VIEW_TYPE_LIST,
             startTime: '',
             endTime: '',
@@ -207,19 +209,18 @@ export default {
         },
         loadData() {
             this.initTabs();
-            this.loading = true;
-
+            this.$indicator.open();
             apiBooking.bookingSearch(this.queryFormat()).then(
                 res => {
-                    this.loading = false;
                     this.listFormat(res.data.rows);
                     this.cardFormat(res.data.rows);
                     this.$nextTick(() => {
                         window.scrollTo(0, 0);
                     });
+                    this.$indicator.close();
                 },
                 err => {
-                    this.loading = false;
+                    this.$indicator.close();
                 }
             );
         },
