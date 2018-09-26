@@ -258,9 +258,9 @@
 <script>
 import Vue from 'vue';
 import { Switch, Cell, Field, InfiniteScroll, DatetimePicker } from 'mint-ui';
-import mField from './field';
-import mCell from './cell';
-import mTreeSelect from './tree-select';
+import mField from './components/field';
+import mCell from './components/cell';
+import mTreeSelect from './components/tree-select';
 import mPopupRight from '@/components/popup-right';
 import mLoadMore from '@/components/m-load-more';
 import apiBooking from '@/services/api.booking';
@@ -377,7 +377,7 @@ export default {
                 startTime: '',
                 endTime: '',
                 items: [],
-                storeId: '',
+                storeId: this.$store.getters.storeId,
                 merchantId: this.$store.getters.merchantId,
                 roomId: '',
                 information: ''
@@ -385,7 +385,11 @@ export default {
         };
     },
     mounted() {
-        this.init();
+        if (this.$route.params.bookingId) {
+            this.loadData();
+        } else {
+            this.init();
+        }
     },
     methods: {
         init() {
@@ -401,7 +405,7 @@ export default {
             // 项目
             this.loadCategories();
             // 日期时间
-            this.initTimes(this.$route.query.date ? this.$moment(this.$route.query.date, 'YYYYMMDD') : undefined);
+            this.initTimes(this.$route.query.date ? this.$moment(this.$route.query.date, 'YYYYMMDD') : this.booking.startTime);
         },
         initStore() {
             this.storeList = this.$store.state.storeList.map(val => {
@@ -412,13 +416,12 @@ export default {
                     appoinmentTimeEnd: val.appoinmentTimeEnd
                 };
             });
-            let store = this.storeList.find(val => val.id === this.$store.getters.storeId);
+            let store = this.storeList.find(val => val.id === this.booking.storeId);
             if (store) {
                 this.store = store;
             } else {
                 this.store = this.storeList[0];
             }
-            this.booking.storeId = this.store.id;
         },
         initEmp() {
             this.booking.employeeId = this.$store.getters.employeeId;
@@ -426,7 +429,7 @@ export default {
         initTimes(date) {
             if (!this.times.length) {
                 this.times = [
-                    { label: '上午', expand: true, rows: [], icon: '#icon-shangwu1' },
+                    { label: '上午', expand: false, rows: [], icon: '#icon-shangwu1' },
                     { label: '下午', expand: false, rows: [], icon: '#icon-xiawu' },
                     { label: '晚上', expand: false, rows: [], icon: '#icon-wanshang' }
                 ];
@@ -468,12 +471,69 @@ export default {
             }
             this.pickerOptions.date = startTime.toDate();
             this.startDate = this.$moment(startTime);
+
+            // 默认展开
+            if (this.times.filter(val => val.expand).length === 0) {
+                if (!this.booking.startTime) {
+                    let dateTime = this.$moment(date)
+                        .startOf('d')
+                        .add(start[0], 'h')
+                        .add(start[1], 'm');
+                    let dateNow = this.$moment();
+                    if (dateTime.isBefore(dateNow)) {
+                        dateTime = this.$moment(dateNow)
+                            .startOf('m')
+                            .add(15 - dateNow.minute() % 15, 'm');
+                    }
+                    this.booking.startTime = dateTime.format('YYYY-MM-DD HH:mm:ss');
+                }
+                if (this.$moment(this.booking.startTime).diff(tempTime, 'm') < 12 * 60) {
+                    this.times[0].expand = true;
+                } else if (this.$moment(this.booking.startTime).diff(tempTime, 'm') < 18 * 60) {
+                    this.times[1].expand = true;
+                } else {
+                    this.times[2].expand = true;
+                }
+            }
         },
         searchMember() {
             this.memberQuery.scrollDisabled = false;
             this.memberQuery.page = 1;
             this.memberList = [];
             this.loadMemberList();
+        },
+        loadData() {
+            // 加载预约数据
+            apiBooking.getAppointment({ id: this.$route.params.bookingId }).then(
+                res => {
+                    this.booking.appointmentId = res.data.id;
+                    this.booking.memberType = res.data.memberType;
+                    this.booking.memberCount = res.data.memberCount;
+                    this.booking.employeeId = res.data.employeeId;
+                    this.booking.employeeName = res.data.employeeName;
+                    this.booking.roomName = res.data.roomName;
+                    this.booking.startTime = res.data.startTime;
+                    this.booking.endTime = res.data.endTime;
+                    this.booking.items = res.data.itemVos;
+                    this.booking.storeId = res.data.storeId;
+                    this.booking.merchantId = this.$store.getters.merchantId;
+                    this.booking.roomId = res.data.roomId;
+                    this.booking.information = res.data.information;
+
+                    if (res.data.memberId) {
+                        this.booking.memberId = res.data.memberId;
+                        this.booking.memberNo = res.data.memberNo;
+                        this.booking.name = res.data.name;
+                        this.booking.phone = res.data.phone;
+                        this.isMember = true;
+                    } else {
+                        this.customer.name = res.data.name;
+                        this.customer.phone = res.data.phone;
+                    }
+                    this.init();
+                },
+                err => {}
+            );
         },
         loadMoreMember() {
             if (this.memberQuery.loading) {
@@ -669,7 +729,7 @@ export default {
                 return;
             }
             let params = {
-                id: this.booking.id,
+                appointmentId: this.booking.appointmentId,
                 merchantId: this.booking.merchantId,
                 storeId: this.booking.storeId,
                 employeeId: this.booking.employeeId,
@@ -704,7 +764,7 @@ export default {
                 params.endTime = endTime.format('YYYY-MM-DD HH:mm:ss');
             }
             this.loading = true;
-            apiBooking.createBooking(params).then(
+            apiBooking.saveBooking(params).then(
                 res => {
                     this.loading = true;
                     this.$router.go(-1);

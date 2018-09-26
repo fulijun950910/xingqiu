@@ -81,7 +81,7 @@
 </template>
 <script>
 export default {
-    name: 'calendar',
+    name: 'm-calendar',
     props: {
         visible: {
             type: Boolean,

@@ -54,8 +54,8 @@ export default {
     getRooms(merchantId, storeId) {
         return request(`/api/room/list/${merchantId}/${storeId}`);
     },
-    createBooking(params) {
-        return request('/api/appointment', params, 'post');
+    saveBooking(params) {
+        return request('/api/appointment', params, params.appointmentId ? 'put' : 'post');
     },
     memberSearch(params) {
         return request('/api/member/bill/list/search', params, 'post');

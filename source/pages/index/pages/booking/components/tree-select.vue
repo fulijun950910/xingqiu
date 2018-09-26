@@ -66,7 +66,7 @@ import { InfiniteScroll } from 'mint-ui';
 Vue.use(InfiniteScroll);
 
 export default {
-    name: 'tree-select',
+    name: 'm-tree-select',
     props: {
         value: Boolean,
         heads: {

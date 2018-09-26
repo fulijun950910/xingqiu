@@ -1,10 +1,9 @@
 <template>
     <div class="bt-panel">
-        <calendar :visible.sync="visible"
-                  :date.sync="params.date"
-                  @cellClick="cellClick"></calendar>
+        <m-calendar :visible.sync="visible"
+                    :date.sync="params.date"
+                    @cellClick="cellClick"></m-calendar>
         <div class="bt-content bt-content-list"
-             :class="[statusClass]"
              v-if="showList">
             <div class="bt-tab-panel">
                 <div layout="row"
@@ -20,50 +19,15 @@
                     </div>
                 </div>
             </div>
+
             <div v-for="(val, index) in selectedTab.rows"
                  :key="index"
                  class="bt-cell-panel">
                 <div class="bt-section-title">{{val.value | amDateFormat('HH:mm')}}</div>
-                <div v-for="booking in val.rows"
-                     :key="booking.id"
-                     class="bt-cell-cont">
-                    <div class="cc-head">
-                        <div layout="row"
-                             layout-align="space-between center">
-                            <div>{{booking.startTime | amDateFormat('HH:mm')}}-{{booking.endTime | amDateFormat('HH:mm')}}</div>
-                            <div>
-                                <span>{{booking.employeeName}}</span>
-                                <span v-if="booking.employeeName && booking.roomName">●</span>
-                                <span class="fs13">{{booking.roomName}}</span>
-                            </div>
-                        </div>
-                        <div class="no-wrap">
-                            <span v-for="(item, index) in booking.items"
-                                  :key="index">
-                                <span v-if="index">、</span>{{item.name}}
-                            </span>
-                        </div>
-
-                    </div>
-                    <div layout="row"
-                         layout-align="start center"
-                         class="cc-cont">
-                        <div class="bt-avatar m-r-2">
-                            <img :src="booking.avatarId | mSrc(80, 80, require('assets/imgs/avatar.png'))">
-                        </div>
-                        <div flex>
-                            <div>
-                                <span class="m-r-2">{{booking.name}}</span>
-                                <span class="fs24 color-gray">{{booking.phone}}</span>
-                            </div>
-                            <div class="fs24 color-gray">{{booking.information}}</div>
-                        </div>
-                        <div>
-                            <m-icon class="fs28 color-black"
-                                    xlink="#icon-bianji"></m-icon>
-                        </div>
-                    </div>
-                </div>
+                <m-booking-cell v-for="booking in val.rows"
+                                :key="booking.holderTypeId"
+                                :value="booking"
+                                @toolClick="bookingToolClick"></m-booking-cell>
             </div>
         </div>
         <div class="bt-content bt-content-calendar"
@@ -123,7 +87,8 @@
 <script>
 import Vue from 'vue';
 import { Button, Spinner } from 'mint-ui';
-import Calendar from './calendar';
+import mCalendar from './components/calendar';
+import mBookingCell from './components/booking-cell';
 import apiBooking from '@/services/api.booking';
 Vue.component(Button.name, Button);
 Vue.component(Spinner.name, Spinner);
@@ -135,7 +100,8 @@ export default {
     name: 'bookingTable',
     props: {},
     components: {
-        Calendar
+        mCalendar,
+        mBookingCell
     },
     computed: {
         store() {
@@ -143,9 +109,6 @@ export default {
         },
         selectedTab() {
             return this.tabs[this.tabIndex] || [];
-        },
-        statusClass() {
-            return `bt-status-${this.tabIndex}`;
         },
         showList() {
             return this.viewType === VIEW_TYPE_LIST;
@@ -298,6 +261,21 @@ export default {
                     break;
                 case 2:
                     break;
+            }
+        },
+        bookingToolClick({ index, value }) {
+            if (index === 1) {
+                // 取消预约
+            } else if (index === 2) {
+                // 修改预约
+                this.$router.push({
+                    name: 'booking-edit',
+                    params: {
+                        bookingId: value.holderTypeId
+                    }
+                });
+            } else if (index === 3) {
+                // 确认预约
             }
         },
         addClick() {
@@ -471,17 +449,17 @@ export default {
             box-shadow: 0 0 1px @extra-color-1; /*no*/
         }
     }
-    &status- {
-        &0 .cc-head {
-            background-color: @status-0;
-        }
-        &1 .cc-head {
-            background-color: @status-1;
-        }
-        &2 .cc-head {
-            background-color: @status-2;
-        }
-    }
+    // &status- {
+    //     &0 .cc-head {
+    //         background-color: @status-0;
+    //     }
+    //     &1 .cc-head {
+    //         background-color: @status-1;
+    //     }
+    //     &2 .cc-head {
+    //         background-color: @status-2;
+    //     }
+    // }
     &tab-panel {
         border-top: 1px solid @light-gray; /*no*/
         margin-left: -14px;
@@ -532,16 +510,16 @@ export default {
         border-top: 1px solid @border-gay; /*no*/
         z-index: 2;
     }
-    &avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        overflow: hidden;
-        img {
-            width: 100%;
-            height: 100%;
-        }
-    }
+    // &avatar {
+    //     width: 40px;
+    //     height: 40px;
+    //     border-radius: 50%;
+    //     overflow: hidden;
+    //     img {
+    //         width: 100%;
+    //         height: 100%;
+    //     }
+    // }
     &cell-panel {
         padding-left: 15px;
         position: relative;
@@ -571,22 +549,22 @@ export default {
         font-size: @fs24;
         margin-bottom: 16px;
     }
-    &cell-cont {
-        padding-bottom: 16px;
-        .cc-head {
-            border-top-left-radius: 4px;
-            border-top-right-radius: 4px;
-            padding: 6px 14px;
-            font-size: @fs24;
-            color: white;
-        }
-        .cc-cont {
-            background-color: white;
-            padding: 16px;
-            border-bottom-left-radius: 4px;
-            border-bottom-right-radius: 4px;
-        }
-    }
+    // &cell-cont {
+    //     padding-bottom: 16px;
+    //     .cc-head {
+    //         border-top-left-radius: 4px;
+    //         border-top-right-radius: 4px;
+    //         padding: 6px 14px;
+    //         font-size: @fs24;
+    //         color: white;
+    //     }
+    //     .cc-cont {
+    //         background-color: white;
+    //         padding: 16px;
+    //         border-bottom-left-radius: 4px;
+    //         border-bottom-right-radius: 4px;
+    //     }
+    // }
     &h100 {
         height: 100%;
     }
