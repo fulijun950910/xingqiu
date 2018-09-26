@@ -72,21 +72,6 @@ export default {
             });
         },
         submit() {
-            // let parameter = {
-            //     merchantId: this.$store.state.party.merchantId,
-            //     partyId: this.$store.state.party.partyId,
-            //     userId: this.$store.state.party.id,
-            //     payDoudouAmount: 0,
-            //     payMoney: this.choose.money ? (this.choose.money * 100) : this.choose.price,
-            //     itemId: this.choose.id,
-            //     quantity: 1,
-            //     tradeType: 6
-            // };
-            // api_party.doudouTrade(parameter).then(res=> {
-            //     location.href = res.data.payUrl + '?url=' + encodeURIComponent(location.protocol + '//' + location.host + this.$rootPath + 'integral-mall.html#/order-list');
-            // }, res=> {
-
-            // });
             this.$router.push({
                 name: 'pay-detail',
                 params: {

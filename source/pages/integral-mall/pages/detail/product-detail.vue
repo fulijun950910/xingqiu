@@ -36,9 +36,11 @@
 </template>
 <script>
 import api_party from 'services/api.party';
+import { BASE_IMG_PATH } from 'config/mixins';
 import Vue from 'vue';
 import { Swipe, SwipeItem } from 'mint-ui';
 import buyMessage from 'components/integral-mall/buy-message';
+import apiGetJSSignature from 'services/api.getJSSignature';
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
 export default {
@@ -55,6 +57,7 @@ export default {
         load() {
             api_party.productDetail(this.id).then(msg => {
                 this.data = msg.data;
+                this.js_sdk(this.data);
                 this.data.images = this.data.images.split(',');
                 this.chooseServiceItem = this.data;
                 this.buyType = (this.data.type == 2 ? '1' : '2');
@@ -77,6 +80,21 @@ export default {
         },
         update(val) {
             this.showBuy = val;
+        },
+        async js_sdk(data) {
+            let img = data.images.split(',');
+            let share = {
+                title: data.name,
+                desc: data.description,
+                link: window.location.href,
+                imgUrl: window.location.origin + BASE_IMG_PATH + img[0],
+                type: 'link',
+                dataUrl: '',
+                success: function() {
+                },
+                cancel: null
+            };
+            apiGetJSSignature.shareAppMessage(share);
         }
     },
     mounted() {
