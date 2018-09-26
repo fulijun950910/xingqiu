@@ -90,6 +90,7 @@ import Vue from 'vue';
 import { Button, Spinner } from 'mint-ui';
 import mCalendar from './components/calendar';
 import mBookingCell from './components/booking-cell';
+import mConfirm from '@/components/m-confirm/index';
 import apiBooking from '@/services/api.booking';
 import mNoData from '@/components/no-data';
 Vue.component(Button.name, Button);
@@ -208,10 +209,10 @@ export default {
             }
         },
         loadData() {
-            this.initTabs();
             this.$indicator.open();
             apiBooking.bookingSearch(this.queryFormat()).then(
                 res => {
+                    this.initTabs();
                     this.listFormat(res.data.rows);
                     this.cardFormat(res.data.rows);
                     this.$nextTick(() => {
@@ -267,6 +268,25 @@ export default {
         bookingToolClick({ index, value }) {
             if (index === 1) {
                 // 取消预约
+                mConfirm(
+                    {
+                        headSrc: require('@/assets/imgs/booking-alert.png'),
+                        message: '确定取消预约？'
+                    },
+                    action => {
+                        if (action === 'confirm') {
+                            this.$indicator.open();
+                            apiBooking.cancelBooking(value.holderTypeId).then(
+                                res => {
+                                    this.loadData();
+                                },
+                                err => {
+                                    this.$indicator.close();
+                                }
+                            );
+                        }
+                    }
+                );
             } else if (index === 2) {
                 // 修改预约
                 this.$router.push({

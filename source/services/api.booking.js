@@ -65,5 +65,11 @@ export default {
     },
     itemSearch(params) {
         return request('/api/serviceItem/search', params, 'post');
+    },
+    cancelBooking(bookingId) {
+        return request(`/api/appointment/updateStatus/${bookingId}/2`, null, 'put');
+    },
+    confirmBooking(bookingId) {
+        return request(`/api/appointment/updateStatus/${bookingId}/1`, null, 'put');
     }
 };
