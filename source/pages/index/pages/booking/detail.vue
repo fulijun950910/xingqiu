@@ -16,7 +16,8 @@
                             <div class="color-gray">{{booking.phone}}</div>
                         </div>
                     </div>
-                    <div class="bd-status">待确认</div>
+                    <div class="bd-status"
+                         :class="[`bd-status-${booking.holderStatus}`]">{{booking.holderStatus | getName(BOOKING_STATUS)}}</div>
                 </div>
                 <div class="bd-content">
                     <div class="fs30">
@@ -31,7 +32,14 @@
                         <span v-if="booking.employeeName && booking.roomName">●</span>
                         <span>{{booking.roomName}}</span>
                     </div>
-                    <div class="color-gray bd-fs13">上次到店：2个月前</div>
+                    <div class="color-gray bd-fs13"
+                         v-if="lastConsumeDetail && lastConsumeDetail.orderDate">上次到店:
+                        <span v-for="(item, index) in lastConsumeDetail.name"
+                              :key="index">
+                            {{item}}
+                        </span>
+                        <span>{{lastConsumeDetail.orderDate | fromnow}}</span>
+                    </div>
                 </div>
                 <div class="bd-line"></div>
                 <div class="bd-footer">
@@ -40,9 +48,20 @@
                 </div>
                 <div layout="row"
                      class="bd-tools-panel">
-                    <div flex>取消预约</div>
-                    <div flex>修改</div>
-                    <div flex>确认</div>
+                    <div flex
+                         v-show="booking.holderStatus == 1 || booking.holderStatus == 2"
+                         @click="handleAction(1)">取消预约</div>
+                    <div flex
+                         v-show="booking.holderStatus == 1 || booking.holderStatus == 2"
+                         @click="handleAction(2)">修改</div>
+                    <div flex
+                         class="color-primary"
+                         v-show="booking.holderStatus == 1"
+                         @click="handleAction(3)">确认</div>
+                </div>
+                <div class="bd-close"
+                     @click="hidden">
+                    <m-icon xlink="#icon-close"></m-icon>
                 </div>
             </div>
         </transition>
@@ -50,7 +69,8 @@
 </template>
 <script>
 import Popup from 'mint-ui/src/utils/popup';
-
+import { BOOKING_STATUS } from 'config/mixins';
+import apiBooking from '@/services/api.booking';
 export default {
     name: 'booking-detail',
     mixins: [Popup],
@@ -63,14 +83,39 @@ export default {
     computed: {},
     data() {
         return {
-            booking: {}
+            booking: {},
+            BOOKING_STATUS,
+            lastConsumeDetail: {}
         };
     },
     mounted() {},
     methods: {
+        loadData() {
+            if (this.booking && this.booking.memberId) {
+                apiBooking.memberLastConsume(this.booking.memberId).then(
+                    res => {
+                        this.lastConsumeDetail = res.data.lastConsumeDetail || { name: [] };
+                    },
+                    err => {
+                        this.lastConsumeDetail = {};
+                    }
+                );
+            }
+        },
         show(item) {
+            this.$emit('input', true);
             this.booking = item;
-            this.value = true;
+            this.loadData();
+        },
+        hidden() {
+            this.$emit('input', false);
+        },
+        handleAction(index) {
+            this.$emit('toolsClick', {
+                value: this.booking,
+                index
+            });
+            this.hidden();
         }
     }
 };
@@ -86,6 +131,7 @@ export default {
     .mint-msgbox {
         width: 82%;
         font-size: 14px;
+        overflow: visible;
     }
     .bd-header {
         padding: @padding-def;
@@ -118,8 +164,24 @@ export default {
         line-height: 60px;
         text-align: center;
         border-top: 1px solid @light-gray; /*no*/
+        color: @extra-light-black;
         div + div {
             border-left: 1px solid @light-gray; /*no*/
+        }
+    }
+    .bd-close {
+        position: absolute;
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+        border: 2px solid white; /*no*/
+        top: -50px;
+        right: 10px;
+        text-align: center;
+        line-height: 28px;
+        color: white;
+        .icon {
+            font-size: 16px;
         }
     }
     .bd-status {
@@ -128,8 +190,17 @@ export default {
         border-top-left-radius: 50px;
         border-bottom-left-radius: 50px;
         margin-right: -@padding-def;
-        background-color: @status-0;
         color: white;
+        &-1 {
+            background: @status-0;
+        }
+        &-2 {
+            background: @status-1;
+        }
+        &-4,
+        &-5 {
+            background: @status-2;
+        }
     }
     .bd-fs13 {
         font-size: 13px;

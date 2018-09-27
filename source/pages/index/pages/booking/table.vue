@@ -84,7 +84,9 @@
                         xlink="#icon-add"></m-icon>
             </div>
         </div>
-        <m-booking-detail ref="detail"></m-booking-detail>
+        <m-booking-detail ref="detail"
+                          v-model="detailVisible"
+                          @toolsClick="bookingToolClick"></m-booking-detail>
     </div>
 </template>
 <script>
@@ -139,7 +141,8 @@ export default {
             viewType: VIEW_TYPE_LIST,
             startTime: '',
             endTime: '',
-            times: []
+            times: [],
+            detailVisible: false
         };
     },
     mounted() {

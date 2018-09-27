@@ -71,5 +71,8 @@ export default {
     },
     confirmBooking(bookingId) {
         return request(`/api/appointment/updateStatus/${bookingId}/1`, null, 'put');
+    },
+    memberLastConsume(memberId) {
+        return request(`/api/member/detail/${memberId}`, null, 'get', false);
     }
 };

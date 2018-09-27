@@ -85,3 +85,11 @@ export const SOURCE_TYPES = [
     { name: '异业', value: 5 },
     { name: '导入', value: 6 }
 ];
+
+export const BOOKING_STATUS = [
+    { name: '待确认', value: 1 },
+    { name: '已确认', value: 2 },
+    { name: '已完成', value: 3 },
+    { name: '已取消', value: 4 },
+    { name: '已取消', value: 5 },
+];
