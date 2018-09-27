@@ -280,7 +280,7 @@ export default {
             return this.empList.filter((val, index) => index < 6);
         },
         filterStoreList() {
-            return this.storeList.filter(val => val.name.indexOf(this.storeKeyword) !== -1);
+            return this.storeList.filter(val => val.name.toLocaleLowerCase().indexOf(this.storeKeyword.toLocaleLowerCase()) !== -1);
         },
         filterEmpList() {
             return this.empList.filter(val => {
