@@ -235,6 +235,23 @@
                      flex>确定</div>
             </div>
         </m-popup-right>
+        <mt-popup v-model="popupStatusVisible"
+                  popup-transition="popup-fade"
+                  class="bt-popup-status">
+            <div class="btps-cell"
+                 :class="{'btps-cell-s': item.selected}"
+                 layout="row"
+                 layout-align="start center"
+                 v-for="(item, index) in status"
+                 :key="index"
+                 @click="statusClick(item, true)">
+                <div class="m-r-2">{{item.label}}</div>
+                <div class="btps-tag">{{item.count}}</div>
+                <div class="btps-check">
+                    <m-icon xlink="#icon-queding"></m-icon>
+                </div>
+            </div>
+        </mt-popup>
     </div>
 </template>
 <script>
@@ -318,9 +335,11 @@ export default {
             times: [],
             popupType: 1,
             detailVisible: false,
+            popupStatusVisible: false,
             popupFilterVisible: false,
             storeKeyword: '',
-            empKeyword: ''
+            empKeyword: '',
+            statusSelectedList: []
         };
     },
     mounted() {
@@ -363,9 +382,9 @@ export default {
         },
         initStatus() {
             this.status = [
-                { label: '未确认', value: '1', selected: true },
-                { label: '已确认', value: '2', selected: true },
-                { label: '已取消', value: '4,5', selected: false }
+                { label: '待确认', value: '1', selected: true, count: 0 },
+                { label: '已确认', value: '2', selected: true, count: 0 },
+                { label: '已取消', value: '4,5', selected: false, count: 0 }
             ];
         },
         initAppoinmentTime() {
@@ -414,8 +433,9 @@ export default {
             this.$indicator.open();
             apiBooking.bookingSearch(this.queryFormat()).then(
                 res => {
-                    this.initTabs();
                     this.sourceList = res.data.rows;
+                    this.initTabs();
+                    this.loadStatusCount();
                     this.listFormat(res.data.rows);
                     this.cardFormat(res.data.rows);
                     this.$nextTick(() => {
@@ -450,6 +470,25 @@ export default {
             }
             return params;
         },
+        loadStatusCount() {
+            this.status.forEach(val => {
+                val.count = 0;
+            });
+            this.sourceList.forEach(val => {
+                switch (+val.holderStatus) {
+                    case 1:
+                        this.status[0].count++;
+                        break;
+                    case 2:
+                        this.status[1].count++;
+                        break;
+                    case 4:
+                    case 5:
+                        this.status[2].count++;
+                        break;
+                }
+            });
+        },
         showCalendar() {
             this.visible = true;
         },
@@ -469,6 +508,7 @@ export default {
                     });
                     break;
                 case 1:
+                    this.popupStatusVisible = true;
                     break;
                 case 2:
                     this.popupFilterVisible = true;
@@ -539,8 +579,11 @@ export default {
         empClick(item) {
             this.params.employeeId = item.id;
         },
-        statusClick(item) {
+        statusClick(item, reload) {
             item.selected = !item.selected;
+            if (reload) {
+                this.cardFormat(this.sourceList);
+            }
         },
         resetFilter() {
             this.params.employeeId = '';
@@ -940,6 +983,65 @@ export default {
                 color: @color-primary;
             }
         }
+    }
+    &popup-status {
+        width: 150px;
+        border-radius: 8px;
+        transform: translate(-50%, 0);
+        bottom: 59px;
+        top: auto;
+        left: 34.99%;
+        box-shadow: 0px 1px 17px 0px rgba(0, 0, 0, 0.17);
+        :nth-of-type(1) .btps-tag {
+            background-color: @status-0;
+        }
+        :nth-of-type(2) .btps-tag {
+            background-color: @status-1;
+        }
+        :nth-of-type(3) .btps-tag {
+            background-color: @status-2;
+        }
+        .btps-cell {
+            text-align: center;
+            line-height: 50px;
+            position: relative;
+            padding-left: 35px;
+            &-s {
+                color: @color-primary;
+                .btps-check {
+                    display: block;
+                }
+            }
+        }
+        .btps-cell + .btps-cell {
+            border-top: 1px solid @light-gray; /*no*/
+        }
+        .btps-tag {
+            border-radius: 32px; /*no*/
+            border-bottom-left-radius: 0px;
+            line-height: 20px;
+            padding: 0 8px;
+            color: white;
+            font-size: 12px;
+        }
+        .btps-check {
+            position: absolute;
+            left: 12px;
+            color: @color-primary;
+            display: none;
+        }
+    }
+    &popup-status::before {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border: solid transparent;
+        border-width: 10px;
+        border-top-color: #fff;
+        content: '';
+        position: absolute;
+        bottom: -20px;
+        left: 65px;
     }
 }
 </style>
