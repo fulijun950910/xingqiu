@@ -91,15 +91,11 @@ export default {
     mounted() {},
     methods: {
         loadData() {
+            this.lastConsumeDetail = {};
             if (this.booking && this.booking.memberId) {
-                apiBooking.memberLastConsume(this.booking.memberId).then(
-                    res => {
-                        this.lastConsumeDetail = res.data.lastConsumeDetail || { name: [] };
-                    },
-                    err => {
-                        this.lastConsumeDetail = {};
-                    }
-                );
+                apiBooking.memberLastConsume(this.booking.memberId).then(res => {
+                    this.lastConsumeDetail = res.data.lastConsumeDetail || { name: [] };
+                });
             }
         },
         show(item) {

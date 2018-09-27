@@ -30,7 +30,8 @@
              v-show="visible">
             <div class="ca-mask"
                  @click="hide"></div>
-            <transition name="bounce">
+            <transition name="bounce"
+                        @before-enter="transitionBefore">
                 <div v-if="visible"
                      class="content-panel">
                     <div layout="row"
@@ -170,6 +171,14 @@ export default {
         weekClick(item) {
             this.cellClick({
                 value: item
+            });
+        },
+        transitionBefore(el) {
+            this.$nextTick(_ => {
+                try {
+                    let content = el.getElementsByClassName('ca-content')[0];
+                    content.scrollTop = el.getElementsByClassName('ca-cell-s')[0].offsetTop - content.clientHeight / 2;
+                } catch (error) {}
             });
         }
     }

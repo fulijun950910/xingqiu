@@ -44,7 +44,8 @@
             <div v-for="item in rows"
                  :key="item.id"
                  :style="item.style"
-                 class="bt-card-item">
+                 class="bt-card-item"
+                 @click.stop="showDetail(item)">
                 <div :class="[`item${item.holderStatus}`]">
                     <div class="no-wrap">{{item.name}}</div>
                     <div class="no-wrap">{{item.startTime | amDateFormat('HH:mm')}}-{{item.endTime | amDateFormat('HH:mm')}}</div>
@@ -449,6 +450,7 @@ export default {
         padding-left: 2px; /*no*/
         font-size: 12px;
         line-height: 1.3;
+        min-height: 15px;
         & > div {
             background-color: #a43a8e;
             height: 100%;
@@ -489,17 +491,6 @@ export default {
             box-shadow: 0 0 1px @extra-color-1; /*no*/
         }
     }
-    // &status- {
-    //     &0 .cc-head {
-    //         background-color: @status-0;
-    //     }
-    //     &1 .cc-head {
-    //         background-color: @status-1;
-    //     }
-    //     &2 .cc-head {
-    //         background-color: @status-2;
-    //     }
-    // }
     &tab-panel {
         border-top: 1px solid @light-gray; /*no*/
         margin-left: -14px;
@@ -550,16 +541,6 @@ export default {
         border-top: 1px solid @border-gay; /*no*/
         z-index: 2;
     }
-    // &avatar {
-    //     width: 40px;
-    //     height: 40px;
-    //     border-radius: 50%;
-    //     overflow: hidden;
-    //     img {
-    //         width: 100%;
-    //         height: 100%;
-    //     }
-    // }
     &cell-panel {
         padding-left: 15px;
         position: relative;
@@ -589,22 +570,6 @@ export default {
         font-size: @fs24;
         margin-bottom: 16px;
     }
-    // &cell-cont {
-    //     padding-bottom: 16px;
-    //     .cc-head {
-    //         border-top-left-radius: 4px;
-    //         border-top-right-radius: 4px;
-    //         padding: 6px 14px;
-    //         font-size: @fs24;
-    //         color: white;
-    //     }
-    //     .cc-cont {
-    //         background-color: white;
-    //         padding: 16px;
-    //         border-bottom-left-radius: 4px;
-    //         border-bottom-right-radius: 4px;
-    //     }
-    // }
     &h100 {
         height: 100%;
     }
