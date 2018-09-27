@@ -74,6 +74,7 @@
                      class="bt-tool-btn"
                      v-for="(item, index) in tools"
                      :key="index"
+                     v-show="item.index != 1 || item.index == 1 && !showList"
                      @click="toolsClick(item)">
                     <m-icon class="fs40 color-black"
                             :xlink="item.icon"></m-icon>
@@ -88,6 +89,152 @@
         <m-booking-detail ref="detail"
                           v-model="detailVisible"
                           @toolsClick="bookingToolClick"></m-booking-detail>
+        <!-- 筛选 -->
+        <m-popup-right v-model="popupFilterVisible"
+                       class="bt-popup-panel">
+            <div class="bt-cont"
+                 v-show="popupType == 1">
+                <div class="btp-section">
+                    门店名称
+                </div>
+                <div class="btp-cell"
+                     layout="row"
+                     layout-align="space-between center"
+                     @click="popupType = 2">
+                    <span class="fs13">
+                        {{store.name}}
+                    </span>
+                    <m-icon class="fs24 color-gray"
+                            xlink="#icon-right-bold"></m-icon>
+                </div>
+                <div class="btp-cont"
+                     layout="row"
+                     flex-wrap="wrap">
+                    <div class="btp-item"
+                         :class="{'btp-item-s': item.id == params.storeId}"
+                         flex="50"
+                         v-for="item in storeList"
+                         :key="item.id"
+                         @click="storeClick(item)">
+                        <div>{{item.name}}</div>
+                    </div>
+                </div>
+                <div class="btp-section">
+                    技师
+                </div>
+                <div class="btp-cell"
+                     layout="row"
+                     layout-align="space-between center"
+                     @click="popupType = 3">
+                    <span class="fs13 extra-light-black">选择技师</span>
+                    <m-icon class="fs24 color-gray"
+                            xlink="#icon-right-bold"></m-icon>
+                </div>
+                <div class="btp-cont"
+                     layout="row"
+                     flex-wrap="wrap">
+                    <div class="btp-item"
+                         :class="{'btp-item-s' : params.employeeId === item.id}"
+                         flex="50"
+                         v-for="item in empTop5"
+                         :key="item.id"
+                         @click="empClick(item)">
+                        <div>{{item.name}}</div>
+                    </div>
+                </div>
+                <div class="btp-section"
+                     v-show="!showList">
+                    订单状态
+                </div>
+                <div class="btp-cont"
+                     layout="row"
+                     flex-wrap="wrap"
+                     v-show="!showList">
+                    <div class="btp-item"
+                         :class="{'btp-item-s' : item.selected}"
+                         flex="50"
+                         v-for="item in status"
+                         :key="item.value">
+                        <div @click="statusClick(item)">{{item.label}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="bt-cont bt-cont-sub"
+                 v-show="popupType == 2">
+                <div class="bp-cont">
+                    <div class="bp-search"
+                         layout="row">
+                        <div class="bp-back"
+                             @click="popupType = 1">
+                            <m-icon xlink="#icon-left-bold"></m-icon>
+                        </div>
+                        <form action=""
+                              flex>
+                            <input type="text"
+                            v-model="storeKeyword"
+                               placeholder="搜索门店">
+                        </form>
+                    </div>
+                    <div class="bp-cell"
+                         :class="{'bp-cell-s': params.storeId == item.id}"
+                         v-for="item in filterStoreList"
+                         :key="item.id"
+                         @click="storeClick(item);popupType = 1;"
+                         layout="row"
+                         layout-align="space-between center">
+                        <div flex>{{item.name}}</div>
+                        <m-icon class="fs24 bp-check"
+                                v-if="params.storeId == item.id"
+                                xlink="#icon-queding"></m-icon>
+                    </div>
+                    <m-no-data :visible="!filterStoreList.length"
+                               :showButton="false"
+                               message="暂无数据"></m-no-data>
+                </div>
+            </div>
+            <div class="bt-cont bt-cont-sub"
+                 v-show="popupType == 3">
+                <div class="bp-search"
+                     layout="row">
+                    <div class="bp-back"
+                         @click="popupType = 1">
+                        <m-icon xlink="#icon-left-bold"></m-icon>
+                    </div>
+                    <form action=""
+                          flex>
+                        <input type="text"
+                            v-model="empKeyword"
+                               placeholder="搜索员工">
+                        </form>
+                </div>
+                <div class="bp-cell"
+                     :class="{'bp-cell-s': params.employeeId == item.id}"
+                     v-for="item in filterEmpList"
+                     :key="item.id"
+                     @click="empClick(item);popupType = 1;"
+                     layout="row"
+                     layout-align="space-between center">
+                    <div flex>{{item.name}} {{item.code}}</div>
+                    <m-icon class="fs24 bp-check"
+                            v-if="params.employeeId == item.id"
+                            xlink="#icon-queding"></m-icon>
+                </div>
+                <m-no-data :visible="!filterStoreList.length"
+                           :showButton="false"
+                           message="暂无数据"></m-no-data>
+            </div>
+            <div class="bt-foot"
+                 layout="row">
+                <div class="btp-l"
+                     v-show="popupType == 1"
+                     @click="resetFilter"
+                     flex>重置</div>
+                <div class="btp-r"
+                     v-show="popupType == 1"
+                     @click="popupFilterVisible = false; loadData()"
+                     flex>确定</div>
+            </div>
+        </m-popup-right>
     </div>
 </template>
 <script>
@@ -97,6 +244,7 @@ import mCalendar from './components/calendar';
 import mBookingCell from './components/booking-cell';
 import mBookingDetail from './detail';
 import mConfirm from '@/components/m-confirm/index';
+import mPopupRight from '@/components/popup-right';
 import apiBooking from '@/services/api.booking';
 import mNoData from '@/components/no-data';
 Vue.component(Button.name, Button);
@@ -112,27 +260,52 @@ export default {
         mCalendar,
         mBookingCell,
         mNoData,
-        mBookingDetail
+        mBookingDetail,
+        mPopupRight
     },
     computed: {
         store() {
-            return this.$store.state.store;
+            return this.storeList.find(val => val.id === this.params.storeId);
         },
         selectedTab() {
             return this.tabs[this.tabIndex] || {};
         },
+        storeList() {
+            return this.$store.state.storeList;
+        },
         showList() {
             return this.viewType === VIEW_TYPE_LIST;
+        },
+        empTop5() {
+            return this.empList.filter((val, index) => index < 6);
+        },
+        filterStoreList() {
+            return this.storeList.filter(val => val.name.indexOf(this.storeKeyword) !== -1);
+        },
+        filterEmpList() {
+            return this.empList.filter(val => {
+                let keyword = this.empKeyword.toLocaleLowerCase();
+                return (
+                    (val.name && val.name.toLocaleLowerCase().indexOf(keyword) !== -1) ||
+                    (val.code && val.code.toLocaleLowerCase().indexOf(keyword) !== -1) ||
+                    (val.pinyin && val.pinyin.toLocaleLowerCase().indexOf(keyword) !== -1) ||
+                    (val.acronym && val.acronym.toLocaleLowerCase().indexOf(keyword) !== -1)
+                );
+            });
         }
     },
     data() {
         return {
             tabs: [],
             rows: [],
+            empList: [],
+            status: [],
             visible: false,
             total: 0,
             tabIndex: 0,
             params: {
+                storeId: this.$store.getters.storeId,
+                employeeId: '',
                 date: this.$moment()
                     .startOf('d')
                     .format('YYYY-MM-DD HH:mm:ss')
@@ -143,16 +316,22 @@ export default {
             startTime: '',
             endTime: '',
             times: [],
-            detailVisible: false
+            popupType: 1,
+            detailVisible: false,
+            popupFilterVisible: false,
+            storeKeyword: '',
+            empKeyword: ''
         };
     },
     mounted() {
         this.init();
         this.loadData();
+        this.loadEmpList();
     },
     methods: {
         init() {
             this.tools = [{ icon: '#icon-qiehuanmoshi', index: 0 }, { icon: '#icon-yuyuedingdan', index: 1 }, { icon: '#icon-shaixuan', index: 2 }];
+            this.initStatus();
             this.initTabs();
             this.initAppoinmentTime();
             this.initTimes();
@@ -180,6 +359,13 @@ export default {
                     total: 0,
                     rows: []
                 }
+            ];
+        },
+        initStatus() {
+            this.status = [
+                { label: '未确认', value: '1', selected: true },
+                { label: '已确认', value: '2', selected: true },
+                { label: '已取消', value: '4,5', selected: false }
             ];
         },
         initAppoinmentTime() {
@@ -216,11 +402,20 @@ export default {
                 startTime.add(1, 'h');
             }
         },
+        loadEmpList() {
+            apiBooking.getEmployees(this.params.storeId).then(
+                res => {
+                    this.empList = [{ id: '', name: '全部' }, ...res.data];
+                },
+                err => {}
+            );
+        },
         loadData() {
             this.$indicator.open();
             apiBooking.bookingSearch(this.queryFormat()).then(
                 res => {
                     this.initTabs();
+                    this.sourceList = res.data.rows;
                     this.listFormat(res.data.rows);
                     this.cardFormat(res.data.rows);
                     this.$nextTick(() => {
@@ -241,12 +436,18 @@ export default {
                     { field: 'startTime', value: this.startTime },
                     { field: 'endTime', value: this.endTime },
                     { field: 'merchantId', value: this.$store.getters.merchantId },
-                    { field: 'storeId', value: this.$store.getters.storeId },
+                    { field: 'storeId', value: this.params.storeId },
                     { field: 'holderType', value: 1 },
                     { field: 'holderStatus', value: '1,2,4,5', operation: 'like' }
                 ],
                 sort: []
             };
+            if (this.params.employeeId) {
+                params.query.push({
+                    field: 'employeeId',
+                    value: this.params.employeeId
+                });
+            }
             return params;
         },
         showCalendar() {
@@ -270,6 +471,7 @@ export default {
                 case 1:
                     break;
                 case 2:
+                    this.popupFilterVisible = true;
                     break;
             }
         },
@@ -327,6 +529,24 @@ export default {
                 }
             });
         },
+        storeClick(item) {
+            if (this.params.id === item.id) {
+                return;
+            }
+            this.params.storeId = item.id;
+            this.loadEmpList();
+        },
+        empClick(item) {
+            this.params.employeeId = item.id;
+        },
+        statusClick(item) {
+            item.selected = !item.selected;
+        },
+        resetFilter() {
+            this.params.employeeId = '';
+            this.initStatus();
+            this.loadData();
+        },
         listFormat(list) {
             list.forEach(booking => {
                 let item = this.tabs.find(val => val.value.indexOf(booking.holderStatus) !== -1);
@@ -346,30 +566,35 @@ export default {
             });
         },
         cardFormat(list) {
-            if (!list.length) {
-                this.rows = list;
+            let holderStatus = this.status
+                .filter(val => val.selected)
+                .map(val => val.value)
+                .join(',');
+            let rows = list.filter(val => holderStatus.indexOf(val.holderStatus) !== -1);
+            if (!rows.length) {
+                this.rows = rows;
                 return;
             }
             // 按时间排序
-            list.sort((a, b) => {
+            rows.sort((a, b) => {
                 return a.startTime > b.startTime;
             });
             // 按时间分组
             let tempList = [[]];
-            let startTime = list[0].startTime;
-            let rows = tempList[0];
+            let startTime = rows[0].startTime;
+            let tempRows = tempList[0];
             let minutes = this.$moment(this.endTime).diff(this.startTime, 'm');
-            list.forEach(val => {
+            rows.forEach(val => {
                 if (this.$moment(val.startTime).diff(startTime, 'm') > 30) {
                     tempList.push([]);
-                    rows = tempList[tempList.length - 1];
+                    tempRows = tempList[tempList.length - 1];
                     startTime = val.startTime;
                 }
                 val.style = {
-                    top: this.$moment(val.startTime).diff(this.startTime, 'm') / minutes * 100 + '%',
-                    height: this.$moment(val.endTime).diff(val.startTime, 'm') / minutes * 100 + '%'
+                    top: (this.$moment(val.startTime).diff(this.startTime, 'm') / minutes) * 100 + '%',
+                    height: (this.$moment(val.endTime).diff(val.startTime, 'm') / minutes) * 100 + '%'
                 };
-                rows.push(val);
+                tempRows.push(val);
             });
             let tempBooking;
             let leftWidth = 0;
@@ -389,7 +614,7 @@ export default {
                     val.style.left = width * index + leftWidth + '%';
                 });
             });
-            this.rows = list;
+            this.rows = rows;
         }
     }
 };
@@ -608,6 +833,112 @@ export default {
     &tool-btn {
         &:active {
             background-color: darken(white, 5%);
+        }
+    }
+    &popup-panel {
+        width: 82%;
+        .bt-cont {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 49px;
+            overflow: auto;
+            &-sub {
+                bottom: 0;
+            }
+        }
+        .bt-foot {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 49px;
+            line-height: 49px;
+            font-size: 15px;
+            text-align: center;
+            .btp-l {
+                background-color: @bg-gray;
+            }
+            .btp-r {
+                color: white;
+                background-color: @color-primary;
+            }
+        }
+        .btp-section {
+            line-height: 50px;
+            font-size: 15px;
+            font-weight: bold;
+            padding-left: 20px;
+        }
+        .btp-cell {
+            padding: 16px 20px;
+            background-color: @bg-gray;
+        }
+        .btp-cont {
+            padding-left: 16px;
+            padding-top: 16px;
+        }
+        .btp-item {
+            padding-right: 16px;
+            padding-bottom: 12px;
+            color: @extra-black;
+            :nth-child(1) {
+                text-align: center;
+                padding: 7px 8px;
+                border-radius: 18px;
+                background-color: @bg-gray;
+                border: 1px solid transparent;
+            }
+            &-s {
+                :nth-child(1) {
+                    color: @color-black;
+                    border-color: @color-primary; /*no*/
+                    background-color: rgba(255, 248, 253, 1);
+                }
+            }
+        }
+        .bp-cont {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: auto;
+        }
+        .bp-search {
+            padding: 6px 12px;
+            background: #f2f2f2;
+            border-bottom: 1px solid @light-gray; /*no*/
+            input {
+                width: 100%;
+                height: 35px;
+                font-size: 13px;
+                background: white;
+                padding-left: 12px;
+                border-radius: 4px;
+            }
+            .bp-back {
+                margin-left: -12px;
+                width: 40px;
+                text-align: center;
+                line-height: 35px;
+            }
+        }
+        .bp-cell {
+            font-size: 13px;
+            border-bottom: 1px solid @light-gray; /*no*/
+            padding: 12px 20px;
+            color: @extra-black;
+            padding-right: 30px;
+            & > div :nth-of-type(2) {
+                color: @gray;
+            }
+            &-s,
+            &-s > div :nth-of-type(2),
+            &-s .icon {
+                color: @color-primary;
+            }
         }
     }
 }
