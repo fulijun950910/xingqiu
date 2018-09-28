@@ -19,12 +19,13 @@
             </div>
         </div>
         <div layout="row"
-             layout-align="start start"
              class="cc-cont">
             <div class="bc-avatar m-r-2">
                 <img :src="value.avatarId | mSrc(80, 80, require('assets/imgs/avatar.png'))">
             </div>
-            <div flex>
+            <div flex
+                 layout="column"
+                 layout-align="center start">
                 <div>
                     <span class="m-r-2">{{value.name}}</span>
                     <span class="fs24 color-gray">{{value.phone}}</span>
@@ -32,7 +33,8 @@
                 <div class="fs24 color-gray">{{value.information}}</div>
             </div>
             <div class="bc-edit-btn"
-                 @click.stop="editing = !editing"
+                 @click.stop="editClick"
+                 ref="check"
                  v-if="tools && tools.length">
                 <m-icon class="fs28 color-black"
                         xlink="#icon-bianji"></m-icon>
@@ -42,6 +44,7 @@
              @click.self.stop="editing = false"
              v-show="editing">
             <div class="bc-tools-panel"
+                 :style="{ top: top }"
                  layout="row"
                  layout-align="space-between center">
                 <div v-for="(item, index) in tools"
@@ -79,7 +82,8 @@ export default {
     },
     data() {
         return {
-            editing: false
+            editing: false,
+            top: null
         };
     },
     mounted() {},
@@ -90,6 +94,12 @@ export default {
                 index: item.value,
                 value: this.value
             });
+        },
+        editClick(el) {
+            this.editing = !this.editing;
+            if (this.editing) {
+                this.top = (this.$refs.check.getBoundingClientRect().y - this.$el.getBoundingClientRect().y - 20) / 37.5 + 'rem';
+            }
         }
     }
 };
@@ -170,7 +180,6 @@ export default {
         padding: 10px 16px;
         position: absolute;
         right: 60px;
-        bottom: 16px;
         border-radius: 2px;
     }
     .bct-item {
