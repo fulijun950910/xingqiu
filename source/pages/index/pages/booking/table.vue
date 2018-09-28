@@ -87,6 +87,7 @@
             </div>
         </div>
         <m-booking-detail ref="detail"
+                          :closeOnClickModal="true"
                           v-model="detailVisible"
                           @toolsClick="bookingToolClick"></m-booking-detail>
         <!-- 筛选 -->
@@ -735,7 +736,7 @@ export default {
         & > div {
             background-color: #a43a8e;
             height: 100%;
-            border-left: 5px solid; /*no*/
+            border-left: 3px solid; /*no*/
             padding: 2px;
             overflow: hidden;
         }
