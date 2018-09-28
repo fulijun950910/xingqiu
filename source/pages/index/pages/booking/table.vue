@@ -10,7 +10,7 @@
                      layout-align="start center"
                      class="bt-tab-cont"
                      :class="{'bt-tab-cont-fixed': fiexdHead}">
-                    <div :class="{'bt-tab-s': index === tabIndex}"
+                    <div :class="{'bt-tab-s': index === params.tabIndex}"
                          flex
                          v-for="(item, index) in tabs"
                          :key="index"
@@ -269,9 +269,6 @@ import mNoData from '@/components/no-data';
 Vue.component(Button.name, Button);
 Vue.component(Spinner.name, Spinner);
 
-const VIEW_TYPE_LIST = 1;
-const VIEW_TYPE_CARD = 2;
-
 export default {
     name: 'bookingTable',
     props: {},
@@ -284,16 +281,16 @@ export default {
     },
     computed: {
         store() {
-            return this.storeList.find(val => val.id === this.params.storeId);
+            return this.storeList.find(val => val.id === this.params.storeId) || {};
         },
         selectedTab() {
-            return this.tabs[this.tabIndex] || {};
+            return this.tabs[this.params.tabIndex] || {};
         },
         storeList() {
             return this.$store.state.storeList;
         },
         showList() {
-            return this.viewType === VIEW_TYPE_LIST;
+            return this.params.viewType === 1;
         },
         empTop5() {
             return this.empList.filter((val, index) => index < 6);
@@ -311,6 +308,9 @@ export default {
                     (val.acronym && val.acronym.toLocaleLowerCase().indexOf(keyword) !== -1)
                 );
             });
+        },
+        params() {
+            return this.$store.state.booking.params;
         }
     },
     data() {
@@ -321,17 +321,16 @@ export default {
             status: [],
             visible: false,
             total: 0,
-            tabIndex: 0,
-            params: {
-                storeId: this.$store.getters.storeId,
-                employeeId: this.$store.getters.bookingGuest ? '' : this.$store.getters.employeeId,
-                date: this.$moment()
-                    .startOf('d')
-                    .format('YYYY-MM-DD HH:mm:ss')
-            },
+            // params: {
+            //     tabIndex: 0,
+            //     storeId: this.$store.getters.storeId,
+            //     employeeId: this.$store.getters.bookingGuest ? '' : this.$store.getters.employeeId,
+            //     date: this.$moment()
+            //         .startOf('d')
+            //         .format('YYYY-MM-DD HH:mm:ss')
+            // },
             tools: [],
             fiexdHead: false,
-            viewType: VIEW_TYPE_LIST,
             startTime: '',
             endTime: '',
             times: [],
@@ -352,6 +351,12 @@ export default {
     methods: {
         init() {
             this.tools = [{ icon: '#icon-qiehuanmoshi', index: 0 }, { icon: '#icon-yuyuedingdan', index: 1 }, { icon: '#icon-shaixuan', index: 2 }];
+            if (!this.params.storeId) {
+                this.$store.commit('bookingSetParams', { storeId: this.$store.getters.storeId });
+            }
+            if (!this.params.employeeId) {
+                this.$store.commit('bookingSetParams', { employeeId: this.$store.getters.bookingGuest ? '' : this.$store.getters.employeeId });
+            }
             this.initStatus();
             this.initTabs();
             this.initAppoinmentTime();
@@ -502,12 +507,12 @@ export default {
             this.loadData();
         },
         tabClick(index) {
-            this.tabIndex = index;
+            this.$store.commit('bookingSetParams', { tabIndex: index });
         },
         toolsClick(item) {
             switch (item.index) {
                 case 0:
-                    this.viewType = this.viewType === VIEW_TYPE_LIST ? VIEW_TYPE_CARD : VIEW_TYPE_LIST;
+                    this.$store.commit('bookingSetParams', { viewType: this.params.viewType === 1 ? 2 : 1 });
                     this.$nextTick(() => {
                         window.scrollTo(0, 0);
                     });
@@ -575,14 +580,17 @@ export default {
             });
         },
         storeClick(item) {
-            if (this.params.id === item.id) {
+            if (this.params.storeId === item.id) {
                 return;
             }
-            this.params.storeId = item.id;
+            this.$store.commit('bookingSetParams', { storeId: item.id });
             this.loadEmpList();
         },
         empClick(item) {
-            this.params.employeeId = item.id;
+            if (this.params.employeeId === item.id) {
+                return;
+            }
+            this.$store.commit('bookingSetParams', { employeeId: item.id });
         },
         statusClick(item, reload) {
             item.selected = !item.selected;
@@ -591,7 +599,7 @@ export default {
             }
         },
         resetFilter() {
-            this.params.employeeId = '';
+            this.$store.commit('bookingSetParams', { employeeId: '' });
             this.initStatus();
             this.loadData();
         },
