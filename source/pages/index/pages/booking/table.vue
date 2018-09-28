@@ -147,7 +147,7 @@
                 </div>
                 <div v-show="!showList">
                     <div class="btp-section">
-                        订单状态
+                        预约状态
                     </div>
                     <div class="btp-cont"
                          layout="row"
