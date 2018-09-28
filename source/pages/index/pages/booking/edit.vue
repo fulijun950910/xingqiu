@@ -744,6 +744,11 @@ export default {
                 this.$toast('请选择预约时间');
                 return;
             }
+            // 备注校验
+            if (this.booking.information.length > 150) {
+                this.$toast('备注信息最多150字');
+                return;
+            }
             this.$indicator.open();
             let params = {
                 appointmentId: this.booking.appointmentId,

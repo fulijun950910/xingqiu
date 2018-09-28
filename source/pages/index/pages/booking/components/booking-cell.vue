@@ -19,7 +19,7 @@
             </div>
         </div>
         <div layout="row"
-             layout-align="start center"
+             layout-align="start start"
              class="cc-cont">
             <div class="bc-avatar m-r-2">
                 <img :src="value.avatarId | mSrc(80, 80, require('assets/imgs/avatar.png'))">
