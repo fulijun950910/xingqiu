@@ -39,9 +39,16 @@
                         @click.native="popupStoreVisible = true"></m-cell>
                 <m-cell title="技师"
                         :subTitle="empName"
-                        @click.native="popupEmpVisible = true"></m-cell>
+                        placeholder="选择技师"
+                        @click.native="$store.getters.bookingManage && (popupEmpVisible = true)">
+                    <template slot="foot"
+                              v-if="!$store.getters.bookingManage">
+                        <div></div>
+                    </template>
+                </m-cell>
                 <m-cell title="房间"
                         :subTitle="roomName"
+                        placeholder="选择房间"
                         @click.native="popupRoomVisible = true"></m-cell>
                 <div layout="row"
                      layout-align="space-between center"

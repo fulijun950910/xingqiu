@@ -13,8 +13,11 @@
                   class="color-black">{{subTitle}}</span>
             <span v-else>{{placeholder}}</span>
         </div>
-        <m-icon class="fs20 dark-gray"
-                xlink="#icon-right-bold"></m-icon>
+        <slot name="foot">
+            <m-icon class="fs20 dark-gray"
+                    slot="right"
+                    xlink="#icon-right-bold"></m-icon>
+        </slot>
     </div>
 </template>
 <script>
