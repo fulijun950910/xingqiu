@@ -657,7 +657,7 @@ export default {
             let leftWidth = 0;
             tempList.forEach(item => {
                 if (tempBooking && tempBooking.endTime > item[0].startTime) {
-                    leftWidth += 2;
+                    leftWidth += 1.2;
                 } else {
                     leftWidth = 0;
                 }
@@ -744,19 +744,19 @@ export default {
             // 待确认
             color: #b7683a;
             border-left-color: @status-0;
-            background-color: fade(@status-0, 40%);
+            background-color: fade(#F7D8C5, 80%);
         }
         .item2 {
             // 已确认
             color: #1f646d;
             border-left-color: @status-1;
-            background-color: fade(@status-1, 40%);
+            background-color: fade(#C7E8EC, 80%);
         }
         .item5 {
             // 取消
             color: #222222;
             border-left-color: @status-2;
-            background-color: fade(@status-2, 40%);
+            background-color: fade(#CFCFCF, 80%);
         }
     }
     &c-head {
