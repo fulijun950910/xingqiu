@@ -119,7 +119,7 @@
                         <div>{{item.name}}</div>
                     </div>
                 </div>
-                <div v-if="bookingGuest">
+                <div v-if="$store.getters.bookingGuest">
                     <div class="btp-section">
                         技师
                     </div>
@@ -266,7 +266,6 @@ import mConfirm from '@/components/m-confirm/index';
 import mPopupRight from '@/components/popup-right';
 import apiBooking from '@/services/api.booking';
 import mNoData from '@/components/no-data';
-import { PERMISSION_BOOKING_GUEST, PERMISSION_BOOKING_MANAGE } from '@/config/mixins';
 Vue.component(Button.name, Button);
 Vue.component(Spinner.name, Spinner);
 
@@ -312,12 +311,6 @@ export default {
                     (val.acronym && val.acronym.toLocaleLowerCase().indexOf(keyword) !== -1)
                 );
             });
-        },
-        bookingGuest() {
-            return this.$store.getters.permissions.indexOf(PERMISSION_BOOKING_GUEST) !== -1 || this.bookingManage;
-        },
-        bookingManage() {
-            return this.$store.getters.permissions.indexOf(PERMISSION_BOOKING_MANAGE) !== -1;
         }
     },
     data() {
@@ -331,7 +324,7 @@ export default {
             tabIndex: 0,
             params: {
                 storeId: this.$store.getters.storeId,
-                employeeId: this.bookingGuest || this.bookingManage ? '' : this.$store.getters.employeeId,
+                employeeId: this.$store.getters.bookingGuest ? '' : this.$store.getters.employeeId,
                 date: this.$moment()
                     .startOf('d')
                     .format('YYYY-MM-DD HH:mm:ss')
@@ -431,7 +424,7 @@ export default {
             }
         },
         loadEmpList() {
-            if (!this.bookingGuest) {
+            if (!this.$store.getters.bookingGuest) {
                 return;
             }
             apiBooking.getEmployees(this.params.storeId).then(
