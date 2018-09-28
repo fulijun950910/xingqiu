@@ -8,6 +8,10 @@ export const GENDERS = [
     { name: '未知', value: '3' }
 ];
 
+export const PERMISSION_BOOKING = 'wechat_business_booking';
+export const PERMISSION_BOOKING_GUEST = 'wechat_business_booking_guest';
+export const PERMISSION_BOOKING_MANAGE = 'wechat_business_booking_manage';
+
 /* wechat business 权限 */
 export const WECHAT_BUSINESS = [
     { name: '微信店务助手', code: 'wechat_business' },

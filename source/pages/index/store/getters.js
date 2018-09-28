@@ -34,5 +34,8 @@ export default {
                 return val.id;
             })
             .toString();
+    },
+    permissions: state => {
+        return state.merchantRole.permissionPackage ? state.merchantRole.permissionPackage.permissions : [];
     }
 };

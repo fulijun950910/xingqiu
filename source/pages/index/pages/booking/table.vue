@@ -119,43 +119,45 @@
                         <div>{{item.name}}</div>
                     </div>
                 </div>
-                <div class="btp-section">
-                    技师
-                </div>
-                <div class="btp-cell"
-                     layout="row"
-                     layout-align="space-between center"
-                     @click="popupType = 3">
-                    <span class="fs13 extra-light-black">选择技师</span>
-                    <m-icon class="fs24 color-gray"
-                            xlink="#icon-right-bold"></m-icon>
-                </div>
-                <div class="btp-cont"
-                     layout="row"
-                     flex-wrap="wrap">
-                    <div class="btp-item"
-                         :class="{'btp-item-s' : params.employeeId === item.id}"
-                         flex="50"
-                         v-for="item in empTop5"
-                         :key="item.id"
-                         @click="empClick(item)">
-                        <div>{{item.name}}</div>
+                <div v-if="bookingGuest">
+                    <div class="btp-section">
+                        技师
+                    </div>
+                    <div class="btp-cell"
+                         layout="row"
+                         layout-align="space-between center"
+                         @click="popupType = 3">
+                        <span class="fs13 extra-light-black">选择技师</span>
+                        <m-icon class="fs24 color-gray"
+                                xlink="#icon-right-bold"></m-icon>
+                    </div>
+                    <div class="btp-cont"
+                         layout="row"
+                         flex-wrap="wrap">
+                        <div class="btp-item"
+                             :class="{'btp-item-s' : params.employeeId === item.id}"
+                             flex="50"
+                             v-for="item in empTop5"
+                             :key="item.id"
+                             @click="empClick(item)">
+                            <div>{{item.name}}</div>
+                        </div>
                     </div>
                 </div>
-                <div class="btp-section"
-                     v-show="!showList">
-                    订单状态
-                </div>
-                <div class="btp-cont"
-                     layout="row"
-                     flex-wrap="wrap"
-                     v-show="!showList">
-                    <div class="btp-item"
-                         :class="{'btp-item-s' : item.selected}"
-                         flex="50"
-                         v-for="item in status"
-                         :key="item.value">
-                        <div @click="statusClick(item)">{{item.label}}</div>
+                <div v-show="!showList">
+                    <div class="btp-section">
+                        订单状态
+                    </div>
+                    <div class="btp-cont"
+                         layout="row"
+                         flex-wrap="wrap">
+                        <div class="btp-item"
+                             :class="{'btp-item-s' : item.selected}"
+                             flex="50"
+                             v-for="item in status"
+                             :key="item.value">
+                            <div @click="statusClick(item)">{{item.label}}</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -264,6 +266,7 @@ import mConfirm from '@/components/m-confirm/index';
 import mPopupRight from '@/components/popup-right';
 import apiBooking from '@/services/api.booking';
 import mNoData from '@/components/no-data';
+import { PERMISSION_BOOKING_GUEST, PERMISSION_BOOKING_MANAGE } from '@/config/mixins';
 Vue.component(Button.name, Button);
 Vue.component(Spinner.name, Spinner);
 
@@ -309,6 +312,12 @@ export default {
                     (val.acronym && val.acronym.toLocaleLowerCase().indexOf(keyword) !== -1)
                 );
             });
+        },
+        bookingGuest() {
+            return this.$store.getters.permissions.indexOf(PERMISSION_BOOKING_GUEST) !== -1 || this.bookingManage;
+        },
+        bookingManage() {
+            return this.$store.getters.permissions.indexOf(PERMISSION_BOOKING_MANAGE) !== -1;
         }
     },
     data() {
@@ -322,7 +331,7 @@ export default {
             tabIndex: 0,
             params: {
                 storeId: this.$store.getters.storeId,
-                employeeId: '',
+                employeeId: this.bookingGuest || this.bookingManage ? '' : this.$store.getters.employeeId,
                 date: this.$moment()
                     .startOf('d')
                     .format('YYYY-MM-DD HH:mm:ss')
@@ -422,6 +431,9 @@ export default {
             }
         },
         loadEmpList() {
+            if (!this.bookingGuest) {
+                return;
+            }
             apiBooking.getEmployees(this.params.storeId).then(
                 res => {
                     this.empList = [{ id: '', name: '全部' }, ...res.data];
