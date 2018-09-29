@@ -10,6 +10,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var uglify = require('gulp-uglify');
 var gulpIf = require('gulp-if');
 let cleanCSS = require('gulp-clean-css');
+var rev = require('gulp-rev-append');
 var reload = browserSync.reload;
 
 var dist = {
@@ -186,4 +187,12 @@ gulp.task('clean', function() {
             read: false
         })
         .pipe(clean());
+});
+
+gulp.task('rev-append', function() {
+    gulp.src('dist/**/*.html', {
+        base: 'dist'
+    })
+        .pipe(rev())
+        .pipe(gulp.dest('dist'));
 });
