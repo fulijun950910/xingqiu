@@ -334,7 +334,7 @@ export default {
     },
     data() {
         return {
-            isMember: false,
+            isMember: true,
             customer: {
                 name: '',
                 phone: ''
