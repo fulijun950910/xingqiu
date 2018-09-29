@@ -10,3 +10,5 @@ dist
 WebContent
 icomoon
 example
+gulpfile.js
+dist/**/*.js
