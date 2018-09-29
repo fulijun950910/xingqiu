@@ -760,7 +760,7 @@ export default {
                 items: this.booking.items,
                 memberCount: this.booking.memberCount,
                 roomId: this.booking.roomId,
-                roomName: this.booking.roomName,
+                roomName: this.roomName,
                 startTime: this.booking.startTime,
                 endTime: this.$moment(this.booking.startTime)
                     .add(1, 'h')
