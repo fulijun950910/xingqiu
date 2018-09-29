@@ -56,11 +56,13 @@
                     <span class="text">新增会员</span>
                 </a>
                 <span class="item-line"></span>
+                {% if(o.permissions.indexOf('wechat_business_booking') != -1){ %}
                 <a href="/service/#/booking-table" class="item" layout="column" layout-align="center center">
                     <span class="count">{%=o.performanceInfo.appointmentNum %}</span>
                     <span class="text">&nbsp;&nbsp;预约&nbsp;&nbsp;</span>
                 </a>
                 <span class="item-line"></span>
+                {% } %}
                 <a href="/performance-index.html#/order-list" class="item" layout="column" layout-align="center center">
                     <span class="count">{%=o.performanceInfo.orderNum %}</span>
                     <span class="text">&nbsp;&nbsp;订单&nbsp;&nbsp;</span>
@@ -307,16 +309,18 @@
         </div>
         <div class="main">
             <div class="wrap main-info">
+                {% if(o.permissions.indexOf('wechat_business_booking') != -1){ %}
                 <a href="/service/#/booking-table" class="item item-1 border-right border-bottom">
                     <span class="primary-color font-size-18">{%=o.performanceInfo.appointmentNum %}</span>
                     <span class="margin-top-8">预约</span>
                 </a>
+                {% } %}
                 <a href="/performance-index.html#/order-list" class="item item-2 border-bottom border-right">
                     <span class="primary-color font-size-18">{%=o.performanceInfo.orderNum %}</span>
                     <span class="margin-top-8">订单</span>
                 </a>
                 <!-- <a href="/performance-index.html#/performance_rank" class="item item-5 border-bottom"> -->
-                <a href="javascript:void(0)" class="item item-5 border-bottom">
+                <a href="javascript:void(0)" class="item item-5 border-right border-bottom">
                     <!--% if(o.performanceInfo.performanceRanking){ %-->
                     <span class="primary-color font-size-18">{%=o.performanceInfo.performanceRanking %}</span>
                     <!--% }else{ %-->
@@ -332,19 +336,17 @@
                     <i class="ic">&#xe647;</i>
                     <span class="margin-top-8">服务小记</span>
                 </a>
-                <a href="/lite/index.html#/getTicketQrcode" class="item item-7 border-bottom">
+                <a href="/lite/index.html#/getTicketQrcode" class="item item-7 border-right border-bottom">
                     <i class="ic icon-banhuijia_erweimaqiandao"></i>
                     <span class="font-size-12 margin-top-8">扫码出券</span>
                 </a>
-                <a href="/service/customer-profiles.html#/list" class="item item-4 border-right">
+                <a href="/service/customer-profiles.html#/list" class="item item-4 border-right border-bottom">
                     <i class="ic icon-kehudangan"></i>
                     <span class="font-size-12 margin-top-8">顾客档案</span>
                 </a>
                 <a href="/userinfo.html#/" class="item item-4 border-right">
                     <i class="ic">&#xe60e;</i>
                     <span class="margin-top-8">个人中心</span>
-                </a>
-                <a class="item item-4 border-right">
                 </a>
             </div>
         </div>

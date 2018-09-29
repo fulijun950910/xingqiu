@@ -269,6 +269,11 @@ app.index = {
             app.index.getOperatorStore(data);
             tmplhtml = $('#tmpl-index-admin-model').html();
         }
+        try {
+            memberData.permissions = employee.merchantRole.permissionPackage.permissions;
+        } catch (error) {
+            memberData.permissions = [];
+        }
         var resultTmpl = tmpl(tmplhtml, memberData);
         $('#tmpl-index').html(resultTmpl);
 
