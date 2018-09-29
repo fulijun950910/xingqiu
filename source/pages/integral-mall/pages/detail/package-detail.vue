@@ -273,7 +273,6 @@ export default {
                 let ls1 = sku.stores.filter((store, index) => {
                     return spec.id == store.id;
                 });
-                debugger;
                 if (ls1.length) {
                     // console.log(item.select);
                     sku.stores.map((store, index) => {
