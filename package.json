@@ -29,7 +29,6 @@
     "@vue/cli-plugin-eslint": "^3.0.0",
     "@vue/cli-service": "^3.0.0",
     "@vue/eslint-config-standard": "^3.0.1",
-    "add": "^2.0.6",
     "babel-plugin-component": "^1.1.1",
     "browser-sync": "^2.24.7",
     "gulp": "^3.9.1",
