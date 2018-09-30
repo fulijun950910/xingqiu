@@ -299,6 +299,11 @@
     }
     //员工
     .normal-header {
+        position: relative;
+        .wrap {
+            position: relative;
+            z-index: 2;
+        }
         .performance {
             justify-content: center;
             -webkit-justify-content: center;
@@ -324,6 +329,15 @@
                     font-size: .8rem;
                 }
             }
+        }
+        .nh-mask {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.2);
         }
     }
     .normal-info {
