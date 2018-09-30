@@ -117,7 +117,7 @@
                          v-for="item in storeList"
                          :key="item.id"
                          @click="storeClick(item)">
-                        <div>{{item.name}}</div>
+                        <div class="no-wrap">{{item.name}}</div>
                     </div>
                 </div>
                 <div v-if="$store.getters.bookingGuest">
@@ -141,7 +141,7 @@
                              v-for="item in empTop5"
                              :key="item.id"
                              @click="empClick(item)">
-                            <div>{{item.name}}</div>
+                            <div class="no-wrap">{{item.name}}</div>
                         </div>
                     </div>
                 </div>

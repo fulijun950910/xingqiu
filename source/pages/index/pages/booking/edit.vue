@@ -486,8 +486,8 @@ export default {
                 }
                 startTime.add(15, 'm');
             }
-            this.pickerOptions.date = startTime.toDate();
-            this.startDate = this.$moment(startTime);
+            this.pickerOptions.date = tempTime.toDate();
+            this.startDate = this.$moment(tempTime);
 
             // 默认展开
             if (this.times.filter(val => val.expand).length === 0) {
