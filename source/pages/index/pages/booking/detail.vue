@@ -50,16 +50,16 @@
                          class="bd-tools-panel">
                         <div flex
                              v-show="booking.holderStatus == 1 || booking.holderStatus == 2"
-                             v-if="bookingMange"
+                             v-if="bookingManage"
                              @click="handleAction(1)">取消预约</div>
                         <div flex
                              v-show="booking.holderStatus == 1 || booking.holderStatus == 2"
-                             v-if="bookingMange"
+                             v-if="bookingManage"
                              @click="handleAction(2)">修改</div>
                         <div flex
                              class="color-primary"
                              v-show="booking.holderStatus == 1"
-                             v-if="bookingMange"
+                             v-if="bookingManage"
                              @click="handleAction(3)">确认</div>
                     </div>
                     <div class="bd-close"
@@ -84,8 +84,8 @@ export default {
     },
     components: {},
     computed: {
-        bookingMange() {
-            return this.$store.getters.bookingMange || this.booking.employeeId === this.$store.getters.employeeId;
+        bookingManage() {
+            return this.$store.getters.bookingManage || this.booking.employeeId === this.$store.getters.employeeId;
         }
     },
     data() {
