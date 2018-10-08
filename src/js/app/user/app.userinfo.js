@@ -885,7 +885,9 @@ app.userinfo = {
                 if (result.success && result.data) {
                     // app.alert('修改成功', '密码修改成功');
                     app.userinfo.alertError('小主，修改成功');
-                    app.userinfo.init();
+                    setTimeout(function() {
+                        app.userinfo.init();
+                    }, 800);
                 }
             },
             error: function(a, b, c) {
