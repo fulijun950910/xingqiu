@@ -67,6 +67,7 @@ export default {
             };
             this.$indicator.open();
             api_party.newPassword(data).then(res => {
+                this.$toast('密码修改成功');
                 this.$indicator.close();
                 this.$router.back();
             });
