@@ -10,7 +10,9 @@ app.api = {
                     localStorage.clear();
                     window.location.href = window.location.origin + '/userinfo.html#/user_login';
                     if (location.pathname == '/userinfo.html') {
-                        location.reload();
+                        setTimeout(function() {
+                            location.reload();
+                        }, 200);
                     }
                     break;
                 case 404:
