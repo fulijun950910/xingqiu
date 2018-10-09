@@ -1079,8 +1079,8 @@ app.userinfo = {
                     case 6: // 修改密码
                         // 事件统计
                         baiduStatistical.add({
-                            category: '找回密码',
-                            label: '用户找回密码',
+                            category: '修改密码',
+                            label: '用户修改密码',
                             val: '',
                             action: 'click'
                         });
@@ -1114,7 +1114,8 @@ app.userinfo = {
                             data: updatePassword,
                             success: function(result) {
                                 if (result.success && result.data) {
-                                    location.href = '/userinfo.html#/user_login';
+                                    app.toast('密码修改成功');
+                                    window.history.back();
                                 } else {
                                     app.userinfo.alertError(result.message);
                                     return;
