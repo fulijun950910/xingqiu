@@ -36,6 +36,7 @@ $(function() {
         url: '/',
         className: 'user_home',
         render: function() {
+            app.tools.changeTitle('个人信息');
             return $('#tpl_user_home').html();
         },
         bind: function() {
