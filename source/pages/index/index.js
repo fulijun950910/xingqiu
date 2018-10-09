@@ -11,7 +11,7 @@ Vue.prototype.$signLocation = process.env.NODE_ENV === 'development' ? '#/sign-i
 Vue.prototype.$wxc_url = process.env.NODE_ENV === 'production' ? 'https://wechat.mei1.com' : 'https://wechat.mei1.info';
 Vue.prototype.$wxb_url = process.env.NODE_ENV === 'production' ? 'http://assistant.mei1.info' : 'http://wxbus.mei1.com';
 Vue.prototype.$rootPath = process.env.NODE_ENV === 'development' ? '/' : '/service/';
-Vue.prototype.$getSignLocation = (search) => {
+Vue.prototype.$getSignLocation = search => {
     let ref = '';
     if (search) {
         ref = process.env.NODE_ENV === 'development' ? search + '#/sign-in' : '/userinfo.html' + search + '#/user_login';
@@ -48,9 +48,13 @@ Vue.config.productionTip = false;
 
 // iOS 300ms延迟解决方案
 if ('addEventListener' in document) {
-    document.addEventListener('DOMContentLoaded', function() {
-        FastClick.attach(document.body);
-    }, false);
+    document.addEventListener(
+        'DOMContentLoaded',
+        function() {
+            FastClick.attach(document.body);
+        },
+        false
+    );
 }
 
 // 更新登录人信息至Vuex
@@ -108,8 +112,7 @@ router.beforeEach(async ({ meta, path }, from, next) => {
         // 百度统计
         try {
             window._hmt.push(['_trackPageview', '/service/index.html#' + path]);
-        } catch (e) {
-        }
+        } catch (e) {}
         next();
     } else if (routerCheckPartyPath(path) && (store.state.party && store.state.party.id)) {
         next();
@@ -127,8 +130,16 @@ router.beforeEach(async ({ meta, path }, from, next) => {
     }
 });
 
-new Vue({
-    router,
-    store,
-    render: h => h(App)
-}).$mount('#app');
+// 加载权限和自定义配置
+const init = async () => {
+    try {
+        await store.dispatch('updateBaseData');
+    } catch (error) {}
+    new Vue({
+        router,
+        store,
+        render: h => h(App)
+    }).$mount('#app');
+};
+
+init();

@@ -14,7 +14,7 @@
                 <input type="search"
                        v-model="keyword"
                        @keydown.enter="search"
-                       placeholder="输入项目名搜索">
+                       placeholder="输入名称搜索">
             </form>
             <div class="tsh-foot color-primary"
                  @click="search">

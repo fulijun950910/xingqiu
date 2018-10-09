@@ -42,9 +42,9 @@
                     <div></div>
                 </template>
             </m-cell>
-            <m-cell title="技师"
+            <m-cell :title="$store.getters.nounName('worker')"
                     :subTitle="empName"
-                    placeholder="选择技师"
+                    :placeholder="`选择${$store.getters.nounName('worker')}`"
                     @click.native="$store.getters.bookingManage && (popupEmpVisible = true)">
                 <template slot="foot"
                           v-if="!$store.getters.bookingManage">
@@ -58,10 +58,10 @@
             <div layout="row"
                  layout-align="space-between center"
                  class="be-title">
-                <div>项目</div>
+                <div>{{$store.getters.nounName('project')}}</div>
             </div>
-            <m-cell title="项目"
-                    placeholder="选择预约项目"
+            <m-cell :title="$store.getters.nounName('project')"
+                    :placeholder="`选择预约${$store.getters.nounName('project')}`"
                     :subTitle="itemsName"
                     @click.native="popupItemsVisible = true"></m-cell>
             <div layout="row"
@@ -189,7 +189,7 @@
         <m-popup-right v-model="popupEmpVisible"
                        class="be-popup-panel">
             <div class="bp-cont">
-                <div class="bp-title">选择技师</div>
+                <div class="bp-title">选择{{$store.getters.nounName('worker')}}</div>
                 <div class="bp-search"
                      layout="row">
                     <form action=""

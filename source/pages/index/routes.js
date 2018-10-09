@@ -124,4 +124,7 @@ export default [{
     path: '/booking-edit/:bookingId?',
     name: 'booking-edit',
     component: bookingEdit
+}, {
+    path: '*',
+    redirect: 'index-new'
 }];

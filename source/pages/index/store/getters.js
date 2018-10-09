@@ -37,5 +37,11 @@ export default {
     },
     permissions: state => {
         return state.merchantRole.permissionPackage ? state.merchantRole.permissionPackage.permissions : [];
+    },
+    nounName: state => label => {
+        let item = state.nounList.find(val => val.label === label);
+        if (item) {
+            return item.value;
+        }
     }
 };

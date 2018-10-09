@@ -34,7 +34,7 @@ var getLocalInfo = () => {
         data.merchant = employee.merchant;
         data.storeList = employee.storeList;
         if (data.storeList) {
-            data.storeList.forEach((item) => {
+            data.storeList.forEach(item => {
                 item.value = item.id;
             });
         }
@@ -57,5 +57,22 @@ var getLocalInfo = () => {
 export default {
     [types.UPDATE_LOCAL](state) {
         Object.assign(state, getLocalInfo());
+    },
+    updatePermissionPackage(state, data) {
+        try {
+            Object.assign(state.merchantRole.permissionPackage, data);
+        } catch (error) {}
+    },
+    updateNounConfig(state, data) {
+        if (data && data.length) {
+            data.forEach(val => {
+                if (val.targetNoun) {
+                    let item = state.nounList.find(noun => noun.label === val.nounCode);
+                    if (item) {
+                        item.value = val.targetNoun;
+                    }
+                }
+            });
+        }
     }
 };

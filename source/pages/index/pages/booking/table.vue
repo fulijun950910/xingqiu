@@ -122,13 +122,13 @@
                 </div>
                 <div v-if="$store.getters.bookingGuest">
                     <div class="btp-section">
-                        技师
+                        {{$store.getters.nounName('worker')}}
                     </div>
                     <div class="btp-cell"
                          layout="row"
                          layout-align="space-between center"
                          @click="popupType = 3">
-                        <span class="fs13 extra-light-black">选择技师</span>
+                        <span class="fs13 extra-light-black">选择{{$store.getters.nounName('worker')}}</span>
                         <m-icon class="fs24 color-gray"
                                 xlink="#icon-right-bold"></m-icon>
                     </div>
@@ -207,7 +207,7 @@
                           flex>
                         <input type="text"
                             v-model="empKeyword"
-                               placeholder="搜索员工">
+                               :placeholder="`搜索${$store.getters.nounName('worker')}`">
                         </form>
                 </div>
                 <div class="bp-cell"
