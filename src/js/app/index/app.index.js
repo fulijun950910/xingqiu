@@ -333,6 +333,8 @@ app.index = {
         if (localStorage.employee && JSON.parse(localStorage.employee)) {
             employee = JSON.parse(localStorage.employee);
         }
+        
+
         var data = {
             'merchantId': employee.merchantId,
             'employeeId': employee.id,
@@ -381,8 +383,9 @@ app.index = {
         };
         window.localStorage.setItem('performanceInfo', JSON.stringify(performanceInfo));
         data.storeId = parseInt(data.storeIds);
+        var searchAll = employee.merchantRole.permissionPackage.permissions.indexOf('wechat_business_booking_guest') != -1 ||  employee.merchantRole.permissionPackage.permissions.indexOf('wechat_business_booking_manage') != -1;
 
-        app.index.performanceReport(data, employee.role).then(function(performanceInfoData) {
+        app.index.performanceReport(data, searchAll).then(function(performanceInfoData) {
             memberData.performanceInfo = performanceInfoData;
                 // 计算业绩、提成、卡耗
 
@@ -447,8 +450,8 @@ app.index = {
         });
     },
     // 获取业绩看板数据
-    performanceReport: function(data, type) {
-        if (type != 'wechat_business_normal') {
+    performanceReport: function(data, searchAll) {
+        if (searchAll) {
             return new Promise(function(resolve, reject) {
                 app.startLoading();
                 app.api.index.performanceReport({

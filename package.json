@@ -30,7 +30,7 @@
     "@vue/cli-service": "^3.0.0",
     "@vue/eslint-config-standard": "^3.0.1",
     "babel-plugin-component": "^1.1.1",
-    "browser-sync": "^2.24.7",
+    "browser-sync": "^2.26.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^6.0.0",
     "gulp-babel": "^8.0.0",
