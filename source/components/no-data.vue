@@ -53,7 +53,7 @@ export default {
 }
 
 .no-data {
-    font-size: @fs48 * 8;
+    font-size: 100px;
     margin-bottom: @l40;
 }
 </style>

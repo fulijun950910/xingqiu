@@ -95,6 +95,7 @@
 </template>
 
 <script>
+<<<<<<< HEAD
     import api_party from 'services/api.party';
     import newPresent from 'components/new-present';
     import api_signIn from 'services/api.signIn';
@@ -104,187 +105,195 @@
     import { Toast, Swipe, SwipeItem } from 'mint-ui';
     Vue.component(Swipe.name, Swipe);
     Vue.component(SwipeItem.name, SwipeItem);
+=======
+import api_party from 'services/api.party';
+import newPresent from 'components/new-present';
+import api_signIn from 'services/api.signIn';
+import reLogin from '../../models/relogin';
+import Q from 'q';
+import Vue from 'vue';
+import { Toast, Swipe, SwipeItem } from 'mint-ui';
+Vue.component(Swipe.name, Swipe);
+Vue.component(SwipeItem.name, SwipeItem);
+>>>>>>> d37e36e5c2b8529c3ae46dd5a62b15dcc73b721f
 
-    export default {
-        name: 'main',
-        components: {
-            newPresent
-        },
-        data() {
-            return {
-                bbsData: [],
-                isNew: false,
-                bean: '500',
-                employee: JSON.parse(localStorage.getItem('employee')),
-                adsDetail: {},
-                swipeConfig: {
-                    auto: 4000,
-                    showIndicators: false
-                },
-                bannerList: []
-            };
-        },
-        mounted() {
-            this.loadData();
-            this.listBanner();
-            this.saveUserInfo();
-            if (this.$store.state.party && this.$store.state.party.adsList && this.$store.state.party.adsList.length) {
-                this.isNew = true;
-                this.adsDetail = this.$store.state.party.adsList[0];
-                if (this.adsDetail.code == 'home_001') {
-                    // #11105
-                    // this.givingBean();
-                };
-            };
-        },
-        methods: {
-            loadData() {
-                let id = 0;
-                if (this.$store.state.party) {
-                    id = this.$store.state.party.partyId;
-                }
-                let data = {
-                    partyId: id,
-                    page: 1,
-                    size: 10
-                };
-                api_party.getBbsList(data).then(res => {
-                    this.bbsData = res.data;
-                });
+export default {
+    name: 'main',
+    components: {
+        newPresent
+    },
+    data() {
+        return {
+            bbsData: [],
+            isNew: false,
+            bean: '500',
+            employee: JSON.parse(localStorage.getItem('employee')),
+            adsDetail: {},
+            swipeConfig: {
+                auto: 4000,
+                showIndicators: false
             },
-            saveUserInfo() {
-                let employee = localStorage.getItem('employee');
-                if (!employee) {
-                    employee = '{}';
-                }
-                employee = JSON.parse(employee);
-                if (this.$knife.keyGetValue(window.location.search, 'openid')) {
-                    employee.openId = this.$knife.keyGetValue(window.location.search, 'openid');
-                }
-                localStorage.setItem('employee', JSON.stringify(employee));
-            },
-            async checkUser(type) {
-                // type 1 进入对应的店务助手 2.返回当前页 3，进入美问星球用户页面
-                var deferred = Q.defer();
-                if ((!this.$store.state || !this.$store.state.user || !this.$store.state.user.id) && (!this.$store.state.party || !this.$store.state.party.partyId)) {
-                    let res = await api_signIn.getEmployeeInfo([{type: 'type', value: type}]);
-                    if (res.success && res.data) {
-                        let a = await reLogin.select(JSON.stringify(res.data));
-                        if (a) {
-                            this.$store.commit('UPDATE_LOCAL');
-                            deferred.resolve(a);
-                        } else {
-                            window.location.href = this.$getSignLocation(this.$knife.addSearch(window.location.search, 'type', type));
-                        }
+            bannerList: []
+        };
+    },
+    mounted() {
+        this.loadData();
+        this.listBanner();
+        this.saveUserInfo();
+        if (this.$store.state.party && this.$store.state.party.adsList && this.$store.state.party.adsList.length) {
+            this.isNew = true;
+            this.adsDetail = this.$store.state.party.adsList[0];
+            if (this.adsDetail.code == 'home_001') {
+                // #11105
+                // this.givingBean();
+            };
+        };
+    },
+    methods: {
+        loadData() {
+            let id = 0;
+            if (this.$store.state.party) {
+                id = this.$store.state.party.partyId;
+            }
+            let data = {
+                partyId: id,
+                page: 1,
+                size: 10
+            };
+            api_party.getBbsList(data).then(res => {
+                this.bbsData = res.data;
+            });
+        },
+        saveUserInfo() {
+            let employee = localStorage.getItem('employee');
+            if (!employee) {
+                employee = '{}';
+            }
+            employee = JSON.parse(employee);
+            if (this.$knife.keyGetValue(window.location.search, 'openid')) {
+                employee.openId = this.$knife.keyGetValue(window.location.search, 'openid');
+            }
+            localStorage.setItem('employee', JSON.stringify(employee));
+        },
+        async checkUser(type) {
+            // type 1 进入对应的店务助手 2.返回当前页 3，进入美问星球用户页面
+            var deferred = Q.defer();
+            if ((!this.$store.state || !this.$store.state.user || !this.$store.state.user.id) && (!this.$store.state.party || !this.$store.state.party.partyId)) {
+                let res = await api_signIn.getEmployeeInfo([{ type: 'type', value: type }]);
+                if (res.success && res.data) {
+                    let a = await reLogin.select(JSON.stringify(res.data));
+                    if (a) {
+                        this.$store.commit('UPDATE_LOCAL');
+                        deferred.resolve(a);
                     } else {
                         window.location.href = this.$getSignLocation(this.$knife.addSearch(window.location.search, 'type', type));
                     }
                 } else {
-                    deferred.resolve(true);
+                    window.location.href = this.$getSignLocation(this.$knife.addSearch(window.location.search, 'type', type));
                 }
-                return deferred.promise;
-            },
-            checkParty() {
-                if (this.$store.getters.isPersonLogin) {
-                    this.$toast('抱歉，个人用户，无权限进入');
-                    return true;
-                }
-            },
-            goBbs(url) {
-                window.location.href = url;
-            },
-            goLink1(item) {
-                if (item.indexOf('html') > -1) {
-                    location.href = item;
-                } else {
-                    this.$router.push(item);
-                };
-            },
-            goBbsPage() {
-                this.$router.push({name: 'bbsPage'});
-            },
-            goAllianceBeta() {
-                this.$router.push({name: 'alliance'});
-            },
-            goMbh() {
-                if (this.$store.state && this.$store.state.party && this.$store.state.party.partyId) {
-                    let openId = JSON.parse(localStorage.getItem('employee')).openId;
-                    api_party.bandWeichat(this.$store.state.party.id, openId).then(msg=> {
-                        window.location.href = `http://b2b.mei1.info/app/index.php?i=1&c=entry&eid=41&saasUID=${this.$store.state.party.id}`;
-                    }, msg=> {
-                    });
-                } else {
-                    location.href = this.$signLocation;
-
-                };
-                // location.href = `${this.$rootPath}shop.html#/leader`;
-            },
-            async goWxbus() {
-                if (this.checkParty()) {
-                    return;
-                }
-                window.location.href = '/api/b2bPromotionMobile/oauthURI/performance_report';
-                // await this.checkUser(1);
-                // if (this.$store.state.merchant && (this.$store.state.merchant.functionVersion == 4 || this.$store.state.merchant.functionVersion == 5)) {
-                //     window.location.href = '/lite/index.html';
-                // } else {
-                //     window.location.href = '/main.html#/index';
-                // }
-            },
-            alertMessage() {
-                this.$toast('开发中，敬请期待');
-            },
-            async goCheckIn() {
-                if (this.checkParty()) {
-                    return;
-                }
-                window.location.href = '/api/b2bPromotionMobile/oauthURI/star_day_sign';
-            },
-            async goUserInfo() {
-                window.location.href = '/api/b2bPromotionMobile/oauthURI/star_personal';
-            },
-            hideMask() {
-                this.isNew = false;
-                let tempLocal = JSON.parse(localStorage.getItem('employee'));
-                tempLocal.party.newUser = false;
-                localStorage.setItem('employee', JSON.stringify(tempLocal));
-                this.$store.state.party.newUser = false;
-
-            },
-            givingBean() {
-                let parameter = {
-                    partyId: this.employee.party.partyId,
-                    userId: this.employee.party.id
-                };
-                api_party.firstLoginGift(parameter).then(msg=> {
-                    Toast(msg.message);
-                }, msg=> {
-                    Toast(msg.message);
-                });
-            },
-            listBanner() {
-                let partyId = '0';
-                if (this.$store.state) {
-                    if (this.$store.state.party) {
-                        partyId = this.$store.state.party.id;
-                    }
-
-                }
-                // console.log(this.$store.state);
-                api_party.listBanner('00001', partyId).then(msg=> {
-                    this.bannerList = msg.data;
-                }, msg=> {
-                });
-            },
-            goToAuthentication(route) {
-                window.location.href = `/api/b2bPromotionMobile/oauthURI/${route}`;
+            } else {
+                deferred.resolve(true);
             }
+            return deferred.promise;
+        },
+        checkParty() {
+            if (this.$store.getters.isPersonLogin) {
+                this.$toast('抱歉，个人用户，无权限进入');
+                return true;
+            }
+        },
+        goBbs(url) {
+            window.location.href = url;
+        },
+        goLink1(item) {
+            if (item.indexOf('html') > -1) {
+                location.href = item;
+            } else {
+                this.$router.push(item);
+            };
+        },
+        goBbsPage() {
+            this.$router.push({ name: 'bbsPage' });
+        },
+        goAllianceBeta() {
+            this.$router.push({ name: 'alliance' });
+        },
+        goMbh() {
+            if (this.$store.state && this.$store.state.party && this.$store.state.party.partyId) {
+                let openId = JSON.parse(localStorage.getItem('employee')).openId;
+                api_party.bandWeichat(this.$store.state.party.id, openId).then(msg => {
+                    window.location.href = `http://b2b.mei1.info/app/index.php?i=1&c=entry&eid=41&saasUID=${this.$store.state.party.id}`;
+                }, msg => {
+                });
+            } else {
+                location.href = this.$signLocation;
+            };
+            // location.href = `${this.$rootPath}shop.html#/leader`;
+        },
+        async goWxbus() {
+            if (this.checkParty()) {
+                return;
+            }
+            window.location.href = '/api/b2bPromotionMobile/oauthURI/performance_report';
+            // await this.checkUser(1);
+            // if (this.$store.state.merchant && (this.$store.state.merchant.functionVersion == 4 || this.$store.state.merchant.functionVersion == 5)) {
+            //     window.location.href = '/lite/index.html';
+            // } else {
+            //     window.location.href = '/main.html#/index';
+            // }
+        },
+        alertMessage() {
+            this.$toast('开发中，敬请期待');
+        },
+        async goCheckIn() {
+            if (this.checkParty()) {
+                return;
+            }
+            window.location.href = '/api/b2bPromotionMobile/oauthURI/star_day_sign';
+        },
+        async goUserInfo() {
+            window.location.href = '/api/b2bPromotionMobile/oauthURI/star_personal';
+        },
+        hideMask() {
+            this.isNew = false;
+            let tempLocal = JSON.parse(localStorage.getItem('employee'));
+            tempLocal.party.newUser = false;
+            localStorage.setItem('employee', JSON.stringify(tempLocal));
+            this.$store.state.party.newUser = false;
+        },
+        givingBean() {
+            let parameter = {
+                partyId: this.employee.party.partyId,
+                userId: this.employee.party.id
+            };
+            api_party.firstLoginGift(parameter).then(msg => {
+                Toast(msg.message);
+            }, msg => {
+                Toast(msg.message);
+            });
+        },
+        listBanner() {
+            let partyId = '0';
+            if (this.$store.state) {
+                if (this.$store.state.party) {
+                    partyId = this.$store.state.party.id;
+                }
+            }
+            // console.log(this.$store.state);
+            api_party.listBanner('00001', partyId).then(msg => {
+                this.bannerList = msg.data;
+            }, msg => {
+            });
+        },
+        goToAuthentication(route) {
+            window.location.href = `/api/b2bPromotionMobile/oauthURI/${route}`;
         }
-    };
+    }
+};
 </script>
 
 <style scoped lang='less'>
-    @import '~styles/_style';
+    @import '~styles/_agile';
     @color-red-lighten: #EC3F6D;
     .main{
         min-height:100vh;
@@ -413,7 +422,6 @@
             width: 60px;
             height: auto;
         }
-
 
     }
 </style>

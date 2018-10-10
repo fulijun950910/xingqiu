@@ -112,8 +112,8 @@ router.beforeEach(async ({ meta, path }, from, next) => {
         sessionStorage.tradeItemSpecList = '';
     };
 
-    if (routerCheckPath(path) || store.getters.isLogin || store.state.party) {
-         // 百度统计
+    if (routerCheckPath(path) || store.state.party) {
+        // 百度统计
         try {
             window._hmt.push(['_trackPageview', '/service/integral-mall.html#' + path]);
         } catch (e) {
@@ -130,7 +130,6 @@ router.beforeEach(async ({ meta, path }, from, next) => {
                 window.location.href = Vue.prototype.$signLocation;
             }
         }
-
     }
 });
 

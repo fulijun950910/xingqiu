@@ -74,6 +74,17 @@ Vue.filter('nSrc', function(value, def) {
     return def;
 });
 
+Vue.filter('imgDetail', function(value, def) {
+    if (value) {
+        if (value) {
+            return value;
+        } else {
+            return `${BASE_IMG_PATH + value}`;
+        }
+    }
+    return def;
+});
+
 /**
  * 图片路径过滤（宽高）
  */
@@ -241,6 +252,9 @@ Vue.filter('payStatus', function(value) {
             break;
         case 6:
             text = '已发货';
+            break;
+        case 8:
+            text = '支付待确认';
             break;
     }
     return text;

@@ -44,11 +44,11 @@ export default {
             maxSize: 3, // 最大缩放比
             initViewWidth: 74 / 100, // 初始截取区宽度比例
             borderWidth: 1, // 截取区border
-            view: {width: 0, height: 0}, // 屏幕
-            fileSize: {width: 0, height: 0, top: 0, left: 0}, // 图片
-            fileInitSize: {width: 0, height: 0}, // 图片初始大小
-            filRealitySize: {width: 0, height: 0}, // 图片真实大小
-            viewBox: {width: 0, height: 0, left: 0, top: 0}, // 截取区
+            view: { width: 0, height: 0 }, // 屏幕
+            fileSize: { width: 0, height: 0, top: 0, left: 0 }, // 图片
+            fileInitSize: { width: 0, height: 0 }, // 图片初始大小
+            filRealitySize: { width: 0, height: 0 }, // 图片真实大小
+            viewBox: { width: 0, height: 0, left: 0, top: 0 }, // 截取区
             rotate: 0, // 旋转角度 0 1 2 3
             point1: null, // 触控点1
             point2: null // 触控点2
@@ -65,7 +65,7 @@ export default {
         proportion: {
             type: Object,
             default: function() { // 比例
-                return {w: 2, h: 1};
+                return { w: 2, h: 1 };
             }
         },
         quality: {
@@ -111,16 +111,16 @@ export default {
             // 渲染图片
             this.img.src = url;
 
-            this.img.onload = ()=> {
+            this.img.onload = () => {
                 this.filRealitySize = {
                     width: this.img.width,
                     height: this.img.height
                 };
 
-                let showView = ()=> {
+                let showView = () => {
                     this.$indicator.open();
                     this.loadImg();
-                    setTimeout(()=> {
+                    setTimeout(() => {
                         this.$indicator.close();
                         this.state = 2;
                         this.$nextTick(function() {
@@ -249,7 +249,6 @@ export default {
             this.$refs.imgViewBox.style.height = this.viewBox.height + 'px';
             this.$refs.imgViewBox.style.top = this.viewBox.top + 'px';
             this.$refs.imgViewBox.style.left = this.viewBox.left + 'px';
-
         },
         fileSizePosition() {
             this.$refs.file.style.top = this.fileSize.top + 'px';
@@ -265,7 +264,7 @@ export default {
             this.$refs.file2.style.height = this.$refs.file.offsetHeight + 'px';
         },
         setAttr(ele, attrs) { // 暂未用到
-            if (!attrs && attrs.length < 1) {return;};
+            if (!attrs && attrs.length < 1) { return; };
             // attrs.forEach((item, key)=>{
             //     console.log(item);
             //     console.log(key);
@@ -386,10 +385,10 @@ export default {
             this.$emit('click', this.currentValue);
         },
         end() {
-            this.top = null ;
-            this.left = null ;
-            this.point1 = null ;
-            this.point2 = null ;
+            this.top = null;
+            this.left = null;
+            this.point1 = null;
+            this.point2 = null;
         },
         preventDefault(e) {
             e.preventDefault();

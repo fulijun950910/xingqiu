@@ -11,7 +11,7 @@
             </div>
             <div class="logistics-box m-t-4" >
                 <div class="fs32 fwb m-b-4">物流状态</div>
-                <div v-for="(item,index) in data.data" class="logisticsItem" layout="row" layout-align="start stretch">
+                <div v-for="(item,index) in data.data" :key="index" class="logisticsItem" layout="row" layout-align="start stretch">
                     <div class="left m-l-5 m-r-5"><m-icon :class="{'color-green':index==0,'color-gray':index!=0}" class="icon " xlink="#icon-webicon318"></m-icon></div>
                     <div flex class="border-top color-gray p-t-1 p-b-1">
                         <div>{{item.context}}</div>
@@ -28,37 +28,36 @@
 </template>
 
 <script>
-    import apiPromotion from 'services/api.promotion';
-    export default {
-        name: 'logistics-list',
-        props: ['orderId'],
-        data() {
-            return {
-                expInfo: {},
-                data: {}
+import apiPromotion from 'services/api.promotion';
+export default {
+    name: 'logistics-list',
+    props: ['orderId'],
+    data() {
+        return {
+            expInfo: {},
+            data: {}
+        };
+    },
+    mounted() {
+        this.loadData();
+    },
+    methods: {
+        async loadData() {
+            let queryData = {
+                b2bOrderId: this.orderId
             };
-        },
-        mounted() {
-            this.loadData();
-        },
-        methods: {
-            async loadData() {
-                let queryData = {
-                    b2bOrderId: this.orderId
-                };
-                this.$indicator.open();
-                let { data } = await apiPromotion.getOrderExpressDetail(queryData);
-                this.$indicator.close();
-                this.data = JSON.parse(data);
-                if (this.data.com) {
-                    let res = await apiPromotion.getExpressByCode(this.data.com);
-                    this.expInfo = res.data;
-                }
-
+            this.$indicator.open();
+            let { data } = await apiPromotion.getOrderExpressDetail(queryData);
+            this.$indicator.close();
+            this.data = JSON.parse(data);
+            if (this.data.com) {
+                let res = await apiPromotion.getExpressByCode(this.data.com);
+                this.expInfo = res.data;
             }
-
         }
-    };
+
+    }
+};
 </script>
 
 <style scoped lang='less'>

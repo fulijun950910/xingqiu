@@ -58,10 +58,10 @@ export default {
         return {
             transitionName: 'slide-right',
             childRoute: [
-                {label: '账户资产', name: 'assets'},
-                {label: '护理记录', name: 'record'},
-                {label: '回访/关怀', name: 'service'},
-                {label: '档案信息', name: 'intro'}
+                { label: '账户资产', name: 'assets' },
+                { label: '护理记录', name: 'record' },
+                { label: '回访/关怀', name: 'service' },
+                { label: '档案信息', name: 'intro' }
             ]
         };
     },

@@ -29,6 +29,9 @@ const payDetail = resolve => require(['./pages/pay/pay-detail'], resolve);
 const paySuccess = resolve => require(['./pages/pay/pay-success'], resolve);
 const applicationMarketForm = resolve => require(['./pages/applicationMarket-form'], resolve);
 const baiduMap = resolve => require(['./pages/baidu-map'], resolve);
+const packageDetail = resolve => require(['./pages/detail/package-detail'], resolve);
+const orderDetail = resolve => require(['./pages/detail/order-detail'], resolve);
+const offlinePay = resolve => require(['./pages/pay/offline-pay'], resolve);
 
 export default [{
     path: '/',
@@ -145,8 +148,24 @@ export default [{
     path: '/applicationMarket-form/:id',
     name: 'applicationMarket-form',
     component: applicationMarketForm
-}, {
+},
+{
+    path: '/package-detail/:id',
+    name: 'package-detail',
+    component: packageDetail
+},
+{
     path: '/baidu-map/:id',
     name: 'baidu-map',
     component: baiduMap
+},
+{
+    path: '/order-detail/:id',
+    name: 'order-detail',
+    component: orderDetail
+},
+{
+    path: '/offline-pay',
+    name: 'offline-pay',
+    component: offlinePay
 }];

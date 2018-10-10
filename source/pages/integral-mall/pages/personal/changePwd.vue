@@ -12,8 +12,8 @@
                 <mt-field label="确认密码" type="password" placeholder="请再次输入" v-model="confirm.confirmPassword"></mt-field>
             </div>
         </div>
-        
-        <div class="submit color-pink fs40" layout="row" @click="changePassword" layout-align="center center">确认修改</div>        
+
+        <div class="submit color-pink fs40" layout="row" @click="changePassword" layout-align="center center">确认修改</div>
     </div>
 </template>
 <script>
@@ -67,10 +67,10 @@ export default {
             };
             this.$indicator.open();
             api_party.newPassword(data).then(res => {
+                this.$toast('密码修改成功');
                 this.$indicator.close();
                 this.$router.back();
             });
-
         }
     },
     mounted() {
@@ -102,8 +102,5 @@ export default {
         }
     }
 
-
 }
 </style>
-
-

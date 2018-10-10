@@ -4,13 +4,13 @@
            <shop-search placeholder="搜产品、分类、内容"></shop-search>
         </div>
         <div class="tab" layout="row" layout-align="center center">
-                <div v-for="(item,index) in tabList" @click="tabClick(item)" flex="20" :class="{active:checkTab==item.value}" :key="item.value" class="tab-item">
+                <div v-for="(item) in tabList" @click="tabClick(item)" flex="20" :class="{active:checkTab==item.value}" :key="item.value" class="tab-item">
                     <span class="color-7 fs14">{{item.name}}</span>
                 </div>
         </div>
         <div class="list-scroll">
         <div class="list-container">
-           <div class="box" v-for="(item,index) in dataList" :key="item.id" @click="loading">
+           <div class="box" v-for="(item) in dataList" :key="item.id" @click="loading">
                <div class="img-big">
                    <img :src="item.img" alt="">
                </div>
@@ -21,7 +21,7 @@
                        <div class="customer" layout="row" layout-align="start center">
                            <div class="face">
                                <img :src="item.face" alt="">
-                           </div>                           
+                           </div>
                            <span class="color-2 fs16 no-break">{{item.customerName}}</span>
                        </div>
                        <div flex></div>
@@ -290,7 +290,7 @@ export default {
                          font-size: 12px;
                          width: 40px;
                       }
-                      
+
                   }
                   .like{
                       color:#aaa;
@@ -317,6 +317,3 @@ export default {
 
 }
 </style>
-
-
-

@@ -1,5 +1,5 @@
 <template>
-    <div v-title="'预约'">
+    <div v-title="'预约1'">
         <div class="bookingBox">
             <div class="mainBox">
                 <div class="avatarBox">
@@ -115,14 +115,14 @@ export default {
                 }
             ],
             memberCountList: [
-                {name: '1人', value: 1},
-                {name: '2人', value: 2},
-                {name: '3人', value: 3},
-                {name: '4人', value: 4},
-                {name: '5人', value: 5},
-                {name: '6人', value: 6},
-                {name: '7人', value: 7},
-                {name: '8人', value: 8}
+                { name: '1人', value: 1 },
+                { name: '2人', value: 2 },
+                { name: '3人', value: 3 },
+                { name: '4人', value: 4 },
+                { name: '5人', value: 5 },
+                { name: '6人', value: 6 },
+                { name: '7人', value: 7 },
+                { name: '8人', value: 8 }
             ],
             bookingDate: {
                 date: null,
@@ -201,7 +201,7 @@ export default {
         },
         queryStore(storeId) {
             this.$indicator.open();
-            api_booking.getStoreInfo(storeId).then(res =>{
+            api_booking.getStoreInfo(storeId).then(res => {
                 if (!this.$store.getters.merchantId || res.data.merchantId != this.$store.getters.merchantId) {
                     window.location.href = this.$signLocation;
                 };
@@ -219,7 +219,7 @@ export default {
                 // 计算差值
                 let date = end_time.getTime() - start_time.getTime();
                 let minute = Math.floor(date / (60 * 1000));
-                let count = (minute / 30) ;
+                let count = (minute / 30);
                 for (let i = 0; i <= count; i++) {
                     dataList.push({
                         name: Vue.filter('amDateFormat')(start_time, 'HH:mm'),
@@ -262,7 +262,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import '~styles/_style';
+@import '~styles/_agile';
 @color-link:#7386b6;
 .bookingBox{
     min-height:100vh;
@@ -305,7 +305,7 @@ export default {
     .editBtn{
         background:@bg-gray;
         color:@color-link;
-        .fs24;
+        font-size: @fs24;
         border-radius:2px;
         padding:4px 10px;
         display:inline-block;

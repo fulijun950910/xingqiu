@@ -1,6 +1,12 @@
 <template>
     <div v-title="'美豆豆'">
-        <div class="plain1"><img :src="require('assets/imgs/integral-mall/2018060509.jpg')" alt=""></div>
+        <div class="plain1">
+        <swiper>
+            <swiper-slide v-for="(img, index) in banner" :key="index" :options="swiperOption">
+                <img :src="img.image | nSrc(require('assets/imgs/location.jpg'))" alt="">
+            </swiper-slide>
+        </swiper>
+        </div>
         <div class="plain2 cell-box-this">
             <div class="listBox m-b-4">
                 <div class="fwb fs40 p-t-4 p-b-4 border-bottom" layout="row" layout-align="start center">美豆豆，赚不停</div>
@@ -13,7 +19,7 @@
                             <div>连续7天=16个</div>
                         </div>
                     </div>
-                    <div class="m-t-4 m-b-4 text-center" @click="linkTo(8)"> 
+                    <div class="m-t-4 m-b-4 text-center" @click="linkTo(8)">
                         <div class="img-right"><img :src="require('assets/imgs/integral-mall/2018060507.png')" alt=""></div>
                         <div class="fs32">推荐商户</div>
                         <div class="color-gray fs22 m-t-2">
@@ -103,92 +109,125 @@
 </template>
 
 <script>
-    import api_party from 'services/api.party';
-
-    export default {
-        name: 'index',
-        data() {
-            return {
-                dataList: []
-            };
-        },
-        mounted() {
-            this.loadData();
-        },
-        methods: {
-            loadData() {
-                this.$indicator.open();
-                api_party.getMissionList(this.$store.state.party.partyId).then(res => {
-                    this.$indicator.close();
-                    console.log(res.data);
-                    this.dataList = res.data;
-                });
-            },
-            goRule(item) {
-                if (item.missionCode == 'SIGN') {
-                    this.goCheckIn();
-                } else if (item.missionCode == 'RELEASE_PROMOTION') {
-                    this.goPromotion();
-                }
-            },
-            goCheckIn() {
-                window.location.href = this.$rootPath + 'index.html#/checkIn';
-            },
-            goPromotion() {
-                window.location.href = '/lite/index.html#/promotion-list';
-            },
-            goRecharge() {
-                this.$router.push('/recharge-doudou');
-                // window.location.href = this.$rootPath + 'index.html#/recharge';
-            },
-            checkParty() {
-                if (this.$store.getters.isPersonLogin) {
-                    this.$toast('抱歉，个人用户，无权限进入');
-                    return true;
-                }
-            },
-            linkTo(type) {
-                switch (Number(type)) {
-                    case 1:
-                        if (this.checkParty()) {
-                            return;
-                        }
-                        this.$router.push('/recharge-message');
-                        break;
-                    case 2:
-                        if (this.checkParty()) {
-                            return;
-                        }
-                        this.$router.push('/activity-list/5');
-                        break;
-                    case 3:
-                        this.$router.push('/product-list');
-                        break;
-                    case 4:
-                        this.$router.push('/voucher-list');
-                        break;
-                    case 5:
-                        location.href = `${this.$rootPath}index.html#/checkIn`;
-                        break;
-                    case 6:
-                        // this.$router.push('/voucher-list');
-                        break;
-                    case 7:
-                        this.$router.push('/recharge-doudou');
-                        break;
-                    case 8:
-                        this.$router.push('/supplier-form');
-                        break;
-                    case 9:
-                        this.$router.push('/big-wheel');
-                        break;
-                    case 10:
-                        this.$router.push('/activity-list/9');
-                        break;
-                }
+import api_party from 'services/api.party';
+import apiGetJSSignature from 'services/api.getJSSignature';
+import 'swiper/dist/css/swiper.css';
+import { swiper, swiperSlide } from 'vue-awesome-swiper';
+export default {
+    name: 'index',
+    data() {
+        return {
+            dataList: [],
+            banner: [],
+            swiperOption: {
+                loop: true
             }
+        };
+    },
+    mounted() {
+        this.loadData();
+        this.loadBanner();
+        this.js_sdk();
+    },
+    methods: {
+        loadData() {
+            this.$indicator.open();
+            api_party.getMissionList(this.$store.state.party.partyId).then(res => {
+                this.$indicator.close();
+                console.log(res.data);
+                this.dataList = res.data;
+            });
+        },
+        goRule(item) {
+            if (item.missionCode == 'SIGN') {
+                this.goCheckIn();
+            } else if (item.missionCode == 'RELEASE_PROMOTION') {
+                this.goPromotion();
+            }
+        },
+        goCheckIn() {
+            window.location.href = this.$rootPath + 'index.html#/checkIn';
+        },
+        goPromotion() {
+            window.location.href = '/lite/index.html#/promotion-list';
+        },
+        goRecharge() {
+            this.$router.push('/recharge-doudou');
+            // window.location.href = this.$rootPath + 'index.html#/recharge';
+        },
+        checkParty() {
+            if (this.$store.getters.isPersonLogin) {
+                this.$toast('抱歉，个人用户，无权限进入');
+                return true;
+            }
+        },
+        linkTo(type) {
+            switch (Number(type)) {
+                case 1:
+                    if (this.checkParty()) {
+                        return;
+                    }
+                    this.$router.push('/recharge-message');
+                    break;
+                case 2:
+                    if (this.checkParty()) {
+                        return;
+                    }
+                    this.$router.push('/activity-list/5');
+                    break;
+                case 3:
+                    this.$router.push('/product-list');
+                    break;
+                case 4:
+                    this.$router.push('/voucher-list');
+                    break;
+                case 5:
+                    location.href = `${this.$rootPath}index.html#/checkIn`;
+                    break;
+                case 6:
+                    // this.$router.push('/voucher-list');
+                    break;
+                case 7:
+                    this.$router.push('/recharge-doudou');
+                    break;
+                case 8:
+                    this.$router.push('/supplier-form');
+                    break;
+                case 9:
+                    this.$router.push('/big-wheel');
+                    break;
+                case 10:
+                    this.$router.push('/activity-list/9');
+                    break;
+            }
+        },
+        async js_sdk() {
+            let share = {
+                title: '美豆豆',
+                desc: '美豆豆，赚不停',
+                link: window.location.href,
+                imgUrl: window.location.origin + '/service/static/2018060509.jpg',
+                type: 'link',
+                dataUrl: '',
+                success: function() {
+                },
+                cancel: null
+            };
+            apiGetJSSignature.shareAppMessage(share);
+        },
+        loadBanner() {
+            api_party.listBanner('00002', this.$store.state.party.id).then(msg => {
+                console.log(msg.data);
+                this.banner = msg.data;
+            }, msg => {
+            });
         }
-    };
+    },
+    components: {
+        swiper,
+        swiperSlide
+    }
+};
 </script>
 
 <style scoped lang='less'>

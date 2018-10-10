@@ -51,7 +51,7 @@ export default {
                     this.currentValue = [];
                 };
                 this.$nextTick(function() {
-                    let index = this.currentValue.findIndex((value, index, arr)=>{
+                    let index = this.currentValue.findIndex((value, index, arr) => {
                         if (value && value.value) {
                             return value.value === this.option.value;
                         };
@@ -62,7 +62,6 @@ export default {
                         this.currentValue.splice(index, 1);
                     };
                 });
-
             };
             // 传递父层
             this.$emit('click', evt);

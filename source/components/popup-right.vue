@@ -10,7 +10,7 @@ import { Popup } from 'mint-ui';
 Vue.component(Popup.name, Popup);
 
 export default {
-    name: '',
+    name: 'popup-right',
     data() {
         return {
         };

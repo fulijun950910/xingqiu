@@ -28,7 +28,7 @@
                         <span class="color-white">{{data.doudouBalance}}</span> 美豆豆
                     </div>
                     <!-- <div layout="row" layout-align="start center" class="color-white">- 可提取{{data.doudouPresent}}个美豆豆</div> -->
-                    <div  class="fs24 color-white  m-t-1" @click="goPayNotes">查看收支明细 ></div>                    
+                    <div  class="fs24 color-white  m-t-1" @click="goPayNotes">查看收支明细 ></div>
                 </div>
                 <div flex="30" class="start-play" layout-align="start center">
                     <div flex></div>
@@ -76,140 +76,140 @@
         </div>
         <div class="bottom-tab color-gray" layout="row" layout-align="start center">
             <div layout="column" flex="50" @click="routeTo(1)" layout-align="center center" class="item">
-                <div><m-icon class="icon "  xlink="#icon-yuzhouxingqiu-21"></m-icon></div>
-                <div>首页</div>
+                <div><m-icon class="icon "  xlink="#icon-huaban6"></m-icon></div>
+                <div class="fs24">首页</div>
             </div>
             <div layout="column" flex="50" @click="routeTo(2)" layout-align="center center" class="item act">
-                <div><m-icon class="icon "  xlink="#icon-xingming"></m-icon></div>
-                <div>我的</div>
+                <div><m-icon class="icon "  xlink="#icon-huaban1"></m-icon></div>
+                <div class="fs24">我的</div>
             </div>
         </div>
         <customer-service v-if="showService"></customer-service>
     </div>
 </template>
 <script>
-    import api_party from 'services/api.party';
-    import api_file from 'services/api.file';
-    import file from 'components/file-slice';
-    import customerService from 'components/integral-mall/customer-service';
-    export default {
-        data() {
-            return {
-                employee: JSON.parse(localStorage.getItem('employee')),
-                data: {},
-                logoImage: {},
-                dataModel: {},
-                dataModelPerson: {},
-                showService: false,
-                party: this.$store.state.party
+import api_party from 'services/api.party';
+import api_file from 'services/api.file';
+import file from 'components/file-slice';
+import customerService from 'components/integral-mall/customer-service';
+export default {
+    data() {
+        return {
+            employee: JSON.parse(localStorage.getItem('employee')),
+            data: {},
+            logoImage: {},
+            dataModel: {},
+            dataModelPerson: {},
+            showService: false,
+            party: this.$store.state.party
+        };
+    },
+    components: {
+        file,
+        customerService
+    },
+    methods: {
+        load() {
+            if (!this.$store.getters.isPersonLogin) {
+                api_party.doudouAccount(this.employee.party.partyId).then(msg => {
+                    this.data = msg.data;
+                }, msg => {
+                });
+            }
+        },
+        loadEmployeeData() {
+            this.$indicator.open();
+            if (this.$store.getters.isPersonLogin) {
+                console.log(this.$store.state.user);
+                api_party.getB2BUserByOpenid(this.$store.state.user.openId).then(res => {
+                    this.$indicator.close();
+                    this.dataModelPerson = res.data;
+                });
+            } else {
+                api_party.getEmployee(this.$store.state.user.id).then(res => {
+                    this.$indicator.close();
+                    this.dataModel = res.data;
+                    this.$store.state.employeeData = this.dataModel;
+                });
+            }
+        },
+        async changeAvatar(data) {
+            let resData = await api_file.uploadImage(data);
+            let empData = {
+                id: this.dataModel.id,
+                userId: this.dataModel.userId,
+                avatarFileId: resData.data
+            };
+            api_party.changeEmpData(empData).then(res => {
+                this.loadEmployeeData();
+            });
+        },
+        goPayNotes() {
+            window.location.href = `${this.$rootPath}index.html#/payNotes/${this.data.id}`;
+        },
+        goRuleEntry() {
+            this.$router.push({ name: 'rule-entry' });
+        },
+        routeTo(type) {
+            switch (Number(type)) {
+                case 1:
+                    location.href = `${this.$rootPath}index.html#/main`;
+                    break;
+                case 2:
+                    this.$router.push('/personal');
+                    break;
+                case 3:
+                    this.$router.push('/order-list');
+                    break;
+                case 4:
+                    location.href = `${this.$rootPath}index.html#/userinfo`;
+                    break;
+                case 5:
+                    this.$router.push('/address-list/view');
+                    break;
+                case 6:
+                    this.showService = !this.showService;
+                    break;
+                case 7:
+                    this.$router.push('/change-pwd');
+                    break;
+                case 8:
+                    this.$router.push('/supplier-list');
+                    break;
+                case 9:
+                    this.$router.push('/b2b-order-list');
+                    break;
             };
         },
-        components: {
-            file,
-            customerService
-        },
-        methods: {
-            load() {
-                if (!this.$store.getters.isPersonLogin) {
-                    api_party.doudouAccount(this.employee.party.partyId).then(msg => {
-                        this.data = msg.data;
-                    }, msg => {
-                    });
-                }
-            },
-            loadEmployeeData() {
-                this.$indicator.open();
-                if (this.$store.getters.isPersonLogin) {
-                    console.log(this.$store.state.user);
-                    api_party.getB2BUserByOpenid(this.$store.state.user.openId).then(res => {
-                        this.$indicator.close();
-                        this.dataModelPerson = res.data;
-                    });
-                } else {
-                    api_party.getEmployee(this.$store.state.user.id).then(res => {
-                        this.$indicator.close();
-                        this.dataModel = res.data;
-                        this.$store.state.employeeData = this.dataModel;
-                    });
-                }
-            },
-            async changeAvatar(data) {
-                let resData = await api_file.uploadImage(data);
-                let empData = {
-                    id: this.dataModel.id,
-                    userId: this.dataModel.userId,
-                    avatarFileId: resData.data
+        signOut() {
+            this.$indicator.open();
+            if (this.$store.getters.isPersonLogin) {
+                this.$indicator.close();
+                localStorage.clear();
+                document.cookie = 'rememberMe=';
+                document.cookie = 'remeberMeRunAsRole=';
+                window.location.href = this.$getSignLocation(this.$knife.addSearch(window.location.search, 'openid', this.$store.state.user.openId));
+            } else {
+                let data = {
+                    employeeId: this.$store.state.user.id,
+                    openId: this.$store.state.user.openId,
+                    userId: this.$store.state.user.userId
                 };
-                api_party.changeEmpData(empData).then(res => {
-                    this.loadEmployeeData();
-                });
-            },
-            goPayNotes() {
-                window.location.href = `${this.$rootPath}index.html#/payNotes/${this.data.id}`;
-            },
-            goRuleEntry() {
-                this.$router.push({name: 'rule-entry'});
-            },
-            routeTo(type) {
-                switch (Number(type)) {
-                    case 1:
-                        location.href = `${this.$rootPath}index.html#/main`;
-                        break;
-                    case 2:
-                        this.$router.push('/personal');
-                        break;
-                    case 3:
-                        this.$router.push('/order-list');
-                        break;
-                    case 4:
-                        location.href = `${this.$rootPath}index.html#/userinfo`;
-                        break;
-                    case 5:
-                        this.$router.push('/address-list/view');
-                        break;
-                    case 6:
-                        this.showService = !this.showService;
-                        break;
-                    case 7:
-                        this.$router.push('/change-pwd');
-                        break;
-                    case 8:
-                        this.$router.push('/supplier-list');
-                        break;
-                    case 9:
-                        this.$router.push('/b2b-order-list');
-                        break;
-                };
-            },
-            signOut() {
-                this.$indicator.open();
-                if (this.$store.getters.isPersonLogin) {
+                api_party.unbind(data).then(res => {
                     this.$indicator.close();
                     localStorage.clear();
                     document.cookie = 'rememberMe=';
                     document.cookie = 'remeberMeRunAsRole=';
                     window.location.href = this.$getSignLocation(this.$knife.addSearch(window.location.search, 'openid', this.$store.state.user.openId));
-                } else {
-                    let data = {
-                        employeeId: this.$store.state.user.id,
-                        openId: this.$store.state.user.openId,
-                        userId: this.$store.state.user.userId
-                    };
-                    api_party.unbind(data).then(res => {
-                        this.$indicator.close();
-                        localStorage.clear();
-                        document.cookie = 'rememberMe=';
-                        document.cookie = 'remeberMeRunAsRole=';
-                        window.location.href = this.$getSignLocation(this.$knife.addSearch(window.location.search, 'openid', this.$store.state.user.openId));
-                    });
-                }
+                });
             }
-        },
-        mounted() {
-            this.load();
-            this.loadEmployeeData();
         }
-    };
+    },
+    mounted() {
+        this.load();
+        this.loadEmployeeData();
+    }
+};
 </script>
 
 <style lang="less" scoped>
@@ -307,11 +307,12 @@
                     font-size:@fs48;
                 }
                 &.act{
+                    .icon{
                     color: #EF668A;
+
+                    }
                 }
             }
         }
     }
 </style>
-
-

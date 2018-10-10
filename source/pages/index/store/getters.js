@@ -6,11 +6,11 @@ export default {
     isLogin: state => Boolean(state.user.id),
     isPersonLogin: state => Boolean(!state.user.id && state.party && state.party.partyId),
     storeIds: state => {
-        var storeIds = [];
-        for (var i = 0, len = state.storeList.length; i < len; i++) {
-            storeIds.push(state.storeList[i].id);
-        }
-        return storeIds.toString();
+        return state.storeList
+            .map(val => {
+                return val.id;
+            })
+            .toString();
     },
     admin: state => {
         try {
@@ -24,11 +24,24 @@ export default {
     },
     employeeId: state => state.user.id,
     employeeName: state => state.user.name,
-    permissionStoreAll: state => state.merchantRole.permissionPackage.permissionStoreAll,
+    permissionStoreAll: state => state.merchantRole.permissionPackage && state.merchantRole.permissionPackage.permissionStoreAll,
     queryStoreIds: state => {
-        if (this.permissionStoreAll) {
+        if (state.merchantRole.permissionPackage && state.merchantRole.permissionPackage.permissionStoreAll) {
             return '';
         }
-        return this.storeIds;
+        return state.storeList
+            .map(val => {
+                return val.id;
+            })
+            .toString();
+    },
+    permissions: state => {
+        return state.merchantRole.permissionPackage ? state.merchantRole.permissionPackage.permissions : [];
+    },
+    nounName: state => label => {
+        let item = state.nounList.find(val => val.label === label);
+        if (item) {
+            return item.value;
+        }
     }
 };

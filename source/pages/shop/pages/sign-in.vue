@@ -153,14 +153,11 @@ export default {
                                     window.localStorage.employee = JSON.stringify(employee);
                                     resolve(JSON.parse(localStorage.employee));
                                 });
-
                             }
                         });
                     });
                 };
-
             });
-
         },
         loginEmployee: function() {
             this.getEmployee().then((employee) => {
@@ -220,7 +217,6 @@ export default {
                     });
                 };
             });
-
         },
         base64Encode: function(str) {
             var base64EncodeChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';

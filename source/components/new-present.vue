@@ -12,9 +12,9 @@
               </div>
               <div class="click-now">
                   <span class="click-wallet">
-                         <img class="img-auto" :src="require('assets/imgs/integral-mall/red-packeg.png')" alt="">     
+                         <img class="img-auto" :src="require('assets/imgs/integral-mall/red-packeg.png')" alt="">
                   </span>
-                  <img @click="toUse" class="img-auto" :src="require('assets/imgs/integral-mall/use-now.png')" alt="">                  
+                  <img @click="toUse" class="img-auto" :src="require('assets/imgs/integral-mall/use-now.png')" alt="">
               </div>
           </div>
       </div>
@@ -39,70 +39,70 @@
     </div>
 </template>
 <script>
-    import api_party from 'services/api.party';
-    export default {
-        data() {
-            return {};
+import api_party from 'services/api.party';
+export default {
+    data() {
+        return {};
+    },
+    props: {
+        showMask: {
+            type: Boolean,
+            default: false
         },
-        props: {
-            showMask: {
-                type: Boolean,
-                default: false
-            },
-            adsDetail: {
-                type: Object,
-                default() {
-                    return {};
-                }
+        adsDetail: {
+            type: Object,
+            default() {
+                return {};
             }
-        },
-        methods: {
-            hideMask() {
-                this.hideAsd();
-            },
-            animate() {
-                this.showShack = true;
-            },
-            toUse() {
-                // 链接到使用
-                location.href = '/service/integral-mall.html#/recharge-message';
-            },
-            toLink(type) {
-                switch (Number(type)) {
-                    case 1:
-                        location.href = `${this.$rootPath}integral-mall.html#/rule-entry`;
-                        break;
-                    case 2:
-                        location.href = `${this.$rootPath}integral-mall.html#/recharge-message`;
-                        break;
-                }
-            },
-            hideAsd() {
-                let parameter = {
-                    partyId: this.$store.state.party.partyId,
-                    userId: this.$store.state.party.id,
-                    adsId: this.adsDetail.id
-                };
-                api_party.notShowAds(parameter).then(msg=> {
-                    let tempLocal = JSON.parse(localStorage.getItem('employee'));
-                    tempLocal.party.adsList = [];
-                    localStorage.setItem('employee', JSON.stringify(tempLocal));
-                    this.$store.commit('UPDATE_LOCAL');
-                    this.$emit('hideMask');
-                }, msg=> {
-
-                });
-            }
-        },
-        mounted() {
-            if (this.showMask) {
-                setTimeout(()=> {
-                    this.animate();
-                }, 0);
-            };
         }
-    };
-    
+    },
+    methods: {
+        hideMask() {
+            this.hideAsd();
+        },
+        animate() {
+            this.showShack = true;
+        },
+        toUse() {
+            // 链接到使用
+            location.href = '/service/integral-mall.html#/recharge-message';
+        },
+        toLink(type) {
+            switch (Number(type)) {
+                case 1:
+                    location.href = `${this.$rootPath}integral-mall.html#/rule-entry`;
+                    break;
+                case 2:
+                    location.href = `${this.$rootPath}integral-mall.html#/recharge-message`;
+                    break;
+            }
+        },
+        hideAsd() {
+            let parameter = {
+                partyId: this.$store.state.party.partyId,
+                userId: this.$store.state.party.id,
+                adsId: this.adsDetail.id
+            };
+            api_party.notShowAds(parameter).then(msg => {
+                let tempLocal = JSON.parse(localStorage.getItem('employee'));
+                tempLocal.party.adsList = [];
+                localStorage.setItem('employee', JSON.stringify(tempLocal));
+                this.$store.commit('UPDATE_LOCAL');
+                this.$emit('hideMask');
+            }, msg => {
+
+            });
+        }
+    },
+    mounted() {
+        if (this.showMask) {
+            setTimeout(() => {
+                this.animate();
+            }, 0);
+        };
+    }
+};
+
 </script>
 
 <style lang="less" scoped>
@@ -128,7 +128,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 2;
+    z-index: 12;
     transform: translateY(-100%);
     transition: all ease .3s;
     .get-size{
@@ -189,8 +189,8 @@
             }
         }
         .notice-btn{
-            position: relative;       
-            margin-top: 70px;     
+            position: relative;
+            margin-top: 70px;
             .btn-img{
                 width: 70%;
                 height: auto;
@@ -223,10 +223,9 @@
     }
 }
 .new-present.showShack {
-    transform: translateY(0); 
+    transform: translateY(0);
     .new-get{
         // transform: translateX(-140px) translateY(-180px);
     }
-} 
+}
 </style>
-
