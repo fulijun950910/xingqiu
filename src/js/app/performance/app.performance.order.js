@@ -201,7 +201,7 @@ app.performance.order = {
                         for (var i = 0, len = app.constant.ORDER_TYPE.length; i < len; i++) {
                             var orderStatus = app.constant.ORDER_TYPE[i].code;
                             if (orderStatus == query.orderStatus || orderStatus == parseInt(query.orderStatus)) {
-                                $('.order-list .tempLists .date_info span').eq(i).addClass('active').append('<i></i>');
+                                $('.order-list .tempLists .date_info span[data-status=\''+ query.orderStatus +'\']').addClass('active').append('<i></i>');
                                 break;
                             }
                         }
