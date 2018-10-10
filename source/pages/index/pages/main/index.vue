@@ -99,7 +99,7 @@
     import newPresent from 'components/new-present';
     import api_signIn from 'services/api.signIn';
     import reLogin from '../../models/relogin';
-    import Q from 'q';
+    import Q from 'q'; 
     import Vue from 'vue';
     import { Toast, Swipe, SwipeItem } from 'mint-ui';
     Vue.component(Swipe.name, Swipe);
