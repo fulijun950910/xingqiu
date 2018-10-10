@@ -95,6 +95,17 @@
 </template>
 
 <script>
+<<<<<<< HEAD
+    import api_party from 'services/api.party';
+    import newPresent from 'components/new-present';
+    import api_signIn from 'services/api.signIn';
+    import reLogin from '../../models/relogin';
+    import Q from 'q'; 
+    import Vue from 'vue';
+    import { Toast, Swipe, SwipeItem } from 'mint-ui';
+    Vue.component(Swipe.name, Swipe);
+    Vue.component(SwipeItem.name, SwipeItem);
+=======
 import api_party from 'services/api.party';
 import newPresent from 'components/new-present';
 import api_signIn from 'services/api.signIn';
@@ -104,6 +115,7 @@ import Vue from 'vue';
 import { Toast, Swipe, SwipeItem } from 'mint-ui';
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
+>>>>>>> d37e36e5c2b8529c3ae46dd5a62b15dcc73b721f
 
 export default {
     name: 'main',
