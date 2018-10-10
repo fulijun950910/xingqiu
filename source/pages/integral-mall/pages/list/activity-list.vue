@@ -12,7 +12,7 @@
      <div class="activity-list-con">
          <div class="activity-box" v-for="(item,index) in dataList" :key="index" @click="useTo(item)">
              <div class="activity-img">
-                   <img class="img-auto" :src="item.image | nSrc(require('assets/imgs/female.png'))" alt="">
+                   <img class="img-auto" :src="item.image | nSrc(require('assets/imgs/location.jpg'))" alt="">
              </div>
              <div class="activity-describle">
                  <p class="fwb fs34 color-black">{{item.name}}</p>
@@ -20,13 +20,13 @@
              </div>
              <div class="box-bottom" layout="row" layout-align="space-between center">
                  <span class="fs30 color-pink fwb">{{item.price | fen2dou}}美豆豆</span>
-                 <div class="btn fs30 color-white text-center"> 
+                 <div class="btn fs30 color-white text-center">
                      兑换
                  </div>
              </div>
          </div>
          <div class="no-more"></div>
-         <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm" @integraConfirm="inteconfirm"></integral-confirm>   
+         <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm" @integraConfirm="inteconfirm"></integral-confirm>
      </div>
     </div>
 </template>
@@ -54,31 +54,30 @@ export default {
     methods: {
         loadData() {
             Indicator.open('loading...');
-            api_party.goodsList(this.$route.params.type).then(msg=> {
+            api_party.goodsList(this.$route.params.type).then(msg => {
                 Indicator.close();
                 this.dataList = msg.data;
-            }, msg=> {
+            }, msg => {
 
             });
-
         },
         useTo(item) {
             if (this.$store.state) {
-                console.log($(window).scrollTop());
                 this.$store.state.scroll = $(window).scrollTop();
                 this.$store.commit('UPDATE_LOCAL');
             };
-            if (this.$route.params.type == 5) {
+            if (this.$route.params.type == 5 && item.priceType == 1) {
                 this.$router.push(`/application-form/${item.id}`);
-            } else if (this.$route.params.type == 9) {
+            } else if (this.$route.params.type == 9 && item.priceType == 1) {
                 this.$router.push(`/applicationMarket-form/${item.id}`);
+            } else if (this.$route.params.type == 9 && item.priceType == 2) {
+                this.$router.push(`/package-detail/${item.id}`);
             }
         },
         init() {
             this.loadData();
             if (this.$store.state.scroll) {
                 if (this.$store.state.scroll) {
-                    debugger;
                     $(window).scrollTop(this.$store.state.scroll);
                 };
             };
@@ -87,15 +86,14 @@ export default {
             this.confirm.show = false;
         },
         inteconfirm(msg) {
-            msg.then(data=> {
+            msg.then(data => {
                 if (this.type == 2) {
                     // 充值
                     this.$router.push('/recharge-doudou');
                 } else if (this.type == 1) {
                     this.hideConfirm();
                 }
-
-            }, data=> {
+            }, data => {
                 this.hideConfirm();
             });
         }
@@ -183,4 +181,3 @@ export default {
 
 }
 </style>
-

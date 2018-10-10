@@ -220,7 +220,6 @@ export default {
         // 获取抽奖
         let url = `/api/prize/drawPrize/${parameter.partyId}/${parameter.userId}`;
         return request(url, 'get');
-
     },
     hasAwardedList(parameter) {
         // 已获奖项列表
@@ -246,5 +245,38 @@ export default {
         // 绑定微信
         let url = `/api/party/bindOpenId/${userId}/${openId}`;
         return request(url, 'put');
+    },
+    bbsForumList(partyId, userId) {
+        // 查询板块
+        let url = `/api/bbs/forumList/${partyId}/${userId}`;
+        return request(url, 'get');
+    },
+    loadBBSMessage(parameter) {
+        let forumId = parameter.forumId;
+        let url = `/api/bbs/list/${parameter.partyId}/${parameter.page}/${parameter.pageSize}`;
+        if (forumId) {
+            url += `/${forumId}`;
+        }
+        return request(url, 'get');
+    },
+    favorite(parameter, type) {
+        // parameter.type 1添加收藏 2取消收藏
+        let url = '/api/bbs/';
+        if (type == 1) {
+            url += `favorite/${parameter.partyId}/${parameter.tid}`;
+        } else if (type == 2) {
+            url += `removeFavorite/${parameter.partyId}/${parameter.tid}`;
+        }
+        return request(url, 'get');
+    },
+    orderDetail(id) {
+        // 订单详情
+        let url = `/api/doudouTrade/${id}`;
+        return request(url, 'get');
+    },
+    doudouPay(id) {
+        // 纯豆豆支付
+        let url = `/api/doudouTrade/pay/${id}`;
+        return request(url, 'get');
     }
 };

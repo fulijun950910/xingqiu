@@ -40,143 +40,143 @@
     </div>
 </template>
 <script>
-    import noMore from 'components/integral-mall/no-more';
-    import { InfiniteScroll} from 'mint-ui';
-    import noData from 'components/no-data';
-    import Vue from 'vue';
+import noMore from 'components/integral-mall/no-more';
+import { InfiniteScroll } from 'mint-ui';
+import noData from 'components/no-data';
+import Vue from 'vue';
 
-    Vue.use(InfiniteScroll);
-    import apiPromotion from 'services/api.promotion';
+Vue.use(InfiniteScroll);
+import apiPromotion from 'services/api.promotion';
 
-    export default {
-        data() {
-            return {
-                tabList: [
-                    {
-                        name: '全部',
-                        value: ''
-                    },
-                    {
-                        name: '待付款',
-                        value: '11'
-                    },
-                    {
-                        name: '待发货',
-                        value: '21'
-                    },
-                    {
-                        name: '待收货',
-                        value: '22'
-                    },
-                    {
-                        name: '已收货',
-                        value: '23'
-                    }
-                ],
-                isActive: '',
-                queryData: {
-                    partyId: this.$store.state.party.partyId,
-                    page: 1,
-                    size: 20
+export default {
+    data() {
+        return {
+            tabList: [
+                {
+                    name: '全部',
+                    value: ''
                 },
-                loading: false,
-                scrollDisabled: false,
-                dataList: []
-            };
-        },
-        mounted() {
+                {
+                    name: '待付款',
+                    value: '11'
+                },
+                {
+                    name: '待发货',
+                    value: '21'
+                },
+                {
+                    name: '待收货',
+                    value: '22'
+                },
+                {
+                    name: '已收货',
+                    value: '23'
+                }
+            ],
+            isActive: '',
+            queryData: {
+                partyId: this.$store.state.party.partyId,
+                page: 1,
+                size: 20
+            },
+            loading: false,
+            scrollDisabled: false,
+            dataList: []
+        };
+    },
+    mounted() {
+        this.loadData();
+    },
+    methods: {
+        loadMore() {
             this.loadData();
         },
-        methods: {
-            loadMore() {
-                this.loadData();
-            },
-            loadData(type) {
-                if (type) {
+        loadData(type) {
+            if (type) {
+                this.scrollDisabled = false;
+                this.dataList = [];
+                this.queryData.page = 1;
+            }
+            if (this.scrollDisabled) {
+                return;
+            }
+            this.loading = true;
+
+            let queryData = {
+                partyId: this.queryData.partyId,
+                page: this.queryData.page,
+                size: this.queryData.size
+            };
+            if (this.isActive) {
+                queryData.status = this.isActive;
+            }
+            this.$indicator.open();
+            apiPromotion.getOrderList(queryData).then(res => {
+                this.$indicator.close();
+                if (res.data.rows.length < this.queryData.size) {
+                    this.scrollDisabled = true;
+                } else {
                     this.scrollDisabled = false;
-                    this.dataList = [];
-                    this.queryData.page = 1;
                 }
-                if (this.scrollDisabled) {
-                    return;
-                }
-                this.loading = true;
 
-                let queryData = {
-                    partyId: this.queryData.partyId,
-                    page: this.queryData.page,
-                    size: this.queryData.size
-                };
-                if (this.isActive) {
-                    queryData.status = this.isActive;
-                }
-                this.$indicator.open();
-                apiPromotion.getOrderList(queryData).then(res => {
-                    this.$indicator.close();
-                    if (res.data.rows.length < this.queryData.size) {
-                        this.scrollDisabled = true;
-                    } else {
-                        this.scrollDisabled = false;
-                    }
-
-                    this.dataList = this.dataList.concat(res.data.rows);
-                    this.loading = false;
-                    this.queryData.page++;
-                });
-            },
-            receiveExpress(item, index) {
-                this.$messageBox.confirm('确认收货？').then(action => {
-                    this.receiveExpressCallBack(item, index);
-                });
-            },
-            async receiveExpressCallBack(item, index) {
-                let data = {
-                    b2bOrderId: item.id
-                };
-                await apiPromotion.receiveExpress(data);
-                this.dataList.splice(index, 1);
-                this.$toast('收货成功');
-            },
-            goLogistics(item) {
-                this.$router.push(`/logistics-list/${item.id}`);
-            },
-            tabClick(item) {
-                this.isActive = item.value;
-                this.loadData(true);
-            }
+                this.dataList = this.dataList.concat(res.data.rows);
+                this.loading = false;
+                this.queryData.page++;
+            });
         },
-        filters: {
-            payStatus(value) {
-                let text = '';
-                switch (Number(value)) {
-                    case 11:
-                        text = '待付款';
-                        break;
-                    case 21:
-                        text = '待发货';
-                        break;
-                    case 22:
-                        text = '待收货';
-                        break;
-                    case 23:
-                        text = '已收货';
-                        break;
-                    case 71:
-                    case 72:
-                        text = '已退款';
-                        break;
-                    case 79:
-                        text = '退款失败';
-                        break;
-                }
-                return text;
-            }
+        receiveExpress(item, index) {
+            this.$messageBox.confirm('确认收货？').then(action => {
+                this.receiveExpressCallBack(item, index);
+            });
         },
-        components: {
-            noMore,
-            noData
+        async receiveExpressCallBack(item, index) {
+            let data = {
+                b2bOrderId: item.id
+            };
+            await apiPromotion.receiveExpress(data);
+            this.dataList.splice(index, 1);
+            this.$toast('收货成功');
+        },
+        goLogistics(item) {
+            this.$router.push(`/logistics-list/${item.id}`);
+        },
+        tabClick(item) {
+            this.isActive = item.value;
+            this.loadData(true);
         }
-    };
+    },
+    filters: {
+        payStatus(value) {
+            let text = '';
+            switch (Number(value)) {
+                case 11:
+                    text = '待付款';
+                    break;
+                case 21:
+                    text = '待发货';
+                    break;
+                case 22:
+                    text = '待收货';
+                    break;
+                case 23:
+                    text = '已收货';
+                    break;
+                case 71:
+                case 72:
+                    text = '已退款';
+                    break;
+                case 79:
+                    text = '退款失败';
+                    break;
+            }
+            return text;
+        }
+    },
+    components: {
+        noMore,
+        noData
+    }
+};
 </script>
 <style lang="less" scoped>
     @import '~styles/_style';
@@ -344,4 +344,3 @@
         }
     }
 </style>
-

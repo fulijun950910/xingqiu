@@ -10,7 +10,9 @@ app.api = {
                     localStorage.clear();
                     window.location.href = window.location.origin + '/userinfo.html#/user_login';
                     if (location.pathname == '/userinfo.html') {
-                        location.reload();
+                        setTimeout(function() {
+                            location.reload();
+                        }, 200);
                     }
                     break;
                 case 404:
@@ -57,48 +59,6 @@ app.api = {
         }
 
         $.ajax(settings);
-    },
-    baseNoun: function(personalNoun) {
-        var baseNoun = [
-            { name: '技师', value: 'worker' },
-            { name: '疗程卡', value: 'treatmentCard' },
-            { name: '项目', value: 'project' }
-        ];
-        return fomartPersonalNoun(personalNoun);
-
-        function fomartPersonalNoun(backData) {
-            var baseData = [];
-            var result = {};
-            baseNoun.map(function(item, index) {
-                baseData.push(item);
-            });
-            if (!backData.length) {
-                baseData.map(function(item, index) {
-                    result[item.value] = item.name;
-                });
-                return result;
-            }
-            backData.map(function(item, index) {
-                baseData.map(function(item1, index1) {
-                    if (item.nounCode == item1.value) {
-                        if (item.targetNoun) {
-                            result[item.nounCode] = item.targetNoun;
-                        } else {
-                            result[item1.value] = item1.name;
-                        }
-                    }
-                });
-            });
-            return result;
-        }
-    },
-    personalNoun: function(settings) {
-        app.api.ajax({
-            url: '/nounConfig/list/' + settings.data,
-            type: 'get',
-            success: settings.success,
-            error: settings.error
-        });
     }
 };
 // employee项目多次使用，所以前提

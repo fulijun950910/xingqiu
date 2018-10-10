@@ -42,7 +42,7 @@
                     <div class="fs24 color-white" :style="item.tradeTypeStyle">【{{item.tradeType | tradeType}}】</div>
                     <div class="fs24 color-orange-yellow">{{item.status | payStatus}}</div>
                 </div>
-                <div class="middle" layout="row" layout-align="space-between center">
+                <div class="middle" layout="row" layout-align="space-between center" @click="toDetail(item)">
                     <div flex="70">
                         <div class="fs34 color-black">{{item.itemName}}&nbsp;&nbsp;&nbsp;{{item.quantity}}个</div>
                         <div class="fs28 color-gray">合计：{{item.payDoudouAmount}}美豆豆&nbsp;+&nbsp;{{item.payMoney | fen2yuan}}元</div>
@@ -52,7 +52,7 @@
                         <img class="img-auto" :src="item.itemImage | nSrc(require('assets/imgs/female.png'))" alt="">
                     </div>
                 </div>
-                <div flex v-if="item.tradeDelivery">
+                <div flex v-if="item.tradeDelivery" @click="toDetail(item)">
                     <div class="fs28 color-gray">配送地址：{{item.tradeDelivery.fullAddress}}</div>
                     <div class="fs28 color-gray">快递公司：{{item.tradeDelivery.logisticsCompany}}</div>
                     <div class="fs28 color-gray">快递单号：{{item.tradeDelivery.logisticsNo}}</div>
@@ -62,7 +62,6 @@
                     <div layout="row" layout-align="center center">
                     <div class="payStatus fs30" @click="clickToPay(item)" :style="item.statusColor" v-if="item.status == 0 || item.status == 6" :class="{'color-pink fwb' : item.status == 0}">{{item.status | statusPay}}</div><span class="m-l-4 fs30" v-if="item.status == 0" @click="cancelOrder(item)">取消订单</span>
                     </div>
-
                     <!-- <div @click="cancelOrder(item)" v-if="item.status == 0">取消订单</div> -->
                 </div>
             </div>
@@ -73,6 +72,7 @@
     <!-- <buy-message type="2" @update="update" :selected-item="chooseServiceItem" :show-buy="showBuy"></buy-message> -->
     <mt-datetime-picker ref="picker" type="date" @confirm="handleConfirm">
     </mt-datetime-picker>
+    <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm" @integraConfirm="inteconfirm"></integral-confirm>
 </div>
 </template>
 <script>
@@ -81,6 +81,7 @@ import { Indicator, DatetimePicker, InfiniteScroll, Toast } from 'mint-ui';
 import buyMessage from 'components/integral-mall/buy-message';
 import noData from 'components/no-data';
 import Vue from 'vue';
+import integralConfirm from 'components/integral-mall/integral-confirm';
 Vue.component(DatetimePicker.name, DatetimePicker);
 Vue.use(InfiniteScroll);
 import api_party from 'services/api.party';
@@ -105,6 +106,10 @@ export default {
                 {
                     name: '已完成',
                     value: '5'
+                },
+                {
+                    name: '支付待确认',
+                    value: '8'
                 }
             ],
             pageChange: {
@@ -164,7 +169,13 @@ export default {
                     endTime: ''
                 }
             ],
-            pickerType: null
+            pickerType: null,
+            confirm: {
+                show: false,
+                message: '即将抵扣豆豆',
+                confirm: '确认',
+                quiet: '再考虑下'
+            }
         };
     },
     methods: {
@@ -225,14 +236,14 @@ export default {
                 return;
             };
             this.loading = true;
-            api_party.orderList(parameter).then(res=> {
+            api_party.orderList(parameter).then(res => {
                 Indicator.close();
                 if (res.data.rows.length < this.pageChange.size) {
                     this.scrollDisabled = true;
                 } else {
                     this.scrollDisabled = false;
                 }
-                res.data.rows.map((item, index)=> {
+                res.data.rows.map((item, index) => {
                     if (item.status == 0) {
                         item.count = this.$moment(item.createdTime).diff(this.$moment(), 'minutes', true);
                     }
@@ -280,12 +291,11 @@ export default {
                             };
                             break;
                     }
-
                 });
                 this.dataList = this.dataList.concat(res.data.rows);
                 this.loading = false;
                 this.pageChange.page++;
-            }, res=> {
+            }, res => {
 
             });
         },
@@ -324,34 +334,59 @@ export default {
         },
         clickToPay(item) {
             if (item.status == 0) {
-                api_party.repay(item.id).then(msg=> {
-                    debugger;
-                    let url = msg.data + '?url=' + location.protocol + '//' + location.host + this.$rootPath + encodeURIComponent('integral-mall.html#/pay-success');
-                    location.href = url;
-                }, msg=> {
-                });
+                if (item.payMoney == 0) {
+                    this.confirm.show = true;
+                    this.confirm.item = item;
+                } else {
+                    api_party.repay(item.id).then(msg => {
+                        let url = msg.data + '?url=' + location.protocol + '//' + location.host + this.$rootPath + encodeURIComponent('integral-mall.html#/pay-success');
+                        location.href = url;
+                    }, msg => {
+                    });
+                }
             } else if (item.status == 1 || item.status == 6) {
-                api_party.confirmOrder(item.id).then(msg=> {
+                api_party.confirmOrder(item.id).then(msg => {
                     this.resetSearch();
                     this.loadData();
                     Toast('订单已确认');
-                }, msg=> {
+                }, msg => {
 
                 });
             }
         },
+        doudouPay(item) {
+            api_party.doudouPay(item.id).then(msg => {
+                this.loadData();
+                this.$toast('支付成功');
+            }, msg => {
+                console.log('网络错误');
+            });
+        },
         cancelOrder(item) {
-            api_party.cancelOrder(item.id).then(msg=> {
+            api_party.cancelOrder(item.id).then(msg => {
                 this.resetSearch();
                 this.loadData();
                 Toast('订单已取消');
-            }, msg=> {
+            }, msg => {
 
             });
-
         },
         resetSearch() {
             this.pageChange.page = 1;
+        },
+        toDetail(item) {
+            this.$router.push({ path: `/order-detail/${item.id}` });
+        },
+        hideConfirm() {
+            this.confirm.show = !this.confirm.show;
+        },
+        inteconfirm(msg) {
+            msg.then(data => {
+                this.doudouPay(this.confirm.item);
+                this.hideConfirm();
+            }, data => {
+                this.hideConfirm();
+            });
         }
     },
     mounted() {
@@ -360,7 +395,8 @@ export default {
     components: {
         noMore,
         buyMessage,
-        noData
+        noData,
+        integralConfirm
     }
 };
 </script>
@@ -454,7 +490,7 @@ export default {
                         color: @extra-light-black;
                         text-align: center;
                     background: @extra-light-gray;
-                        
+
                     }
 
                 }
@@ -521,4 +557,3 @@ export default {
     }
 }
 </style>
-

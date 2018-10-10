@@ -8,6 +8,10 @@ export const GENDERS = [
     { name: '未知', value: '3' }
 ];
 
+export const PERMISSION_BOOKING = 'wechat_business_booking';
+export const PERMISSION_BOOKING_GUEST = 'wechat_business_booking_guest';
+export const PERMISSION_BOOKING_MANAGE = 'wechat_business_booking_manage';
+
 /* wechat business 权限 */
 export const WECHAT_BUSINESS = [
     { name: '微信店务助手', code: 'wechat_business' },
@@ -42,7 +46,6 @@ export function CARD_TYPE() {
         } else if (item.name == 'TYPE_ITEM_PART') {
             item.label = `分${backNoun.treatmentCard}`;
         }
-
     });
     return tempCardType;
 }
@@ -61,12 +64,12 @@ export const COUNON_KIND = [
     { name: '直接赠送', value: '2-4' },
     { name: '短信送券', value: '2-6' },
     { name: '他人赠送', value: '1-7' },
-    { name: '他人赠送', value: '2-7'},
-    { name: '微信活动赠送', value: '2-5'},
+    { name: '他人赠送', value: '2-7' },
+    { name: '微信活动赠送', value: '2-5' },
     { name: 'SaaS购买', value: '1-1' },
-    { name: '微信活动购买', value: '1-2'},
+    { name: '微信活动购买', value: '1-2' },
     { name: '商城购买', value: '1-6' },
-    { name: '微信活动购买', value: '1- '}
+    { name: '微信活动购买', value: '1- ' }
 ];
 
 export const ACTIVITY_TYPES = [
@@ -85,4 +88,12 @@ export const SOURCE_TYPES = [
     { name: '短信营销', value: 4 },
     { name: '异业', value: 5 },
     { name: '导入', value: 6 }
+];
+
+export const BOOKING_STATUS = [
+    { name: '待确认', value: 1 },
+    { name: '已确认', value: 2 },
+    { name: '已完成', value: 3 },
+    { name: '已取消', value: 4 },
+    { name: '已取消', value: 5 },
 ];

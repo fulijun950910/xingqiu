@@ -2,11 +2,11 @@
     <!-- 图片上传 -->
     <div class="m-pictures">
         <transition-group name="slide-up" tag="div" mode="out-in" layout="row" layout-align="start start" flex-wrap="wrap">
-            <div :class="['c-picture-item', ('c-picture-item-'+column), ('picture_'+cid)]" 
+            <div :class="['c-picture-item', ('c-picture-item-'+column), ('picture_'+cid)]"
                 v-for="(item,cid) in pictures" :key="cid" :ref="'picture_'+cid">
                 <!-- 合同图片 -->
                 <m-picture :index="cid" :picture="item" @submit="submitPicture"></m-picture>
-                
+
                 <!-- 移除 合同图片 -->
                 <p v-if="hasRemove" class="remove-btn" @click.stop="removePicture(cid)">
                     <svg class="icon" aria-hidden="true">
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-    /** 多个图片上传
+/** 多个图片上传
     * pictures : 照片列表
     * has-add : 能否添加照片
     * has-remove : 能否移除照片
@@ -45,149 +45,149 @@
     * add : 添加某张图片（pic：要添加的图片, index：插入指定的下标）
     * remove ： 移除某张图片
     */
-    import $ from 'jquery';
-    import api_file from 'services/api.file';
-    import mPicture from 'components/m-picture';
-    export default {
-        name: 'm-pictures',
-        props: {
-            pictures: {
-                type: Array,
-                required: true,
-                default() {
-                    return [];
-                }
-            },
-            hasAdd: {
-                type: Boolean,
-                default: true
-            },
-            hasRemove: {
-                type: Boolean,
-                default: true
-            },
-            hasCounter: {
-                type: Boolean,
-                default: true
-            },
-            maxCount: {
-                type: Number,
-                default: 9
-            },
-            minCount: {
-                type: Number,
-                default: 0
-            },
-            column: {
-                type: Number,
-                default: 3
+import $ from 'jquery';
+import api_file from 'services/api.file';
+import mPicture from 'components/m-picture';
+export default {
+    name: 'm-pictures',
+    props: {
+        pictures: {
+            type: Array,
+            required: true,
+            default() {
+                return [];
             }
         },
-        components: {
-            mPicture
+        hasAdd: {
+            type: Boolean,
+            default: true
         },
-        data() {
-            return {
-            };
+        hasRemove: {
+            type: Boolean,
+            default: true
         },
-        methods: {
-            // 上传图片
-            submitPicture(img, idx) {
-                var self = this;
-                let key = 'picture_' + idx;
-                var newDiv;
-                if (this.$refs[key][0].lastElementChild.className == 'img-loading') {
-                    newDiv = self.$refs[key][0].lastElementChild;
-                } else {
-                    newDiv = document.createElement('div');
-                    newDiv.className = 'img-loading';
-                }
-                newDiv.style.height = '100%';
-                newDiv.innerText = '正在上传...';
-                self.$refs[key][0].appendChild(newDiv);
-                this.$indicator.open();
-                api_file.uploadImage(img).then(res => {
-                    this.$indicator.close();
-                    // 上传成功
-                    self.pictures[idx].base64 = null;
-                    self.pictures[idx].id = res.data;
-                    this.$emit('update');
-                    newDiv.innerText = '上传成功！';
-                    newDiv.style.height = '24px';
-                    window.setTimeout(() => {
-                        $(newDiv).animate({
-                            width: 0
-                        }, 300, function() {
-                            $(newDiv).remove();
-                        });
-                    }, 3000);
-                }, res => {
-                    this.$indicator.close();
-                    // 上传失败
-                    self.pictures[idx].base64 = null;
-                    newDiv.innerText = '上传失败！';
-                    newDiv.style.height = '24px';
-                    window.setTimeout(() => {
-                        $(newDiv).animate({
-                            width: 0
-                        }, 300, function() {
-                            $(newDiv).remove();
-                        });
-                    }, 3000);
-                });
-            },
-            // 添加图片(最多9张)
-            addPicture(index) {
-                let imgNum = this.pictures.length;
-                if (imgNum < this.maxCount) {
-                    // 通知父组件添加图片对象
-                    this.$emit('add', {
-                        id: null,
-                        base64: null
-                    }, index);
-                    // 自动点击
-                    this.$nextTick(() => {
-                        let ava = this.$refs['picture_' + (this.pictures.length - 1)];
-                        if (ava) {
-                            let imgInput = $(ava).find('input[type=file]').get(0);
-                            if (imgInput) {
-                                var event = document.createEvent('Event');
-                                event.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                                imgInput.dispatchEvent(event);
-                            }
-                        }
+        hasCounter: {
+            type: Boolean,
+            default: true
+        },
+        maxCount: {
+            type: Number,
+            default: 9
+        },
+        minCount: {
+            type: Number,
+            default: 0
+        },
+        column: {
+            type: Number,
+            default: 3
+        }
+    },
+    components: {
+        mPicture
+    },
+    data() {
+        return {
+        };
+    },
+    methods: {
+        // 上传图片
+        submitPicture(img, idx) {
+            var self = this;
+            let key = 'picture_' + idx;
+            var newDiv;
+            if (this.$refs[key][0].lastElementChild.className == 'img-loading') {
+                newDiv = self.$refs[key][0].lastElementChild;
+            } else {
+                newDiv = document.createElement('div');
+                newDiv.className = 'img-loading';
+            }
+            newDiv.style.height = '100%';
+            newDiv.innerText = '正在上传...';
+            self.$refs[key][0].appendChild(newDiv);
+            this.$indicator.open();
+            api_file.uploadImage(img).then(res => {
+                this.$indicator.close();
+                // 上传成功
+                self.pictures[idx].base64 = null;
+                self.pictures[idx].id = res.data;
+                this.$emit('update');
+                newDiv.innerText = '上传成功！';
+                newDiv.style.height = '24px';
+                window.setTimeout(() => {
+                    $(newDiv).animate({
+                        width: 0
+                    }, 300, function() {
+                        $(newDiv).remove();
                     });
-                } else {
-                    this.$toast('最多上传' + this.maxCount + '张图片');
-                }
-            },
-            // 删除图片
-            removePicture(imgId) {
-                // 先清除当前图片上的标签
-                let ava = this.$refs['picture_' + imgId];
-                $(ava).find('.img-loading').remove();
-                // 通知父组件移除图片对象
-                this.$emit('remove', imgId);
-            },
-            // 数组元素交换位置
-            swapItems(arr, index1, index2) {
-                arr[index1] = arr.splice(index2, 1, arr[index1])[0];
-                return arr;
-            },
-            // 上移
-            moveUp(index) {
-                if (index !== 0) {
-                    this.swapItems(this.pictures, index, index - 1);
-                }
-            },
-            // 下移
-            moveDown(index) {
-                if (index !== this.pictures.length - 1) {
-                    this.swapItems(this.pictures, index, index + 1);
-                }
+                }, 3000);
+            }, res => {
+                this.$indicator.close();
+                // 上传失败
+                self.pictures[idx].base64 = null;
+                newDiv.innerText = '上传失败！';
+                newDiv.style.height = '24px';
+                window.setTimeout(() => {
+                    $(newDiv).animate({
+                        width: 0
+                    }, 300, function() {
+                        $(newDiv).remove();
+                    });
+                }, 3000);
+            });
+        },
+        // 添加图片(最多9张)
+        addPicture(index) {
+            let imgNum = this.pictures.length;
+            if (imgNum < this.maxCount) {
+                // 通知父组件添加图片对象
+                this.$emit('add', {
+                    id: null,
+                    base64: null
+                }, index);
+                // 自动点击
+                this.$nextTick(() => {
+                    let ava = this.$refs['picture_' + (this.pictures.length - 1)];
+                    if (ava) {
+                        let imgInput = $(ava).find('input[type=file]').get(0);
+                        if (imgInput) {
+                            var event = document.createEvent('Event');
+                            event.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                            imgInput.dispatchEvent(event);
+                        }
+                    }
+                });
+            } else {
+                this.$toast('最多上传' + this.maxCount + '张图片');
+            }
+        },
+        // 删除图片
+        removePicture(imgId) {
+            // 先清除当前图片上的标签
+            let ava = this.$refs['picture_' + imgId];
+            $(ava).find('.img-loading').remove();
+            // 通知父组件移除图片对象
+            this.$emit('remove', imgId);
+        },
+        // 数组元素交换位置
+        swapItems(arr, index1, index2) {
+            arr[index1] = arr.splice(index2, 1, arr[index1])[0];
+            return arr;
+        },
+        // 上移
+        moveUp(index) {
+            if (index !== 0) {
+                this.swapItems(this.pictures, index, index - 1);
+            }
+        },
+        // 下移
+        moveDown(index) {
+            if (index !== this.pictures.length - 1) {
+                this.swapItems(this.pictures, index, index + 1);
             }
         }
-    };
+    }
+};
 </script>
 <style lang="less">
     @import '~styles/_agile.less';

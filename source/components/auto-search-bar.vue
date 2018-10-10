@@ -45,7 +45,9 @@ export default {
         },
         employeeList: {
             type: Array,
-            default: []
+            default() {
+                return [];
+            }
         },
         autoCallback: {
             type: Boolean,

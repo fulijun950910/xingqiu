@@ -54,7 +54,7 @@ export default class Snapshoter {
         Snapshoter.check();
         let snapshoterList = JSON.parse(window.localStorage.getItem('Snapshoter-List')) || [];
         if (lsId && snapshoterList.includes(lsId) && lsId != '') {
-            snapshoterList = snapshoterList.filter(x => {return x != lsId;});
+            snapshoterList = snapshoterList.filter(x => { return x != lsId; });
             window.localStorage.setItem('Snapshoter-List', JSON.stringify(snapshoterList));
         }
     };

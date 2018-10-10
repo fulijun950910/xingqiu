@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import App from './app';
-require('babel-polyfill');
 require('vendor/polyfill');
 import { Toast, Indicator, MessageBox } from 'mint-ui';
+import 'mint-ui/lib/style.css';
 
 Vue.prototype.$toast = message => Toast({ message: message, duration: 1500 });
 Vue.prototype.$indicator = Indicator;

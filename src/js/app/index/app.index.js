@@ -213,13 +213,20 @@ app.index = {
         window.localStorage.setItem('performanceInfo', '');
         window.sessionStorage.setItem('employeeList', '');
         initData();
-        if (!localStorage.employee || !JSON.parse(localStorage.employee) || typeof JSON.parse(localStorage.employee) != 'object') {
+        var employeeJson = localStorage.employee;
+        if (!employeeJson || !JSON.parse(employeeJson) || typeof JSON.parse(employeeJson) != 'object') {
             // location.href = "/userinfo.html?type=1#/user_login";
             this.resetLogin();
+            return;
         }
-        if (JSON.parse(localStorage.employee).merchant && (JSON.parse(localStorage.employee).merchant.functionVersion == 4 || JSON.parse(localStorage.employee).merchant.functionVersion == 5)) {
+        if (JSON.parse(employeeJson).merchant && (JSON.parse(employeeJson).merchant.functionVersion == 4 || JSON.parse(employeeJson).merchant.functionVersion == 5)) {
             location.href = '/lite/index.html';
             return;
+        }
+        if (!JSON.parse(employeeJson).storeList) {
+            var employee = JSON.parse(employeeJson);
+            employee.storeList = [];
+            localStorage.setItem('employee', JSON.stringify(employee));
         }
         app.index.userdata().then(function(userDate) {
             if (!sessionStorage.getItem('employeeList')) {
@@ -261,6 +268,11 @@ app.index = {
         } else {
             app.index.getOperatorStore(data);
             tmplhtml = $('#tmpl-index-admin-model').html();
+        }
+        try {
+            memberData.permissions = employee.merchantRole.permissionPackage.permissions;
+        } catch (error) {
+            memberData.permissions = [];
         }
         var resultTmpl = tmpl(tmplhtml, memberData);
         $('#tmpl-index').html(resultTmpl);

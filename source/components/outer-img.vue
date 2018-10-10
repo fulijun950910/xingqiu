@@ -1,9 +1,9 @@
 <template>
-    <div v-if="">
+    <div>
     </div>
 </template>
 <script>
 export default {
 
-}
+};
 </script>

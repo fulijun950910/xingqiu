@@ -35,6 +35,12 @@ export default {
     },
     getEmployeeInfo: function(searchData) {
         var url = '/api/employeeInfo';
-        return request(url, 'get', null, true, {searchData: searchData});
+        return request(url, 'get', null, true, { searchData: searchData });
+    },
+    getPermission(employeeId) {
+        return request(`/api/employee/permission/${employeeId}`);
+    },
+    getNounConfig(merchantId) {
+        return request(`/api/nounConfig/list/${merchantId}`);
     }
 };

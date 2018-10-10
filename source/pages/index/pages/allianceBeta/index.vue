@@ -6,19 +6,19 @@
 </template>
 
 <script>
-    export default {
-        name: 'index',
-        data() {
-            return {};
-        },
-        mounted() {
-        },
-        methods: {
-            goIndex() {
-                this.$router.push({name: 'main'});
-            }
+export default {
+    name: 'index',
+    data() {
+        return {};
+    },
+    mounted() {
+    },
+    methods: {
+        goIndex() {
+            this.$router.push({ name: 'main' });
         }
-    };
+    }
+};
 </script>
 
 <style scoped lang='less'>

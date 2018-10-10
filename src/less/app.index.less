@@ -39,7 +39,7 @@
     //     display:inline-block;
     // }
     .header {
-        background: url(../images/bg2.png) no-repeat;//bg2
+        background: url(../images/bg4.png) no-repeat;//bg2
         //background: #c12ee6;
         height: 50vw;
         background-size: 100% 100%;
@@ -199,9 +199,9 @@
         a {
             color: #333 !important;
             -webkit-tap-highlight-color: transparent;
-            flex-basis: 33%;
-            -webkit-flex-basis: 33%;
-            width: 33%;
+            flex-basis: 33.33%;
+            -webkit-flex-basis: 33.33%;
+            width: 33.33%;
             text-align: center;
             height: 25vw;
             display: -webkit-flex;
@@ -214,6 +214,7 @@
             justify-content: space-around;
         }
         .item {
+            box-sizing: border-box;
             i {
                 font-size: 1.8rem;
             }
@@ -298,6 +299,11 @@
     }
     //员工
     .normal-header {
+        position: relative;
+        .wrap {
+            position: relative;
+            z-index: 2;
+        }
         .performance {
             justify-content: center;
             -webkit-justify-content: center;
@@ -323,6 +329,15 @@
                     font-size: .8rem;
                 }
             }
+        }
+        .nh-mask {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.2);
         }
     }
     .normal-info {

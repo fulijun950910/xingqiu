@@ -5,11 +5,11 @@ export default {
     storeName: state => state.store.name,
     isLogin: state => Boolean(state.user.id),
     storeIds: state => {
-        var storeIds = [];
-        for (var i = 0, len = state.storeList.length; i < len; i++) {
-            storeIds.push(state.storeList[i].id);
-        }
-        return storeIds.toString();
+        return state.storeList
+            .map(val => {
+                return val.id;
+            })
+            .toString();
     },
     admin: state => {
         try {
@@ -25,9 +25,13 @@ export default {
     employeeName: state => state.user.name,
     permissionStoreAll: state => state.merchantRole.permissionPackage.permissionStoreAll,
     queryStoreIds: state => {
-        if (this.permissionStoreAll) {
+        if (state.merchantRole.permissionPackage && state.merchantRole.permissionPackage.permissionStoreAll) {
             return '';
         }
-        return this.storeIds;
+        return state.storeList
+            .map(val => {
+                return val.id;
+            })
+            .toString();
     }
 };

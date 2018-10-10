@@ -2,7 +2,7 @@
     <div class="customer-list">
         <!--筛选栏-->
         <div class="top-filter-box" layout="row" layout-align="space-between center">
-            <div flex="33" class="sort bdr-right" @click.stop="showSort = true" layout="row" layout-align="center center"> 
+            <div flex="33" class="sort bdr-right" @click.stop="showSort = true" layout="row" layout-align="center center">
                 <p class="no-wrap">{{sortSlots[currSort].label}}</p><m-icon flex="20" xlink="#icon-triangle-down"/>
             </div>
             <div flex class="filter bdr-right" @click.stop="showFilter = true">筛选 <m-icon xlink="#icon-filter"/></div>
@@ -81,7 +81,7 @@
                 <p v-if="!searchProfilesList.length && !isLoadingSearch">没有查到数据：-（</p>
             </div>
         </mt-popup>
-        
+
         <!--档案列表-->
         <div class="profiles-box">
             <customer-profiles-cell @click.native="toDetail(item)" v-for="(item, index) in profilesList" :key="index" :value="item" :show.sync="item.show"></customer-profiles-cell>
@@ -132,11 +132,11 @@ export default {
             showFilter: false,
             showSearch: false,
             sortSlots: [
-                {label: '默认排序'},
-                {label: '最后消费时间从远到近', field: 'memberorder.lastConsumeDate', sort: 'asc'},
-                {label: '最后消费时间从近到远', field: 'memberorder.lastConsumeDate', sort: 'desc'},
-                {label: '未回访时间从远到近', field: 'messageservicecenter.createTime', sort: 'asc'},
-                {label: '未回访时间从近到远', field: 'messageservicecenter.createTime', sort: 'desc'}
+                { label: '默认排序' },
+                { label: '最后消费时间从远到近', field: 'memberorder.lastConsumeDate', sort: 'asc' },
+                { label: '最后消费时间从近到远', field: 'memberorder.lastConsumeDate', sort: 'desc' },
+                { label: '未回访时间从远到近', field: 'messageservicecenter.createTime', sort: 'asc' },
+                { label: '未回访时间从近到远', field: 'messageservicecenter.createTime', sort: 'desc' }
             ],
             category: [
                 {
@@ -231,15 +231,15 @@ export default {
             }
         },
         loadMore() {
-            this.pageIndex ++;
+            this.pageIndex++;
             this.getCustomerList();
         },
         // 模糊查询会员列表
         getCustomerListSearch() {
             var paramData = {
                 query: [
-                    {field: 'merchantId', value: this.$store.getters.merchantId},
-                    {field: 'keyword', value: this.keyword, operation: 'like'}
+                    { field: 'merchantId', value: this.$store.getters.merchantId },
+                    { field: 'keyword', value: this.keyword, operation: 'like' }
                 ],
                 page: 1,
                 size: 20
@@ -339,7 +339,7 @@ export default {
 </script>
 <style lang="less">
     @import '~styles/_agile.less';
-    
+
     .customer-list {
         font-size: 14px;
         padding-top: 50px;
@@ -446,7 +446,7 @@ export default {
                 overflow-y: auto;
             }
         }
-        
+
     }
 
 </style>

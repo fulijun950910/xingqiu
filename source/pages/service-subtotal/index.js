@@ -22,7 +22,6 @@ import './iconfont';
 import knife from 'vendor/knife';
 import mIcon from 'components/m-icon';
 
-console.info('当前环境：', process.env.NODE_ENV);
 // 常用函数
 Vue.prototype.$knife = knife;
 
@@ -53,7 +52,7 @@ const router = new VueRouter({
 
 router.beforeEach(({ meta, path }, from, next) => {
     if (path == '/sign-in' || store.getters.isLogin) {
-         // 百度统计
+        // 百度统计
         try {
             window._hmt.push(['_trackPageview', '/service/service-subtotal.html#' + path]);
         } catch (e) {
@@ -65,7 +64,6 @@ router.beforeEach(({ meta, path }, from, next) => {
         } else {
             window.location.href = '/userinfo.html#/user_login';
         }
-
     }
 });
 
