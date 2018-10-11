@@ -793,6 +793,7 @@ export default {
             apiBooking.saveBooking(params).then(
                 res => {
                     this.$indicator.close();
+                    this.$toast('预约保存成功');
                     this.$router.go(-1);
                 },
                 err => {
