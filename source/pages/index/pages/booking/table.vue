@@ -324,14 +324,6 @@ export default {
             status: [],
             visible: false,
             total: 0,
-            // params: {
-            //     tabIndex: 0,
-            //     storeId: this.$store.getters.storeId,
-            //     employeeId: this.$store.getters.bookingGuest ? '' : this.$store.getters.employeeId,
-            //     date: this.$moment()
-            //         .startOf('d')
-            //         .format('YYYY-MM-DD HH:mm:ss')
-            // },
             tools: [],
             fiexdHead: false,
             startTime: '',
@@ -469,13 +461,6 @@ export default {
             );
         },
         queryFormat() {
-            // let reservations = JSON.parse(sessionStorage.getItem('reservations'));
-            // if (reservations != undefined) {
-            //     this.startTime = reservations.startTime;
-            //     this.endTime = reservations.endTime;
-            //     this.merchantId.merchantId = reservations.merchantId;
-            //     this.storeId = reservations.storeId;
-            // }
             let params = {
                 page: 1,
                 size: 10000,
