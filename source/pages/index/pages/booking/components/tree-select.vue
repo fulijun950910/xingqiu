@@ -16,10 +16,10 @@
                        @keydown.enter="search"
                        placeholder="输入名称搜索">
             </form>
-            <div class="tsh-foot color-primary"
-                 @click="search">
-                搜索
-            </div>
+                <div class="tsh-foot color-primary"
+                     @click="search">
+                    搜索
+                </div>
         </div>
         <div class="ts-cont">
             <div class="ts-left">
@@ -28,7 +28,7 @@
                      :key="index"
                      :class="{'ts-cell-s': headIndex === index}"
                      @click="headClick(item, index)">
-                    {{item.name}}
+                    <div class="ts-fs13">{{item.name}}</div>
                 </div>
             </div>
             <div class="ts-right"
@@ -41,7 +41,8 @@
                      :key="index"
                      :class="{'ts-cell-s2': items.findIndex(val => val.itemId == item.itemId) != -1}"
                      @click="rowClick(item)">
-                    {{item.name}}
+                    <div class="ts-fs13">{{item.name}}</div>
+                    <div class="ts-sub-cont">{{item.serviceDuration}}分钟</div>
                     <m-icon class="fs28"
                             xlink="#icon-queding"></m-icon>
                 </div>
@@ -230,27 +231,29 @@ export default {
         background-color: white;
     }
     .ts-cell {
-        padding-left: 12px;
-        padding-right: 12px;
-        line-height: 44px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+        padding: 10px 12px;
         position: relative;
+        font-size: 13px;
         &-s {
             background-color: @extra-light-gray;
         }
-        &-s2 {
-            color: @color-primary;
+        &-s2,
+        &-s2 .ts-sub-cont {
+            color: @color-primary !important;
         }
     }
     .ts-sub-cell {
         padding-right: 40px;
+        border-bottom: 1px solid @border-gay; /*no*/
         .icon {
             position: absolute;
             right: 12px;
-            top: 15px;
+            top: 12px;
             display: none;
+        }
+        .ts-sub-cont {
+            color: @gray;
+            font-size: 12px;
         }
     }
     .ts-cell-s2.ts-sub-cell .icon {
@@ -260,6 +263,13 @@ export default {
         margin-left: @left-w;
         height: 100%;
         overflow: auto;
+    }
+    .m-loading-more {
+        font-size: 13px;
+        color: @extra-light-black;
+    }
+    .ts-fs13 {
+        font-size: 13px;
     }
 }
 </style>

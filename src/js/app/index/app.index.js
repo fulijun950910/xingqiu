@@ -235,6 +235,15 @@ app.index = {
                 };
                 app.userinfo.getMerchanntList(userInfo).then(function(employeeList) {
                     window.sessionStorage.setItem('employeeList', JSON.stringify(employeeList.data));
+                    // 权限更新
+                    try {
+                        var employee = JSON.parse(localStorage.employee);
+                        var emp = employeeList.data.filter(function(val) {
+                            return val.id === employee.id
+                        })[0];
+                        employee.merchantRole = emp.merchantRole;
+                        localStorage.setItem('employee', JSON.stringify(employee));
+                    } catch (error) {}
                     app.index.performance();
                 }, function() {
                     // 失败重新登录
@@ -383,7 +392,8 @@ app.index = {
         };
         window.localStorage.setItem('performanceInfo', JSON.stringify(performanceInfo));
         data.storeId = parseInt(data.storeIds);
-        var searchAll = employee.merchantRole.permissionPackage.permissions.indexOf('wechat_business_booking_guest') != -1 ||  employee.merchantRole.permissionPackage.permissions.indexOf('wechat_business_booking_manage') != -1;
+        // var searchAll = employee.merchantRole.permissionPackage.permissions.indexOf('wechat_business_booking_guest') != -1 ||  employee.merchantRole.permissionPackage.permissions.indexOf('wechat_business_booking_manage') != -1;
+        var searchAll = employee.role != 'wechat_business_normal';
 
         app.index.performanceReport(data, searchAll).then(function(performanceInfoData) {
             memberData.performanceInfo = performanceInfoData;
