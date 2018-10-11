@@ -392,7 +392,8 @@ app.index = {
         };
         window.localStorage.setItem('performanceInfo', JSON.stringify(performanceInfo));
         data.storeId = parseInt(data.storeIds);
-        var searchAll = employee.merchantRole.permissionPackage.permissions.indexOf('wechat_business_booking_guest') != -1 ||  employee.merchantRole.permissionPackage.permissions.indexOf('wechat_business_booking_manage') != -1;
+        // var searchAll = employee.merchantRole.permissionPackage.permissions.indexOf('wechat_business_booking_guest') != -1 ||  employee.merchantRole.permissionPackage.permissions.indexOf('wechat_business_booking_manage') != -1;
+        var searchAll = employee.role != 'wechat_business_normal';
 
         app.index.performanceReport(data, searchAll).then(function(performanceInfoData) {
             memberData.performanceInfo = performanceInfoData;
