@@ -29,6 +29,7 @@
                                 :key="booking.holderTypeId"
                                 :value="booking"
                                 @toolClick="bookingToolClick"
+                                @customerDetail="customerDetail"
                                 @click.native="showDetail(booking)"></m-booking-cell>
             </div>
         </div>
@@ -89,6 +90,7 @@
         <m-booking-detail ref="detail"
                           :closeOnClickModal="true"
                           v-model="detailVisible"
+                          @customerDetail="customerDetail"
                           @toolsClick="bookingToolClick"></m-booking-detail>
         <!-- 筛选 -->
         <m-popup-right v-model="popupFilterVisible"
@@ -322,14 +324,6 @@ export default {
             status: [],
             visible: false,
             total: 0,
-            // params: {
-            //     tabIndex: 0,
-            //     storeId: this.$store.getters.storeId,
-            //     employeeId: this.$store.getters.bookingGuest ? '' : this.$store.getters.employeeId,
-            //     date: this.$moment()
-            //         .startOf('d')
-            //         .format('YYYY-MM-DD HH:mm:ss')
-            // },
             tools: [],
             fiexdHead: false,
             startTime: '',
@@ -467,13 +461,6 @@ export default {
             );
         },
         queryFormat() {
-            // let reservations = JSON.parse(sessionStorage.getItem('reservations'));
-            // if (reservations != undefined) {
-            //     this.startTime = reservations.startTime;
-            //     this.endTime = reservations.endTime;
-            //     this.merchantId.merchantId = reservations.merchantId;
-            //     this.storeId = reservations.storeId;
-            // }
             let params = {
                 page: 1,
                 size: 10000,
@@ -612,6 +599,12 @@ export default {
             item.selected = !item.selected;
             if (reload) {
                 this.cardFormat(this.sourceList);
+            }
+        },
+        customerDetail(item) {
+            console.log(item);
+            if (item && item.memberType === 1) {
+                window.location.href = `customer-profiles.html#/detail/${item.memberId}/assets`;
             }
         },
         resetFilter() {
@@ -759,19 +752,19 @@ export default {
             // 待确认
             color: #b7683a;
             border-left-color: @status-0;
-            background-color: fade(#F7D8C5, 80%);
+            background-color: fade(#f7d8c5, 80%);
         }
         .item2 {
             // 已确认
             color: #1f646d;
             border-left-color: @status-1;
-            background-color: fade(#C7E8EC, 80%);
+            background-color: fade(#c7e8ec, 80%);
         }
         .item5 {
             // 取消
             color: #222222;
             border-left-color: @status-2;
-            background-color: fade(#CFCFCF, 80%);
+            background-color: fade(#cfcfcf, 80%);
         }
     }
     &c-head {

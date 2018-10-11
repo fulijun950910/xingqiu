@@ -30,8 +30,9 @@ export function CARD_TYPE() {
     let backNoun;
     try {
         backNoun = JSON.parse(localStorage.getItem('personNoun'));
-    } catch (e) {
-
+    } catch (e) {}
+    if (!backNoun) {
+        backNoun = { worker: '技师', treatmentCard: '疗程卡', project: '项目' };
     }
     let tempCardType = [
         { label: '折扣卡', name: 'TYPE_MEMBER', value: 1 },

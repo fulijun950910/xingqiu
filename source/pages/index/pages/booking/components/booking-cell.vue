@@ -20,7 +20,8 @@
         </div>
         <div layout="row"
              class="cc-cont">
-            <div class="bc-avatar m-r-2">
+            <div class="bc-avatar m-r-2"
+                 @click.stop="$emit('customerDetail', value)">
                 <img :src="value.avatarId | mSrc(80, 80, require('assets/imgs/avatar.png'))">
             </div>
             <div flex

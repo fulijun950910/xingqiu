@@ -8,65 +8,66 @@
                      class="bd-header">
                     <div layout="row"
                          layout-align="space-between center">
-                        <div class="bd-avatar">
+                        <div class="bd-avatar"
+                             @click.stop="$emit('customerDetail', booking)">
                             <img :src="booking.avatarId | mSrc(80, 80, require('assets/imgs/avatar.png'))">
                         </div>
-                            <div>
-                                <div class="color-black">{{booking.name}}</div>
-                                <div class="color-gray">{{booking.phone}}</div>
-                            </div>
-                        </div>
-                        <div class="bd-status"
-                             :class="[`bd-status-${booking.holderStatus}`]">{{booking.holderStatus | getName(BOOKING_STATUS)}}</div>
-                    </div>
-                    <div class="bd-content">
-                        <div class="fs30">
-                            <span v-for="(item, index) in booking.items"
-                                  :key="index">
-                                <span v-if="index">、</span>{{item.name}}
-                            </span>
-                        </div>
-                        <div class="fs30">{{booking.startTime | amDateFormat('HH:mm')}}-{{booking.endTime | amDateFormat('HH:mm')}}</div>
-                        <div class="extra-light-black fs28">
-                            <span>{{booking.employeeName}}</span>
-                            <span v-if="booking.employeeName && booking.roomName">●</span>
-                            <span>{{booking.roomName}}</span>
-                        </div>
-                        <div class="color-gray bd-fs13"
-                             v-if="lastConsumeDetail && lastConsumeDetail.orderDate">上次到店:
-                            <span v-for="(item, index) in lastConsumeDetail.name"
-                                  :key="index">
-                                {{item}}
-                            </span>
-                            <span>{{lastConsumeDetail.orderDate | fromnow}}</span>
+                        <div>
+                            <div class="color-black">{{booking.name}}</div>
+                            <div class="color-gray">{{booking.phone}}</div>
                         </div>
                     </div>
-                    <div class="bd-line"></div>
-                    <div class="bd-footer">
-                        <div class="m-b-2">备注：</div>
-                        <div class="extra-light-black fs24">{{booking.information || '无'}}</div>
+                    <div class="bd-status"
+                         :class="[`bd-status-${booking.holderStatus}`]">{{booking.holderStatus | getName(BOOKING_STATUS)}}</div>
+                </div>
+                <div class="bd-content">
+                    <div class="fs30">
+                        <span v-for="(item, index) in booking.items"
+                              :key="index">
+                            <span v-if="index">、</span>{{item.name}}
+                        </span>
                     </div>
-                    <div layout="row"
-                         class="bd-tools-panel">
-                        <div flex
-                             v-show="booking.holderStatus == 1 || booking.holderStatus == 2"
-                             v-if="bookingManage"
-                             @click="handleAction(1)">取消预约</div>
-                        <div flex
-                             v-show="booking.holderStatus == 1 || booking.holderStatus == 2"
-                             v-if="bookingManage"
-                             @click="handleAction(2)">修改</div>
-                        <div flex
-                             class="color-primary"
-                             v-show="booking.holderStatus == 1"
-                             v-if="bookingManage"
-                             @click="handleAction(3)">确认</div>
+                    <div class="fs30">{{booking.startTime | amDateFormat('HH:mm')}}-{{booking.endTime | amDateFormat('HH:mm')}}</div>
+                    <div class="extra-light-black fs28">
+                        <span>{{booking.employeeName}}</span>
+                        <span v-if="booking.employeeName && booking.roomName">●</span>
+                        <span>{{booking.roomName}}</span>
                     </div>
-                    <div class="bd-close"
-                         @click="hidden">
-                        <m-icon xlink="#icon-close"></m-icon>
+                    <div class="color-gray bd-fs13"
+                         v-if="lastConsumeDetail && lastConsumeDetail.orderDate">上次到店:
+                        <span v-for="(item, index) in lastConsumeDetail.name"
+                              :key="index">
+                            {{item}}
+                        </span>
+                        <span>{{lastConsumeDetail.orderDate | fromnow}}</span>
                     </div>
                 </div>
+                <div class="bd-line"></div>
+                <div class="bd-footer">
+                    <div class="m-b-2">备注：</div>
+                    <div class="extra-light-black fs24">{{booking.information || '无'}}</div>
+                </div>
+                <div layout="row"
+                     class="bd-tools-panel">
+                    <div flex
+                         v-show="booking.holderStatus == 1 || booking.holderStatus == 2"
+                         v-if="bookingManage"
+                         @click="handleAction(1)">取消预约</div>
+                    <div flex
+                         v-show="booking.holderStatus == 1 || booking.holderStatus == 2"
+                         v-if="bookingManage"
+                         @click="handleAction(2)">修改</div>
+                    <div flex
+                         class="color-primary"
+                         v-show="booking.holderStatus == 1"
+                         v-if="bookingManage"
+                         @click="handleAction(3)">确认</div>
+                </div>
+                <div class="bd-close"
+                     @click="hidden">
+                    <m-icon xlink="#icon-close"></m-icon>
+                </div>
+            </div>
         </transition>
     </div>
 </template>
