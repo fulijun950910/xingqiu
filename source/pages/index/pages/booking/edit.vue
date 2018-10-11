@@ -786,7 +786,7 @@ export default {
             if (params.items.length) {
                 let endTime = this.$moment(params.startTime);
                 params.items.forEach(val => {
-                    endTime.add(val.serviceDuration ? val.serviceDuration : 0);
+                    endTime.add(val.serviceDuration ? val.serviceDuration : 0, 'm');
                 });
                 params.endTime = endTime.format('YYYY-MM-DD HH:mm:ss');
             }
