@@ -795,6 +795,9 @@ export default {
                     this.$indicator.close();
                     this.$toast('预约保存成功');
                     this.$router.go(-1);
+                    sessionStorage.setItem('reservations', JSON.stringify(params));
+                    // 存储预约用户的数据
+                    // sessionStorage.setItem('reservations', JSON.stringify(params));
                 },
                 err => {
                     this.$indicator.close();

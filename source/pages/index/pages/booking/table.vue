@@ -353,13 +353,20 @@ export default {
     },
     methods: {
         init() {
+            let reservations = JSON.parse(sessionStorage.getItem('reservations'));
             this.tools = [{ icon: '#icon-qiehuanmoshi', index: 0 }, { icon: '#icon-yuyuedingdan', index: 1 }, { icon: '#icon-shaixuan', index: 2 }];
+            if (reservations != undefined) {
+                this.$store.commit('bookingSetParams', { storeId: reservations.storeId });
+            } else {
+                this.$store.commit('bookingSetParams', { storeId: this.$store.getters.storeId });
+            }
             if (!this.params.storeId) {
                 this.$store.commit('bookingSetParams', { storeId: this.$store.getters.storeId });
             }
             if (!this.params.employeeId) {
                 this.$store.commit('bookingSetParams', { employeeId: this.$store.getters.bookingGuest ? '' : this.$store.getters.employeeId });
             }
+
             this.initStatus();
             this.initTabs();
             this.initAppoinmentTime();
@@ -462,6 +469,13 @@ export default {
             );
         },
         queryFormat() {
+            // let reservations = JSON.parse(sessionStorage.getItem('reservations'));
+            // if (reservations != undefined) {
+            //     this.startTime = reservations.startTime;
+            //     this.endTime = reservations.endTime;
+            //     this.merchantId.merchantId = reservations.merchantId;
+            //     this.storeId = reservations.storeId;
+            // }
             let params = {
                 page: 1,
                 size: 10000,
@@ -475,6 +489,7 @@ export default {
                 ],
                 sort: []
             };
+
             if (this.params.employeeId) {
                 params.query.push({
                     field: 'employeeId',
