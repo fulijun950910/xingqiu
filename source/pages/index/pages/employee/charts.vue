@@ -5,7 +5,7 @@
         <div class="cs" layout="row" layout-align="space-around start">
             <div>12</div>
             <div>33</div>
-            <div>555</div>
+            <div>55、5</div>
             <!-- <img :src="require('assets/imgs/avatar.png')"
                  alt=""> -->
         </div>
