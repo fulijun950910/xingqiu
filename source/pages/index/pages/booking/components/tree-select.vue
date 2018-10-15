@@ -56,10 +56,6 @@
     </m-popup-right>
 </template>
 <script>
-// 左边列表
-// 点击事件
-// 列表
-// 加载更多？
 import Vue from 'vue';
 import mPopupRight from '@/components/popup-right';
 import mLoadMore from '@/components/m-load-more';
