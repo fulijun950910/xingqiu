@@ -12,8 +12,9 @@
                   action=""
                   flex>
                 <input type="search"
-                       v-model="keyword"
-                       @keydown.enter="search"
+                       :value="keyword"
+                       @input="keywordChange"
+                       @keydown.enter.stop="search"
                        placeholder="输入名称搜索">
             </form>
                 <div class="tsh-foot color-primary"
@@ -89,7 +90,8 @@ export default {
             default: 1
         },
         loading: Boolean,
-        scrollDisabled: Boolean
+        scrollDisabled: Boolean,
+        keyword: String
     },
     components: {
         mPopupRight,
@@ -99,7 +101,6 @@ export default {
     data() {
         return {
             currentValue: this.value,
-            keyword: '',
             headIndex: 0,
             items: []
         };
@@ -107,7 +108,8 @@ export default {
     mounted() {},
     methods: {
         search() {
-            this.$emit('search', this.keyword);
+            this.$emit('update:page', 1);
+            this.$emit('headClick', this.heads[this.headIndex]);
         },
         headClick(item, index) {
             this.headIndex = index;
@@ -134,6 +136,9 @@ export default {
         confirm() {
             this.$emit('confirm', this.items);
             this.hidden();
+        },
+        keywordChange(e) {
+            this.$emit('update:keyword', e.target.value);
         }
     },
     watch: {

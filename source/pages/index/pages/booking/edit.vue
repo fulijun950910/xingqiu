@@ -259,6 +259,7 @@
                        :rows="itemList"
                        :items="booking.items"
                        :page.sync="itemPage"
+                       :keyword.sync="itemKeyword"
                        :loading="itemLoading"
                        :scrollDisabled="itemScrollDisabled"
                        @headClick="loadItemList"
@@ -380,6 +381,7 @@ export default {
             itemPage: 1,
             itemList: [],
             itemLoading: false,
+            itemKeyword: '',
             categoryList: [],
             itemScrollDisabled: false,
             popupItemsVisible: false,
@@ -647,6 +649,12 @@ export default {
                 query: [{ field: 'merchantId', value: this.$store.getters.merchantId }],
                 sort: [{ field: 'code', sort: 'desc' }]
             };
+            if (this.itemKeyword) {
+                params.query.push({
+                    field: 'keyword',
+                    value: this.itemKeyword
+                });
+            }
             if (item) {
                 let categoryLevel = item.code;
                 params.query.push({
