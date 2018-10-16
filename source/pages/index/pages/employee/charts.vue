@@ -6,9 +6,9 @@
                  layout="column"
                  layout-align="center center">
                 <img class="e-avatar"
-                :src="this.update.employeeAvatarId | nSrc(require('assets/imgs/avatar.png'))" alt="头像">
-                <p class="e-name">{{this.update.employeeName}}</p>
-                <p class="e-no">NO:{{this.update.employeeNo}}</p>
+                :src="update.employeeAvatarId | mSrc(75, 75, require('assets/imgs/avatar.png'))" alt="头像">
+                <p class="e-name">{{update.employeeName}}</p>
+                <p class="e-no">NO:{{update.employeeNo}}</p>
             </div>
             <div class="ed-card-total"
                  layout="row"
@@ -20,7 +20,7 @@
                     <m-icon class="ic"
                             xlink="#icon-xingming"></m-icon>
                     &nbsp;
-                    <p>业绩：￥{{this.update.achievementAmount | fen2yuan}}</p>
+                    <p>业绩：￥{{update.achievementAmount | fen2yuan}}</p>
                 </div>
                 <div class="ft-light"
                      flex="50"
@@ -29,7 +29,7 @@
                     <m-icon class="ic"
                             xlink="#icon-xingming"></m-icon>
                     &nbsp;
-                    <p>提成：￥{{this.update.commissionAmount | fen2yuan}}</p>
+                    <p>提成：￥{{update.commissionAmount | fen2yuan}}</p>
                 </div>
             </div>
         </div>
@@ -42,19 +42,19 @@
                  layout-align="center center">
                 <span class="triggle-down"></span>
                 <p>售卡&nbsp;&nbsp;
-                    <span>{{this.update.achievementSellCardsAmount | fen2yuan}}</span>
+                    <span>{{update.achievementSellCardsAmount | fen2yuan}}</span>
                 </p>
                 <p>产品&nbsp;&nbsp;
-                    <span>{{this.update.achievementProductAmount | fen2yuan}}</span>
+                    <span>{{update.achievementProductAmount | fen2yuan}}</span>
                 </p>
                 <p>项目&nbsp;&nbsp;
-                    <span>{{this.update.achievementItemAmount | fen2yuan}}</span>
+                    <span>{{update.achievementItemAmount | fen2yuan}}</span>
                 </p>
                 <p>充值&nbsp;&nbsp;
-                    <span>{{this.update.achievementRechargeAmount | fen2yuan}}</span>
+                    <span>{{update.achievementRechargeAmount | fen2yuan}}</span>
                 </p>
                 <p>其他&nbsp;&nbsp;
-                    <span>{{this.update.achievementOtherAmount | fen2yuan}}</span>
+                    <span>{{update.achievementOtherAmount | fen2yuan}}</span>
                 </p>
             </div>
             <div class="ed-payment"
@@ -63,19 +63,19 @@
                  layout-align="center center">
                 <span class="triggle-down"></span>
                 <p>售卡&nbsp;&nbsp;
-                    <span>{{this.update.commissionSellCardsAmount | fen2yuan}}</span>
+                    <span>{{update.commissionSellCardsAmount | fen2yuan}}</span>
                 </p>
                 <p>产品&nbsp;&nbsp;
-                    <span>{{this.update.achievementProductAmount | fen2yuan}}</span>
+                    <span>{{update.achievementProductAmount | fen2yuan}}</span>
                 </p>
                 <p>项目&nbsp;&nbsp;
-                    <span>{{this.update.commissionItemAmount | fen2yuan}}</span>
+                    <span>{{update.commissionItemAmount | fen2yuan}}</span>
                 </p>
                 <p>充值&nbsp;&nbsp;
-                    <span>{{this.update.commissionRechargeAmount | fen2yuan}}</span>
+                    <span>{{update.commissionRechargeAmount | fen2yuan}}</span>
                 </p>
                 <p>其他&nbsp;&nbsp;
-                    <span>{{this.update.commissionOtherAmount | fen2yuan}}</span>
+                    <span>{{update.commissionOtherAmount | fen2yuan}}</span>
                 </p>
             </div>
         </div>
@@ -90,30 +90,30 @@
                 &nbsp;
                 <p>卡耗分布</p>
             </span>
-            <span>总数：{{this.update.cardConsumeTotal | fen2yuan}}</span>
+            <span>总数：{{update.cardConsumeTotal | fen2yuan}}</span>
         </div>
         <div class="ed-card-list">
             <div>
                 <span class="color-blue">●</span>储值卡
-                <span class="card-spend-money">{{this.update.depositCardAmount | fen2yuan}}</span>
+                <span class="card-spend-money">{{update.depositCardAmount | fen2yuan}}</span>
             </div>
             <div>
                 <span class="color-orange">●</span>疗养卡
-                <span class="card-spend-money">{{this.update.itemCardAmount | fen2yuan}}</span>
+                <span class="card-spend-money">{{update.itemCardAmount | fen2yuan}}</span>
             </div>
             <div>
                 <span class="color-green">●</span>时段卡
-                <span class="card-spend-money">{{this.update.timeCardAmount | fen2yuan}}</span>
+                <span class="card-spend-money">{{update.timeCardAmount | fen2yuan}}</span>
             </div>
             <div>
                 <span class="color-green">●</span>其他
-                <span class="card-spend-money">{{this.update.otherConsumeAmount | fen2yuan}}</span>
+                <span class="card-spend-money">{{update.otherConsumeAmount | fen2yuan}}</span>
             </div>
         </div>
     </div>
 </template>
 <script>
-import api_getEmployee from 'services/api.charts';
+import apiCharts from 'services/api.charts';
 export default {
     name: 'employee-charts',
     mixins: [],
@@ -122,39 +122,18 @@ export default {
     computed: {},
     data() {
         return {
-            data: {
+            params: {
                 employeeId: this.$store.getters.employeeId,
                 merchantId: this.$store.getters.merchantId,
                 startDate: this.$moment().startOf('d').format('YYYY-MM-DD HH:mm:ss'),
-                endDate: this.$moment().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+                endDate: this.$moment().endOf('d').format('YYYY-MM-DD HH:mm:ss')
             },
-            update: {
-                employeeAvatarId: '',
-                employeeName: '',
-                employeeNo: '',
-                achievementAmount: '',
-                commissionAmount: '',
-                achievementSellCardsAmount: '',
-                achievementProductAmount: '',
-                achievementItemAmount: '',
-                achievementRechargeAmount: '',
-                achievementOtherAmount: '',
-                commissionSellCardsAmount: '',
-                commissionProductAmount: '',
-                commissionItemAmount: '',
-                commissionRechargeAmount: '',
-                commissionOtherAmount: '',
-                cardConsumeTotal: '',
-                depositCardAmount: '',
-                itemCardAmount: '',
-                timeCardAmount: '',
-                otherConsumeAmount: ''
-            }
+            update: {}
         };
     },
     mounted() {
         this.$indicator.open();
-        api_getEmployee.getEmployee(this.data).then(res => {
+        apiCharts.getEmployee(this.params).then(res => {
             this.$indicator.close();
             this.update = res.data;
         }).catch((err) => {
