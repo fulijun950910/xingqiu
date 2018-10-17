@@ -1,5 +1,6 @@
 <template>
-    <div class="booking-edit-panel">
+    <div class="booking-edit-panel"
+         v-title="title">
         <div>
             <img :src="require('@/assets/imgs/booking-banner.png')"
                  alt="">
@@ -133,7 +134,7 @@
                                v-model="memberKeyword"
                                placeholder="搜索会员">
                     </form>
-                        <a @click="searchMember">搜索</a>
+                    <a @click="searchMember">搜索</a>
                 </div>
                 <div class="bp-cell"
                      :class="{'bp-cell-s': booking.memberId == item.memberId}"
@@ -339,6 +340,9 @@ export default {
         },
         showFullMobile() {
             return this.$store.getters.permissions.indexOf('member_phone_view_full') !== -1;
+        },
+        title() {
+            return this.$route.params.bookingId ? '预约编辑' : '预约新增';
         }
     },
     data() {

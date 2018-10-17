@@ -1,5 +1,6 @@
 <template>
-    <div class="bt-panel">
+    <div class="bt-panel"
+         v-title="title">
         <m-calendar :visible.sync="visible"
                     :date.sync="params.date"
                     @cellClick="cellClick"></m-calendar>
@@ -176,8 +177,8 @@
                         <form action=""
                               flex>
                             <input type="text"
-                            v-model="storeKeyword"
-                               placeholder="搜索门店">
+                                   v-model="storeKeyword"
+                                   placeholder="搜索门店">
                         </form>
                     </div>
                     <div class="bp-cell"
@@ -208,9 +209,9 @@
                     <form action=""
                           flex>
                         <input type="text"
-                            v-model="empKeyword"
+                               v-model="empKeyword"
                                :placeholder="`搜索${$store.getters.nounName('worker')}`">
-                        </form>
+                    </form>
                 </div>
                 <div class="bp-cell"
                      :class="{'bp-cell-s': params.employeeId == item.id}"
@@ -318,6 +319,7 @@ export default {
     },
     data() {
         return {
+            title: '预约列表',
             tabs: [],
             rows: [],
             empList: [],
@@ -515,6 +517,7 @@ export default {
         toolsClick(item) {
             switch (item.index) {
                 case 0:
+                    this.title = this.params.viewType === 1 ? '预约安排' : '预约列表';
                     this.$store.commit('bookingSetParams', { viewType: this.params.viewType === 1 ? 2 : 1 });
                     this.$nextTick(() => {
                         window.scrollTo(0, 0);
