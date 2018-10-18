@@ -58,7 +58,7 @@ $(function() {
         }
     };
 
-    //散客登录
+    // 非美问saas平台登录
     var personLogin = {
         url: '/person_login',
         className: 'person_login',
@@ -66,7 +66,7 @@ $(function() {
             return $('#tpl_person_login').html();
         },
         bind: function() {
-            app.tools.changeTitle('散客登录');
+            app.tools.changeTitle('非美问saas平台登录');
             init();
         }
     };
