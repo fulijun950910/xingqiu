@@ -1,5 +1,6 @@
 <template>
-    <div class="customer-list">
+    <div class="customer-list"
+         v-title="'顾客档案'">
         <!--筛选栏-->
         <div class="top-filter-box"
              layout="row"

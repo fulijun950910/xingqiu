@@ -1,5 +1,6 @@
 <template>
     <div class="customer-detail"
+         v-title="'顾客档案'"
          v-if="dataModel">
         <!--顾客基本信息-->
         <div class="profiles background-cover">
