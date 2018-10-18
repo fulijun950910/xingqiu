@@ -359,6 +359,11 @@ export default {
             this.initTabs();
             this.initAppoinmentTime();
             this.initTimes();
+            this.$nextTick(() => {
+                if (this.$store.state.booking.data) {
+                    this.showDetail(this.$store.state.booking.data);
+                }
+            });
         },
         initTabs() {
             this.tabs = [

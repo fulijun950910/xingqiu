@@ -109,9 +109,11 @@ export default {
         show(item) {
             this.$emit('input', true);
             this.booking = item;
+            this.$store.commit('bookingSetData', item);
             this.loadData();
         },
         hidden() {
+            this.$store.commit('bookingSetData', null);
             this.$emit('input', false);
         },
         handleAction(index) {
