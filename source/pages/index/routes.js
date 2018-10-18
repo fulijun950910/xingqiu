@@ -22,6 +22,7 @@ const indexActivityDetail = resolve => require(['./pages/activity-des/detail'], 
 const indexNew = resolve => require(['./pages/main/index'], resolve);
 const bookingTable = resolve => require(['./pages/booking/table'], resolve);
 const bookingEdit = resolve => require(['./pages/booking/edit'], resolve);
+const employeeCharts = resolve => require(['./pages/employee/charts'], resolve);
 
 export default [{
     path: '/alliance',
@@ -124,6 +125,10 @@ export default [{
     path: '/booking-edit/:bookingId?',
     name: 'booking-edit',
     component: bookingEdit
+}, {
+    path: '/employee-charts',
+    name: 'employee-charts',
+    component: employeeCharts
 }, {
     path: '*',
     redirect: 'index-new'

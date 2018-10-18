@@ -1,5 +1,6 @@
 <template>
-    <div class="booking-edit-panel">
+    <div class="booking-edit-panel"
+         v-title="title">
         <div>
             <img :src="require('@/assets/imgs/booking-banner.png')"
                  alt="">
@@ -18,7 +19,7 @@
                         @click.native="popupMemberVisible = true"></m-cell>
                 <m-cell icon="#icon-dianhua1"
                         title="会员手机号"
-                        :subTitle="booking.phone"
+                        :subTitle="booking.phone | mobileHide(showFullMobile)"
                         @click.native="popupMemberVisible = true"></m-cell>
             </div>
             <div v-else>
@@ -133,7 +134,7 @@
                                v-model="memberKeyword"
                                placeholder="搜索会员">
                     </form>
-                        <a @click="searchMember">搜索</a>
+                    <a @click="searchMember">搜索</a>
                 </div>
                 <div class="bp-cell"
                      :class="{'bp-cell-s': booking.memberId == item.memberId}"
@@ -146,7 +147,7 @@
                          layout="row"
                          layout-align="space-between center">
                         <span class="m-r-1">{{item.name}}</span>
-                        <span class="fs24">{{item.mobile}}</span>
+                        <span class="fs24">{{item.mobile | mobileHide(showFullMobile)}}</span>
                     </div>
                     <m-icon class="fs24 bp-check"
                             v-if="booking.memberId == item.memberId"
@@ -259,6 +260,7 @@
                        :rows="itemList"
                        :items="booking.items"
                        :page.sync="itemPage"
+                       :keyword.sync="itemKeyword"
                        :loading="itemLoading"
                        :scrollDisabled="itemScrollDisabled"
                        @headClick="loadItemList"
@@ -335,6 +337,12 @@ export default {
             if (this.booking.items) {
                 return this.booking.items.map(val => val.name).join('、');
             }
+        },
+        showFullMobile() {
+            return this.$store.getters.permissions.indexOf('member_phone_view_full') !== -1;
+        },
+        title() {
+            return this.$route.params.bookingId ? '预约编辑' : '预约新增';
         }
     },
     data() {
@@ -377,6 +385,7 @@ export default {
             itemPage: 1,
             itemList: [],
             itemLoading: false,
+            itemKeyword: '',
             categoryList: [],
             itemScrollDisabled: false,
             popupItemsVisible: false,
@@ -644,6 +653,12 @@ export default {
                 query: [{ field: 'merchantId', value: this.$store.getters.merchantId }],
                 sort: [{ field: 'code', sort: 'desc' }]
             };
+            if (this.itemKeyword) {
+                params.query.push({
+                    field: 'keyword',
+                    value: this.itemKeyword
+                });
+            }
             if (item) {
                 let categoryLevel = item.code;
                 params.query.push({
@@ -652,6 +667,10 @@ export default {
                 });
             }
             this.itemLoading = true;
+            if (!more) {
+                this.itemScrollDisabled = false;
+                this.itemList = [];
+            }
             apiBooking.itemSearch(params).then(
                 res => {
                     this.itemLoading = false;
@@ -813,6 +832,21 @@ export default {
                     .set({ h: startTime.hour(), m: startTime.minute() })
                     .format('YYYY-MM-DD HH:mm:ss');
             }
+        }
+    },
+    filters: {
+        mobileHide(val, isShow) {
+            if (val && val.length > 5 && !isShow) {
+                let len = val.length - 4;
+                if ((len - 4) % 2 === 1) {
+                    len++;
+                }
+                return `${val.substr(0, Math.min(parseInt((val.length - 4) / 2), 3))} **** ${val.substring(
+                    val.length - Math.min(len / 2, 4),
+                    val.length
+                )}`;
+            }
+            return val;
         }
     }
 };
