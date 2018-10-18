@@ -811,12 +811,17 @@ export default {
             }
             apiBooking.saveBooking(params).then(
                 res => {
+                    // 保存查询条件状态
+                    this.$store.commit('bookingSetParams', {
+                        storeId: params.storeId,
+                        date: this.$moment(params.startTime)
+                            .startOf('d')
+                            .format('YYYY-MM-DD HH:mm:ss'),
+                        tabIndex: 1
+                    });
                     this.$indicator.close();
                     this.$toast('预约保存成功');
                     this.$router.go(-1);
-                    sessionStorage.setItem('reservations', JSON.stringify(params));
-                    // 存储预约用户的数据
-                    // sessionStorage.setItem('reservations', JSON.stringify(params));
                 },
                 err => {
                     this.$indicator.close();
