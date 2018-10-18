@@ -769,7 +769,7 @@ export default {
                 return;
             }
             // 备注校验
-            if (this.booking.information.length > 150) {
+            if (this.booking.information && this.booking.information.length > 150) {
                 this.$toast('备注信息最多150字');
                 return;
             }
