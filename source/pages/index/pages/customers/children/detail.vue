@@ -50,7 +50,7 @@
             <div :class="{active: tab.name==$route.name}"
                  v-for="(tab, index) in childRoute"
                  :key="index"
-                 @click="$router.replace(tab.name)">
+                 @click="$router.replace({name: tab.name})">
                 {{tab.label}}
             </div>
         </div>

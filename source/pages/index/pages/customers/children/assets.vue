@@ -1,6 +1,6 @@
 <template>
     <div class="customer-detail-assets">
-        <div class="loading color-tiffany-blue"
+        <div class="p-t-4 p-b-4 text-center color-tiffany-blue"
              v-show="isLoading">
             <span style="display: inline-block;">
                 <mt-spinner color="#00CBC7"

@@ -605,9 +605,13 @@ export default {
             }
         },
         customerDetail(item) {
-            console.log(item);
             if (item && item.memberType === 1) {
-                window.location.href = `customer-profiles.html#/detail/${item.memberId}/assets`;
+                this.$router.push({
+                    name: 'customer-assets',
+                    params: {
+                        customerId: item.memberId
+                    }
+                });
             }
         },
         resetFilter() {
