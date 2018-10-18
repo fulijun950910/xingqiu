@@ -11,11 +11,15 @@ export default {
             date: moment()
                 .startOf('d')
                 .format('YYYY-MM-DD HH:mm:ss')
-        }
+        },
+        data: null
     },
     mutations: {
         bookingSetParams(state, data) {
             Object.assign(state.params, data);
+        },
+        bookingSetData(state, data) {
+            state.data = data;
         }
     },
     getters: {

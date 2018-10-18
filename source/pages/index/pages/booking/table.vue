@@ -347,13 +347,7 @@ export default {
     },
     methods: {
         init() {
-            let reservations = JSON.parse(sessionStorage.getItem('reservations'));
             this.tools = [{ icon: '#icon-qiehuanmoshi', index: 0 }, { icon: '#icon-yuyuedingdan', index: 1 }, { icon: '#icon-shaixuan', index: 2 }];
-            if (reservations != undefined) {
-                this.$store.commit('bookingSetParams', { storeId: reservations.storeId });
-            } else {
-                this.$store.commit('bookingSetParams', { storeId: this.$store.getters.storeId });
-            }
             if (!this.params.storeId) {
                 this.$store.commit('bookingSetParams', { storeId: this.$store.getters.storeId });
             }
@@ -365,6 +359,11 @@ export default {
             this.initTabs();
             this.initAppoinmentTime();
             this.initTimes();
+            this.$nextTick(() => {
+                if (this.$store.state.booking.data) {
+                    this.showDetail(this.$store.state.booking.data);
+                }
+            });
         },
         initTabs() {
             this.tabs = [
@@ -605,9 +604,13 @@ export default {
             }
         },
         customerDetail(item) {
-            console.log(item);
             if (item && item.memberType === 1) {
-                window.location.href = `customer-profiles.html#/detail/${item.memberId}/assets`;
+                this.$router.push({
+                    name: 'customer-assets',
+                    params: {
+                        customerId: item.memberId
+                    }
+                });
             }
         },
         resetFilter() {
