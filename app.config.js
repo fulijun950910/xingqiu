@@ -7,14 +7,6 @@ module.exports = {
             css: []
         }
     },
-    'customer-profiles': {
-        entry: 'source/pages/customer-profiles',
-        title: '顾客档案',
-        cdn: {
-            js: [],
-            css: []
-        }
-    },
     'shop': {
         entry: 'source/pages/shop',
         title: '美博汇',

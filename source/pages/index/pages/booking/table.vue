@@ -1,5 +1,6 @@
 <template>
-    <div class="bt-panel">
+    <div class="bt-panel"
+         v-title="title">
         <m-calendar :visible.sync="visible"
                     :date.sync="params.date"
                     @cellClick="cellClick"></m-calendar>
@@ -176,8 +177,8 @@
                         <form action=""
                               flex>
                             <input type="text"
-                            v-model="storeKeyword"
-                               placeholder="搜索门店">
+                                   v-model="storeKeyword"
+                                   placeholder="搜索门店">
                         </form>
                     </div>
                     <div class="bp-cell"
@@ -208,9 +209,9 @@
                     <form action=""
                           flex>
                         <input type="text"
-                            v-model="empKeyword"
+                               v-model="empKeyword"
                                :placeholder="`搜索${$store.getters.nounName('worker')}`">
-                        </form>
+                    </form>
                 </div>
                 <div class="bp-cell"
                      :class="{'bp-cell-s': params.employeeId == item.id}"
@@ -318,6 +319,7 @@ export default {
     },
     data() {
         return {
+            title: '预约列表',
             tabs: [],
             rows: [],
             empList: [],
@@ -345,13 +347,7 @@ export default {
     },
     methods: {
         init() {
-            let reservations = JSON.parse(sessionStorage.getItem('reservations'));
             this.tools = [{ icon: '#icon-qiehuanmoshi', index: 0 }, { icon: '#icon-yuyuedingdan', index: 1 }, { icon: '#icon-shaixuan', index: 2 }];
-            if (reservations != undefined) {
-                this.$store.commit('bookingSetParams', { storeId: reservations.storeId });
-            } else {
-                this.$store.commit('bookingSetParams', { storeId: this.$store.getters.storeId });
-            }
             if (!this.params.storeId) {
                 this.$store.commit('bookingSetParams', { storeId: this.$store.getters.storeId });
             }
@@ -363,6 +359,11 @@ export default {
             this.initTabs();
             this.initAppoinmentTime();
             this.initTimes();
+            this.$nextTick(() => {
+                if (this.$store.state.booking.data) {
+                    this.showDetail(this.$store.state.booking.data);
+                }
+            });
         },
         initTabs() {
             this.tabs = [
@@ -515,6 +516,7 @@ export default {
         toolsClick(item) {
             switch (item.index) {
                 case 0:
+                    this.title = this.params.viewType === 1 ? '预约安排' : '预约列表';
                     this.$store.commit('bookingSetParams', { viewType: this.params.viewType === 1 ? 2 : 1 });
                     this.$nextTick(() => {
                         window.scrollTo(0, 0);
@@ -602,9 +604,13 @@ export default {
             }
         },
         customerDetail(item) {
-            console.log(item);
             if (item && item.memberType === 1) {
-                window.location.href = `customer-profiles.html#/detail/${item.memberId}/assets`;
+                this.$router.push({
+                    name: 'customer-assets',
+                    params: {
+                        customerId: item.memberId
+                    }
+                });
             }
         },
         resetFilter() {

@@ -5,6 +5,7 @@ import mutations from './mutations';
 import actions from './actions';
 import getters from './getters';
 import booking from './modules/booking';
+import customer from './modules/customer';
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     actions,
     getters,
     modules: {
-        booking
+        booking,
+        customer
     }
 });

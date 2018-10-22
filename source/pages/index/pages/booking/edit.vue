@@ -1,5 +1,6 @@
 <template>
-    <div class="booking-edit-panel">
+    <div class="booking-edit-panel"
+         v-title="title">
         <div>
             <img :src="require('@/assets/imgs/booking-banner.png')"
                  alt="">
@@ -133,7 +134,7 @@
                                v-model="memberKeyword"
                                placeholder="搜索会员">
                     </form>
-                        <a @click="searchMember">搜索</a>
+                    <a @click="searchMember">搜索</a>
                 </div>
                 <div class="bp-cell"
                      :class="{'bp-cell-s': booking.memberId == item.memberId}"
@@ -339,6 +340,9 @@ export default {
         },
         showFullMobile() {
             return this.$store.getters.permissions.indexOf('member_phone_view_full') !== -1;
+        },
+        title() {
+            return this.$route.params.bookingId ? '预约编辑' : '预约新增';
         }
     },
     data() {
@@ -765,7 +769,7 @@ export default {
                 return;
             }
             // 备注校验
-            if (this.booking.information.length > 150) {
+            if (this.booking.information && this.booking.information.length > 150) {
                 this.$toast('备注信息最多150字');
                 return;
             }
@@ -807,12 +811,17 @@ export default {
             }
             apiBooking.saveBooking(params).then(
                 res => {
+                    // 保存查询条件状态
+                    this.$store.commit('bookingSetParams', {
+                        storeId: params.storeId,
+                        date: this.$moment(params.startTime)
+                            .startOf('d')
+                            .format('YYYY-MM-DD HH:mm:ss'),
+                        tabIndex: 1
+                    });
                     this.$indicator.close();
                     this.$toast('预约保存成功');
                     this.$router.go(-1);
-                    sessionStorage.setItem('reservations', JSON.stringify(params));
-                    // 存储预约用户的数据
-                    // sessionStorage.setItem('reservations', JSON.stringify(params));
                 },
                 err => {
                     this.$indicator.close();

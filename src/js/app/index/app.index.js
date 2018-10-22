@@ -154,7 +154,7 @@ function goDetail() {
             merchantId: employee.merchant.id,
             storeId: employee.storeId
         });
-        location.href = '/echarts-index.html#/echartsEmployeeDetail';
+        location.href = '/service/#/employee-charts';
     } else {
         app.alert('请重新登陆');
         // 失败重新登录
