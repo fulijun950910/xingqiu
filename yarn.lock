@@ -785,7 +785,7 @@
   resolved "http://registry.npm.taobao.org/@vue/cli-overlay/download/@vue/cli-overlay-3.0.5.tgz#403bd1b4f58076ca8f85a65cf30e06cda3ce6b39"
   integrity sha1-QDvRtPWAdsqPhaZc8w4GzaPOazk=
 
-"@vue/cli-plugin-babel@^3.0.5":
+"@vue/cli-plugin-babel@^3.0.0":
   version "3.0.5"
   resolved "http://registry.npm.taobao.org/@vue/cli-plugin-babel/download/@vue/cli-plugin-babel-3.0.5.tgz#6396e6f52771d8a9cfbfe0d9369699a390528c4a"
   integrity sha1-Y5bm9Sdx2KnPv+DZNpaZo5BSjEo=
@@ -794,7 +794,7 @@
     "@vue/babel-preset-app" "^3.0.5"
     babel-loader "^8.0.0-0"
 
-"@vue/cli-plugin-eslint@^3.0.5":
+"@vue/cli-plugin-eslint@^3.0.0":
   version "3.0.5"
   resolved "http://registry.npm.taobao.org/@vue/cli-plugin-eslint/download/@vue/cli-plugin-eslint-3.0.5.tgz#d673775eaf612658f8c2fbde35610dd050c9c11a"
   integrity sha1-1nN3Xq9hJlj4wvveNWEN0FDJwRo=
@@ -805,7 +805,7 @@
     eslint-loader "^2.0.0"
     eslint-plugin-vue "^4.5.0"
 
-"@vue/cli-service@^3.0.5":
+"@vue/cli-service@^3.0.0":
   version "3.0.5"
   resolved "http://registry.npm.taobao.org/@vue/cli-service/download/@vue/cli-service-3.0.5.tgz#6e9fec10f4eeedd0aa8fd76206fda3089142184c"
   integrity sha1-bp/sEPTu7dCqj9diBv2jCJFCGEw=
@@ -893,7 +893,7 @@
     source-map "^0.5.6"
     vue-template-es2015-compiler "^1.6.0"
 
-"@vue/eslint-config-standard@^3.0.5":
+"@vue/eslint-config-standard@^3.0.1":
   version "3.0.5"
   resolved "http://registry.npm.taobao.org/@vue/eslint-config-standard/download/@vue/eslint-config-standard-3.0.5.tgz#7d6ae809eaec90993c6033d9543f48f687b9ebf1"
   integrity sha1-fWroCerskJk8YDPZVD9I9oe56/E=
