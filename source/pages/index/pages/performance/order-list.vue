@@ -107,6 +107,7 @@
                 <p>门店</p>
             </div>
             <div layout="row"
+                 @click.stop="link"
                  layout-align="center center"
                  flex=25>
                 <m-icon class="ic"
@@ -129,6 +130,9 @@
                   @confirm="changeStore">
         </m-picker>
         <!-- 日期 -->
+        <mt-actionsheet :actions="actions"
+                        v-model="sheetVisible"
+                        cancel-text=""></mt-actionsheet>
         <m-date-range-picker v-model="dateRangeVisible"
                              :start-date.sync="vm.timeInterval.startTime"
                              :end-date.sync="vm.timeInterval.startTime"
@@ -139,11 +143,15 @@
 import apiPerformance from 'services/api.performance';
 import mPicker from 'components/m-picker';
 import mDateRangePicker from 'components/m-date-range-picker';
+import { DatetimePicker, Actionsheet } from 'mint-ui';
 export default {
     name: 'order-list',
     components: {
         mPicker,
-        mDateRangePicker
+        [DatetimePicker.name]: DatetimePicker,
+        mDateRangePicker,
+        [DatetimePicker.name]: DatetimePicker,
+        [Actionsheet.name]: Actionsheet
     },
     data() {
         return {
@@ -154,13 +162,29 @@ export default {
             store: this.$store.state.storeList,
             storeIds: [],
             list: [],
+            actions: [],
+            sheetVisible: false,
             dateRangeVisible: false,
             vm: {
+                employeeList: [],
+                search: {
+                    statu: false,
+                    show: false,
+                    text: '',
+                    main: this.$route.params.employeeName
+                },
+                flex: 25,
+                mask: false,
+                pickerValue: '',
+                selectedStoreId: this.$route.query.storeId,
                 timeInterval: {
-                    startTime: this.$route.params.startDate,
-                    endTime: this.$route.params.endDate
+                    startTime: window.sessionStorage.employeeParam.startDate,
+                    endTime: window.sessionStorage.employeeParam.endDate
                 }
-            }
+            },
+            dataList: [],
+            routerEmployee: '',
+            noData: false
         };
     },
     methods: {
@@ -212,6 +236,16 @@ export default {
                 }
             );
         },
+        link() {
+            this.vm.timeInterval = {
+                startDate: this.$moment().format('YYYY-MM-DD HH:mm:ss'),
+                endDate: this.$moment().format('YYYY-MM-DD HH:mm:ss')
+            };
+            this.sheetVisible = true;
+        },
+        openPicker() {
+            this.$refs.picker.open();
+        },
         changeDateRange(start, end) {
             this.vm.timeInterval = {
                 startTime: this.$moment(start).format('YYYY-MM-DD HH:mm:ss'),
@@ -244,7 +278,7 @@ export default {
         tempStores.map((item, index) => {
             tempStoreIds.push(item.id);
         });
-        if (tempStores.length > 1) {
+        if (tempStores.length >= 2) {
             tempStores.unshift({
                 id: tempStoreIds.join(','),
                 name: '全部门店'
@@ -263,36 +297,24 @@ export default {
                 name: '今日',
                 method: this.selectedDateRange,
                 value: {
-                    startTime: this.$moment()
-                        .startOf('day')
-                        .format(tempFormat),
-                    endTime: this.$moment()
-                        .endOf('day')
-                        .format(tempFormat)
+                    startTime: this.$moment().startOf('day').format(tempFormat),
+                    endTime: this.$moment().endOf('day').format(tempFormat)
                 }
             },
             {
                 name: '本周',
                 method: this.selectedDateRange,
                 value: {
-                    startTime: this.$moment()
-                        .startOf('isoWeek')
-                        .format(tempFormat),
-                    endTime: this.$moment()
-                        .endOf('isoWeek')
-                        .format(tempFormat)
+                    startTime: this.$moment().startOf('isoWeek').format(tempFormat),
+                    endTime: this.$moment().endOf('isoWeek').format(tempFormat)
                 }
             },
             {
                 name: '本月',
                 method: this.selectedDateRange,
                 value: {
-                    startTime: this.$moment()
-                        .startOf('month')
-                        .format(tempFormat),
-                    endTime: this.$moment()
-                        .endOf('month')
-                        .format(tempFormat)
+                    startTime: this.$moment().startOf('month').format(tempFormat),
+                    endTime: this.$moment().endOf('month').format(tempFormat)
                 }
             },
             {
@@ -300,6 +322,7 @@ export default {
                 method: this.selectedDateRange
             }
         ];
+        this.messageOrderList();
     },
     computed: {
         // 业绩汇总

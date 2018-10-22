@@ -125,13 +125,14 @@ export default {
             params: {
                 employeeId: this.$store.getters.employeeId,
                 merchantId: this.$store.getters.merchantId,
-                startDate: this.$moment().startOf('month').format('YYYY-MM-DD HH:mm:ss'),
-                endDate: this.$moment().endOf('month').format('YYYY-MM-DD HH:mm:ss')
+                startDate: window.sessionStorage.employeeParam.startDate,
+                endDate: window.sessionStorage.employeeParam.endDate
             },
             update: {}
         };
     },
     mounted() {
+        console.log(window.sessionStorage.employeeParam);
         this.$indicator.open();
         apiCharts.getEmployee(this.params).then(res => {
             this.$indicator.close();
