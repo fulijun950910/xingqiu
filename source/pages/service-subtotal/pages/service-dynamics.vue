@@ -233,6 +233,7 @@ export default {
         this.selectedstatus = null;
         this.vm.timeInterval.startDate = null;
         this.vm.timeInterval.endDate = null;
+
         for (let i = 0; i < this.store.length; i++) {
             this.storeIds.push(this.store[i].id);
         };

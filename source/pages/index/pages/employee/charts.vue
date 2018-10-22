@@ -125,8 +125,8 @@ export default {
             params: {
                 employeeId: this.$store.getters.employeeId,
                 merchantId: this.$store.getters.merchantId,
-                startDate: this.$moment().startOf('d').format('YYYY-MM-DD HH:mm:ss'),
-                endDate: this.$moment().endOf('d').format('YYYY-MM-DD HH:mm:ss')
+                startDate: this.$moment().startOf('month').format('YYYY-MM-DD HH:mm:ss'),
+                endDate: this.$moment().endOf('month').format('YYYY-MM-DD HH:mm:ss')
             },
             update: {}
         };
