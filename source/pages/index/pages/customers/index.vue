@@ -328,8 +328,12 @@ export default {
                 page: 1,
                 size: 20
             };
+            // 普通员工只能查看分配给我的会员所以employeeId固定传
+            if (this.$store.state.user.role == WECHAT_BUSINESS[2].code) {
+                paramData.query.push({ field: 'employeeId', value: this.$store.getters.employeeId });
+            }
             this.isLoadingSearch = true;
-            api_customerProfiles.memberListSearch(paramData).then(
+            api_customerProfiles.memberList(paramData).then(
                 res => {
                     this.isLoadingSearch = false;
                     this.searchProfilesList = res.data.rows;
