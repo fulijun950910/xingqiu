@@ -45,6 +45,28 @@ Vue.filter('messageType', (value) => {
     return text;
 });
 
+Vue.filter('messageType2', (value) => {
+    let text = null;
+    switch (value) {
+        case 40:
+            text = '尾款';
+            break;
+        case 61:
+            text = '退单';
+            break;
+        case 70:
+            text = '补卡';
+            break;
+        case 20:
+            text = '已付';
+            break;
+        case 11:
+            text = '待付';
+            break;
+    }
+    return text;
+});
+
 /**
  * 性别过滤器
  */
