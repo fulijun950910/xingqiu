@@ -680,8 +680,10 @@ app.performance.order = {
         app.performance.order.commission = 0;
         for (var i in data) {
             var orderVo = data[i];
-            app.performance.order.performance = parseInt(app.performance.order.performance) + parseInt(orderVo.performance);
-            app.performance.order.commission = parseInt(app.performance.order.commission) + parseInt(orderVo.commission);
+            if (orderVo.status != '71'&&orderVo.status != '72'&&orderVo.status != '73'&&orderVo.status != '79'){
+                app.performance.order.performance = parseInt(app.performance.order.performance) + parseInt(orderVo.performance);
+                app.performance.order.commission = parseInt(app.performance.order.commission) + parseInt(orderVo.commission);
+            }
         }
         // $('#total-performance').text('￥' + app.performance.order.fenToYuan(app.performance.order.performance));
         // $('#total-push').text('￥' + app.performance.order.fenToYuan(app.performance.order.commission));
