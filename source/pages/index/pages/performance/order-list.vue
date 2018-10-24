@@ -8,19 +8,13 @@
             <div class="performance">
                 员工业绩汇总:
                 <span class="primary-color font-priceF-size">
-                    <span class="font-priceY-size performance-priceY">
-                        {{ Sumperformance | fen2yuan | currency('￥',2)}}
-                    </span>
-                    <span class=" performance-priceF"></span>
+                    <span class="font-priceY-size performance-priceY">{{(toNumber(Sumperformance))[0] | currency('￥', 0)}}.</span><span class=" performance-priceF">{{(toNumber(Sumperformance))[1]}}</span>
                 </span>
             </div>
             <div class="push">
                 提成:
                 <span class="primary-color font-priceF-size">
-                    <span class="font-priceY-size performance-priceY">
-                        {{ Sumcommission | fen2yuan | currency('￥',2)}}
-                    </span>
-                    <span class=" performance-priceF"></span>
+                    <span class="font-priceY-size performance-priceY">{{(toNumber(Sumcommission))[0] | currency('￥',0)}}.</span><span class=" performance-priceF">{{(toNumber(Sumcommission))[1]}}</span>
                 </span>
             </div>
         </div>
@@ -28,7 +22,7 @@
              flex=1>
             <!-- 无数据显示 -->
             <div class="errorBox"
-                 v-show="list.length<1"
+                 v-show="!this.list.length"
                  layout="row"
                  layout-align="center center">
                 <m-icon class="ic"
@@ -43,8 +37,12 @@
                 <div class="activeInfo">
                     <span class="active"></span>
                     <span class="buyStatus">
-                        <span>待付</span>
+                        <span>{{parseInt(item.status) | messageType2}}</span>
                     </span>
+                </div>
+                <div class="order-count">
+                    <span class="overTimeCount" v-show="item.overTimeCount">加钟×{{item.overTimeCount}}</span>
+                    <span class="clockCount" v-show="item.clockCount">点钟×{{item.clockCount}}</span>
                 </div>
                 <div layout="row"
                      v-for="item2 in item.itemVoList"
@@ -70,8 +68,8 @@
                             </div>
                             <span class="primary-color font-priceF-size"
                                   id="total-push">
-                                <span class="font-priceY-size push-priceY">{{item.realReceivableMoney | fen2yuan | currency('￥',2)}}</span>
-                                <!-- <span class="push-priceF">{{(item.realReceivableMoney%100)}}</span> -->
+                                <span class="font-priceY-size push-priceY">{{item.numbers[0] | currency('￥', 0)}}.</span>
+                                <span class="push-priceF">{{item.numbers[1]}}</span>
                             </span>
                         </div>
                         <div layout="row"
@@ -115,6 +113,7 @@
                 <p>日期</p>
             </div>
             <div layout="row"
+                 @click="change"
                  layout-align="center center"
                  flex=25>
                 <m-icon class="ic"
@@ -131,15 +130,22 @@
         </m-picker>
         <!-- 日期 -->
         <mt-actionsheet :actions="actions"
-                        v-model="sheetVisible"
-                        cancel-text=""></mt-actionsheet>
+                    v-model="sheetVisible"
+                    cancel-text=""></mt-actionsheet>
         <m-date-range-picker v-model="dateRangeVisible"
-                             :start-date.sync="vm.timeInterval.startTime"
-                             :end-date.sync="vm.timeInterval.startTime"
-                             @confirm="changeDateRange"></m-date-range-picker>
+                    :start-date.sync="vm.timeInterval.startTime"
+                    :end-date.sync="vm.timeInterval.endTime"
+                    @confirm="changeDateRange"></m-date-range-picker>
+        <!-- 筛选 -->
+        <m-picker v-model="statusPickerVisible"
+                  :slots="status"
+                  :selected-item.sync="selectedstatus"
+                  value-key="name"
+                  @confirm="changestatus"></m-picker>
     </div>
 </template>
 <script>
+import Vue from 'vue';
 import apiPerformance from 'services/api.performance';
 import mPicker from 'components/m-picker';
 import mDateRangePicker from 'components/m-date-range-picker';
@@ -165,109 +171,55 @@ export default {
             actions: [],
             sheetVisible: false,
             dateRangeVisible: false,
+            statusPickerVisible: false,
+            selectedstatus: {},
             vm: {
-                employeeList: [],
-                search: {
-                    statu: false,
-                    show: false,
-                    text: '',
-                    main: this.$route.params.employeeName
-                },
-                flex: 25,
-                mask: false,
                 pickerValue: '',
                 selectedStoreId: this.$route.query.storeId,
                 timeInterval: {
-                    startTime: window.sessionStorage.employeeParam.startDate,
-                    endTime: window.sessionStorage.employeeParam.endDate
+                    startTime: null,
+                    endTime: null
                 }
             },
-            dataList: [],
-            routerEmployee: '',
-            noData: false
-        };
-    },
-    methods: {
-        goback() {
-            this.$router.go(-1);
-        },
-        changeStore(item) {
-            this.selectedStore = item[0];
-            this.resetSreach();
-        },
-        resetSreach() {
-            this.page = 1;
-            this.dataList = [];
-            this.messageOrderList();
-        },
-        messageOrderList() {
-            let self = this;
-            let parameter = {
-                merchantId: this.$store.getters.merchantId,
-                storeIds: self.storeIds.join(','),
-                type: 2,
-                size: 10000,
-                page: 1,
-                employeeId: this.$store.getters.employeeId,
-                startTime: this.$moment()
-                    .startOf('day')
-                    .format('YYYY-MM-DD HH:mm:ss'),
-                endTime: this.$moment()
-                    .endOf('day')
-                    .format('YYYY-MM-DD HH:mm:ss')
-            };
-            if (self.selectedStore) {
-                parameter.storeIds = self.selectedStore.id;
-            }
-            if (self.vm.timeInterval.startTime) {
-                parameter.startTime = self.vm.timeInterval.startTime;
-            }
-            if (self.vm.timeInterval.endTime) {
-                parameter.endTime = self.vm.timeInterval.endTime;
-            }
-            this.$indicator.open();
-            apiPerformance.getPerformance(parameter).then(
-                res => {
-                    this.$indicator.close();
-                    this.list = res.data.orderListVo;
-                },
-                erro => {
-                    console.log('error');
+            status: [
+                {
+                    values: [
+                        {
+                            name: '全部'
+                        },
+                        {
+                            name: '尾款',
+                            orderStatus: '40'
+                        },
+                        {
+                            name: '退单',
+                            orderStatus: '61'
+                        },
+                        {
+                            name: '补卡',
+                            orderStatus: '70'
+                        },
+                        {
+                            name: '已付款',
+                            orderStatus: '20'
+                        },
+                        {
+                            name: '待付款',
+                            orderStatus: '12,11,13'
+                        }
+                    ],
+                    className: 'slot1',
+                    textAlign: 'center',
+                    defaultIndex: 0
                 }
-            );
-        },
-        link() {
-            this.vm.timeInterval = {
-                startDate: this.$moment().format('YYYY-MM-DD HH:mm:ss'),
-                endDate: this.$moment().format('YYYY-MM-DD HH:mm:ss')
-            };
-            this.sheetVisible = true;
-        },
-        openPicker() {
-            this.$refs.picker.open();
-        },
-        changeDateRange(start, end) {
-            this.vm.timeInterval = {
-                startTime: this.$moment(start).format('YYYY-MM-DD HH:mm:ss'),
-                endTime: this.$moment(end).format('YYYY-MM-DD HH:mm:ss')
-            };
-            this.resetSreach();
-        },
-        selectedDateRange(item) {
-            var tempItem = item.value;
-            if (tempItem) {
-                this.vm.timeInterval = tempItem;
-                this.resetSreach();
-            } else {
-                this.dateRangeVisible = true;
-            }
-        }
+            ]
+        };
     },
     mounted() {
         this.selectedStore = null;
         this.selectedstatus = null;
-        this.vm.timeInterval.startDate = null;
-        this.vm.timeInterval.endDate = null;
+        this.vm.timeInterval.startTime = (JSON.parse(localStorage.getItem('performanceInfo'))).startDate;
+        this.vm.timeInterval.endTime = (JSON.parse(localStorage.getItem('performanceInfo'))).endDate;
         for (let i = 0; i < this.store.length; i++) {
             this.storeIds.push(this.store[i].id);
         }
@@ -278,7 +230,7 @@ export default {
         tempStores.map((item, index) => {
             tempStoreIds.push(item.id);
         });
-        if (tempStores.length >= 2) {
+        if (tempStores.length > 1) {
             tempStores.unshift({
                 id: tempStoreIds.join(','),
                 name: '全部门店'
@@ -297,24 +249,36 @@ export default {
                 name: '今日',
                 method: this.selectedDateRange,
                 value: {
-                    startTime: this.$moment().startOf('day').format(tempFormat),
-                    endTime: this.$moment().endOf('day').format(tempFormat)
+                    startTime: this.$moment()
+                        .startOf('day')
+                        .format(tempFormat),
+                    endTime: this.$moment()
+                        .endOf('day')
+                        .format(tempFormat)
                 }
             },
             {
                 name: '本周',
                 method: this.selectedDateRange,
                 value: {
-                    startTime: this.$moment().startOf('isoWeek').format(tempFormat),
-                    endTime: this.$moment().endOf('isoWeek').format(tempFormat)
+                    startTime: this.$moment()
+                        .startOf('isoWeek')
+                        .format(tempFormat),
+                    endTime: this.$moment()
+                        .endOf('isoWeek')
+                        .format(tempFormat)
                 }
             },
             {
                 name: '本月',
                 method: this.selectedDateRange,
                 value: {
-                    startTime: this.$moment().startOf('month').format(tempFormat),
-                    endTime: this.$moment().endOf('month').format(tempFormat)
+                    startTime: this.$moment()
+                        .startOf('month')
+                        .format(tempFormat),
+                    endTime: this.$moment()
+                        .endOf('month')
+                        .format(tempFormat)
                 }
             },
             {
@@ -323,6 +287,94 @@ export default {
             }
         ];
         this.messageOrderList();
+    },
+    methods: {
+        goback() {
+            this.$router.go(-1);
+        },
+        changeStore(item) {
+            this.selectedStore = item[0];
+            this.resetSreach();
+        },
+        resetSreach() {
+            this.page = 1;
+            this.list = [];
+            this.messageOrderList();
+        },
+        changestatus(item) {
+            this.selectedstatus = item[0];
+            this.resetSreach();
+        },
+        changeDateRange(start, end) {
+            this.vm.timeInterval = {
+                startTime: this.$moment(start).format('YYYY-MM-DD HH:mm:ss'),
+                endTime: this.$moment(end).format('YYYY-MM-DD HH:mm:ss')
+            };
+            this.resetSreach();
+        },
+        selectedDateRange(item) {
+            var tempItem = item.value;
+            if (tempItem) {
+                this.vm.timeInterval = tempItem;
+                this.resetSreach();
+            } else {
+                this.dateRangeVisible = true;
+            }
+        },
+        messageOrderList() {
+            let self = this;
+            let parameter = {
+                merchantId: this.$store.getters.merchantId,
+                storeIds: self.storeIds.join(','),
+                type: 2,
+                size: 10000,
+                page: 1,
+                employeeId: this.$store.getters.employeeId
+            };
+            if (self.selectedStore) {
+                parameter.storeIds = self.selectedStore.id;
+            }
+            if (self.selectedstatus) {
+                parameter.orderStatus = self.selectedstatus.orderStatus;
+            }
+            if (self.vm.timeInterval.startTime) {
+                parameter.startTime = self.vm.timeInterval.startTime;
+            }
+            if (self.vm.timeInterval.endTime) {
+                parameter.endTime = self.vm.timeInterval.endTime;
+            }
+            this.$indicator.open();
+            try {
+                let data = JSON.parse(localStorage.getItem('performanceInfo'));
+                this.parameter.startTime = data.startDate;
+                this.parameter.endTime = data.endDate;
+            } catch (error) {}
+            apiPerformance.getPerformance(parameter).then(
+                res => {
+                    this.$indicator.close();
+                    this.list = res.data.orderListVo || [];
+                    var that = this;
+                    this.list.forEach(val => {
+                        val.numbers = that.toNumber(val.realReceivableMoney);
+                    });
+                },
+                erro => {
+                    console.log('error');
+                }
+            );
+        },
+        toNumber(val) {
+            return Vue.filter('fen2yuan')(val).split('.');
+        },
+        link() {
+            this.sheetVisible = true;
+        },
+        openPicker() {
+            this.$refs.picker.open();
+        },
+        change() {
+            this.statusPickerVisible = true;
+        }
     },
     computed: {
         // 业绩汇总
@@ -418,6 +470,23 @@ html {
                 transform: rotate(-45deg);
                 display: block;
                 width: 30px;
+            }
+        }
+        .order-count{
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 0.1rem;
+            color: @white;
+            .overTimeCount{
+                background: #13a59e;
+                padding: 2px;
+                margin-left: 2px;
+            }
+            .clockCount{
+                background: #eeab03;
+                padding: 2px;
+                margin-left: 2px;
             }
         }
         .left {
