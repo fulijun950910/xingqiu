@@ -24,6 +24,7 @@ const bookingTable = resolve => require(['./pages/booking/table'], resolve);
 const bookingEdit = resolve => require(['./pages/booking/edit'], resolve);
 const employeeCharts = resolve => require(['./pages/employee/charts'], resolve);
 const performanceList = resolve => require(['./pages/performance/order-list.vue'], resolve);
+const orderDetail = resolve => require(['./pages/performance/order-detail.vue'], resolve);
 
 const customers = resolve => require(['./pages/customers/index'], resolve);
 const customerDetail = resolve => require(['./pages/customers/children/detail'], resolve);
@@ -177,6 +178,12 @@ export default [
         path: '/order-list',
         name: 'order-list',
         component: performanceList,
+        meta: { auth: true, level: 1 }
+    },
+    {
+        path: '/order-detail/:orderId?',
+        name: 'order-detail',
+        component: orderDetail,
         meta: { auth: true, level: 1 }
     },
     {
