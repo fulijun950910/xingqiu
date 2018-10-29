@@ -8,17 +8,21 @@
             <div class="performance">
                 员工业绩汇总:
                 <span class="primary-color font-priceF-size">
-                    <span class="font-priceY-size performance-priceY">{{(toNumber(Sumperformance))[0] | currency('￥', 0)}}.</span><span class=" performance-priceF">{{(toNumber(Sumperformance))[1]}}</span>
+                    <span>￥</span>
+                    <span class="font-priceY-size performance-priceY">{{(toNumber(Sumperformance))[0]}}.</span>
+                    <span class=" performance-priceF">{{(toNumber(Sumperformance))[1]}}</span>
                 </span>
             </div>
             <div class="push">
                 提成:
                 <span class="primary-color font-priceF-size">
-                    <span class="font-priceY-size performance-priceY">{{(toNumber(Sumcommission))[0] | currency('￥',0)}}.</span><span class=" performance-priceF">{{(toNumber(Sumcommission))[1]}}</span>
+                    <span>￥</span>
+                    <span class="font-priceY-size performance-priceY">{{(toNumber(Sumcommission))[0]}}.</span>
+                    <span class=" performance-priceF">{{(toNumber(Sumcommission))[1]}}</span>
                 </span>
             </div>
         </div>
-        <div class="main"
+        <div class="mainOrder"
              flex=1>
             <!-- 无数据显示 -->
             <div class="errorBox"
@@ -29,9 +33,10 @@
                         xlink="#icon-cuowu"></m-icon>
                 <p>亲~抱歉,暂时没有查到数据~</p>
             </div>
-            <div style="height:9vh;"></div>
+            <div style="height:1.5rem;"></div>
             <!-- 列表 -->
             <div class="list"
+                 @click.stop="jump(item.orderId)"
                  v-for="(item,index) in list"
                  :key="index">
                 <div class="activeInfo">
@@ -41,20 +46,24 @@
                     </span>
                 </div>
                 <div class="order-count">
-                    <span class="overTimeCount" v-show="item.overTimeCount">加钟×{{item.overTimeCount}}</span>
-                    <span class="clockCount" v-show="item.clockCount">点钟×{{item.clockCount}}</span>
+                    <span class="overTimeCount"
+                          v-show="item.overTimeCount">加钟×{{item.overTimeCount}}</span>
+                    <span class="clockCount"
+                          v-show="item.clockCount">点钟×{{item.clockCount}}</span>
                 </div>
                 <div layout="row"
-                     v-for="item2 in item.itemVoList"
-                     :key="item2.itemId"
+                     v-for="(item2,index) in item.itemVoList"
+                     :key="index"
                      style="padding:10px 10px 10px 0">
                     <div class="left"
+                         style="margin-left:-5px"
                          flex=25
                          layout="column"
                          layout-align="center center">
                         <img class="e-avatar"
-                             :src="item.memberAvatarId | mSrc(75, 75, require('assets/imgs/avatar.png'))">
-                        <span class="memberName">{{item.memberName}}</span>
+                             :src="item.memberAvatarId | mSrc(35, 35, require('assets/imgs/avatar.png'))">
+                        <span class="memberName"
+                              style="font-size:0.1rem;margin-bottom:4px">{{item.memberName}}</span>
                         <span class="moblie">{{item.mobile}}</span>
                     </div>
                     <div class="right"
@@ -68,7 +77,8 @@
                             </div>
                             <span class="primary-color font-priceF-size"
                                   id="total-push">
-                                <span class="font-priceY-size push-priceY">{{item.numbers[0] | currency('￥', 0)}}.</span>
+                                <span>￥</span>
+                                <span class="font-priceY-size push-priceY">{{item.numbers[0]}}.</span>
                                 <span class="push-priceF">{{item.numbers[1]}}</span>
                             </span>
                         </div>
@@ -82,7 +92,7 @@
                     </div>
                 </div>
             </div>
-            <div style="height:9vh;"></div>
+            <div style="height:1.5rem;"></div>
         </div>
         <div class="breadCrumbs"
              layout="row"
@@ -93,7 +103,7 @@
                  layout-align="center center"
                  flex=25>
                 <m-icon class="ic"
-                        xlink="#icon-qia-"></m-icon>&nbsp;
+                        xlink="#icon-left-bold"></m-icon>&nbsp;
                 <p>返回</p>
             </div>
             <div layout="row"
@@ -101,7 +111,7 @@
                  flex=25
                  @click="storePickerVisible=true">
                 <m-icon class="ic"
-                        xlink="#icon-qia-"></m-icon>&nbsp;
+                        xlink="#icon-fangzi-copy"></m-icon>&nbsp;
                 <p>门店</p>
             </div>
             <div layout="row"
@@ -109,7 +119,7 @@
                  layout-align="center center"
                  flex=25>
                 <m-icon class="ic"
-                        xlink="#icon-qia-"></m-icon>&nbsp;
+                        xlink="#icon-datezhuanhuan"></m-icon>&nbsp;
                 <p>日期</p>
             </div>
             <div layout="row"
@@ -117,7 +127,7 @@
                  layout-align="center center"
                  flex=25>
                 <m-icon class="ic"
-                        xlink="#icon-qia-"></m-icon>&nbsp;
+                        xlink="#icon-shaixuan"></m-icon>&nbsp;
                 <p>筛选</p>
             </div>
         </div>
@@ -130,12 +140,12 @@
         </m-picker>
         <!-- 日期 -->
         <mt-actionsheet :actions="actions"
-                    v-model="sheetVisible"
-                    cancel-text=""></mt-actionsheet>
+                        v-model="sheetVisible"
+                        cancel-text=""></mt-actionsheet>
         <m-date-range-picker v-model="dateRangeVisible"
-                    :start-date.sync="vm.timeInterval.startTime"
-                    :end-date.sync="vm.timeInterval.endTime"
-                    @confirm="changeDateRange"></m-date-range-picker>
+                             :start-date.sync="vm.timeInterval.startTime"
+                             :end-date.sync="vm.timeInterval.endTime"
+                             @confirm="changeDateRange"></m-date-range-picker>
         <!-- 筛选 -->
         <m-picker v-model="statusPickerVisible"
                   :slots="status"
@@ -150,14 +160,14 @@ import apiPerformance from 'services/api.performance';
 import mPicker from 'components/m-picker';
 import mDateRangePicker from 'components/m-date-range-picker';
 import { DatetimePicker, Actionsheet } from 'mint-ui';
+
+Vue.component(DatetimePicker.name, DatetimePicker);
+Vue.component(Actionsheet.name, Actionsheet);
 export default {
     name: 'order-list',
     components: {
         mPicker,
-        [DatetimePicker.name]: DatetimePicker,
-        mDateRangePicker,
-        [DatetimePicker.name]: DatetimePicker,
-        [Actionsheet.name]: Actionsheet
+        mDateRangePicker
     },
     data() {
         return {
@@ -218,8 +228,8 @@ export default {
     mounted() {
         this.selectedStore = null;
         this.selectedstatus = null;
-        this.vm.timeInterval.startTime = (JSON.parse(localStorage.getItem('performanceInfo'))).startDate;
-        this.vm.timeInterval.endTime = (JSON.parse(localStorage.getItem('performanceInfo'))).endDate;
+        this.vm.timeInterval.startTime = JSON.parse(localStorage.getItem('performanceInfo')).startDate;
+        this.vm.timeInterval.endTime = JSON.parse(localStorage.getItem('performanceInfo')).endDate;
         for (let i = 0; i < this.store.length; i++) {
             this.storeIds.push(this.store[i].id);
         }
@@ -258,14 +268,16 @@ export default {
                 }
             },
             {
-                name: '本周',
+                name: '昨日',
                 method: this.selectedDateRange,
                 value: {
                     startTime: this.$moment()
-                        .startOf('isoWeek')
+                        .subtract(1, 'days')
+                        .startOf('days')
                         .format(tempFormat),
                     endTime: this.$moment()
-                        .endOf('isoWeek')
+                        .subtract(1, 'days')
+                        .endOf('days')
                         .format(tempFormat)
                 }
             },
@@ -322,26 +334,28 @@ export default {
             }
         },
         messageOrderList() {
-            let self = this;
-            let parameter = {
+            var parameter = {
                 merchantId: this.$store.getters.merchantId,
-                storeIds: self.storeIds.join(','),
+                storeIds: this.storeIds.join(','),
                 type: 2,
                 size: 10000,
                 page: 1,
                 employeeId: this.$store.getters.employeeId
             };
-            if (self.selectedStore) {
-                parameter.storeIds = self.selectedStore.id;
+            if (this.$store.getters.admin == true) {
+                parameter.type = 1;
             }
-            if (self.selectedstatus) {
-                parameter.orderStatus = self.selectedstatus.orderStatus;
+            if (this.selectedStore) {
+                parameter.storeIds = this.selectedStore.id;
             }
-            if (self.vm.timeInterval.startTime) {
-                parameter.startTime = self.vm.timeInterval.startTime;
+            if (this.selectedstatus) {
+                parameter.orderStatus = this.selectedstatus.orderStatus;
             }
-            if (self.vm.timeInterval.endTime) {
-                parameter.endTime = self.vm.timeInterval.endTime;
+            if (this.vm.timeInterval.startTime) {
+                parameter.startTime = this.vm.timeInterval.startTime;
+            }
+            if (this.vm.timeInterval.endTime) {
+                parameter.endTime = this.vm.timeInterval.endTime;
             }
             this.$indicator.open();
             try {
@@ -353,9 +367,8 @@ export default {
                 res => {
                     this.$indicator.close();
                     this.list = res.data.orderListVo || [];
-                    var that = this;
                     this.list.forEach(val => {
-                        val.numbers = that.toNumber(val.realReceivableMoney);
+                        val.numbers = this.toNumber(val.realReceivableMoney);
                     });
                 },
                 erro => {
@@ -374,6 +387,9 @@ export default {
         },
         change() {
             this.statusPickerVisible = true;
+        },
+        jump(val) {
+            this.$router.push('/order-detail/' + val);
         }
     },
     computed: {
@@ -416,6 +432,7 @@ html {
     margin: auto;
     padding: 0 15px;
     color: @extra-black;
+    box-shadow: 0 0 5px rgba(102, 102, 102, 0.1);
     .performance,
     .push {
         font-size: 14px;
@@ -427,7 +444,7 @@ html {
         font-size: 0.5rem;
     }
 }
-.main {
+.mainOrder {
     overflow: auto;
     background: #f4f4fc;
     .errorBox {
@@ -472,18 +489,18 @@ html {
                 width: 30px;
             }
         }
-        .order-count{
+        .order-count {
             position: absolute;
             top: 0;
             right: 0;
             font-size: 0.1rem;
             color: @white;
-            .overTimeCount{
+            .overTimeCount {
                 background: #13a59e;
                 padding: 2px;
                 margin-left: 2px;
             }
-            .clockCount{
+            .clockCount {
                 background: #eeab03;
                 padding: 2px;
                 margin-left: 2px;
@@ -497,7 +514,7 @@ html {
                 border-radius: 50%;
             }
             .memberName {
-                font-size: 0.4rem;
+                font-size: 0.35rem;
             }
             .moblie {
                 font-size: 0.3rem;
@@ -529,7 +546,7 @@ html {
     }
     div {
         color: #4ed9cf;
-        font-size: 0.5rem;
+        font-size: 0.4rem;
         height: 56px;
     }
 }
