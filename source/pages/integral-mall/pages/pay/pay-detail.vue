@@ -361,6 +361,10 @@ export default {
             if (this.btnClick) {
                 return;
             };
+            // 购买商品取消美豆豆抵扣金额后，美豆豆的支付数量自动变为零
+            if (this.payDetail.payDoudouAmount <= 0) {
+                this.payDetail.payDoudouAmount = 0;
+            }
             this.payText = '支付中...';
             this.btnClick = true;
             api_party.doudouTrade(this.payDetail).then(msg => {

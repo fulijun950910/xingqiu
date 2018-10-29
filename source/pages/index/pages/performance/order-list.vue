@@ -8,19 +8,21 @@
             <div class="performance">
                 员工业绩汇总:
                 <span class="primary-color font-priceF-size">
-                    <span class="font-priceY-size performance-priceY">{{(toNumber(Sumperformance))[0] | currency('￥', 0)}}.</span>
+                    <span>￥</span>
+                    <span class="font-priceY-size performance-priceY">{{(toNumber(Sumperformance))[0]}}.</span>
                     <span class=" performance-priceF">{{(toNumber(Sumperformance))[1]}}</span>
                 </span>
             </div>
             <div class="push">
                 提成:
                 <span class="primary-color font-priceF-size">
-                    <span class="font-priceY-size performance-priceY">{{(toNumber(Sumcommission))[0] | currency('￥',0)}}.</span>
+                    <span>￥</span>
+                    <span class="font-priceY-size performance-priceY">{{(toNumber(Sumcommission))[0]}}.</span>
                     <span class=" performance-priceF">{{(toNumber(Sumcommission))[1]}}</span>
                 </span>
             </div>
         </div>
-        <div class="main"
+        <div class="mainOrder"
              flex=1>
             <!-- 无数据显示 -->
             <div class="errorBox"
@@ -54,12 +56,14 @@
                      :key="index"
                      style="padding:10px 10px 10px 0">
                     <div class="left"
+                         style="margin-left:-5px"
                          flex=25
                          layout="column"
                          layout-align="center center">
                         <img class="e-avatar"
-                             :src="item.memberAvatarId | mSrc(75, 75, require('assets/imgs/avatar.png'))">
-                        <span class="memberName">{{item.memberName}}</span>
+                             :src="item.memberAvatarId | mSrc(35, 35, require('assets/imgs/avatar.png'))">
+                        <span class="memberName"
+                              style="font-size:0.1rem;margin-bottom:4px">{{item.memberName}}</span>
                         <span class="moblie">{{item.mobile}}</span>
                     </div>
                     <div class="right"
@@ -73,7 +77,8 @@
                             </div>
                             <span class="primary-color font-priceF-size"
                                   id="total-push">
-                                <span class="font-priceY-size push-priceY">{{item.numbers[0] | currency('￥', 0)}}.</span>
+                                <span>￥</span>
+                                <span class="font-priceY-size push-priceY">{{item.numbers[0]}}.</span>
                                 <span class="push-priceF">{{item.numbers[1]}}</span>
                             </span>
                         </div>
@@ -155,14 +160,14 @@ import apiPerformance from 'services/api.performance';
 import mPicker from 'components/m-picker';
 import mDateRangePicker from 'components/m-date-range-picker';
 import { DatetimePicker, Actionsheet } from 'mint-ui';
+
+Vue.component(DatetimePicker.name, DatetimePicker);
+Vue.component(Actionsheet.name, Actionsheet);
 export default {
     name: 'order-list',
     components: {
         mPicker,
-        [DatetimePicker.name]: DatetimePicker,
-        mDateRangePicker,
-        [DatetimePicker.name]: DatetimePicker,
-        [Actionsheet.name]: Actionsheet
+        mDateRangePicker
     },
     data() {
         return {
@@ -263,14 +268,16 @@ export default {
                 }
             },
             {
-                name: '本周',
+                name: '昨日',
                 method: this.selectedDateRange,
                 value: {
                     startTime: this.$moment()
-                        .startOf('isoWeek')
+                        .subtract(1, 'days')
+                        .startOf('days')
                         .format(tempFormat),
                     endTime: this.$moment()
-                        .endOf('isoWeek')
+                        .subtract(1, 'days')
+                        .endOf('days')
                         .format(tempFormat)
                 }
             },
@@ -327,7 +334,7 @@ export default {
             }
         },
         messageOrderList() {
-            let parameter = {
+            var parameter = {
                 merchantId: this.$store.getters.merchantId,
                 storeIds: this.storeIds.join(','),
                 type: 2,
@@ -335,6 +342,9 @@ export default {
                 page: 1,
                 employeeId: this.$store.getters.employeeId
             };
+            if (this.$store.getters.admin == true) {
+                parameter.type = 1;
+            }
             if (this.selectedStore) {
                 parameter.storeIds = this.selectedStore.id;
             }
@@ -422,6 +432,7 @@ html {
     margin: auto;
     padding: 0 15px;
     color: @extra-black;
+    box-shadow: 0 0 5px rgba(102, 102, 102, 0.1);
     .performance,
     .push {
         font-size: 14px;
@@ -430,10 +441,10 @@ html {
         color: @color-primary;
     }
     .font-priceY-size {
-        font-size: 0.47rem;
+        font-size: 0.5rem;
     }
 }
-.main {
+.mainOrder {
     overflow: auto;
     background: #f4f4fc;
     .errorBox {
