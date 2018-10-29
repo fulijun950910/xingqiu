@@ -220,7 +220,7 @@ app.performance.order = {
             if (employee) {
                 //没ordeerid返回list
                 if(!app.performance.order.orderId){
-                    location.href = "/performance-index.html#/order-list"
+                    location.href = "/service/#/order-list"
                 }
                 var data = {
                         orderId: app.performance.order.orderId,
@@ -426,7 +426,7 @@ app.performance.order = {
                         if(app.performance.order.order.commentType==1){//判断跳转来源
                             window.location.href = "serviceLog.html#/serviceLog_list";
                         }else{
-                            window.location.href = "performance-index.html#/order-list";
+                            window.location.href = "service/#/order-list";
                         }
                     },
                     error: function(a, b, c, d) {
