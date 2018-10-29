@@ -1,6 +1,6 @@
 <template>
     <div style="width:100%;height:100%;background:#f4f4fc;font-size: 0.35rem;padding: 8px 0 0 0;;line-height: 2;">
-        <div class="orderList-detail"
+        <div class="orderList-detail"  v-if="list.member"
              v-title="'订单详情'">
             <div class="detailUser">
                 <div class="detailUserH"
@@ -10,28 +10,28 @@
                          layout="row"
                          layout-align="start center">
                         <img class="e-avatar"
-                             :src="this.list.member.avatarId | mSrc(30, 30, require('assets/imgs/default_female.png'))">
-                        <span>{{this.list.member.memberName}}</span>&nbsp;
-                        <span>{{this.list.member.memberMobile}}</span>
+                             :src="list.member.avatarId | mSrc(30, 30, require('assets/imgs/default_female.png'))">
+                        <span>{{list.member.memberName}}</span>&nbsp;
+                        <span>{{list.member.memberMobile}}</span>
                     </div>
-                    <div :class="Sta">{{parseInt(this.list.status) | messageType2}}</div>
+                    <div :class="Sta">{{parseInt(list.status) | messageType2}}</div>
                 </div>
-                <div class="lineOrder"
+                <div class="lineOrder" v-if="list.orderNo"
                      layout="column">
                     <div>订单编号：
-                        <span class="font-primary-color">{{this.list.orderNo}}</span>
+                        <span class="font-primary-color">{{list.orderNo}}</span>
                     </div>
                     <div>下单时间：
-                        <span class="font-primary-color">{{this.list.orderDate}}</span>
+                        <span class="font-primary-color">{{list.orderDate}}</span>
                     </div>
                     <div>订单备注：
-                        <span class="font-primary-color">{{this.list.remark}}</span>
+                        <span class="font-primary-color">{{list.remark}}</span>
                     </div>
                 </div>
             </div>
             <div class="orderInfo" v-show="this.list.orderKind ==1 || this.list.orderKind ==7">
                 <div style="color:#888;border-top:1px solid #e5e5e5;padding-top:4px">订单内容</div>
-                <div class="orderItem" v-for="(item,index) in this.list.orderItems" :key="index" >
+                <div class="orderItem" v-for="(item,index) in list.orderItems" :key="index">
                     <div class="itemCell"
                          layout="row"
                          layout-align="space-between start"
@@ -64,7 +64,8 @@
                         <div flex="40"
                              class="primary-color"
                              style="position:absolute;right:0px">
-                            <span style="font-size:0.5rem">{{(toNumber(item.actualPerPrice))[0] | currency('￥',0)}}</span>.
+                             <span>￥</span>
+                            <span style="font-size:0.5rem">{{(toNumber(item.actualPerPrice))[0] }}</span>.
                             <span>{{(toNumber(item.actualPerPrice))[1]}}</span>
                         </div>
                     </div>
@@ -191,7 +192,6 @@
 <script>
 import Vue from 'vue';
 import getOrderDetail from 'services/api.performance';
-import { Indicator } from 'mint-ui';
 export default {
     name: 'order-detail',
     data() {
@@ -205,9 +205,9 @@ export default {
         }
     },
     mounted() {
-        Indicator.open('加载中...');
+        this.$indicator.open('加载中...');
         getOrderDetail.getOrderDetail(this.$route.params.orderId).then(res => {
-            Indicator.close();
+            this.$indicator.close();
             this.list = res.data;
         });
     },
@@ -279,7 +279,7 @@ export default {
             border-bottom: 1px solid #e5e5e5; /*no*/
         }
         .orderItem {
-            line-height: 0.8rem;
+            line-height: 0.6rem;
             text-indent: 15px;
         }
         .itemEmployee {
