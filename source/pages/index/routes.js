@@ -33,6 +33,7 @@ const customerIntro = resolve => require(['./pages/customers/children/intro'], r
 const customerRecord = resolve => require(['./pages/customers/children/record'], resolve);
 const customerService = resolve => require(['./pages/customers/children/service'], resolve);
 
+const echartsProduct = resolve => require(['./pages/echarts/echartsProduct'], resolve);
 export default [
     {
         path: '*',
@@ -217,5 +218,11 @@ export default [
                 component: customerIntro
             }
         ]
+    },
+    {
+        path: '/echartsProduct',
+        name: 'echartsProduct',
+        component: echartsProduct,
+        meta: { auth: true, level: 1 }
     }
 ];

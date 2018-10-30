@@ -26,7 +26,7 @@
              flex=1>
             <!-- 无数据显示 -->
             <div class="errorBox"
-                 v-show="!this.list.length"
+                 v-show="!list.length"
                  layout="row"
                  layout-align="center center">
                 <m-icon class="ic"
