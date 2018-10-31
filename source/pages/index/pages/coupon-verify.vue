@@ -408,7 +408,7 @@ export default {
             this.storeList = [];
             storeList.forEach((item) => {
                 let store = localStoreList.find(function(value) { return value.id == item; });
-                if (store !== -1) {
+                if (store) {
                     this.storeList.push({
                         name: store.name,
                         value: store.id
