@@ -209,13 +209,9 @@ export default {
         let tempIndex = 0;
         var tempStores = [];
         this.$knife.deepCopy(this.$store.state.storeList, tempStores);
-        let tempStoreIds = [];
-        tempStores.map((item, index) => {
-            tempStoreIds.push(item.id);
-        });
         if (tempStores.length > 1) {
             tempStores.unshift({
-                id: '',
+                id: tempStores.join(','),
                 name: '全部门店'
             });
         }
@@ -226,6 +222,7 @@ export default {
             textAlign: 'center',
             defaultIndex: tempIndex
         });
+
         let tempFormat = 'YYYY-MM-DD HH:mm:ss';
         this.actions = [
             {

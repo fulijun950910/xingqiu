@@ -351,16 +351,14 @@ export default {
         this.vm.timeInterval.startDate = JSON.parse(localStorage.getItem('performanceInfo')).startDate;
         this.vm.timeInterval.endDate = JSON.parse(localStorage.getItem('performanceInfo')).endDate;
         this.vm.timeInterval.dataType = JSON.parse(localStorage.getItem('performanceInfo')).dataType;
+
         for (let i = 0; i < this.store.length; i++) {
             this.storeIds.push(this.store[i].id);
         }
         let tempIndex = 0;
         var tempStores = [];
         this.$knife.deepCopy(this.$store.state.storeList, tempStores);
-        let tempStoreIds = [];
-        tempStores.map((item, index) => {
-            tempStoreIds.push(item.id);
-        });
+        let tempStoreIds = tempStores.map(item => item.id);
         if (tempStores.length > 1) {
             tempStores.unshift({
                 id: tempStoreIds.join(','),
@@ -374,6 +372,7 @@ export default {
             textAlign: 'center',
             defaultIndex: tempIndex
         });
+
         let tempFormat = 'YYYY-MM-DD HH:mm:ss';
         this.actions = [
             {
@@ -490,14 +489,8 @@ export default {
                     for (let i = 0; i < this.list.length; i++) {
                         switch (this.list[i][0]) {
                             case 'CARD':
-                                this.listCard.push(this.list[i]);
-                                break;
                             case 'CARD_RECHARGE':
-                                this.listCard.push(this.list[i]);
-                                break;
                             case 'WALLET_RECHARGE':
-                                this.listCard.push(this.list[i]);
-                                break;
                             case 'TICKET':
                                 this.listCard.push(this.list[i]);
                                 break;
@@ -535,13 +528,6 @@ export default {
 </script>
 <style lang="less">
 @import '~@/styles/_agile';
-body,
-html {
-    position: relative;
-    background: #f4f4fc;
-    color: black;
-}
-
 .echartsProduct {
     .tool-tab {
         position: fixed;
