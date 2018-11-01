@@ -123,7 +123,6 @@ export default {
     data() {
         return {
             params: {
-                employeeId: this.$store.getters.employeeId,
                 merchantId: this.$store.getters.merchantId,
                 startDate: null,
                 endDate: null
@@ -132,6 +131,11 @@ export default {
         };
     },
     mounted() {
+        if (this.$route.params.employeeId) {
+            this.params.employeeId = this.$route.params.employeeId;
+        } else {
+            this.params.employeeId = this.$store.getters.employeeId;
+        }
         try {
             let data = JSON.parse(sessionStorage.getItem('employeeParam'));
             this.params.startDate = data.startDate;
@@ -149,7 +153,7 @@ export default {
     methods: {}
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 @import '~@/styles/_agile';
 body {
     background: @border-gay;
