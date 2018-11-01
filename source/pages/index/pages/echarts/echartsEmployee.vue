@@ -99,7 +99,8 @@
                       :slots="slots"
                       :selected-item.sync="selectedStore"
                       value-key="name"
-                      @confirm="changeStore">
+                      @confirm="changeStore"
+                      >
             </m-picker>
             <!-- 日期 -->
             <mt-actionsheet :actions="actions"
@@ -198,23 +199,20 @@ export default {
         for (let i = 0; i < this.store.length; i++) {
             this.storeIds.push(this.store[i].id);
         }
-        // 判断日期
+
         this.vm.timeInterval.storeId = JSON.parse(localStorage.getItem('performanceInfo')).performanceStoreIds;
-        if (this.vm.timeInterval.storeId == this.storeIds.join(',')) {
-            this.vm.timeInterval.storeId = '';
-        } else {
-            this.vm.timeInterval.storeId = JSON.parse(localStorage.getItem('performanceInfo')).performanceStoreIds;
-        }
 
         let tempIndex = 0;
         var tempStores = [];
         this.$knife.deepCopy(this.$store.state.storeList, tempStores);
+        let tempStoreIds = tempStores.map(item => item.id);
         if (tempStores.length > 1) {
             tempStores.unshift({
-                id: tempStores.join(','),
+                id: tempStoreIds.join(','),
                 name: '全部门店'
             });
         }
+
         this.slots.push({
             flex: 1,
             values: tempStores,
@@ -222,7 +220,6 @@ export default {
             textAlign: 'center',
             defaultIndex: tempIndex
         });
-
         let tempFormat = 'YYYY-MM-DD HH:mm:ss';
         this.actions = [
             {
@@ -305,11 +302,17 @@ export default {
             var parameter = {
                 merchantId: this.$store.getters.merchantId
             };
-            if (this.vm.timeInterval.storeId) {
+            if (this.vm.timeInterval.storeId == this.storeIds.join(',')) {
+                parameter.storeId = '';
+            } else {
                 parameter.storeId = this.vm.timeInterval.storeId;
             }
             if (this.selectedStore) {
-                parameter.storeId = this.selectedStore.id;
+                if (this.selectedStore.id == this.storeIds.join(',')) {
+                    parameter.storeId = '';
+                } else {
+                    parameter.storeId = this.selectedStore.id;
+                }
             }
             if (this.selectedstatus) {
                 parameter.orderBy = this.selectedstatus.orderBy;

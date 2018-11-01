@@ -341,7 +341,8 @@ export default {
                 timeInterval: {
                     startDate: null,
                     endDate: null,
-                    dataType: null
+                    dataType: null,
+                    storeIds: null
                 }
             }
         };
@@ -352,6 +353,7 @@ export default {
         this.vm.timeInterval.endDate = JSON.parse(localStorage.getItem('performanceInfo')).endDate;
         this.vm.timeInterval.dataType = JSON.parse(localStorage.getItem('performanceInfo')).dataType;
 
+        this.vm.timeInterval.storeIds = JSON.parse(localStorage.getItem('performanceInfo')).performanceStoreIds;
         for (let i = 0; i < this.store.length; i++) {
             this.storeIds.push(this.store[i].id);
         }
@@ -365,6 +367,7 @@ export default {
                 name: '全部门店'
             });
         }
+
         this.slots.push({
             flex: 1,
             values: tempStores,
@@ -461,9 +464,11 @@ export default {
                 merchantId: this.$store.getters.merchantId,
                 queryData: {
                     itemSalesDetail: true
-                },
-                storeIds: this.storeIds.join(',')
+                }
             };
+            if (this.vm.timeInterval.storeIds) {
+                parameter.storeIds = this.vm.timeInterval.storeIds;
+            }
             if (this.selectedStore) {
                 parameter.storeIds = this.selectedStore.id;
             }
@@ -481,6 +486,7 @@ export default {
                 let data = JSON.parse(localStorage.getItem('performanceInfo'));
                 this.parameter.startDate = data.startDate;
                 this.parameter.endDate = data.endDate;
+                this.parameter.storeIds = data.performanceStoreIds;
             } catch (error) {}
             apiEchartsProduct.getEchartsProduct(parameter).then(
                 res => {
