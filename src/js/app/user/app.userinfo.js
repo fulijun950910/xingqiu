@@ -63,6 +63,9 @@ app.userinfo = {
         }
     },
     captcha: function(data, type) {
+        if (data.type && data.username.indexOf('@') != -1) {
+            data.type = 'email';
+        }
         app.api.userinfo.captcha({
             data: data,
             success: function(result) {
