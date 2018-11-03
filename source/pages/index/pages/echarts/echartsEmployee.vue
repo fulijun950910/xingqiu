@@ -3,8 +3,11 @@
          v-title='"员工业绩分析"'>
         <div class="orderEmployeeData-box">
             <div class="listData">
-                <div class="dataItem" v-for="(item,index) in list" :key="index"
-                     layout="row" @click="jump(item.employeeId)"
+                <div class="dataItem"
+                     v-for="(item,index) in list"
+                     :key="index"
+                     layout="row"
+                     @click="jump(item.employeeId)"
                      layout-align="space-between center">
                     <div class="img">
                         <img :src="item.employeeImageId | mSrc(35, 35, require('assets/imgs/avatar.png'))">
@@ -51,7 +54,8 @@
                 </div>
                 <div style="height:1.6rem;"></div>
             </div>
-            <div class="errorBox" v-show="!list.length"
+            <div class="errorBox"
+                 v-show="!list.length"
                  layout="row"
                  layout-align="center center">
                 <m-icon class="ic"
@@ -99,8 +103,7 @@
                       :slots="slots"
                       :selected-item.sync="selectedStore"
                       value-key="name"
-                      @confirm="changeStore"
-                      >
+                      @confirm="changeStore">
             </m-picker>
             <!-- 日期 -->
             <mt-actionsheet :actions="actions"
@@ -299,9 +302,20 @@ export default {
             }
         },
         messageOrderList() {
+            let data = JSON.parse(localStorage.getItem('performanceInfo'));
+            // 创建sessionStorage
             var parameter = {
                 merchantId: this.$store.getters.merchantId
             };
+            let Storage = {
+                startDate: data.startDate,
+                endDate: data.endDate,
+                orderBy: 1,
+                orderByType: 'desc',
+                merchantId: this.$store.getters.merchantId,
+                storeId: data.performanceStoreIds
+            };
+
             if (this.vm.timeInterval.storeId == this.storeIds.join(',')) {
                 parameter.storeId = '';
             } else {
@@ -312,21 +326,27 @@ export default {
                     parameter.storeId = '';
                 } else {
                     parameter.storeId = this.selectedStore.id;
+                    Storage.storeId = this.selectedStore.id;
                 }
             }
             if (this.selectedstatus) {
                 parameter.orderBy = this.selectedstatus.orderBy;
                 parameter.orderByType = this.selectedstatus.orderByType;
+                Storage.orderBy = this.selectedstatus.orderBy;
+                Storage.orderByType = this.selectedstatus.orderByType;
             }
             if (this.vm.timeInterval.startDate) {
                 parameter.startDate = this.vm.timeInterval.startDate;
+                Storage.startDate = this.vm.timeInterval.startDate;
             }
             if (this.vm.timeInterval.endDate) {
                 parameter.endDate = this.vm.timeInterval.endDate;
+                Storage.endDate = this.vm.timeInterval.endDate;
             }
+            let str = JSON.stringify(Storage);
+            sessionStorage.setItem('employeeParam', str);
             this.$indicator.open();
             try {
-                let data = JSON.parse(localStorage.getItem('performanceInfo'));
                 this.parameter.startDate = data.startDate;
                 this.parameter.endDate = data.endDate;
                 this.parameter.storeId = data.performanceStoreIds;
@@ -390,7 +410,7 @@ body {
             text-align: center;
             // font-size: 0.35rem;
             color: #666;
-            .img>img {
+            .img > img {
                 width: 49px;
                 height: 49px;
                 border-radius: 50%;

@@ -16,7 +16,7 @@
         <div style="background:#fff;min-height: 550px !important;">
             <mt-tab-container v-model="selected">
                 <mt-tab-container-item :id="1"
-                                       style="width:345px">
+                                       style="width:100%">
                     <div>
                         <div class="data-title"
                              v-show="listItem.length">
@@ -74,8 +74,7 @@
                     <div style="height:67px;background:#fff;z-index:6"></div>
                 </mt-tab-container-item>
 
-                <mt-tab-container-item :id="2"
-                                       style="width:345px">
+                <mt-tab-container-item :id="2" style="width:100%">
                     <div>
                         <div class="data-title"
                              v-show="listPackage.length">
@@ -133,8 +132,7 @@
                     <div style="height:67px;background:#fff;z-index:6"></div>
                 </mt-tab-container-item>
 
-                <mt-tab-container-item :id="3"
-                                       style="width:345px">
+                <mt-tab-container-item :id="3" style="width:100%">
                     <div>
                         <div class="data-title"
                              v-show="listProduct.length">
@@ -192,8 +190,7 @@
                     <div style="height:67px;background:#fff;z-index:6"></div>
                 </mt-tab-container-item>
 
-                <mt-tab-container-item :id="4"
-                                       style="width:345px">
+                <mt-tab-container-item :id="4" style="width:100%">
                     <div>
                         <div class="data-title"
                              v-show="listCard.length">
@@ -225,7 +222,8 @@
                                 <div class="item-right"
                                      layout="row"
                                      layout-align="space-around center"
-                                     flex>
+                                     flex
+                                     >
                                     <span class="font"
                                           flex=40>{{item[1]}}</span>
                                     <span class="amount"
@@ -571,6 +569,7 @@ export default {
         margin: 0 15px;
         overflow: hidden;
         .data-title {
+            position: relative;
             border: none;
             font-size: 0.3rem;
             padding: 19px 0 0;
@@ -620,10 +619,16 @@ export default {
         }
     }
     .errorBox {
+        position: absolute;
         background: @white;
-        width: 100%;
+        width: 300px;
         height: 300px;
         line-height: 300px;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
         color: #8c8c8c;
         .ic {
             font-size: 23px;
