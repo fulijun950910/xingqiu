@@ -208,13 +208,6 @@ export default {
         let tempIndex = 0;
         var tempStores = [];
         this.$knife.deepCopy(this.$store.state.storeList, tempStores);
-        let tempStoreIds = tempStores.map(item => item.id);
-        if (tempStores.length > 1) {
-            tempStores.unshift({
-                id: tempStoreIds.join(','),
-                name: '全部门店'
-            });
-        }
 
         this.slots.push({
             flex: 1,
@@ -404,7 +397,7 @@ body {
     overflow: scroll;
     background: @white;
     .listData {
-        width: 360px;
+        width: 95%;
         margin: auto;
         .dataItem {
             text-align: center;

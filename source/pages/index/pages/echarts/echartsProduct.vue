@@ -318,7 +318,7 @@ export default {
     },
     data() {
         return {
-            selected: 1,
+            selected: 4,
             storePickerVisible: false,
             slots: [],
             selectedStore: {},
