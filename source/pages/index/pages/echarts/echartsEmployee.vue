@@ -310,17 +310,13 @@ export default {
             };
 
             if (this.vm.timeInterval.storeId == this.storeIds.join(',')) {
-                parameter.storeId = '';
+                parameter.storeId = (this.storeIds.join(',').split(','))[0];
             } else {
                 parameter.storeId = this.vm.timeInterval.storeId;
             }
             if (this.selectedStore) {
-                if (this.selectedStore.id == this.storeIds.join(',')) {
-                    parameter.storeId = '';
-                } else {
-                    parameter.storeId = this.selectedStore.id;
-                    Storage.storeId = this.selectedStore.id;
-                }
+                parameter.storeId = this.selectedStore.id;
+                Storage.storeId = this.selectedStore.id;
             }
             if (this.selectedstatus) {
                 parameter.orderBy = this.selectedstatus.orderBy;
