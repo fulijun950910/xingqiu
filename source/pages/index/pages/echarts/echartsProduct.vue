@@ -496,6 +496,7 @@ export default {
                             case 'CARD_RECHARGE':
                             case 'WALLET_RECHARGE':
                             case 'TICKET':
+                            case 'SURCHARGE':
                                 this.listCard.push(this.list[i]);
                                 break;
                             case 'PRODUCT':
