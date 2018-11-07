@@ -52,7 +52,6 @@
                           v-show="item.clockCount">点钟×{{item.clockCount}}</span>
                 </div>
                 <div layout="row"
-                     v-for="(item2,index) in item.itemVoList"
                      :key="index"
                      style="padding:10px 10px 10px 0">
                     <div class="left"
@@ -72,8 +71,8 @@
                         <div layout="row"
                              style="padding-top:11px;width:100%;"
                              layout-align="space-between center">
-                            <div layout="column">
-                                <span class="memberName">{{item2.itemName}}</span>
+                            <div layout="row">
+                                <span class="memberName" v-for="(item2,index) in item.itemVoList" :key="index">{{item2.itemName}}</span>
                             </div>
                             <span class="primary-color font-priceF-size"
                                   id="total-push">

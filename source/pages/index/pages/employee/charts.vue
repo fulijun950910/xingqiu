@@ -6,7 +6,7 @@
                  layout="column"
                  layout-align="center center">
                 <img class="e-avatar"
-                :src="update.employeeAvatarId | mSrc(75, 75, require('assets/imgs/avatar.png'))" alt="头像">
+                :src="update.employeeAvatarId | mSrc(75, 75, require('assets/imgs/avatar.png'))" alt=" ">
                 <p class="e-name">{{update.employeeName}}</p>
                 <p class="e-no">NO:{{update.employeeNo}}</p>
             </div>
@@ -39,7 +39,8 @@
             <div class="ed-performance"
                  flex="50"
                  layout="column"
-                 layout-align="center center">
+                 layout-align="center center"
+                 >
                 <span class="triggle-down"></span>
                 <p>售卡&nbsp;&nbsp;
                     <span>{{update.achievementSellCardsAmount | fen2yuan}}</span>
@@ -123,7 +124,6 @@ export default {
     data() {
         return {
             params: {
-                employeeId: this.$store.getters.employeeId,
                 merchantId: this.$store.getters.merchantId,
                 startDate: null,
                 endDate: null
@@ -132,6 +132,11 @@ export default {
         };
     },
     mounted() {
+        if (this.$route.params.employeeId) {
+            this.params.employeeId = this.$route.params.employeeId;
+        } else {
+            this.params.employeeId = this.$store.getters.employeeId;
+        }
         try {
             let data = JSON.parse(sessionStorage.getItem('employeeParam'));
             this.params.startDate = data.startDate;
@@ -149,7 +154,7 @@ export default {
     methods: {}
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 @import '~@/styles/_agile';
 body {
     background: @border-gay;

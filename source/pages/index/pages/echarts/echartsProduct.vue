@@ -16,7 +16,7 @@
         <div style="background:#fff;min-height: 550px !important;">
             <mt-tab-container v-model="selected">
                 <mt-tab-container-item :id="1"
-                                       style="width:345px">
+                                       style="width:100%">
                     <div>
                         <div class="data-title"
                              v-show="listItem.length">
@@ -74,8 +74,7 @@
                     <div style="height:67px;background:#fff;z-index:6"></div>
                 </mt-tab-container-item>
 
-                <mt-tab-container-item :id="2"
-                                       style="width:345px">
+                <mt-tab-container-item :id="2" style="width:100%">
                     <div>
                         <div class="data-title"
                              v-show="listPackage.length">
@@ -133,8 +132,7 @@
                     <div style="height:67px;background:#fff;z-index:6"></div>
                 </mt-tab-container-item>
 
-                <mt-tab-container-item :id="3"
-                                       style="width:345px">
+                <mt-tab-container-item :id="3" style="width:100%">
                     <div>
                         <div class="data-title"
                              v-show="listProduct.length">
@@ -192,8 +190,7 @@
                     <div style="height:67px;background:#fff;z-index:6"></div>
                 </mt-tab-container-item>
 
-                <mt-tab-container-item :id="4"
-                                       style="width:345px">
+                <mt-tab-container-item :id="4" style="width:100%">
                     <div>
                         <div class="data-title"
                              v-show="listCard.length">
@@ -225,7 +222,8 @@
                                 <div class="item-right"
                                      layout="row"
                                      layout-align="space-around center"
-                                     flex>
+                                     flex
+                                     >
                                     <span class="font"
                                           flex=40>{{item[1]}}</span>
                                     <span class="amount"
@@ -320,7 +318,7 @@ export default {
     },
     data() {
         return {
-            selected: 1,
+            selected: 4,
             storePickerVisible: false,
             slots: [],
             selectedStore: {},
@@ -341,7 +339,8 @@ export default {
                 timeInterval: {
                     startDate: null,
                     endDate: null,
-                    dataType: null
+                    dataType: null,
+                    storeIds: null
                 }
             }
         };
@@ -351,22 +350,22 @@ export default {
         this.vm.timeInterval.startDate = JSON.parse(localStorage.getItem('performanceInfo')).startDate;
         this.vm.timeInterval.endDate = JSON.parse(localStorage.getItem('performanceInfo')).endDate;
         this.vm.timeInterval.dataType = JSON.parse(localStorage.getItem('performanceInfo')).dataType;
+
+        this.vm.timeInterval.storeIds = JSON.parse(localStorage.getItem('performanceInfo')).performanceStoreIds;
         for (let i = 0; i < this.store.length; i++) {
             this.storeIds.push(this.store[i].id);
         }
         let tempIndex = 0;
         var tempStores = [];
         this.$knife.deepCopy(this.$store.state.storeList, tempStores);
-        let tempStoreIds = [];
-        tempStores.map((item, index) => {
-            tempStoreIds.push(item.id);
-        });
+        let tempStoreIds = tempStores.map(item => item.id);
         if (tempStores.length > 1) {
             tempStores.unshift({
                 id: tempStoreIds.join(','),
                 name: '全部门店'
             });
         }
+
         this.slots.push({
             flex: 1,
             values: tempStores,
@@ -374,6 +373,7 @@ export default {
             textAlign: 'center',
             defaultIndex: tempIndex
         });
+
         let tempFormat = 'YYYY-MM-DD HH:mm:ss';
         this.actions = [
             {
@@ -462,9 +462,11 @@ export default {
                 merchantId: this.$store.getters.merchantId,
                 queryData: {
                     itemSalesDetail: true
-                },
-                storeIds: this.storeIds.join(',')
+                }
             };
+            if (this.vm.timeInterval.storeIds) {
+                parameter.storeIds = this.vm.timeInterval.storeIds;
+            }
             if (this.selectedStore) {
                 parameter.storeIds = this.selectedStore.id;
             }
@@ -482,6 +484,7 @@ export default {
                 let data = JSON.parse(localStorage.getItem('performanceInfo'));
                 this.parameter.startDate = data.startDate;
                 this.parameter.endDate = data.endDate;
+                this.parameter.storeIds = data.performanceStoreIds;
             } catch (error) {}
             apiEchartsProduct.getEchartsProduct(parameter).then(
                 res => {
@@ -490,14 +493,8 @@ export default {
                     for (let i = 0; i < this.list.length; i++) {
                         switch (this.list[i][0]) {
                             case 'CARD':
-                                this.listCard.push(this.list[i]);
-                                break;
                             case 'CARD_RECHARGE':
-                                this.listCard.push(this.list[i]);
-                                break;
                             case 'WALLET_RECHARGE':
-                                this.listCard.push(this.list[i]);
-                                break;
                             case 'TICKET':
                                 this.listCard.push(this.list[i]);
                                 break;
@@ -535,13 +532,6 @@ export default {
 </script>
 <style lang="less">
 @import '~@/styles/_agile';
-body,
-html {
-    position: relative;
-    background: #f4f4fc;
-    color: black;
-}
-
 .echartsProduct {
     .tool-tab {
         position: fixed;
@@ -579,6 +569,7 @@ html {
         margin: 0 15px;
         overflow: hidden;
         .data-title {
+            position: relative;
             border: none;
             font-size: 0.3rem;
             padding: 19px 0 0;
@@ -628,10 +619,16 @@ html {
         }
     }
     .errorBox {
+        position: absolute;
         background: @white;
-        width: 100%;
+        width: 300px;
         height: 300px;
         line-height: 300px;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
         color: #8c8c8c;
         .ic {
             font-size: 23px;
