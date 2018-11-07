@@ -23,8 +23,8 @@
                         <div class="img-right"><img :src="require('assets/imgs/integral-mall/2018060507.png')" alt=""></div>
                         <div class="fs32">推荐商户</div>
                         <div class="color-gray fs22 m-t-2">
-                            <div>好东西</div>
-                            <div>要分享</div>
+                            <div>好东西，要分享</div>
+                            <!-- <div></div> -->
                         </div>
                     </div>
                     <div class="m-t-4 m-b-4 text-center" @click="linkTo(7)">
