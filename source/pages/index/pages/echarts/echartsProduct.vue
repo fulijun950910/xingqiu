@@ -28,10 +28,10 @@
                                       flex="40"
                                       style="text-indent:8px;text-align:left">项目2</span>
                                 <span class="amount"
-                                      flex="20">销量</span>
+                                      flex="15">销量</span>
                                 <span class="amount"
                                       style="text-align:right"
-                                      flex="35">收入合计</span>
+                                      flex="40">收入合计</span>
                             </div>
                         </div>
                         <div class="data-list"
@@ -54,9 +54,9 @@
                                     <span class="amount"
                                           flex=20>{{item[4]}}</span>
                                     <span class="primary-color"
-                                          flex=35>
+                                          flex=40>
                                         <span>￥</span>
-                                        <span style="font-size:0.5rem">{{(toNumber(item[2]))[0]}}</span>.
+                                        <span style="font-size:0.5rem">{{(toNumber(item[2]))[0] | currency('', 0)}}</span>.
                                         <span>{{(toNumber(item[2]))[1]}}</span>
                                     </span>
                                 </div>
@@ -86,10 +86,10 @@
                                       flex="40"
                                       style="text-indent:8px;text-align:left">组合</span>
                                 <span class="amount"
-                                      flex="20">销量</span>
+                                      flex="15">销量</span>
                                 <span class="amount"
                                       style="text-align:right"
-                                      flex="35">收入合计</span>
+                                      flex="40">收入合计</span>
                             </div>
                         </div>
                         <div class="data-list"
@@ -112,9 +112,9 @@
                                     <span class="amount"
                                           flex=20>{{item[4]}}</span>
                                     <span class="primary-color"
-                                          flex=35>
+                                          flex=40>
                                         <span>￥</span>
-                                        <span style="font-size:0.5rem">{{(toNumber(item[2]))[0]}}</span>.
+                                        <span style="font-size:0.5rem">{{(toNumber(item[2]))[0] | currency('', 0)}}</span>.
                                         <span>{{(toNumber(item[2]))[1]}}</span>
                                     </span>
                                 </div>
@@ -144,10 +144,10 @@
                                       flex="40"
                                       style="text-indent:8px;text-align:left">产品</span>
                                 <span class="amount"
-                                      flex="20">销量</span>
+                                      flex="15">销量</span>
                                 <span class="amount"
                                       style="text-align:right"
-                                      flex="35">收入合计</span>
+                                      flex="40">收入合计</span>
                             </div>
                         </div>
                         <div class="data-list"
@@ -170,9 +170,9 @@
                                     <span class="amount"
                                           flex=20>{{item[4]}}</span>
                                     <span class="primary-color"
-                                          flex=35>
+                                          flex=40>
                                         <span>￥</span>
-                                        <span style="font-size:0.5rem">{{(toNumber(item[2]))[0]}}</span>.
+                                        <span style="font-size:0.5rem">{{(toNumber(item[2]))[0] | currency('',0)}}</span>.
                                         <span>{{(toNumber(item[2]))[1]}}</span>
                                     </span>
                                 </div>
@@ -202,10 +202,10 @@
                                       flex="40"
                                       style="text-indent:8px;text-align:left">卡</span>
                                 <span class="amount"
-                                      flex="20">销量</span>
+                                      flex="15">销量</span>
                                 <span class="amount"
                                       style="text-align:right"
-                                      flex="35">收入合计</span>
+                                      flex="40">收入合计</span>
                             </div>
                         </div>
                         <div class="data-list"
@@ -229,9 +229,9 @@
                                     <span class="amount"
                                           flex=20>{{item[4]}}</span>
                                     <span class="primary-color"
-                                          flex=35>
+                                          flex=40>
                                         <span>￥</span>
-                                        <span style="font-size:0.5rem">{{(toNumber(item[2]))[0]}}</span>.
+                                        <span style="font-size:0.5rem">{{(toNumber(item[2]))[0] | currency('', 0)}}</span>.
                                         <span>{{(toNumber(item[2]))[1]}}</span>
                                     </span>
                                 </div>
