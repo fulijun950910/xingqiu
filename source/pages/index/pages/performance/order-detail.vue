@@ -77,8 +77,8 @@
                              <span v-show="item3.isAppoint==2">(轮牌)</span>
                              <span v-show="item3.isAppoint==1">(点钟)</span></div>
                                 <span>业绩:{{item4.achievementTotalAmount | fen2yuan | currency('￥',2)}}</span>
-                                <span>卡耗:{{item4.cardConsumeTotalAmountt | fen2yuan | currency('￥',2)}}</span>
-                                <span>提成:{{item4.commissionAmountt | fen2yuan | currency('￥',2)}}</span>
+                                <span>卡耗:{{item4.cardConsumeTotalAmount | fen2yuan | currency('￥',2)}}</span>
+                                <span>提成:{{item4.commissionAmount | fen2yuan | currency('￥',2)}}</span>
                         </div>
                     </div>
                 </div>
@@ -130,8 +130,8 @@
                              <span v-show="item3.isAppoint==2">(轮牌)</span>
                              <span v-show="item3.isAppoint==1">(点钟)</span></div>
                                 <span>业绩:{{item4.achievementTotalAmount | fen2yuan | currency('￥',2)}}</span>
-                                <span>卡耗:{{item4.cardConsumeTotalAmountt | fen2yuan | currency('￥',2)}}</span>
-                                <span>提成:{{item4.commissionAmountt | fen2yuan | currency('￥',2)}}</span>
+                                <span>卡耗:{{item4.cardConsumeTotalAmount | fen2yuan | currency('￥',2)}}</span>
+                                <span>提成:{{item4.commissionAmount | fen2yuan | currency('￥',2)}}</span>
                         </div>
                     </div>
                 </div>
@@ -180,8 +180,8 @@
                              warp="no-warp">
                              <div>{{item3.employeeName}}</div>
                                 <span>业绩:{{item4.achievementTotalAmount | fen2yuan | currency('￥',2)}}</span>
-                                <span>卡耗:{{item4.cardConsumeTotalAmountt | fen2yuan | currency('￥',2)}}</span>
-                                <span>提成:{{item4.commissionAmountt | fen2yuan | currency('￥',2)}}</span>
+                                <span>卡耗:{{item4.cardConsumeTotalAmount | fen2yuan | currency('￥',2)}}</span>
+                                <span>提成:{{item4.commissionAmount | fen2yuan | currency('￥',2)}}</span>
                         </div>
                     </div>
                 </div>
