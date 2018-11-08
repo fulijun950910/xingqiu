@@ -36,6 +36,7 @@ const customerService = resolve => require(['./pages/customers/children/service'
 const echartsProduct = resolve => require(['./pages/echarts/echartsProduct'], resolve);
 const echartsEmployee = resolve => require(['./pages/echarts/echartsEmployee'], resolve);
 const echartsMember = resolve => require(['./pages/echarts/echartsMember'], resolve);
+
 export default [
     {
         path: '*',
