@@ -336,14 +336,14 @@ export default {
             var parameter = {
                 merchantId: this.$store.getters.merchantId,
                 storeIds: this.storeIds.join(','),
-                type: 2,
+                type: 1,
                 size: 10000,
                 page: 1,
                 employeeId: this.$store.getters.employeeId
             };
-            if (this.$store.getters.admin == true) {
-                parameter.type = 1;
-            }
+            // if (this.$store.getters.admin == true) {
+            //     parameter.type = 1;
+            // }
             if (this.selectedStore) {
                 parameter.storeIds = this.selectedStore.id;
             }

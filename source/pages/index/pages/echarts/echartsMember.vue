@@ -279,6 +279,7 @@ export default {
                     subtext: '从今天开始向前推30天~1年',
                     x: 'center'
                 },
+                tooltip: {},
                 xAxis: {
                     data: ['1个月', '2个月', '3个月', '6个月', '12个月'],
                     axisLine: {
