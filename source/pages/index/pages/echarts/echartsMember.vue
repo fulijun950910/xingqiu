@@ -9,11 +9,11 @@
                 <mt-tab-item :id="3">顾客到店频次</mt-tab-item>
             </mt-navbar>
         </div>
-        <div style="height:1.8rem;background:#fff;z-index:6"></div>
+        <div style="height:1.5rem;background:#fff;z-index:6"></div>
         <div style="background:#fff;min-height: 550px !important;">
             <mt-tab-container v-model="selected">
-                <mt-tab-container-item :id="1" style="width:100%">
-                    <v-chart :options="polar"/>
+                <mt-tab-container-item :id="1" style="width:100%" >
+                    <v-chart :options="polar" v-show="this.$store.getters.admin"/>
                     <div class="errorBox" v-show="!this.$store.getters.admin"
                          layout="row"
                          layout-align="center center">
@@ -21,11 +21,11 @@
                                 xlink="#icon-cuowu"></m-icon>
                         <p>亲~您当前的权限还不能看数据哦~</p>
                     </div>
-                    <div style="height:1.8rem;background:#fff;z-index:6"></div>
+                    <div style="height:1.6rem;background:#fff;z-index:6"></div>
                 </mt-tab-container-item>
 
                 <mt-tab-container-item :id="2" style="width:100%">
-                    <v-chart :options="polar2" id="polar2"/>
+                    <v-chart :options="polar2" id="polar2" v-show="this.$store.getters.admin"/>
                     <div class="errorBox"  v-show="!this.$store.getters.admin"
                          layout="row"
                          layout-align="center center">
@@ -37,7 +37,7 @@
                 </mt-tab-container-item>
 
                 <mt-tab-container-item :id="3" style="width:100%">
-                    <v-chart :options="polar3" id="polar2"/>
+                    <v-chart :options="polar3" id="polar2" v-show="this.$store.getters.admin"/>
                     <div class="errorBox"  v-show="!this.$store.getters.admin" layout="row"
                          layout-align="center center">
                         <m-icon class="ic"
@@ -89,6 +89,7 @@ import 'echarts/lib/chart/pie';
 import 'echarts/lib/chart/bar';
 import 'echarts/lib/component/legend';
 import 'echarts/lib/component/title.js';
+import 'echarts/lib/component/tooltip.js';
 
 Vue.component(Navbar.name, Navbar);
 Vue.component(TabItem.name, TabItem);
@@ -135,7 +136,7 @@ export default {
         var tempStores = [];
         this.$knife.deepCopy(this.$store.state.storeList, tempStores);
         let tempStoreIds = tempStores.map(item => item.id);
-        if (tempStores.length > 1) {
+        if (tempStores.length >= 1) {
             tempStores.unshift({
                 id: tempStoreIds.join(','),
                 name: '全部门店'
@@ -214,14 +215,17 @@ export default {
                     data: legendList,
                     itemWidth: 20,
                     itemGap: 15,
-                    top: 320,
-                    left: 0,
+                    top: 350,
+                    left: 'center',
                     selectedMode: false
                 },
 
                 series: [{
                     name: '访问来源',
                     type: 'pie',
+                    clockwise: true,
+                    animationType: 'expansion',
+                    startAngle: 90,
                     radius: ['50%', '69%'],
                     center: ['50%', '18%'],
                     avoidLabelOverlap: false,
@@ -275,7 +279,6 @@ export default {
             // 指定图表的配置项和数据
             var option = {
                 title: {
-                    // text: '顾客末到店情况',
                     subtext: '从今天开始向前推30天~1年',
                     x: 'center'
                 },
@@ -324,7 +327,6 @@ export default {
             // 指定图表的配置项和数据
             var option = {
                 title: {
-                    // text: '顾客到店频次情况',
                     subtext: '当月1号到至今',
                     x: 'center'
                 },
@@ -426,7 +428,7 @@ export default {
         height: 300px;
         line-height: 300px;
         left: 0;
-        top: 0;
+        top: -250px;
         right: 0;
         bottom: 0;
         margin: auto;
