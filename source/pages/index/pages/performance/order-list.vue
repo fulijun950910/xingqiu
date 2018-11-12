@@ -182,6 +182,7 @@ export default {
             dateRangeVisible: false,
             statusPickerVisible: false,
             selectedstatus: {},
+            userConfig: {},
             vm: {
                 pickerValue: '',
                 selectedStoreId: this.$route.query.storeId,
@@ -299,6 +300,20 @@ export default {
         ];
         this.messageOrderList();
     },
+    beforeRouteEnter(to, from, next) {
+        if (from.name == 'order-detail') {
+            let data = JSON.parse(localStorage.getItem('userConfig'));
+            let config = {
+                startDate: data.startDate,
+                endDate: data.endDate,
+                dataType: 3,
+                performanceStoreIds: data.performanceStoreIds
+            };
+            var str = JSON.stringify(config);
+            localStorage.setItem('performanceInfo', str);
+        }
+        next();
+    },
     methods: {
         goback() {
             this.$router.go(-1);
@@ -341,21 +356,33 @@ export default {
                 page: 1,
                 employeeId: this.$store.getters.employeeId
             };
+            this.userConfig = {
+                performanceStoreIds: this.storeIds.join(','),
+                dataType: 3,
+                startDate: JSON.parse(localStorage.getItem('performanceInfo')).startDate,
+                endDate: JSON.parse(localStorage.getItem('performanceInfo')).endDate
+            };
             if (this.$store.getters.admin == true) {
                 parameter.type = 1;
             }
             if (this.selectedStore) {
                 parameter.storeIds = this.selectedStore.id;
+                this.userConfig.storeIds = this.selectedStore.id;
             }
             if (this.selectedstatus) {
                 parameter.orderStatus = this.selectedstatus.orderStatus;
+                this.userConfig.selectedstatus = this.selectedstatus.orderStatus;
             }
             if (this.vm.timeInterval.startTime) {
                 parameter.startTime = this.vm.timeInterval.startTime;
+                this.userConfig.startDate = this.vm.timeInterval.startTime;
             }
             if (this.vm.timeInterval.endTime) {
                 parameter.endTime = this.vm.timeInterval.endTime;
+                this.userConfig.endDate = this.vm.timeInterval.endTime;
             }
+            let str = JSON.stringify(this.userConfig);
+            localStorage.setItem('userConfig', str);
             this.$indicator.open();
             try {
                 let data = JSON.parse(localStorage.getItem('performanceInfo'));
