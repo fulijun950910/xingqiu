@@ -3,10 +3,16 @@
         <div class="logo">
             <img :src="require('assets/imgs/index/logo.png')"
                  alt="">
+            <div>
+                美问云系统
+            </div>
+        </div>
+        <div class="q-info">
+            <div class="m-b-2">角色：<span class="extra-black">{{$store.getters.employeeName}} - {{$store.getters.storeName}}</span></div>
+            <div>商户：<span class="extra-black">{{$store.getters.merchantName}}</span></div>
         </div>
         <div v-if="type == 1">
             <div class="q-head">
-                确认登录美问云系统
             </div>
             <div>
                 <mt-button size="large"
@@ -19,7 +25,7 @@
             </div>
         </div>
         <div v-else>
-            <div class="q-head color-success">
+            <div class="q-head color-success m-t-4">
                 登录成功
             </div>
             <mt-button size="large"
@@ -48,8 +54,10 @@ export default {
     mounted() {},
     methods: {
         submint() {
+            this.$indicator.open();
             apiSignin.qrAuthUser(this.$route.query.token, this.$store.getters.employeeId).then(
                 res => {
+                    this.$indicator.close();
                     if (res.data.status === 3) {
                         this.type = 2;
                     } else {
@@ -62,6 +70,7 @@ export default {
             );
         },
         back() {
+            this.$indicator.close();
             this.$router.replace({
                 name: 'main'
             });
@@ -81,7 +90,7 @@ export default {
     }
     .logo {
         text-align: center;
-        padding: 10vh;
+        padding: 6vh;
         img {
             width: 60px;
         }
@@ -91,6 +100,13 @@ export default {
     }
     .color-success {
         color: @color-success;
+    }
+    .q-info {
+        border-top: 1px solid @border-gay; /*no*/
+        padding-top: 16px;
+        padding-left: 16px;
+        font-size: 12px;
+        color: @extra-light-black;
     }
 }
 </style>
