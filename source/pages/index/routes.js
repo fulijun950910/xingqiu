@@ -36,6 +36,8 @@ const echartsProduct = resolve => require(['./pages/echarts/echartsProduct'], re
 const echartsEmployee = resolve => require(['./pages/echarts/echartsEmployee'], resolve);
 const echartsMember = resolve => require(['./pages/echarts/echartsMember'], resolve);
 
+const qrconfirm = resolve => require(['./pages/qrconfirm/index'], resolve);
+
 export default [
     {
         path: '*',
@@ -237,5 +239,10 @@ export default [
         name: 'echartsMember',
         component: echartsMember,
         meta: { auth: true, level: 1 }
+    },
+    {
+        path: '/qrconfirm',
+        component: qrconfirm,
+        meta: { auth: false }
     }
 ];
