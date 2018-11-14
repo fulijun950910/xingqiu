@@ -18,7 +18,7 @@
                 <mt-button size="large"
                            class="m-b-4 p-btn"
                            type="primary"
-                           @click="submint">登录</mt-button>
+                           @click="submint">确认登录</mt-button>
                 <mt-button size="large"
                            type="default"
                            @click="back">取消</mt-button>
