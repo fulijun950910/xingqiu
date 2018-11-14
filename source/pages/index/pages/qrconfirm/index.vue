@@ -3,7 +3,7 @@
         <div class="logo">
             <img :src="require('assets/imgs/index/logo.png')"
                  alt="">
-            <div>
+            <div class="fs32">
                 美问云系统
             </div>
         </div>
@@ -51,7 +51,11 @@ export default {
             type: 1
         };
     },
-    mounted() {},
+    mounted() {
+        if (!this.$store.getters.employeeName) {
+            window.location.href = this.$signLocation;
+        }
+    },
     methods: {
         submint() {
             this.$indicator.open();
@@ -60,6 +64,9 @@ export default {
                     this.$indicator.close();
                     if (res.data.status === 3) {
                         this.type = 2;
+                        try {
+                            window.WeixinJSBridge.call('closeWindow');
+                        } catch (error) {}
                     } else {
                         this.$toast('二维码已失效，请重新生成并扫码');
                     }
@@ -71,9 +78,13 @@ export default {
         },
         back() {
             this.$indicator.close();
-            this.$router.replace({
-                name: 'main'
-            });
+            try {
+                window.WeixinJSBridge.call('closeWindow');
+            } catch (error) {
+                this.$router.replace({
+                    name: 'main'
+                });
+            }
         }
     }
 };
@@ -105,7 +116,7 @@ export default {
         border-top: 1px solid @border-gay; /*no*/
         padding-top: 16px;
         padding-left: 16px;
-        font-size: 12px;
+        font-size: 13px;
         color: @extra-light-black;
     }
 }
