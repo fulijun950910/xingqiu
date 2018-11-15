@@ -74,5 +74,8 @@ export default {
                 }
             });
         }
+    },
+    initBase(state, data) {
+        state.isInit = data;
     }
 };

@@ -522,6 +522,8 @@ app.userinfo = {
                                                                         url = '/service/index.html#/checkIn';
                                                                     } else if (keyGetValue('type') == 5) {
                                                                         url = '/service/integral-mall.html#/rule-entry';
+                                                                    } else if (keyGetValue('type') == 6) {
+                                                                        url = '/service/index.html#/qrconfirm?token=' + keyGetValue('token')
                                                                     }
 
                                                                     if (location.pathname == '/main.html') {

@@ -42,5 +42,8 @@ export default {
     },
     getNounConfig(merchantId) {
         return request(`/api/nounConfig/list/${merchantId}`);
+    },
+    qrAuthUser(token, employeeId) {
+        return request(`/api/authUser/qrCode/auth?token=${token}&employeeId=${employeeId}`, 'post');
     }
 };

@@ -18,14 +18,14 @@
             <!-- <div class="cell text-center fs24 color-yellow-orange">已连续签到{{lastDay.continueDays}}天，连续签到有更多惊喜哦</div> -->
             <div class="numBox">
                 <div class="top" layout="row" layout-align="center center">
-                    <div v-for="item in list1" :key="item" :class="{'act':lastDay.continueDays>=item.day}" class="check-item fs24" layout="row" layout-align="center center">
+                    <div v-for="(item, index) in list1" :key="index" :class="{'act':lastDay.continueDays>=item.day}" class="check-item fs24" layout="row" layout-align="center center">
                         <span>+{{item.num}}</span>
                         <div class="day fs20 extra-light-black">第{{item.day}}天</div>
                         <div v-if="lastDay.continueDays>=item.day" class="tag-act"></div>
                     </div>
                 </div>
                 <div class="bottom" layout="row" layout-align="center center">
-                    <div v-for="item in list2" :key="item" :class="{'act':lastDay.continueDays>=item.day}" class="check-item fs24" layout="row" layout-align="center center">
+                    <div v-for="(item, index) in list2" :key="index" :class="{'act':lastDay.continueDays>=item.day}" class="check-item fs24" layout="row" layout-align="center center">
                         <span>+{{item.num}}</span>
                         <div class="day fs20 extra-light-black">第{{item.day}}天</div>
                         <div v-if="lastDay.continueDays>=item.day" class="tag-act"></div>
