@@ -208,6 +208,11 @@ export default {
         let tempIndex = 0;
         var tempStores = [];
         this.$knife.deepCopy(this.$store.state.storeList, tempStores);
+        if (this.$store.getters.permissionStoreAll) {
+            tempStores.unshift({
+                name: '全部门店'
+            });
+        }
 
         this.slots.push({
             flex: 1,
@@ -269,6 +274,9 @@ export default {
         },
         changeStore(item) {
             this.selectedStore = item[0];
+            if (!this.selectedStore) {
+                this.vm.timeInterval.storeId = undefined;
+            }
             this.resetSreach();
         },
         resetSreach() {
