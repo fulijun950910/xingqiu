@@ -44,7 +44,7 @@
                     </div>
                 </div>
             </div>
-            <div style="height:1.5rem;"></div>
+            <div style="height:56px"></div>
         </div>
         <div class="breadCrumbs"
              layout="row"
@@ -202,20 +202,20 @@ export default {
         ];
         this.GetMemberList();
     },
-    // beforeRouteEnter(to, from, next) {
-    //     if (from.name == 'order-detail') {
-    //         let data = JSON.parse(localStorage.getItem('userConfig'));
-    //         let config = {
-    //             startDate: data.startDate,
-    //             endDate: data.endDate,
-    //             dataType: 3,
-    //             performanceStoreIds: data.performanceStoreIds
-    //         };
-    //         var str = JSON.stringify(config);
-    //         localStorage.setItem('performanceInfo', str);
-    //     }
-    //     next();
-    // },
+    beforeRouteEnter(to, from, next) {
+        if (from.name == 'memberDetail') {
+            let data = JSON.parse(localStorage.getItem('userConfig'));
+            let config = {
+                startDate: data.startDate,
+                endDate: data.endDate,
+                dataType: JSON.parse(localStorage.getItem('performanceInfo')).dataType,
+                performanceStoreIds: data.performanceStoreIds
+            };
+            var str = JSON.stringify(config);
+            localStorage.setItem('performanceInfo', str);
+        }
+        next();
+    },
     methods: {
         goback() {
             this.$router.go(-1);
@@ -262,11 +262,11 @@ export default {
             }
             if (this.vm.timeInterval.startDate) {
                 parameter.startDate = this.vm.timeInterval.startDate;
-                this.userConfig.startDate = this.vm.timeInterval.startTime;
+                this.userConfig.startDate = this.vm.timeInterval.startDate;
             }
             if (this.vm.timeInterval.endDate) {
                 parameter.endDate = this.vm.timeInterval.endDate;
-                this.userConfig.endDate = this.vm.timeInterval.endTime;
+                this.userConfig.endDate = this.vm.timeInterval.endDate;
             }
             let str = JSON.stringify(this.userConfig);
             localStorage.setItem('userConfig', str);
@@ -303,7 +303,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 @import '~@/styles/_agile';
     .arrivalMember{
         font-size: 12px;
@@ -368,7 +368,7 @@ export default {
             }
             div {
                 color: #4ed9cf;
-                font-size: 0.4rem;
+                font-size: 14px;
                 height: 56px;
             }
         }

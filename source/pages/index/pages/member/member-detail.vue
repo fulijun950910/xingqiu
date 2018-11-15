@@ -203,15 +203,6 @@ export default {
             this.getMemberLastOrder();
             this.getMemberServiceList();
         });
-    },
-    computed: {
-        // TagColor() {
-        //     var i = [0, 1, 2, 3, 4, 5];
-        //     for (var j of i) {
-        //         console.log(j);
-        //     }
-        //     return `li${j}`;
-        // }
     }
 };
 </script>
@@ -225,7 +216,6 @@ html {
     height: 100%;
     background: #f4f4fc;
     font-size: 14px;
-    line-height: 2;
     ul {
         list-style: none;
     }
@@ -256,6 +246,7 @@ html {
         }
         .membrRemake {
             font-size: 12px;
+            line-height: 24px;
             .font-gay {
                 color: #9b9b9b;
             }
@@ -303,11 +294,13 @@ html {
         }
         .serviceNote {
             font-size: 12px;
+            line-height: 20px;
             .font-gay {
                 color: #9b9b9b;
             }
         }
         .rule {
+            line-height: 24px;
             font-size: 12px;
         }
         .font-gay {
