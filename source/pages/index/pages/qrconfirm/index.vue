@@ -53,7 +53,7 @@ export default {
     },
     mounted() {
         if (!this.$store.getters.employeeName) {
-            window.location.href = this.$signLocation;
+            window.location.href = this.$getSignLocation(`type=6&token=${this.$route.query.token || ''}`);
         }
     },
     methods: {
