@@ -47,7 +47,7 @@
                              flex=20>
                             <span class="">
                                 <span>客数:</span>
-                                <span class="Psize Pcolor">{{item.serviceMemberCount}}</span>
+                                <span class="Psize Pcolor">{{item.serviceMemberCount + item.serviceUnMemberCount}}</span>
                             </span>
                         </div>
                     </div>

@@ -237,6 +237,7 @@ html {
         box-sizing: border-box;
         .memberInfo {
             padding: 8px;
+            line-height: 24px;
             .memberImg {
                 width: 60px;
                 height: 60px;

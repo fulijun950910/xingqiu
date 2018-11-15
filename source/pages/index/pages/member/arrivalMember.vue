@@ -19,7 +19,7 @@
                         <div class="info" layout="column" layout-align="space-around start">
                             <div layout="row" style="color:#333;font-size:13px">
                                 <span class="name" flex >{{item.name}}</span>
-                                <span class="phone" style="margin-left:8px;margin-right:4px">{{item.mobile}}</span>
+                                <span class="phone">{{item.mobile}}</span>
                                 <m-icon v-show="item.gender==1" class="ic" style="color:#4ed9cf" xlink="#icon-left-bold"></m-icon>
                                 <m-icon v-show="item.gender==2" class="ic" style="color:#f7398f" xlink="#icon-left-bold"></m-icon>
                             </div>
@@ -32,12 +32,12 @@
                             <span>到店总人数</span>
                             <span class="primary-color" style="text-align:center">{{item.guestCount}}</span>
                         </div>
-                        <div v-show="item.memberId!=-1 && item.hasCard!=2" style="font-size:16px;text-align:left">无卡</div>
+                        <div v-show="item.memberId!=-1 && item.hasCard!=2" style="font-size:16px;top:30%;position:absolute;right:30px">无卡</div>
                         <div layout="column" v-show="item.hasCard==2">
                             <span style="text-align:center;font-size:12px">卡内余额</span>
                             <span class="primary-color" style="text-align:left" flex=28>
                                 <span>￥</span>
-                                <span style="font-size:17px">{{(toNumber(item.cardBalance))[0] | currency('', 0)}}.</span>
+                                <span style="font-size:18px">{{(toNumber(item.cardBalance))[0] | currency('', 0)}}.</span>
                                 <span>{{(toNumber(item.cardBalance))[1]}}</span>
                             </span>
                         </div>
@@ -327,7 +327,8 @@ export default {
             }
         }
         .data-list{
-            width: 360px;
+            position: relative;
+            width: 95%;
             margin: auto;
             .financial-item{
                 background: @white;
@@ -345,10 +346,16 @@ export default {
                     margin-left: 11px;
                     line-height: 19px;
                     .name{
+                        font-size: 14px;
                         margin-right: 0;
                         overflow:hidden;
                         text-overflow:ellipsis;
                         white-space:nowrap;
+                    }
+                    .phone{
+                        margin-left: 8px;
+                        margin-right: 4px;
+                        font-size: 14px;
                     }
                 }
                 .primary-color{
