@@ -37,6 +37,8 @@ const echartsProduct = resolve => require(['./pages/echarts/echartsProduct'], re
 const echartsEmployee = resolve => require(['./pages/echarts/echartsEmployee'], resolve);
 const echartsMember = resolve => require(['./pages/echarts/echartsMember'], resolve);
 
+const arrivalMember = resolve => require(['./pages/member/arrivalMember'], resolve);
+const memberDetail = resolve => require(['./pages/member/member-detail'], resolve);
 export default [
     {
         path: '*',
@@ -238,6 +240,18 @@ export default [
         path: '/echartsMember',
         name: 'echartsMember',
         component: echartsMember,
+        meta: { auth: true, level: 1 }
+    },
+    {
+        path: '/arrivalMember',
+        name: 'arrivalMember',
+        component: arrivalMember,
+        meta: { auth: true, level: 1 }
+    },
+    {
+        path: '/memberDetail/:memberId?',
+        name: 'memberDetail',
+        component: memberDetail,
         meta: { auth: true, level: 1 }
     }
 ];
