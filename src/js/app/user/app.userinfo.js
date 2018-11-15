@@ -523,7 +523,9 @@ app.userinfo = {
                                                                     } else if (keyGetValue('type') == 5) {
                                                                         url = '/service/integral-mall.html#/rule-entry';
                                                                     } else if (keyGetValue('type') == 6) {
-                                                                        url = '/service/index.html#/qrconfirm?token=' + keyGetValue('token')
+                                                                        url = '/service/index.html#/qrconfirm?token=' + keyGetValue('token');
+                                                                    } else if (keyGetValue('type') == 7) {
+                                                                        url = '/api/wechatbusinessassists/attendance?time=' + keyGetValue('time') + '&merchantId=' + keyGetValue('merchantId') + '&storeId=' + keyGetValue('storeId');
                                                                     }
 
                                                                     if (location.pathname == '/main.html') {
