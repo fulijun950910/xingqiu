@@ -2,8 +2,7 @@
     <div class="echartsProduct"
          v-title='"品项数据分析"'>
         <div class="tool-tab">
-            <mt-navbar v-model="selected"
-                       style="position:relative">
+            <mt-navbar v-model="selected" style="position:relative">
                 <mt-tab-item :id="1">项目2</mt-tab-item>
                 <mt-tab-item :id="2">组合</mt-tab-item>
                 <mt-tab-item :id="3">产品</mt-tab-item>
@@ -56,7 +55,7 @@
                                     <span class="primary-color"
                                           flex=40>
                                         <span>￥</span>
-                                        <span style="font-size:0.5rem">{{(toNumber(item[2]))[0] | currency('', 0)}}</span>.
+                                        <span style="font-size:18px">{{(toNumber(item[2]))[0] | currency('', 0)}}</span>.
                                         <span>{{(toNumber(item[2]))[1]}}</span>
                                     </span>
                                 </div>
@@ -114,7 +113,7 @@
                                     <span class="primary-color"
                                           flex=40>
                                         <span>￥</span>
-                                        <span style="font-size:0.5rem">{{(toNumber(item[2]))[0] | currency('', 0)}}</span>.
+                                        <span style="font-size:18px">{{(toNumber(item[2]))[0] | currency('', 0)}}</span>.
                                         <span>{{(toNumber(item[2]))[1]}}</span>
                                     </span>
                                 </div>
@@ -172,7 +171,7 @@
                                     <span class="primary-color"
                                           flex=40>
                                         <span>￥</span>
-                                        <span style="font-size:0.5rem">{{(toNumber(item[2]))[0] | currency('',0)}}</span>.
+                                        <span style="font-size:18px">{{(toNumber(item[2]))[0] | currency('',0)}}</span>.
                                         <span>{{(toNumber(item[2]))[1]}}</span>
                                     </span>
                                 </div>
@@ -231,7 +230,7 @@
                                     <span class="primary-color"
                                           flex=40>
                                         <span>￥</span>
-                                        <span style="font-size:0.5rem">{{(toNumber(item[2]))[0] | currency('', 0)}}</span>.
+                                        <span style="font-size:18px">{{(toNumber(item[2]))[0] | currency('', 0)}}</span>.
                                         <span>{{(toNumber(item[2]))[1]}}</span>
                                     </span>
                                 </div>
@@ -554,7 +553,7 @@ export default {
             height: 56px;
             padding: 0px;
             .mint-tab-item-label {
-                font-size: 0.35rem;
+                font-size: 13.5px;
                 height: 56px;
                 line-height: 54px;
             }
@@ -572,7 +571,7 @@ export default {
         .data-title {
             position: relative;
             border: none;
-            font-size: 0.3rem;
+            font-size: 12px;
             padding: 19px 0 0;
             color: #888;
             margin-left: 15px;
@@ -584,7 +583,7 @@ export default {
         .data-list {
             .data-item {
                 .index {
-                    font-size: 0.3rem;
+                    font-size: 12px;
                     border-radius: 50%;
                     color: @white;
                     background: #4ed9cf;
@@ -600,7 +599,7 @@ export default {
                     .font {
                         text-align: left;
                         color: #333;
-                        font-size: 0.3rem;
+                        font-size: 12px;
                         word-break: break-all;
                         display: -webkit-box;
                         -webkit-line-clamp: 2;
@@ -612,7 +611,7 @@ export default {
                     }
                     .primary-color {
                         text-align: right;
-                        font-size: 0.4rem;
+                        font-size: 14px;
                         color: @color-primary;
                     }
                 }
@@ -651,7 +650,7 @@ export default {
         }
         div {
             color: #4ed9cf;
-            font-size: 0.4rem;
+            font-size: 14px;
             height: 56px;
         }
     }

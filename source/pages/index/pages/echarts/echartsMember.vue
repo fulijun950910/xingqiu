@@ -9,7 +9,7 @@
                 <mt-tab-item :id="3">顾客到店频次</mt-tab-item>
             </mt-navbar>
         </div>
-        <div style="height:1.5rem;background:#fff;z-index:6"></div>
+        <div style="height:56px;background:#fff;z-index:6"></div>
         <div style="background:#fff;min-height: 550px !important;">
             <mt-tab-container v-model="selected">
                 <mt-tab-container-item :id="1" style="width:100%" >
@@ -21,7 +21,7 @@
                                 xlink="#icon-cuowu"></m-icon>
                         <p>亲~您当前的权限还不能看数据哦~</p>
                     </div>
-                    <div style="height:1.6rem;background:#fff;z-index:6"></div>
+                    <div style="height:56px;background:#fff;z-index:6"></div>
                 </mt-tab-container-item>
 
                 <mt-tab-container-item :id="2" style="width:100%">
@@ -33,7 +33,7 @@
                                 xlink="#icon-cuowu"></m-icon>
                         <p>亲~您当前的权限还不能看数据哦~</p>
                     </div>
-                    <div style="height:1.8rem;background:#fff;z-index:6"></div>
+                    <div style="height:56px;background:#fff;z-index:6"></div>
                 </mt-tab-container-item>
 
                 <mt-tab-container-item :id="3" style="width:100%">
@@ -44,7 +44,7 @@
                             xlink="#icon-cuowu"></m-icon>
                         <p>亲~您当前的权限还不能看数据哦~</p>
                     </div>
-                    <div style="height:1.8rem;background:#fff;z-index:6"></div>
+                    <div style="height:56px;background:#fff;z-index:6"></div>
                 </mt-tab-container-item>
             </mt-tab-container>
         </div>
@@ -452,7 +452,7 @@ export default {
         }
         div {
             color: #4ed9cf;
-            font-size: 0.4rem;
+            font-size: 14px;
             height: 56px;
         }
     }

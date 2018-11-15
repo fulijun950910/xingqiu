@@ -33,7 +33,7 @@
                         xlink="#icon-cuowu"></m-icon>
                 <p>亲~抱歉,暂时没有查到数据~</p>
             </div>
-            <div style="height:1.5rem;"></div>
+            <div style="height:56px;"></div>
             <!-- 列表 -->
             <div class="list"
                  @click.stop="jump(item.orderId)"
@@ -62,7 +62,7 @@
                         <img class="e-avatar"
                              :src="item.memberAvatarId | mSrc(35, 35, require('assets/imgs/avatar.png'))">
                         <span class="memberName"
-                              style="font-size:0.1rem;margin-bottom:4px">{{item.memberName}}</span>
+                              style="font-size:10px;margin-bottom:4px">{{item.memberName}}</span>
                         <span class="moblie">{{item.mobile}}</span>
                     </div>
                     <div class="right"
@@ -83,7 +83,7 @@
                         </div>
                         <div layout="row"
                              layout-align="space-between center"
-                             style="margin-top:19px;font-size:0.2rem;color:#888">
+                             style="margin-top:19px;font-size:10px;color:#888">
                             <div>业绩:{{item.performance | fen2yuan | currency('￥',2)}}</div>
                             <div>卡耗:{{item.cardConsume | fen2yuan | currency('￥',2)}}</div>
                             <div>提成:{{item.commission | fen2yuan | currency('￥',2)}}</div>
@@ -91,7 +91,7 @@
                     </div>
                 </div>
             </div>
-            <div style="height:1.5rem;"></div>
+            <div style="height:56px;"></div>
         </div>
         <div class="breadCrumbs"
              layout="row"
@@ -306,7 +306,7 @@ export default {
             let config = {
                 startDate: data.startDate,
                 endDate: data.endDate,
-                dataType: 3,
+                dataType: JSON.parse(localStorage.getItem('performanceInfo')).dataType,
                 performanceStoreIds: data.performanceStoreIds
             };
             var str = JSON.stringify(config);
@@ -467,7 +467,7 @@ html {
         color: @color-primary;
     }
     .font-priceY-size {
-        font-size: 0.5rem;
+        font-size: 18px;
     }
 }
 .mainOrder {
@@ -475,8 +475,8 @@ html {
     background: #f4f4fc;
     .errorBox {
         width: 100%;
-        height: 300px;
-        line-height: 300px;
+        height: 400px;
+        line-height: 400px;
         color: #8c8c8c;
         .ic {
             font-size: 23px;
@@ -507,7 +507,7 @@ html {
             .buyStatus {
                 color: #fff;
                 position: absolute;
-                font-size: 0.1rem;
+                font-size: 10px;
                 left: -1px;
                 -webkit-transform: rotate(-45deg);
                 transform: rotate(-45deg);
@@ -519,7 +519,7 @@ html {
             position: absolute;
             top: 0;
             right: 0;
-            font-size: 0.1rem;
+            font-size: 10px;
             color: @white;
             .overTimeCount {
                 background: #13a59e;
@@ -540,22 +540,22 @@ html {
                 border-radius: 50%;
             }
             .memberName {
-                font-size: 0.35rem;
+                font-size: 12px;
             }
             .moblie {
-                font-size: 0.3rem;
+                font-size: 12px;
             }
         }
         .right {
             margin-left: 11px;
             .memberName {
-                font-size: 0.3rem;
+                font-size: 12px;
             }
             .primary-color {
                 color: @color-primary;
             }
             .font-priceY-size {
-                font-size: 0.5rem;
+                font-size: 19px;
             }
         }
     }
@@ -572,7 +572,7 @@ html {
     }
     div {
         color: #4ed9cf;
-        font-size: 0.4rem;
+        font-size: 14px;
         height: 56px;
     }
 }
