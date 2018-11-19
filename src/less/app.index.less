@@ -248,21 +248,15 @@
             }
         }
         .item {
-            border-top: 1px solid @border-color;
+            border-bottom: 1px solid @border-color;
             border-right: 1px solid @border-color;
         }
-        .item:nth-child(1), .item:nth-child(2), .item:nth-child(3){
+        .item:nth-last-child(1), .item:nth-last-child(2), .item:nth-last-child(3){
             border-top: 0;
         }
         .item:nth-child(3n) {
-            border-tright: 0;
+            border-right: 0;
         }
-        //.border-right {
-        //    border-right: 1px solid @border-color;
-        //}
-        //.border-bottom {
-        //    border-bottom: 1px solid @border-color;
-        //}
     }
     .card-list {
         .wrap;
