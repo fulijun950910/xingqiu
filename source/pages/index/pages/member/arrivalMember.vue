@@ -1,7 +1,7 @@
 <template>
     <div class="arrivalMember" v-title="'到店客人'">
         <div class="errorBox"
-                v-show="!list"
+                v-show="!list.length"
                 layout="row"
                 layout-align="center center">
             <m-icon class="ic"
@@ -20,8 +20,8 @@
                             <div layout="row" style="color:#333;font-size:13px">
                                 <span class="name" flex >{{item.name}}</span>
                                 <span class="phone">{{item.mobile}}</span>
-                                <m-icon v-show="item.gender==1" class="ic" style="color:#4ed9cf" xlink="#icon-left-bold"></m-icon>
-                                <m-icon v-show="item.gender==2" class="ic" style="color:#f7398f" xlink="#icon-left-bold"></m-icon>
+                                <m-icon v-show="item.gender==1" class="ic" style="color:#4ed9cf" xlink="#icon-nan"></m-icon>
+                                <m-icon v-show="item.gender==2" class="ic" style="color:#f7398f" xlink="#icon-nv"></m-icon>
                             </div>
                             <span v-show="item.memberSource">来源:{{item.memberSource}}</span>
                             <div v-show="item.consumeDate">{{item.consumeDate}}</div>
