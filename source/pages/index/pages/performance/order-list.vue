@@ -76,8 +76,7 @@
                                       v-for="(item2,index) in item.itemVoList"
                                       :key="index">{{item2.itemName}}</span>
                             </div>
-                            <span class="primary-color font-priceF-size"
-                                  id="total-push">
+                            <span class="primary-color font-priceF-size" style="white-space:nowrap;">
                                 <span>￥</span>
                                 <span class="font-priceY-size push-priceY">{{item.numbers[0]}}.</span>
                                 <span class="push-priceF">{{item.numbers[1]}}</span>
@@ -465,12 +464,9 @@ export default {
 
 <style lang="less">
 @import '~@/styles/_agile';
-body,
-html {
-    background: #f4f4fc;
-    margin: auto;
-}
 .order-list {
+    min-height: 700px;
+    background:  #f4f4fc;
     position: relative;
 }
 .headerPerformance9 {
