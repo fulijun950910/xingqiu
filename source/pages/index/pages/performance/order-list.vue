@@ -137,6 +137,7 @@
                   :slots="slots"
                   :selected-item.sync="selectedStore"
                   value-key="name"
+                  ref="storePicker"
                   @confirm="changeStore">
         </m-picker>
         <!-- 日期 -->
@@ -246,7 +247,6 @@ export default {
         for (let i = 0; i < this.store.length; i++) {
             this.storeIds.push(this.store[i].id);
         }
-        let tempIndex = 0;
         var tempStores = [];
         this.$knife.deepCopy(this.$store.state.storeList, tempStores);
         let tempStoreIds = [];
@@ -259,12 +259,22 @@ export default {
                 name: '全部门店'
             });
         }
+        let tempIndex = 0;
+        tempIndex = tempStores.findIndex(val => val.id == this.parameter.storeIds);
+        if (tempIndex === -1) {
+            tempIndex = 0;
+        }
         this.slots.push({
             flex: 1,
             values: tempStores,
             className: 'slot1',
             textAlign: 'center',
             defaultIndex: tempIndex
+        });
+        this.$nextTick(_ => {
+            setTimeout(() => {
+                this.$refs.storePicker.$refs.m_picker.setValues([tempStores[tempIndex]]);
+            }, 0);
         });
         let tempFormat = 'YYYY-MM-DD HH:mm:ss';
         this.actions = [
