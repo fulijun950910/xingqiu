@@ -321,10 +321,12 @@ export default {
                 endDate: data.endDate,
                 dataType: JSON.parse(localStorage.getItem('performanceInfo')).dataType,
                 performanceStoreIds: data.storeIds,
-                orderStatus: data.selectedstatus
+                orderStatus: data.selectedstatus,
+                storeId: data.storeIds
             };
             var str = JSON.stringify(config);
             localStorage.setItem('performanceInfo', str);
+            var data2 = JSON.parse(localStorage.getItem('performanceInfo'));
             next(vm => {
                 vm.parameter = {
                     merchantId: vm.$store.getters.merchantId,
@@ -332,10 +334,10 @@ export default {
                     size: 10000,
                     page: 1,
                     employeeId: vm.$store.getters.employeeId,
-                    startTime: data.startDate,
-                    endTime: data.endDate,
-                    orderStatus: data.orderStatus,
-                    storeIds: data.storeIds
+                    startTime: data2.startDate,
+                    endTime: data2.endDate,
+                    orderStatus: data2.orderStatus,
+                    storeIds: data2.storeId
                 };
             });
         }
