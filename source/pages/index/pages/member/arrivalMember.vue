@@ -141,26 +141,6 @@ export default {
         for (let i = 0; i < this.store.length; i++) {
             this.storeIds.push(this.store[i].id);
         }
-        // let tempIndex = 0;
-        // var tempStores = [];
-        // this.$knife.deepCopy(this.$store.state.storeList, tempStores);
-        // let tempStoreIds = [];
-        // tempStores.map((item, index) => {
-        //     tempStoreIds.push(item.id);
-        // });
-        // if (tempStores.length > 1) {
-        //     tempStores.unshift({
-        //         id: tempStoreIds.join(','),
-        //         name: '全部门店'
-        //     });
-        // }
-        // this.slots.push({
-        //     flex: 1,
-        //     values: tempStores,
-        //     className: 'slot1',
-        //     textAlign: 'center',
-        //     defaultIndex: tempIndex
-        // });
         var tempStores = [];
         this.$knife.deepCopy(this.$store.state.storeList, tempStores);
         let tempStoreIds = [];
