@@ -45,7 +45,7 @@
                         <div class="amount"
                              layout="column"
                              flex=20>
-                            <span class="">
+                            <span style="white-space:nowrap">
                                 <span>客数:</span>
                                 <span class="Psize Pcolor">{{item.serviceMemberCount + item.serviceUnMemberCount}}</span>
                             </span>
