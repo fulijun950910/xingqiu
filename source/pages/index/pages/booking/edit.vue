@@ -450,7 +450,7 @@ export default {
             }
         },
         initEmp() {
-            if (!this.booking.employeeId) {
+            if (!this.$route.params.bookingId) {
                 this.booking.employeeId = this.$store.getters.employeeId;
             }
         },
