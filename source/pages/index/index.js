@@ -117,7 +117,7 @@ router.beforeEach(async ({ meta, path }, from, next) => {
                 window._hmt.push(['_trackPageview', '/service/index.html#' + path]);
             } catch (e) {}
             next();
-        } else if (process.env.NODE_ENV !== 'development') {
+        } else if (process.env.NODE_ENV === 'development') {
             next({ name: 'sign-in' });
         } else {
             let res = await checkUser();
