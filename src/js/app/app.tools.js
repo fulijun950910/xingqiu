@@ -400,6 +400,27 @@ app.tools = {
         return Math.abs(i);
 
     },
+    getPermission: function(item) {
+        var flag = false;
+        var employee = window.localStorage.getItem('employee');
+        var arr = [];
+        if (employee) {
+            employee = JSON.parse(employee);
+            if (employee.merchantRole && employee.merchantRole.permissionPackage && employee.merchantRole.permissionPackage.permissions) {
+                arr = employee.merchantRole.permissionPackage.permissions;
+            }
+        }
+        if (arr && arr.length > 0) {
+            var len = arr.length;
+            for (var i = 0; i < len; i++) {
+                if (item == arr[i]) {
+                    flag = true;
+                    break;
+                }
+            }
+        }
+        return flag;
+    },
     toTop: function() {
         var altHtml = '';
         altHtml += '<div id="toTop" style="display:none;position:fixed;bottom:30vw;right:10vw;width:10vw;height:10vw;border-radius:100%;z-index:15;">';

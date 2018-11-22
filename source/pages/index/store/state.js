@@ -1,4 +1,5 @@
 export default {
+    isInit: false,
     user: {},
     merchant: {},
     storeList: [],

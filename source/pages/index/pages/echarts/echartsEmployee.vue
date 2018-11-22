@@ -47,12 +47,12 @@
                              flex=20>
                             <span class="">
                                 <span>客数:</span>
-                                <span class="Psize Pcolor">{{item.serviceMemberCount}}</span>
+                                <span class="Psize Pcolor">{{item.serviceMemberCount + item.serviceUnMemberCount}}</span>
                             </span>
                         </div>
                     </div>
                 </div>
-                <div style="height:1.6rem;"></div>
+                <div style="height:56px;"></div>
             </div>
             <div class="errorBox"
                  v-show="!list.length"
@@ -381,10 +381,6 @@ export default {
 
 <style lang="less" scoped>
 @import '~@/styles/_agile';
-body {
-    // line-height: 0.4rem;
-    font-size: 0.3rem;
-}
 .orderEmployeeData-box {
     .errorBox {
         width: 100%;
@@ -407,7 +403,6 @@ body {
         margin: auto;
         .dataItem {
             text-align: center;
-            // font-size: 0.35rem;
             color: #666;
             .img > img {
                 width: 49px;
@@ -426,7 +421,7 @@ body {
                     overflow: hidden;
                     text-overflow: ellipsis;
                     color: black;
-                    font-size: 0.35rem;
+                    font-size: 13.5px;
                 }
                 .amount {
                     text-align: left;
@@ -434,7 +429,7 @@ body {
                         color: @color-primary;
                     }
                     .Psize {
-                        font-size: 0.5rem;
+                        font-size: 18px;
                     }
                 }
             }
@@ -452,7 +447,7 @@ body {
         }
         div {
             color: #4ed9cf;
-            font-size: 0.4rem;
+            font-size: 14px;
             height: 56px;
         }
     }

@@ -5,7 +5,6 @@ const signIn = resolve => require(['./pages/sign-in'], resolve);
 const couponVerify = resolve => require(['./pages/coupon-verify'], resolve);
 const booking = resolve => require(['./pages/booking'], resolve);
 const transferTradeDetail = resolve => require(['./pages/transfer-trade-detail'], resolve);
-const main = resolve => require(['./pages/main/index-new'], resolve);
 const userinfo = resolve => require(['./pages/userinfo/index'], resolve);
 const wallet = resolve => require(['./pages/wallet/index'], resolve);
 const payNotes = resolve => require(['./pages/payNotes/index'], resolve);
@@ -19,7 +18,7 @@ const alliance = resolve => require(['./pages/allianceBeta/index'], resolve);
 const bigWheelDes = resolve => require(['./pages/activity-des/bigWheel-des'], resolve);
 const b2bActivityList = resolve => require(['./pages/activity-des/b2b-activity-list'], resolve);
 const indexActivityDetail = resolve => require(['./pages/activity-des/detail'], resolve);
-const indexNew = resolve => require(['./pages/main/index'], resolve);
+const main = resolve => require(['./pages/main/index'], resolve);
 const bookingTable = resolve => require(['./pages/booking/table'], resolve);
 const bookingEdit = resolve => require(['./pages/booking/edit'], resolve);
 const employeeCharts = resolve => require(['./pages/employee/charts'], resolve);
@@ -36,22 +35,33 @@ const customerService = resolve => require(['./pages/customers/children/service'
 const echartsProduct = resolve => require(['./pages/echarts/echartsProduct'], resolve);
 const echartsEmployee = resolve => require(['./pages/echarts/echartsEmployee'], resolve);
 const echartsMember = resolve => require(['./pages/echarts/echartsMember'], resolve);
+
+const arrivalMember = resolve => require(['./pages/member/arrivalMember'], resolve);
+const memberDetail = resolve => require(['./pages/member/member-detail'], resolve);
+const qrconfirm = resolve => require(['./pages/qrconfirm/index'], resolve);
+
 export default [
     {
         path: '*',
-        redirect: 'index-new'
+        redirect: '/main'
+    },
+    {
+        path: '/main',
+        name: 'main',
+        component: main,
+        meta: { auth: false, level: 1 }
     },
     {
         path: '/alliance',
         name: 'alliance',
         component: alliance,
-        meta: { auth: true, level: 1 }
+        meta: { auth: false, level: 1 }
     },
     {
         path: '/bbsPage',
         name: 'bbsPage',
         component: bbsPage,
-        meta: { auth: true, level: 1 }
+        meta: { auth: false, level: 1 }
     },
     {
         path: '/rechargeMessage',
@@ -105,12 +115,6 @@ export default [
         meta: { auth: true, level: 1 }
     },
     {
-        path: '/main',
-        name: 'main',
-        component: main,
-        meta: { auth: true, level: 1 }
-    },
-    {
         path: '/transferTradeDetail/:orderNo?', // 确认分期
         name: 'transferTradeDetail',
         component: transferTradeDetail,
@@ -131,27 +135,26 @@ export default [
     {
         path: '/sign-in',
         name: 'sign-in',
-        component: signIn
+        component: signIn,
+        meta: { auth: false }
     },
     {
         path: '/bigWheel-des',
         name: 'bigWheel-des',
-        component: bigWheelDes
+        component: bigWheelDes,
+        meta: { auth: false }
     },
     {
         path: '/b2b-activity-list',
         name: 'b2b-activity-list',
-        component: b2bActivityList
+        component: b2bActivityList,
+        meta: { auth: false }
     },
     {
         path: '/index-activity-detail/:type?',
         name: 'index-activity-detail',
-        component: indexActivityDetail
-    },
-    {
-        path: '/index-new',
-        name: 'index-new',
-        component: indexNew
+        component: indexActivityDetail,
+        meta: { auth: false }
     },
     {
         path: '/booking-table',
@@ -238,5 +241,22 @@ export default [
         name: 'echartsMember',
         component: echartsMember,
         meta: { auth: true, level: 1 }
+    },
+    {
+        path: '/arrivalMember',
+        name: 'arrivalMember',
+        component: arrivalMember,
+        meta: { auth: true, level: 1 }
+    },
+    {
+        path: '/memberDetail/:memberId?',
+        name: 'memberDetail',
+        component: memberDetail,
+        meta: { auth: true, level: 1 }
+    },
+    {
+        path: '/qrconfirm',
+        component: qrconfirm,
+        meta: { auth: false }
     }
 ];

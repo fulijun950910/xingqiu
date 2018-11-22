@@ -33,7 +33,7 @@
                         xlink="#icon-cuowu"></m-icon>
                 <p>亲~抱歉,暂时没有查到数据~</p>
             </div>
-            <div style="height:1.5rem;"></div>
+            <div style="height:56px;"></div>
             <!-- 列表 -->
             <div class="list"
                  @click.stop="jump(item.orderId)"
@@ -62,7 +62,7 @@
                         <img class="e-avatar"
                              :src="item.memberAvatarId | mSrc(35, 35, require('assets/imgs/avatar.png'))">
                         <span class="memberName"
-                              style="font-size:0.1rem;margin-bottom:4px">{{item.memberName}}</span>
+                              style="font-size:10px;margin-bottom:4px">{{item.memberName}}</span>
                         <span class="moblie">{{item.mobile}}</span>
                     </div>
                     <div class="right"
@@ -72,10 +72,11 @@
                              style="padding-top:11px;width:100%;"
                              layout-align="space-between center">
                             <div layout="row">
-                                <span class="memberName" v-for="(item2,index) in item.itemVoList" :key="index">{{item2.itemName}}</span>
+                                <span class="memberName"
+                                      v-for="(item2,index) in item.itemVoList"
+                                      :key="index">{{item2.itemName}}</span>
                             </div>
-                            <span class="primary-color font-priceF-size"
-                                  id="total-push">
+                            <span class="primary-color font-priceF-size" style="white-space:nowrap;">
                                 <span>￥</span>
                                 <span class="font-priceY-size push-priceY">{{item.numbers[0]}}.</span>
                                 <span class="push-priceF">{{item.numbers[1]}}</span>
@@ -83,7 +84,7 @@
                         </div>
                         <div layout="row"
                              layout-align="space-between center"
-                             style="margin-top:19px;font-size:0.2rem;color:#888">
+                             style="margin-top:19px;font-size:10px;color:#888">
                             <div>业绩:{{item.performance | fen2yuan | currency('￥',2)}}</div>
                             <div>卡耗:{{item.cardConsume | fen2yuan | currency('￥',2)}}</div>
                             <div>提成:{{item.commission | fen2yuan | currency('￥',2)}}</div>
@@ -91,7 +92,7 @@
                     </div>
                 </div>
             </div>
-            <div style="height:1.5rem;"></div>
+            <div style="height:56px;"></div>
         </div>
         <div class="breadCrumbs"
              layout="row"
@@ -135,6 +136,7 @@
                   :slots="slots"
                   :selected-item.sync="selectedStore"
                   value-key="name"
+                  ref="storePicker"
                   @confirm="changeStore">
         </m-picker>
         <!-- 日期 -->
@@ -182,6 +184,7 @@ export default {
             dateRangeVisible: false,
             statusPickerVisible: false,
             selectedstatus: {},
+            userConfig: {},
             vm: {
                 pickerValue: '',
                 selectedStoreId: this.$route.query.storeId,
@@ -189,6 +192,17 @@ export default {
                     startTime: null,
                     endTime: null
                 }
+            },
+            parameter: {
+                merchantId: this.$store.getters.merchantId,
+                storeIds: JSON.parse(localStorage.getItem('performanceInfo')).performanceStoreIds,
+                type: 2,
+                size: 10000,
+                page: 1,
+                employeeId: this.$store.getters.employeeId,
+                startTime: null,
+                endTime: null,
+                orderStatus: JSON.parse(localStorage.getItem('performanceInfo')).orderStatus
             },
             status: [
                 {
@@ -232,7 +246,6 @@ export default {
         for (let i = 0; i < this.store.length; i++) {
             this.storeIds.push(this.store[i].id);
         }
-        let tempIndex = 0;
         var tempStores = [];
         this.$knife.deepCopy(this.$store.state.storeList, tempStores);
         let tempStoreIds = [];
@@ -245,12 +258,22 @@ export default {
                 name: '全部门店'
             });
         }
+        let tempIndex = 0;
+        tempIndex = tempStores.findIndex(val => val.id == this.parameter.storeIds);
+        if (tempIndex === -1) {
+            tempIndex = 0;
+        }
         this.slots.push({
             flex: 1,
             values: tempStores,
             className: 'slot1',
             textAlign: 'center',
             defaultIndex: tempIndex
+        });
+        this.$nextTick(_ => {
+            setTimeout(() => {
+                this.$refs.storePicker.$refs.m_picker.setValues([tempStores[tempIndex]]);
+            }, 0);
         });
         let tempFormat = 'YYYY-MM-DD HH:mm:ss';
         this.actions = [
@@ -297,7 +320,37 @@ export default {
                 method: this.selectedDateRange
             }
         ];
-        this.messageOrderList();
+        this.messageOrderList(this.parameter);
+    },
+    beforeRouteEnter(to, from, next) {
+        if (from.name == 'order-detail') {
+            let data = JSON.parse(localStorage.getItem('userConfig'));
+            let config = {
+                startDate: data.startDate,
+                endDate: data.endDate,
+                dataType: JSON.parse(localStorage.getItem('performanceInfo')).dataType,
+                performanceStoreIds: data.storeIds,
+                orderStatus: data.selectedstatus,
+                storeId: data.storeIds
+            };
+            var str = JSON.stringify(config);
+            localStorage.setItem('performanceInfo', str);
+            var data2 = JSON.parse(localStorage.getItem('performanceInfo'));
+            next(vm => {
+                vm.parameter = {
+                    merchantId: vm.$store.getters.merchantId,
+                    type: 2,
+                    size: 10000,
+                    page: 1,
+                    employeeId: vm.$store.getters.employeeId,
+                    startTime: data2.startDate,
+                    endTime: data2.endDate,
+                    orderStatus: data2.orderStatus,
+                    storeIds: data2.storeId
+                };
+            });
+        }
+        next();
     },
     methods: {
         goback() {
@@ -308,8 +361,6 @@ export default {
             this.resetSreach();
         },
         resetSreach() {
-            this.page = 1;
-            this.list = [];
             this.messageOrderList();
         },
         changestatus(item) {
@@ -332,37 +383,36 @@ export default {
                 this.dateRangeVisible = true;
             }
         },
-        messageOrderList() {
-            var parameter = {
-                merchantId: this.$store.getters.merchantId,
-                storeIds: this.storeIds.join(','),
-                type: 2,
-                size: 10000,
-                page: 1,
-                employeeId: this.$store.getters.employeeId
+        messageOrderList(data) {
+            this.userConfig = {
+                dataType: JSON.parse(localStorage.getItem('performanceInfo')).dataType,
+                storeIds: JSON.parse(localStorage.getItem('performanceInfo')).performanceStoreIds,
+                endDate: JSON.parse(localStorage.getItem('performanceInfo')).endDate,
+                startDate: JSON.parse(localStorage.getItem('performanceInfo')).startDate
             };
             if (this.$store.getters.admin == true) {
-                parameter.type = 1;
+                this.parameter.type = 1;
             }
             if (this.selectedStore) {
-                parameter.storeIds = this.selectedStore.id;
+                this.parameter.storeIds = this.selectedStore.id;
+                this.userConfig.storeIds = this.selectedStore.id;
             }
             if (this.selectedstatus) {
-                parameter.orderStatus = this.selectedstatus.orderStatus;
+                this.parameter.orderStatus = this.selectedstatus.orderStatus;
+                this.userConfig.selectedstatus = this.selectedstatus.orderStatus;
             }
             if (this.vm.timeInterval.startTime) {
-                parameter.startTime = this.vm.timeInterval.startTime;
+                this.parameter.startTime = this.vm.timeInterval.startTime;
+                this.userConfig.startDate = this.vm.timeInterval.startTime;
             }
             if (this.vm.timeInterval.endTime) {
-                parameter.endTime = this.vm.timeInterval.endTime;
+                this.parameter.endTime = this.vm.timeInterval.endTime;
+                this.userConfig.endDate = this.vm.timeInterval.endTime;
             }
+            let str = JSON.stringify(this.userConfig);
+            localStorage.setItem('userConfig', str);
             this.$indicator.open();
-            try {
-                let data = JSON.parse(localStorage.getItem('performanceInfo'));
-                this.parameter.startTime = data.startDate;
-                this.parameter.endTime = data.endDate;
-            } catch (error) {}
-            apiPerformance.getPerformance(parameter).then(
+            apiPerformance.getPerformance(this.parameter).then(
                 res => {
                     this.$indicator.close();
                     this.list = res.data.orderListVo || [];
@@ -414,12 +464,9 @@ export default {
 
 <style lang="less">
 @import '~@/styles/_agile';
-body,
-html {
-    background: #f4f4fc;
-    margin: auto;
-}
 .order-list {
+    min-height: 700px;
+    background:  #f4f4fc;
     position: relative;
 }
 .headerPerformance9 {
@@ -440,7 +487,7 @@ html {
         color: @color-primary;
     }
     .font-priceY-size {
-        font-size: 0.5rem;
+        font-size: 18px;
     }
 }
 .mainOrder {
@@ -448,8 +495,8 @@ html {
     background: #f4f4fc;
     .errorBox {
         width: 100%;
-        height: 300px;
-        line-height: 300px;
+        height: 400px;
+        line-height: 400px;
         color: #8c8c8c;
         .ic {
             font-size: 23px;
@@ -480,7 +527,7 @@ html {
             .buyStatus {
                 color: #fff;
                 position: absolute;
-                font-size: 0.1rem;
+                font-size: 10px;
                 left: -1px;
                 -webkit-transform: rotate(-45deg);
                 transform: rotate(-45deg);
@@ -492,7 +539,7 @@ html {
             position: absolute;
             top: 0;
             right: 0;
-            font-size: 0.1rem;
+            font-size: 10px;
             color: @white;
             .overTimeCount {
                 background: #13a59e;
@@ -513,22 +560,22 @@ html {
                 border-radius: 50%;
             }
             .memberName {
-                font-size: 0.35rem;
+                font-size: 12px;
             }
             .moblie {
-                font-size: 0.3rem;
+                font-size: 12px;
             }
         }
         .right {
             margin-left: 11px;
             .memberName {
-                font-size: 0.3rem;
+                font-size: 12px;
             }
             .primary-color {
                 color: @color-primary;
             }
             .font-priceY-size {
-                font-size: 0.5rem;
+                font-size: 19px;
             }
         }
     }
@@ -545,7 +592,7 @@ html {
     }
     div {
         color: #4ed9cf;
-        font-size: 0.4rem;
+        font-size: 14px;
         height: 56px;
     }
 }

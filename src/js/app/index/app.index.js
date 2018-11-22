@@ -283,6 +283,11 @@ app.index = {
         } catch (error) {
             memberData.permissions = [];
         }
+        // 添加权限
+        memberData.permissionsPackge = {
+            isShowWechat: app.tools.getPermission('wechat_business_wechat')
+        }
+        console.log(memberData);
         var resultTmpl = tmpl(tmplhtml, memberData);
         $('#tmpl-index').html(resultTmpl);
 

@@ -247,11 +247,15 @@
                 color: #FE92BC;
             }
         }
-        .border-right {
+        .item {
+            border-bottom: 1px solid @border-color;
             border-right: 1px solid @border-color;
         }
-        .border-bottom {
-            border-bottom: 1px solid @border-color;
+        .item:nth-last-child(1), .item:nth-last-child(2), .item:nth-last-child(3){
+            border-top: 0;
+        }
+        .item:nth-child(3n) {
+            border-right: 0;
         }
     }
     .card-list {

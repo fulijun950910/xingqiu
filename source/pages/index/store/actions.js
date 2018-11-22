@@ -7,6 +7,7 @@ export default {
                     res => {
                         context.commit('updatePermissionPackage', res[0].data);
                         context.commit('updateNounConfig', res[1].data);
+                        context.commit('initBase', true);
                         resolve();
                     },
                     err => {

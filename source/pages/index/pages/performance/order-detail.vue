@@ -1,5 +1,5 @@
 <template>
-    <div style="width:100%;height:100%;background:#f4f4fc;font-size: 0.35rem;padding: 8px 0 0 0;;line-height: 2;">
+    <div style="width:100%;height:100%;background:#f4f4fc;font-size: 12px;padding: 8px 0 0 0;;line-height: 2;">
         <div class="orderList-detail"  v-if="list.member"
              v-title="'订单详情'">
             <div class="detailUser">
@@ -38,10 +38,10 @@
                          style="position:relative">
                         <div layout="column"
                              flex="80">
-                            <div style="font-size:0.3rem">{{item.itemName}}
+                            <div style="font-size:10px">{{item.itemName}}
                                 <span v-show="item.overtime">(加钟)</span>
                                 <span v-show="item.amount">x</span>{{item.amount}}</div>
-                            <div style="font-size:0.3rem"
+                            <div style="font-size:10px"
                                  layout="row"
                                  layout-align="start center"
                                  flex-wrap="wrap"
@@ -52,7 +52,7 @@
                                          layout="column"
                                          layout-align="start center">
                                         <div class=""
-                                             style="margin-top: -1vw;">{{item2.paymentName}}&nbsp;&nbsp;
+                                             style="margin-top:-4px;">{{item2.paymentName}}&nbsp;&nbsp;
                                             <span class="primary-color">
                                                 <span>{{ item2.realPayMoney | fen2yuan | currency('￥',2)}}</span>
                                             </span>
@@ -65,7 +65,7 @@
                              class="primary-color"
                              style="position:absolute;right:0px">
                              <span>￥</span>
-                            <span style="font-size:0.5rem">{{(toNumber(item.actualPerPrice))[0] }}</span>.
+                            <span style="font-size:18px">{{(toNumber(item.actualPerPrice))[0] }}</span>.
                             <span>{{(toNumber(item.actualPerPrice))[1]}}</span>
                         </div>
                     </div>
@@ -73,7 +73,8 @@
                         <div layout="row" v-for="item4 in item3.orderEmployeePerformances" :key="item4.id"
                              layout-align="space-between center"
                              warp="no-warp">
-                             <div>{{item3.employeeName}}
+                             <div>
+                             <span>{{item3.employeeName}}</span>
                              <span v-show="item3.isAppoint==2">(轮牌)</span>
                              <span v-show="item3.isAppoint==1">(点钟)</span></div>
                                 <span>业绩:{{item4.achievementTotalAmount | fen2yuan | currency('￥',2)}}</span>
@@ -92,10 +93,10 @@
                          style="position:relative">
                         <div layout="column"
                              flex="80">
-                            <div style="font-size:0.3rem">{{item.itemName}}
+                            <div style="font-size:10px">{{item.itemName}}
                                 <span v-show="item.overtime">(加钟)</span>
                                 <span v-show="item.amount">x</span>{{item.amount}}</div>
-                            <div style="font-size:0.3rem"
+                            <div style="font-size:10px"
                                  layout="row"
                                  layout-align="start center"
                                  flex-wrap="wrap"
@@ -106,7 +107,7 @@
                                          layout="column"
                                          layout-align="start center">
                                         <div class=""
-                                             style="margin-top: -1vw;">{{item2.paymentName}}&nbsp;&nbsp;
+                                             style="margin-top:-4px;">{{item2.paymentName}}&nbsp;&nbsp;
                                             <span class="primary-color">
                                                 <span>{{ item2.realPayMoney | fen2yuan | currency('￥',2)}}</span>
                                             </span>
@@ -118,7 +119,7 @@
                         <div flex="40"
                              class="primary-color"
                              style="position:absolute;right:0px">
-                            <span style="font-size:0.5rem">{{(toNumber(item.actualPerPrice))[0] | currency('￥',0)}}</span>.
+                            <span style="font-size:18px">{{(toNumber(item.actualPerPrice))[0] | currency('￥',0)}}</span>.
                             <span>{{(toNumber(item.actualPerPrice))[1]}}</span>
                         </div>
                     </div>
@@ -126,7 +127,8 @@
                         <div layout="row" v-for="item4 in item3.orderEmployeePerformances" :key="item4.id"
                              layout-align="space-between center"
                              warp="no-warp">
-                             <div>{{item3.employeeName}}
+                             <div>
+                             <span>{{item3.employeeName}}</span>
                              <span v-show="item3.isAppoint==2">(轮牌)</span>
                              <span v-show="item3.isAppoint==1">(点钟)</span></div>
                                 <span>业绩:{{item4.achievementTotalAmount | fen2yuan | currency('￥',2)}}</span>
@@ -145,8 +147,8 @@
                          style="position:relative">
                         <div layout="column"
                              flex="80">
-                            <div style="font-size:0.3rem">{{item.itemName}}</div>
-                            <div style="font-size:0.3rem"
+                            <div style="font-size:10px">{{item.itemName}}</div>
+                            <div style="font-size:10px"
                                  layout="row"
                                  layout-align="start center"
                                  flex-wrap="wrap"
@@ -158,7 +160,7 @@
                                          layout="column"
                                          layout-align="start center">
                                         <div class=""
-                                             style="margin-top: -1vw;">{{item2.paymentName}}&nbsp;&nbsp;
+                                             style="margin-top:-4px;">{{item2.paymentName}}&nbsp;&nbsp;
                                             <span class="primary-color">
                                                 <span>{{ item2.realPayMoney | fen2yuan | currency('￥',2)}}</span>
                                             </span>
@@ -170,7 +172,7 @@
                         <div flex="40"
                              class="primary-color"
                              style="position:absolute;right:0px">
-                            <span style="font-size:0.5rem">{{(toNumber(item.actualPerPrice))[0] | currency('￥',0)}}</span>.
+                            <span style="font-size:18px">{{(toNumber(item.actualPerPrice))[0] | currency('￥',0)}}</span>.
                             <span>{{(toNumber(item.actualPerPrice))[1]}}</span>
                         </div>
                     </div>
@@ -178,7 +180,7 @@
                         <div layout="row" v-for="item4 in item3.orderEmployeePerformances" :key="item4.id"
                              layout-align="space-between center"
                              warp="no-warp">
-                             <div>{{item3.employeeName}}</div>
+                             <div><span>{{item3.employeeName}}</span></div>
                                 <span>业绩:{{item4.achievementTotalAmount | fen2yuan | currency('￥',2)}}</span>
                                 <span>卡耗:{{item4.cardConsumeTotalAmount | fen2yuan | currency('￥',2)}}</span>
                                 <span>提成:{{item4.commissionAmount | fen2yuan | currency('￥',2)}}</span>
@@ -279,7 +281,7 @@ export default {
             border-bottom: 1px solid #e5e5e5; /*no*/
         }
         .orderItem {
-            line-height: 0.6rem;
+            line-height: 22px;
             text-indent: 15px;
         }
         .itemEmployee {

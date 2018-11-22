@@ -42,5 +42,9 @@ module.exports = {
             .set('vendor', resolve('source/vendor'))
             .set('pages', resolve('source/pages'))
             .set('plugin', resolve('source/plugin'));
-    }
+    },
+    transpileDependencies: [
+        /\/node_modules\/vue-echarts\//,
+        /\/node_modules\/resize-detector\//
+    ]
 };

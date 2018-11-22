@@ -70,44 +70,47 @@
             </div>
             <div class="wrap main-info">
                 <!-- <a href="/echarts-index.html#/echartsEmployee" class="item item-1 border-right border-bottom"> -->
-                <a href="/service/#/echartsEmployee" class="item item-1 border-right border-bottom">
+                <a href="/service/#/echartsEmployee" class="item item-1  ">
                     <i class="ic">&#xe669;</i>
                     <span class="font-size-12 margin-top-8">员工绩效</span>
                 </a>
-                <a href="/echarts-index.html#/echartsMember" class="item item-2 border-bottom border-right">
+                <a href="/service/#/echartsMember" class="item item-2  ">
                     <i class="ic">&#xe648;</i>
                     <span class="font-size-12 margin-top-8">顾客分析</span>
                 </a>
-                <!-- <a href="/echarts-index.html#/echartsProduct" class="item item-5 border-bottom"> -->
-                <a href="/service/#/echartsProduct" class="item item-5 border-bottom">
+                <!-- <a href="/echarts-index.html#/echartsProduct" class="item item-5 "> -->
+                <a href="/service/#/echartsProduct" class="item item-5 ">
                     <i class="ic">&#xe65a;</i>
                     <span class="font-size-12 margin-top-8">品项分析</span>
                 </a>
-                <a href="/service/service-subtotal.html" class="item item-3 border-right border-right border-bottom">
+                <a href="/service/service-subtotal.html" class="item item-3   ">
                     <i class="ic">&#xe647;</i>
                     <span class="margin-top-8">服务小记</span>
                 </a>
-                <!--<a href="javascript:void(0)" class="item item-4 border-bottom  border-right" onclick="app.noData()">-->
+                <!--<a href="javascript:void(0)" class="item item-4   " onclick="app.noData()">-->
                     <!--<i class="ic">&#xe619;</i>-->
                     <!--<span class="font-size-12 margin-top-8">案例分享</span>-->
                 <!--</a>-->
-                <!--<a href="/financial.html#/financial" class="item item-3 border-bottom border-right">-->
+                <!--<a href="/financial.html#/financial" class="item item-3  ">-->
                     <!--<i class="ic">&#xe64b;</i>-->
                     <!--<span class="font-size-12 margin-top-8">营销分析</span>-->
                 <!--</a>-->
-                <a href="/lite/index.html#/promotion-list" class="item item-7  border-right border-bottom">
+                <!--% if (o.permissionsPackge && o.permissionsPackge.isShowWechat) { %-->
+                <a href="/lite/index.html#/promotion-list" class="item item-7   ">
                     <i class="ic icon-weixin1"></i>
                     <span class="font-size-12 margin-top-8">微信活动</span>
                 </a>
-                <a href="/service/integral-mall.html#/rule-entry" class="item item-8 border-bottom">
+                <!--% } %-->
+
+                <a href="/service/integral-mall.html#/rule-entry" class="item item-8 ">
                     <i class="ic icon-xingxiang"></i>
                     <span class="font-size-12 margin-top-8">美豆豆中心</span>
                 </a>
-                <a href="/service/index.html#/couponVerify" class="item item-6 border-right">
+                <a href="/service/index.html#/couponVerify" class="item item-6 ">
                     <i class="ic">&#xe654;</i>
                     <span class="font-size-12 margin-top-8">在线验券</span>
                 </a>
-                <a href="/service/#/customers" class="item item-4 border-right">
+                <a href="/service/#/customers" class="item item-4 ">
                     <i class="ic icon-kehudangan"></i>
                     <span class="font-size-12 margin-top-8">顾客档案</span>
                 </a>
@@ -313,17 +316,17 @@
         <div class="main">
             <div class="wrap main-info">
                 {% if(o.permissions.indexOf('wechat_business_booking') != -1){ %}
-                <a href="/service/#/booking-table" class="item item-1 border-right border-bottom">
+                <a href="/service/#/booking-table" class="item item-1">
                     <span class="primary-color font-size-18">{%=o.performanceInfo.appointmentNum %}</span>
                     <span class="margin-top-8">预约</span>
                 </a>
                 {% } %}
-                <a href="/service/#/order-list" class="item item-2 border-bottom border-right">
+                <a href="/service/#/order-list" class="item item-2">
                     <span class="primary-color font-size-18">{%=o.performanceInfo.orderNum %}</span>
                     <span class="margin-top-8">订单</span>
                 </a>
-                <!-- <a href="/performance-index.html#/performance_rank" class="item item-5 border-bottom"> -->
-                <a href="javascript:void(0)" class="item item-5 border-right border-bottom">
+                <!-- <a href="/performance-index.html#/performance_rank" class="item item-5"> -->
+                <a href="javascript:void(0)" class="item item-5">
                     <!--% if(o.performanceInfo.performanceRanking){ %-->
                     <span class="primary-color font-size-18">{%=o.performanceInfo.performanceRanking %}</span>
                     <!--% }else{ %-->
@@ -331,23 +334,29 @@
                     <!--% } %-->
                     <span class="margin-top-8">查看排名(本月)</span>
                 </a>
-                <a href="javascript:void(0)" class="item item-6  border-right border-bottom" onclick="app.noData()">
+                <a href="javascript:void(0)" class="item item-6 " onclick="app.noData()">
                     <i class="ic">&#xe619;</i>
                     <span class="margin-top-8">案例分享</span>
                 </a>
-                <a href="/service/service-subtotal.html" class="item item-3 border-right border-bottom">
+                <a href="/service/service-subtotal.html" class="item item-3">
                     <i class="ic">&#xe647;</i>
                     <span class="margin-top-8">服务小记</span>
                 </a>
-                <a href="/lite/index.html#/getTicketQrcode" class="item item-7 border-right border-bottom">
+                <!--% if (o.permissionsPackge && o.permissionsPackge.isShowWechat) { %-->
+                <a href="/lite/index.html#/promotion-list" class="item item-7   ">
+                    <i class="ic icon-weixin1"></i>
+                    <span class="font-size-12 margin-top-8">微信活动</span>
+                </a>
+                <!--% } %-->
+                <a href="/lite/index.html#/getTicketQrcode" class="item item-7">
                     <i class="ic icon-banhuijia_erweimaqiandao"></i>
                     <span class="font-size-12 margin-top-8">扫码出券</span>
                 </a>
-                <a href="/service/#/customers" class="item item-4 border-right border-bottom">
+                <a href="/service/#/customers" class="item item-4">
                     <i class="ic icon-kehudangan"></i>
                     <span class="font-size-12 margin-top-8">顾客档案</span>
                 </a>
-                <a href="/userinfo.html#/" class="item item-4 border-right">
+                <a href="/userinfo.html#/" class="item item-4">
                     <i class="ic">&#xe60e;</i>
                     <span class="margin-top-8">个人中心</span>
                 </a>

@@ -77,14 +77,6 @@ const router = new VueRouter({
     }
 });
 
-let routerCheckPath = path => {
-    let reg = /(^\/sign-in)|(^\/main)|(^\/bbsPage)|(^\/alliance)|(^\/bigWheel-des)|(^\/index-activity-detail)|(^\/b2b-activity-list)/;
-    return reg.test(path);
-};
-let routerCheckPartyPath = path => {
-    let reg = /(^\/checkIn)/;
-    return reg.test(path);
-};
 // ................................................
 import reLogin from './models/relogin';
 import Q from 'q';
@@ -108,16 +100,24 @@ let checkUser = async () => {
 };
 
 router.beforeEach(async ({ meta, path }, from, next) => {
-    if (routerCheckPath(path) || store.getters.isLogin) {
-        // 百度统计
-        try {
-            window._hmt.push(['_trackPageview', '/service/index.html#' + path]);
-        } catch (e) {}
-        next();
-    } else if (routerCheckPartyPath(path) && (store.state.party && store.state.party.id)) {
+    if (!meta.auth) {
+        // 不需要授权页面
         next();
     } else {
-        if (process.env.NODE_ENV === 'development') {
+        // 加载用户基础数据
+        if (!store.state.isInit) {
+            Indicator.open();
+            try {
+                await store.dispatch('updateBaseData');
+            } catch (error) {}
+            Indicator.close();
+        }
+        if (store.getters.isLogin) {
+            try {
+                window._hmt.push(['_trackPageview', '/service/index.html#' + path]);
+            } catch (e) {}
+            next();
+        } else if (process.env.NODE_ENV !== 'development') {
             next({ name: 'sign-in' });
         } else {
             let res = await checkUser();
@@ -130,16 +130,8 @@ router.beforeEach(async ({ meta, path }, from, next) => {
     }
 });
 
-// 加载权限和自定义配置
-const init = async () => {
-    try {
-        await store.dispatch('updateBaseData');
-    } catch (error) {}
-    new Vue({
-        router,
-        store,
-        render: h => h(App)
-    }).$mount('#app');
-};
-
-init();
+new Vue({
+    router,
+    store,
+    render: h => h(App)
+}).$mount('#app');
