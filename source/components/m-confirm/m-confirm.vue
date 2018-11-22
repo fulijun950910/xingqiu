@@ -4,11 +4,12 @@
             <div class="mint-msgbox"
                  v-show="value">
                 <div class="mbox-head">
-                    <div class="img-panel">
+                    <div class="img-panel"
+                         v-if="headSrc">
                         <img :src="headSrc"
                              alt="">
                     </div>
-                    <div class="text-center m-b-20">{{message}}</div>
+                    <div class="text-center mm-20" :class="{'mm-40': !headSrc}">{{message}}</div>
                 </div>
                 <div layout="row"
                      class="mbox-foot">
@@ -70,8 +71,13 @@ export default {
             text-align: center;
         }
     }
-    .m-b-20 {
+    .mm-20 {
+        margin-top: 20px;
         margin-bottom: 20px;
+    }
+    .mm-40 {
+        margin-top: 40px;
+        margin-bottom: 40px;
     }
     .mbox-foot {
         line-height: 50px;
