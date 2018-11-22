@@ -13,7 +13,7 @@
                 <div layout="row" layout-align="space-between center">
                     <div layout="row" flex=75 layout-align="start center">
                         <div class="logo" layout="row" layout-align="center center">
-                            <img class="memberImg" @click="jump(item.memberId)"
+                            <img class="memberImg" @click="jump(item.memberId, item.name)"
                              :src="item.avatarId | mSrc(35, 35, require('assets/imgs/avatar.png'))">
                         </div>
                         <div class="info" layout="column" layout-align="space-around start">
@@ -299,8 +299,10 @@ export default {
         openPicker() {
             this.$refs.picker.open();
         },
-        jump(val) {
-            this.$router.push('/memberDetail/' + val);
+        jump(val, name) {
+            if (name != '散客') {
+                this.$router.push('/memberDetail/' + val);
+            }
         }
     }
 };
