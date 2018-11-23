@@ -38,6 +38,7 @@ const echartsMember = resolve => require(['./pages/echarts/echartsMember'], reso
 
 const arrivalMember = resolve => require(['./pages/member/arrivalMember'], resolve);
 const memberDetail = resolve => require(['./pages/member/member-detail'], resolve);
+const newMember = resolve => require(['./pages/member/newMember'], resolve);
 const qrconfirm = resolve => require(['./pages/qrconfirm/index'], resolve);
 
 export default [
@@ -252,6 +253,12 @@ export default [
         path: '/memberDetail/:memberId?',
         name: 'memberDetail',
         component: memberDetail,
+        meta: { auth: true, level: 1 }
+    },
+    {
+        path: '/newMember',
+        name: 'newMember',
+        component: newMember,
         meta: { auth: true, level: 1 }
     },
     {

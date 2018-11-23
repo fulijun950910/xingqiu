@@ -72,10 +72,11 @@
                              style="padding-top:11px;width:100%;"
                              layout-align="space-between center">
                             <div layout="row">
-                                <span class="memberName" v-for="(item2,index) in item.itemVoList" :key="index">{{item2.itemName}}</span>
+                                <span class="memberName"
+                                      v-for="(item2,index) in item.itemVoList"
+                                      :key="index">{{item2.itemName}}</span>
                             </div>
-                            <span class="primary-color font-priceF-size"
-                                  id="total-push">
+                            <span class="primary-color font-priceF-size" style="white-space:nowrap;">
                                 <span>￥</span>
                                 <span class="font-priceY-size push-priceY">{{item.numbers[0]}}.</span>
                                 <span class="push-priceF">{{item.numbers[1]}}</span>
@@ -135,6 +136,7 @@
                   :slots="slots"
                   :selected-item.sync="selectedStore"
                   value-key="name"
+                  ref="storePicker"
                   @confirm="changeStore">
         </m-picker>
         <!-- 日期 -->
@@ -191,6 +193,17 @@ export default {
                     endTime: null
                 }
             },
+            parameter: {
+                merchantId: this.$store.getters.merchantId,
+                storeIds: JSON.parse(localStorage.getItem('performanceInfo')).performanceStoreIds,
+                type: 2,
+                size: 10000,
+                page: 1,
+                employeeId: this.$store.getters.employeeId,
+                startTime: null,
+                endTime: null,
+                orderStatus: JSON.parse(localStorage.getItem('performanceInfo')).orderStatus
+            },
             status: [
                 {
                     values: [
@@ -233,7 +246,6 @@ export default {
         for (let i = 0; i < this.store.length; i++) {
             this.storeIds.push(this.store[i].id);
         }
-        let tempIndex = 0;
         var tempStores = [];
         this.$knife.deepCopy(this.$store.state.storeList, tempStores);
         let tempStoreIds = [];
@@ -246,12 +258,22 @@ export default {
                 name: '全部门店'
             });
         }
+        let tempIndex = 0;
+        tempIndex = tempStores.findIndex(val => val.id == this.parameter.storeIds);
+        if (tempIndex === -1) {
+            tempIndex = 0;
+        }
         this.slots.push({
             flex: 1,
             values: tempStores,
             className: 'slot1',
             textAlign: 'center',
             defaultIndex: tempIndex
+        });
+        this.$nextTick(_ => {
+            setTimeout(() => {
+                this.$refs.storePicker.$refs.m_picker.setValues([tempStores[tempIndex]]);
+            }, 0);
         });
         let tempFormat = 'YYYY-MM-DD HH:mm:ss';
         this.actions = [
@@ -298,7 +320,7 @@ export default {
                 method: this.selectedDateRange
             }
         ];
-        this.messageOrderList();
+        this.messageOrderList(this.parameter);
     },
     beforeRouteEnter(to, from, next) {
         if (from.name == 'order-detail') {
@@ -307,10 +329,26 @@ export default {
                 startDate: data.startDate,
                 endDate: data.endDate,
                 dataType: JSON.parse(localStorage.getItem('performanceInfo')).dataType,
-                performanceStoreIds: data.performanceStoreIds
+                performanceStoreIds: data.storeIds,
+                orderStatus: data.selectedstatus,
+                storeId: data.storeIds
             };
             var str = JSON.stringify(config);
             localStorage.setItem('performanceInfo', str);
+            var data2 = JSON.parse(localStorage.getItem('performanceInfo'));
+            next(vm => {
+                vm.parameter = {
+                    merchantId: vm.$store.getters.merchantId,
+                    type: 2,
+                    size: 10000,
+                    page: 1,
+                    employeeId: vm.$store.getters.employeeId,
+                    startTime: data2.startDate,
+                    endTime: data2.endDate,
+                    orderStatus: data2.orderStatus,
+                    storeIds: data2.storeId
+                };
+            });
         }
         next();
     },
@@ -323,8 +361,6 @@ export default {
             this.resetSreach();
         },
         resetSreach() {
-            this.page = 1;
-            this.list = [];
             this.messageOrderList();
         },
         changestatus(item) {
@@ -347,49 +383,36 @@ export default {
                 this.dateRangeVisible = true;
             }
         },
-        messageOrderList() {
-            var parameter = {
-                merchantId: this.$store.getters.merchantId,
-                storeIds: this.storeIds.join(','),
-                type: 2,
-                size: 10000,
-                page: 1,
-                employeeId: this.$store.getters.employeeId
-            };
+        messageOrderList(data) {
             this.userConfig = {
-                performanceStoreIds: this.storeIds.join(','),
-                dataType: 3,
-                startDate: JSON.parse(localStorage.getItem('performanceInfo')).startDate,
-                endDate: JSON.parse(localStorage.getItem('performanceInfo')).endDate
+                dataType: JSON.parse(localStorage.getItem('performanceInfo')).dataType,
+                storeIds: JSON.parse(localStorage.getItem('performanceInfo')).performanceStoreIds,
+                endDate: JSON.parse(localStorage.getItem('performanceInfo')).endDate,
+                startDate: JSON.parse(localStorage.getItem('performanceInfo')).startDate
             };
             if (this.$store.getters.admin == true) {
-                parameter.type = 1;
+                this.parameter.type = 1;
             }
             if (this.selectedStore) {
-                parameter.storeIds = this.selectedStore.id;
+                this.parameter.storeIds = this.selectedStore.id;
                 this.userConfig.storeIds = this.selectedStore.id;
             }
             if (this.selectedstatus) {
-                parameter.orderStatus = this.selectedstatus.orderStatus;
+                this.parameter.orderStatus = this.selectedstatus.orderStatus;
                 this.userConfig.selectedstatus = this.selectedstatus.orderStatus;
             }
             if (this.vm.timeInterval.startTime) {
-                parameter.startTime = this.vm.timeInterval.startTime;
+                this.parameter.startTime = this.vm.timeInterval.startTime;
                 this.userConfig.startDate = this.vm.timeInterval.startTime;
             }
             if (this.vm.timeInterval.endTime) {
-                parameter.endTime = this.vm.timeInterval.endTime;
+                this.parameter.endTime = this.vm.timeInterval.endTime;
                 this.userConfig.endDate = this.vm.timeInterval.endTime;
             }
             let str = JSON.stringify(this.userConfig);
             localStorage.setItem('userConfig', str);
             this.$indicator.open();
-            try {
-                let data = JSON.parse(localStorage.getItem('performanceInfo'));
-                this.parameter.startTime = data.startDate;
-                this.parameter.endTime = data.endDate;
-            } catch (error) {}
-            apiPerformance.getPerformance(parameter).then(
+            apiPerformance.getPerformance(this.parameter).then(
                 res => {
                     this.$indicator.close();
                     this.list = res.data.orderListVo || [];
@@ -441,12 +464,9 @@ export default {
 
 <style lang="less">
 @import '~@/styles/_agile';
-body,
-html {
-    background: #f4f4fc;
-    margin: auto;
-}
 .order-list {
+    min-height: 700px;
+    background:  #f4f4fc;
     position: relative;
 }
 .headerPerformance9 {

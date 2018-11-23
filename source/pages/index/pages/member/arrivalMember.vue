@@ -1,7 +1,7 @@
 <template>
     <div class="arrivalMember" v-title="'到店客人'">
         <div class="errorBox"
-                v-show="!list"
+                v-show="!list.length"
                 layout="row"
                 layout-align="center center">
             <m-icon class="ic"
@@ -13,15 +13,15 @@
                 <div layout="row" layout-align="space-between center">
                     <div layout="row" flex=75 layout-align="start center">
                         <div class="logo" layout="row" layout-align="center center">
-                            <img class="memberImg" @click="jump(item.memberId)"
+                            <img class="memberImg" @click="jump(item.memberId, item.name)"
                              :src="item.avatarId | mSrc(35, 35, require('assets/imgs/avatar.png'))">
                         </div>
                         <div class="info" layout="column" layout-align="space-around start">
                             <div layout="row" style="color:#333;font-size:13px">
                                 <span class="name" flex >{{item.name}}</span>
                                 <span class="phone">{{item.mobile}}</span>
-                                <m-icon v-show="item.gender==1" class="ic" style="color:#4ed9cf" xlink="#icon-left-bold"></m-icon>
-                                <m-icon v-show="item.gender==2" class="ic" style="color:#f7398f" xlink="#icon-left-bold"></m-icon>
+                                <m-icon v-show="item.gender==1" class="ic" style="color:#4ed9cf" xlink="#icon-nan"></m-icon>
+                                <m-icon v-show="item.gender==2" class="ic" style="color:#f7398f" xlink="#icon-nv"></m-icon>
                             </div>
                             <span v-show="item.memberSource">来源:{{item.memberSource}}</span>
                             <div v-show="item.consumeDate">{{item.consumeDate}}</div>
@@ -80,6 +80,7 @@
             :slots="slots"
             :selected-item.sync="selectedStore"
             value-key="name"
+            ref="storePicker"
             @confirm="changeStore">
         </m-picker>
         <!-- 日期 -->
@@ -126,16 +127,20 @@ export default {
                     startDate: null,
                     endDate: null
                 }
+            },
+            parameter: {
+                merchantId: this.$store.getters.merchantId,
+                storeIds: JSON.parse(localStorage.getItem('performanceInfo')).performanceStoreIds,
+                startDate: JSON.parse(localStorage.getItem('performanceInfo')).startDate,
+                endDate: JSON.parse(localStorage.getItem('performanceInfo')).endDate
             }
         };
     },
     mounted() {
         this.selectedStore = null;
-
         for (let i = 0; i < this.store.length; i++) {
             this.storeIds.push(this.store[i].id);
         }
-        let tempIndex = 0;
         var tempStores = [];
         this.$knife.deepCopy(this.$store.state.storeList, tempStores);
         let tempStoreIds = [];
@@ -148,12 +153,22 @@ export default {
                 name: '全部门店'
             });
         }
+        let tempIndex = 0;
+        tempIndex = tempStores.findIndex(val => val.id == this.parameter.storeIds);
+        if (tempIndex === -1) {
+            tempIndex = 0;
+        }
         this.slots.push({
             flex: 1,
             values: tempStores,
             className: 'slot1',
             textAlign: 'center',
             defaultIndex: tempIndex
+        });
+        this.$nextTick(_ => {
+            setTimeout(() => {
+                this.$refs.storePicker.$refs.m_picker.setValues([tempStores[tempIndex]]);
+            }, 0);
         });
         let tempFormat = 'YYYY-MM-DD HH:mm:ss';
         this.actions = [
@@ -209,7 +224,7 @@ export default {
                 startDate: data.startDate,
                 endDate: data.endDate,
                 dataType: JSON.parse(localStorage.getItem('performanceInfo')).dataType,
-                performanceStoreIds: data.performanceStoreIds
+                performanceStoreIds: data.storeIds
             };
             var str = JSON.stringify(config);
             localStorage.setItem('performanceInfo', str);
@@ -244,40 +259,28 @@ export default {
             }
         },
         GetMemberList() {
-            var parameter = {
-                merchantId: this.$store.getters.merchantId,
-                storeIds: JSON.parse(localStorage.getItem('performanceInfo')).performanceStoreIds,
-                startDate: JSON.parse(localStorage.getItem('performanceInfo')).startDate,
-                endDate: JSON.parse(localStorage.getItem('performanceInfo')).endDate
-            };
             this.userConfig = {
-                performanceStoreIds: this.storeIds.join(','),
+                storeIds: JSON.parse(localStorage.getItem('performanceInfo')).performanceStoreIds,
                 dataType: JSON.parse(localStorage.getItem('performanceInfo')).dataType,
                 startDate: JSON.parse(localStorage.getItem('performanceInfo')).startDate,
                 endDate: JSON.parse(localStorage.getItem('performanceInfo')).endDate
             };
             if (this.selectedStore) {
-                parameter.storeIds = this.selectedStore.id;
+                this.parameter.storeIds = this.selectedStore.id;
                 this.userConfig.storeIds = this.selectedStore.id;
             }
             if (this.vm.timeInterval.startDate) {
-                parameter.startDate = this.vm.timeInterval.startDate;
+                this.parameter.startDate = this.vm.timeInterval.startDate;
                 this.userConfig.startDate = this.vm.timeInterval.startDate;
             }
             if (this.vm.timeInterval.endDate) {
-                parameter.endDate = this.vm.timeInterval.endDate;
+                this.parameter.endDate = this.vm.timeInterval.endDate;
                 this.userConfig.endDate = this.vm.timeInterval.endDate;
             }
             let str = JSON.stringify(this.userConfig);
             localStorage.setItem('userConfig', str);
             this.$indicator.open();
-            try {
-                let data = JSON.parse(localStorage.getItem('performanceInfo'));
-                this.parameter.startDate = data.startDate;
-                this.parameter.endDate = data.endDate;
-                this.parameter.storeIds = data.performanceStoreIds;
-            } catch (error) {}
-            apiArrivalMember.getArrivalMember(parameter).then(
+            apiArrivalMember.getArrivalMember(this.parameter).then(
                 res => {
                     this.$indicator.close();
                     this.list = res.data || [];
@@ -296,8 +299,10 @@ export default {
         openPicker() {
             this.$refs.picker.open();
         },
-        jump(val) {
-            this.$router.push('/memberDetail/' + val);
+        jump(val, name) {
+            if (name != '散客') {
+                this.$router.push('/memberDetail/' + val);
+            }
         }
     }
 };

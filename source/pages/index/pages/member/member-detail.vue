@@ -18,18 +18,18 @@
                                 <m-icon v-show="memberDetail.gender==1"
                                         class="ic"
                                         style="color:#4ed9cf"
-                                        xlink="#icon-left-bold"></m-icon>
+                                        xlink="#icon-nan"></m-icon>
                                 <m-icon v-show="memberDetail.gender==2"
                                         class="ic"
                                         style="color:#f7398f"
-                                        xlink="#icon-left-bold"></m-icon>
+                                        xlink="#icon-nv"></m-icon>
                             </div>
                         </li>
                         <li>
                             <div class="storeIcon">
                                 <m-icon class="ic"
                                         style="color:#d76eed"
-                                        xlink="#icon-left-bold"></m-icon>&nbsp;
+                                        xlink="#icon-shengri1"></m-icon>&nbsp;
                                 <span v-show="memberDetail.birthday"
                                       style="color:#9b9b9b">{{this.$moment(memberDetail.birthday).format('MM月DD日')}}</span>
                                 <span v-show="!memberDetail.birthday"
@@ -42,17 +42,17 @@
                     <p layout="row"
                        layout-align="start start">
                         <span class="font-gay">钱包余额 :&nbsp;</span>
-                        <span style="color:#d76eed">{{memberDetail.balance | fen2yuan | currency('￥',2)}}</span>
+                        <span style="color:#d76eed;font-size:13px">{{memberDetail.balance | fen2yuan | currency('￥',2)}}</span>
                     </p>
                     <p layout="row"
                        layout-align="start start">
                         <span class="font-gay">持卡数量 :&nbsp;</span>
-                        <span>{{ memberDetail.cardNum }}</span>
+                        <span style="font-size:13px">{{ memberDetail.cardNum }}</span>
                     </p>
                     <p layout="row"
                        layout-align="start start">
                         <span class="font-gay">累计消费 :&nbsp;</span>
-                        <span>{{ memberDetail.totalConsume | fen2yuan | currency('￥',2)}}</span>
+                        <span style="font-size:13px">{{ memberDetail.totalConsume | fen2yuan | currency('￥',2)}}</span>
                     </p>
                     <p layout="row"
                        layout-align="start start">
@@ -81,28 +81,27 @@
                         <span v-show="memberDetail.tags.length<1">尚未添加个性化标签</span>
                     </ul>
                 </div>
-                <div class="serviceNote Mbottom">
+                <div class="serviceNote Mbottom" v-for="(item3,index) in LastOrder.orderItems" :key="index">
                     <p class="font-gay"
                        style="margin-bottom:4px;font-size:14px">最近一次服务</p>
                     <p layout="row"
                        layout-align="start start">
                         <span class="font-gay">服务时间 :&nbsp;</span>
-                        <span>{{ this.$moment(LastOrder.orderDate).format("YYYY-MM-DD HH:mm") }}</span>
+                        <span>{{ LastOrder.orderDate }}</span>
                     </p>
                     <p layout="row"
                        layout-align="start start">
                         <span class="font-gay">服务人员 :&nbsp;</span>
-                        <span v-show="LastOrder.employees">{{LastOrder.employees}}</span>
-                        <span v-show="!LastOrder.employees">未指定服务人员</span>
+                        <span v-for="(item2,index) in item3.orderEmployees" :key="index">{{item2.employeeName}}</span>
+                        <span v-show="!item3.orderEmployees">未指定服务人员</span>
                     </p>
                     <p layout="row"
                        layout-align="start start">
                         <span class="font-gay">服务项目 :&nbsp;</span>
-                        <span v-for="(item3,index) in LastOrder.orderItems"
-                              :key="index">{{item3.itemName}}</span>
+                        <span>{{item3.itemName}}</span>
                     </p>
                 </div>
-                <div class="rule Mbottom">
+                <div class="rule">
                     <p style="margin-bottom:4px;font-size:14px;color:#9b9b9b">其他注意事项或禁忌</p>
                     <p v-for="(item4,index) in memberDetail.taboos"
                        :key="index">{{index+1}}.&nbsp;{{item4.name}}</p>
@@ -131,8 +130,8 @@
                 <img style="width:100%" :src="item4.imageIds | mSrc(35, 35, require('assets/imgs/404.png'))">
             </div>
             <div style="margin:15px">
-                <p style="text-align:center;color:#9b9b9b;font-size:13px" v-show="ServiceList.length<=0">已加载全部客情维护</p>
-                <p style="text-align:center;color:#4ed9cf;font-size:13px" @click="this.getMemberServiceList" v-show="ServiceList.length>0">查看更多客情维护</p>
+                <p style="text-align:center;color:#9b9b9b" v-show="ServiceList.length<=0">已加载全部客情维护</p>
+                <p style="text-align:center;color:#4ed9cf" @click="this.getMemberServiceList" v-show="ServiceList.length>0">查看更多客情维护</p>
             </div>
         </div>
 
@@ -302,7 +301,6 @@ html {
         }
         .rule {
             line-height: 24px;
-            font-size: 12px;
         }
         .font-gay {
             color: #9b9b9b;
