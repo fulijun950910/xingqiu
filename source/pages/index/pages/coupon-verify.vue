@@ -486,6 +486,7 @@ export default {
             let data = {
                 merchantId: merchantId,
                 storeId: storeId,
+                verifyType: 2,
                 ticketNo: this.ticketInfo.ticketNo,
                 operatorId: this.ticketInfo.operatorId,
                 operatorNo: this.ticketInfo.operatorNo,
