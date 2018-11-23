@@ -127,7 +127,7 @@
                     </p>
                 </div>
                 <p style="font-size:12px;margin-bottom:4px">{{ item4.content }}</p>
-                <img style="width:100%" :src="item4.imageIds | mSrc(35, 35, require('assets/imgs/404.png'))">
+                <img style="width:100%" :src="item4.imageIds | mSrc2(require('assets/imgs/404.png'))">
             </div>
             <div style="margin:15px">
                 <p style="text-align:center;color:#9b9b9b" v-show="ServiceList.length<=0">已加载全部客情维护</p>
