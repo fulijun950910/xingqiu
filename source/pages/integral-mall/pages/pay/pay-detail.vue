@@ -7,7 +7,7 @@
         <div class="color-black fs30 fwb">{{item.name}}</div>
     </div>
     <div flex class="address p-t-5 p-b-5" layout="row" layout-align="start center" v-if="item.type == 4" @click="chooseAddress">
-        <div flex="80">
+        <div v-if="address && address.contactPersion" flex="80">
             <div layout="row" layout-align="start center" class="color-black fwb fs28 m-b-1">
                 <div>{{address.contactPersion}}</div>&nbsp;&nbsp;
                 <div>{{address.contactMobile}}</div>
@@ -15,6 +15,9 @@
             <div layout="row" layout-align="start center" class="fs28 extra-light-black">
                 <div>{{address.province}}&nbsp;{{address.city}}&nbsp;{{address.fullAddress}}</div>
             </div>
+        </div>
+        <div class="color-gray" flex="80" v-else >
+            请选择收货地址
         </div>
         <div flex="20" layout="row" layout-align="end center">
             <m-icon class="fs40 color-gray" xlink="#icon-zuojiantou"></m-icon>
