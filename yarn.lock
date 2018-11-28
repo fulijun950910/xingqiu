@@ -3667,12 +3667,11 @@ event-pubsub@4.3.0:
   integrity sha1-9o2Ba8KfHsAsU53FjI3UDOcss24=
 
 event-stream@^3.1.0:
-  version "3.3.6"
-  resolved "http://registry.npm.taobao.org/event-stream/download/event-stream-3.3.6.tgz#cac1230890e07e73ec9cacd038f60a5b66173eef"
-  integrity sha1-ysEjCJDgfnPsnKzQOPYKW2YXPu8=
+  version "3.3.5"
+  resolved "http://registry.npm.taobao.org/event-stream/download/event-stream-3.3.5.tgz#e5dd8989543630d94c6cf4d657120341fa31636b"
+  integrity sha1-5d2JiVQ2MNlMbPTWVxIDQfoxY2s=
   dependencies:
     duplexer "^0.1.1"
-    flatmap-stream "^0.1.0"
     from "^0.1.7"
     map-stream "0.0.7"
     pause-stream "^0.0.11"
@@ -4152,11 +4151,6 @@ flat-cache@^1.2.1:
     del "^2.0.2"
     graceful-fs "^4.1.2"
     write "^0.2.1"
-
-flatmap-stream@^0.1.0:
-  version "0.1.0"
-  resolved "http://registry.npm.taobao.org/flatmap-stream/download/flatmap-stream-0.1.0.tgz#ed54e01422cd29281800914fcb968d58b685d5f1"
-  integrity sha1-7VTgFCLNKSgYAJFPy5aNWLaF1fE=
 
 flatnest@^1.0.0:
   version "1.0.0"
