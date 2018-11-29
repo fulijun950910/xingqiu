@@ -41,8 +41,8 @@ export default {
     name: 'sign',
     data() {
         return {
-            user: '17602131253',
-            pwd: '9C92GgvNpur5',
+            user: '',
+            pwd: '',
             employeeList: null,
             popupVisible: false
         };
