@@ -205,11 +205,11 @@
                         <div class="date" layout="row" layout-align="space-between center">
                             <div layout="column" style="padding-right: 1vw;">
                                 <label for="">开始时间</label>
-                                <input type="datetime-local" class="startDate">
+                                <input type="datetime-local" class="startDate" onblur="app.tools.blur()">
                             </div>
                             <div layout="column">
                                 <label for="">结束时间</label>
-                                <input type="datetime-local" class="endDate">
+                                <input type="datetime-local" class="endDate" onblur="app.tools.blur()">
                             </div>
                         </div>
                     </div>
