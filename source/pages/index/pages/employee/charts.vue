@@ -67,7 +67,7 @@
                     <span>{{update.commissionSellCardsAmount | fen2yuan}}</span>
                 </p>
                 <p>产品&nbsp;&nbsp;
-                    <span>{{update.achievementProductAmount | fen2yuan}}</span>
+                    <span>{{update.commissionProductAmount | fen2yuan}}</span>
                 </p>
                 <p>项目&nbsp;&nbsp;
                     <span>{{update.commissionItemAmount | fen2yuan}}</span>
