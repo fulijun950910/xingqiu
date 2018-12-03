@@ -462,6 +462,9 @@ app.tools = {
         $("body img").on("touchend", function(e) {
             e.stopPropagation();
         })
+    },
+    blur: function() {
+        window.scrollTo(0, 0);
     }
 }
 
