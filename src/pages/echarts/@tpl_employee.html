@@ -22,10 +22,10 @@
                                     <span>No.{%= i + 1%}</span>
                                 </div>
                                 <div class="amount text-align-left" layout="column" flex="50">
-                                    <div layout="row" layout-align="start center">业绩:<div flex></div><span class="primary-color font-priceF-size" flex>￥<span class="font-priceY-size">{%= app.tools.changePrice(o.orderEmployeePerformanceList[i].achievementTotalAmount)[0] %}</span>.{%= app.tools.changePrice(o.orderEmployeePerformanceList[i].achievementTotalAmount)[1] %}</span>
-                                    </div>
-                                    <div layout="row" layout-align="start center">卡耗:<div flex></div><span class="primary-color font-priceF-size" flex>￥<span class="font-priceY-size">{%= app.tools.changePrice(o.orderEmployeePerformanceList[i].cardConsumeTotalAmount)[0] %}</span>.{%= app.tools.changePrice(o.orderEmployeePerformanceList[i].cardConsumeTotalAmount)[1] %}</span>
-                                    </div>
+                                    <span>业绩:<span class="primary-color font-priceF-size" flex>￥<span class="font-priceY-size">{%= app.tools.changePrice(o.orderEmployeePerformanceList[i].achievementTotalAmount)[0] %}</span>.{%= app.tools.changePrice(o.orderEmployeePerformanceList[i].achievementTotalAmount)[1] %}</span>
+                                    </span>
+                                    <span>卡耗:<span class="primary-color font-priceF-size" flex>￥<span class="font-priceY-size">{%= app.tools.changePrice(o.orderEmployeePerformanceList[i].cardConsumeTotalAmount)[0] %}</span>.{%= app.tools.changePrice(o.orderEmployeePerformanceList[i].cardConsumeTotalAmount)[1] %}</span>
+                                    </span>
                                 </div>
                                 <div class="amount" layout="column">
                                     <span class="">客数:<span class="primary-color font-priceY-size">{%= o.orderEmployeePerformanceList[i].serviceMemberCount +o.orderEmployeePerformanceList[i].serviceUnMemberCount %} </span></span>
