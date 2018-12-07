@@ -128,7 +128,15 @@ img {
     float: left;
 }
 
-
+.border-bottom {
+    border-bottom: 1px solid @border-gay;
+}
+.border-top {
+    border-top: 1px solid @border-gay;
+}
+.border-left {
+    border-left: 1px solid @border-gay;
+}
 /* font size
 -------------------------- */
 
@@ -231,6 +239,9 @@ img {
     }
     .p-r-@{count} {
         padding-right: (@count * @l8);
+    }
+    .br@{count} {
+        border-radius: (@count * 2px);
     }
     .loop((@count - 1));
 }

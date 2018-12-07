@@ -32,6 +32,8 @@ const baiduMap = resolve => require(['./pages/baidu-map'], resolve);
 const packageDetail = resolve => require(['./pages/detail/package-detail'], resolve);
 const orderDetail = resolve => require(['./pages/detail/order-detail'], resolve);
 const offlinePay = resolve => require(['./pages/pay/offline-pay'], resolve);
+import b2bMallIndex from 'pages/integral-mall/pages/b2b-mall/index';
+import b2bMallOrder from 'pages/integral-mall/pages/b2b-mall/order';
 
 export default [{
     path: '/',
@@ -168,4 +170,17 @@ export default [{
     path: '/offline-pay',
     name: 'offline-pay',
     component: offlinePay
-}];
+},
+{
+    path: '/b2b-mall-index',
+    name: 'b2b-mall-index',
+    props: true,
+    component: b2bMallIndex
+},
+{
+    path: '/b2b-mall-order',
+    name: 'b2b-mall-order',
+    props: true,
+    component: b2bMallOrder
+}
+];
