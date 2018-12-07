@@ -34,6 +34,7 @@ const orderDetail = resolve => require(['./pages/detail/order-detail'], resolve)
 const offlinePay = resolve => require(['./pages/pay/offline-pay'], resolve);
 import b2bMallIndex from 'pages/integral-mall/pages/b2b-mall/index';
 import b2bMallOrder from 'pages/integral-mall/pages/b2b-mall/order';
+import b2bMallUser from 'pages/integral-mall/pages/b2b-mall/user';
 
 export default [{
     path: '/',
@@ -182,5 +183,11 @@ export default [{
     name: 'b2b-mall-order',
     props: true,
     component: b2bMallOrder
+},
+{
+    path: '/b2b-mall-user',
+    name: 'b2b-mall-user',
+    props: true,
+    component: b2bMallUser
 }
 ];
