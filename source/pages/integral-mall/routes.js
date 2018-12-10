@@ -34,7 +34,13 @@ const orderDetail = resolve => require(['./pages/detail/order-detail'], resolve)
 const offlinePay = resolve => require(['./pages/pay/offline-pay'], resolve);
 import b2bMallIndex from 'pages/integral-mall/pages/b2b-mall/index';
 import b2bMallOrder from 'pages/integral-mall/pages/b2b-mall/order';
+import b2bMallOrderDetail from 'pages/integral-mall/pages/b2b-mall/order-detail';
 import b2bMallUser from 'pages/integral-mall/pages/b2b-mall/user';
+import b2bMallOrderListIndex from 'pages/integral-mall/pages/b2b-mall/order-list/index';
+import b2bMallOrderListPublish from 'pages/integral-mall/pages/b2b-mall/order-list/publish';
+import b2bMallOrderListBuy from 'pages/integral-mall/pages/b2b-mall/order-list/buy';
+import b2bMallOrderListSell from 'pages/integral-mall/pages/b2b-mall/order-list/sell';
+import b2bMallOrderListSellDetil from 'pages/integral-mall/pages/b2b-mall/order-list/sell-detail';
 
 export default [{
     path: '/',
@@ -179,10 +185,48 @@ export default [{
     component: b2bMallIndex
 },
 {
-    path: '/b2b-mall-order',
+    path: '/b2b-mall-order/:id',
     name: 'b2b-mall-order',
     props: true,
     component: b2bMallOrder
+},
+{
+    path: '/b2b-mall-order-detail/:id',
+    name: 'b2b-mall-order-detail',
+    props: true,
+    component: b2bMallOrderDetail
+},
+{
+    path: '/b2b-mall-order-list',
+    name: 'b2b-mall-order-list',
+    props: true,
+    component: b2bMallOrderListIndex,
+    children: [
+        {
+            path: 'publish',
+            name: 'b2b-mall-order-list-publish',
+            props: true,
+            component: b2bMallOrderListPublish
+        },
+        {
+            path: 'buy',
+            name: 'b2b-mall-order-list-buy',
+            props: true,
+            component: b2bMallOrderListBuy
+        },
+        {
+            path: 'sell',
+            name: 'b2b-mall-order-list-sell',
+            props: true,
+            component: b2bMallOrderListSell
+        },
+        {
+            path: 'sell-detail/:id',
+            name: 'b2b-mall-order-list-sell-detail',
+            props: true,
+            component: b2bMallOrderListSellDetil
+        }
+    ]
 },
 {
     path: '/b2b-mall-user',

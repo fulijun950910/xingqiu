@@ -1,32 +1,35 @@
 <template>
     <div class="b2b-mall-order" v-title="'填写采购订单'">
         <!--地址-->
-        <div class="address-box cell cell-box" layout="row" layout-align="start center" >
-            <div flex>
+        <div @click="goSelectAddress" class="address-box cell-box p-t-5 p-b-5" layout="row" layout-align="start center" >
+            <div flex v-if="address && address.contactPersion">
                 <div layout="row" layout-align="start center" class="color-black fwb fs32 m-b-1">
-                    <div>{{address.contactPersion}}123</div>&nbsp;&nbsp;
-                    <div>{{address.contactMobile}}234</div>
+                    <div>{{address.contactPersion}}</div>&nbsp;&nbsp;
+                    <div>{{address.contactMobile}}</div>
                 </div>
                 <div layout="row" layout-align="start center" class="fs26 extra-light-black">
-                    <div>111123{{address.province}}&nbsp;{{address.city}}&nbsp;{{address.fullAddress}}</div>
+                    <div>{{address.province}}&nbsp;{{address.city}}&nbsp;{{address.fullAddress}}</div>
                 </div>
+            </div>
+            <div class="color-gray" flex v-else >
+                请选择收货地址
             </div>
             <m-icon class="fs40 color-gray" xlink="#icon-zuojiantou"></m-icon>
         </div>
         <!--商品信息-->
         <div class="product-info bg-white m-t-3 cell-box cell">
             <div class="m-b-3" layout="row">
-                <div class="extra-black" flex>苏州星辰美容仪器中心</div>
+                <div class="extra-black" flex>{{orderData.merchantName}}</div>
                 <div class="color-primary"><m-icon class="" xlink="#icon-xiangqing"></m-icon>&nbsp;在线沟通</div>
             </div>
             <div layout="row" class="bg-default br2 cell p-l-2 p-r-2">
-                <img class="product-img m-r-3" :src="null | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
+                <img class="product-img m-r-3" :src="orderData.image | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                 <div flex layout="column">
                     <div>
-                        <div>韩式雪颜光子嫩肤-逆转肌肤之龄，展现如…</div>
+                        <div>{{orderData.name}}</div>
                         <div class="fs24 extra-black">规格 大型60cm</div>
                     </div>
-                    <div class="color-price">￥500.00</div>
+                    <div class="color-price">￥{{orderData.price | fen2yuan}}</div>
                 </div>
             </div>
             <div class="m-t-3" layout="row" layout-align="start center">
@@ -44,7 +47,7 @@
                 <mt-switch ></mt-switch>
             </div>
             <div class="cell cell-box bg-default br1 m-t-3 m-b-4">
-                使用500美豆豆 ,<span class="color-price">抵¥10 </span>
+                使用<input class="doudou-box" type="text">美豆豆 ,<span class="color-price">抵¥10 </span>
             </div>
             <div class="p-t-3 border-top" layout="row">
                 <div flex>优惠券</div>
@@ -77,30 +80,80 @@
             <div class="cell cell-box" flex>
                <span>需支付</span>&nbsp;<span class="color-price fs40 fwb">¥290</span>
             </div>
-            <div class="pay-btn" layout="row" layout-align="center center">提交订单</div>
+            <div @click="subOrder" class="pay-btn" layout="row" layout-align="center center">提交订单</div>
         </div>
     </div>
 </template>
 
 <script>
 import integralInput from 'components/integral-mall/integral-input';
+import api_b2bmall from 'services/api.b2bmall';
+import api_party from 'services/api.party';
+
 import Vue from 'vue';
 import { Switch } from 'mint-ui';
 Vue.component(Switch.name, Switch);
 
 export default {
     name: 'order',
+    props: ['id'],
     data() {
         return {
-            address: {}
+            address: {},
+            orderData: {}
         };
     },
     components: {
         integralInput
     },
     mounted() {
+        this.init();
     },
-    methods: {}
+    methods: {
+        init() {
+            this.query();
+            this.loadAddress();
+        },
+        async query() {
+            let res = await api_b2bmall.getSupplierGoods(this.id);
+            this.orderData = res.data;
+        },
+        async loadAddress() {
+            if (this.$store.state.integralMallActAddress) {
+                this.address = this.$store.state.integralMallActAddress;
+            } else {
+                let { data } = await api_party.getDefaultAddress(this.$store.state.party.partyId, this.$store.state.party.id);
+                this.address = data || {};
+            }
+        },
+        async subOrder() {
+            let data = {
+                merchantId: this.orderData.merchantId,
+                userId: this.$store.state.party.id,
+                deliveryAddressId: this.address.id,
+                // openId: this.$store.state.user.openId,
+                openId: 'ooIeqs1IpXnVH_a8b9yZE2-U-Kxs',
+                totalAmount: 1,
+                supplierOrderItemList: [
+                    {
+                        goodsId: 6609974358646909,
+                        quantity: 1
+                    }
+                ],
+                supplierOrderPayList: [
+                    {
+                        payType: 1,
+                        payAmount: 1
+                    }
+                ]
+            };
+            let res = await api_b2bmall.supplierOrder(data);
+            console.log(res);
+        },
+        goSelectAddress() {
+            this.$router.push('/address-list/select');
+        }
+    }
 };
 </script>
 
@@ -144,6 +197,15 @@ export default {
             height: 60px;
             border-radius: 4px;
         }
+    }
+    .doudou-box{
+        width: 65px;
+        height:24px;
+        border-radius: 2px;
+        border: 1px solid @border-gay;
+        background: @white;
+        margin: 0 8px;
+        padding: 0 4px;
     }
     .pay-box-padding{
         height: 60px;
