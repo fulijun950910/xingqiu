@@ -174,7 +174,7 @@ export default {
                 paySign: data.paySign,
                 timeStamp: data.timeStamp + '',
                 nonceStr: data.nonceStr,
-                package: data.package,
+                package: data.packageStr,
                 success(resp) {
                     // _this.goSuccess();
                 },
