@@ -28,7 +28,7 @@
                 <div class="bt-section-title">{{val.value | amDateFormat('HH:mm')}}</div>
                 <m-booking-cell v-for="booking in val.rows"
                                 :key="booking.holderTypeId"
-                                :value="booking"
+                                :value="booking.employees[0]"
                                 @toolClick="bookingToolClick"
                                 @customerDetail="customerDetail"
                                 @click.native="showDetail(booking)"></m-booking-cell>
