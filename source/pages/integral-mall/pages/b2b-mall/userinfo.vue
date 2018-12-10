@@ -1,7 +1,7 @@
 <template>
     <div class="b2b-mall-userinfo" v-title="'设置'">
         <div class="m-b-2" style="background:#fff;padding:0 15px">
-            <div class="border-bottom cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px" >
+            <div class="border-bottom cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px" @click="goEdit(1)">
                 <div>
                     <span class="fs">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</span>
                 </div>
@@ -21,7 +21,7 @@
         </div>
 
         <div class="m-b-2" style="background:#fff;padding:0 15px">
-            <div class="border-bottom cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px" >
+            <div class="border-bottom cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px" @click="goEdit(2)">
                 <div>
                     <span class="fs">品&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;牌</span>
                 </div>
@@ -39,7 +39,7 @@
                     <m-icon class="color-gray m-l-1" xlink="#icon-zuojiantou"></m-icon>
                 </div>
             </div>
-            <div class="border-bottom cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px">
+            <div class="border-bottom cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px" @click="goEdit(3)">
                 <div>
                     <span class="fs">从属行业</span>
                 </div>
@@ -48,11 +48,11 @@
                     <m-icon class="color-gray m-l-1" xlink="#icon-zuojiantou"></m-icon>
                 </div>
             </div>
-            <div class="cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px">
-                <div>
+            <div class="cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px" @click="goEdit(4)">
+                <div flex=35>
                     <span class="fs">店铺简介</span>
                 </div>
-                <div>
+                <div layout="row" layout-align="space-between center">
                     <span class="fs extra-light-black">为您的店铺写句话吧~</span>
                     <m-icon class="color-gray" xlink="#icon-zuojiantou"></m-icon>
                 </div>
@@ -72,6 +72,24 @@
         </div>
     </div>
 </template>
+<script>
+export default {
+    name: 'b2b-mall-userinfo',
+    data() {
+        return {};
+    },
+    components: {
+    },
+    mounted() {
+    },
+    methods: {
+        goEdit(type) {
+            this.$router.push({ name: 'b2b-mall-editUserInfo', params: { type: type } });
+        }
+    }
+};
+</script>
+
 <style scoped lang='less'>
 @import '~styles/_agile';
 .b2b-mall-userinfo{
