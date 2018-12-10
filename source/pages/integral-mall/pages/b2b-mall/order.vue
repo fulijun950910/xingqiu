@@ -161,7 +161,9 @@ export default {
                     }
                 ]
             };
+            this.$indicator.open();
             let res = await api_b2bmall.supplierOrder(data);
+            this.$indicator.close();
             this.wxPay(res.data.supplierOrderWxPay);
         },
         wxPay(data) {
