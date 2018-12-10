@@ -83,6 +83,7 @@
 
 <script>
 import integralInput from 'components/integral-mall/integral-input';
+import apiGetJSSignature from 'services/api.getJSSignature';
 import api_b2bmall from 'services/api.b2bmall';
 import api_party from 'services/api.party';
 
@@ -161,7 +162,26 @@ export default {
                 ]
             };
             let res = await api_b2bmall.supplierOrder(data);
-            console.log(res);
+            this.wxPay(res.data.supplierOrderWxPay);
+        },
+        wxPay(data) {
+            var _this = this;
+            apiGetJSSignature.wxPay({
+                appId: data.appId,
+                signType: data.signType,
+                paySign: data.paySign,
+                timeStamp: data.timeStamp + '',
+                nonceStr: data.nonceStr,
+                package: data.package,
+                success(resp) {
+                    // _this.goSuccess();
+                },
+                error(err) {
+                    if (err.result != 'cancel') {
+                        _this.$toast('支付失败，请检查网络连接');
+                    }
+                }
+            });
         },
         goSelectAddress() {
             this.$router.push('/address-list/select');
