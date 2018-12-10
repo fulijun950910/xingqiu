@@ -62,7 +62,7 @@
                     <div class="btn-item">预览</div>
                     <div class="btn-item">编辑</div>
                     <div class="btn-item">分享</div>
-                    <div class="btn-item">采购</div>
+                    <div @click="goOrder()" class="btn-item">采购</div>
                 </div>
             </div>
         </div>
@@ -100,6 +100,14 @@ export default {
                 size: 20
             };
             await api_b2bmall.searchForWx(data);
+        },
+        goOrder() {
+            this.$router.push({
+                name: 'b2b-mall-order',
+                params: {
+                    id: 6609974358646909
+                }
+            });
         }
     }
 };

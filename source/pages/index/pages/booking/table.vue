@@ -446,7 +446,17 @@ export default {
             this.$indicator.open();
             apiBooking.bookingSearch(this.queryFormat()).then(
                 res => {
-                    this.sourceList = res.data.rows;
+                    this.sourceList = res.data.rows.map(val => {
+                        // 接口兼容
+                        let emp = val.employees[0];
+                        val.startTime = emp.startTime;
+                        val.endTime = emp.endTime;
+                        val.roomId = emp.roomId;
+                        val.employeeName = emp.name;
+                        val.employeeId = emp.employeeId;
+                        val.items = emp.items;
+                        return val;
+                    });
                     this.initTabs();
                     this.loadStatusCount();
                     this.listFormat(res.data.rows);
@@ -553,6 +563,10 @@ export default {
                     }
                 );
             } else if (index === 2) {
+                if (value.employees.length !== 1) {
+                    this.$toast('暂不支持多技师预约编辑');
+                    return;
+                }
                 // 修改预约
                 this.$router.push({
                     name: 'booking-edit',

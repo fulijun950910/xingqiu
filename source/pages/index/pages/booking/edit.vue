@@ -278,6 +278,7 @@ import mTreeSelect from './components/tree-select';
 import mPopupRight from '@/components/popup-right';
 import mLoadMore from '@/components/m-load-more';
 import apiBooking from '@/services/api.booking';
+import mConfirm from '@/components/m-confirm/index';
 Vue.component(Switch.name, Switch);
 Vue.component(Cell.name, Cell);
 Vue.component(Field.name, Field);
@@ -535,19 +536,36 @@ export default {
             // 加载预约数据
             apiBooking.getAppointment({ id: this.$route.params.bookingId }).then(
                 res => {
+                    if (!res.data.employees || res.data.employees.length !== 1) {
+                        // 暂不支持多技师预约编辑
+                        this.$indicator.close();
+                        mConfirm(
+                            {
+                                message: '暂不支持多技师预约编辑',
+                                cancelTitle: ''
+                            },
+                            action => {
+                                if (action === 'confirm') {
+                                    this.$router.go(-1);
+                                }
+                            }
+                        );
+                        return;
+                    }
+                    let emp = res.data.employees[0];
                     this.booking.appointmentId = res.data.id;
                     this.booking.memberType = res.data.memberType;
                     this.booking.memberCount = res.data.memberCount;
-                    this.booking.employeeId = res.data.employeeId;
-                    this.booking.employeeName = res.data.employeeName;
-                    this.booking.roomName = res.data.roomName;
-                    this.booking.startTime = res.data.startTime;
-                    this.booking.endTime = res.data.endTime;
-                    this.booking.items = res.data.itemVos;
                     this.booking.storeId = res.data.storeId;
                     this.booking.merchantId = this.$store.getters.merchantId;
-                    this.booking.roomId = res.data.roomId;
                     this.booking.information = res.data.information;
+                    this.booking.employeeId = emp.employeeId;
+                    this.booking.employeeName = emp.name;
+                    this.booking.roomName = emp.roomName;
+                    this.booking.startTime = emp.startTime;
+                    this.booking.endTime = emp.endTime;
+                    this.booking.items = emp.items;
+                    this.booking.roomId = emp.roomId;
 
                     if (res.data.memberId) {
                         this.booking.memberId = res.data.memberId;
@@ -780,17 +798,19 @@ export default {
                 appointmentId: this.booking.appointmentId,
                 merchantId: this.booking.merchantId,
                 storeId: this.booking.storeId,
-                employeeId: this.empName ? this.booking.employeeId : '',
-                employeeName: this.empName || `未指定${this.$store.getters.nounName('worker')}`,
+                employees: [{
+                    employeeId: this.empName ? this.booking.employeeId : '',
+                    name: this.empName || `未指定${this.$store.getters.nounName('worker')}`,
+                    roomId: this.booking.roomId,
+                    roomName: this.roomName,
+                    items: this.booking.items,
+                    startTime: this.booking.startTime,
+                    endTime: this.$moment(this.booking.startTime)
+                        .add(1, 'h')
+                        .format('YYYY-MM-DD HH:mm:ss')
+                }],
                 information: this.booking.information,
-                items: this.booking.items,
-                memberCount: this.booking.memberCount,
-                roomId: this.booking.roomId,
-                roomName: this.roomName,
-                startTime: this.booking.startTime,
-                endTime: this.$moment(this.booking.startTime)
-                    .add(1, 'h')
-                    .format('YYYY-MM-DD HH:mm:ss')
+                memberCount: this.booking.memberCount
             };
             // 是否会员
             if (this.isMember) {
@@ -803,13 +823,14 @@ export default {
                 params.name = this.customer.name;
                 params.phone = this.customer.phone;
             }
+            let emp = params.employees[0];
             // 结束时间
-            if (params.items.length) {
-                let endTime = this.$moment(params.startTime);
-                params.items.forEach(val => {
+            if (emp.items.length) {
+                let endTime = this.$moment(emp.startTime);
+                emp.items.forEach(val => {
                     endTime.add(val.serviceDuration ? val.serviceDuration : 0, 'm');
                 });
-                params.endTime = endTime.format('YYYY-MM-DD HH:mm:ss');
+                emp.endTime = endTime.format('YYYY-MM-DD HH:mm:ss');
             }
             apiBooking.saveBooking(params).then(
                 res => {
