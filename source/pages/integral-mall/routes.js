@@ -41,6 +41,7 @@ import b2bMallOrderListPublish from 'pages/integral-mall/pages/b2b-mall/order-li
 import b2bMallOrderListBuy from 'pages/integral-mall/pages/b2b-mall/order-list/buy';
 import b2bMallOrderListSell from 'pages/integral-mall/pages/b2b-mall/order-list/sell';
 import b2bMallOrderListSellDetil from 'pages/integral-mall/pages/b2b-mall/order-list/sell-detail';
+import b2bMallUserInfo from 'pages/integral-mall/pages/b2b-mall/userinfo';
 
 export default [{
     path: '/',
@@ -233,5 +234,13 @@ export default [{
     name: 'b2b-mall-user',
     props: true,
     component: b2bMallUser
+},
+{
+    // path: '/b2b-mall-userinfo/:userID?',
+    path: '/b2b-mall-userinfo',
+    name: 'b2b-mall-userinfo',
+    props: true,
+    component: b2bMallUserInfo
 }
+
 ];
