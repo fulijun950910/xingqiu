@@ -1,5 +1,5 @@
 <template>
-    <div class="user">
+    <div class="user" v-title="'我的'">
         <!-- <navBar type="2"></navBar> -->
         <div class="userInfo">
             <div class="userInfo-top" layout="row">
@@ -8,7 +8,7 @@
                     <div layout="row" layout-align="start center" style="position: relative;">
                         <p class="p1">黄教主</p>
                         <p class="p2">已认证</p>
-                        <m-icon class="ic" xlink="#icon-dianzan"></m-icon>
+                        <m-icon class="ic" xlink="#icon-11" @click.native="LinkTo(1)"></m-icon>
                     </div>
                     <p style="color:#888888;font-size:13px;margin-top:4px">娇兰SPA</p>
                 </div>
@@ -19,7 +19,7 @@
                     <span class="s2">4559.00</span>
                     <span class="s3">&nbsp;万元</span>
                 </div>
-                <div class="box" flex>
+                <div class="box" flex @click="LinkTo(2)">
                     <span class="s1">美豆豆:&nbsp;</span>
                     <span class="s2">5573</span>
                     <span class="s3">&nbsp;个</span>
@@ -45,7 +45,7 @@
         </div>
 
         <!-- 订单管理 -->
-        <div class='m-t-3 cell cell-box bg-white border-bottom' layout='row' layout-align='start center'>
+        <div class='cell cell-box bg-white border-bottom' layout='row' layout-align='start center'>
             <div flex class='fs32 fwb'>订单管理</div>
             <div class='color-gray'>查看全部<m-icon style="margin-left:5px" xlink='#icon-zuojiantou'></m-icon></div>
         </div>
@@ -66,7 +66,7 @@
         </div>
         <p style="background:#F5F5F5;height:10px"></p>
         <!-- 我的优惠券 -->
-        <div class='m-t-3 cell cell-box bg-white' layout='row' layout-align='start center'>
+        <div class='cell cell-box bg-white' layout='row' layout-align='start center'>
             <div flex class='fs32 fwb'>我的优惠券</div>
             <div class='color-gray youhui'>
                 <span></span>
@@ -88,7 +88,21 @@ export default {
     },
     mounted() {
     },
-    methods: {}
+    methods: {
+        LinkTo(type) {
+            switch (type) {
+                case 1:
+                    // this.$router.push('/b2b-mall-userinfo/' + this.$store.getters.merchantId);
+                    this.$router.push('/b2b-mall-userinfo');
+                    break;
+                case 2:
+                    this.$router.push('rule-entry');
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 };
 </script>
 
