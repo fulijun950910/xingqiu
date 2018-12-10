@@ -25,60 +25,56 @@
             <div layout="row" class="bg-default br2 cell p-l-2 p-r-2">
                 <img class="product-img m-r-3" :src="orderData.image | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                 <div flex layout="column">
-                    <div>
+                    <div flex>
                         <div>{{orderData.name}}</div>
-                        <div class="fs24 extra-black">规格 大型60cm</div>
+                        <!--<div class="fs24 extra-black">规格 大型60cm</div>-->
                     </div>
                     <div class="color-price">￥{{orderData.price | fen2yuan}}</div>
                 </div>
             </div>
             <div class="m-t-3" layout="row" layout-align="start center">
                 <div flex>购买数量</div>
-                <div><integralInput></integralInput></div>
+                <div><integralInput @numOut="quantityChange" @changeAmount="quantityChange"></integralInput></div>
             </div>
         </div>
         <!--支付方式-->
-        <div class="pay-box bg-white cell cell-box m-t-3">
-            <div layout="row" layout-align="start start">
-                <div flex>
-                    <div>美豆豆数量</div>
-                    <div class="fs24">共1000美豆豆 , 抵¥20 <m-icon class="extra-black" xlink="#icon-xiangqing"></m-icon></div>
-                </div>
-                <mt-switch ></mt-switch>
-            </div>
-            <div class="cell cell-box bg-default br1 m-t-3 m-b-4">
-                使用<input class="doudou-box" type="text">美豆豆 ,<span class="color-price">抵¥10 </span>
-            </div>
-            <div class="p-t-3 border-top" layout="row">
-                <div flex>优惠券</div>
-                <div>¥200短信包抵用券 <m-icon class="" xlink="#icon-gengduoicon"></m-icon></div>
-            </div>
-        </div>
+        <!--<div class="pay-box bg-white cell cell-box m-t-3">-->
+            <!--<div layout="row" layout-align="start start">-->
+                <!--<div flex>-->
+                    <!--<div>美豆豆数量</div>-->
+                    <!--<div class="fs24">共1000美豆豆 , 抵¥20 <m-icon class="extra-black" xlink="#icon-xiangqing"></m-icon></div>-->
+                <!--</div>-->
+                <!--<mt-switch ></mt-switch>-->
+            <!--</div>-->
+            <!--<div class="cell cell-box bg-default br1 m-t-3 m-b-4">-->
+                <!--使用<input class="doudou-box" type="text">美豆豆 ,<span class="color-price">抵¥10 </span>-->
+            <!--</div>-->
+            <!--<div class="p-t-3 border-top" layout="row">-->
+                <!--<div flex>优惠券</div>-->
+                <!--<div>¥200短信包抵用券 <m-icon class="" xlink="#icon-gengduoicon"></m-icon></div>-->
+            <!--</div>-->
+        <!--</div>-->
         <!--支付详情-->
         <div class="pay-info m-t-3 bg-white cell cell-box">
             <div class="p-t-2 p-b-2" layout="row">
                 <div class="extra-black" flex>商品总价</div>
-                <div >￥500</div>
+                <div >￥{{totalAmount | fen2yuan}}</div>
             </div>
-            <div class="p-t-2 p-b-2" layout="row">
+            <div v-if="freight && freight > 0" class="p-t-2 p-b-2" layout="row">
                 <div class="extra-black" flex>运费</div>
-                <div >￥500</div>
-            </div>
-            <div class="p-t-2 p-b-2" layout="row">
-                <div class="extra-black" flex>运费</div>
-                <div >￥500</div>
+                <div >￥{{freight|fen2yuan}}</div>
             </div>
         </div>
         <!--发票-->
-        <div class="m-t-3 bg-white cell cell-box" layout="row" layout-align="start center">
-            <div flex>发票</div>
-            <mt-switch ></mt-switch>
-        </div>
+        <!--<div class="m-t-3 bg-white cell cell-box" layout="row" layout-align="start center">-->
+            <!--<div flex>发票</div>-->
+            <!--<mt-switch ></mt-switch>-->
+        <!--</div>-->
         <!--支付按钮-->
         <div class="pay-box-padding"></div>
         <div layout="row" layout-align="start center" class="pan-btn-box">
             <div class="cell cell-box" flex>
-               <span>需支付</span>&nbsp;<span class="color-price fs40 fwb">¥290</span>
+               <span>需支付</span>&nbsp;<span class="color-price fs40 fwb">¥{{payAmount | fen2yuan}}</span>
             </div>
             <div @click="subOrder" class="pay-btn" layout="row" layout-align="center center">提交订单</div>
         </div>
@@ -100,8 +96,20 @@ export default {
     data() {
         return {
             address: {},
+            quantity: 1,
+            freight: 0, // todo 上线前写死
             orderData: {}
         };
+    },
+    computed: {
+        // 商品总价
+        totalAmount() {
+            return this.orderData.price * this.quantity;
+        },
+        // 最终支付金额
+        payAmount() {
+            return this.totalAmount + this.freight;
+        }
     },
     components: {
         integralInput
@@ -113,6 +121,10 @@ export default {
         init() {
             this.query();
             this.loadAddress();
+        },
+        quantityChange(num) {
+            console.log(num);
+            this.quantity = num;
         },
         async query() {
             let res = await api_b2bmall.getSupplierGoods(this.id);
@@ -132,18 +144,19 @@ export default {
                 userId: this.$store.state.party.id,
                 deliveryAddressId: this.address.id,
                 // openId: this.$store.state.user.openId,
-                openId: 'ooIeqs1IpXnVH_a8b9yZE2-U-Kxs',
-                totalAmount: 1,
+                openId: 'ooIeqsz1CFyEZp7xFAn2WtBUDZpQ',
+                totalAmount: this.totalAmount,
+                freight: this.freight,
                 supplierOrderItemList: [
                     {
-                        goodsId: 6609974358646909,
-                        quantity: 1
+                        goodsId: this.id,
+                        quantity: this.quantity
                     }
                 ],
                 supplierOrderPayList: [
                     {
-                        payType: 1,
-                        payAmount: 1
+                        payType: 1, // 支付类型1：微信支付
+                        payAmount: this.payAmount
                     }
                 ]
             };

@@ -40,21 +40,22 @@
             <div flex class='fs32 fwb'>商品管理</div>
             <div class='color-gray'>发现商品<m-icon xlink='#icon-zuojiantou'></m-icon></div>
         </div>
-        <div class='mall-list'>
-            <div class='mall-item bg-white cell-box'>
+        <div class='mall-list' v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
+            <div v-for="item in mallList" :key="item.id" class='mall-item bg-white cell-box'>
                 <div class='cell' layout='row'>
-                    <div class="mall-tag">2000人正在卖</div>
+                    <!--<div class="mall-tag">2000人正在卖</div>-->
                 </div>
                 <div class="bg-default cell p-l-1 p-r-1" layout="row">
-                    <img class="title-img m-r-2" :src="null | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
+                    <img class="title-img m-r-2" :src="item.image | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                     <div class="mall-content" flex layout="column">
                         <div flex>
-                            <div class="no-wrap">韩式雪颜光子嫩肤-逆转肌肤之龄，展现如肌肤之龄，展现如</div>
-                            <div class="color-gray fs12">规格 大型60cm *1</div>
+                            <div class="no-wrap">{{item.title}}</div>
+                            <!--<div class="color-gray fs12">规格 大型60cm *1</div>-->
                         </div>
                         <div layout="row">
-                            <div flex>团购价: ¥20.00 - ¥120.00</div>
-                            <div>销量 200</div>
+                            <!--<div flex>团购价: ¥20.00 - ¥120.00</div>-->
+                            <div flex></div>
+                            <div>销量 {{item.salesCount}}</div>
                         </div>
                     </div>
                 </div>
@@ -62,9 +63,10 @@
                     <div class="btn-item">预览</div>
                     <div class="btn-item">编辑</div>
                     <div class="btn-item">分享</div>
-                    <div @click="goOrder()" class="btn-item">采购</div>
+                    <div @click="goOrder(item)" class="btn-item">采购</div>
                 </div>
             </div>
+            <m-load-more v-if="mallList && mallList.length>0"  :loading="isLoadOver"></m-load-more>
         </div>
 
         <navBar></navBar>
@@ -72,23 +74,45 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import {
+    InfiniteScroll
+} from 'mint-ui';
+
+Vue.use(InfiniteScroll);
 import api_b2bmall from 'services/api.b2bmall';
 import navBar from './modules/nav-bar';
+import mLoadMore from 'components/m-load-more';
+
 export default {
     name: 'index',
     data() {
-        return {};
+        return {
+            mallList: [],
+            loading: false,
+            isLoadOver: false, // false已加载完所有数据
+            query: {
+                page: 1,
+                size: 10
+            }
+        };
     },
     components: {
-        navBar
+        navBar,
+        mLoadMore
     },
     mounted() {
-        this.query();
+        this.loadData();
     },
     methods: {
         init() {
         },
-        async query() {
+        loadMore() {
+            if (this.isLoadOver) {
+                this.loadData();
+            }
+        },
+        async loadData() {
             let data = {
                 query: [
                     {
@@ -96,16 +120,27 @@ export default {
                         value: this.$store.state.party.merchantId
                     }
                 ],
-                page: 1,
-                size: 20
+                page: this.query.page,
+                size: this.query.size
             };
-            await api_b2bmall.searchForWx(data);
+            this.loading = true;
+            this.$indicator.open();
+            let res = await api_b2bmall.searchForWx(data);
+            this.$indicator.close();
+            if (res.data.rows.length < this.query.size) {
+                this.isLoadOver = false;
+            } else {
+                this.isLoadOver = true;
+            }
+            this.mallList = this.mallList.concat(res.data.rows);
+            this.loading = false;
+            this.query.page++;
         },
-        goOrder() {
+        goOrder(item) {
             this.$router.push({
                 name: 'b2b-mall-order',
                 params: {
-                    id: 6609974358646909
+                    id: item.id
                 }
             });
         }
