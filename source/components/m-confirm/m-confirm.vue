@@ -15,7 +15,8 @@
                      class="mbox-foot">
                     <div flex
                          class="text-center mbox-b-r fs30"
-                         @click="handleAction('cancel')">{{cancelTitle}}</div>
+                         @click="handleAction('cancel')"
+                         v-if="cancelTitle">{{cancelTitle}}</div>
                     <div flex
                          class="text-center color-primary fs30"
                          @click="handleAction('confirm')">
