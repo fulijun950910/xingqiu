@@ -16,5 +16,10 @@ export default {
     supplierOrder(data) {
         let url = `/api/supplierOrder`;
         return request(url, data, 'post');
+    },
+    // 我的
+    getMyInfo(data) {
+        let url = `/api/purchaseMallItem/getPurchaseMerchantMyInfo`;
+        return request(url, data, 'post');
     }
 };
