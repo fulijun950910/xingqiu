@@ -1,5 +1,5 @@
 <template>
-    <div class="user" v-title="'我的'">
+    <div class="user" v-title="'我的'" style="overflow:hidden">
         <div class="userInfo">
             <div class="userInfo-top" layout="row" v-show="userInfo.merchantInfo">
                 <img :src="userInfo.merchantInfo.logoFileId | mSrc2(require('assets/imgs/avatar.png'))" alt="">
@@ -40,10 +40,9 @@
                 <span>在线客服</span>
             </div>
         </div>
-        <div style="width:100%;background:#F5F5F5;padding:10px">
-            <a href="http://mei1.com">
+        <div style="width:100%;background:#F5F5F5;padding:10px" @click="jump(userInfo.midBanner.url)">
+                <!-- <img style="width:355px;border-radius:4px" :src="require('assets/imgs/b2b-mall/2018120601.jpg')" alt=""> -->
                 <img style="width:355px;border-radius:4px" :src="userInfo.midBanner.imageId | mSrc2(require('assets/imgs/b2b-mall/2018120601.jpg'))" alt="">
-            </a>
         </div>
 
         <!-- 订单管理 -->
@@ -122,7 +121,6 @@ export default {
         LinkTo(type) {
             switch (type) {
                 case 1:
-                    // this.$router.push('/b2b-mall-userinfo/' + this.$store.getters.merchantId);
                     this.$router.push('/b2b-mall-userinfo');
                     break;
                 case 2:
@@ -146,10 +144,10 @@ export default {
             this.$router.push({
                 name: 'b2b-mall-order-list-sell'
             });
+        },
+        jump(url) {
+            location.href = url;
         }
-        // jump(url) {
-        //     Window.location.href = url;
-        // }
     }
 };
 </script>
