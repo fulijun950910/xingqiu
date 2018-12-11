@@ -32,6 +32,11 @@ export default {
         let url = `/api/purchaseMallMerchantInfo`;
         return request(url, data, 'put');
     },
+    // 获取行业列表
+    getindustry() {
+        let url = `/api/businessScope/list`;
+        return request(url, 'get');
+    },
     // 订单列表查询
     searchSupplierOrderList(data) {
         let url = `/api/supplierOrder/search`;

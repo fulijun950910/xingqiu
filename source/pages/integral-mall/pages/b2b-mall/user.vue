@@ -118,8 +118,8 @@ export default {
                 }
             );
         },
-        LinkTo(type) {
-            switch (type) {
+        LinkTo(t) {
+            switch (t) {
                 case 1:
                     this.$router.push('/b2b-mall-userinfo');
                     break;
