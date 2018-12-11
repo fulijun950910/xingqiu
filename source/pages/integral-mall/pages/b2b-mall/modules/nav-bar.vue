@@ -2,11 +2,11 @@
     <div class="b2b-mall-nav-bar">
         <div class="bar-padding"></div>
         <div class="nav-bar" layout="row" layout-align="center center">
-            <div flex class="text-center tab-item">
-                <m-icon class="icon" xlink="#icon-xingming"></m-icon>
+            <div @click="goIndex" :class="{'act': type==1}" flex class="text-center tab-item">
+                <m-icon class="icon" xlink="#icon-mendianguanli"></m-icon>
                 <div>店铺</div>
             </div>
-            <div flex class="text-center tab-item">
+            <div @click="goUser" :class="{'act': type==2}" flex class="text-center tab-item">
                 <m-icon class="icon" xlink="#icon-xingming"></m-icon>
                 <div>我的</div>
             </div>
@@ -20,9 +20,27 @@ export default {
     data() {
         return {};
     },
+    props: {
+        type: {
+            type: Number,
+            default: 1
+        }
+    },
     mounted() {
     },
-    methods: {}
+    methods: {
+        goIndex() {
+            this.$router.replace({
+                name: 'b2b-mall-index'
+            });
+        },
+        goUser() {
+            this.$router.replace({
+                name: 'b2b-mall-user'
+            });
+        }
+
+    }
 };
 </script>
 

@@ -24,31 +24,43 @@ export default {
     name: 'publish',
     data() {
         return {
-            index: 3
+            index: 1
         };
     },
     mounted() {
+        this.changeIndex();
     },
     methods: {
         goPublish() {
-            this.index = 1;
             this.$router.push({
                 name: 'b2b-mall-order-list-publish'
             });
         },
         goSell() {
-            this.index = 2;
             this.$router.push({
                 name: 'b2b-mall-order-list-sell'
             });
         },
         goBuy() {
-            this.index = 3;
             this.$router.push({
                 name: 'b2b-mall-order-list-buy'
             });
+        },
+        changeIndex() {
+            let newVal = this.$route.name;
+            if (newVal == 'b2b-mall-order-list-publish') {
+                this.index = 1;
+            } else if (newVal == 'b2b-mall-order-list-sell') {
+                this.index = 2;
+            } else if (newVal == 'b2b-mall-order-list-buy') {
+                this.index = 3;
+            }
         }
-
+    },
+    watch: {
+        '$route.name'() {
+            this.changeIndex();
+        }
     }
 };
 </script>
