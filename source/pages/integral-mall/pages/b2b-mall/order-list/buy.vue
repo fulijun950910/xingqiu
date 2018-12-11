@@ -1,19 +1,19 @@
 <template>
     <div class="b2b-mall-order-list-buy">
         <div layout="row" class="nav-bar">
-            <div @click="typeChange(1)" :class="{'act': type == 1}" class="nav-item" flex="20" layout="column" layout-align="center center">
+            <div @click="typeChange(-1)" :class="{'act': type == -1}" class="nav-item" flex="20" layout="column" layout-align="center center">
                 <div class="text">全部</div>
                 <div class="shadow-line"></div>
             </div>
-            <div @click="typeChange(2)" :class="{'act': type == 2}" class="nav-item" flex="20" layout="column" layout-align="center center">
+            <div @click="typeChange(0)" :class="{'act': type == 0}" class="nav-item" flex="20" layout="column" layout-align="center center">
                 <div class="text">待付款</div>
                 <span class="shadow-line"></span>
             </div>
-            <div @click="typeChange(3)" :class="{'act': type == 3}" class="nav-item" flex="20" layout="column" layout-align="center center">
+            <div @click="typeChange(1)" :class="{'act': type == 1}" class="nav-item" flex="20" layout="column" layout-align="center center">
                 <div class="text">待发货</div>
                 <span class="shadow-line"></span>
             </div>
-            <div @click="typeChange(4)" :class="{'act': type == 4}" class="nav-item" flex="20" layout="column" layout-align="center center">
+            <div @click="typeChange(6)" :class="{'act': type == 6}" class="nav-item" flex="20" layout="column" layout-align="center center">
                 <div class="text">待收货</div>
                 <span class="shadow-line"></span>
             </div>
@@ -22,52 +22,153 @@
                 <span class="shadow-line"></span>
             </div>
         </div>
-        <div class="order-list">
-            <div class="order-item m-t-3 card-style cell-box">
+        <div class="order-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
+            <div v-for="item in orderList" :key="item.id" class="order-item m-t-3 card-style cell-box">
                 <div class="p-t-5 p-b-3 border-bottom" layout="row">
-                    <div class="fwb fs28" flex>苏州星辰美容仪器中心</div>
-                    <div class="color-primary"><m-icon class="" xlink="#icon-xiangqing"></m-icon>&nbsp;在线沟通</div>
+                    <div class="fwb fs28" flex>{{item.merchantName}}</div>
+                    <div>
+                        <span class="color-primary">{{item.status | orderStatus}}</span>
+                    </div>
                 </div>
                 <div class="cell border-bottom" layout="row">
                     <img class="product-img m-r-2" :src="null | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                     <div layout="row" flex>
                         <div layout="column" flex="75">
-                            <div flex>韩式雪颜光子嫩肤-逆转肌肤之龄，展如之龄…</div>
-                            <div class="fs24 extra-black">规格 大型60cm</div>
+                            <div flex>{{item.name}}</div>
+                            <!--<div class="fs24 extra-black">规格 大型60cm</div>-->
                         </div>
                         <div flex class="text-right extra-black">
                             <div>*1</div>
-                            <div>￥5000</div>
+                            <div>￥{{item.totalAmount}}</div>
                         </div>
                     </div>
                 </div>
                 <div class="cell" layout="row">
-                    <div class="extra-black" flex>实际支付</div>
-                    <div class="">￥300</div>
+                    <div class="extra-black" flex>
+                        <span v-if="item.status==0&&item.status==2&&item.status==3&&item.status==4">实际需支付</span>
+                        <span v-else>实际支付</span>
+                    </div>
+                    <div class="">￥{{item.needPayAmount}}</div>
                 </div>
                 <div class="btn-box cell" layout="row" layout-align="end center">
                     <button class="order-btn btn-default">延长收货</button>
                     <button class="order-btn btn-primary">去付款</button>
                 </div>
             </div>
+            <m-load-more :loading="isLoadOver"></m-load-more>
+
         </div>
 
     </div>
 </template>
 
 <script>
+import Vue from 'vue';
+import {
+    InfiniteScroll
+} from 'mint-ui';
+
+Vue.use(InfiniteScroll);
+import api_b2bmall from 'services/api.b2bmall';
+import mLoadMore from 'components/m-load-more';
 export default {
     name: 'buy',
     data() {
         return {
-            type: 1
+            type: 0, // 状态
+            orderList: [],
+            loading: false,
+            isLoadOver: false, // false已加载完所有数据
+            query: {
+                page: 1,
+                size: 10
+            }
         };
     },
+    components: {
+        mLoadMore
+    },
     mounted() {
+        this.loadData();
     },
     methods: {
+        loadMore() {
+            if (this.isLoadOver) {
+                this.loadData();
+            }
+        },
+        async loadData() {
+            let data = {
+                query: [
+                    {
+                        field: 'merchantId',
+                        value: this.$store.state.party.merchantId
+                    },
+                    {
+                        field: 'partyId',
+                        value: this.$store.state.party.partyId
+                    },
+                    {
+                        field: 'userId',
+                        value: this.$store.state.party.id
+                    }
+                ],
+                page: this.query.page,
+                size: this.query.size
+            };
+            if (this.type > 0) {
+                data.query.push({
+                    field: 'status',
+                    value: this.$store.state.party.merchantId
+                });
+            }
+            this.loading = true;
+            this.$indicator.open();
+            let res = await api_b2bmall.searchSupplierOrderList(data);
+            this.$indicator.close();
+            if (res.data.rows.length < this.query.size) {
+                this.isLoadOver = false;
+            } else {
+                this.isLoadOver = true;
+            }
+            this.orderList = this.orderList.concat(res.data.rows);
+            this.loading = false;
+            this.query.page++;
+        },
         typeChange(type) {
             this.type = type;
+        }
+    },
+    filters: {
+        orderStatus(value) {
+            let text = '';
+            switch (value) {
+                case 0:
+                    text = '待付款';
+                    break;
+                case 1:
+                    text = '待发货';
+                    break;
+                case 2:
+                    text = '支付失败';
+                    break;
+                case 3:
+                    text = '支付超时';
+                    break;
+                case 4:
+                    text = '已取消';
+                    break;
+                case 5:
+                    text = '已完成';
+                    break;
+                case 6:
+                    text = '待收货';
+                    break;
+                case 7:
+                    text = '退款';
+                    break;
+            }
+            return text;
         }
     }
 };
