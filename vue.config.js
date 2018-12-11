@@ -5,8 +5,8 @@ function resolve(dir) {
     return path.join(__dirname, dir);
 }
 module.exports = {
-    outputDir: 'dist/service',
-    baseUrl: process.env.NODE_ENV === 'production' ? '/service/' : '/',
+    outputDir: 'dist/brandCenter',
+    baseUrl: process.env.NODE_ENV === 'production' ? '/brandCenter/' : '/',
     productionSourceMap: process.env.NODE_ENV !== 'production',
     devServer: {
         host: '0.0.0.0',

@@ -21,5 +21,10 @@ export default {
     getMyInfo(data) {
         let url = `/api/purchaseMallItem/getPurchaseMerchantMyInfo`;
         return request(url, data, 'post');
+    },
+    // 订单列表查询
+    searchSupplierOrderList(data) {
+        let url = `/api/supplierOrder/search`;
+        return request(url, data, 'post');
     }
 };
