@@ -1,27 +1,27 @@
 <template>
     <div class="user" v-title="'我的'">
-        <!-- <navBar type="2"></navBar> -->
         <div class="userInfo">
-            <div class="userInfo-top" layout="row">
-                <img :src="require('assets/imgs/avatar.png')">
+            <div class="userInfo-top" layout="row" v-show="userInfo.merchantInfo">
+                <img :src="userInfo.merchantInfo.logoFileId | mSrc2(require('assets/imgs/avatar.png'))" alt="">
                 <div class="info">
                     <div layout="row" layout-align="start center" style="position: relative;">
-                        <p class="p1">黄教主</p>
-                        <p class="p2">已认证</p>
+                        <p class="p1">{{userInfo.merchantInfo.nickName}}</p>
+                        <p class="p2" v-show="userInfo.merchantInfo.authStatus == 1">已认证</p>
+                        <p class="p2" v-show="userInfo.merchantInfo.authStatus == 2">未认证</p>
                         <m-icon class="ic" xlink="#icon-11" @click.native="LinkTo(1)"></m-icon>
                     </div>
-                    <p style="color:#888888;font-size:13px;margin-top:4px">娇兰SPA</p>
+                    <p style="color:#888888;font-size:13px;margin-top:4px">{{userInfo.merchantInfo.brandName}}</p>
                 </div>
             </div>
             <div class="money" layout="row">
                 <div class="box" flex style="border-right:1px solid #ccc">
                     <span class="s1">收入:&nbsp;</span>
-                    <span class="s2">4559.00</span>
+                    <span class="s2">{{ sellMoney }}</span>
                     <span class="s3">&nbsp;万元</span>
                 </div>
                 <div class="box" flex @click="LinkTo(2)">
                     <span class="s1">美豆豆:&nbsp;</span>
-                    <span class="s2">5573</span>
+                    <span class="s2">{{userInfo.doudouCounts}}</span>
                     <span class="s3">&nbsp;个</span>
                 </div>
             </div>
@@ -41,7 +41,9 @@
             </div>
         </div>
         <div style="width:100%;background:#F5F5F5;padding:10px">
-            <img style="width:355px;border-radius:4px" :src="require('assets/imgs/b2b-mall/2018120601.jpg')" alt="">
+            <a href="http://mei1.com">
+                <img style="width:355px;border-radius:4px" :src="userInfo.midBanner.imageId | mSrc2(require('assets/imgs/b2b-mall/2018120601.jpg'))" alt="">
+            </a>
         </div>
 
         <!-- 订单管理 -->
@@ -52,15 +54,15 @@
 
         <div class="nav" style="margin:10px 0px" layout="row" layout-align="start center">
             <div layout="column" layout-align="center center">
-                <p style="font-size:24px">2</p>
+                <p style="font-size:24px">{{ userInfo.onlineCount }}</p>
                 <span style="font-size:13px;color:#666">我发布的</span>
             </div>
             <div layout="column" layout-align="center center">
-                <p style="font-size:24px">0</p>
+                <p style="font-size:24px">{{userInfo.sellCount}}</p>
                 <span style="font-size:13px;color:#666">我卖出的</span>
             </div>
             <div layout="column" layout-align="center center">
-                <p style="font-size:24px">0</p>
+                <p style="font-size:24px">{{userInfo.hasBuyCounts}}</p>
                 <span style="font-size:13px;color:#666">我买到的</span>
             </div>
         </div>
@@ -73,22 +75,50 @@
                 10张待使用<m-icon style="margin-left:5px" xlink='#icon-zuojiantou'></m-icon></div>
         </div>
         <p style="background:#F5F5F5;min-height:200px"></p>
+        <navBar type="2"></navBar>
     </div>
 </template>
 
 <script>
 import navBar from './modules/nav-bar';
+import Vue from 'vue';
+import apigetInfo from 'services/api.b2bmall';
 export default {
     name: 'user',
     data() {
-        return {};
+        return {
+            userInfo: {
+                merchantInfo: {},
+                midBanner: {}
+            },
+            sellMoney: null
+        };
     },
     components: {
         navBar
     },
     mounted() {
+        this.getInfo();
     },
     methods: {
+        async getInfo() {
+            var data = {
+                merchantId: this.$store.state.party.merchantId,
+                partyId: this.$store.state.party.partyId
+            };
+            this.$indicator.open();
+            apigetInfo.getMyInfo(data).then(
+                res => {
+                    this.$indicator.close();
+                    this.userInfo = res.data;
+                    this.sellMoney = ((Vue.filter('fen2yuan')(this.userInfo.sellMoney)) / 10000).toFixed(2);
+                    console.log(this.userInfo);
+                },
+                error => {
+                    console.log(error);
+                }
+            );
+        },
         LinkTo(type) {
             switch (type) {
                 case 1:
@@ -102,6 +132,9 @@ export default {
                     break;
             }
         }
+        // jump(url) {
+        //     Window.location.href = url;
+        // }
     }
 };
 </script>

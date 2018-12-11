@@ -7,7 +7,7 @@
             </div>
             <div v-else-if="type == 2" class="textCell cell cell-box" layout="row" layout-align="start stretch">
                 <div class="">品牌&emsp;</div>
-                <input flex type="date" placeholder="请输入品牌"/>
+                <input flex type="text" placeholder="请输入品牌"/>
             </div>
             <div v-else-if="type == 3" class="textCell cell cell-box" layout="row" layout-align="start stretch">
                 <div class="">从属行业&emsp;</div>

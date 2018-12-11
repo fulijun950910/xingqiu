@@ -22,6 +22,11 @@ export default {
         let url = `/api/supplierOrder`;
         return request(url, data, 'post');
     },
+    // 我的
+    getMyInfo(data) {
+        let url = `/api/purchaseMallItem/getPurchaseMerchantMyInfo`;
+        return request(url, data, 'post');
+    },
     // 订单列表查询
     searchSupplierOrderList(data) {
         let url = `/api/supplierOrder/search`;
