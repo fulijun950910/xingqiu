@@ -47,21 +47,21 @@
         </div>
 
         <!-- 订单管理 -->
-        <div class='cell cell-box bg-white border-bottom' layout='row' layout-align='start center'>
+        <div @click="goOrderListPublish" class='cell cell-box bg-white border-bottom' layout='row' layout-align='start center'>
             <div flex class='fs32 fwb'>订单管理</div>
             <div class='color-gray'>查看全部<m-icon style="margin-left:5px" xlink='#icon-zuojiantou'></m-icon></div>
         </div>
 
         <div class="nav" style="margin:10px 0px" layout="row" layout-align="start center">
-            <div layout="column" layout-align="center center">
+            <div @click="goOrderListPublish" layout="column" layout-align="center center">
                 <p style="font-size:24px">{{ userInfo.onlineCount }}</p>
                 <span style="font-size:13px;color:#666">我发布的</span>
             </div>
-            <div layout="column" layout-align="center center">
+            <div @click="goOrderListSell" layout="column" layout-align="center center">
                 <p style="font-size:24px">{{userInfo.sellCount}}</p>
                 <span style="font-size:13px;color:#666">我卖出的</span>
             </div>
-            <div layout="column" layout-align="center center">
+            <div @click="goOrderListBuy" layout="column" layout-align="center center">
                 <p style="font-size:24px">{{userInfo.hasBuyCounts}}</p>
                 <span style="font-size:13px;color:#666">我买到的</span>
             </div>
@@ -131,6 +131,21 @@ export default {
                 default:
                     break;
             }
+        },
+        goOrderListPublish() {
+            this.$router.push({
+                name: 'b2b-mall-order-list-publish'
+            });
+        },
+        goOrderListBuy() {
+            this.$router.push({
+                name: 'b2b-mall-order-list-buy'
+            });
+        },
+        goOrderListSell() {
+            this.$router.push({
+                name: 'b2b-mall-order-list-sell'
+            });
         }
         // jump(url) {
         //     Window.location.href = url;
