@@ -28,15 +28,15 @@
         </div>
         <div class="nav" style="margin-top:20px" layout="row" layout-align="start center">
             <div layout="column" layout-align="center center">
-                <img :src="require('assets/imgs/b2b-mall/2018120601.jpg')" alt="">
+                <img :src="require('assets/imgs/b2b-mall/youli.png')" alt="">
                 <span>邀请返利</span>
             </div>
             <div layout="column" layout-align="center center">
-                <img :src="require('assets/imgs/b2b-mall/2018120601.jpg')" alt="">
+                <img :src="require('assets/imgs/b2b-mall/doudou.png')" alt="">
                 <span>美豆豆商场</span>
             </div>
             <div layout="column" layout-align="center center">
-                <img :src="require('assets/imgs/b2b-mall/2018120601.jpg')" alt="">
+                <img :src="require('assets/imgs/b2b-mall/kefu.png')" alt="">
                 <span>在线客服</span>
             </div>
         </div>
