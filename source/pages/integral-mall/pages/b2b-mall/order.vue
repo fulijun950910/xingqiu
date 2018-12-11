@@ -66,10 +66,16 @@
             </div>
         </div>
         <!--发票-->
-        <!--<div class="m-t-3 bg-white cell cell-box" layout="row" layout-align="start center">-->
-            <!--<div flex>发票</div>-->
-            <!--<mt-switch ></mt-switch>-->
-        <!--</div>-->
+        <div @click="goSelectInvoice" class="m-t-3 bg-white cell cell-box" layout="row" layout-align="start center">
+            <div flex>发票</div>
+            <div v-if="invoiceFlag">
+                <span v-if="invoice.rise">{{invoice.rise}}</span>
+                <span v-else>请选择发票</span>
+            </div>
+            <div class="m-l-2" @click.stop="">
+                <mt-switch v-model="invoiceFlag"></mt-switch>
+            </div>
+        </div>
         <!--支付按钮-->
         <div class="pay-box-padding"></div>
         <div layout="row" layout-align="start center" class="pan-btn-box">
@@ -97,6 +103,8 @@ export default {
     data() {
         return {
             address: {},
+            invoice: {},
+            invoiceFlag: false,
             quantity: 1,
             freight: 0, // todo 上线前写死
             orderData: {}
@@ -122,6 +130,7 @@ export default {
         init() {
             this.query();
             this.loadAddress();
+            this.loadInvoice();
         },
         quantityChange(num) {
             console.log(num);
@@ -137,6 +146,11 @@ export default {
             } else {
                 let { data } = await api_party.getDefaultAddress(this.$store.state.party.partyId, this.$store.state.party.id);
                 this.address = data || {};
+            }
+        },
+        async loadInvoice() {
+            if (this.$store.state.b2bMallInvoice) {
+                this.invoice = this.$store.state.b2bMallInvoice;
             }
         },
         async subOrder() {
@@ -161,6 +175,11 @@ export default {
                     }
                 ]
             };
+            if (this.invoiceFlag && this.invoice.id) {
+                data.invoiceId = this.invoice.id;
+                data.invoiceTitle = this.invoice.rise;
+                data.taxpayerNumber = this.invoice.taxpayerNumber;
+            }
             this.$indicator.open();
             let res = await api_b2bmall.supplierOrder(data);
             this.$indicator.close();
@@ -187,6 +206,9 @@ export default {
         },
         goSelectAddress() {
             this.$router.push('/address-list/select');
+        },
+        goSelectInvoice() {
+            this.$router.push('/b2b-mall-invoice-list');
         }
     }
 };

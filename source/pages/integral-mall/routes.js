@@ -41,6 +41,8 @@ import b2bMallOrderListPublish from 'pages/integral-mall/pages/b2b-mall/order-li
 import b2bMallOrderListBuy from 'pages/integral-mall/pages/b2b-mall/order-list/buy';
 import b2bMallOrderListSell from 'pages/integral-mall/pages/b2b-mall/order-list/sell';
 import b2bMallOrderListSellDetil from 'pages/integral-mall/pages/b2b-mall/order-list/sell-detail';
+import b2bMallInvoiceList from 'pages/integral-mall/pages/b2b-mall/invoice/list';
+import b2bMallInvoiceEdit from 'pages/integral-mall/pages/b2b-mall/invoice/edit';
 import b2bMallUserInfo from 'pages/integral-mall/pages/b2b-mall/userinfo';
 import b2bMallEditUserInfo from 'pages/integral-mall/pages/b2b-mall/editUserInfo';
 
@@ -229,6 +231,18 @@ export default [{
             component: b2bMallOrderListSellDetil
         }
     ]
+},
+{
+    path: '/b2b-mall-invoice-list',
+    name: 'b2b-mall-invoice-list',
+    props: true,
+    component: b2bMallInvoiceList
+},
+{
+    path: '/b2b-mall-invoice-edit/:id?',
+    name: 'b2b-mall-invoice-edit',
+    props: true,
+    component: b2bMallInvoiceEdit
 },
 {
     path: '/b2b-mall-user',
