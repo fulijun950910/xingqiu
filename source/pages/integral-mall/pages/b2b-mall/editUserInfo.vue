@@ -9,9 +9,9 @@
                 <div class="">品牌&emsp;</div>
                 <input flex type="text" v-model="merchantInfo.brandName" placeholder="请输入品牌"/>
             </div>
-            <div v-else-if="type == 3" class="textCell cell cell-box" layout="row" layout-align="start stretch">
+            <div v-else-if="type == 3" @click="slectView(1)" class="textCell cell cell-box" layout="row" layout-align="start stretch">
                 <div class="">从属行业&emsp;</div>
-                <input flex type="text" v-model="merchantInfo.industry" placeholder="请输入行业"/>
+                <div flex class="color-gray">{{merchantInfo.industry | getName(industry)}}</div>
             </div>
             <div v-else-if="type == 4" class="textCell cell cell-box" layout="row" layout-align="start stretch">
                 <div class="">店铺简介&emsp;</div>
@@ -21,6 +21,9 @@
         <div>
             <button @click="submit" class="fs32 sub-btn">确认修改</button>
         </div>
+        <popup-right v-model="showView">
+            <popup-right-list v-if="selectIndex==1" :options="industry" title="选择从属行业" v-model="merchantInfo.industry"></popup-right-list>
+        </popup-right>
     </div>
 </template>
 <script>
@@ -39,7 +42,8 @@ export default {
         return {
             merchantInfo: {},
             selectIndex: 1,
-            showView: false
+            showView: false,
+            industry: []
         };
     },
     mounted() {
@@ -48,6 +52,7 @@ export default {
         } else {
             this.$router.back();
         }
+        this.getindustry();
     },
     methods: {
         check() {
@@ -79,6 +84,19 @@ export default {
                     break;
             }
             return flag;
+        },
+        getindustry() {
+            this.$indicator.open();
+            apigetInfo.getindustry().then(res => {
+                this.$indicator.close();
+                this.industry = res.data;
+                this.industry.forEach(function(value, index) {
+                    value.value = value.id;
+                });
+            },
+            error => {
+                console.log(error);
+            });
         },
         submit() {
             if (this.check()) {
