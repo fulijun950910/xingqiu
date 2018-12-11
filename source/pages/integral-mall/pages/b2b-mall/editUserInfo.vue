@@ -89,8 +89,8 @@ export default {
         },
         changeEmpData() {
             let data = {
-                id: this.merchantInfo.id
-                // type: this.type
+                id: this.merchantInfo.id,
+                type: this.type
             };
             switch (this.type) {
                 case 1:
