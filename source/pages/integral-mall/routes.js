@@ -83,7 +83,7 @@ export default [{
     name: 'b2b-order-list',
     component: b2bOrderList
 }, {
-    path: '/logistics-list/:orderId',
+    path: '/logistics-list/:orderId/:campanyCode?',
     props: true,
     name: 'logistics-list',
     component: logisticsList

@@ -60,7 +60,7 @@
                 <div class="extra-black" flex>商品总价</div>
                 <div >￥{{totalAmount | fen2yuan}}</div>
             </div>
-            <div v-if="freight && freight > 0" class="p-t-2 p-b-2" layout="row">
+            <div v-if="freight && freight >= 0" class="p-t-2 p-b-2" layout="row">
                 <div class="extra-black" flex>运费</div>
                 <div >￥{{freight|fen2yuan}}</div>
             </div>
@@ -70,7 +70,7 @@
             <div flex>发票</div>
             <div v-if="invoiceFlag">
                 <span v-if="invoice.rise">{{invoice.rise}}</span>
-                <span v-else>请选择发票</span>
+                <span class="extra-light-black" v-else>请选择发票</span>
             </div>
             <div class="m-l-2" @click.stop="">
                 <mt-switch v-model="invoiceFlag"></mt-switch>
@@ -131,9 +131,11 @@ export default {
             this.query();
             this.loadAddress();
             this.loadInvoice();
+            if (this.$store.state.b2bMallData.orderData) {
+                this.invoiceFlag = this.$store.state.b2bMallData.orderData.invoiceFlag;
+            }
         },
         quantityChange(num) {
-            console.log(num);
             this.quantity = num;
         },
         async query() {
@@ -195,7 +197,7 @@ export default {
                 nonceStr: data.nonceStr,
                 package: data.packageStr,
                 success(resp) {
-                    // _this.goSuccess();
+                    _this.goSuccess();
                 },
                 error(err) {
                     if (err.result != 'cancel') {
@@ -204,10 +206,16 @@ export default {
                 }
             });
         },
+        goSuccess() {
+            this.$router.push(`/b2b-mall-order-detail/${this.id}`);
+        },
         goSelectAddress() {
             this.$router.push('/address-list/select');
         },
         goSelectInvoice() {
+            this.$store.state.b2bMallData.orderData = {
+                invoiceFlag: this.invoiceFlag
+            };
             this.$router.push('/b2b-mall-invoice-list');
         }
     }

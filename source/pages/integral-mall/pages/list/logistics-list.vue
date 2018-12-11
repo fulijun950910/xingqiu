@@ -29,9 +29,10 @@
 
 <script>
 import apiPromotion from 'services/api.promotion';
+import api_b2bmall from 'services/api.b2bmall';
 export default {
     name: 'logistics-list',
-    props: ['orderId'],
+    props: ['orderId', 'campanyCode'],
     data() {
         return {
             expInfo: {},
@@ -43,13 +44,22 @@ export default {
     },
     methods: {
         async loadData() {
-            let queryData = {
-                b2bOrderId: this.orderId
-            };
             this.$indicator.open();
-            let { data } = await apiPromotion.getOrderExpressDetail(queryData);
+            let res;
+            if (this.campanyCode) {
+                let queryData = {
+                    expressCode: this.campanyCode,
+                    expressNo: this.orderId
+                };
+                res = await api_b2bmall.queryExpress(queryData);
+            } else {
+                let queryData = {
+                    b2bOrderId: this.orderId
+                };
+                res = await apiPromotion.getOrderExpressDetail(queryData);
+            }
             this.$indicator.close();
-            this.data = JSON.parse(data);
+            this.data = JSON.parse(res.data);
             if (this.data.com) {
                 let res = await apiPromotion.getExpressByCode(this.data.com);
                 this.expInfo = res.data;

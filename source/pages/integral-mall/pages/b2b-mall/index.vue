@@ -56,7 +56,7 @@
                     <img class="title-img m-r-2" :src="item.image | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                     <div class="mall-content" flex layout="column">
                         <div flex>
-                            <div class="no-wrap">{{item.title}}</div>
+                            <div class="no-wrap">{{item.name}}</div>
                             <!--<div class="color-gray fs12">规格 大型60cm *1</div>-->
                         </div>
                         <div layout="row">

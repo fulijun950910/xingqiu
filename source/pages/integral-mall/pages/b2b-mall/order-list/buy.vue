@@ -23,36 +23,48 @@
             </div>
         </div>
         <div class="order-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
-            <div v-for="item in orderList" :key="item.id" class="order-item m-t-3 card-style cell-box">
+            <div v-for="(item,index) in orderList" :key="item.id" class="order-item m-t-3 card-style cell-box">
                 <div class="p-t-5 p-b-3 border-bottom" layout="row">
                     <div class="fwb fs28" flex>{{item.merchantName}}</div>
                     <div>
                         <span class="color-primary">{{item.status | orderStatus}}</span>
                     </div>
                 </div>
-                <div class="cell border-bottom" layout="row">
-                    <img class="product-img m-r-2" :src="null | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
+                <div v-for="mall in item.supplierOrderItemList" :key="mall.id" class="cell border-bottom" layout="row">
+                    <img class="product-img m-r-2" :src="mall.goodsImage | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                     <div layout="row" flex>
                         <div layout="column" flex="75">
-                            <div flex>{{item.name}}</div>
+                            <div flex>{{mall.goodsName}}</div>
                             <!--<div class="fs24 extra-black">规格 大型60cm</div>-->
                         </div>
                         <div flex class="text-right extra-black">
-                            <div>*1</div>
-                            <div>￥{{item.totalAmount}}</div>
+                            <div>*{{mall.quantity}}</div>
+                            <div>￥{{mall.price | fen2yuan}}</div>
                         </div>
                     </div>
                 </div>
                 <div class="cell" layout="row">
                     <div class="extra-black" flex>
-                        <span v-if="item.status==0&&item.status==2&&item.status==3&&item.status==4">实际需支付</span>
+                        <span v-if="item.status==0||item.status==2||item.status==3||item.status==4">实际需支付</span>
                         <span v-else>实际支付</span>
                     </div>
-                    <div class="">￥{{item.needPayAmount}}</div>
+                    <div class="">￥{{item.needPayAmount | fen2yuan}}</div>
                 </div>
                 <div class="btn-box cell" layout="row" layout-align="end center">
-                    <button class="order-btn btn-default">延长收货</button>
-                    <button class="order-btn btn-primary">去付款</button>
+                    <button @click="goDetaill(item)" class="order-btn btn-default">查看详情</button>
+                    <div v-if="item.status == 0" layout="row" layout-align="start center">
+                        <button @click="cancelOrder(item,index)" class="order-btn btn-default">取消订单</button>
+                        <button @click="goDetaill(item)" class="order-btn btn-primary">去付款</button>
+                    </div>
+                    <div v-else-if="item.status == 1" layout="row" layout-align="start center">
+                        <button @click="refundOrder(item,index)" class="order-btn btn-primary">退款</button>
+                    </div>
+                    <div v-else-if="item.status == 6" layout="row" layout-align="start center">
+                        <button @click="subOrder(item,index)" class="order-btn btn-primary">确认收货</button>
+                    </div>
+                    <div v-else-if="item.status == 5" layout="row" layout-align="start center">
+                        <button @click="goOrder(item, index)" class="order-btn btn-primary">再来一单</button>
+                    </div>
                 </div>
             </div>
             <m-load-more :loading="isLoadOver"></m-load-more>
@@ -75,7 +87,7 @@ export default {
     name: 'buy',
     data() {
         return {
-            type: 0, // 状态
+            type: -1, // 状态
             orderList: [],
             loading: false,
             isLoadOver: false, // false已加载完所有数据
@@ -97,6 +109,15 @@ export default {
                 this.loadData();
             }
         },
+        typeChange(type) {
+            this.type = type;
+            this.resetQuery();
+            this.loadData();
+        },
+        resetQuery() {
+            this.query.page = 1;
+            this.orderList = [];
+        },
         async loadData() {
             let data = {
                 query: [
@@ -116,10 +137,10 @@ export default {
                 page: this.query.page,
                 size: this.query.size
             };
-            if (this.type > 0) {
+            if (this.type > -1) {
                 data.query.push({
                     field: 'status',
-                    value: this.$store.state.party.merchantId
+                    value: this.type
                 });
             }
             this.loading = true;
@@ -135,8 +156,54 @@ export default {
             this.loading = false;
             this.query.page++;
         },
-        typeChange(type) {
-            this.type = type;
+        goDetaill(item) {
+            this.$router.push({
+                name: 'b2b-mall-order-detail',
+                params: {
+                    id: item.id
+                }
+            });
+        },
+        goOrder(item) {
+            this.$router.push({
+                name: 'b2b-mall-order',
+                params: {
+                    id: item.supplierOrderItemList[0].goodsId
+                }
+            });
+        },
+        async subOrder(item, index) {
+            this.$messageBox.confirm('确认收货？').then(async action => {
+                this.$indicator.open();
+                await api_b2bmall.subOrder(item.id);
+                this.$indicator.close();
+                item.status = 5;
+                if (this.type > -1) {
+                    this.orderList.splice(index, 1);
+                }
+            });
+        },
+        async refundOrder(item, index) {
+            this.$messageBox.confirm('确认退款？').then(async action => {
+                this.$indicator.open();
+                await api_b2bmall.refundOrder(item.id);
+                this.$indicator.close();
+                item.status = 7;
+                if (this.type > -1) {
+                    this.orderList.splice(index, 1);
+                }
+            });
+        },
+        async cancelOrder(item, index) {
+            this.$messageBox.confirm('确认取消订单？').then(async action => {
+                this.$indicator.open();
+                await api_b2bmall.cancelOrder(item.id);
+                this.$indicator.close();
+                item.status = 4;
+                if (this.type > -1) {
+                    this.orderList.splice(index, 1);
+                }
+            });
         }
     },
     filters: {

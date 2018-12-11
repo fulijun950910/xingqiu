@@ -39,8 +39,9 @@ export default {
     methods: {
         async queryData() {
             this.$indicator.open();
-            await api_b2bmall.queryInvoice(this.$store.state.party.merchantId);
+            let res = await api_b2bmall.queryInvoiceDetail(this.id);
             this.$indicator.close();
+            this.dataModel = res.data;
         },
         check() {
             if (!this.dataModel.rise) {
