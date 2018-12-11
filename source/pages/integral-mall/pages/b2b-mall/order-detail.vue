@@ -34,7 +34,7 @@
         <div class="order-info m-t-3 card-style cell-box">
             <div class="p-t-5 p-b-3 border-bottom" layout="row">
                 <div class="fwb fs28" flex>苏州星辰美容仪器中心</div>
-                <div class="color-primary"><m-icon class="" xlink="#icon-xiangqing"></m-icon>&nbsp;在线沟通</div>
+                <!--<div class="color-primary"><m-icon class="" xlink="#icon-kefuicon"></m-icon>&nbsp;在线沟通</div>-->
             </div>
             <div class="cell border-bottom" layout="row">
                 <img class="product-img m-r-2" :src="null | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">

@@ -32,17 +32,17 @@ export default {
     },
     methods: {
         goPublish() {
-            this.$router.push({
+            this.$router.replace({
                 name: 'b2b-mall-order-list-publish'
             });
         },
         goSell() {
-            this.$router.push({
+            this.$router.replace({
                 name: 'b2b-mall-order-list-sell'
             });
         },
         goBuy() {
-            this.$router.push({
+            this.$router.replace({
                 name: 'b2b-mall-order-list-buy'
             });
         },
