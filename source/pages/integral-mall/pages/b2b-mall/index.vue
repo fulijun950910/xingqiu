@@ -291,7 +291,7 @@ export default {
         padding: 0 15px;
         box-sizing: border-box;
         background:url('~assets/imgs/b2b-mall/poster-bg-01.jpg') top center no-repeat;
-        background-size: 100% 100%;
+        background-size: 100.2% 100.2%;
         margin: 0 auto;
         .container{
             margin: 0 11px;
