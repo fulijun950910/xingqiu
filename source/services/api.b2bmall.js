@@ -1,6 +1,11 @@
 import request from './request.js';
 
 export default {
+    // 活动详情
+    getPromotionView(data) {
+        var url = `/api/promotionMobile/view`;
+        return request(url, data, 'post');
+    },
     // 美店首页信息查询
     getPurchaseMerchantIndexInfo(data) {
         let url = `/api/purchaseMallItem/getPurchaseMerchantIndexInfo`;

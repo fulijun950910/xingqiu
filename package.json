@@ -13,6 +13,7 @@
   "dependencies": {
     "fastclick": "^1.0.6",
     "jquery": "^2.2.2",
+    "html2canvas": "^1.0.0-alpha.12",
     "lodash.debounce": "^4.0.8",
     "mint-ui": "^2.2.7",
     "moment": "^2.18.1",

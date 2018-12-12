@@ -197,7 +197,7 @@ export default {
                 nonceStr: data.nonceStr,
                 package: data.packageStr,
                 success(resp) {
-                    _this.goSuccess();
+                    _this.goSuccess(data.orderId);
                 },
                 error(err) {
                     if (err.result != 'cancel') {
@@ -206,8 +206,8 @@ export default {
                 }
             });
         },
-        goSuccess() {
-            this.$router.push(`/b2b-mall-order-detail/${this.id}`);
+        goSuccess(id) {
+            this.$router.push(`/b2b-mall-order-detail/${id}`);
         },
         goSelectAddress() {
             this.$router.push('/address-list/select');
