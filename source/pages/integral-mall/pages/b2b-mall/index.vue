@@ -170,26 +170,23 @@ export default {
             location.href = res.data.promotionInstance.shortLink;
         },
         async showShare(item) {
-            if (!this.popImg) {
-                this.$indicator.open();
-                let result = await api_b2bmall.getPromotionView({ id: item.typeId });
-                result.data.promotionInstance.originPrice = 0;
-                result.data.promotionInstance.minPrice = Number.POSITIVE_INFINITY;
-                result.data.promotionInstance.promotionRuleGroup.promotionRuleGroupContentExts.forEach(function(item) {
-                    result.data.promotionInstance.originPrice += item.itemPrice;
-                    result.data.promotionInstance.minPrice = Math.min(result.data.promotionInstance.minPrice, item.itemPrice);
+            this.popImg = null;
+            this.$indicator.open();
+            let result = await api_b2bmall.getPromotionView({ id: item.typeId });
+            result.data.promotionInstance.originPrice = 0;
+            result.data.promotionInstance.minPrice = Number.POSITIVE_INFINITY;
+            result.data.promotionInstance.promotionRuleGroup.promotionRuleGroupContentExts.forEach(function(item) {
+                result.data.promotionInstance.originPrice += item.itemPrice;
+                result.data.promotionInstance.minPrice = Math.min(result.data.promotionInstance.minPrice, item.itemPrice);
+            });
+            this.shareData = result.data;
+            this.isShowShare = true;
+            setTimeout(() => {
+                HtmlCuter.htmlToCanvas(document.querySelector('#downloadBox'), img => {
+                    this.$indicator.close();
+                    this.popImg = img;
                 });
-                this.shareData = result.data;
-                this.isShowShare = true;
-                setTimeout(() => {
-                    HtmlCuter.htmlToCanvas(document.querySelector('#downloadBox'), img => {
-                        this.$indicator.close();
-                        this.popImg = img;
-                    });
-                }, 800);
-            } else {
-                this.isShowShare = true;
-            }
+            }, 800);
         },
         goCollect() {
             window.location.href = '/lite/index.html#/b2b';

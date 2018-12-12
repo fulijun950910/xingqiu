@@ -11,9 +11,9 @@ export default {
         let url = `/api/purchaseMallItem/getPurchaseMerchantIndexInfo`;
         return request(url, data, 'post');
     },
-    // 查询首页商品列表
-    searchForWx(data) {
-        let url = `/api/supplierGoods/searchForWx`;
+    // 我发布的商品
+    getPurchaseMallSellList(data) {
+        let url = `/api/purchaseMallItem/getPurchaseMallSellList`;
         return request(url, data, 'post');
     },
     // 查询商品详情
@@ -72,6 +72,11 @@ export default {
     // 我卖出的商品信息查询
     getPurchaseMallSell(data) {
         let url = `/api/purchaseMallItem/getPurchaseMallSell`;
+        return request(url, data, 'post');
+    },
+    // 我卖出的商品信息查询
+    getPurchaseMallSellOrderList(data) {
+        let url = `/api/purchaseMallItem/getPurchaseMallSellOrderList`;
         return request(url, data, 'post');
     },
     // 退款

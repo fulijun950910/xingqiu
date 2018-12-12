@@ -10,23 +10,23 @@
                         <span class="fs48">{{promotionData.sellCount}}</span>
                     </div>
                     <div>
-                        <span>购买人数</span>
+                        <span>销售额</span>
                         <span>&nbsp;</span>
                         <span>￥</span>
-                        <span class="fs48">{{promotionData.sellMoney | bigNumber}}元</span>
+                        <span class="fs48">{{promotionData.sellMoney | fen2yuan | bigNumber}}元</span>
                     </div>
                 </div>
                 <div @click="back" class="text-center extra-light-black"><m-icon xlink='#icon-huabanfuben17'></m-icon>返回</div>
             </div>
         </div>
         <div class="cell cell-box m-t-4 fs28 extra-light-black" layout="row">
-            <div flex>20条订单</div>
+            <div flex>{{query.total}}条订单</div>
             <div @click="showQuery" class="p-l-2">筛选<m-icon xlink='#icon-xia'></m-icon></div>
         </div>
         <div class="order-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
             <div v-for="item in promotionList" :key="item.id" class="list-item bg-white cell-box">
                 <div class="border-bottom cell" layout="row">
-                    <img class="title-img m-r-2" :src="null | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
+                    <img class="title-img m-r-2" :src="item.avatarId | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                     <div flex>
                         <div layout="row">
                            <div flex>{{item.nickName}} <span v-if="item.groupRole == 'CAPTAIN'" class="group-tag">团长</span></div>
@@ -69,16 +69,16 @@
                     <div class="m-b-3">
                         <div class="title p-t-4 p-b-4 fs32 fwb">时间周期</div>
                         <div class="date-input" layout="row" layout-align="center center">
-                            <input flex v-model="query.startTime" type="date" placeholder="开始日期">
+                            <input flex v-model="searchData.startTime" type="date" placeholder="开始日期">
                             <div class="cell-box">至</div>
-                            <input flex v-model="query.endTime" type="date" placeholder="结束日期">
+                            <input flex v-model="searchData.endTime" type="date" placeholder="结束日期">
                         </div>
                     </div>
                 </div>
                 <div class="btn-box-padding"></div>
                 <div class="btn-box" layout="row">
                     <button @click="showView = false;" flex class="btn-back">取消</button>
-                    <button flex class="btn-submit">确定</button>
+                    <button @click="search" flex class="btn-submit">确定</button>
                 </div>
             </div>
         </popup-right>
@@ -107,11 +107,13 @@ export default {
             query: {
                 merchantId: this.$store.state.party.merchantId,
                 purchaseMallItemId: null,
-                startTime: null,
-                endTime: null,
                 page: 1,
-                size: 10,
+                size: 4,
                 total: 0
+            },
+            searchData: {
+                startTime: null,
+                endTime: null
             }
         };
     },
@@ -120,16 +122,26 @@ export default {
         mLoadMore
     },
     mounted() {
-        // todo
         if (this.$store.state.b2bMallData.selectSellOrder && this.$store.state.b2bMallData.selectSellOrder.id) {
             this.promotionData = this.$store.state.b2bMallData.selectSellOrder;
-            this.query.purchaseMallItemId = this.promotionData.id;
+            this.query.purchaseMallItemId = this.promotionData.purchaseMallItemId;
             this.loadData();
         } else {
             this.back();
         }
     },
     methods: {
+        search() {
+            this.resetQuery();
+            if (this.searchData.startTime) {
+                this.query.startTime = this.$moment(this.searchData.startTime).startOf('day').format('YYYY-MM-DD HH:mm:ss');
+            }
+            if (this.searchData.endTime) {
+                this.query.endTime = this.$moment(this.searchData.endTime).endOf('day').format('YYYY-MM-DD HH:mm:ss');
+            }
+            this.showView = false;
+            this.loadData();
+        },
         loadMore() {
             if (this.isLoadOver) {
                 this.loadData();
@@ -137,15 +149,9 @@ export default {
         },
         async loadData() {
             let data = this.$knife.deepCopy(this.query);
-            // if (this.type > -1) {
-            //     data.query.push({
-            //         field: 'status',
-            //         value: this.type
-            //     });
-            // }
             this.loading = true;
             this.$indicator.open();
-            let res = await api_b2bmall.searchSupplierOrderList(data);
+            let res = await api_b2bmall.getPurchaseMallSellOrderList(data);
             this.$indicator.close();
             if (res.data.rows.length < this.query.size) {
                 this.isLoadOver = false;

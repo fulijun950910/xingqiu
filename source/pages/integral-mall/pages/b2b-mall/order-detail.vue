@@ -6,7 +6,7 @@
             </div>
             <div v-else-if="orderData.status == 0" class="order-state0" layout="column" layout-align="center start">
                 <div class="color-white fs28">等待买家付款</div>
-                <div class="color-white">剩23小时59分自动关闭</div>
+                <div class="color-white">剩<m-timer :datetime="orderData.orderTime"/>自动关闭</div>
             </div>
             <div v-else-if="orderData.status == 1" class="order-state1" layout="column" layout-align="center start">
                 <div class="color-white fs32">等待供应商发货</div>
@@ -149,6 +149,7 @@
 <script>
 import api_b2bmall from 'services/api.b2bmall';
 import apiGetJSSignature from 'services/api.getJSSignature';
+import mTimer from 'components/m-timer';
 export default {
     name: 'order-detail',
     props: ['id'],
@@ -157,6 +158,9 @@ export default {
             orderData: {},
             express: {}
         };
+    },
+    components: {
+        mTimer
     },
     mounted() {
         this.init();
@@ -170,6 +174,8 @@ export default {
             let res = await api_b2bmall.querySupplierOrderDetail(this.id);
             this.$indicator.close();
             this.orderData = res.data;
+            this.orderData.orderTime = this.$moment(this.orderData.orderTime).add(30, 'm').format('YYYY-MM-DD HH:mm:ss');
+            console.log(this.orderData.orderTime);
             this.queryExpress();
         },
         async queryExpress() {

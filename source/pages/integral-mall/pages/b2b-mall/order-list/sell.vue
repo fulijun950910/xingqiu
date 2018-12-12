@@ -9,10 +9,10 @@
                         <span class="fs48">{{item.sellCount}}</span>
                     </div>
                     <div>
-                        <span>购买人数</span>
+                        <span>销售额</span>
                         <span>&nbsp;</span>
                         <span>￥</span>
-                        <span class="fs48">{{item.sellMoney | bigNumber}}元</span>
+                        <span class="fs48">{{item.sellMoney | fen2yuan | bigNumber}}元</span>
                     </div>
                 </div>
                 <div class="bg-default br1 p-l-2 p-r-2 p-t-4 p-b-4" layout="row" layout-align="start center">
@@ -57,10 +57,7 @@ export default {
         goDetail(item) {
             this.$store.state.b2bMallData.selectSellOrder = item;
             this.$router.push({
-                name: 'b2b-mall-order-list/sell-detail',
-                params: {
-                    id: item.id
-                }
+                name: 'b2b-mall-order-list-sell-detail'
             });
         }
     }
