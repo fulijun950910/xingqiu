@@ -45,7 +45,7 @@
         <!--商品管理-->
         <div class='m-t-3 cell cell-box bg-white border-bottom' layout='row' layout-align='start center'>
             <div flex class='fs32 fwb'>商品管理</div>
-            <div @click="goCollect" class='color-gray'>发现商品<m-icon xlink='#icon-zuojiantou'></m-icon></div>
+            <div @click="goCollect" class='color-gray'><m-icon class="color-primary" xlink='#icon-xingzhuang1'></m-icon> 发现商品</div>
         </div>
         <div class='mall-list' >
             <div v-for="item in indexData.mallSellList" :key="item.id" class='mall-item bg-white cell-box'>

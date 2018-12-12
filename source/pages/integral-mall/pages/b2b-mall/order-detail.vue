@@ -20,7 +20,10 @@
         </div>
         <!--物流信息-->
         <div class="card-style first-card cell-box">
-            <div v-if="express.data && (orderData.status == 5||orderData.status == 6)" @click="goLogistics" class="cell border-bottom p-l-5" layout="row">
+            <div v-if="express.data && (orderData.status == 5||orderData.status == 6)" @click="goLogistics" class="cell border-bottom" layout="row">
+                <div class="log-img-box">
+                    <img :src="require('assets/imgs/b2b-mall/2018121105.png')">
+                </div>
                 <div flex class="m-r-3">
                     <div class="color-primary fs28">{{express.data[0].context}}</div>
                     <div class="extra-light-black fs24 m-t-1">{{express.data[0].time}}</div>
@@ -29,13 +32,18 @@
                     <m-icon xlink='#icon-zuojiantou'></m-icon>
                 </div>
             </div>
-            <div class="cell p-l-5">
-                <div layout="row" layout-align="start center" class="m-b-1">
-                    <div>{{orderData.userName}}</div>&nbsp;&nbsp;
-                    <div>{{orderData.userPhone}}</div>
+            <div layout="row" layout-align="start start" class="cell">
+                <div class="log-img-box">
+                    <img :src="require('assets/imgs/b2b-mall/2018121104.png')">
                 </div>
-                <div layout="row" layout-align="start center" class="">
-                    <div>{{orderData.deliveryAddress}}</div>
+                <div flex>
+                    <div layout="row" layout-align="start center" class="m-b-1">
+                        <div>{{orderData.userName}}</div>&nbsp;&nbsp;
+                        <div>{{orderData.userPhone}}</div>
+                    </div>
+                    <div layout="row" layout-align="start center" class="">
+                        <div>{{orderData.deliveryAddress}}</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -346,6 +354,14 @@ export default {
         margin-left: 5px;
         margin-right: 5px;
         background:@white;
+    }
+    .log-img-box{
+        width: 65px;
+        text-align: center;
+        img{
+            height: 40px;
+            width: auto;
+        }
     }
     .first-card{
         margin-top: -12px;
