@@ -63,6 +63,12 @@ export default {
         let url = `/api/supplierOrder/confirm/${id}`;
         return request(url, null, 'get');
     },
+    // 我卖出的.................
+    // 我卖出的商品信息查询
+    getPurchaseMallSell(data) {
+        let url = `/api/purchaseMallItem/getPurchaseMallSell`;
+        return request(url, data, 'post');
+    },
     // 退款
     refundOrder(id) {
         let url = `/api/supplierOrder/refund/${id}`;
