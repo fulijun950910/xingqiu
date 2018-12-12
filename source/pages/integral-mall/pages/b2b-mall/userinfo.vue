@@ -30,16 +30,19 @@
                     <m-icon class="color-gray m-l-1" xlink="#icon-zuojiantou"></m-icon>
                 </div>
             </div>
-            <div class="border-bottom cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px">
+
+            <div class="border-bottom cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px;">
                 <div>
                     <span class="fs">品牌logo</span>
                 </div>
-                <div>
+                <div layout="row" layout-align="start center">
                     <span v-show="!userInfo.merchantInfo.logoFileId" class="fs extra-light-black">待上传</span>
-                    <img v-show="userInfo.merchantInfo.logoFileId" style="width:29px;height:29px" :src="userInfo.merchantInfo.logoFileId" alt="">
+                    <img v-show="userInfo.merchantInfo.logoFileId != null" style="width:29px;height:29px" :src="userInfo.merchantInfo.logoFileId | mSrc2()" alt="">
+                    <file-slice style="width:29px;height:29px" @click="changeAvatar" v-model="logoImage" :proportion="{w:1, h:1}"></file-slice>
                     <m-icon class="color-gray m-l-1" xlink="#icon-zuojiantou"></m-icon>
                 </div>
             </div>
+
             <div class="border-bottom cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px" @click="goEdit(3)">
                 <div>
                     <span class="fs">从属行业</span>
@@ -50,6 +53,7 @@
                     <m-icon class="color-gray m-l-1" xlink="#icon-zuojiantou"></m-icon>
                 </div>
             </div>
+
             <div class="cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px" @click="goEdit(4)">
                 <div flex=35>
                     <span class="fs">店铺简介</span>
@@ -62,31 +66,38 @@
             </div>
         </div>
 
-        <div class="m-b-2" style="background:#fff;padding:0 15px">
+        <!-- <div class="m-b-2" style="background:#fff;padding:0 15px">
             <div class="border-bottom cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px" >
                 <div>
                     <span class="fs">认证店铺</span>
                 </div>
                 <div>
-                    <span class="fs extra-light-black">未认证</span>
+                    <span v-show="userInfo.merchantInfo.authStatus==2" class="fs extra-light-black">未认证</span>
+                    <span v-show="userInfo.merchantInfo.authStatus==1" class="fs extra-light-black">已认证</span>
                     <m-icon class="color-gray m-l-1" xlink="#icon-zuojiantou"></m-icon>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
-import apigetInfo from 'services/api.b2bmall';
+import api_b2bmall from 'services/api.b2bmall';
+import api_file from 'services/api.file';
+import fileSlice from 'components/file-slice';
+
 export default {
     name: 'b2b-mall-userinfo',
     data() {
         return {
             userInfo: {
                 merchantInfo: {}
-            }
+            },
+            logoImage: {}
         };
     },
     components: {
+        fileSlice
+        // 'file-slice'：fileSlice
     },
     mounted() {
         this.getInfo();
@@ -98,7 +109,7 @@ export default {
                 partyId: this.$store.state.party.partyId
             };
             this.$indicator.open();
-            apigetInfo.getMyInfo(data).then(
+            api_b2bmall.getMyInfo(data).then(
                 res => {
                     this.$indicator.close();
                     this.userInfo = res.data;
@@ -108,6 +119,16 @@ export default {
                     console.log(error);
                 }
             );
+        },
+        changeAvatar(data) {
+            let resData = api_file.uploadImage(data);
+            let empData = {
+                id: this.userInfo.merchantInfo.id,
+                logoFileId: resData.data
+            };
+            api_b2bmall.changeInfo(empData).then(res => {
+                this.getInfo();
+            });
         },
         goEdit(type) {
             this.$router.push({ name: 'b2b-mall-editUserInfo', params: { type: type } });

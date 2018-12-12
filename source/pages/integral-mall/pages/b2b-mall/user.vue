@@ -16,8 +16,9 @@
             <div class="money" layout="row">
                 <div class="box" flex style="border-right:1px solid #ccc">
                     <span class="s1">收入:&nbsp;</span>
-                    <span class="s2">{{ sellMoney }}</span>
-                    <span class="s3">&nbsp;万元</span>
+                    <span class="s2">{{ userInfo.sellMoney | fen2yuan | wan}}</span>
+                    <span class="s3" v-show="this.sellMoney >= 10000">&nbsp;万元</span>
+                    <span class="s3" v-show="this.sellMoney < 10000">&nbsp;元</span>
                 </div>
                 <div class="box" flex @click="LinkTo(2)">
                     <span class="s1">美豆豆:&nbsp;</span>
@@ -110,8 +111,7 @@ export default {
                 res => {
                     this.$indicator.close();
                     this.userInfo = res.data;
-                    this.sellMoney = ((Vue.filter('fen2yuan')(this.userInfo.sellMoney)) / 10000).toFixed(2);
-                    console.log(this.userInfo);
+                    this.sellMoney = (Vue.filter('fen2yuan')(this.userInfo.sellMoney));
                 },
                 error => {
                     console.log(error);
