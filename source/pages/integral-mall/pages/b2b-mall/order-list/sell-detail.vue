@@ -3,75 +3,75 @@
         <div class="cell cell-box">
             <div class="total-box">
                 <div class="plain1" layout="row" layout-align="space-between center">
-                    <img class="title-img" :src="null | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
+                    <img class="title-img" :src="promotionData.imageId | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                     <div>
                         <span>购买人数</span>
                         <span>&nbsp;</span>
-                        <span class="fs48">33</span>
+                        <span class="fs48">{{promotionData.sellCount}}</span>
                     </div>
                     <div>
                         <span>购买人数</span>
                         <span>&nbsp;</span>
                         <span>￥</span>
-                        <span class="fs48">488.4</span>
+                        <span class="fs48">{{promotionData.sellMoney | bigNumber}}元</span>
                     </div>
                 </div>
-                <div class="text-center extra-light-black">收起<m-icon xlink='#icon-xia'></m-icon></div>
+                <div @click="back" class="text-center extra-light-black"><m-icon xlink='#icon-huabanfuben17'></m-icon>返回</div>
             </div>
         </div>
         <div class="cell cell-box m-t-4 fs28 extra-light-black" layout="row">
             <div flex>20条订单</div>
             <div @click="showQuery" class="p-l-2">筛选<m-icon xlink='#icon-xia'></m-icon></div>
         </div>
-        <div class="order-list">
-            <div class="list-item bg-white cell-box">
+        <div class="order-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
+            <div v-for="item in promotionList" :key="item.id" class="list-item bg-white cell-box">
                 <div class="border-bottom cell" layout="row">
                     <img class="title-img m-r-2" :src="null | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                     <div flex>
                         <div layout="row">
-                           <div flex>华山论剑 <span class="group-tag">团长</span></div>
-                           <div>¥1000.00</div>
+                           <div flex>{{item.nickName}} <span v-if="item.groupRole == 'CAPTAIN'" class="group-tag">团长</span></div>
+                           <div>¥{{item.buyPrice|fen2yuan}}</div>
                         </div>
-                        <div>1888****3948</div>
+                        <div>{{item.mobile}}</div>
                     </div>
                 </div>
                 <div class="cell" layout="row">
-                    <div class="extra-light-black fs24" flex>今天12:16</div>
+                    <div class="extra-light-black fs24" flex>{{item.buyDate}}</div>
                     <div class="fwb">
-                        <span class="color-primary">未验券</span>
-                        <!--<span class="">已验券</span>-->
+                        <span class="">{{item.ticketStatus|ticketStatus}}</span>
                     </div>
                 </div>
             </div>
+            <m-load-more :loading="isLoadOver"></m-load-more>
         </div>
         <!--筛选条件-->
         <popup-right v-model="showView">
             <div class="query-box">
-                <div class="query-content">
-                    <div class="m-b-3">
-                        <div class="title p-t-4 p-b-4 fs32 fwb">验券状态</div>
-                        <div >
-                            <div class="query-item">待验券</div>
-                            <div class="query-item act">待验券</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="query-content">
-                    <div class="m-b-3">
-                        <div class="title p-t-4 p-b-4 fs32 fwb">购买金额</div>
-                        <div >
-                            <div class="query-item">￥122</div>
-                            <div class="query-item act">￥122</div>
-                        </div>
-                    </div>
-                </div>
+                <!--<div class="query-content">-->
+                    <!--<div class="m-b-3">-->
+                        <!--<div class="title p-t-4 p-b-4 fs32 fwb">验券状态</div>-->
+                        <!--<div >-->
+                            <!--<div class="query-item">待验券</div>-->
+                            <!--<div class="query-item act">待验券</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="query-content">-->
+                    <!--<div class="m-b-3">-->
+                        <!--<div class="title p-t-4 p-b-4 fs32 fwb">购买金额</div>-->
+                        <!--<div >-->
+                            <!--<div class="query-item">￥122</div>-->
+                            <!--<div class="query-item act">￥122</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="query-content">
                     <div class="m-b-3">
                         <div class="title p-t-4 p-b-4 fs32 fwb">时间周期</div>
                         <div class="date-input" layout="row" layout-align="center center">
-                            <input flex type="date" placeholder="开始日期">
+                            <input flex v-model="query.startTime" type="date" placeholder="开始日期">
                             <div class="cell-box">至</div>
-                            <input flex type="date" placeholder="结束日期">
+                            <input flex v-model="query.endTime" type="date" placeholder="结束日期">
                         </div>
                     </div>
                 </div>
@@ -86,23 +86,112 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import {
+    InfiniteScroll
+} from 'mint-ui';
+Vue.use(InfiniteScroll);
+import api_b2bmall from 'services/api.b2bmall';
 import popupRight from 'components/popup-right';
-
+import mLoadMore from 'components/m-load-more';
 export default {
     name: 'sell-detail',
+    props: ['id'],
     data() {
         return {
-            showView: false
+            showView: false,
+            promotionData: {},
+            promotionList: [],
+            loading: false,
+            isLoadOver: false, // false已加载完所有数据
+            query: {
+                merchantId: this.$store.state.party.merchantId,
+                purchaseMallItemId: null,
+                startTime: null,
+                endTime: null,
+                page: 1,
+                size: 10,
+                total: 0
+            }
         };
     },
     components: {
-        popupRight
+        popupRight,
+        mLoadMore
     },
     mounted() {
+        // todo
+        if (this.$store.state.b2bMallData.selectSellOrder && this.$store.state.b2bMallData.selectSellOrder.id) {
+            this.promotionData = this.$store.state.b2bMallData.selectSellOrder;
+            this.query.purchaseMallItemId = this.promotionData.id;
+            this.loadData();
+        } else {
+            this.back();
+        }
     },
     methods: {
+        loadMore() {
+            if (this.isLoadOver) {
+                this.loadData();
+            }
+        },
+        async loadData() {
+            let data = this.$knife.deepCopy(this.query);
+            // if (this.type > -1) {
+            //     data.query.push({
+            //         field: 'status',
+            //         value: this.type
+            //     });
+            // }
+            this.loading = true;
+            this.$indicator.open();
+            let res = await api_b2bmall.searchSupplierOrderList(data);
+            this.$indicator.close();
+            if (res.data.rows.length < this.query.size) {
+                this.isLoadOver = false;
+            } else {
+                this.isLoadOver = true;
+            }
+            this.promotionList = this.promotionList.concat(res.data.rows);
+            this.loading = false;
+            this.query.total = res.data.total;
+            this.query.page++;
+        },
+        resetQuery() {
+            this.query.page = 1;
+            this.promotionList = [];
+        },
+        back() {
+            this.$router.back();
+        },
         showQuery() {
             this.showView = true;
+        }
+    },
+    filters: {
+        ticketStatus(value) {
+            let text = '';
+            switch (Number(value)) {
+                case 0:
+                    text = '未发券';
+                    break;
+                case 1:
+                    text = '未使用';
+                    break;
+                case 2:
+                    text = '不可用';
+                    break;
+                case 3:
+                    text = '已过期';
+                    break;
+                case 4:
+                    text = '已使用';
+                    break;
+                case 5:
+                    text = '已退款';
+                    break;
+            }
+            return text;
         }
     }
 };

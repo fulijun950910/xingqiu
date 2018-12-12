@@ -45,7 +45,7 @@
         <!--商品管理-->
         <div class='m-t-3 cell cell-box bg-white border-bottom' layout='row' layout-align='start center'>
             <div flex class='fs32 fwb'>商品管理</div>
-            <div class='color-gray'>发现商品<m-icon xlink='#icon-zuojiantou'></m-icon></div>
+            <div @click="goCollect" class='color-gray'>发现商品<m-icon xlink='#icon-zuojiantou'></m-icon></div>
         </div>
         <div class='mall-list' v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
             <div v-for="item in mallList" :key="item.id" class='mall-item bg-white cell-box'>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="btn-box" layout='row' layout-align='space-between center'>
                     <div class="btn-item">预览</div>
-                    <div class="btn-item">编辑</div>
+                    <div @click="goCollectDetail(item)" class="btn-item">编辑</div>
                     <div class="btn-item">分享</div>
                     <div @click="goOrder(item)" class="btn-item">采购</div>
                 </div>
@@ -165,6 +165,12 @@ export default {
                     id: item.id
                 }
             });
+        },
+        goCollect() {
+            window.location.href = '/lite/index.html#/b2b';
+        },
+        goCollectDetail(item) {
+            window.location.href = `/lite/index.html#/collect-goods/${item.id}`;
         },
         goBannerUrl() {
             window.location.href = this.indexData.midBanner.url;

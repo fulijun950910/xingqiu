@@ -225,7 +225,7 @@ export default [{
             component: b2bMallOrderListSell
         },
         {
-            path: 'sell-detail/:id',
+            path: 'sell-detail',
             name: 'b2b-mall-order-list-sell-detail',
             props: true,
             component: b2bMallOrderListSellDetil
