@@ -10,7 +10,7 @@
                     <m-icon class="color-gray m-l-1" xlink="#icon-zuojiantou"></m-icon>
                 </div>
             </div>
-            <div class="cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px">
+            <div class="cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px" @click="jump">
                 <div>
                     <span class="fs">地址管理</span>
                 </div>
@@ -31,14 +31,14 @@
                 </div>
             </div>
 
-            <div class="border-bottom cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px;">
+            <div class="border-bottom cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px;position:relative">
                 <div>
                     <span class="fs">品牌logo</span>
                 </div>
                 <div layout="row" layout-align="start center">
-                    <span v-show="!userInfo.merchantInfo.logoFileId" class="fs extra-light-black">待上传</span>
-                    <img v-show="userInfo.merchantInfo.logoFileId != null" style="width:29px;height:29px" :src="userInfo.merchantInfo.logoFileId | mSrc2()" alt="">
-                    <file-slice style="width:29px;height:29px" @click="changeAvatar" v-model="logoImage" :proportion="{w:1, h:1}"></file-slice>
+                    <span v-show="userInfo.merchantInfo.logoFileId == null" class="fs extra-light-black">待上传</span>
+                    <img v-show="userInfo.merchantInfo.logoFileId != null" style="width:29px;height:29px" :src="userInfo.merchantInfo.logoFileId | nSrc(require('assets/imgs/female.png'))" alt="">
+                    <file-slice @click="changeAvatar" v-model="logoImage" :proportion="{w:1, h:1}"></file-slice>
                     <m-icon class="color-gray m-l-1" xlink="#icon-zuojiantou"></m-icon>
                 </div>
             </div>
@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <!-- <div class="m-b-2" style="background:#fff;padding:0 15px">
+        <div class="m-b-2" style="background:#fff;padding:0 15px">
             <div class="border-bottom cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px" >
                 <div>
                     <span class="fs">认证店铺</span>
@@ -77,7 +77,7 @@
                     <m-icon class="color-gray m-l-1" xlink="#icon-zuojiantou"></m-icon>
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
 </template>
 <script>
@@ -97,7 +97,6 @@ export default {
     },
     components: {
         fileSlice
-        // 'file-slice'：fileSlice
     },
     mounted() {
         this.getInfo();
@@ -120,8 +119,8 @@ export default {
                 }
             );
         },
-        changeAvatar(data) {
-            let resData = api_file.uploadImage(data);
+        async changeAvatar(data) {
+            let resData = await api_file.uploadImage(data);
             let empData = {
                 id: this.userInfo.merchantInfo.id,
                 logoFileId: resData.data
@@ -132,14 +131,25 @@ export default {
         },
         goEdit(type) {
             this.$router.push({ name: 'b2b-mall-editUserInfo', params: { type: type } });
+        },
+        jump() {
+            this.$router.push('/address-list/select');
         }
     }
 };
 </script>
 
-<style scoped lang='less'>
+<style lang='less'>
 @import '~styles/_agile';
 .b2b-mall-userinfo{
+    .file-slice {
+        overflow: hidden;
+        input.path{
+                width: 100%;
+                position: absolute;
+                right: 0;
+            }
+    }
     font-size: 13px;
     min-height: 100vh;
     background: @bg-gray;

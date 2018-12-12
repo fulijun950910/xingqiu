@@ -28,15 +28,15 @@
             </div>
         </div>
         <div class="nav" style="margin-top:20px" layout="row" layout-align="start center">
-            <div layout="column" layout-align="center center">
+            <div layout="column" layout-align="center center" @click="toast">
                 <img :src="require('assets/imgs/b2b-mall/youli.png')" alt="">
                 <span>邀请返利</span>
             </div>
-            <div layout="column" layout-align="center center">
+            <div layout="column" layout-align="center center" @click="toast">
                 <img :src="require('assets/imgs/b2b-mall/doudou.png')" alt="">
                 <span>美豆豆商场</span>
             </div>
-            <div layout="column" layout-align="center center">
+            <div layout="column" layout-align="center center" @click="toast">
                 <img :src="require('assets/imgs/b2b-mall/kefu.png')" alt="">
                 <span>在线客服</span>
             </div>
@@ -74,7 +74,7 @@
                 <span></span>
                 10张待使用<m-icon style="margin-left:5px" xlink='#icon-zuojiantou'></m-icon></div>
         </div>
-        <p style="background:#F5F5F5;min-height:200px"></p>
+        <p style="background:#F5F5F5;min-height:135px"></p>
         <navBar type="2"></navBar>
     </div>
 </template>
@@ -147,6 +147,9 @@ export default {
         },
         jump(url) {
             location.href = url;
+        },
+        toast() {
+            this.$toast('敬请期待哦~');
         }
     }
 };
