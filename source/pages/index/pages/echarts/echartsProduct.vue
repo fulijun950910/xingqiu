@@ -461,7 +461,8 @@ export default {
                 merchantId: this.$store.getters.merchantId,
                 queryData: {
                     itemSalesDetail: true
-                }
+                },
+                storeIds: JSON.parse(localStorage.getItem('performanceInfo')).performanceStoreIds
             };
             if (this.vm.timeInterval.storeIds) {
                 parameter.storeIds = this.vm.timeInterval.storeIds;
