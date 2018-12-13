@@ -12,7 +12,8 @@
         </div>
         <div class="banner p-l-3">
             <swiper :options="swiperOption" ref="swiperOption">
-                <swiper-slide v-for="(item, index) in bannerList" :key="index" @click="bannerClick(item.url)">
+                <swiper-slide v-for="(item, index) in bannerList" :key="index">
+                    <div class="swiper-mask" @click="bannerClick(item.url)"></div>
                     <img :src="item.image | nSrc(require('assets/imgs/location.jpg'))" alt="">
                 </swiper-slide>
             </swiper>
@@ -721,6 +722,13 @@ export default {
       left: 0;
       right: 0;
       background: white;
+      z-index: 10;
+  }
+
+  .swiper-mask{
+      position: absolute;
+      width: 100%;
+      height: 100%;
       z-index: 10;
   }
 
