@@ -12,7 +12,7 @@
                         <span>销售额</span>
                         <span>&nbsp;</span>
                         <span>￥</span>
-                        <span class="fs48">{{item.sellMoney | fen2yuan | bigNumber}}元</span>
+                        <span class="fs48">{{item.sellMoney | fen2yuan | bigNumber}}</span>
                     </div>
                 </div>
                 <div class="bg-default br1 p-l-2 p-r-2 p-t-4 p-b-4" layout="row" layout-align="start center">

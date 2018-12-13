@@ -13,7 +13,7 @@
                         <span>销售额</span>
                         <span>&nbsp;</span>
                         <span>￥</span>
-                        <span class="fs48">{{promotionData.sellMoney | fen2yuan | bigNumber}}元</span>
+                        <span class="fs48">{{promotionData.sellMoney | fen2yuan | bigNumber}}</span>
                     </div>
                 </div>
                 <div @click="back" class="text-center extra-light-black"><m-icon xlink='#icon-huabanfuben17'></m-icon>返回</div>

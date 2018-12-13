@@ -68,13 +68,10 @@
         <!--发票-->
         <div @click="goSelectInvoice" class="m-t-3 bg-white cell cell-box" layout="row" layout-align="start center">
             <div flex>发票</div>
-            <div v-if="invoiceFlag">
-                <span v-if="invoice.rise">{{invoice.rise}}</span>
-                <span class="extra-light-black" v-else>请选择发票</span>
-            </div>
-            <div class="m-l-2" @click.stop="">
-                <mt-switch v-model="invoiceFlag"></mt-switch>
-            </div>
+            <div v-if="invoice.rise">{{invoice.rise}}</div>
+            <div class="extra-light-black" v-else>请选择发票</div>
+            <m-icon class="fs36 color-gray" xlink="#icon-zuojiantou"></m-icon>
+
         </div>
         <!--支付按钮-->
         <div class="pay-box-padding"></div>
@@ -104,7 +101,6 @@ export default {
         return {
             address: {},
             invoice: {},
-            invoiceFlag: false,
             quantity: 1,
             freight: 0, // todo 上线前写死
             orderData: {}
