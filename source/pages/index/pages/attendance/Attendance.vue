@@ -51,10 +51,15 @@
                     <span style="margin-left:5px;color:#768BB7">点击重试</span>
                 </div>
             </div>
-            <div class="ban" layout="row" layout-align="start center">
+            <div class="ban" layout="row" layout-align="start center" @click="confirm">
                 <p>A班&nbsp;9:00-18:00</p>
                 <p>B班&nbsp;9:00-18:00</p>
                 <m-icon class="ic" xlink="#icon-pop-left"></m-icon>
+            </div>
+            <div class="share-box" v-if="isShowShare" @click="isShowShare = false ">
+                <div class="box">
+
+                </div>
             </div>
         </div>
         <div class="Handle" layout="row" layout-align="start center">
@@ -80,12 +85,16 @@ export default {
     },
     data() {
         return {
-            time: this.$moment().startOf('day').format('YYYY.MM.DD')
+            time: this.$moment().startOf('day').format('YYYY.MM.DD'),
+            isShowShare: false
         };
     },
     mounted() {
     },
     methods: {
+        confirm() {
+            this.isShowShare = true;
+        }
     }
 };
 </script>
@@ -174,7 +183,7 @@ export default {
                         height: 125px;
                         border-radius: 50%;
                         margin: 0 auto;
-                        background: @color-primary;
+                        background:linear-gradient(270deg,rgba(193,59,147,1) 0%,rgba(140,27,127,0) 75%);
                         text-align: center;
                         line-height: 125px;
                     }
@@ -225,6 +234,18 @@ export default {
             }
             .ic {
                 color:rgba(229,232,235,1);
+            }
+        }
+        .share-box {
+            position:fixed;
+            width:100vw;
+            height:100vh;
+            top: 0;
+            left:0;
+            background: rgba(0,0,0,0.8);
+            .box {
+                width: 300px;
+                margin: 0 auto;
             }
         }
     }

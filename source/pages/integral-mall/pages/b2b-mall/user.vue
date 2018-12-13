@@ -41,9 +41,9 @@
                 <span>在线客服</span>
             </div>
         </div>
-        <div style="width:100%;background:#F5F5F5;padding:10px" @click="jump(userInfo.midBanner.url)">
+        <div style="height:64px;background:#F5F5F5;padding:10px" @click="jump(userInfo.midBanner.url)">
                 <!-- <img style="width:355px;border-radius:4px" :src="require('assets/imgs/b2b-mall/2018120601.jpg')" alt=""> -->
-                <img style="width:355px;border-radius:4px" :src="userInfo.midBanner.imageId | mSrc2(require('assets/imgs/b2b-mall/2018120601.jpg'))" alt="">
+                <img style="width:100%;height:100%;border-radius:4px" :src="userInfo.midBanner.imageId | mSrc2(require('assets/imgs/b2b-mall/2018120601.jpg'))" alt="">
         </div>
 
         <!-- 订单管理 -->
@@ -68,13 +68,13 @@
         </div>
         <p style="background:#F5F5F5;height:10px"></p>
         <!-- 我的优惠券 -->
-        <div class='cell cell-box bg-white' layout='row' layout-align='start center'>
+        <!-- <div class='cell cell-box bg-white' layout='row' layout-align='start center'>
             <div flex class='fs32 fwb'>我的优惠券</div>
             <div class='color-gray youhui'>
                 <span></span>
                 10张待使用<m-icon style="margin-left:5px" xlink='#icon-zuojiantou'></m-icon></div>
-        </div>
-        <p style="background:#F5F5F5;min-height:135px"></p>
+        </div> -->
+        <p class="p"></p>
         <navBar type="2"></navBar>
     </div>
 </template>
@@ -264,6 +264,10 @@ export default {
             top: -5px;
             left: -5px;
         }
+    }
+    .p{
+        background: #F5F5F5;
+        min-height: 150px;
     }
 }
 </style>
