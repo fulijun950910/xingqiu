@@ -526,6 +526,8 @@ app.userinfo = {
                                                                         url = '/service/index.html#/qrconfirm?token=' + keyGetValue('token');
                                                                     } else if (keyGetValue('type') == 7) {
                                                                         url = '/api/wechatbusinessassists/attendance?time=' + keyGetValue('time') + '&merchantId=' + keyGetValue('merchantId') + '&storeId=' + keyGetValue('storeId');
+                                                                    } else if (keyGetValue('type') == 8) {
+                                                                        url = '/service/integral-mall.html#/b2b-mall-index';
                                                                     }
 
                                                                     if (location.pathname == '/main.html') {
@@ -963,6 +965,8 @@ app.userinfo = {
                                                 location.href = '/service/index.html#/checkIn';
                                             } else if (keyGetValue('type') == 5) {
                                                 location.href = '/service/integral-mall.htm#/personal';
+                                            } else if (keyGetValue('type') == 8) {
+                                                location.href = '/service/integral-mall.html#/b2b-mall-index';
                                             } else {
                                                 location.href = '/service/index.html#/main';
                                             }
