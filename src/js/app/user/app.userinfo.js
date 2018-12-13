@@ -528,7 +528,9 @@ app.userinfo = {
                                                                         url = '/api/wechatbusinessassists/attendance?time=' + keyGetValue('time') + '&merchantId=' + keyGetValue('merchantId') + '&storeId=' + keyGetValue('storeId');
                                                                     } else if (keyGetValue('type') == 8) {
                                                                         url = '/service/integral-mall.html#/b2b-mall-index';
-                                                                    } 
+                                                                    } else if((keyGetValue('type') == 9)) {
+                                                                        url = '/lite/index.html#/b2b';
+                                                                    }
                                                                     
                                                                     if (location.pathname == '/main.html') {
                                                                         location.reload();

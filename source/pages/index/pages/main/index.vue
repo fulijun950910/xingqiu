@@ -262,7 +262,7 @@ export default {
                     break;
                 case 2:
                 // b2b商城
-                    window.location.href = '/lite/index.html#/b2b';
+                    window.location.href = '/api/b2bPromotionMobile/oauthURI/b2b_mall_goods';
                     // window.location.href = '/api/b2bPromotionMobile/oauthURI/b2b';
                     break;
                 case 3:
