@@ -261,19 +261,9 @@ export default {
                     window.location.href = '/api/b2bPromotionMobile/oauthURI/rule_entry';
                     break;
                 case 2:
-                // 美博汇
-                    // if (this.$store.state && this.$store.state.party && this.$store.state.party.partyId) {
-                    //     let openId = JSON.parse(localStorage.getItem('employee')).openId;
-                    //     this.$indicator.open();
-                    //     api_party.bandWeichat(this.$store.state.party.id, openId).then(msg => {
-                    //         this.$indicator.close();
-                    //         window.location.href = `http://b2b.mei1.info/app/index.php?i=1&c=entry&eid=41&saasUID=${this.$store.state.party.id}`;
-                    //     }, msg => {
-                    //     });
-                    // } else {
-                    //     location.href = this.$signLocation;
-                    // };
-                    location.href = '/lite/index.html#/b2b';
+                // b2b商城
+                    window.location.href = '/api/b2bPromotionMobile/oauthURI/b2b_mall_goods';
+                    // window.location.href = '/api/b2bPromotionMobile/oauthURI/b2b';
                     break;
                 case 3:
                 // 美问美答

@@ -11,11 +11,13 @@
                 </div>
             </div>
             <div class="cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px" @click="jump">
-                <div>
+                <div flex=35>
                     <span class="fs">地址管理</span>
                 </div>
-                <div>
-                    <m-icon class="color-gray" xlink="#icon-zuojiantou"></m-icon>
+                <div layout="row" layout-align="space-between center">
+                    <span v-show="Adreess.fullAddress == null" class="fs extra-light-black">请选择默认地址</span>
+                    <span class="fs extra-light-black">{{Adreess.fullAddress}}</span>
+                    <m-icon class="color-gray m-l-1" xlink="#icon-zuojiantou"></m-icon>
                 </div>
             </div>
         </div>
@@ -49,7 +51,7 @@
                 </div>
                 <div>
                     <span v-show="!userInfo.merchantInfo.industry" class="fs extra-light-black">未选择</span>
-                    <span class="fs extra-light-black">{{userInfo.merchantInfo.industry}}</span>
+                    <span class="fs extra-light-black">{{userInfo.merchantInfo.industry | getName(industry)}}</span>
                     <m-icon class="color-gray m-l-1" xlink="#icon-zuojiantou"></m-icon>
                 </div>
             </div>
@@ -61,7 +63,7 @@
                 <div layout="row" layout-align="space-between center">
                     <span v-show="!userInfo.merchantInfo.shopShortDesc" class="fs extra-light-black">为您的店铺写句话吧~</span>
                     <span class="fs extra-light-black">{{userInfo.merchantInfo.shopShortDesc}}</span>
-                    <m-icon class="color-gray" xlink="#icon-zuojiantou"></m-icon>
+                    <m-icon class="color-gray m-l-1" xlink="#icon-zuojiantou"></m-icon>
                 </div>
             </div>
         </div>
@@ -82,6 +84,7 @@
 </template>
 <script>
 import api_b2bmall from 'services/api.b2bmall';
+import api_party from 'services/api.party';
 import api_file from 'services/api.file';
 import fileSlice from 'components/file-slice';
 
@@ -92,7 +95,14 @@ export default {
             userInfo: {
                 merchantInfo: {}
             },
-            logoImage: {}
+            logoImage: {},
+            industry: [],
+            pageChange: {
+                page: 1,
+                size: 20
+            },
+            dataList: [],
+            Adreess: {}
         };
     },
     components: {
@@ -100,6 +110,8 @@ export default {
     },
     mounted() {
         this.getInfo();
+        this.getindustry();
+        this.getAdreess();
     },
     methods: {
         async getInfo() {
@@ -128,6 +140,50 @@ export default {
             api_b2bmall.changeInfo(empData).then(res => {
                 this.getInfo();
             });
+        },
+        getindustry() {
+            this.$indicator.open();
+            api_b2bmall.getindustry().then(res => {
+                this.$indicator.close();
+                this.industry = res.data;
+                this.industry.forEach(function(value, index) {
+                    value.value = value.id;
+                });
+            },
+            error => {
+                console.log(error);
+            });
+        },
+        getAdreess() {
+            let parameter = {
+                query: [
+                    {
+                        field: 'merchantId',
+                        value: this.$store.state.party.merchantId
+                    },
+                    {
+                        field: 'partyId',
+                        value: this.$store.state.party.partyId
+                    },
+                    {
+                        field: 'userId',
+                        value: this.$store.state.party.id
+                    }
+                ],
+                page: this.pageChange.page,
+                size: this.pageChange.size
+            };
+            this.$indicator.open();
+            api_party.addressSearch(parameter).then(res => {
+                this.$indicator.close();
+                this.dataList = res.data.rows;
+                var that = this;
+                this.dataList.map(function(value, index) {
+                    if (value.isDefault == true) {
+                        that.Adreess = value;
+                    }
+                });
+            }, msg => {});
         },
         goEdit(type) {
             this.$router.push({ name: 'b2b-mall-editUserInfo', params: { type: type } });
