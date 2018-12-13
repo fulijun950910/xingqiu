@@ -12,8 +12,8 @@
         </div>
         <div class="banner p-l-3">
             <swiper :options="swiperOption" ref="swiperOption">
-                <swiper-slide v-for="(item, index) in bannerList" :key="index">
-                    <img :src="item.image | nSrc(require('assets/imgs/location.jpg'))" @click="bannerClick(item.url)" alt="">
+                <swiper-slide v-for="(item, index) in bannerList" :key="index" @click="bannerClick(item.url)">
+                    <img :src="item.image | nSrc(require('assets/imgs/location.jpg'))" alt="">
                 </swiper-slide>
             </swiper>
             <div class="swiper-pagination p-l-3 p-r-3"></div>
@@ -272,7 +272,7 @@ export default {
                     // } else {
                     //     location.href = this.$signLocation;
                     // };
-                    location.href = `${this.$rootPath}shop.html#/leader`;
+                    location.href = '/lite/index.html#/b2b';
                     break;
                 case 3:
                 // 美问美答
