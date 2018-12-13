@@ -34,9 +34,9 @@
         <div class="bg-white cell cell-box">
             <div layout="row">
                 <div flex>预售商品销售金额</div>
-                <div>¥9000.00</div>
+                <div>¥{{indexData.currentSellMoney | fen2yuan}}</div>
             </div>
-            <div class="extra-light-black fs24">占位文案占位文案占位文案占位文案</div>
+            <div class="text-right extra-light-black fs24">占位文案占位文案占位文案占位文案</div>
         </div>
 
         <div @click="goBannerUrl" class="m-t-3 banner2-box">
@@ -192,7 +192,7 @@ export default {
             window.location.href = '/lite/index.html#/b2b';
         },
         goCollectDetail(item) {
-            window.location.href = `/lite/index.html#/collect-goods/${item.id}`;
+            window.location.href = `/lite/index.html#/collect-goods/${item.purchaseMallItemId}`;
         },
         goBannerUrl() {
             window.location.href = this.indexData.midBanner.url;

@@ -131,7 +131,7 @@ export default {
             }, 800);
         },
         goCollectDetail(item) {
-            window.location.href = `/lite/index.html#/collect-goods/${item.id}`;
+            window.location.href = `/lite/index.html#/collect-goods/${item.purchaseMallItemId}`;
         }
     }
 };

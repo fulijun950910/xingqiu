@@ -12,7 +12,8 @@
                 <div class="color-white fs32">等待供应商发货</div>
             </div>
             <div v-else-if="orderData.status == 6" class="order-state6" layout="column" layout-align="center start">
-                <div class="color-white fs32">已发货, 待签收</div>
+                <div class="color-white fs28">已发货, 待签收</div>
+                <div class="color-white">发货7天后将自动签收</div>
             </div>
             <div v-else class="order-state-style" layout="column" layout-align="center start">
                 <div class="color-white fs32">{{orderData.status | orderStatus}}</div>

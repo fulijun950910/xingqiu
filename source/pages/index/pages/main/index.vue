@@ -157,7 +157,7 @@ export default {
                 {
                     name: '异业共赢',
                     src: require('assets/imgs/index/icon-img5.png'),
-                    value: 5
+                    value: 8
                 }
             ],
             bbsMenu: [],
@@ -309,6 +309,10 @@ export default {
                 case 7:
                 // 个人中心
                     window.location.href = '/api/b2bPromotionMobile/oauthURI/star_personal';
+                    break;
+                case 8:
+                // b2b美店
+                    window.location.href = '/api/b2bPromotionMobile/oauthURI/b2b_mall_index';
                     break;
             }
         },
