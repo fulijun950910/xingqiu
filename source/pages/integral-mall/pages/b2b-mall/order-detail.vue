@@ -277,6 +277,8 @@ export default {
             if (document.execCommand('copy')) {
                 document.execCommand('copy');
                 this.$toast('复制成功');
+            } else {
+                this.$toast('暂不支持此机型，请手动复制');
             }
             document.body.removeChild(input);
         }
