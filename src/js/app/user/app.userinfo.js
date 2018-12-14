@@ -6,6 +6,9 @@ app.userinfo = {
                 if (employee.role == app.constant.WECHAT_BUSINESS[1].code || employee.role == app.constant.WECHAT_BUSINESS[2].code) {
                     if (employee.merchant && (employee.merchant.functionVersion == 4 || employee.merchant.functionVersion == 5)) { // 营销版
                         location.href = '/lite/index.html';
+                    } else if (employee.merchant && employee.merchant.functionVersion == 7) {
+                        // B2B版本
+                        location.href = '/service/integral-mall.html#/b2b-mall-index';
                     } else {
                         location.href = '/main.html#/index';
                     };
@@ -271,6 +274,14 @@ app.userinfo = {
                     return;
                 }
                 app.userinfo.getMerchanntList(accountParam).then(function(resultEmployeeList) {
+                    try {
+                        resultEmployeeList.data = resultEmployeeList.data.filter(function(val) {
+                            // 过滤S端B2B角色
+                            return val.merchant && val.merchant.functionVersion !== 6;
+                        });
+                    } catch (error) {
+                        console.error(error);
+                    }
                     for (var i in resultEmployeeList.data) {
                         resultEmployeeList.data[i].jsonData = JSON.stringify(resultEmployeeList.data[i]);
                     }
