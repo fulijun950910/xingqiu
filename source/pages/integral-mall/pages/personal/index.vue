@@ -38,49 +38,49 @@
         </div>
         <div class="list-personal" flex>
             <div v-if="!$store.getters.isPersonLogin" layout="row" class="item" layout-align="space-between center">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-shenfen"></m-icon>登入账号身份</span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="icon-shenfen"></m-icon>登入账号身份</span>
                 <span class="color-gray">{{party.userType | userType}}</span>
             </div>
             <div v-if="!$store.getters.isPersonLogin" layout="row" class="item" layout-align="space-between center" @click="routeTo(3)">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-wodedingdan"></m-icon>我的订单</span>
-                <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="icon-wodedingdan"></m-icon>我的订单</span>
+                <span class="color-gray right-icon text-right"><m-icon xlink="icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(9)">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-navicon-cgdh"></m-icon>我的采购单</span>
-                <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="icon-navicon-cgdh"></m-icon>我的采购单</span>
+                <span class="color-gray right-icon text-right"><m-icon xlink="icon-zuojiantou"></m-icon></span>
             </div>
             <div v-if="!$store.getters.isPersonLogin" layout="row" class="item" layout-align="space-between center" @click="routeTo(8)">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-jieshao"></m-icon>推荐商户列表</span>
-                <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="icon-jieshao"></m-icon>推荐商户列表</span>
+                <span class="color-gray right-icon text-right"><m-icon xlink="icon-zuojiantou"></m-icon></span>
             </div>
             <div v-if="!$store.getters.isPersonLogin" layout="row" class="item" layout-align="space-between center" @click="routeTo(4)">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-gerenxinxi"></m-icon>个人信息</span>
-                <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="icon-gerenxinxi"></m-icon>个人信息</span>
+                <span class="color-gray right-icon text-right"><m-icon xlink="icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(5)">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-wodedizhi"></m-icon>我的地址</span>
-                <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="icon-wodedizhi"></m-icon>我的地址</span>
+                <span class="color-gray right-icon text-right"><m-icon xlink="icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="routeTo(6)">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-kefu"></m-icon>客服</span>
-                <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="icon-kefu"></m-icon>客服</span>
+                <span class="color-gray right-icon text-right"><m-icon xlink="icon-zuojiantou"></m-icon></span>
             </div>
             <div v-if="!$store.getters.isPersonLogin" layout="row" class="item" layout-align="space-between center" @click="routeTo(7)">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-11"></m-icon>修改密码</span>
-                <span class="color-gray right-icon text-right"><m-icon xlink="#icon-zuojiantou"></m-icon></span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="icon-11"></m-icon>修改密码</span>
+                <span class="color-gray right-icon text-right"><m-icon xlink="icon-zuojiantou"></m-icon></span>
             </div>
             <div layout="row" class="item" layout-align="space-between center" @click="signOut()">
-                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="#icon-tuichu"></m-icon>退出登录</span>
+                <span class="color-black fs28"><m-icon class="color-gray fs30" xlink="icon-tuichu"></m-icon>退出登录</span>
                 <span class="color-gray right-icon"></span>
             </div>
         </div>
         <div class="bottom-tab color-gray" layout="row" layout-align="start center">
             <div layout="column" flex="50" @click="routeTo(1)" layout-align="center center" class="item">
-                <div><m-icon class="icon "  xlink="#icon-huaban6"></m-icon></div>
+                <div><m-icon class="icon "  xlink="icon-huaban6"></m-icon></div>
                 <div class="fs24">首页</div>
             </div>
             <div layout="column" flex="50" @click="routeTo(2)" layout-align="center center" class="item act">
-                <div><m-icon class="icon "  xlink="#icon-huaban1"></m-icon></div>
+                <div><m-icon class="icon "  xlink="icon-huaban1"></m-icon></div>
                 <div class="fs24">我的</div>
             </div>
         </div>

@@ -18,7 +18,7 @@
                      layout="row"
                      layout-align="center center">
                     <m-icon class="ic"
-                            xlink="#icon-yeji"></m-icon>
+                            xlink="icon-yeji"></m-icon>
                     &nbsp;
                     <p>业绩：￥{{update.achievementAmount | fen2yuan}}</p>
                 </div>
@@ -27,7 +27,7 @@
                      layout="row"
                      layout-align="center center">
                     <m-icon class="ic"
-                            xlink="#icon-rechange"></m-icon>
+                            xlink="icon-rechange"></m-icon>
                     &nbsp;
                     <p>提成：￥{{update.commissionAmount | fen2yuan}}</p>
                 </div>
@@ -87,7 +87,7 @@
                   layout="row"
                   layout-align="start center">
                 <m-icon class="ic"
-                        xlink="#icon-qia-"></m-icon>
+                        xlink="icon-qia-"></m-icon>
                 &nbsp;
                 <p>卡耗分布</p>
             </span>

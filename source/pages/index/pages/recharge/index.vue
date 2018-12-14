@@ -25,7 +25,7 @@
         </div>
         <div v-else class="text-center">
             <div class="icon-success-box" layout="row" layout-align="center center">
-                <m-icon class="" xlink="#icon-yes"></m-icon>
+                <m-icon class="" xlink="icon-yes"></m-icon>
             </div>
             <div class="fs36">充值成功！</div>
             <div class="dark-gray fs24">已成功充值1000美豆豆</div>

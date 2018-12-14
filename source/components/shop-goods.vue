@@ -3,7 +3,7 @@
         <div class="top-bar" layout="row" layout-align="start center">
             <div flex></div>
             <div class="close" @click="close">
-                    <m-icon xlink="#icon-huabanfuben29"></m-icon>收起宝贝
+                    <m-icon xlink="icon-huabanfuben29"></m-icon>收起宝贝
             </div>
         </div>
         <div class="goods-list" layout="row" layout-align="start center">

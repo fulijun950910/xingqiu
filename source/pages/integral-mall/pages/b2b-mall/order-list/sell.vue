@@ -23,7 +23,7 @@
                         </div>
                         <!--<div class="color-gray fs12">规格 大型60cm *1</div>-->
                     </div>
-                    <m-icon xlink='#icon-zuojiantou'></m-icon>
+                    <m-icon xlink='icon-zuojiantou'></m-icon>
                 </div>
             </div>
             <div @click="goDetail(item)" class="color-primary p-t-5 p-b-2 text-center">查看详情</div>

@@ -2,7 +2,7 @@
     <div class="address-list"  v-infinite-scroll="loadMore"  :infinite-scroll-disabled="loading"  infinite-scroll-distance="10" infinite-scroll-immediate-check="false">
         <div layout="row" layout-align="space-between center" class="add-address">
         <div class="color-black fs40 fwb address-title">收货地址</div>
- <div @click="addAddress()"><m-icon xlink="#icon-jia"></m-icon>新增地址</div>
+ <div @click="addAddress()"><m-icon xlink="icon-jia"></m-icon>新增地址</div>
         </div>
         <div class="data-list" flex>
             <div class="data-item" v-for="(item, index) in dataList" :key="index" @click="choose(item)">
@@ -15,11 +15,11 @@
     </div>
     <div layout="row" layout-align="space-between center">
     <div @click="addDefault(item)" layout="row" layout-align="center center" class="default-address" :class="{'default' : item.isDefault}">
-        默认&nbsp;&nbsp;<m-icon class="fs40" xlink="#icon-gouicon1"></m-icon>
+        默认&nbsp;&nbsp;<m-icon class="fs40" xlink="icon-gouicon1"></m-icon>
     </div>
     <div layout="row" layout-align="center center">
-        <span class="color-yellow-orange" @click.stop="controllItem(item,1)"><m-icon class="fs34" xlink="#icon-shanchu1"></m-icon></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <span class="color-blue" @click.stop="controllItem(item,2)"><m-icon class="fs34" xlink="#icon-bianji"></m-icon></span>
+        <span class="color-yellow-orange" @click.stop="controllItem(item,1)"><m-icon class="fs34" xlink="icon-shanchu1"></m-icon></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="color-blue" @click.stop="controllItem(item,2)"><m-icon class="fs34" xlink="icon-bianji"></m-icon></span>
     </div>
     </div>
             </div>
@@ -27,7 +27,7 @@
              <no-data :visible="dataList.length == 0 && !loading" :showButton="false"></no-data>
         </div>
         <!-- <div class="add-address" layout="row" @click="addAddress()" layout-align="center center">
-            <div><m-icon xlink="#icon-jia"></m-icon>新增地址</div>
+            <div><m-icon xlink="icon-jia"></m-icon>新增地址</div>
         </div> -->
         <integral-confirm @integraConfirm="integraConfirm" :confirmText="confirmText"></integral-confirm>
     </div>

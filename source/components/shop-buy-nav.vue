@@ -1,10 +1,10 @@
 <template>
     <div class="shop-buy-bottom" layout="row" layout-align="start stretch">
      <div class="like text-center" flex="20" layout="row" layout-align="center center">
-         <m-icon xlink="#icon-huabanfuben"></m-icon>
+         <m-icon xlink="icon-huabanfuben"></m-icon>
      </div>
      <div flex="30" class="get-present text-center" layout="row" layout-align="center center">
-         <m-icon xlink="#icon-huabanfuben4"></m-icon>领取样品
+         <m-icon xlink="icon-huabanfuben4"></m-icon>领取样品
      </div>
      <div flex="50" class="buy-right-now text-center" @click="buy" layout="row" layout-align="center center">
          立即抢购

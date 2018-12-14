@@ -48,37 +48,37 @@ export default {
                 {
                     name: '美甲',
                     value: 1,
-                    icon: '#icon-huabanfuben21',
+                    icon: 'icon-huabanfuben21',
                     active: 1
                 },
                 {
                     name: '美瞳',
                     value: 2,
-                    icon: '#icon-huabanfuben22',
+                    icon: 'icon-huabanfuben22',
                     active: 1
                 },
                 {
                     name: '美发',
                     value: 3,
-                    icon: '#icon-huabanfuben23',
+                    icon: 'icon-huabanfuben23',
                     active: 1
                 },
                 {
                     name: '美容',
                     value: 4,
-                    icon: '#icon-huabanfuben20',
+                    icon: 'icon-huabanfuben20',
                     active: 1
                 },
                 {
                     name: 'SPA',
                     value: 5,
-                    icon: '#icon-huabanfuben24',
+                    icon: 'icon-huabanfuben24',
                     active: 1
                 },
                 {
                     name: '耗品',
                     value: 6,
-                    icon: '#icon-huabanfuben25',
+                    icon: 'icon-huabanfuben25',
                     active: 1
                 }
             ],

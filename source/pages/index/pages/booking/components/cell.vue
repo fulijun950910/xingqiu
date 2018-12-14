@@ -16,7 +16,7 @@
         <slot name="foot">
             <m-icon class="fs20 dark-gray"
                     slot="right"
-                    xlink="#icon-right-bold"></m-icon>
+                    xlink="icon-right-bold"></m-icon>
         </slot>
     </div>
 </template>

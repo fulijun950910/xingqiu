@@ -38,7 +38,7 @@
                  ref="check"
                  v-if="tools && tools.length">
                 <m-icon class="fs28 color-black"
-                        xlink="#icon-bianji"></m-icon>
+                        xlink="icon-bianji"></m-icon>
             </div>
         </div>
         <div class="bc-modal"

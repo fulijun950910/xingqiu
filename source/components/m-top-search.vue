@@ -39,7 +39,7 @@ export default {
         },
         icon: {
             type: String,
-            default: '#icon-search2'
+            default: 'icon-search2'
         },
         disabled: {
             type: Boolean,

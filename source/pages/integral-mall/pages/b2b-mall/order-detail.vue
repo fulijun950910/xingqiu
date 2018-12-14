@@ -30,7 +30,7 @@
                     <div class="extra-light-black fs24 m-t-1">{{express.data[0].time}}</div>
                 </div>
                 <div >
-                    <m-icon xlink='#icon-zuojiantou'></m-icon>
+                    <m-icon xlink='icon-zuojiantou'></m-icon>
                 </div>
             </div>
             <div layout="row" layout-align="start start" class="cell">
@@ -52,7 +52,7 @@
         <div class="order-info m-t-3 card-style cell-box">
             <div class="p-t-5 p-b-3 border-bottom" layout="row">
                 <div class="fwb fs28" flex>{{orderData.merchantName}}</div>
-                <!--<div class="color-primary"><m-icon class="" xlink="#icon-kefuicon"></m-icon>&nbsp;在线沟通</div>-->
+                <!--<div class="color-primary"><m-icon class="" xlink="icon-kefuicon"></m-icon>&nbsp;在线沟通</div>-->
             </div>
             <div v-for="mall in orderData.supplierOrderItemList" :key="mall.id" class="cell border-bottom" layout="row">
                 <img class="product-img m-r-2" :src="mall.goodsImage | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">

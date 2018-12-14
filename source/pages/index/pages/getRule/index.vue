@@ -12,14 +12,14 @@
             </div>
             <div class="fs24 color-green">
                 <span>去充值</span>
-                <m-icon class="" xlink="#icon-right-bold"></m-icon>
+                <m-icon class="" xlink="icon-right-bold"></m-icon>
             </div>
         </div>
         <div v-for="(item, index) in dataList" :key="index">
             <div v-if="item.missionCode == 'FIRST_LOGIN'" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
                 <div flex layout="row" layout-align="start start">
                     <div class="iconBox iconBox2" layout="row" layout-align="center center">
-                        <m-icon class="" xlink="#icon-qianyue"></m-icon>
+                        <m-icon class="" xlink="icon-qianyue"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
                     <div flex>
@@ -34,7 +34,7 @@
             <div v-else-if="item.missionCode == 'YIYE'" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
                 <div flex layout="row" layout-align="start start">
                     <div class="iconBox iconBox3" layout="row" layout-align="center center">
-                        <m-icon class="" xlink="#icon-hezuo"></m-icon>
+                        <m-icon class="" xlink="icon-hezuo"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
                     <div flex>
@@ -49,7 +49,7 @@
             <div v-else-if="item.missionCode == 'SIGN'" @click="goCheckIn" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
                 <div flex layout="row" layout-align="start start">
                     <div class="iconBox iconBox4" layout="row" layout-align="center center">
-                        <m-icon class="" xlink="#icon-qiandao"></m-icon>
+                        <m-icon class="" xlink="icon-qiandao"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
                     <div flex>
@@ -62,14 +62,14 @@
                 </div>
                 <div v-else class="fs24 color-green">
                     <span>去签到</span>
-                    <m-icon class="" xlink="#icon-right-bold"></m-icon>
+                    <m-icon class="" xlink="icon-right-bold"></m-icon>
                 </div>
             </div>
 
             <div v-else-if="item.missionCode == 'RELEASE_PROMOTION'" @click="goPromotion" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
                 <div flex layout="row" layout-align="start start">
                     <div class="iconBox iconBox5" layout="row" layout-align="center center">
-                        <m-icon class="" xlink="#icon-zengsong"></m-icon>
+                        <m-icon class="" xlink="icon-zengsong"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
                     <div flex>
@@ -82,13 +82,13 @@
                 </div>
                 <div v-else class="fs24 color-green">
                     <span>去发布</span>
-                    <m-icon class="" xlink="#icon-right-bold"></m-icon>
+                    <m-icon class="" xlink="icon-right-bold"></m-icon>
                 </div>
             </div>
             <div v-else-if="item.missionCode == 'ORDER_COUNT'" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
                 <div flex layout="row" layout-align="start start">
                     <div class="iconBox iconBox6" layout="row" layout-align="center center">
-                        <m-icon class="" xlink="#icon-huangguan"></m-icon>
+                        <m-icon class="" xlink="icon-huangguan"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
                     <div flex>
@@ -122,7 +122,7 @@
             <div v-else-if="item.missionCode == 'INTRODUCE'" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
                 <div flex layout="row" layout-align="start start">
                     <div class="iconBox iconBox7" layout="row" layout-align="center center">
-                        <m-icon class="" xlink="#icon-ai246"></m-icon>
+                        <m-icon class="" xlink="icon-ai246"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
                     <div flex>
@@ -139,7 +139,7 @@
             <div v-if="item.missionCode == 'YIYE_RELEASE_TICKET'" class="list-item error cell cell-box" layout="row" layout-align="space-between center">
                 <div flex layout="row" layout-align="start start">
                     <div class="iconBox iconBox8" layout="row" layout-align="center center">
-                        <m-icon class="" xlink="#icon-weibiaoti2fuzhi02"></m-icon>
+                        <m-icon class="" xlink="icon-weibiaoti2fuzhi02"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
                     <div flex>
@@ -149,7 +149,7 @@
                 </div>
                 <div class="fs24 color-green">
                     <!--<span>去发券</span>-->
-                    <!--<m-icon class="" xlink="#icon-right-bold"></m-icon>-->
+                    <!--<m-icon class="" xlink="icon-right-bold"></m-icon>-->
                 </div>
             </div>
         </div>

@@ -16,19 +16,19 @@ export default {
             tabList: [
                 {
                     name: '收藏',
-                    icon: '#icon-huabanfuben',
+                    icon: 'icon-huabanfuben',
                     more: false,
                     value: 1
                 },
                 {
                     name: '评论',
-                    icon: '#icon-duanxin',
+                    icon: 'icon-duanxin',
                     more: true,
                     value: 2
                 },
                 {
                     name: '集采活动',
-                    icon: '#icon-jicai',
+                    icon: 'icon-jicai',
                     more: false,
                     value: 3
                 }

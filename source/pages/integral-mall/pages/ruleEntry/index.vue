@@ -81,7 +81,7 @@
                     </div>
                     <div class="fs24 color-green">
                         <span>去充值</span>
-                        <m-icon class="" xlink="#icon-zuojiantou"></m-icon>
+                        <m-icon class="" xlink="icon-zuojiantou"></m-icon>
                     </div>
                 </div>
                 <div>
@@ -92,11 +92,11 @@
                         </div>
                         <div flex="20" class="text-right">
                             <div v-if="item.completed" class="">
-                                <m-icon class="fs40 color-self-main m-r-2" xlink="#icon-gouicon1"></m-icon>
+                                <m-icon class="fs40 color-self-main m-r-2" xlink="icon-gouicon1"></m-icon>
                             </div>
                             <div v-else-if="item.missionCode == 'SIGN' || item.missionCode == 'RELEASE_PROMOTION'" class="fs24 color-green">
                                 <span>去完成</span>
-                                <m-icon class="" xlink="#icon-zuojiantou"></m-icon>
+                                <m-icon class="" xlink="icon-zuojiantou"></m-icon>
                             </div>
                         </div>
                     </div>

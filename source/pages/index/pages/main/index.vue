@@ -52,12 +52,12 @@
                         <div>{{item.views | bigNumber}}热度</div>
                     </div>
                     <div layout="row" @click.stop="showCollect(index)">
-                        <m-icon xlink="#icon-gengduoicon" class="fs34 color-pink"></m-icon>
+                        <m-icon xlink="icon-gengduoicon" class="fs34 color-pink"></m-icon>
                     </div>
                     <div class="collect" layout="row" layout-align="center center" @click.stop="collectEdite(item, index)" :class="{'like' : item.isFavorite , 'show' : item.collect}">
-                        <m-icon xlink="#icon-arrLeft-fill" class="fs40 sanjiao color-white"></m-icon>
+                        <m-icon xlink="icon-arrLeft-fill" class="fs40 sanjiao color-white"></m-icon>
                         <div class="extra-light-black fs30">
-                            <m-icon xlink="#icon-huodong" class="fs30"></m-icon>&nbsp;{{item.isFavorite ? '取消' : '收藏'}}
+                            <m-icon xlink="icon-huodong" class="fs30"></m-icon>&nbsp;{{item.isFavorite ? '取消' : '收藏'}}
                         </div>
                     </div>
                     <div class="collect-mask" v-if="item.collect" @click.stop="showCollect(index)"></div>
@@ -69,11 +69,11 @@
     <new-present :show-mask="isNew" :ads-detail="adsDetail" @hideMask="hideMask"></new-present>
     <div class="main-menu" layout="row" layout-align="start stretch">
         <div flex="50" layout="column" layout-align="center center" class="extra-light-black">
-            <m-icon xlink="#icon-huaban6" class="color-pink fs48"></m-icon>
+            <m-icon xlink="icon-huaban6" class="color-pink fs48"></m-icon>
             <span class="fs24">首页</span>
         </div>
         <div flex="50" layout="column" layout-align="center center" class="fs28 extra-light-black" @click="linkTo(7)">
-            <m-icon xlink="#icon-huaban1" class="fs48"></m-icon>
+            <m-icon xlink="icon-huaban1" class="fs48"></m-icon>
             <span class="fs24">我的</span>
         </div>
     </div>
@@ -82,7 +82,7 @@
             <div class="fs40 color-black fwb">星球课题</div>
             <div class="circle-menu" layout="row" layout-align="center center">
                 <div class="circle-icon" layout="row" layout-align="center center" @click="showCircleMenu">
-                    <m-icon class="color-white fs40" xlink="#icon-gengduoliebiaoicon"></m-icon>
+                    <m-icon class="color-white fs40" xlink="icon-gengduoliebiaoicon"></m-icon>
                 </div>
             </div>
         </div>
@@ -94,7 +94,7 @@
         </div>
             <div class="circle-menu-mask" @click="showCircleMenu" v-if="circleMenu"></div>
     <div class="circle-menu-list" layout="row" layout-align="center center" v-if="circleMenu" :style="circleMenuStyle">
-        <m-icon xlink="#icon-arrLeft-fill" class="color-white"></m-icon>
+        <m-icon xlink="icon-arrLeft-fill" class="color-white"></m-icon>
         <div flex="20" layout="column" @click="linkTo(item.value)" layout-align="center center" v-for="(item, index) in menu" :key="index" class="menu">
             <img :src="item.src" alt="">
             <span class="extra-light-black fs24 m-t-2">{{item.name}}</span>
@@ -106,7 +106,7 @@
     </div>
 
     <div class="toTop" @click="goTop" v-if="showGoTop" layout="row" layout-align="center center">
-        <m-icon xlink="#icon-zhiding1" class="fs32 color-white"></m-icon>
+        <m-icon xlink="icon-zhiding1" class="fs32 color-white"></m-icon>
     </div>
 </div>
 </template>

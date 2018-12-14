@@ -3,11 +3,11 @@
         <div class="bar-padding"></div>
         <div class="nav-bar" layout="row" layout-align="center center">
             <div @click="goIndex" :class="{'act': type==1}" flex class="text-center tab-item">
-                <m-icon class="icon" xlink="#icon-mendianguanli"></m-icon>
+                <m-icon class="icon" xlink="icon-mendianguanli"></m-icon>
                 <div>店铺</div>
             </div>
             <div @click="goUser" :class="{'act': type==2}" flex class="text-center tab-item">
-                <m-icon class="icon" xlink="#icon-xingming"></m-icon>
+                <m-icon class="icon" xlink="icon-xingming"></m-icon>
                 <div>我的</div>
             </div>
         </div>

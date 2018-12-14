@@ -4,7 +4,7 @@
             <div class="top cell">
                 <div class="fs24" layout="row" layout-align="space-between center">
                     <div class="color-gray">当前已有美豆豆</div>
-                    <div @click="goPayNotes" class="color-green">查看收支明细<m-icon class="" xlink="#icon-right-bold"></m-icon></div>
+                    <div @click="goPayNotes" class="color-green">查看收支明细<m-icon class="" xlink="icon-right-bold"></m-icon></div>
                 </div>
                 <div class="blance">{{dataModel.doudouBalance}}</div>
                 <div @click="goGetRule" class="color-red-light">获取更多美豆豆</div>

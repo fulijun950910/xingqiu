@@ -13,10 +13,10 @@
                layout-align="space-between center">
                 <span>
                     <m-icon class="mr8"
-                            xlink="#icon-tel" /> 回访关怀</span>
+                            xlink="icon-tel" /> 回访关怀</span>
                 <span class="back-primary"
                       @click="toCreateRecord">
-                    <m-icon xlink="#icon-add-border" />
+                    <m-icon xlink="icon-add-border" />
                 </span>
             </p>
             <div class="content"

@@ -13,20 +13,20 @@
                 <mt-switch v-model="isMember"></mt-switch>
             </div>
             <div v-if="isMember">
-                <m-cell icon="#icon-xingming1"
+                <m-cell icon="icon-xingming1"
                         title="会员姓名"
                         :subTitle="booking.name"
                         @click.native="popupMemberVisible = true"></m-cell>
-                <m-cell icon="#icon-dianhua1"
+                <m-cell icon="icon-dianhua1"
                         title="会员手机号"
                         :subTitle="booking.phone | mobileHide(showFullMobile)"
                         @click.native="popupMemberVisible = true"></m-cell>
             </div>
             <div v-else>
-                <m-field icon="#icon-xingming1"
+                <m-field icon="icon-xingming1"
                          placeholder="请输入预约人姓名"
                          v-model="customer.name"></m-field>
-                <m-field icon="#icon-dianhua1"
+                <m-field icon="icon-dianhua1"
                          placeholder="请输入预约人手机号"
                          v-model="customer.phone"></m-field>
             </div>
@@ -85,7 +85,7 @@
                          flex>{{item.label}}</div>
                     <m-icon class="fs24 be-tt"
                             :class="{rotate180: item.expand}"
-                            xlink="#icon-shangla"></m-icon>
+                            xlink="icon-shangla"></m-icon>
                 </div>
                 <div layout="row"
                      layout-align="start center"
@@ -151,7 +151,7 @@
                     </div>
                     <m-icon class="fs24 bp-check"
                             v-if="booking.memberId == item.memberId"
-                            xlink="#icon-queding"></m-icon>
+                            xlink="icon-queding"></m-icon>
                 </div>
                 <m-load-more :loading="!memberQuery.scrollDisabled"></m-load-more>
             </div>
@@ -181,7 +181,7 @@
                     <div flex>{{item.name}}</div>
                     <m-icon class="fs24 bp-check"
                             v-if="booking.storeId == item.id"
-                            xlink="#icon-queding"></m-icon>
+                            xlink="icon-queding"></m-icon>
                 </div>
             </div>
         </m-popup-right>
@@ -210,7 +210,7 @@
                     <div flex>{{item.name}} {{item.code}}</div>
                     <m-icon class="fs24 bp-check"
                             v-if="booking.employeeId == item.id"
-                            xlink="#icon-queding"></m-icon>
+                            xlink="icon-queding"></m-icon>
                 </div>
             </div>
         </m-popup-right>
@@ -239,7 +239,7 @@
                     <div flex>{{item.name}}</div>
                     <m-icon class="fs24 bp-check"
                             v-if="booking.roomId == item.id"
-                            xlink="#icon-queding"></m-icon>
+                            xlink="icon-queding"></m-icon>
                 </div>
             </div>
         </m-popup-right>
@@ -458,9 +458,9 @@ export default {
         initTimes(date) {
             if (!this.times.length) {
                 this.times = [
-                    { label: '上午', expand: false, rows: [], icon: '#icon-shangwu1' },
-                    { label: '下午', expand: false, rows: [], icon: '#icon-xiawu' },
-                    { label: '晚上', expand: false, rows: [], icon: '#icon-wanshang' }
+                    { label: '上午', expand: false, rows: [], icon: 'icon-shangwu1' },
+                    { label: '下午', expand: false, rows: [], icon: 'icon-xiawu' },
+                    { label: '晚上', expand: false, rows: [], icon: 'icon-wanshang' }
                 ];
             } else {
                 this.times.forEach(val => {

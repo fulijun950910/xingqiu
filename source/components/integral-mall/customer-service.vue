@@ -3,7 +3,7 @@
         <div class="mask"></div>
         <div class="window-alert">
             <div class="feichuan" layout="row" layout-align="center center">
-            <m-icon class="color-yellow-orange" xlink="#icon-kefudianhua1"></m-icon>
+            <m-icon class="color-yellow-orange" xlink="icon-kefudianhua1"></m-icon>
             </div>
             <div class="fs34 color-black" layout="row" layout-align="center center">
                 客服电话

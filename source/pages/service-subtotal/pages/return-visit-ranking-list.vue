@@ -1,7 +1,7 @@
 <template>
     <div class="return-visit-ranking-list" v-title="'客户关怀统计'" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
         <div v-if="admin">
-            <m-top-search v-show="!searchVisiable" :icon="employee.name ? '#icon-close' : '#icon-search2'" v-model="employee.name" placeholder="搜索员工" @iconClick="clearSearch" type="2" @searchClick="showSearchBar"></m-top-search>
+            <m-top-search v-show="!searchVisiable" :icon="employee.name ? 'icon-close' : 'icon-search2'" v-model="employee.name" placeholder="搜索员工" @iconClick="clearSearch" type="2" @searchClick="showSearchBar"></m-top-search>
             <auto-search-bar :visiable.sync="searchVisiable" :search-text="employeeQuery.employeeName" :employee-list="employeeList" @itemClick="selectedEmployee" @change="searchEmployees"></auto-search-bar>
         </div>
         <div v-else>

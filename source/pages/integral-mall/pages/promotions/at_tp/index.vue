@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="color-gray m-t-3">
-                <m-icon xlink="#icon-xiangqing"></m-icon>
+                <m-icon xlink="icon-xiangqing"></m-icon>
                 支付并邀请好友开团，{{ data.groupRule.liveTime }}小时内人数不足自动退款
             </div>
         </div>
@@ -44,7 +44,7 @@
                     <div class="m-r-4" flex layout="column" layout-align="center start">
                         <div>团长:{{item.captainName}}</div>
                         <div layout="row" class="w100">
-                            <div flex v-if="item.status == 1" class="color-gray"><m-icon xlink="#icon-shalou"></m-icon>{{item.remainSecond | mTime}}</div>
+                            <div flex v-if="item.status == 1" class="color-gray"><m-icon xlink="icon-shalou"></m-icon>{{item.remainSecond | mTime}}</div>
                             <div flex v-if="item.status == 2" class="color-gray">已结束</div>
                             <div flex v-if="item.status == 3" class="color-gray">已成团</div>
                             <div flex v-if="item.status == 4" class="color-gray">处理中</div>
@@ -54,7 +54,7 @@
                     </div>
                     <div  layout="column" layout-align="center end">
                         <span v-if="item.status == 1" class="btn">来抱团</span>
-                        <m-icon v-else-if="item.status == 3" class="success-icon color-primary" xlink="#icon-yueman"></m-icon>
+                        <m-icon v-else-if="item.status == 3" class="success-icon color-primary" xlink="icon-yueman"></m-icon>
                         <span v-else class="color-gray">已结束</span>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
         <!--我的团拼记录-->
         <div @click="goRecording" class="cell cell-box bg-white m-t-3" layout="row" layout-align="start center">
             <div flex>我的团拼记录</div>
-            <m-icon class="fs32" xlink="#icon-zuojiantou"></m-icon>
+            <m-icon class="fs32" xlink="icon-zuojiantou"></m-icon>
         </div>
 
         <!-- 活动内容 -->
@@ -86,25 +86,25 @@
         </div>
         <!--我的团拼记录-->
         <div class="cell cell-box bg-white m-t-3" >
-            <div class="m-b-3" @click="goRule">拼团玩法 <m-icon class="color-primary" xlink="#icon-xunwen"></m-icon></div>
+            <div class="m-b-3" @click="goRule">拼团玩法 <m-icon class="color-primary" xlink="icon-xunwen"></m-icon></div>
             <div class="rule-item" layout="row" layout-align="space-between start">
                 <div flex="20" layout="column" layout-align="center center">
-                    <m-icon class="color-primary rule-icon" xlink="#icon-tuangou1"></m-icon>
+                    <m-icon class="color-primary rule-icon" xlink="icon-tuangou1"></m-icon>
                     <span class="fs22">开团或参团</span>
                 </div>
-                <m-icon class="fs32 color-gray m-t-4" flex="5" xlink="#icon-zuojiantou"></m-icon>
+                <m-icon class="fs32 color-gray m-t-4" flex="5" xlink="icon-zuojiantou"></m-icon>
                 <div flex="20" layout="column" layout-align="center center">
-                    <m-icon class="color-primary rule-icon" xlink="#icon-zhifu"></m-icon>
+                    <m-icon class="color-primary rule-icon" xlink="icon-zhifu"></m-icon>
                     <span class="fs22">付款</span>
                 </div>
-                <m-icon class="fs32 color-gray m-t-4" flex="5" xlink="#icon-zuojiantou"></m-icon>
+                <m-icon class="fs32 color-gray m-t-4" flex="5" xlink="icon-zuojiantou"></m-icon>
                 <div flex="23" layout="column" layout-align="center center">
-                    <m-icon class="color-primary rule-icon" xlink="#icon-wangzhan-pintuan"></m-icon>
+                    <m-icon class="color-primary rule-icon" xlink="icon-wangzhan-pintuan"></m-icon>
                     <span class="fs22">邀请好友拼团</span>
                 </div>
-                <m-icon class="fs32 color-gray m-t-4" flex="5" xlink="#icon-zuojiantou"></m-icon>
+                <m-icon class="fs32 color-gray m-t-4" flex="5" xlink="icon-zuojiantou"></m-icon>
                 <div flex="20" layout="column" layout-align="center center">
-                    <m-icon class="color-primary rule-icon" xlink="#icon-xiaolian2"></m-icon>
+                    <m-icon class="color-primary rule-icon" xlink="icon-xiaolian2"></m-icon>
                     <span class="fs22">拼团成功</span>
                 </div>
             </div>
@@ -166,7 +166,7 @@
                         </div>
                     </div>
                     <div class="buy-more" flex="10" layout="row" layout-align="center center">
-                        <m-icon xlink="#icon-zuojiantou"></m-icon>
+                        <m-icon xlink="icon-zuojiantou"></m-icon>
                     </div>
                 </div>
                 <div layout="row" layout-align="start center">

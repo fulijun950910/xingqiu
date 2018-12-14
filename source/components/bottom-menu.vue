@@ -18,16 +18,16 @@ export default {
             default() {
                 return [{
                     name: '返回',
-                    icon: '#icon-left-bold'
+                    icon: 'icon-left-bold'
                 }, {
                     name: '门店',
-                    icon: '#icon-fangzi-copy'
+                    icon: 'icon-fangzi-copy'
                 }, {
                     name: '时间',
-                    icon: '#icon-shijian'
+                    icon: 'icon-shijian'
                 }, {
                     name: '状态',
-                    icon: '#icon-caijitongji'
+                    icon: 'icon-caijitongji'
                 }];
             }
         },

@@ -19,13 +19,13 @@
                 </div>
                 <div class="">团号：{{groupData.groupNo}}</div>
             </div>
-            <m-icon v-if="groupData.status == 3" xlink="#icon-pintuanchenggong" class="color-primary icon"></m-icon>
+            <m-icon v-if="groupData.status == 3" xlink="icon-pintuanchenggong" class="color-primary icon"></m-icon>
         </div>
         <!--团情况-->
         <div class="cell cell-box bg-white m-t-3" >
             <div class="HotDate"><div class="hot-date">
                 <div v-if="groupData.status == 3">团长人气太高，团满了</div>
-                <div v-else-if="groupData.remainSecond > 0" class="color-primary"><m-icon xlink="#icon-shalou"></m-icon>{{groupData.remainSecond | mTime}}</div>
+                <div v-else-if="groupData.remainSecond > 0" class="color-primary"><m-icon xlink="icon-shalou"></m-icon>{{groupData.remainSecond | mTime}}</div>
                 <div v-else>已结束</div>
             </div></div>
             <div class="cell cell-box bg-default">
@@ -56,7 +56,7 @@
         <!--我的团拼记录-->
         <div @click="goRecording" class="cell cell-box bg-white m-t-3" layout="row" layout-align="start center">
             <div flex>我的团拼记录</div>
-            <m-icon class="fs32" xlink="#icon-zuojiantou"></m-icon>
+            <m-icon class="fs32" xlink="icon-zuojiantou"></m-icon>
         </div>
 
         <!-- 活动内容 -->
@@ -126,15 +126,15 @@
         <div class="btn-group-padding"></div>
         <div class="btn-group text-center" layout="row" layout-align="space-around center">
             <div @click="goOrderList">
-                <div><m-icon class="icon" xlink="#icon-goumaijilu01"></m-icon></div>
+                <div><m-icon class="icon" xlink="icon-goumaijilu01"></m-icon></div>
                 <div class="fs24">消费记录</div>
             </div>
             <div @click="showShare = true">
-                <div><m-icon class="icon" xlink="#icon-fenxiang"></m-icon></div>
+                <div><m-icon class="icon" xlink="icon-fenxiang"></m-icon></div>
                 <div class="fs24">邀请好友</div>
             </div>
             <div @click="goIndex">
-                <div><m-icon class="icon" xlink="#icon-pintuan"></m-icon></div>
+                <div><m-icon class="icon" xlink="icon-pintuan"></m-icon></div>
                 <div class="fs24">我要开团</div>
             </div>
         </div>
@@ -151,7 +151,7 @@
                         </div>
                     </div>
                     <div class="buy-more" flex="10" layout="row" layout-align="center center">
-                        <m-icon xlink="#icon-zuojiantou"></m-icon>
+                        <m-icon xlink="icon-zuojiantou"></m-icon>
                     </div>
                 </div>
                 <div layout="row" layout-align="start center">

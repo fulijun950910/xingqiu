@@ -12,17 +12,17 @@
                  layout-align="center center">
                 <p class="no-wrap">{{sortSlots[currSort].label}}</p>
                 <m-icon flex="20"
-                        xlink="#icon-triangle-down" />
+                        xlink="icon-triangle-down" />
             </div>
             <div flex
                  class="filter bdr-right"
                  @click.stop="showFilter = true">筛选
-                <m-icon xlink="#icon-filter" />
+                <m-icon xlink="icon-filter" />
             </div>
             <div flex
                  class="search"
                  @click.stop="showSearch = true">搜索
-                <m-icon xlink="#icon-search" />
+                <m-icon xlink="icon-search" />
             </div>
         </div>
 
@@ -38,7 +38,7 @@
                :class="{active: (currSort == index)}">
                 <span>{{item.label}}</span>
                 <m-icon v-show="currSort == index"
-                        xlink="#icon-check" />
+                        xlink="icon-check" />
             </p>
         </mt-popup>
 
@@ -102,7 +102,7 @@
                  layout-align="start stretch"
                  class="search-main">
                 <span flex>
-                    <m-icon flex class="icon color-primary" xlink="#icon-search"></m-icon>
+                    <m-icon flex class="icon color-primary" xlink="icon-search"></m-icon>
                 </span>
                 <input flex="70"
                        type="text"
@@ -111,7 +111,7 @@
                        @input="keywordChange" />
                 <span flex
                       @click="showSearchReset">
-                    <m-icon class="icon color-black" xlink="#icon-close"></m-icon>
+                    <m-icon class="icon color-black" xlink="icon-close"></m-icon>
                 </span>
             </div>
             <div class="search-list">

@@ -25,7 +25,7 @@
         <span class="ml-40 h-line"></span>
         <div layout="row" layout-align="space-between center" class="record fs32">
             <p class="extra-light-black">
-                <m-icon xlink="#icon-fuwu"></m-icon>
+                <m-icon xlink="icon-fuwu"></m-icon>
                 全部服务数
             </p>
             <p class="color-primary fwb ff-number">{{showModel.allCount | currency('', 0)}}</p>
@@ -33,19 +33,19 @@
         <div layout="row" layout-align="space-around center" class="link-panel">
             <div class="link-btn no-line-panel">
                 <p>
-                    <m-icon xlink="#icon-yipingjia"></m-icon>
+                    <m-icon xlink="icon-yipingjia"></m-icon>
                     {{showModel.recordCount | currency('', 0)}}
                 </p>
                 <p>已记录</p>
             </div>
             <div class="link-btn" @click="$router.push({name:'unrecorded-service-list', query: query})">
                 <p>
-                    <m-icon xlink="#icon-weipingjia"></m-icon>
+                    <m-icon xlink="icon-weipingjia"></m-icon>
                     {{showModel.waitCount | currency('', 0)}}
                 </p>
                 <p layout="row" layout-align="space-between center">
                     未记录
-                    <m-icon xlink="#icon-right-bold"></m-icon>
+                    <m-icon xlink="icon-right-bold"></m-icon>
                 </p>
             </div>
         </div>
@@ -103,15 +103,15 @@ export default {
             clickAble: [{
                 name: '返回',
                 value: '1',
-                icon: '#icon-left-bold'
+                icon: 'icon-left-bold'
             }, {
                 name: '门店',
                 value: '2',
-                icon: '#icon-fangzi-copy'
+                icon: 'icon-fangzi-copy'
             }, {
                 name: '时间',
                 value: '3',
-                icon: '#icon-shijian'
+                icon: 'icon-shijian'
             }]
         };
     },

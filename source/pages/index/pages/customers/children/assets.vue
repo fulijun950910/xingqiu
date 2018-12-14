@@ -16,11 +16,11 @@
                @click="showMemberCard = !showMemberCard">
                 <span>
                     <m-icon class="mr8"
-                            xlink="#icon-card" /> 会员卡</span>
+                            xlink="icon-card" /> 会员卡</span>
                 <span class="dark-gray ft12">
                     有效 <span class="color-primary ft16">{{cards.length || 0}}</span> 张
                     <span class="ml8 color-gray">
-                        <m-icon :xlink="showMemberCard?'#icon-arrow-up':'#icon-arrow-down'" /></span>
+                        <m-icon :xlink="showMemberCard?'icon-arrow-up':'icon-arrow-down'" /></span>
                 </span>
             </p>
             <transition name="slide-up"
@@ -63,11 +63,11 @@
                @click="showMemberCoupon = !showMemberCoupon">
                 <span>
                     <m-icon class="mr8"
-                            xlink="#icon-coupon" /> 券</span>
+                            xlink="icon-coupon" /> 券</span>
                 <span class="light-gray ft12">
                     有效 <span class="color-primary ft16">{{tickets.length}}</span> 张
                     <span class="ml8 color-gray">
-                        <m-icon :xlink="showMemberCoupon?'#icon-arrow-up':'#icon-arrow-down'" /></span>
+                        <m-icon :xlink="showMemberCoupon?'icon-arrow-up':'icon-arrow-down'" /></span>
                 </span>
             </p>
             <transition name="slide-up"
@@ -105,11 +105,11 @@
                @click="showMemberPresents = !showMemberPresents">
                 <span>
                     <m-icon class="mr8"
-                            xlink="#icon-gift" /> 赠品</span>
+                            xlink="icon-gift" /> 赠品</span>
                 <span class="light-gray ft12">
                     有效 <span class="color-primary ft16">{{presents.length}}</span> 份
                     <span class="ml8 color-gray">
-                        <m-icon :xlink="showMemberPresents?'#icon-arrow-up':'#icon-arrow-down'" /></span>
+                        <m-icon :xlink="showMemberPresents?'icon-arrow-up':'icon-arrow-down'" /></span>
                 </span>
             </p>
             <transition name="slide-up"

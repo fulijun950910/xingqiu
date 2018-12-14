@@ -21,7 +21,7 @@
                             <img v-for="(img, index) in day.images" :key="index" :src="img | mSrc(80, 80, require('assets/imgs/nullimg.jpg'))" @click="showNativeImg(img)" alt="">
                         </div>
                         <p class="items dark-gray ft12">
-                            <m-icon xlink="#icon-item"/>
+                            <m-icon xlink="icon-item"/>
                             <span>{{day.orderContent}}</span>
                         </p>
                     </div>

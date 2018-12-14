@@ -10,7 +10,7 @@ export default {
     name: 'no-data',
     data() {
         return {
-            iconName: '#icon-wujilu'
+            iconName: 'icon-wujilu'
         };
     },
     props: {

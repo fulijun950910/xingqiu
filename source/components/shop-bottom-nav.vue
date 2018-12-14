@@ -15,25 +15,25 @@ export default {
             menu: [
                 {
                     name: '首页',
-                    icon: '#icon-huabanfuben15',
+                    icon: 'icon-huabanfuben15',
                     value: 1,
                     active: false
                 },
                 {
                     name: '商城',
-                    icon: '#icon-huabanfuben19',
+                    icon: 'icon-huabanfuben19',
                     value: 2,
                     active: false
                 },
                 {
                     name: '咨讯',
-                    icon: '#icon-huabanfuben18',
+                    icon: 'icon-huabanfuben18',
                     value: 3,
                     active: false
                 },
                 {
                     name: '个人',
-                    icon: '#icon-huabanfuben16',
+                    icon: 'icon-huabanfuben16',
                     value: 4,
                     active: false
                 }
