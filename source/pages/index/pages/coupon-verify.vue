@@ -88,9 +88,7 @@
         <div v-else-if="state==3" class="containerBox">
             <div class="verifyTitle success" layout="column" layout-align="center center">
                 <div>
-                    <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-wsmp-complete"></use>
-                    </svg>
+                    <m-icon xlink="#icon-wsmp-complete"></m-icon>
                 </div>
                 <div class="fs32">验券成功</div>
             </div>
@@ -145,9 +143,7 @@
         <div v-else-if="state==4 || state==8" class="containerBox">
             <div class="verifyTitle danger" layout="column" layout-align="center center">
                 <div>
-                    <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-cuowu"></use>
-                    </svg>
+                    <m-icon xlink="#icon-cuowu"></m-icon>
                 </div>
                 <div class="fs32" v-if="state==4">
                     哎呀，这张券已经使用喽~
@@ -205,9 +201,7 @@
         <div v-else-if="state==6" class="containerBox">
             <div class="verifyTitle danger" layout="column" layout-align="center center">
                 <div>
-                    <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-cuowu"></use>
-                    </svg>
+                    <m-icon xlink="#icon-cuowu"></m-icon>
                 </div>
                 <div class="fs32">
                     哎呀，这张券还未到使用日期
@@ -261,9 +255,7 @@
         <div v-else-if="state==7" class="containerBox">
             <div class="verifyTitle danger" layout="column" layout-align="center center">
                 <div>
-                    <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-cuowu"></use>
-                    </svg>
+                    <m-icon xlink="#icon-cuowu"></m-icon>
                 </div>
                 <div class="fs32">
                     哎呀，这张券已经过期喽~

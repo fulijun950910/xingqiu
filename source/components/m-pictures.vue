@@ -9,22 +9,21 @@
 
                 <!-- 移除 合同图片 -->
                 <p v-if="hasRemove" class="remove-btn" @click.stop="removePicture(cid)">
-                    <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-yichu"></use>
-                    </svg>
+                    <m-icon xlink="#icon-yichu"></m-icon>
+
                 </p>
             </div>
             <div v-show="pictures.length<maxCount" @click="addPicture(null)" class="c-picture-item c-picture-item-add" s
             :class="[('c-picture-item-'+column)]" layout="column" layout-align="center center"  :key="maxCount" >
                 <!-- 添加 合同图片 -->
-                <svg class="icon" aria-hidden="true">  <use xlink:href="#icon-image"></use> </svg>
+                <m-icon xlink="#icon-image"></m-icon>
                 <p>上传图片</p>
             </div>
         </transition-group>
 
         <!--<p v-if="hasCounter" class="txt-tips">
             <span class="add-pic" @click="addPicture(null)">
-                <svg class="icon" aria-hidden="true">  <use xlink:href="#icon-add"></use>  </svg>
+                <m-icon xlink="#icon-add"></m-icon>
                 传图片
             </span>
             <span>{{pictures.length}} / {{maxCount}}张</span>

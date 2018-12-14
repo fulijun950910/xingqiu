@@ -4,14 +4,10 @@
         </div>
         <div class="searchBar-main" flex>
             <div layout="row" layout-align="start center" flex class="search-main">
-                <svg class="icon icon-margin" aria-hidden="true" flex>
-                    <use xlink:href="#icon-search2"></use>
-                </svg>
+                <m-icon xlink="#icon-search2"></m-icon>
                 <input flex="70" type="text" name="search-text" placeholder="搜索员工/工号" v-model="keyword" @input="change">
                 <span flex v-on:click="clearHide()">
-                    <svg class="icon icon-close icon-margin" aria-hidden="true">
-                        <use xlink:href="#icon-close"></use>
-                    </svg>
+                    <m-icon xlink="#icon-close"></m-icon>
                 </span>
             </div>
             <ul class="employee-list">

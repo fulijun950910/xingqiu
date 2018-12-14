@@ -7,9 +7,7 @@
             <img class="file" ref="file" :src="url" alt="">
             <div class="imgView" ref="imgView">
                 <div class="imgViewBox" ref="imgViewBox">
-                    <svg class="icon exchange-proportion" aria-hidden="true" @click.stop="exchangeProportion">
-                        <use xlink:href="#icon-exchange"></use>
-                    </svg>
+                    <m-icon xlink="#icon-exchange"></m-icon>
                     <img class="file" ref="file2" :src="url" alt="">
                 </div>
             </div>

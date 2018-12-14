@@ -102,11 +102,7 @@
                  layout-align="start stretch"
                  class="search-main">
                 <span flex>
-                    <svg class="icon color-primary"
-                         aria-hidden="true"
-                         flex>
-                        <use xlink:href="#icon-search"></use>
-                    </svg>
+                    <m-icon flex class="icon color-primary" xlink="#icon-search"></m-icon>
                 </span>
                 <input flex="70"
                        type="text"
@@ -115,10 +111,7 @@
                        @input="keywordChange" />
                 <span flex
                       @click="showSearchReset">
-                    <svg class="icon color-black"
-                         aria-hidden="true">
-                        <use xlink:href="#icon-close"></use>
-                    </svg>
+                    <m-icon class="icon color-black" xlink="#icon-close"></m-icon>
                 </span>
             </div>
             <div class="search-list">
