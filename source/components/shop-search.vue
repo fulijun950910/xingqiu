@@ -2,7 +2,7 @@
 <div class="directive">
    <div class="top-search" layout="row" layout-align="center center">
             <div class="back" @click="goBack">
-            <m-icon xlink="#icon-huabanfuben17" class="fs24"></m-icon>
+            <m-icon link="icon-huabanfuben17" class="fs24"></m-icon>
             </div>
             <m-top-search class="search-input text-center" v-model="currentValue" @keyup.enter="submit" :placeholder="placeholder"></m-top-search>
         </div>

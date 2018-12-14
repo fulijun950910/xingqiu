@@ -14,13 +14,13 @@
             <div class="color-gray" flex v-else >
                 请选择收货地址
             </div>
-            <m-icon class="fs40 color-gray" xlink="#icon-zuojiantou"></m-icon>
+            <m-icon class="fs40 color-gray" link="icon-zuojiantou"></m-icon>
         </div>
         <!--商品信息-->
         <div class="product-info bg-white m-t-3 cell-box cell">
             <div class="m-b-3" layout="row">
                 <div class="extra-black" flex>{{orderData.merchantName}}</div>
-                <div class="color-primary"><m-icon class="" xlink="#icon-xiangqing"></m-icon>&nbsp;在线沟通</div>
+                <div class="color-primary"><m-icon class="" link="icon-xiangqing"></m-icon>&nbsp;在线沟通</div>
             </div>
             <div layout="row" class="bg-default br2 cell p-l-2 p-r-2">
                 <img class="product-img m-r-3" :src="orderData.image | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
@@ -42,7 +42,7 @@
             <!--<div layout="row" layout-align="start start">-->
                 <!--<div flex>-->
                     <!--<div>美豆豆数量</div>-->
-                    <!--<div class="fs24">共1000美豆豆 , 抵¥20 <m-icon class="extra-black" xlink="#icon-xiangqing"></m-icon></div>-->
+                    <!--<div class="fs24">共1000美豆豆 , 抵¥20 <m-icon class="extra-black" link="icon-xiangqing"></m-icon></div>-->
                 <!--</div>-->
                 <!--<mt-switch ></mt-switch>-->
             <!--</div>-->
@@ -51,7 +51,7 @@
             <!--</div>-->
             <!--<div class="p-t-3 border-top" layout="row">-->
                 <!--<div flex>优惠券</div>-->
-                <!--<div>¥200短信包抵用券 <m-icon class="" xlink="#icon-gengduoicon"></m-icon></div>-->
+                <!--<div>¥200短信包抵用券 <m-icon class="" link="icon-gengduoicon"></m-icon></div>-->
             <!--</div>-->
         <!--</div>-->
         <!--支付详情-->
@@ -70,7 +70,7 @@
             <div flex>发票</div>
             <div v-if="invoice.rise">{{invoice.rise}}</div>
             <div class="extra-light-black" v-else>请选择发票</div>
-            <m-icon class="fs36 color-gray" xlink="#icon-zuojiantou"></m-icon>
+            <m-icon class="fs36 color-gray" link="icon-zuojiantou"></m-icon>
 
         </div>
         <!--支付按钮-->

@@ -31,15 +31,15 @@
             <div class="time">05-10</div>
             <div flex></div>
             <div class="view-detail" layout="row" layout-align="start center">
-                <span><m-icon xlink="#icon-huabanfuben"></m-icon>2.1万</span>
-                <span><m-icon xlink="#icon-duanxin"></m-icon>2870</span>
+                <span><m-icon link="icon-huabanfuben"></m-icon>2.1万</span>
+                <span><m-icon link="icon-duanxin"></m-icon>2870</span>
             </div>
           </div>
           <div class="note">
               <div class="note-title" layout="row" layout-align="start center">
                    <h3 class="font-color-2">评论</h3>
                    <div flex></div>
-                   <div class="num-views">共3900条评论<m-icon xlink="#icon-zuojiantou"></m-icon></div>
+                   <div class="num-views">共3900条评论<m-icon link="icon-zuojiantou"></m-icon></div>
               </div>
               <div class="notes-detail" layout="row" layout-align="start start" v-for="(item,index) in notes" :key="index">
                      <div class="face">
@@ -55,7 +55,7 @@
                                  <div class="time">{{item.time}}</div>
                                  <div flex></div>
                                  <div class="right-btn" layout="row" layout-align="start center">
-                                     回复 <span><m-icon xlink="#icon-dianzan"></m-icon>{{item.like}}</span>
+                                     回复 <span><m-icon link="icon-dianzan"></m-icon>{{item.like}}</span>
                                  </div>
                              </div>
                          </div>
@@ -76,7 +76,7 @@
                                  <div class="time">{{sub.time}}</div>
                                  <div flex></div>
                                  <div class="right-btn" layout="row" layout-align="start center">
-                                     回复 <span><m-icon xlink="#icon-dianzan"></m-icon>{{sub.like}}</span>
+                                     回复 <span><m-icon link="icon-dianzan"></m-icon>{{sub.like}}</span>
                                  </div>
                              </div>
                          </div>
@@ -90,7 +90,7 @@
               </div>
           </div>
                         <div class="more-notes text-center">
-                  <p>查看全部2000条评论<m-icon xlink="#icon-zuojiantou"></m-icon></p>
+                  <p>查看全部2000条评论<m-icon link="icon-zuojiantou"></m-icon></p>
               </div>
           </div>
           <detail-bottom class="bottom-nav" @tabClick="tabClick"></detail-bottom>

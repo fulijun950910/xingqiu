@@ -2,7 +2,7 @@
     <div class="bottom-nav-con" layout="row" layout-align="space-around
  center">
      <div flex class="nav text-center" :class="{active:item.active}" v-for="item in menu" :key="item.value" @click="toLink(item)" layout="column" layout-align="center center">
-           <m-icon :xlink="item.icon" class="fs24"></m-icon>
+           <m-icon :link="item.icon" class="fs24"></m-icon>
            <span>{{item.name}}</span>
      </div>
     </div>
@@ -15,25 +15,25 @@ export default {
             menu: [
                 {
                     name: '首页',
-                    icon: '#icon-huabanfuben15',
+                    icon: 'icon-huabanfuben15',
                     value: 1,
                     active: false
                 },
                 {
                     name: '商城',
-                    icon: '#icon-huabanfuben19',
+                    icon: 'icon-huabanfuben19',
                     value: 2,
                     active: false
                 },
                 {
                     name: '咨讯',
-                    icon: '#icon-huabanfuben18',
+                    icon: 'icon-huabanfuben18',
                     value: 3,
                     active: false
                 },
                 {
                     name: '个人',
-                    icon: '#icon-huabanfuben16',
+                    icon: 'icon-huabanfuben16',
                     value: 4,
                     active: false
                 }

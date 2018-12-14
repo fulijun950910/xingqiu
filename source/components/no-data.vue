@@ -1,6 +1,6 @@
 <template>
     <div v-if="visible" class="text-center no-datacon">
-        <h3><m-icon class="no-data" :xlink="iconName"></m-icon></h3>
+        <h3><m-icon class="no-data" :link="iconName"></m-icon></h3>
         <p>{{message}}</p>
         <a @click="back" v-show="showButton">返回上一页</a>
     </div>
@@ -10,7 +10,7 @@ export default {
     name: 'no-data',
     data() {
         return {
-            iconName: '#icon-wujilu'
+            iconName: 'icon-wujilu'
         };
     },
     props: {

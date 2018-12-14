@@ -13,13 +13,13 @@
                     <div flex layout="column" layout-align="space-between start">
                         <div>{{item.subject}}</div>
                         <div>
-                            <m-icon class="fs32 color-gray" xlink="#icon-dianzan"></m-icon>
+                            <m-icon class="fs32 color-gray" link="icon-dianzan"></m-icon>
                             <span class="color-gray">{{item.recommendAdd}}</span>
                             &nbsp;&nbsp;
-                            <m-icon class="fs32 color-gray" xlink="#icon-huifu"></m-icon>
+                            <m-icon class="fs32 color-gray" link="icon-huifu"></m-icon>
                             <span class="color-gray">{{item.replies}}</span>
                             &nbsp;&nbsp;
-                            <m-icon class="fs32 color-gray" xlink="#icon-yanjing"></m-icon>
+                            <m-icon class="fs32 color-gray" link="icon-yanjing"></m-icon>
                             <span class="color-gray">{{item.views}}</span>
                         </div>
                     </div>

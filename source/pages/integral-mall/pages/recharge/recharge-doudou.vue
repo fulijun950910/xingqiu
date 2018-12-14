@@ -28,7 +28,7 @@
             </div>
             <div class="rules" flex>
                 <div class="color-gray fs24 rule-title">
-                    <m-icon class="fs30" xlink="#icon-xiangqing"></m-icon>&nbsp;&nbsp;充值说明</div>
+                    <m-icon class="fs30" link="icon-xiangqing"></m-icon>&nbsp;&nbsp;充值说明</div>
                 <div class="color-gray fs22 rule-p">1. 美豆豆为虚拟货币，没有使用权限。只可用于本平台</div>
                 <div class="color-gray fs22 rule-p">2. 购买后将不退不换</div>
                 <div class="color-gray fs22 rule-p">3. 10个美豆豆等于1元</div>

@@ -3,7 +3,7 @@
         <div class="mask"></div>
         <div class="toast" layout="column"  layout-align="space-between center">
             <div class="top-show" layout="column" layout-align="center center">
-                <div><m-icon xlink="#icon-zhifuchenggong" class="fs60"></m-icon></div>
+                <div><m-icon link="icon-zhifuchenggong" class="fs60"></m-icon></div>
                 <div class="fs34 color-black">支付成功</div>
             </div>
 <div class="bottom-link">

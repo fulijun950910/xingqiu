@@ -1,11 +1,11 @@
 <template>
     <div class="integral-input" layout="row" layout-align="center center">
         <span @click="changeNumber(2)" class="fs24 color-black">
-            <m-icon xlink="#icon-jian"></m-icon>
+            <m-icon link="icon-jian"></m-icon>
         </span>
         <input class="text-center fs24" type="number" min="0" inputmode="numeric" pattern="[0-9]*" title="Non-negative integral number" v-model="num" @change="changeQuality(num)">
         <span @click="changeNumber(1)" class="color-black fs24">
-            <m-icon xlink="#icon-jia"></m-icon>
+            <m-icon link="icon-jia"></m-icon>
         </span>
     </div>
 </template>

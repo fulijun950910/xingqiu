@@ -13,10 +13,10 @@
                layout-align="space-between center">
                 <span>
                     <m-icon class="mr8"
-                            xlink="#icon-record" /> 护理记录</span>
+                            link="icon-record" /> 护理记录</span>
                 <span class="back-primary"
                       @click="toCreateRecord">
-                    <m-icon xlink="#icon-add-border" />
+                    <m-icon link="icon-add-border" />
                 </span>
             </p>
             <div class="content"

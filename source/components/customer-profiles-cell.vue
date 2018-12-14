@@ -18,22 +18,22 @@
             </div>
             <div class="cost" :class="{show: show}" @click.stop="$emit('update:show', !show)">
                 <p>
-                    <span class="back-golden"><m-icon xlink="#icon-huangguan"/></span> {{value.gradeName || '无会员等级'}} <span class="pull-right">更多 <m-icon :xlink="show?'#icon-arrow-up':'#icon-arrow-down'"/></span>
+                    <span class="back-golden"><m-icon link="icon-huangguan"/></span> {{value.gradeName || '无会员等级'}} <span class="pull-right">更多 <m-icon :link="show?'icon-arrow-up':'icon-arrow-down'"/></span>
                 </p>
-                <p v-if="value.hasCard"><span class="back-golden"><m-icon xlink="#icon-card"/></span>
+                <p v-if="value.hasCard"><span class="back-golden"><m-icon link="icon-card"/></span>
                     <span v-if="value.hasCard == 2">{{'已办卡客户'}}</span>
                     <span v-else>{{'未办卡客户'}}</span>
                 </p>
                 <p v-if="value.order.lastConsumeDate">
-                    <span class="back-golden"><m-icon xlink="#icon-cost"/></span>
+                    <span class="back-golden"><m-icon link="icon-cost"/></span>
                     {{moment(value.order.lastConsumeDate).fromNow()}}消费过
                 </p>
                 <p v-if="value.returnVisitLastDate">
-                    <span class="back-golden"><m-icon xlink="#icon-telephone"/></span>
+                    <span class="back-golden"><m-icon link="icon-telephone"/></span>
                     {{ moment(value.returnVisitLastDate).fromNow() }}回访过
                 </p>
                 <p v-if="value.memberTagList">
-                    <span class="back-golden"><m-icon xlink="#icon-tag-alt"/></span>
+                    <span class="back-golden"><m-icon link="icon-tag-alt"/></span>
                     {{value.memberTagList.map(x=>{return x.tagName}).slice(0, 4).join(' ')}}
                 </p>
             </div>

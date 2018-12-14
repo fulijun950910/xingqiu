@@ -69,7 +69,7 @@
                 </div>
                 <div class="bd-close"
                      @click="hidden">
-                    <m-icon xlink="#icon-close"></m-icon>
+                    <m-icon link="icon-close"></m-icon>
                 </div>
             </div>
         </transition>

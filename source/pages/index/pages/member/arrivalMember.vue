@@ -5,7 +5,7 @@
                 layout="row"
                 layout-align="center center">
             <m-icon class="ic"
-                    xlink="#icon-cuowu"></m-icon>
+                    link="icon-cuowu"></m-icon>
             <p>亲~,还没有到店会员哦~</p>
         </div>
         <div class="data-list">
@@ -20,8 +20,8 @@
                             <div layout="row" style="color:#333;font-size:13px">
                                 <span class="name" flex >{{item.name}}</span>
                                 <span class="phone">{{item.mobile}}</span>
-                                <m-icon v-show="item.gender==1" class="ic" style="color:#4ed9cf" xlink="#icon-nan"></m-icon>
-                                <m-icon v-show="item.gender==2" class="ic" style="color:#f7398f" xlink="#icon-nv"></m-icon>
+                                <m-icon v-show="item.gender==1" class="ic" style="color:#4ed9cf" link="icon-nan"></m-icon>
+                                <m-icon v-show="item.gender==2" class="ic" style="color:#f7398f" link="icon-nv"></m-icon>
                             </div>
                             <span v-show="item.memberSource">来源:{{item.memberSource}}</span>
                             <div v-show="item.consumeDate">{{item.consumeDate}}</div>
@@ -55,7 +55,7 @@
                  layout-align="center center"
                  flex=33>
                 <m-icon class="ic"
-                    xlink="#icon-left-bold"></m-icon>&nbsp;
+                    link="icon-left-bold"></m-icon>&nbsp;
                 <p>返回</p>
             </div>
             <div layout="row"
@@ -63,7 +63,7 @@
                  flex=33
                  @click="storePickerVisible=true">
                 <m-icon class="ic"
-                    xlink="#icon-fangzi-copy"></m-icon>&nbsp;
+                    link="icon-fangzi-copy"></m-icon>&nbsp;
                 <p>门店</p>
             </div>
             <div layout="row"
@@ -71,7 +71,7 @@
                  layout-align="center center"
                  flex=33>
                 <m-icon class="ic"
-                    xlink="#icon-datezhuanhuan"></m-icon>&nbsp;
+                    link="icon-datezhuanhuan"></m-icon>&nbsp;
                 <p>日期</p>
             </div>
         </div>
