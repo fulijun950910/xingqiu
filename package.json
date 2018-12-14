@@ -12,8 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "fastclick": "^1.0.6",
-    "jquery": "^2.2.2",
     "html2canvas": "^1.0.0-alpha.12",
+    "jquery": "^2.2.2",
     "lodash.debounce": "^4.0.8",
     "mint-ui": "^2.2.7",
     "moment": "^2.18.1",
@@ -42,6 +42,7 @@
     "gulp-file-include": "^2.0.1",
     "gulp-if": "^2.0.2",
     "gulp-less": "^4.0.1",
+    "gulp-replace": "^1.0.0",
     "gulp-rev-append": "^0.1.8",
     "gulp-uglify": "^3.0.1",
     "http-proxy-middleware": "^0.19.0",

@@ -1,5 +1,5 @@
 const AppConfig = require('./app.config');
-
+const yargs = require('yargs').argv;
 const path = require('path');
 function resolve(dir) {
     return path.join(__dirname, dir);
@@ -27,6 +27,10 @@ module.exports = {
             config.plugin(`html-${name}`).tap(args => {
                 args[0].title = AppConfig[name].title;
                 args[0].cdn = AppConfig[name].cdn;
+                args[0].token =
+                yargs.env == 'test' || process.env.NODE_ENV !== 'production'
+                    ? '5a6f9c439b18d2a39b9e0b2a639a34a0'
+                    : '3c1210a8346d103698ba8ce2129c637b';
                 return args;
             });
         });
