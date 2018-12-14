@@ -11,7 +11,7 @@
             <div layout="column" layout-align="center center" class="toggle p-t-2 p-b-2" @click="toggle(item, 'toggle', 'icon')">
                 <div flex layout="row" layout-align="center center">
                     <span class="fs28 fwb">-选择{{item.groupName}}-</span>
-                    <span class="toggle-icon"><m-icon class="fs40 extra-light-gray" :xlink="item.icon"></m-icon></span>
+                    <span class="toggle-icon"><m-icon class="fs40 extra-light-gray" :link="item.icon"></m-icon></span>
                 </div>
                 <div class="fs20">{{item.goodsGroupGoodsList.length}}个{{item.groupName}}中选择{{item.quantity}}个</div>
             </div>
@@ -26,27 +26,27 @@
                             <div class="fs24">规格：{{sku.specification ? sku.specification.specName : '无'}}</div>
                         </div>
                         <div layout="row" flex layout-align="end center" v-if="sku.formType !=4 && sku.formType !=3">
-                            <m-icon class="fs40 steel-gray add m-r-3" xlink="icon-gouxuanshixin"></m-icon>
+                            <m-icon class="fs40 steel-gray add m-r-3" link="icon-gouxuanshixin"></m-icon>
                         </div>
                     </div>
                     <div flex class="border-bottom" name="续费门店" v-if="sku.formType == 4">
                         <div class="fs24 text-center color-tiffany-blue p-t-2 p-b-2" @click="toggle(sku, 'storeToggle', 'storeIcon')">点击选择续费门店
-                            <m-icon :xlink="sku.storeIcon"></m-icon>
+                            <m-icon :link="sku.storeIcon"></m-icon>
                         </div>
                         <div layout="row" layout-align="space-between center" :class="{'border-bottom' : storeIndex != sku.storeList.length - 1}" v-if="sku.storeToggle" class="p-t-3 p-b-3" @click="choose(sku, store, 2, item)" v-for="(store, storeIndex) in sku.storeList" :key="storeIndex">
                             <div class="fs24">{{store.name}}</div>
                             <div v-if="checkActive(sku.stores, store, 1)">
-                                <m-icon class="color-tiffany-blue" xlink="icon-check__"></m-icon>
+                                <m-icon class="color-tiffany-blue" link="icon-check__"></m-icon>
                             </div>
                         </div>
                     </div>
                     <div v-if="sku.formType == 3" flex name="新增门店">
                         <div class="fs24 text-center color-tiffany-blue p-t-2 p-b-2" @click="toggle(sku, 'addStoreToggle', 'addStoreIcon')">点击填写添加门店
-                            <m-icon :xlink="sku.addStoreIcon"></m-icon>
+                            <m-icon :link="sku.addStoreIcon"></m-icon>
                         </div>
                         <div v-if="sku.addStoreToggle">
                         <div v-for="(newStore, newStoreIndex) in sku.addStores" :key="newStoreIndex" :class="{'border-bottom' :newStoreIndex!= sku.addStores.length -1 }">
-                            <div flex layout="row" layout-align="center center" v-if="newStoreIndex != 0 && priceType == 3" @click="addStore(sku, newStoreIndex, 2)" class="p-t-3 p-b-3 border-bottom">删除&nbsp;&nbsp;<m-icon xlink="icon-shanchuicon1" class="fs34"></m-icon></div>
+                            <div flex layout="row" layout-align="center center" v-if="newStoreIndex != 0 && priceType == 3" @click="addStore(sku, newStoreIndex, 2)" class="p-t-3 p-b-3 border-bottom">删除&nbsp;&nbsp;<m-icon link="icon-shanchuicon1" class="fs34"></m-icon></div>
                             <div layout="row" layout-align="start center" class="p-t-2 p-b-2 border-bottom">
                                 <input flex type="text" placeholder="请填写门店名称" v-model="newStore.storeName">
                             </div>
@@ -64,21 +64,21 @@
                         </div>
                         <div flex layout="row" layout-align="center cneter" v-if="priceType == 3">
                             <div class="add-store fs24 p-t-3 p-b-3" @click="addStore(sku, '', 1, item)" layout="row" layout-align="center center">添加门店&nbsp;
-                                <m-icon xlink="icon-xingzhuang1" class="fs24"></m-icon>
+                                <m-icon link="icon-xingzhuang1" class="fs24"></m-icon>
                             </div>
                         </div>
                         </div>
                     </div>
                     <div flex v-if="sku.goodsGroupGoodsSpecList.length > 1 && sku.formType != 3" class="border-bottom" name="选择规格">
                         <div class="fs24 text-center color-tiffany-blue p-t-2 p-b-2" @click="toggle(sku, 'toggle', 'icon')" flex>点击选择规格
-                            <m-icon :xlink="sku.icon"></m-icon>
+                            <m-icon :link="sku.icon"></m-icon>
                         </div>
                         <div flex class="p-b-3 border-top" v-if="sku.toggle">
                             <div class="p-b-3 p-t-3" @click="choose(sku, spec, 1)" :class="{'color-tiffany-blue' : spec.active,'border-bottom' : specIndex != sku.goodsGroupGoodsSpecList.length - 1}" v-for="(spec, specIndex) in sku.goodsGroupGoodsSpecList" :key="specIndex" layout="row"
                                 layout-align="space-between center">
                                 <div class="fs24">{{spec.specName}}</div>
                                 <div class="choose-circle color-tiffany-blue" v-if="checkActive(sku.specification, spec, 2)">
-                                    <m-icon xlink="icon-check__"></m-icon>
+                                    <m-icon link="icon-check__"></m-icon>
                                 </div>
                             </div>
                         </div>

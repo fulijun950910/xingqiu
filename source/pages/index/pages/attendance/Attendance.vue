@@ -2,12 +2,12 @@
     <div class="Attendance" v-title="'考勤打卡'">
         <div class="header" layout="row" layout-align="space-between center">
             <div class="time" layout="row" layout-align="center center" >
-                <m-icon class="ic" xlink="icon-left-bold"></m-icon>
+                <m-icon class="ic" link="icon-left-bold"></m-icon>
                 <p>{{time}}</p>
-                <m-icon class="ic" xlink="icon-right-bold"></m-icon>
+                <m-icon class="ic" link="icon-right-bold"></m-icon>
             </div>
             <div class="Statistics" layout="row" layout-align="center center" >
-                <m-icon class="ic" xlink="icon-dianzan"></m-icon>
+                <m-icon class="ic" link="icon-dianzan"></m-icon>
                 <p>统计</p>
             </div>
         </div>
@@ -23,7 +23,7 @@
                         <!-- <p style="margin-right:8px" class="abnormal">异常定位</p> -->
                     </div>
                     <div style="margin-top:12px">
-                        <m-icon class="ic" xlink="icon-4" style="margin-right:4px"></m-icon>
+                        <m-icon class="ic" link="icon-4" style="margin-right:4px"></m-icon>
                         <span style="font-size:13px;color:rgba(170,170,170,1);">通协路268号</span>
                     </div>
                     <p style="margin-top:12px;margin-bottom:40px;color:rgba(118,139,183,1);">更新打卡</p>
@@ -33,7 +33,7 @@
                         <span style="color:#fff;font-size:20px;font-weight:bold;">定位中</span>
                     </div>
                     <div style="margin-top:20px;font-size:12px">
-                        <m-icon style="margin-right:4px" class="ic" xlink="icon-gengduoicon"></m-icon>
+                        <m-icon style="margin-right:4px" class="ic" link="icon-gengduoicon"></m-icon>
                         <span>还未获取到地址位置</span>
                         <span style="margin-left:5px;color:#768BB7">点击重试</span>
                     </div>
@@ -46,7 +46,7 @@
                     <span style="color:#fff;font-size:20px;font-weight:bold;">定位中</span>
                 </div>
                 <div style="margin-top:20px;font-size:12px">
-                    <m-icon style="margin-right:4px" class="ic" xlink="icon-gengduoicon"></m-icon>
+                    <m-icon style="margin-right:4px" class="ic" link="icon-gengduoicon"></m-icon>
                     <span>还未获取到地址位置</span>
                     <span style="margin-left:5px;color:#768BB7">点击重试</span>
                 </div>
@@ -54,7 +54,7 @@
             <div class="ban" layout="row" layout-align="start center" @click="confirm">
                 <p>A班&nbsp;9:00-18:00</p>
                 <p>B班&nbsp;9:00-18:00</p>
-                <m-icon class="ic" xlink="icon-pop-left"></m-icon>
+                <m-icon class="ic" link="icon-pop-left"></m-icon>
             </div>
             <div class="share-box" v-if="isShowShare" @click="isShowShare = false ">
                 <div class="box">
@@ -68,7 +68,7 @@
                     <p>待处理</p>
                     <span>您有<span style="color:red;margin:0 4px">14</span>条待审批申请</span>
                 </div>
-                <div><m-icon class="ic" xlink="icon-pop-left"></m-icon></div>
+                <div><m-icon class="ic" link="icon-pop-left"></m-icon></div>
             </router-link>
         </div>
     </div>

@@ -1,11 +1,11 @@
 <template>
     <div class="detail-top" layout="row" layout-align="start center">
          <span @click="goBack">
-             <m-icon xlink="icon-huabanfuben17"></m-icon>
+             <m-icon link="icon-huabanfuben17"></m-icon>
          </span>
          <!-- <div flex></div>
          <span>
-             <m-icon xlink="icon-connection"></m-icon>
+             <m-icon link="icon-connection"></m-icon>
          </span> -->
     </div>
 </template>

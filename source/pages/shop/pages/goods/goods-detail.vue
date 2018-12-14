@@ -18,7 +18,7 @@
            <div class="line-rank">
                <div class="jindu">
                    <div class="jindu-des">
-                       <m-icon xlink="icon-xiaosanjiaoup"></m-icon>
+                       <m-icon link="icon-xiaosanjiaoup"></m-icon>
                        已有700件被认购
                    </div>
                </div>

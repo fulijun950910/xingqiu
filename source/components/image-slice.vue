@@ -7,7 +7,7 @@
             <img class="file" ref="file" :src="url" alt="">
             <div class="imgView" ref="imgView">
                 <div class="imgViewBox" ref="imgViewBox">
-                    <m-icon xlink="icon-exchange"></m-icon>
+                    <m-icon link="icon-exchange"></m-icon>
                     <img class="file" ref="file2" :src="url" alt="">
                 </div>
             </div>

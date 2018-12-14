@@ -1,7 +1,7 @@
 <template>
     <div class="detail-bottom" layout="row" layout-align="start center">
      <div class="tab text-center" @click="tabClick(item)" v-for="(item,index) in tabList" :key="index" layout="row" layout-align="center center">
-         <m-icon :xlink="item.icon"></m-icon>
+         <m-icon :link="item.icon"></m-icon>
          <span>{{item.name}}
              <i class="text-center" v-if="item.more">100+</i>
          </span>

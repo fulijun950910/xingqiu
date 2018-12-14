@@ -23,7 +23,7 @@
                    </div>
                    <div flex></div>
                    <div class="like-num" :class="{active:item.person.isLike}" layout="row" layout-align="center center" @click="likeClick(item)">
-                       <m-icon xlink="icon-huabanfuben"></m-icon>
+                       <m-icon link="icon-huabanfuben"></m-icon>
                        <span>{{item.person.like}}</span>
                    </div>
                </div>

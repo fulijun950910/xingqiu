@@ -19,11 +19,11 @@
                 </div>
                 <div flex="25" class="text-center"  >
                     <div v-if="item.status == 1" layout="column" layout-align="space-between stretch">
-                        <div><m-icon xlink="icon-shalou"></m-icon>{{item.remainSecond | mTime}}</div>
+                        <div><m-icon link="icon-shalou"></m-icon>{{item.remainSecond | mTime}}</div>
                         <button class="goDetailBtn">来抱团</button>
                     </div>
                     <div v-else-if="item.status == 3" layout="column" layout-align="space-between stretch">
-                        <m-icon class="success-icon color-primary" xlink="icon-yueman"></m-icon>
+                        <m-icon class="success-icon color-primary" link="icon-yueman"></m-icon>
                     </div>
                     <div v-else layout="column" layout-align="space-between stretch">
                         <span class="color-gray">已结束</span>

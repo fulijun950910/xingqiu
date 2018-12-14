@@ -1,7 +1,7 @@
 <template>
     <div class="checkIn cell-box">
         <!-- <div class="infoBox cell">
-            <div class="text-right color-white" @click="showRule"><m-icon xlink="icon-wendang" class="fs36"></m-icon> 签到规则</div>
+            <div class="text-right color-white" @click="showRule"><m-icon link="icon-wendang" class="fs36"></m-icon> 签到规则</div>
             <div class="text-center">
                 <div class="fs24 color-light-white">当前已有美豆豆</div>
                 <div class="blance color-white">{{blanceTotal.doudouBalance}}</div>
@@ -11,7 +11,7 @@
             <div >
                 <div class="goal-champion" layout="row" layout-align="center center">
                 <img :src="require('assets/imgs/goal-champion.png')" alt="">
-                <div class="top-right" @click="showRule"><m-icon class="fs36 color-gray" xlink="icon-xiangqing"></m-icon></div>
+                <div class="top-right" @click="showRule"><m-icon class="fs36 color-gray" link="icon-xiangqing"></m-icon></div>
                 </div>
                 <div flex layout="row" layout-align="center center" class="color-yellow-orange text-center word-notice">已连续签到{{lastDay.continueDays}}天，连续签到有更多惊喜哦</div>
             </div>
@@ -36,7 +36,7 @@
         </div>
                     <div class="sign-in-circle" :class="{'checked' : state != 1}" layout="row" layout-align="center center"><button :disabled="state == 2" @click="submit" class="checkInSubmit color-light-red">
                 <div v-if="state == 1" class="color-white fs46"><span>签到</span></div>
-                <div v-else class="color-white fs46"><m-icon xlink="icon-yes" class="fs36 color-white"></m-icon> <span>已签到</span></div>
+                <div v-else class="color-white fs46"><m-icon link="icon-yes" class="fs36 color-white"></m-icon> <span>已签到</span></div>
             </button></div>
             <div layout="row" layout-align="center center" class="to-more">
                 <a @click="toMorePlay">更多玩法</a>

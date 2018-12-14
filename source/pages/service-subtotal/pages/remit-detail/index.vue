@@ -6,14 +6,14 @@
             </div>
             <div class="sum" layout="row" layout-align="space-around center">
                 <div class="coupon" flex="50" layout="row" layout-align="center center">
-                    <m-icon xlink="icon-coupon"></m-icon>
+                    <m-icon link="icon-coupon"></m-icon>
                     <div>
                         <p>验券数量</p>
                         <p>{{dataModel.verifyTickets || '0'}}</p>
                     </div>
                 </div>
                 <div class="remit" flex="50" layout="row" layout-align="center center">
-                    <m-icon xlink="icon-shouru"></m-icon>
+                    <m-icon link="icon-shouru"></m-icon>
                     <div>
                         <p>活动打款</p>
                         <p>{{(dataModel.income/100) | currency}}</p>
@@ -30,8 +30,8 @@
                 </div>
                 <div flex="50">
                     <p class="name">{{item.nickName}}</p>
-                    <p class="no-wrap"><m-icon xlink="icon-dianhua"></m-icon> {{item.mobile}}</p>
-                    <p class="no-wrap"><m-icon xlink="icon-coupon"></m-icon> {{item.tradeEntity | couponNo}}</p>
+                    <p class="no-wrap"><m-icon link="icon-dianhua"></m-icon> {{item.mobile}}</p>
+                    <p class="no-wrap"><m-icon link="icon-coupon"></m-icon> {{item.tradeEntity | couponNo}}</p>
                 </div>
                 <div class="text-center" flex="30">
                     <p class="money no-wrap">{{(item.payAmount/100) | currency}}</p>

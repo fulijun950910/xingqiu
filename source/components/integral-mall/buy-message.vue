@@ -3,7 +3,7 @@
         <div class="con-mask" @click="hideMask"></div>
         <div class="buy-message-con">
         <!-- <div class="seleted-serverce-item" layout="row" layout-align="center center">
-             <m-icon  class="fs48 color-white" xlink="icon-gerenxinxi"></m-icon>
+             <m-icon  class="fs48 color-white" link="icon-gerenxinxi"></m-icon>
              <div class="select-right color-white">
                  <p class="fs22">{{selectedItem.description}}</p>
                  <span class="fs30">{{selectedItem.name}}</span>
@@ -24,7 +24,7 @@
              </div>
             </div>
             <div class="buy-more" flex="10" layout="row" layout-align="center center">
-                <m-icon xlink="icon-zuojiantou"></m-icon>
+                <m-icon link="icon-zuojiantou"></m-icon>
             </div>
             </div>
             <div class="amount" layout="row" layout-align="space-between center" v-if="type ==2">

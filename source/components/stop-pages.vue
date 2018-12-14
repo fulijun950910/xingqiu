@@ -1,6 +1,6 @@
 <template>
     <div class="tips-show" :class="{show:stop}" layout="row" layout-align="start center" @click="toHomePage">
-        <m-icon v-if="!stop" xlink="icon-gengduo-right"></m-icon>
+        <m-icon v-if="!stop" link="icon-gengduo-right"></m-icon>
         <span v-if="stop">结束体验</span>
     </div>
 </template>

@@ -2,14 +2,14 @@
 <div class="order-detail extra-light-gray" v-title="'订单详情'">
     <div class="p-l-3 p-r-3 p-t-4 p-b-4 bg-extra-light-gray border-bottom" v-if="order.tradeDelivery">
         <div flex class="m-b-2 fs24" layout="row" layout-align="start center">
-            <div flex="20"><m-icon xlink="icon-wodedizhi" class="fs34 color-pink m-r-1"></m-icon>地址:</div>
+            <div flex="20"><m-icon link="icon-wodedizhi" class="fs34 color-pink m-r-1"></m-icon>地址:</div>
             <div>
             {{order.tradeDelivery.fullAddress}}
 
             </div>
         </div>
         <div flex class="fs24" layout="row" layout-align="start center">
-            <div flex="20"><m-icon xlink="icon-xingming" class="fs34 color-pink m-r-1"></m-icon>联系人:</div>
+            <div flex="20"><m-icon link="icon-xingming" class="fs34 color-pink m-r-1"></m-icon>联系人:</div>
             <div>
              {{order.tradeDelivery.contactPersion}}
 
@@ -29,7 +29,7 @@
     <div class="crack flex m-t-2 m-b-2"></div>
     <div class="p-l-3 p-r-3">
         <div class="title p-b-3 fs28 m-b-3">
-            <m-icon xlink="icon-danju" class="fs34 m-r-1"></m-icon>订单信息详情
+            <m-icon link="icon-danju" class="fs34 m-r-1"></m-icon>订单信息详情
         </div>
         <div flex>
             <div layout="row" class="p-t-1 p-b-1 fs24" layout-align="start center">
@@ -57,7 +57,7 @@
         <div class="crack flex m-t-3 m-b-3"></div>
         <div class="p-l-3 p-r-3">
                     <div class="title p-b-3 fs28 m-b-3">
-                        <m-icon xlink="icon-zhifu1" class="fs34 m-r-1"></m-icon>
+                        <m-icon link="icon-zhifu1" class="fs34 m-r-1"></m-icon>
             支付信息
         </div>
             <div flex>
@@ -78,7 +78,7 @@
         <div class="crack flex m-t-3 m-b-3"></div>
                 <div class="p-l-3 p-r-3">
                     <div class="title p-b-3 fs28 m-b-3">
-                        <m-icon xlink="icon-beizhu" class="fs34 m-r-1"></m-icon>
+                        <m-icon link="icon-beizhu" class="fs34 m-r-1"></m-icon>
             其他信息
         </div>
             <div flex>
@@ -89,9 +89,9 @@
             </div>
         </div>
         <div class="back-btn m-t-4 p-b-4" layout="row" layout-align="center center">
-         <div @click="pay" class="bottom-btn steel-gray fs28 m-r-4" v-if="order.status == '0'" layout="row" layout-align="center center">去支付&nbsp;<m-icon class="fs34" xlink="icon-zhifu1"></m-icon></div>
-         <div @click="cancelPay" class="bottom-btn steel-gray fs28 m-r-4" v-if="order.status == '0'" layout="row" layout-align="center center">取消&nbsp;<m-icon class="fs34" xlink="icon-huabanfuben29"></m-icon></div>
-         <div @click="goBack" class="bottom-btn steel-gray fs28" layout="row" layout-align="center center">返回&nbsp;<m-icon xlink="icon-zuojiantou"></m-icon></div>
+         <div @click="pay" class="bottom-btn steel-gray fs28 m-r-4" v-if="order.status == '0'" layout="row" layout-align="center center">去支付&nbsp;<m-icon class="fs34" link="icon-zhifu1"></m-icon></div>
+         <div @click="cancelPay" class="bottom-btn steel-gray fs28 m-r-4" v-if="order.status == '0'" layout="row" layout-align="center center">取消&nbsp;<m-icon class="fs34" link="icon-huabanfuben29"></m-icon></div>
+         <div @click="goBack" class="bottom-btn steel-gray fs28" layout="row" layout-align="center center">返回&nbsp;<m-icon link="icon-zuojiantou"></m-icon></div>
         </div>
         <integral-confirm :confirmText="confirm" @hideConfirm="hideConfirm" @integraConfirm="inteconfirm"></integral-confirm>
 </div>

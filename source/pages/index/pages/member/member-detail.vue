@@ -18,18 +18,18 @@
                                 <m-icon v-show="memberDetail.gender==1"
                                         class="ic"
                                         style="color:#4ed9cf"
-                                        xlink="icon-nan"></m-icon>
+                                        link="icon-nan"></m-icon>
                                 <m-icon v-show="memberDetail.gender==2"
                                         class="ic"
                                         style="color:#f7398f"
-                                        xlink="icon-nv"></m-icon>
+                                        link="icon-nv"></m-icon>
                             </div>
                         </li>
                         <li>
                             <div class="storeIcon">
                                 <m-icon class="ic"
                                         style="color:#d76eed"
-                                        xlink="icon-shengri1"></m-icon>&nbsp;
+                                        link="icon-shengri1"></m-icon>&nbsp;
                                 <span v-show="memberDetail.birthday"
                                       style="color:#9b9b9b">{{this.$moment(memberDetail.birthday).format('MM月DD日')}}</span>
                                 <span v-show="!memberDetail.birthday"
@@ -145,7 +145,7 @@
                  layout-align="center center"
                  flex=100>
                 <m-icon class="ic"
-                        xlink="icon-left-bold"></m-icon>&nbsp;
+                        link="icon-left-bold"></m-icon>&nbsp;
                 <p>返回</p>
             </div>
         </div>

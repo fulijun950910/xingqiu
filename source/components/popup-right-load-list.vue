@@ -8,13 +8,13 @@
         <div class="searchBox">
             <div class="searchMain" layout="row" layout-align="space-between center">
                 <div @click="load(true)">
-                    <m-icon class="color-primary fs40" xlink="icon-search2"></m-icon>
+                    <m-icon class="color-primary fs40" link="icon-search2"></m-icon>
                 </div>
                 <div flex>
                     <input v-model="keyword" type="text" />
                 </div>
                 <div @click="keyword = null">
-                    <m-icon class="light-gray fs32" xlink="icon-cuowu"></m-icon>
+                    <m-icon class="light-gray fs32" link="icon-cuowu"></m-icon>
                 </div>
             </div>
         </div>

@@ -8,7 +8,7 @@
         </div>
         <div class="exchange-serviceItem-list" layout="row" layout-align="start center" flex-wrap="wrap">
               <div class="exchange-serviceItem-item" @click="chooseItem(item)" :class="{'active':item.isActive == 2}" v-for="(item,index) in dataList" :key="index" layout="row" layout-align="center center">
-                 <m-icon class="fs48" xlink="icon-jinbi"></m-icon>
+                 <m-icon class="fs48" link="icon-jinbi"></m-icon>
                  <div class="right-des">
                      <span class="color-pink fs22" >{{item.description}}</span>
                      <p class="fs30">{{item.name}}</p>

@@ -5,7 +5,7 @@
             <div class="top-title">
             </div>
             <div class="chance fs24 color-white text-center fwb" layout="row" layout-align="center center">
-                <m-icon xlink="icon-laba" class="fs34"></m-icon>10个美豆豆可抽奖一次，今日还剩<span class="color-chance">{{chance}}</span>次机会
+                <m-icon link="icon-laba" class="fs34"></m-icon>10个美豆豆可抽奖一次，今日还剩<span class="color-chance">{{chance}}</span>次机会
             </div>
         </div>
         <div class="wheel-con">
@@ -39,7 +39,7 @@
                     </div>
                 </div>
             </div>
-            <div flex class="text-center color-light-purple fs24"><m-icon xlink="icon-xiangqing"></m-icon>抵用券有效期为3天，3天后自动删除</div>
+            <div flex class="text-center color-light-purple fs24"><m-icon link="icon-xiangqing"></m-icon>抵用券有效期为3天，3天后自动删除</div>
         </div>
     </div>
     <div class="alert-result" layout="row" layout-align="center center" v-if="showAlert">
@@ -80,7 +80,7 @@
                 </div>
             </div>
             <div class="close text-center" @click="toggleAlert">
-                <m-icon class="color-white" xlink="icon-huabanfuben29"></m-icon>
+                <m-icon class="color-white" link="icon-huabanfuben29"></m-icon>
             </div>
         </div>
     </div>

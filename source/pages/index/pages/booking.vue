@@ -7,43 +7,43 @@
                 </div>
                 <div class="text-center">
                     <div class="text-right editBtnBox">
-                        <span v-if="state == 1" @click="changeState(2)" class="editBtn"><m-icon xlink="icon-edit"></m-icon> 编辑</span>
+                        <span v-if="state == 1" @click="changeState(2)" class="editBtn"><m-icon link="icon-edit"></m-icon> 编辑</span>
                     </div>
                     <div>{{data.name}}</div>
-                    <div class="fs24 color-gray"><a class="color-gray" :href="'tel:'+data.phone"><m-icon class="fs24 color-gray" xlink="icon-tel-alt"></m-icon> {{data.phone}}</a></div>
+                    <div class="fs24 color-gray"><a class="color-gray" :href="'tel:'+data.phone"><m-icon class="fs24 color-gray" link="icon-tel-alt"></m-icon> {{data.phone}}</a></div>
                 </div>
                 <div class="editBox">
                     <div class="textCell dateBox" layout="row" layout-align="start start">
                         <div class="">预约日期&emsp;</div>
                         <input :disabled="state!=2" flex type="date" v-model="bookingDate.date"/>
-                        <div class="dateBoxCell" v-if="state == 2"><m-icon class="light-gray" xlink="icon-right-bold"></m-icon></div>
+                        <div class="dateBoxCell" v-if="state == 2"><m-icon class="light-gray" link="icon-right-bold"></m-icon></div>
                     </div>
                     <div @click="slectView(1)" class="textCell" layout="row" layout-align="start start">
                         <div class="">到店时间&emsp;</div>
                         <div flex class="color-gray">{{bookingDate.startTime}}</div>
-                        <div v-if="state == 2"><m-icon class="light-gray" xlink="icon-right-bold"></m-icon></div>
+                        <div v-if="state == 2"><m-icon class="light-gray" link="icon-right-bold"></m-icon></div>
                     </div>
                     <div @click="slectView(2)" class="textCell" layout="row" layout-align="start start">
                         <div class="">预计结束&emsp;</div>
                         <div flex class="color-gray">{{bookingDate.endTime}}</div>
-                        <div v-if="state == 2"><m-icon class="light-gray" xlink="icon-right-bold"></m-icon></div>
+                        <div v-if="state == 2"><m-icon class="light-gray" link="icon-right-bold"></m-icon></div>
                     </div>
                     <div @click="slectView(3)" class="textCell" layout="row" layout-align="start start">
                         <div class="">预约门店&emsp;</div>
                         <div flex class="color-gray">{{data.storeId | getName(storeList)}}</div>
-                        <div v-if="state == 2"><m-icon class="light-gray" xlink="icon-right-bold"></m-icon></div>
+                        <div v-if="state == 2"><m-icon class="light-gray" link="icon-right-bold"></m-icon></div>
                     </div>
                     <div @click="slectView(5)" class="textCell" layout="row" layout-align="start start">
                         <div class="">预约内容&emsp;</div>
                         <div flex class="color-gray">
                             <cell-tag :options="bookingDate.itemList"></cell-tag>
                         </div>
-                        <div v-if="state == 2"><m-icon class="light-gray" xlink="icon-right-bold"></m-icon></div>
+                        <div v-if="state == 2"><m-icon class="light-gray" link="icon-right-bold"></m-icon></div>
                     </div>
                     <div @click="slectView(4)" class="textCell" layout="row" layout-align="start start">
                         <div class="">预约人数&emsp;</div>
                         <div flex class="color-gray">{{data.memberCount | getName(memberCountList)}}</div>
-                        <div v-if="state == 2"><m-icon class="light-gray" xlink="icon-right-bold"></m-icon></div>
+                        <div v-if="state == 2"><m-icon class="light-gray" link="icon-right-bold"></m-icon></div>
                     </div>
                     <div class="textCell" layout="row" layout-align="start start">
                         <div class="">预约备注&emsp;</div>

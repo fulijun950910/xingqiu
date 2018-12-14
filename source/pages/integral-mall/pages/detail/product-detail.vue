@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <!-- <div flex="20" layout="column" layout-align="space-between center">
-                    <m-icon xlink="icon-huabanfuben29"></m-icon>
+                    <m-icon link="icon-huabanfuben29"></m-icon>
                     <div></div>
                     <span class="fs22 color-gray">已售{{data.seq}}</span>
                 </div> -->

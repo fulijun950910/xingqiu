@@ -8,7 +8,7 @@
                         <p class="p1">{{userInfo.merchantInfo.nickName}}</p>
                         <p class="p2" v-show="userInfo.merchantInfo.authStatus == 1">已认证</p>
                         <p class="p2" v-show="userInfo.merchantInfo.authStatus == 2">未认证</p>
-                        <m-icon class="ic" xlink="icon-11" @click.native="LinkTo(1)"></m-icon>
+                        <m-icon class="ic" link="icon-11" @click.native="LinkTo(1)"></m-icon>
                     </div>
                     <p style="color:#888888;font-size:13px;margin-top:4px">{{userInfo.merchantInfo.brandName}}</p>
                 </div>
@@ -49,7 +49,7 @@
         <!-- 订单管理 -->
         <div @click="goOrderListPublish" class='cell cell-box bg-white border-bottom' layout='row' layout-align='start center'>
             <div flex class='fs32 fwb'>订单管理</div>
-            <div class='color-gray'>查看全部<m-icon style="margin-left:5px" xlink='icon-zuojiantou'></m-icon></div>
+            <div class='color-gray'>查看全部<m-icon style="margin-left:5px" link='icon-zuojiantou'></m-icon></div>
         </div>
 
         <div class="nav" style="margin:10px 0px" layout="row" layout-align="start center">
@@ -72,7 +72,7 @@
             <div flex class='fs32 fwb'>我的优惠券</div>
             <div class='color-gray youhui'>
                 <span></span>
-                10张待使用<m-icon style="margin-left:5px" xlink='icon-zuojiantou'></m-icon></div>
+                10张待使用<m-icon style="margin-left:5px" link='icon-zuojiantou'></m-icon></div>
         </div> -->
         <p class="p"></p>
         <navBar type="2"></navBar>

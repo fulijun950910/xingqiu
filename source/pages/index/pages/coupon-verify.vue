@@ -8,7 +8,7 @@
                         <input placeholder="请输入兑换券券号" ref="inputBtn" type="text" v-model="ticketNo"/>
                     </div>
                     <div @click="openQrcode">
-                        <m-icon xlink="icon-saoma"></m-icon>
+                        <m-icon link="icon-saoma"></m-icon>
                     </div>
                 </div>
             </div>
@@ -24,7 +24,7 @@
         <div v-else-if="state==2" class="containerBox">
             <div class="verifyTitle success" layout="column" layout-align="center center">
                 <div>
-                    <m-icon xlink="icon-wsmp-complete"></m-icon>
+                    <m-icon link="icon-wsmp-complete"></m-icon>
                 </div>
                 <div class="fs32">查询成功</div>
                 <div class="fs24 font-gray">是否消费此券？ </div>
@@ -45,7 +45,7 @@
                         <div flex layout="row" layout-align="space-between center">
                             <div class="">{{storeId | getName(storeList) | sliceStr(28)}}</div>
                             <div>
-                                <m-icon xlink="icon-right-bold"></m-icon>
+                                <m-icon link="icon-right-bold"></m-icon>
                             </div>
                         </div>
                     </div>
@@ -88,7 +88,7 @@
         <div v-else-if="state==3" class="containerBox">
             <div class="verifyTitle success" layout="column" layout-align="center center">
                 <div>
-                    <m-icon xlink="icon-wsmp-complete"></m-icon>
+                    <m-icon link="icon-wsmp-complete"></m-icon>
                 </div>
                 <div class="fs32">验券成功</div>
             </div>
@@ -143,7 +143,7 @@
         <div v-else-if="state==4 || state==8" class="containerBox">
             <div class="verifyTitle danger" layout="column" layout-align="center center">
                 <div>
-                    <m-icon xlink="icon-cuowu"></m-icon>
+                    <m-icon link="icon-cuowu"></m-icon>
                 </div>
                 <div class="fs32" v-if="state==4">
                     哎呀，这张券已经使用喽~
@@ -201,7 +201,7 @@
         <div v-else-if="state==6" class="containerBox">
             <div class="verifyTitle danger" layout="column" layout-align="center center">
                 <div>
-                    <m-icon xlink="icon-cuowu"></m-icon>
+                    <m-icon link="icon-cuowu"></m-icon>
                 </div>
                 <div class="fs32">
                     哎呀，这张券还未到使用日期
@@ -255,7 +255,7 @@
         <div v-else-if="state==7" class="containerBox">
             <div class="verifyTitle danger" layout="column" layout-align="center center">
                 <div>
-                    <m-icon xlink="icon-cuowu"></m-icon>
+                    <m-icon link="icon-cuowu"></m-icon>
                 </div>
                 <div class="fs32">
                     哎呀，这张券已经过期喽~
@@ -310,7 +310,7 @@
         <div v-else-if="state==5" class="containerBox">
             <div class="verifyTitle danger" layout="column" layout-align="center center">
                 <div>
-                    <m-icon xlink="icon-cuowu"></m-icon>
+                    <m-icon link="icon-cuowu"></m-icon>
                 </div>
                 <div class="fs32">查询失败</div>
                 <div class="fs24 font-gray">此券无效或输入错误 </div>

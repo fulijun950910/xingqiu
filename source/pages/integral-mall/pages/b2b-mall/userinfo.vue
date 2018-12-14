@@ -7,7 +7,7 @@
                 </div>
                 <div>
                     <span class="fs extra-light-black">{{userInfo.merchantInfo.nickName}}</span>
-                    <m-icon class="color-gray m-l-1" xlink="icon-zuojiantou"></m-icon>
+                    <m-icon class="color-gray m-l-1" link="icon-zuojiantou"></m-icon>
                 </div>
             </div>
             <div class="cell cell-box bg-white" layout="row" layout-align="space-between center" style="padding-right:0;padding-top:18px;padding-bottom:18px" @click="jump">
@@ -17,7 +17,7 @@
                 <div layout="row" layout-align="space-between center">
                     <span v-show="Adreess.fullAddress == null" class="fs extra-light-black">请选择默认地址</span>
                     <span class="fs extra-light-black">{{Adreess.fullAddress}}</span>
-                    <m-icon class="color-gray m-l-1" xlink="icon-zuojiantou"></m-icon>
+                    <m-icon class="color-gray m-l-1" link="icon-zuojiantou"></m-icon>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                 </div>
                 <div>
                     <span class="fs extra-light-black">{{userInfo.merchantInfo.brandName}}</span>
-                    <m-icon class="color-gray m-l-1" xlink="icon-zuojiantou"></m-icon>
+                    <m-icon class="color-gray m-l-1" link="icon-zuojiantou"></m-icon>
                 </div>
             </div>
 
@@ -41,7 +41,7 @@
                     <span v-show="userInfo.merchantInfo.logoFileId == null" class="fs extra-light-black">待上传</span>
                     <img v-show="userInfo.merchantInfo.logoFileId != null" style="width:29px;height:29px" :src="userInfo.merchantInfo.logoFileId | nSrc(require('assets/imgs/female.png'))" alt="">
                     <file-slice @click="changeAvatar" v-model="logoImage" :proportion="{w:1, h:1}"></file-slice>
-                    <m-icon class="color-gray m-l-1" xlink="icon-zuojiantou"></m-icon>
+                    <m-icon class="color-gray m-l-1" link="icon-zuojiantou"></m-icon>
                 </div>
             </div>
 
@@ -52,7 +52,7 @@
                 <div>
                     <span v-show="!userInfo.merchantInfo.industry" class="fs extra-light-black">未选择</span>
                     <span class="fs extra-light-black">{{userInfo.merchantInfo.industry | getName(industry)}}</span>
-                    <m-icon class="color-gray m-l-1" xlink="icon-zuojiantou"></m-icon>
+                    <m-icon class="color-gray m-l-1" link="icon-zuojiantou"></m-icon>
                 </div>
             </div>
 
@@ -63,7 +63,7 @@
                 <div layout="row" layout-align="space-between center">
                     <span v-show="!userInfo.merchantInfo.shopShortDesc" class="fs extra-light-black">为您的店铺写句话吧~</span>
                     <span class="fs extra-light-black">{{userInfo.merchantInfo.shopShortDesc}}</span>
-                    <m-icon class="color-gray m-l-1" xlink="icon-zuojiantou"></m-icon>
+                    <m-icon class="color-gray m-l-1" link="icon-zuojiantou"></m-icon>
                 </div>
             </div>
         </div>
@@ -76,7 +76,7 @@
                 <div>
                     <span v-show="userInfo.merchantInfo.authStatus==2" class="fs extra-light-black">未认证</span>
                     <span v-show="userInfo.merchantInfo.authStatus==1" class="fs extra-light-black">已认证</span>
-                    <m-icon class="color-gray m-l-1" xlink="icon-zuojiantou"></m-icon>
+                    <m-icon class="color-gray m-l-1" link="icon-zuojiantou"></m-icon>
                 </div>
             </div>
         </div>

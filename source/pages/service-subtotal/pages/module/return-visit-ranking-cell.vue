@@ -2,7 +2,7 @@
     <div class="return-visit-ranking-cell" layout="row" layout-align="center center" @click="cellClick">
         <div layout="row" layout-align="center center" class="index-panel" :class="[`icon-${this.index}`]">
             <span>{{index}}</span>
-            <m-icon xlink="icon-medal" v-if="index < 4"></m-icon>
+            <m-icon link="icon-medal" v-if="index < 4"></m-icon>
         </div>
         <img :src="mData.employeeAvatarId | mSrc(80, 80, require('assets/imgs/avatar.png'))" class="avatar">
         <div flex class="content">
@@ -10,7 +10,7 @@
             <p class="extra-light-black">{{mData.employeeName}}</p>
         </div>
         <p class="steel-gray fs32">{{mData.total}}条</p>
-        <m-icon xlink="icon-right-bold" class="dark-gray" v-if="mode != 'none'"></m-icon>
+        <m-icon link="icon-right-bold" class="dark-gray" v-if="mode != 'none'"></m-icon>
         <span v-else class="arr"></span>
         <span class="h-line"></span>
     </div>

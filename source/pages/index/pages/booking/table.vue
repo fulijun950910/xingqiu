@@ -79,13 +79,13 @@
                      v-show="item.index != 1 || item.index == 1 && !showList"
                      @click="toolsClick(item)">
                     <m-icon class="fs40 color-black"
-                            :xlink="item.icon"></m-icon>
+                            :link="item.icon"></m-icon>
                 </div>
             </div>
             <div class="bt-add-btn"
                  @click="addClick">
                 <m-icon class="fs32"
-                        xlink="icon-add"></m-icon>
+                        link="icon-add"></m-icon>
             </div>
         </div>
         <m-booking-detail ref="detail"
@@ -109,7 +109,7 @@
                         {{store.name}}
                     </span>
                     <m-icon class="fs24 color-gray"
-                            xlink="icon-right-bold"></m-icon>
+                            link="icon-right-bold"></m-icon>
                 </div>
                 <div class="btp-cont"
                      layout="row"
@@ -133,7 +133,7 @@
                          @click="popupType = 3">
                         <span class="fs13 extra-light-black">选择{{$store.getters.nounName('worker')}}</span>
                         <m-icon class="fs24 color-gray"
-                                xlink="icon-right-bold"></m-icon>
+                                link="icon-right-bold"></m-icon>
                     </div>
                     <div class="btp-cont"
                          layout="row"
@@ -172,7 +172,7 @@
                          layout="row">
                         <div class="bp-back"
                              @click="popupType = 1">
-                            <m-icon xlink="icon-left-bold"></m-icon>
+                            <m-icon link="icon-left-bold"></m-icon>
                         </div>
                         <form action=""
                               flex>
@@ -191,7 +191,7 @@
                         <div flex>{{item.name}}</div>
                         <m-icon class="fs24 bp-check"
                                 v-if="params.storeId == item.id"
-                                xlink="icon-queding"></m-icon>
+                                link="icon-queding"></m-icon>
                     </div>
                     <m-no-data :visible="!filterStoreList.length"
                                :showButton="false"
@@ -204,7 +204,7 @@
                      layout="row">
                     <div class="bp-back"
                          @click="popupType = 1">
-                        <m-icon xlink="icon-left-bold"></m-icon>
+                        <m-icon link="icon-left-bold"></m-icon>
                     </div>
                     <form action=""
                           flex>
@@ -223,7 +223,7 @@
                     <div flex>{{item.name}} {{item.code}}</div>
                     <m-icon class="fs24 bp-check"
                             v-if="params.employeeId == item.id"
-                            xlink="icon-queding"></m-icon>
+                            link="icon-queding"></m-icon>
                 </div>
                 <m-no-data :visible="!filterStoreList.length"
                            :showButton="false"
@@ -254,7 +254,7 @@
                 <div class="m-r-2">{{item.label}}</div>
                 <div class="btps-tag">{{item.count}}</div>
                 <div class="btps-check">
-                    <m-icon xlink="icon-queding"></m-icon>
+                    <m-icon link="icon-queding"></m-icon>
                 </div>
             </div>
         </mt-popup>

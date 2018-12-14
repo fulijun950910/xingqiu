@@ -4,7 +4,7 @@
          layout-align="start center">
         <m-icon v-if="icon"
                 class="fs28 dark-gray"
-                :xlink="icon"></m-icon>
+                :link="icon"></m-icon>
         <input type="text"
                flex
                @change="$emit('change', currentValue)"

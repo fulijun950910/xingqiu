@@ -45,7 +45,7 @@
         <!--商品管理-->
         <div class='m-t-3 cell cell-box bg-white border-bottom' layout='row' layout-align='start center'>
             <div flex class='fs32 fwb'>商品管理</div>
-            <div @click="goCollect" class='color-gray'><m-icon class="color-primary" xlink='icon-xingzhuang1'></m-icon> 发现商品</div>
+            <div @click="goCollect" class='color-gray'><m-icon class="color-primary" link='icon-xingzhuang1'></m-icon> 发现商品</div>
         </div>
         <div class='mall-list' >
             <div v-for="item in indexData.mallSellList" :key="item.id" class='mall-item bg-white cell-box'>
@@ -75,7 +75,7 @@
         </div>
 
         <div class="fix-box" v-if="isShowShare" @click="isShowShare = false">
-            <div class="color-white fs40 cell text-right close-box" ><m-icon xlink="icon-guanbiicon"></m-icon></div>
+            <div class="color-white fs40 cell text-right close-box" ><m-icon link="icon-guanbiicon"></m-icon></div>
             <div @click.stop="" id="downloadBox" v-if="!popImg" class="share-box text-center color-white">
                 <div class="container">
                     <img class="img1" :src="require('assets/imgs/b2b-mall/activity-c-t1.png')" alt="">
@@ -97,10 +97,10 @@
             </div>
             <img @click.stop="" class="share-box-img" v-else :src="popImg" alt=""/>
             <div @click.stop="" layout="row" layout-align="center center"  class="share-tip-box">
-                <m-icon class="fs40 color-8C76AD m-r-2" xlink="icon-xiazaitupianicon"></m-icon>
+                <m-icon class="fs40 color-8C76AD m-r-2" link="icon-xiazaitupianicon"></m-icon>
                 <div>长按图片保存</div>
-                <m-icon class="fs48 color-eee m-l-3 m-r-3" xlink="icon-web__bitebiyoujiantou"></m-icon>
-                <m-icon class="fs40 color-8C76AD m-r-2" xlink="icon-weixinicon"></m-icon>
+                <m-icon class="fs48 color-eee m-l-3 m-r-3" link="icon-web__bitebiyoujiantou"></m-icon>
+                <m-icon class="fs40 color-8C76AD m-r-2" link="icon-weixinicon"></m-icon>
                 <div>分享到微信</div>
             </div>
         </div>

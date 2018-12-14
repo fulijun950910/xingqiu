@@ -8,7 +8,7 @@
             <div layout="row" layout-align="start center" flex v-if="!vm.search.show">
                 <a class="bar-btn border-r" layout="row" layout-align="center center" v-if="admin" flex v-on:click="searchStatu()">
                     <div v-if="!vm.search.main">
-                        <m-icon xlink="icon-search2"></m-icon>
+                        <m-icon link="icon-search2"></m-icon>
                         <span class="bar-text">搜索</span>
                     </div>
                     <span v-if="vm.search.main" flex class="text-center">
@@ -16,14 +16,14 @@
                      </span>
                     <span v-if="!admin">{{user.name}}</span>
                     <span v-on:click.stop="clearSearch()" flex="20" v-if="vm.search.main">
-                    <m-icon class="icon icon-close-grey icon-margin" xlink="icon-close"></m-icon>
+                    <m-icon class="icon icon-close-grey icon-margin" link="icon-close"></m-icon>
                      </span>
                 </a>
                 <a class="bar-btn border-r" layout="row" layout-align="center center" flex v-if="!admin">
                     {{user.name}}
                 </a>
                 <a class="bar-btn see-data" layout="row" layout-align="center center" flex @click="toData">
-                    <m-icon xlink="icon-shuju"></m-icon>
+                    <m-icon link="icon-shuju"></m-icon>
 
                     <span class="bar-text">查看数据</span>
                 </a>
@@ -38,7 +38,7 @@
             <no-Data :visible="noData"></no-Data>
             <div class="div-box" :class="{'has-del': item.employeeId == $store.state.user.id}" v-for="(item,pIndex) in dataList" :key="item.id">
                 <p class="text-right" v-if="item.employeeId == $store.state.user.id">
-                    <m-icon class="icon btn-close" xlink="icon-close" @click.stop="delRecord(item, pIndex)"></m-icon>
+                    <m-icon class="icon btn-close" link="icon-close" @click.stop="delRecord(item, pIndex)"></m-icon>
                 </p>
                 <div class="title" layout="row" layout-align="space-between center">
                     <div class="user" layout="row" layout-align="center center">
@@ -51,8 +51,8 @@
                         </div>
                     </div>
                     <div class="text-type" layout="row" layout-align="center center">
-                        <m-icon xlink="icon-fuwu-copy" v-if="item.type == 1"></m-icon>
-                        <m-icon xlink="icon-dianhua" v-if="item.type == 2"></m-icon>
+                        <m-icon link="icon-fuwu-copy" v-if="item.type == 1"></m-icon>
+                        <m-icon link="icon-dianhua" v-if="item.type == 2"></m-icon>
                         <span>{{item.type | messageType}}</span>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                         未进行记录
                     </span>
                     <span flex></span>
-                    <a class="link" v-if="item.status == 0 && item.employeeId == user.id" v-on:click="addServiceNote(item)">点此进行记录<m-icon :xlink="'icon-right-bold'"></m-icon></a>
+                    <a class="link" v-if="item.status == 0 && item.employeeId == user.id" v-on:click="addServiceNote(item)">点此进行记录<m-icon :link="'icon-right-bold'"></m-icon></a>
                 </div>
                 <div class="main-img" layout="row" layout-align="start center" flex-wrap="wrap" v-if="item.status == 1">
                     <span flex="30" v-for="(img,index) in item.imageIds" v-on:click="scaleImg(pIndex,index)" :key="index">
@@ -72,7 +72,7 @@
                     </span>
                 </div>
                 <div flex layout="row" layout-align="start center" flex-wrap="wrap" class="project" v-if="item.type == 1">
-                    <m-icon class="xiangmu" xlink="icon-xiangmu"></m-icon>
+                    <m-icon class="xiangmu" link="icon-xiangmu"></m-icon>
                     <template v-if="item.serviceSmallNote">
                         <span v-for="(project, index) in item.serviceSmallNote.item" :key="index">{{project.itemName}}<i v-if="item.serviceSmallNote.item.length > 1">,</i></span>
                     </template>
@@ -102,10 +102,10 @@
         <m-date-range-picker v-model="dateRangeVisible" :start-date.sync="vm.timeInterval.startDate" :end-date.sync="vm.timeInterval.endDate" @confirm="changeDateRange"></m-date-range-picker>
         <!-- 编辑 -->
         <div class="btn-fixed btn-edit" @click="$router.push({name:'member-maintain'})">
-            <m-icon xlink="icon-edit"></m-icon>
+            <m-icon link="icon-edit"></m-icon>
         </div>
         <div class="btn-fixed btn-go-top" v-on:click="toTop" v-if="scroll">
-            <m-icon xlink="icon-top"></m-icon>
+            <m-icon link="icon-top"></m-icon>
         </div>
     </div>
 </template>

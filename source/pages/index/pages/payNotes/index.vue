@@ -6,7 +6,7 @@
         </div>
         <div class="cell" layout="row" layout-align="space-between center">
             <div class="dateBox">
-                <m-icon class="fs36" xlink="icon-datezhuanhuan"></m-icon>
+                <m-icon class="fs36" link="icon-datezhuanhuan"></m-icon>
                 <span class="fs24">{{date|amDateFormat('YYYY.MM')}}</span>
                 <input class="dateInput" @change="load(true)" type="month" v-model="date">
             </div>
@@ -25,7 +25,7 @@
                     <div v-if="item.changeAmount>=0" class="list-item success cell cell-box" layout="row" layout-align="space-between center">
                         <div layout="row" layout-align="start start">
                             <div class="iconBox" layout="row" layout-align="center center">
-                                <m-icon class="" xlink="icon-jiantou-copy-copy"></m-icon>
+                                <m-icon class="" link="icon-jiantou-copy-copy"></m-icon>
                             </div>
                             <span>&nbsp;&nbsp;</span>
                             <div>
@@ -40,7 +40,7 @@
                     <div v-else class="list-item error cell cell-box" layout="row" layout-align="space-between center">
                         <div layout="row" layout-align="start start">
                             <div class="iconBox" layout="row" layout-align="center center">
-                                <m-icon class="" xlink="icon-jiantou-copy-copy"></m-icon>
+                                <m-icon class="" link="icon-jiantou-copy-copy"></m-icon>
                             </div>
                             <span>&nbsp;&nbsp;</span>
                             <div>

@@ -2,9 +2,9 @@
 <div class="personal">
    <div class="search-bar-bg" flex>
             <div class="search-bar" layout="row" flex>
-        <m-icon xlink="icon-huabanfuben17" class="fs24" @click="goBack"></m-icon>
+        <m-icon link="icon-huabanfuben17" class="fs24" @click="goBack"></m-icon>
         <div flex></div>
-        <m-icon xlink="icon-huabanfuben1" class="fs24"></m-icon>
+        <m-icon link="icon-huabanfuben1" class="fs24"></m-icon>
             </div>
         </div>
     <div class="container">
@@ -19,7 +19,7 @@
                  <div class="top-name" layout="row" flex layout-align="center center">
                      <span>{{item.name}}</span>
                      <div flex></div>
-                     <m-icon xlink="icon-zuojiantou"></m-icon>
+                     <m-icon link="icon-zuojiantou"></m-icon>
                      </div>
                  <span>{{item.num}}</span>
              </div>
@@ -27,7 +27,7 @@
           <h3 class="big-title">我的订单</h3>
           <div class="status-tab" layout="row" layout-align="start center" flex>
                <div class="status-item" flex="20" v-for="(item,index) in statusTab" :key="index" layout="column" layout-align="center center" @click="loading">
-                   <m-icon :xlink="item.icon"></m-icon>
+                   <m-icon :link="item.icon"></m-icon>
                    <span>{{item.name}}</span>
                </div>
           </div>
@@ -37,7 +37,7 @@
               </div>
               <div flex></div>
               <div @click="loading">
-                  地址管理<m-icon xlink="icon-zuojiantou"></m-icon>
+                  地址管理<m-icon link="icon-zuojiantou"></m-icon>
               </div>
           </div>
             <shop-bottom-nav active-type="4" class="bottom-nav"></shop-bottom-nav>

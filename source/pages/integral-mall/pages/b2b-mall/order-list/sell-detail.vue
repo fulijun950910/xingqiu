@@ -16,12 +16,12 @@
                         <span class="fs48">{{promotionData.sellMoney | fen2yuan | bigNumber}}</span>
                     </div>
                 </div>
-                <div @click="back" class="text-center extra-light-black"><m-icon xlink='icon-huabanfuben17'></m-icon>返回</div>
+                <div @click="back" class="text-center extra-light-black"><m-icon link='icon-huabanfuben17'></m-icon>返回</div>
             </div>
         </div>
         <div class="cell cell-box m-t-4 fs28 extra-light-black" layout="row">
             <div flex>{{query.total}}条订单</div>
-            <div @click="showQuery" class="p-l-2">筛选<m-icon xlink='icon-xia'></m-icon></div>
+            <div @click="showQuery" class="p-l-2">筛选<m-icon link='icon-xia'></m-icon></div>
         </div>
         <div class="order-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
             <div v-for="item in promotionList" :key="item.id" class="list-item bg-white cell-box">

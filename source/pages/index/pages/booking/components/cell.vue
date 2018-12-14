@@ -4,7 +4,7 @@
          layout-align="start center">
         <m-icon v-if="icon"
                 class="fs28 dark-gray"
-                :xlink="icon"></m-icon>
+                :link="icon"></m-icon>
         <div class="extra-light-black mc-m-l">{{title}}</div>
         <slot></slot>
         <div class="extra-light-black text-right mc-nowrap"
@@ -16,7 +16,7 @@
         <slot name="foot">
             <m-icon class="fs20 dark-gray"
                     slot="right"
-                    xlink="icon-right-bold"></m-icon>
+                    link="icon-right-bold"></m-icon>
         </slot>
     </div>
 </template>

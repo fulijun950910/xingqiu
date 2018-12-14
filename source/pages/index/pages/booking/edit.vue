@@ -80,12 +80,12 @@
                      layout-align="space-between center"
                      @click="timeHeadClick(item)">
                     <m-icon class="fs28"
-                            :xlink="item.icon"></m-icon>
+                            :link="item.icon"></m-icon>
                     <div class="be-time-title"
                          flex>{{item.label}}</div>
                     <m-icon class="fs24 be-tt"
                             :class="{rotate180: item.expand}"
-                            xlink="icon-shangla"></m-icon>
+                            link="icon-shangla"></m-icon>
                 </div>
                 <div layout="row"
                      layout-align="start center"
@@ -151,7 +151,7 @@
                     </div>
                     <m-icon class="fs24 bp-check"
                             v-if="booking.memberId == item.memberId"
-                            xlink="icon-queding"></m-icon>
+                            link="icon-queding"></m-icon>
                 </div>
                 <m-load-more :loading="!memberQuery.scrollDisabled"></m-load-more>
             </div>
@@ -181,7 +181,7 @@
                     <div flex>{{item.name}}</div>
                     <m-icon class="fs24 bp-check"
                             v-if="booking.storeId == item.id"
-                            xlink="icon-queding"></m-icon>
+                            link="icon-queding"></m-icon>
                 </div>
             </div>
         </m-popup-right>
@@ -210,7 +210,7 @@
                     <div flex>{{item.name}} {{item.code}}</div>
                     <m-icon class="fs24 bp-check"
                             v-if="booking.employeeId == item.id"
-                            xlink="icon-queding"></m-icon>
+                            link="icon-queding"></m-icon>
                 </div>
             </div>
         </m-popup-right>
@@ -239,7 +239,7 @@
                     <div flex>{{item.name}}</div>
                     <m-icon class="fs24 bp-check"
                             v-if="booking.roomId == item.id"
-                            xlink="icon-queding"></m-icon>
+                            link="icon-queding"></m-icon>
                 </div>
             </div>
         </m-popup-right>

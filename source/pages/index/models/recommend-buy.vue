@@ -5,7 +5,7 @@
             <div v-if="type == 1" @click="goRechargeMessage" class="list-item cell cell-box" layout="row" layout-align="space-between center">
                 <div layout="row" layout-align="start center">
                     <div class="iconBox iconBox1" layout="row" layout-align="center center">
-                        <m-icon class="" xlink="icon-duanxin"></m-icon>
+                        <m-icon class="" link="icon-duanxin"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
                     <span>购买短信包</span>
@@ -13,13 +13,13 @@
                 <div class="fs24 light-gray">
                     <!--<span>1000美豆豆</span>-->
                     <span>&nbsp;&nbsp;</span>
-                    <m-icon class="" xlink="icon-right-bold"></m-icon>
+                    <m-icon class="" link="icon-right-bold"></m-icon>
                 </div>
             </div>
             <div v-if="type == 1" @click="goMwSalon" class="list-item cell cell-box" layout="row" layout-align="space-between center">
                 <div layout="row" layout-align="start center">
                     <div class="iconBox iconBox2" layout="row" layout-align="center center">
-                        <m-icon class="" xlink="icon-weibiaoti2fuzhi02"></m-icon>
+                        <m-icon class="" link="icon-weibiaoti2fuzhi02"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
                     <span>购买沙龙入场券</span>
@@ -27,20 +27,20 @@
                 <div class="fs24 light-gray">
                     <!--<span>800美豆豆</span>-->
                     <span>&nbsp;&nbsp;</span>
-                    <m-icon class="" xlink="icon-right-bold"></m-icon>
+                    <m-icon class="" link="icon-right-bold"></m-icon>
                 </div>
             </div>
             <div class="list-item cell cell-box" layout="row" layout-align="space-between center">
                 <div layout="row" layout-align="start center">
                     <div class="iconBox iconBox3" layout="row" layout-align="center center">
-                        <m-icon class="" xlink="icon-zengsong"></m-icon>
+                        <m-icon class="" link="icon-zengsong"></m-icon>
                     </div>
                     <span>&nbsp;&nbsp;</span>
                     <span>更多美问周边尽请期待</span>
                 </div>
                 <div class="fs24 light-gray">
                     <span>&nbsp;&nbsp;</span>
-                    <!--<m-icon class="" xlink="icon-right-bold"></m-icon>-->
+                    <!--<m-icon class="" link="icon-right-bold"></m-icon>-->
                 </div>
             </div>
         </div>
