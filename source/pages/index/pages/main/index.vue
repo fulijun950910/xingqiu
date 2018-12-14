@@ -406,7 +406,7 @@ export default {
         },
         bannerClick(item) {
             if (item.indexOf('html') > -1) {
-                location.href = item;
+                window.location.href = item;
             } else {
                 this.$router.push(item);
             };
@@ -548,6 +548,8 @@ export default {
               img {
                   height: 100%;
                   width: auto;
+                  position: relative;
+                  z-index: 1;
               }
               .swiper-slide {
                   border-radius: 5px;

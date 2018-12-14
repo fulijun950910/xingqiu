@@ -52,11 +52,6 @@ const router = new VueRouter({
 
 router.beforeEach(({ meta, path }, from, next) => {
     if (path == '/sign-in' || store.getters.isLogin) {
-        // 百度统计
-        try {
-            window._hmt.push(['_trackPageview', '/service/service-subtotal.html#' + path]);
-        } catch (e) {
-        };
         next();
     } else {
         if (process.env.NODE_ENV === 'development') {
@@ -65,6 +60,10 @@ router.beforeEach(({ meta, path }, from, next) => {
             window.location.href = '/userinfo.html#/user_login';
         }
     }
+    try {
+        window._hmt.push(['_trackPageview', '/service/service-subtotal.html' + location.hash]);
+    } catch (e) {
+    };
 });
 
 new Vue({
