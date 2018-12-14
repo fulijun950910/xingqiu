@@ -2,7 +2,7 @@
     <div class="b2b-mall-invoice-list" v-title="'发票管理'">
         <div layout="row" class="card-item">
             <div flex>新增管理</div>
-            <div @click="goEdit()" class="color-primary"><m-icon xlink="#icon-jia"></m-icon> 新增发票</div>
+            <div @click="goEdit()" class="color-primary"><m-icon link="icon-jia"></m-icon> 新增发票</div>
         </div>
         <div>
             <div @click="select(item)" v-for="item in dataList" :key="item.id" class="invoice-item cell card-item m-b-3 bg-white" layout="row" layout-align="center center">
@@ -11,7 +11,7 @@
                     <div class="extra-light-black">{{item.taxpayerNumber}}</div>
                 </div>
                 <div @click.stop="goEdit(item.id)" class="border-left p-t-2 p-b-2 cell-box extra-light-black">
-                    <m-icon xlink="#icon-bianji"></m-icon>
+                    <m-icon link="icon-bianji"></m-icon>
                 </div>
             </div>
         </div>

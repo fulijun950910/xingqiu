@@ -11,7 +11,7 @@
                     <span class="fs40 fwb">优惠券</span>（共{{canUse.length}}张可用）
                 </div>
                 <div @click="close">
-                    <m-icon class="fs40" xlink="#icon-huabanfuben29"></m-icon>
+                    <m-icon class="fs40" link="icon-huabanfuben29"></m-icon>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div layout="row" layout-align="center center" flex="30">
-                        <m-icon class="border-gay fs48" :class="{'select-color-pink' : item.id == selected}" xlink="#icon-gouxuanshixin"></m-icon>
+                        <m-icon class="border-gay fs48" :class="{'select-color-pink' : item.id == selected}" link="icon-gouxuanshixin"></m-icon>
                     </div>
                     </div>
                 </div>

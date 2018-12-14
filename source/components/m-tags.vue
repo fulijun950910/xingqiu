@@ -3,11 +3,12 @@
     <div class="c-tag">
         <p class="c-tag-title" layout="row" layout-align="space-between center">
             <span>
-                <svg class="icon" aria-hidden="true"><use xlink:href="#icon-tag-alt"></use></svg>
+                <m-icon link="icon-tag-alt"></m-icon>
                 Ta的标签
             </span>
             <span @click="tagVisible = true" class="more-tag">
-                更多 <svg class="icon" aria-hidden="true"><use xlink:href="#icon-right-bold"></use></svg>
+                更多 <m-icon link="icon-right-bold"></m-icon>
+
             </span>
         </p>
 
@@ -16,13 +17,13 @@
             <div class="c-tag-item no-wrap" :class="{choose: tagArr.includes(item.id.toString())}"
              v-for="(item, index) in tagLib" :key="index" @click="chooseTagLib(item.id)">
                 {{item.tagName}}
-                <svg v-show="tagArr.includes(item.id.toString())" class="icon" aria-hidden="true"><use xlink:href="#icon-choose-on"></use></svg>
+                <m-icon v-show="tagArr.includes(item.id.toString())" link="icon-choose-on"></m-icon>
             </div>
         </div>
         <div class="c-tag-box ft-light" flex-wrap="wrap" layout="row" layout-align="start center">
             <div class="c-tag-item no-wrap choose" @click="chooseTagOut(item.id)" v-for="(item, index) in tagArr2" :key="index">
                 {{item.tagName}}
-                <svg class="icon" aria-hidden="true"><use xlink:href="#icon-choose-on"></use></svg>
+                <m-icon link="icon-choose-on"></m-icon>
             </div>
         </div>
 
@@ -33,7 +34,7 @@
                 <span flex="20" class="add-tag text-center" @click="createTag">添加</span>
             </div>
             <div class="tag-title">
-                <svg class="icon" aria-hidden="true"><use xlink:href="#icon-hot-tag-alt"></use></svg>
+                <m-icon link="icon-hot-tag-alt"></m-icon>
                  热门标签
             </div>
             <div class="c-tag-box ft-light hot-tags" flex-wrap="wrap" layout="row" layout-align="start center">

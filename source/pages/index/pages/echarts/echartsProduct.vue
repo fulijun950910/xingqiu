@@ -67,7 +67,7 @@
                          layout="row"
                          layout-align="center center">
                         <m-icon class="ic"
-                                xlink="#icon-cuowu"></m-icon>
+                                link="icon-cuowu"></m-icon>
                         <p>亲~抱歉,暂时没有查到数据~</p>
                     </div>
                     <div style="height:67px;background:#fff;z-index:6"></div>
@@ -125,7 +125,7 @@
                          layout="row"
                          layout-align="center center">
                         <m-icon class="ic"
-                                xlink="#icon-cuowu"></m-icon>
+                                link="icon-cuowu"></m-icon>
                         <p>亲~抱歉,暂时没有查到数据~</p>
                     </div>
                     <div style="height:67px;background:#fff;z-index:6"></div>
@@ -183,7 +183,7 @@
                          layout="row"
                          layout-align="center center">
                         <m-icon class="ic"
-                                xlink="#icon-cuowu"></m-icon>
+                                link="icon-cuowu"></m-icon>
                         <p>亲~抱歉,暂时没有查到数据~</p>
                     </div>
                     <div style="height:67px;background:#fff;z-index:6"></div>
@@ -242,7 +242,7 @@
                          layout="row"
                          layout-align="center center">
                         <m-icon class="ic"
-                                xlink="#icon-cuowu"></m-icon>
+                                link="icon-cuowu"></m-icon>
                         <p>亲~抱歉,暂时没有查到数据~</p>
                     </div>
                     <div style="height:67px;background:#fff;z-index:6"></div>
@@ -273,7 +273,7 @@
                  layout-align="center center"
                  flex>
                 <m-icon class="ic"
-                        xlink="#icon-left-bold"></m-icon>&nbsp;
+                        link="icon-left-bold"></m-icon>&nbsp;
                 <p>返回</p>
             </div>
             <div layout="row"
@@ -281,7 +281,7 @@
                  flex
                  @click="storePickerVisible=true">
                 <m-icon class="ic"
-                        xlink="#icon-fangzi-copy"></m-icon>&nbsp;
+                        link="icon-fangzi-copy"></m-icon>&nbsp;
                 <p>门店</p>
             </div>
             <div layout="row"
@@ -289,7 +289,7 @@
                  layout-align="center center"
                  flex>
                 <m-icon class="ic"
-                        xlink="#icon-datezhuanhuan"></m-icon>&nbsp;
+                        link="icon-datezhuanhuan"></m-icon>&nbsp;
                 <p>日期</p>
             </div>
         </div>

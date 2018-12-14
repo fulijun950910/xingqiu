@@ -2,9 +2,9 @@
 <div class="personal">
    <div class="search-bar-bg" flex>
             <div class="search-bar" layout="row" flex>
-        <m-icon xlink="#icon-huabanfuben17" class="fs24" @click="goBack"></m-icon>
+        <m-icon link="icon-huabanfuben17" class="fs24" @click="goBack"></m-icon>
         <div flex></div>
-        <m-icon xlink="#icon-huabanfuben1" class="fs24"></m-icon>
+        <m-icon link="icon-huabanfuben1" class="fs24"></m-icon>
             </div>
         </div>
     <div class="container">
@@ -19,7 +19,7 @@
                  <div class="top-name" layout="row" flex layout-align="center center">
                      <span>{{item.name}}</span>
                      <div flex></div>
-                     <m-icon xlink="#icon-zuojiantou"></m-icon>
+                     <m-icon link="icon-zuojiantou"></m-icon>
                      </div>
                  <span>{{item.num}}</span>
              </div>
@@ -27,7 +27,7 @@
           <h3 class="big-title">我的订单</h3>
           <div class="status-tab" layout="row" layout-align="start center" flex>
                <div class="status-item" flex="20" v-for="(item,index) in statusTab" :key="index" layout="column" layout-align="center center" @click="loading">
-                   <m-icon :xlink="item.icon"></m-icon>
+                   <m-icon :link="item.icon"></m-icon>
                    <span>{{item.name}}</span>
                </div>
           </div>
@@ -37,7 +37,7 @@
               </div>
               <div flex></div>
               <div @click="loading">
-                  地址管理<m-icon xlink="icon-zuojiantou"></m-icon>
+                  地址管理<m-icon link="icon-zuojiantou"></m-icon>
               </div>
           </div>
             <shop-bottom-nav active-type="4" class="bottom-nav"></shop-bottom-nav>
@@ -68,27 +68,27 @@ export default {
             statusTab: [
                 {
                     name: '待付款',
-                    icon: '#icon-huabanfuben6',
+                    icon: 'icon-huabanfuben6',
                     value: 1
                 },
                 {
                     name: '待发货',
-                    icon: '#icon-huabanfuben11',
+                    icon: 'icon-huabanfuben11',
                     value: 2
                 },
                 {
                     name: '待评价',
-                    icon: '#icon-huabanfuben9',
+                    icon: 'icon-huabanfuben9',
                     value: 3
                 },
                 {
                     name: '已发货',
-                    icon: '#icon-huabanfuben8',
+                    icon: 'icon-huabanfuben8',
                     value: 4
                 },
                 {
                     name: '售后',
-                    icon: '#icon-huabanfuben7',
+                    icon: 'icon-huabanfuben7',
                     value: 5
                 }
             ]

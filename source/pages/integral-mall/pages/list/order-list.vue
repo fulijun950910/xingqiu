@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="menu" flex="5" @click="menuClick">
-            <m-icon class="fs35" xlink="#icon-shaixuan1"></m-icon>
+            <m-icon class="fs35" link="icon-shaixuan1"></m-icon>
         </div>
         <div class="right-menu" :class="{'display': rightTab}">
             <div class="mask" @click="menuClick"></div>

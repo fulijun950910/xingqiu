@@ -22,7 +22,7 @@
             </div>
             <div class="c-card-call text-right ft-light"  flex="20">
                 <a :href="'tel:'+dataModel.mobile" class="btn btn-xs ft-light">
-                    <m-icon xlink="#icon-tel-alt"></m-icon> 联系Ta
+                    <m-icon link="icon-tel-alt"></m-icon> 联系Ta
                 </a>
             </div>
         </div>

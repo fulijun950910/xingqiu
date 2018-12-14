@@ -4,7 +4,7 @@
             <p class="title">
                 <span>
                     <m-icon class="mr8"
-                            xlink="#icon-record" /> 档案信息</span>
+                            link="icon-record" /> 档案信息</span>
             </p>
             <div class="field"
                  layout="row"

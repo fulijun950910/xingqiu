@@ -6,7 +6,7 @@
             <div class="tsh-head"
                  @click="hidden">
                 <m-icon class="fs28"
-                        xlink="#icon-left-bold"></m-icon>
+                        link="icon-left-bold"></m-icon>
             </div>
             <form class="tsh-cont"
                   action=""
@@ -45,7 +45,7 @@
                     <div class="ts-fs13">{{item.name}}</div>
                     <div class="ts-sub-cont">{{item.serviceDuration}}分钟</div>
                     <m-icon class="fs28"
-                            xlink="#icon-queding"></m-icon>
+                            link="icon-queding"></m-icon>
                 </div>
                 <m-load-more :loading="!scrollDisabled"></m-load-more>
             </div>

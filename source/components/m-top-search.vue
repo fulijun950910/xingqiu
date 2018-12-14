@@ -3,7 +3,7 @@
         <div class="input-panel" layout="row" layout-align="center center">
             <input type="text" class="fs28" :placeholder="placeholder" v-model="currentValue" flex @keyup.enter="submit" :readonly="type == 2" :disabled="disabled">
             <div class="icon-panel" @click.stop="iconClick" v-show="!disabled">
-                <m-icon :xlink="icon"></m-icon>
+                <m-icon :link="icon"></m-icon>
             </div>
         </div>
     </div>
@@ -39,7 +39,7 @@ export default {
         },
         icon: {
             type: String,
-            default: '#icon-search2'
+            default: 'icon-search2'
         },
         disabled: {
             type: Boolean,
