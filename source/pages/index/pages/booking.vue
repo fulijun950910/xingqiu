@@ -174,14 +174,18 @@ export default {
                 }
                 this.data = res.data;
                 this.bookingDate.itemList = [];
-                this.data.itemVos.forEach(item => {
-                    this.bookingDate.itemList.push({
-                        value: item.itemId,
-                        name: item.name,
-                        saleType: item.type,
-                        sellingPrice: item.price
+                try {
+                    this.data.itemVos.forEach(item => {
+                        this.bookingDate.itemList.push({
+                            value: item.itemId,
+                            name: item.name,
+                            saleType: item.type,
+                            sellingPrice: item.price
+                        });
                     });
-                });
+                } catch (e) {
+                    console.log(e);
+                };
                 this.bookingDate.startTime = Vue.filter('amDateFormat')(this.data.startTime, 'HH:mm');
                 this.bookingDate.endTime = Vue.filter('amDateFormat')(this.data.endTime, 'HH:mm');
                 this.bookingDate.date = Vue.filter('amDateFormat')(this.data.startTime, 'YYYY-MM-DD');
@@ -200,6 +204,7 @@ export default {
             });
         },
         queryStore(storeId) {
+            console.log(3);
             this.$indicator.open();
             api_booking.getStoreInfo(storeId).then(res => {
                 if (!this.$store.getters.merchantId || res.data.merchantId != this.$store.getters.merchantId) {
