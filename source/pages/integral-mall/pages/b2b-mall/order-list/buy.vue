@@ -122,7 +122,7 @@ export default {
             let data = {
                 query: [
                     {
-                        field: 'merchantId',
+                        field: 'userMerchantId',
                         value: this.$store.state.party.merchantId
                     },
                     {
