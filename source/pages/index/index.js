@@ -113,9 +113,6 @@ router.beforeEach(async ({ meta, path }, from, next) => {
             Indicator.close();
         }
         if (store.getters.isLogin) {
-            try {
-                window._hmt.push(['_trackPageview', '/service/index.html#' + path]);
-            } catch (e) {}
             next();
         } else if (process.env.NODE_ENV === 'development') {
             next({ name: 'sign-in' });
@@ -128,6 +125,9 @@ router.beforeEach(async ({ meta, path }, from, next) => {
             }
         }
     }
+    try {
+        window._hmt.push(['_trackPageview', '/service/index.html' + location.hash]);
+    } catch (e) {}
 });
 
 new Vue({
