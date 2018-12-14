@@ -48,7 +48,7 @@
                 <div style="margin-top:20px;font-size:12px">
                     <m-icon style="margin-right:4px" class="ic" xlink="#icon-gengduoicon"></m-icon>
                     <span>还未获取到地址位置</span>
-                    <span style="margin-left:5px;color:#768BB7">点击重试</span>
+                    <span style="margin-left:5px;color:#768BB7" @click="confirm2">点击重试</span>
                 </div>
             </div>
             <div class="ban" layout="row" layout-align="start center" @click="confirm">
@@ -56,9 +56,59 @@
                 <p>B班&nbsp;9:00-18:00</p>
                 <m-icon class="ic" xlink="#icon-pop-left"></m-icon>
             </div>
-            <div class="share-box" v-if="isShowShare" @click="isShowShare = false ">
-                <div class="box">
-
+            <div class="share-box" v-if="isShowShare" @click.stop="isShowShare = false ">
+                <div class="box" style="z-index:999">
+                    <div style="position:relative;padding:15px 17px 0 20px">
+                        <m-icon class="ic color-gray" xlink="#icon-close" @click.stop="isShowShare = false" ></m-icon>
+                        <div style="line-height:30px">
+                            <p class="fs30 fwb">发送申请给潘金莲</p>
+                            <p style="color:#888" class="fs16">考勤时间:2018.12.14 9:32</p>
+                            <p style="color:#888" class="fs16">状态：迟到2分钟</p>
+                        </div>
+                        <p class="fwb fs24" style="margin-top:44px;margin-bottom:8px">申请事由</p>
+                    </div>
+                    <div style="width:100%;height187px;background:rgba(245,245,245,1);padding:20px;position:relative">
+                        <textarea ref="text" autofocus style="height:187px;background:rgba(245,245,245,1);font-size:16px" @click.stop="conso" @input.stop="alert" cols="30" rows="10" maxlength="300"></textarea>
+                        <div style="position:absolute;right:20px;bottom:20px">
+                            <span style="color:#781A75">{{this.length}}</span>
+                            <span> / 300</span>
+                        </div>
+                    </div>
+                    <div style="height:49px;line-height:49px;text-align:center;color:#781A75" class="fwb">提交申请</div>
+                </div>
+            </div>
+            <div class="share-box" v-if="isShowShare2" @click.stop="isShowShare2 = false ">
+                <div class="box" style="z-index:999">
+                    <div style="position:relative;padding:15px 17px 0 20px">
+                        <m-icon class="ic color-gray" xlink="#icon-close" @click.stop="isShowShare2 = false" ></m-icon>
+                        <div style="line-height:30px">
+                            <p class="fs30 fwb">发送申请给潘金莲</p>
+                            <p style="color:#888" class="fs16">考勤时间:2018.12.14 9:32</p>
+                            <p style="color:#888" class="fs16">状态：迟到2分钟</p>
+                        </div>
+                        <div class="Reason" layout="row" layout-align="start start">
+                            <p style="white-space:nowrap;" class="m-r-2 extra-light-black">申请事由:</p>
+                            <p class="color-black">早上起来晚了。。。好到么哦啊</p>
+                        </div>
+                    </div>
+                    <div style="padding:10px 40px 100px 40px;margin-top:40px">
+                        <div class="m-t-4" style="border-left:1px solid #ccc;padding:0 30px;position:relative;height:80px">
+                                <div>
+                                    <img class="img1" :src="require('assets/imgs/avatar.png')" alt="">
+                                    <div style="position:absolute;top:-10px">
+                                        <p class="fwb">我发起请求</p>
+                                        <p>2018.12.12 9:45</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <img class="img2" :src="require('assets/imgs/avatar.png')" alt="">
+                                    <div style="position:absolute;top:70px">
+                                        <span>潘金莲</span>&nbsp;&nbsp;<span style="color:#A43A8E" class="fwb">待审批</span>
+                                        <p>已耗时 4小时</p>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -86,7 +136,9 @@ export default {
     data() {
         return {
             time: this.$moment().startOf('day').format('YYYY.MM.DD'),
-            isShowShare: false
+            isShowShare: false,
+            isShowShare2: false,
+            length: 0
         };
     },
     mounted() {
@@ -94,6 +146,14 @@ export default {
     methods: {
         confirm() {
             this.isShowShare = true;
+        },
+        confirm2() {
+            this.isShowShare2 = true;
+        },
+        alert() {
+            this.length = this.$refs.text.value.length;
+        },
+        conso() {
         }
     }
 };
@@ -242,10 +302,40 @@ export default {
             height:100vh;
             top: 0;
             left:0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.4);
+            padding-top: 76px;
+            .ic{
+                position: absolute;
+                right:17px;
+            }
             .box {
                 width: 300px;
                 margin: 0 auto;
+                border-radius: 8px;
+                background: @white;
+            }
+            .Reason{
+                width: 100%;
+                background: #f5f5f5;
+                overflow: auto;
+                min-height: 75px;
+                padding: 10px;
+            }
+            .img1{
+                width: 30px;
+                height: 30px;
+                border: 50%;
+                position: absolute;
+                left:-15px;
+                top:-15px;
+            }
+            .img2{
+                width: 30px;
+                height: 30px;
+                border: 50%;
+                position: absolute;
+                left:-15px;
+                bottom:-15px;
             }
         }
     }
