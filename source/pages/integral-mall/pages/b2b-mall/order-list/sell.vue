@@ -67,8 +67,9 @@ export default {
 <style scoped lang='less'>
 @import '~styles/_agile';
 .b2b-mall-order-list-sell{
-    .list-item{
-
+    @color-primary: #854399;
+    .color-primary {
+        color: @color-primary;
     }
     .item-card {
         box-shadow:0px 4px 17px 0px rgba(75,110,150,0.11);

@@ -141,6 +141,10 @@ export default {
 @import '~styles/_agile';
 
 .b2b-mall-order-list-publish{
+    @color-primary: #854399;
+    .color-primary {
+        color: @color-primary;
+    }
     .color-8C76AD{
         color:#8C76AD;
     }

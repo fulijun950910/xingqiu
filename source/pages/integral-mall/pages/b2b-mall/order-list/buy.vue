@@ -246,6 +246,10 @@ export default {
 @import '~styles/_agile';
 .b2b-mall-order-list-buy{
     padding-bottom:30px;
+    @color-primary: #854399;
+    .color-primary {
+        color: @color-primary;
+    }
     .nav-bar {
         height:50px;
         background:rgba(255,255,255,1);

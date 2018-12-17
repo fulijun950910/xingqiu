@@ -159,6 +159,10 @@ export default {
 @import '~styles/_agile';
 .user {
     margin: auto;
+    @color-primary: #854399;
+    .color-primary {
+        color: @color-primary;
+    }
     .userInfo{
         height: 200px;
         width: 100%;

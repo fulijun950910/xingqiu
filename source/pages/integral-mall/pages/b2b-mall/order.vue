@@ -218,6 +218,10 @@ export default {
     font-size: 13px;
     min-height: 100vh;
     background: @bg-gray;
+    @color-primary: #854399;
+    .color-primary {
+        color: @color-primary;
+    }
     .mint-switch-input:checked + .mint-switch-core{
         border-color: @color-primary;
         background: @color-primary;

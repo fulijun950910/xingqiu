@@ -327,6 +327,10 @@ export default {
     font-size: 13px;
     min-height: 100vh;
     background: @bg-gray;
+    @color-primary: #854399;
+    .color-primary {
+        color: @color-primary;
+    }
     .order-state{
         background: #200746;
         height: 100px;

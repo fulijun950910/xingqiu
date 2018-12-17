@@ -3,11 +3,11 @@
         <div class="bar-padding"></div>
         <div class="nav-bar" layout="row" layout-align="center center">
             <div @click="goIndex" :class="{'act': type==1}" flex class="text-center tab-item">
-                <m-icon class="icon" link="icon-mendianguanli"></m-icon>
+                <m-icon class="icon" link="icon-dianpucopy"></m-icon>
                 <div>店铺</div>
             </div>
             <div @click="goUser" :class="{'act': type==2}" flex class="text-center tab-item">
-                <m-icon class="icon" link="icon-xingming"></m-icon>
+                <m-icon class="icon" link="icon-wode"></m-icon>
                 <div>我的</div>
             </div>
         </div>
@@ -47,6 +47,10 @@ export default {
 <style scoped lang='less'>
 @import '~styles/_agile';
 .b2b-mall-nav-bar{
+    @color-primary: #854399;
+    .color-primary {
+        color: @color-primary;
+    }
     .bar-padding{
         height:50px;
     }

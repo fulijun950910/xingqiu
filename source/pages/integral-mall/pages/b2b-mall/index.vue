@@ -219,6 +219,10 @@ export default {
     font-size: 13px;
     min-height: 100vh;
     background: @bg-gray;
+    @color-primary: #854399;
+    .color-primary {
+        color: @color-primary;
+    }
     .color-8C76AD{
         color:#8C76AD;
     }
