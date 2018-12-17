@@ -1,7 +1,7 @@
 <template>
     <div class="b2b-mall-order-list-sell">
         <div v-for="item in orderList" :key="item.id" class="list-item cell cell-box">
-            <div class="item-card">
+            <div @click="goDetail(item)" class="item-card">
                 <div class="p-t-2 p-b-2" layout="row" layout-align="space-around center">
                     <div>
                         <span>购买人数</span>
@@ -26,7 +26,6 @@
                     <m-icon link='icon-zuojiantou'></m-icon>
                 </div>
             </div>
-            <div @click="goDetail(item)" class="color-primary p-t-5 p-b-2 text-center">查看详情</div>
         </div>
 
     </div>
