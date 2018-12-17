@@ -1,6 +1,6 @@
 <template>
     <div class="b2b-mall-order-list-sell">
-        <div v-for="item in orderList" :key="item.id" class="list-item cell cell-box">
+        <div v-for="(item,key) in orderList" :key="key" class="list-item cell cell-box">
             <div @click="goDetail(item)" class="item-card">
                 <div class="p-t-2 p-b-2" layout="row" layout-align="space-around center">
                     <div>
@@ -15,7 +15,7 @@
                         <span class="fs48">{{item.sellMoney | fen2yuan | bigNumber}}</span>
                     </div>
                 </div>
-                <div class="bg-default br1 p-l-2 p-r-2 p-t-4 p-b-4" layout="row" layout-align="start center">
+                <div class="bg-default br1 p-l-2 p-r-2 p-t-4 p-b-4" layout="row" layout-align="start stretch">
                     <img class="title-img m-r-2" :src="item.imageId | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                     <div class="mall-content" flex layout="column">
                         <div flex>
@@ -23,7 +23,9 @@
                         </div>
                         <!--<div class="color-gray fs12">规格 大型60cm *1</div>-->
                     </div>
-                    <m-icon link='icon-zuojiantou'></m-icon>
+                    <div layout="row" layout-align="center center">
+                        <m-icon link='icon-zuojiantou'></m-icon>
+                    </div>
                 </div>
             </div>
         </div>
