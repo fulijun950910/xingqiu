@@ -127,9 +127,6 @@ export default {
             this.query();
             this.loadAddress();
             this.loadInvoice();
-            if (this.$store.state.b2bMallData.orderData) {
-                this.invoiceFlag = this.$store.state.b2bMallData.orderData.invoiceFlag;
-            }
         },
         quantityChange(num) {
             this.quantity = num;
@@ -173,7 +170,7 @@ export default {
                     }
                 ]
             };
-            if (this.invoiceFlag && this.invoice.id) {
+            if (this.invoice.id) {
                 data.invoiceId = this.invoice.id;
                 data.invoiceTitle = this.invoice.rise;
                 data.taxpayerNumber = this.invoice.taxpayerNumber;
@@ -209,9 +206,6 @@ export default {
             this.$router.push('/address-list/select');
         },
         goSelectInvoice() {
-            this.$store.state.b2bMallData.orderData = {
-                invoiceFlag: this.invoiceFlag
-            };
             this.$router.push('/b2b-mall-invoice-list');
         }
     }
