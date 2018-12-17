@@ -40,6 +40,7 @@ const arrivalMember = resolve => require(['./pages/member/arrivalMember'], resol
 const memberDetail = resolve => require(['./pages/member/member-detail'], resolve);
 
 const Attendance = resolve => require(['./pages/attendance/Attendance'], resolve);
+const Approval = resolve => require(['./pages/attendance/Approval'], resolve);
 const newMember = resolve => require(['./pages/member/newMember'], resolve);
 const qrconfirm = resolve => require(['./pages/qrconfirm/index'], resolve);
 
@@ -261,6 +262,12 @@ export default [
         path: '/Attendance',
         name: 'Attendance',
         component: Attendance,
+        meta: { auth: true, level: 1 }
+    },
+    {
+        path: '/Approval',
+        name: 'Approval',
+        component: Approval,
         meta: { auth: true, level: 1 }
     },
     {
