@@ -36,7 +36,10 @@
                 <div flex>预售商品销售金额</div>
                 <div>¥{{indexData.currentSellMoney | fen2yuan}}</div>
             </div>
-            <div class="text-right extra-light-black fs24">占位文案占位文案占位文案占位文案</div>
+            <div class="m-t-1 extra-light-black fs24">
+                <span v-if="toProfit > 0">还差{{toProfit | fen2yuan}}元赚回仪器的钱啦加油！</span>
+                <span v-else>您的收入已经足够您购买仪器啦</span>
+            </div>
         </div>
 
         <div @click="goBannerUrl" class="m-t-3 banner2-box">
@@ -132,11 +135,18 @@ export default {
             indexData: {
                 midBanner: {}
             },
+            mallPrice: 1000000, // todo
             shareData: {},
             popImg: null,
             groupShareUrl: '',
             isShowShare: false
         };
+    },
+    computed: {
+        // 最终支付金额
+        toProfit() {
+            return this.mallPrice - this.indexData.currentSellMoney;
+        }
     },
     components: {
         navBar,
