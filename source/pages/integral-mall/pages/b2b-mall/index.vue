@@ -273,7 +273,7 @@ export default {
         top: 0;
         left:0;
         background: rgba(0,0,0,0.8);
-        z-index: 2000;
+        z-index: 2;
     }
     .close-box{
         width:250px;

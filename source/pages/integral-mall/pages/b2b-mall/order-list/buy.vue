@@ -172,15 +172,19 @@ export default {
                 }
             });
         },
+        orderChangeStatusEvent() {
+            let len = this.orderList.length;
+            this.orderList.splice(Math.max(len - this.query.size, 0));
+            this.query.page--;
+            this.loadData();
+        },
         async subOrder(item, index) {
             this.$messageBox.confirm('确认收货？').then(async action => {
                 this.$indicator.open();
                 await api_b2bmall.subOrder(item.id);
                 this.$indicator.close();
-                item.status = 5;
-                if (this.type > -1) {
-                    this.orderList.splice(index, 1);
-                }
+                this.$toast('已确认收货');
+                this.orderChangeStatusEvent();
             });
         },
         async refundOrder(item, index) {
@@ -189,9 +193,8 @@ export default {
                 await api_b2bmall.refundOrder(item.id);
                 this.$indicator.close();
                 item.status = 7;
-                if (this.type > -1) {
-                    this.orderList.splice(index, 1);
-                }
+                this.$toast('已确认退款');
+                this.orderChangeStatusEvent();
             });
         },
         async cancelOrder(item, index) {
@@ -199,10 +202,8 @@ export default {
                 this.$indicator.open();
                 await api_b2bmall.cancelOrder(item.id);
                 this.$indicator.close();
-                item.status = 4;
-                if (this.type > -1) {
-                    this.orderList.splice(index, 1);
-                }
+                this.$toast('已取消订单');
+                this.orderChangeStatusEvent();
             });
         }
     },
