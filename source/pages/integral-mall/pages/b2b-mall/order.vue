@@ -20,7 +20,7 @@
         <div class="product-info bg-white m-t-3 cell-box cell">
             <div class="m-b-3" layout="row">
                 <div class="extra-black" flex>{{orderData.merchantName}}</div>
-                <div class="color-primary"><m-icon class="" link="icon-xiangqing"></m-icon>&nbsp;在线沟通</div>
+                <!--<div class="color-primary"><m-icon class="" link="icon-xiangqing"></m-icon>&nbsp;在线沟通</div>-->
             </div>
             <div layout="row" class="bg-default br2 cell p-l-2 p-r-2">
                 <img class="product-img m-r-3" :src="orderData.image | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">

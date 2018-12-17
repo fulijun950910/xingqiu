@@ -24,7 +24,7 @@ export default {
                 this.num++;
             } else if (type == 2) {
                 // 减
-                if (this.num < 0) {
+                if (this.num <= 0) {
                     return;
                 };
                 this.num--;
