@@ -24,7 +24,7 @@
             <div @click="showQuery" class="p-l-2">筛选<m-icon link='icon-xia'></m-icon></div>
         </div>
         <div class="order-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
-            <div v-for="item in promotionList" :key="item.id" class="list-item bg-white cell-box">
+            <div v-for="(item, key) in promotionList" :key="key" class="list-item bg-white cell-box">
                 <div class="border-bottom cell" layout="row">
                     <img class="title-img m-r-2" :src="item.avatarId | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                     <div flex>
@@ -153,15 +153,17 @@ export default {
             this.$indicator.open();
             let res = await api_b2bmall.getPurchaseMallSellOrderList(data);
             this.$indicator.close();
-            if (res.data.rows.length < this.query.size) {
-                this.isLoadOver = false;
-            } else {
-                this.isLoadOver = true;
+            if (res.data.rows) {
+                if (res.data.rows.length < this.query.size) {
+                    this.isLoadOver = false;
+                } else {
+                    this.isLoadOver = true;
+                }
+                this.promotionList = this.promotionList.concat(res.data.rows);
+                this.loading = false;
+                this.query.total = res.data.total;
+                this.query.page++;
             }
-            this.promotionList = this.promotionList.concat(res.data.rows);
-            this.loading = false;
-            this.query.total = res.data.total;
-            this.query.page++;
         },
         resetQuery() {
             this.query.page = 1;
