@@ -224,6 +224,7 @@ export default {
                 this.$indicator.open();
                 await api_b2bmall.subOrder(this.orderData.id);
                 this.$indicator.close();
+                this.$toast('已确认收货');
                 this.queryData();
             });
         },
@@ -232,6 +233,7 @@ export default {
                 this.$indicator.open();
                 await api_b2bmall.refundOrder(this.orderData.id);
                 this.$indicator.close();
+                this.$toast('退款成功');
                 this.queryData();
             });
         },
@@ -240,6 +242,7 @@ export default {
                 this.$indicator.open();
                 await api_b2bmall.cancelOrder(this.orderData.id);
                 this.$indicator.close();
+                this.$toast('已取消订单');
                 this.queryData();
             });
         },

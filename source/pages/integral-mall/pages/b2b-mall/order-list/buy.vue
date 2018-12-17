@@ -193,7 +193,7 @@ export default {
                 await api_b2bmall.refundOrder(item.id);
                 this.$indicator.close();
                 item.status = 7;
-                this.$toast('已确认退款');
+                this.$toast('退款成功');
                 this.orderChangeStatusEvent();
             });
         },
