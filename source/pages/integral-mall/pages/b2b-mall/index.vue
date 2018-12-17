@@ -72,6 +72,7 @@
                     <div @click="goOrder(item)" class="btn-item">采购</div>
                 </div>
             </div>
+            <div v-if="!indexData.mallSellList || indexData.mallSellList.length < 1" class="cell cell-box text-center extra-light-black">暂未采集商品。</div>
         </div>
 
         <div class="fix-box" v-if="isShowShare" @click="isShowShare = false">
