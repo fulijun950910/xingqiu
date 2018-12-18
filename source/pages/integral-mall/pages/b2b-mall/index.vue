@@ -46,9 +46,9 @@
             <img :src="indexData.midBanner.imageId | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
         </div>
         <!--商品管理-->
-        <div class='m-t-3 cell cell-box bg-white border-bottom' layout='row' layout-align='start center'>
-            <div flex class='fs32 fwb'>商品管理</div>
-            <div @click="goCollect" class='color-gray'><m-icon class="color-primary" link='icon-xingzhuang1'></m-icon> 发现商品</div>
+        <div class='m-t-3 bg-white border-bottom' layout='row' layout-align='start center'>
+            <div flex class='fs32 fwb cell cell-box'>商品管理</div>
+            <div @click="goCollect" class='color-gray cell cell-box'><m-icon class="color-primary" link='icon-xingzhuang1'></m-icon> 发现商品</div>
         </div>
         <div class='mall-list' >
             <div v-for="item in indexData.mallSellList" :key="item.id" class='mall-item bg-white cell-box'>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div class="btn-box" layout='row' layout-align='space-between center'>
-                    <div @click="goShowView(item)" class="btn-item">预览</div>
+                    <div @click="goShowView(item)" class="btn-item">查看</div>
                     <div @click="goOrder(item)" class="btn-item">采购</div>
                     <div @click="showShare(item)" class="btn-item">分享</div>
                     <div @click="showBtnBox(item)" class="btn-item">
@@ -236,7 +236,9 @@ export default {
             result.data.promotionInstance.minPrice = Number.POSITIVE_INFINITY;
             result.data.promotionInstance.promotionRuleGroup.promotionRuleGroupContentExts.forEach(function(item) {
                 result.data.promotionInstance.originPrice += item.itemPrice;
-                result.data.promotionInstance.minPrice = Math.min(result.data.promotionInstance.minPrice, item.itemPrice);
+            });
+            result.data.promotionInstance.promotionRuleGroup.promotionRuleGroupExts.forEach(function(item) {
+                result.data.promotionInstance.minPrice = Math.min(result.data.promotionInstance.minPrice, item.sellingPrice);
             });
             this.shareData = result.data;
             this.isShowShare = true;

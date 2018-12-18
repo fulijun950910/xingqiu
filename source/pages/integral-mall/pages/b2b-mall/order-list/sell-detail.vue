@@ -47,15 +47,14 @@
         <!--筛选条件-->
         <popup-right v-model="showView">
             <div class="query-box">
-                <!--<div class="query-content">-->
-                    <!--<div class="m-b-3">-->
-                        <!--<div class="title p-t-4 p-b-4 fs32 fwb">验券状态</div>-->
-                        <!--<div >-->
-                            <!--<div class="query-item">待验券</div>-->
-                            <!--<div class="query-item act">待验券</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
+                <div class="query-content">
+                    <div class="m-b-3">
+                        <div class="title p-t-4 p-b-4 fs32 fwb">验券状态</div>
+                        <div >
+                            <div @click="searchData.ticketStatus = item.value" v-for="(item, key) in ticketStatuList" :key="key" class="query-item" :class="{'act': searchData.ticketStatus==item.value}">{{item.name}}</div>
+                        </div>
+                    </div>
+                </div>
                 <!--<div class="query-content">-->
                     <!--<div class="m-b-3">-->
                         <!--<div class="title p-t-4 p-b-4 fs32 fwb">购买金额</div>-->
@@ -102,16 +101,22 @@ export default {
             showView: false,
             promotionData: {},
             promotionList: [],
+            ticketStatuList: [
+                { name: '全部', value: null },
+                { name: '未使用', value: 1 },
+                { name: '已使用', value: 4 }
+            ],
             loading: false,
             isLoadOver: false, // false已加载完所有数据
             query: {
                 merchantId: this.$store.state.party.merchantId,
                 purchaseMallItemId: null,
                 page: 1,
-                size: 4,
+                size: 10,
                 total: 0
             },
             searchData: {
+                ticketStatus: null,
                 startTime: null,
                 endTime: null
             }
@@ -139,6 +144,9 @@ export default {
             if (this.searchData.endTime) {
                 this.query.endTime = this.$moment(this.searchData.endTime).endOf('day').format('YYYY-MM-DD HH:mm:ss');
             }
+            if (this.searchData.ticketStatus) {
+                this.query.ticketStatus = this.searchData.ticketStatus;
+            }
             this.showView = false;
             this.loadData();
         },
@@ -153,17 +161,18 @@ export default {
             this.$indicator.open();
             let res = await api_b2bmall.getPurchaseMallSellOrderList(data);
             this.$indicator.close();
-            if (res.data.rows) {
-                if (res.data.rows.length < this.query.size) {
-                    this.isLoadOver = false;
-                } else {
-                    this.isLoadOver = true;
-                }
-                this.promotionList = this.promotionList.concat(res.data.rows);
-                this.loading = false;
-                this.query.total = res.data.total;
-                this.query.page++;
+            if (!res.data.rows) {
+                res.data.rows = [];
             }
+            if (res.data.rows.length < this.query.size) {
+                this.isLoadOver = false;
+            } else {
+                this.isLoadOver = true;
+            }
+            this.promotionList = this.promotionList.concat(res.data.rows);
+            this.loading = false;
+            this.query.total = res.data.total;
+            this.query.page++;
         },
         resetQuery() {
             this.query.page = 1;

@@ -12,7 +12,7 @@
         <mt-field label="收货人" placeholder="请输入收货人" v-model.trim="formParameter.contactPersion"></mt-field>
         <mt-field label="联系电话" placeholder="请输入联系电话" v-model.trim="formParameter.contactMobile"></mt-field>
         <div class="address mint-cell" flex @click="showPicker" layout="row" layout-align="start center">
-            <div class="label">所在地区</div><span class="fwb">{{address.province}}</span>省<span class="fwb">{{address.city}}</span>市<span class="fwb">{{address.town}}</span>区/县</div>
+            <div class="label">所在地区</div><span class="fwb">{{address.province.name}}</span>省<span class="fwb">{{address.city.name}}</span>市<span class="fwb">{{address.town.name}}</span>区/县</div>
         <mt-field label="详细地址" placeholder="请输入详细地址" v-model.trim="formParameter.detailAddress"></mt-field>
         </div>
         <div class="form-btn fs40 fwb color-pink" layout="row" layout-align="center center" @click="submit">
@@ -45,7 +45,11 @@ export default {
             ],
             visibleItemCount: 5,
             historyProvince: null,
-            address: {},
+            address: {
+                province: {},
+                city: {},
+                town: {}
+            },
             type: 1, // 1省份 2城市 3县/区
             formParameter: {},
             addressId: this.$route.params.id,
@@ -57,44 +61,39 @@ export default {
     },
     methods: {
         onValuesChange(picker) {
-            if (this.type == 1) {
-                // 查城市
-                this.loadCity(picker[0].code);
-                this.address.province = picker[0].name;
-                this.selectedProvince = true;
-            } else if (this.type == 2) {
-                // 查区
-                this.address.city = picker[0].name;
-                this.loadToen(picker[0].code);
-                this.selectedProvince = true;
-            } else if (this.type == 3) {
-                this.address.town = picker[0].name;
-                this.selectedProvince = false;
-                this.loadProvince();
-                this.type = 1;
-            };
+            let temp = picker[0];
+            switch (temp.levelType) {
+                case 1:
+                    this.address.province = temp;
+                    this.loadSystemArea(temp);
+                    break;
+                case 2:
+                    this.address.city = temp;
+                    this.loadSystemArea(temp);
+                    break;
+                case 3:
+                    this.address.town = temp;
+                    this.showPicker();
+                    this.loadProvince();
+                    break;
+            }
         },
-        loadProvince() {
+        loadProvince(type) {
             api_party.getProvince().then(msg => {
                 this.slots[0].values = msg.data;
+                if (type == 1) {
+                    this.address.province = {};
+                    this.address.city = {};
+                    this.address.town = {};
+                };
             }, msg => {
 
             });
         },
-        loadCity(code) {
-            api_party.getCity(code).then(msg => {
+        loadSystemArea(item) {
+            api_party.systemArea(item.code).then(msg => {
                 this.slots[0].values = msg.data;
-                this.type = 2;
             }, msg => {
-
-            });
-        },
-        loadToen(code) {
-            api_party.getTown(code).then(msg => {
-                this.slots[0].values = msg.data;
-                this.type = 3;
-            }, msg => {
-
             });
         },
         showPicker() {
@@ -103,32 +102,34 @@ export default {
         check() {
             if (!this.formParameter.contactPersion) {
                 Toast('请输入收货人');
-                return;
+                return true;
             };
             if (!this.formParameter.contactMobile) {
                 Toast('请输入联系电话');
-                return;
+                return true;
             };
             if (!this.address) {
                 Toast('请选择所在地区');
-                return;
+                return true;
             };
             if (!this.formParameter.detailAddress) {
                 Toast('请输入详细地址');
-                return;
+                return true;
             };
         },
         submit() {
-            this.check();
+            if (this.check()) {
+                return;
+            };
             let parameter = {
                 'merchantId': this.employee.party.merchantId,
                 'partyId': this.employee.party.partyId,
                 'userId': this.employee.party.id,
                 // "alias":"听雪楼门店",
                 isDefault: this.isDefault,
-                province: this.address.province,
-                city: this.address.city,
-                town: this.address.town,
+                province: this.address.province.name,
+                city: this.address.city.name,
+                town: this.address.town.name,
                 detailAddress: this.formParameter.detailAddress,
                 contactPersion: this.formParameter.contactPersion,
                 contactMobile: this.formParameter.contactMobile
@@ -150,20 +151,22 @@ export default {
         getItem(id) {
             api_party.getAddress(id).then(msg => {
                 this.formParameter = msg.data;
-                this.address.province = msg.data.province;
-                this.address.city = msg.data.city;
-                this.address.town = msg.data.town;
+                this.address.province.name = msg.data.province;
+                this.address.city.name = msg.data.city;
+                this.address.town.name = msg.data.town;
                 this.isDefault = msg.data.isDefault;
+                this.loadProvince(0);
             }, msg => {
 
             });
         }
     },
     mounted() {
-        this.loadProvince();
         if (this.addressId) {
             this.getItem(this.addressId);
             this.title = '编辑收货地址';
+        } else {
+            this.loadProvince(1);
         };
         console.log(this.$store.party);
         console.log(this.addressId);

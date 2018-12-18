@@ -84,7 +84,7 @@ export default {
         /**
          * 获取省份
          */
-        let url = '/api/administrativeArea/topAreas';
+        let url = '/api/systemArea/topAreas';
         return request(url, 'get');
     },
     getCity(id) {
@@ -277,6 +277,11 @@ export default {
     doudouPay(id) {
         // 纯豆豆支付
         let url = `/api/doudouTrade/pay/${id}`;
+        return request(url, 'get');
+    },
+    systemArea(code) {
+        // 获取市/区
+        let url = `/api/systemArea/areas/${code}`;
         return request(url, 'get');
     }
 };
