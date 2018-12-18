@@ -103,23 +103,25 @@ export default {
         check() {
             if (!this.formParameter.contactPersion) {
                 Toast('请输入收货人');
-                return;
+                return true;
             };
             if (!this.formParameter.contactMobile) {
                 Toast('请输入联系电话');
-                return;
+                return true;
             };
             if (!this.address) {
                 Toast('请选择所在地区');
-                return;
+                return true;
             };
             if (!this.formParameter.detailAddress) {
                 Toast('请输入详细地址');
-                return;
+                return true;
             };
         },
         submit() {
-            this.check();
+            if (this.check()) {
+                return;
+            };
             let parameter = {
                 'merchantId': this.employee.party.merchantId,
                 'partyId': this.employee.party.partyId,
