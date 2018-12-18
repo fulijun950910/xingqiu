@@ -289,6 +289,13 @@ export default {
                     if (this.checkParty()) {
                         return;
                     };
+                    if (this.$store.state.merchant) {
+                        let fv = this.$store.state.merchant.functionVersion;
+                        if (fv === 7) {
+                            this.$toast('抱歉,您无权限进入');
+                            return;
+                        }
+                    }
                     window.location.href = '/api/b2bPromotionMobile/oauthURI/performance_report';
                     break;
                 case 5:
