@@ -6,6 +6,11 @@ export default {
         var url = `/api/promotionMobile/view`;
         return request(url, data, 'post');
     },
+    // 活动详情
+    disshelvePromotion(id) {
+        var url = `/api/promotions/audit/${id}/disshelve`;
+        return request(url, null, 'get');
+    },
     // 美店首页信息查询
     getPurchaseMerchantIndexInfo(data) {
         let url = `/api/purchaseMallItem/getPurchaseMerchantIndexInfo`;

@@ -4,6 +4,12 @@
             <div v-for="item in mallList" :key="item.id" class='mall-item bg-white cell-box'>
                 <div class='cell' layout='row'>
                     <!--<div class="mall-tag">2000人正在卖</div>-->
+                    <div flex></div>
+                    <div>
+                        <span v-if="item.status == '1'" class="color-gray">草稿</span>
+                        <span v-if="item.status == '2'" class="color-primary">已上架</span>
+                        <span v-if="item.status == '3'" class="color-gray">已下架</span>
+                    </div>
                 </div>
                 <div class="bg-default cell p-l-1 p-r-1" layout="row">
                     <img class="title-img m-r-2" :src="item.imageId | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
@@ -20,9 +26,39 @@
                 </div>
                 <div class="btn-box" layout='row' layout-align='space-between center'>
                     <div @click="goShowView(item)" class="btn-item">预览</div>
-                    <div @click="goCollectDetail(item)" class="btn-item">编辑</div>
-                    <div @click="showShare(item)" class="btn-item">分享</div>
                     <div @click="goOrder(item)" class="btn-item">采购</div>
+                    <div @click="showShare(item)" class="btn-item">分享</div>
+                    <div @click="showBtnBox(item)" class="btn-item">
+                        <m-icon class="fs36"  link="icon-more"></m-icon>
+                        <div v-if="item.showBtnBox" class="btn-fixed">
+                            <div layout="row">
+                                <div @click="disshelvePromotion(item)" v-if="item.status == '2'" class="btn-fixed-item" layout="row" layout-align="center center">
+                                    <div>
+                                        <div class="icon-box" layout="column" layout-align="center center">
+                                            <m-icon  link="icon-xiajia"></m-icon>
+                                        </div>
+                                        <div class="m-t-1 extra-black">下架</div>
+                                    </div>
+                                </div>
+                                <div  @click="goCollectDetail(item)" v-if="item.status == '3'" class="btn-fixed-item" layout="row" layout-align="center center">
+                                    <div>
+                                        <div class="icon-box" layout="column" layout-align="center center">
+                                            <m-icon  link="icon-fabuicon"></m-icon>
+                                        </div>
+                                        <div class="m-t-1 extra-black">上架</div>
+                                    </div>
+                                </div>
+                                <div @click="goCollectDetail(item)" class="btn-fixed-item" layout="row" layout-align="center center">
+                                    <div>
+                                        <div class="icon-box" layout="column" layout-align="center center">
+                                            <m-icon  link="icon-bianji1"></m-icon>
+                                        </div>
+                                        <div class="m-t-1 extra-black">编辑</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -96,6 +132,9 @@ export default {
             let res = await api_b2bmall.getPurchaseMallSellList(data);
             this.mallList = res.data.mallSellList;
             this.$indicator.close();
+            this.mallList.forEach(item => {
+                this.$set(item, 'showBtnBox', false);
+            });
         },
         goOrder(item) {
             this.$router.push({
@@ -110,6 +149,15 @@ export default {
             let res = await api_b2bmall.getPromotionView({ id: item.typeId });
             this.$indicator.close();
             location.href = res.data.promotionInstance.shortLink;
+        },
+        async disshelvePromotion(item) {
+            this.$messageBox.confirm('确认下架？').then(async action => {
+                this.$indicator.open();
+                await api_b2bmall.disshelvePromotion(item.typeId);
+                this.$indicator.close();
+                item.status = 3;
+                this.$toast('已下架');
+            });
         },
         async showShare(item) {
             this.popImg = null;
@@ -130,8 +178,20 @@ export default {
                 });
             }, 800);
         },
+        showBtnBox(item) {
+            this.mallList.forEach(cell => {
+                if (item.id != cell.id) {
+                    cell.showBtnBox = false;
+                }
+            });
+            if (item.showBtnBox) {
+                item.showBtnBox = false;
+            } else {
+                item.showBtnBox = true;
+            }
+        },
         goCollectDetail(item) {
-            window.location.href = `/lite/index.html#/collect-goods/${item.purchaseMallItemId}`;
+            window.location.href = `/lite/index.html#/collect-goods/${item.supplierItemId}/${item.typeId}`;
         }
     }
 };
@@ -172,11 +232,50 @@ export default {
             padding: 16px 12px;
             .btn-item{
                 width:75px;
+                position: relative;
                 padding: 2px 0;
                 background: @white;
                 border-radius:2px;
                 border:1px solid rgba(102,102,102,1);
                 text-align:center;
+            }
+            .btn-fixed{
+                position: absolute;
+                bottom: 26px;
+                right:0;
+                padding: 12px;
+                background: #fff;
+                box-shadow:0px 3px 8px 0px rgba(49,77,83,0.28);
+                border-radius: 2px;
+                .btn-fixed-item{
+                    width: 100px;
+                    padding: 2px 0;
+                    &:not(:first-child) {
+                        border-left: 1px solid #ccc;
+                    }
+                }
+                .icon-box{
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 15px;
+                    border: 1px solid #f5f5f5;
+                    padding: 2px;
+                    font-size: 20px;
+                    color: @extra-black;
+                }
+                &:before{
+                    width: 12px;
+                    height: 12px;
+                    background: #fff;
+                    content: "";
+                    display: inline-block;
+                    position: absolute;
+                    right: 12px;
+                    bottom: -6px;
+                    transform: rotate(45deg);
+                    box-shadow:3px 3px 2px 0px rgba(49,77,83,0.28);
+
+                }
             }
         }
     }

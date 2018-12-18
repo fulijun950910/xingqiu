@@ -2,9 +2,9 @@
     <div class="Attendance" v-title="'考勤打卡'">
         <div class="header" layout="row" layout-align="space-between center">
             <div class="time" layout="row" layout-align="center center" >
-                <m-icon class="ic" link="icon-left-bold"></m-icon>
-                <p>{{time}}</p>
-                <m-icon class="ic" link="icon-right-bold"></m-icon>
+                <m-icon class="ic" link="icon-left-bold" @click.native="reducedate"></m-icon>
+                <p id="beginTime">{{time}}</p>
+                <m-icon class="ic" link="icon-right-bold" @click.native="adddate"></m-icon>
             </div>
             <div class="Statistics" layout="row" layout-align="center center" >
                 <m-icon class="ic" link="icon-dianzan"></m-icon>
@@ -12,25 +12,25 @@
             </div>
         </div>
         <div class="main">
-            <p style="padding-top:20px;font-size:13px;line-height:19px">今天继续朝着梦想出发吧~</p>
+            <p class="p-t-4 fs16" style="line-height:19px">今天继续朝着梦想出发吧~</p>
             <div class="info">
                 <span class="yuan1"></span>
-                <p style="font-size:13px;color:#aaa;position:absolute;top:-8px">上班时间09:00</p>
+                <p class="WorkTime">上班时间09:00</p>
                 <div class="success" layout="column" layout-align="start start">
                     <div layout="row" layout-align="start center" style="margin-top:14px">
-                        <h3 style="margin-right:8px">打卡时间9:00</h3>
-                        <p style="margin-right:8px" class="Late">迟到</p>
-                        <!-- <p style="margin-right:8px" class="abnormal">异常定位</p> -->
+                        <h3 class="m-r-2">打卡时间9:00</h3>
+                        <p class="Late">迟到</p>
+                        <p class="abnormal">异常定位</p>
                     </div>
-                    <div style="margin-top:12px">
-                        <m-icon class="ic" link="icon-4" style="margin-right:4px"></m-icon>
-                        <span style="font-size:13px;color:rgba(170,170,170,1);">通协路268号</span>
+                    <div class="m-t-3">
+                        <m-icon class="m-r-2" link="icon-4"></m-icon>
+                        <span class="adreess">通协路268号</span>
                     </div>
-                    <p style="margin-top:12px;margin-bottom:40px;color:rgba(118,139,183,1);">更新打卡</p>
+                    <p class="update">更新打卡</p>
                 </div>
                 <!-- <div class="ka">
                     <div class="yuan">
-                        <span style="color:#fff;font-size:20px;font-weight:bold;">定位中</span>
+                        <span class="fs40 fwb" style="color:white">定位中</span>
                     </div>
                     <div style="margin-top:20px;font-size:12px">
                         <m-icon style="margin-right:4px" class="ic" link="icon-gengduoicon"></m-icon>
@@ -57,9 +57,9 @@
                 <m-icon class="ic" link="icon-pop-left"></m-icon>
             </div>
             <div class="share-box" v-if="isShowShare" @click.stop="isShowShare = false ">
-                <div class="box" style="z-index:999">
+                <div class="box" @click.stop="" style="z-index:999">
                     <div style="position:relative;padding:15px 17px 0 20px">
-                        <m-icon class="ic color-gray" xlink="#icon-close" @click.stop="isShowShare = false" ></m-icon>
+                        <m-icon class="ic color-gray" link="icon-close" @click.native="isShowShare = false" ></m-icon>
                         <div style="line-height:30px">
                             <p class="fs30 fwb">发送申请给潘金莲</p>
                             <p style="color:#888" class="fs16">考勤时间:2018.12.14 9:32</p>
@@ -68,7 +68,7 @@
                         <p class="fwb fs24" style="margin-top:44px;margin-bottom:8px">申请事由</p>
                     </div>
                     <div style="width:100%;height187px;background:rgba(245,245,245,1);padding:20px;position:relative">
-                        <textarea ref="text" autofocus style="height:187px;background:rgba(245,245,245,1);font-size:16px" @click.stop="conso" @input.stop="alert" cols="30" rows="10" maxlength="300"></textarea>
+                        <textarea ref="text" autofocus style="height:187px;background:rgba(245,245,245,1);font-size:16px" @input.native="alert" cols="30" rows="10" maxlength="300"></textarea>
                         <div style="position:absolute;right:20px;bottom:20px">
                             <span style="color:#781A75">{{this.length}}</span>
                             <span> / 300</span>
@@ -78,9 +78,9 @@
                 </div>
             </div>
             <div class="share-box" v-if="isShowShare2" @click.stop="isShowShare2 = false ">
-                <div class="box" style="z-index:999">
+                <div class="box" @click.stop="" style="z-index:999">
                     <div style="position:relative;padding:15px 17px 0 20px">
-                        <m-icon class="ic color-gray" xlink="#icon-close" @click.stop="isShowShare2 = false" ></m-icon>
+                        <m-icon class="ic color-gray" link="icon-close" @click.native="isShowShare2 = false" ></m-icon>
                         <div style="line-height:30px">
                             <p class="fs30 fwb">发送申请给潘金莲</p>
                             <p style="color:#888" class="fs16">考勤时间:2018.12.14 9:32</p>
@@ -154,6 +154,113 @@ export default {
             this.length = this.$refs.text.value.length;
         },
         conso() {
+        },
+        adddate() {
+            var s = document.getElementById('beginTime').innerHTML;
+            var arr = s.split('.');
+            var year = parseInt(arr[0]);
+            var mouth = parseInt(arr[1]);
+            var date = parseInt(arr[arr.length - 1]);
+            if (date == 28) {
+                switch (mouth) {
+                    case 2:
+                        if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+                            date = date + 1;
+                        } else {
+                            date = 1;
+                            mouth = mouth + 1;
+                        }
+                }
+            } else if (date == 29) {
+                switch (mouth) {
+                    case 2:
+                        date = 1;
+                        mouth = mouth + 1;
+                }
+            } else if (date == 30) {
+                switch (mouth) {
+                    case 1:
+                    case 3:
+                    case 5:
+                    case 7:
+                    case 8:
+                    case 10:
+                    case 12:
+                        date = date + 1;
+                        break;
+                    case 4:
+                    case 6:
+                    case 9:
+                    case 11:
+                        date = 1;
+                        mouth = mouth + 1;
+                        break;
+                }
+            } else if (date == 31) {
+                switch (mouth) {
+                    case 1:
+                    case 3:
+                    case 5:
+                    case 7:
+                    case 8:
+                    case 10:
+                        date = 1;
+                        mouth = mouth + 1;
+                        break;
+                    case 12:
+                        date = 1;
+                        mouth = 1;
+                        year = year + 1;
+                        break;
+                }
+            } else {
+                date += 1;
+            }
+            document.getElementById('beginTime').innerHTML = year + '.' + mouth + '.' + date;
+        },
+        reducedate() {
+            var s = document.getElementById('beginTime').innerHTML;
+            var arr = s.split('.');
+            var year = parseInt(arr[0]);
+            var mouth = parseInt(arr[1]);
+            var date = parseInt(arr[arr.length - 1]);
+            if (date == 1) {
+                switch (mouth) {
+                    case 1:
+                        date = 31;
+                        mouth = 12;
+                        year = year - 1;
+                        break;
+                    case 2:
+                    case 4:
+                    case 6:
+                    case 8:
+                    case 9:
+                    case 11:
+                        date = 31;
+                        mouth = mouth - 1;
+                        break;
+                    case 3:
+                        if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+                            date = 29;
+                            mouth = mouth - 1;
+                        } else {
+                            date = 28;
+                            mouth = mouth - 1;
+                        }
+                        break;
+                    case 5:
+                    case 7:
+                    case 10:
+                    case 12:
+                        date = 30;
+                        mouth = mouth - 1;
+                        break;
+                }
+            } else {
+                date = date - 1;
+            }
+            document.getElementById('beginTime').innerHTML = year + '.' + mouth + '.' + date;
         }
     }
 };
@@ -197,18 +304,22 @@ export default {
             position: relative;
             height: 486px;
             box-shadow: 0px 4px 17px 0px rgba(75,110,150,0.18);
-            .info{
-                border-left: 1px solid #ccc; /*no*/
-                margin-top: 28px;
-                position: relative;
-                padding-left: 10px;
-                margin-left: 5px;
+                            .update {
+                    margin-top:12px;
+                    margin-bottom:40px;
+                    color:rgba(118,139,183,1);
+                }
+                .adreess {
+                    font-size:13px;
+                    color:rgba(170,170,170,1);
+                }
                 .Late{
                     color: #F76A24;
                     border: 1px solid #F76A24; /*no*/
                     padding: 2px 10px;
                     border-radius: 2px;
                     font-size: 12px;
+                    margin-right: 8px;
                 }
                 .abnormal{
                     color: #45B1BF;
@@ -216,6 +327,19 @@ export default {
                     border: 1px solid #45B1BF; /*no*/
                     padding: 2px 10px;
                     border-radius: 2px;
+                    margin-right: 8px;
+                }
+            .info{
+                border-left: 1px solid #ccc; /*no*/
+                margin-top: 28px;
+                position: relative;
+                padding-left: 10px;
+                margin-left: 5px;
+                .WorkTime{
+                    font-size:13px;
+                    color:#aaa;
+                    position:absolute;
+                    top:-8px
                 }
                 .yuan1{
                     position: absolute;
@@ -243,7 +367,7 @@ export default {
                         height: 125px;
                         border-radius: 50%;
                         margin: 0 auto;
-                        background:linear-gradient(270deg,rgba(193,59,147,1) 0%,rgba(140,27,127,0) 75%);
+                        background:linear-gradient(270deg,rgba(193,59,147,1) 0%,75%);
                         text-align: center;
                         line-height: 125px;
                     }

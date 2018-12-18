@@ -36,7 +36,7 @@
                 <img :src="require('assets/imgs/b2b-mall/doudou.png')" alt="">
                 <span>美豆豆商场</span>
             </div>
-            <div layout="column" layout-align="center center" @click="toast">
+            <div layout="column" layout-align="center center" @click="toast2">
                 <img :src="require('assets/imgs/b2b-mall/kefu.png')" alt="">
                 <span>在线客服</span>
             </div>
@@ -81,6 +81,7 @@
 
 <script>
 import navBar from './modules/nav-bar';
+import { MessageBox } from 'mint-ui';
 import Vue from 'vue';
 import apigetInfo from 'services/api.b2bmall';
 export default {
@@ -150,13 +151,25 @@ export default {
         },
         toast() {
             this.$toast('敬请期待哦~');
+        },
+        toast2() {
+            MessageBox('提示', '请拨打客服电话:400-006-2020');
         }
     }
 };
 </script>
 
-<style scoped lang='less'>
+<style lang='less'>
 @import '~styles/_agile';
+    .mint-msgbox-wrapper{
+        .mint-msgbox{
+            .mint-msgbox-btns{
+                .mint-msgbox-confirm {
+                    color:#854399;
+                }
+            }
+        }
+    }
 .user {
     margin: auto;
     @color-primary: #854399;

@@ -54,7 +54,7 @@
                     <div class="fs28 extra-light-black">美豆豆数量</div>
                     <div class="fs28 extra-light-black">您共有<span class="color-black">{{account.doudouBalance}}</span>美豆豆，可<span class="color-pink">抵￥{{account.doudouBalance | dou2yuan}}</span><m-icon class="fs30" link="icon-xunwen"></m-icon></div>
                     </div>
-                <div class="color-black"><input class="input-style p-1 tetx-center" @change="changeDouAmount" pattern="[0-9]*" v-model="payDetail.payDoudouAmount" type="number"></div>
+                <div class="color-black"><input class="input-style p-1 tetx-center" @change="changeDouAmount" pattern="[0-9]*" v-model="payDetail.payDoudouAmount" type="number" @blur="scrollTo0"></div>
             </div>
             <div flex @click="clickToVoucher">
                 <div flex layout="row" layout-align="space-between center">
@@ -96,7 +96,7 @@
                 <div class="color-black fs40 color-pink">￥{{payDetail.payMoney | fen2yuan}}</div>
             </div>
             <div flex class="textarea">
-               <textarea class="p-1" v-model="payDetail.remark" placeholder="备注"></textarea>
+               <textarea class="p-1" v-model="payDetail.remark" placeholder="备注" @blur="scrollTo0"></textarea>
             </div>
         </div>
         <div layout="row" layout-align="space-between center" class="p-t-3">
@@ -472,6 +472,9 @@ export default {
             this.confirm.message = this.payDetail.payDoudouAmount > 0 ? `您已经使用豆豆抵扣${Number(this.payDetail.payDoudouAmount / 10).toFixed(2)}元，是否清空已支付豆豆继续线下支付？` : '确认线下支付？';
             this.confirm.confirm = this.payDetail.payDoudouAmount > 0 ? '保留' : '确定';
             this.confirm.quiet = this.payDetail.payDoudouAmount > 0 ? '清空' : '再考虑下';
+        },
+        scrollTo0() {
+            window.scrollTo(0, 0);
         }
     },
     mounted() {

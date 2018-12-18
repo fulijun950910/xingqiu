@@ -10,7 +10,7 @@
             <p>目前共有15条带审批</p>
         </div>
         <div class="main">
-            <div class="list" layout="row" layout-align="space-between start">
+            <div class="list" @click="isShow=true" layout="row" layout-align="space-between start">
                 <div layout="row" layout-align="start start">
                     <img :src="require('assets/imgs/avatar.png')" alt="">
                     <div class="m-l-3" style="white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
@@ -42,6 +42,48 @@
                     </div>
                 </div>
                 <div style="color:#888;font-size:12px;white-space:nowrap;">2018.12.12</div>
+            </div>
+            <div class="share-box" v-show="isShow" @click="isShow = false">
+                <div class="box" @click.stop="">
+                    <div style="position:relative;padding:15px 17px 0 20px">
+                        <m-icon class="ic color-gray" link="icon-close" @click.native="isShow = false" ></m-icon>
+                        <div layout=row layout-align="start start">
+                            <img class="img1 m-r-2" :src="require('assets/imgs/avatar.png')" alt="">
+                            <div>
+                                <p style="font-size:16px" class="fwb">冯子轩</p>
+                                <p style="font-size:13px;font-weight:500;">店长</p>
+                            </div>
+                        </div>
+                        <div class="m-t-4" style="background:rgba(245,245,245,1);line-height:26px;padding:8px">
+                            <div layout=row layout-align="start center"><span class="s1"></span><p>考勤时间:2018.12.14 9:40</p></div>
+                            <div layout=row layout-align="start center"><span class="s1"></span><p>状态:迟到十分钟</p></div>
+                            <div layout=row layout-align="start center"><span class="s1"></span><p>事由:早上起晚了</p></div>
+                        </div>
+                    </div>
+                    <div style="padding:10px 40px 100px 40px;margin-top:40px">
+                        <div class="m-t-4" style="border-left:1px solid #ccc;padding:0 30px;position:relative;height:80px">
+                            <div>
+                                <img class="img2" :src="require('assets/imgs/avatar.png')" alt="">
+                                <div style="position:absolute;top:-10px">
+                                    <p class="fwb">我发起请求</p>
+                                    <p>2018.12.12 9:45</p>
+                                </div>
+                            </div>
+                            <div>
+                                <img class="img3" :src="require('assets/imgs/avatar.png')" alt="">
+                                <div style="position:absolute;top:70px">
+                                    <span>潘金莲</span>&nbsp;&nbsp;<span style="color:#A43A8E" class="fwb">审批中</span>
+                                    <p>已耗时 4小时</p>
+                                    <input type="text" placeholder="对冯子轩说点什么吧">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom" layout="row">
+                        <div class="fs40 fwb" flex=50 style="text-align:center;border-right:1px solid #ccc">拒绝</div>
+                        <div class="fs40 fwb" flex=50 style="color:#A43A8E;text-align:center">同意</div>
+                    </div>
+                </div>
             </div>
             <div class="message">
                 <p class="down">以下为已审批内容,只展示一周内审批信息，更多信息请用电脑查看</p>
@@ -111,7 +153,8 @@ export default {
     name: 'Approval',
     data() {
         return {
-            value: []
+            value: [],
+            isShow: false
         };
     },
     components: {
@@ -171,6 +214,65 @@ export default {
                 height: 29px;
                 border-radius: 50%;
             }
+        }
+        .share-box{
+            position:fixed;
+            width:100vw;
+            height:100vh;
+            top: 0;
+            left:0;
+            background: rgba(0,0,0,0.4);
+            padding-top: 76px;
+            .box {
+                width: 300px;
+                margin: 0 auto;
+                border-radius: 8px;
+                background: @white;
+                .ic{
+                    position: absolute;
+                    right:17px;
+                }
+                .img1{
+                    width: 39px;
+                    height: 39px;
+                    border-radius: 50%;
+                }
+                .s1{
+                    width: 5px;
+                    height: 5px;
+                    background:rgba(204,204,204,1);
+                    margin-right: 8px;
+                }
+                .img2{
+                    width: 30px;
+                    height: 30px;
+                    border: 50%;
+                    position: absolute;
+                    left:-15px;
+                    top:-15px;
+                }
+                .img3{
+                    width: 30px;
+                    height: 30px;
+                    border: 50%;
+                    position: absolute;
+                    left:-15px;
+                    bottom:-15px;
+                }
+                input{
+                    padding: 12px;
+                    width: 210px;
+                    background:rgba(245,245,245,1);
+                    border-radius: 4px;
+                }
+                .bottom{
+                    height: 50px;
+                    line-height: 50px;
+                    border-top: 1px solid #cccccc; /*no*/
+                    margin-top: 42px;
+                }
+            }
+
         }
         .message{
             width: 100%;
