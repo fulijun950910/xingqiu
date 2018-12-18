@@ -546,33 +546,6 @@ export default {
                    border-radius: 5px;
                }
            }
-    //   }
-    //   .banner {
-    //       height: 140px;
-    //       width: 100%;
-    //       overflow: hidden;
-    //       position: relative;
-    //       z-index: 2;
-    //       .swiper-container {
-    //         //   position: absolute;
-    //         //   left: 12px;
-    //         //   top: 0;
-    //         //   height: 110px;
-    //         //   width: 510px; // width: 600px;
-    //           .swiper-slide {
-    //               overflow: hidden;
-    //               width: 40%;
-    //           }
-    //           img {
-    //               height: 100%;
-    //               position: relative;
-    //               z-index: 1;
-    //           }
-    //           .swiper-slide {
-    //               border-radius: 5px;
-    //               overflow: hidden;
-    //           }
-    //       }
           .swiper-pagination {
               text-align: left;
               position: absolute;
