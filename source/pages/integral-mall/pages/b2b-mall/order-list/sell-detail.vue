@@ -144,9 +144,7 @@ export default {
             if (this.searchData.endTime) {
                 this.query.endTime = this.$moment(this.searchData.endTime).endOf('day').format('YYYY-MM-DD HH:mm:ss');
             }
-            if (this.searchData.ticketStatus) {
-                this.query.ticketStatus = this.searchData.ticketStatus;
-            }
+            this.query.ticketStatus = this.searchData.ticketStatus;
             this.showView = false;
             this.loadData();
         },
