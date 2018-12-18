@@ -11,9 +11,8 @@
             </div>
         </div>
         <div class="banner p-l-3">
-            <swiper :options="swiperOption" ref="swiperOption">
+            <swiper :options="swiperOption" ref="swiperOption" v-if="bannerList && bannerList.length" @click.native="bannerClick()">
                 <swiper-slide v-for="(item, index) in bannerList" :key="index">
-                    <div class="swiper-mask" @click="bannerClick(item.url)"></div>
                     <img :src="item.image | nSrc(require('assets/imgs/location.jpg'))" alt="">
                 </swiper-slide>
             </swiper>
@@ -171,12 +170,17 @@ export default {
             },
             bannerList: [],
             swiperOption: {
-                slidesPerView: 2,
+                slidesPerView: 1.4,
                 spaceBetween: 10,
-                slidesPerGroup: 1,
                 loop: true,
-                autoplay: 2000,
-                pagination: '.swiper-pagination'
+                autoplay: {
+                    delay: 2000
+                },
+                speed: 300,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true
+                }
             },
             loading: false,
             scrollDisabled: false,
@@ -248,6 +252,7 @@ export default {
             api_party.listBanner('00001', partyId).then(msg => {
                 this.$indicator.close();
                 this.bannerList = msg.data;
+                this.swiperOption.loopedSlides = this.bannerList.length;
             }, msg => {
             });
         },
@@ -404,7 +409,8 @@ export default {
                 };
             };
         },
-        bannerClick(item) {
+        bannerClick() {
+            let item = this.bannerList[this.$refs.swiperOption.swiper.realIndex].url;
             if (item.indexOf('html') > -1) {
                 window.location.href = item;
             } else {
@@ -531,33 +537,16 @@ export default {
           }
       }
       .banner {
-          height: 140px;
-          width: 100%;
-          overflow: hidden;
           position: relative;
-          z-index: 2;
-          .swiper-container {
-              position: absolute;
-              left: 12px;
-              top: 0;
-              height: 110px;
-              width: 510px; // width: 600px;
-              .swiper-slide {
-                  overflow: hidden;
-              }
-              img {
-                  height: 100%;
-                  width: auto;
-                  position: relative;
-                  z-index: 1;
-              }
-              .swiper-slide {
-                  border-radius: 5px;
-                  overflow: hidden;
-              }
-          }
+           height: 140px;
+           .swiper-slide {
+ width: 67%;
+ position: relative;
+               img {
+                   border-radius: 5px;
+               }
+           }
           .swiper-pagination {
-              width: 100%;
               text-align: left;
               position: absolute;
               bottom: 10px;
@@ -719,8 +708,10 @@ export default {
 
   .swiper-mask{
       position: absolute;
-      width: 100%;
-      height: 100%;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       z-index: 10;
   }
 
