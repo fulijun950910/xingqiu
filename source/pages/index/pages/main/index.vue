@@ -156,7 +156,7 @@ export default {
                     value: 4
                 },
                 {
-                    name: '异业共赢',
+                    name: '美店',
                     src: require('assets/imgs/index/icon-img5.png'),
                     value: 8
                 }
