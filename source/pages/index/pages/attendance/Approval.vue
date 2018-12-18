@@ -3,36 +3,15 @@
         <div class="header p-r-4" layout="row" layout-align="space-between center">
             <div>
                 <mt-checklist
+                    @click.native="chose"
                     v-model="value"
                     :options="['批量处理']">
                 </mt-checklist>
             </div>
-            <p>目前共有15条带审批</p>
+            <p ref='inp'>目前共有15条带审批</p>
         </div>
         <div class="main">
             <div class="list" @click="isShow=true" layout="row" layout-align="space-between start">
-                <div layout="row" layout-align="start start">
-                    <img :src="require('assets/imgs/avatar.png')" alt="">
-                    <div class="m-l-3" style="white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
-                        <p class="fs14">冯子轩</p>
-                        <p>09/22缺卡</p>
-                        <p class="w22" style="font-size:13px;color:#888;margin-top:13px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">早上起床晚了早上起床晚了早上上起床晚了早上</p>
-                    </div>
-                </div>
-                <div style="color:#888;font-size:12px;white-space:nowrap;">2018.12.12</div>
-            </div>
-            <div class="list" layout="row" layout-align="space-between start">
-                <div layout="row" layout-align="start start">
-                    <img :src="require('assets/imgs/avatar.png')" alt="">
-                    <div class="m-l-3" style="white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
-                        <p class="fs14">冯子轩</p>
-                        <p>09/22缺卡</p>
-                        <p class="w22" style="font-size:13px;color:#888;margin-top:13px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">早上起床晚了早上起床晚了早上上起床晚了早上</p>
-                    </div>
-                </div>
-                <div style="color:#888;font-size:12px;white-space:nowrap;">2018.12.12</div>
-            </div>
-            <div class="list" layout="row" layout-align="space-between start">
                 <div layout="row" layout-align="start start">
                     <img :src="require('assets/imgs/avatar.png')" alt="">
                     <div class="m-l-3" style="white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
@@ -102,48 +81,6 @@
                     <p class="p2 fwb">审批完成</p>
                 </div>
             </div>
-            <div class="list" layout="row" layout-align="space-between start">
-                <div layout="row" layout-align="start start">
-                    <img :src="require('assets/imgs/avatar.png')" alt="">
-                    <div class="m-l-3" style="white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
-                        <p class="fs14">冯子轩</p>
-                        <p>09/22缺卡</p>
-                        <p class="w22" style="font-size:13px;color:#888;margin-top:13px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">早上起床晚了早上起床晚了早上上起床晚了早上</p>
-                    </div>
-                </div>
-                <div layout="column" layout-align="center end">
-                    <p style="color:#888;font-size:12px;white-space:nowrap;">2018.12.12</p>
-                    <p class="p2 fwb">审批完成</p>
-                </div>
-            </div>
-            <div class="list" layout="row" layout-align="space-between start">
-                <div layout="row" layout-align="start start">
-                    <img :src="require('assets/imgs/avatar.png')" alt="">
-                    <div class="m-l-3" style="white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
-                        <p class="fs14">冯子轩</p>
-                        <p>09/22缺卡</p>
-                        <p class="w22" style="font-size:13px;color:#888;margin-top:13px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">早上起床晚了早上起床晚了早上上起床晚了早上</p>
-                    </div>
-                </div>
-                <div layout="column" layout-align="center end">
-                    <p style="color:#888;font-size:12px;white-space:nowrap;">2018.12.12</p>
-                    <p class="p2 fwb">审批完成</p>
-                </div>
-            </div>
-            <div class="list" layout="row" layout-align="space-between start">
-                <div layout="row" layout-align="start start">
-                    <img :src="require('assets/imgs/avatar.png')" alt="">
-                    <div class="m-l-3" style="white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
-                        <p class="fs14">冯子轩</p>
-                        <p>09/22缺卡</p>
-                        <p class="w22" style="font-size:13px;color:#888;margin-top:13px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">早上起床晚了早上起床晚了早上上起床晚了早上</p>
-                    </div>
-                </div>
-                <div layout="column" layout-align="center end">
-                    <p style="color:#888;font-size:12px;white-space:nowrap;">2018.12.12</p>
-                    <p class="p2 fwb">审批完成</p>
-                </div>
-            </div>
         </div>
     </div>
 </template>
@@ -162,6 +99,15 @@ export default {
         [Cell.name]: Cell
     },
     mounted() {
+    },
+    methods: {
+        chose() {
+            if (this.value.length == 0) {
+                this.$refs.inp.style.background = 'red';
+            } else {
+                this.$refs.inp.style.background = 'white';
+            }
+        }
     }
 };
 </script>
@@ -178,6 +124,12 @@ export default {
     min-height: 100vh;
     background: #F5F5F5;
     padding-top: 60px;
+    .inp{
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1px solid #cccccc;/*no*/
+    }
     .mint-checklist-title{
         display: none;
     }

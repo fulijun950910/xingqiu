@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="btn-box" layout='row' layout-align='space-between center'>
-                    <div @click="goShowView(item)" class="btn-item">预览</div>
+                    <div @click="goShowView(item)" class="btn-item">查看</div>
                     <div @click="goOrder(item)" class="btn-item">采购</div>
                     <div @click="showShare(item)" class="btn-item">分享</div>
                     <div @click="showBtnBox(item)" class="btn-item">
@@ -167,7 +167,9 @@ export default {
             result.data.promotionInstance.minPrice = Number.POSITIVE_INFINITY;
             result.data.promotionInstance.promotionRuleGroup.promotionRuleGroupContentExts.forEach(function(item) {
                 result.data.promotionInstance.originPrice += item.itemPrice;
-                result.data.promotionInstance.minPrice = Math.min(result.data.promotionInstance.minPrice, item.itemPrice);
+            });
+            result.data.promotionInstance.promotionRuleGroup.promotionRuleGroupExts.forEach(function(item) {
+                result.data.promotionInstance.minPrice = Math.min(result.data.promotionInstance.minPrice, item.sellingPrice);
             });
             this.shareData = result.data;
             this.isShowShare = true;
