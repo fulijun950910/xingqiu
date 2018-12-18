@@ -15,40 +15,56 @@
             <p class="p-t-4 fs16" style="line-height:19px">今天继续朝着梦想出发吧~</p>
             <div class="info">
                 <span class="yuan1"></span>
-                <p class="WorkTime">上班时间09:00</p>
-                <div class="success" layout="column" layout-align="start start">
-                    <div layout="row" layout-align="start center" style="margin-top:14px">
-                        <h3 class="m-r-2">打卡时间9:00</h3>
-                        <p class="Late">迟到</p>
-                        <p class="abnormal">异常定位</p>
+                <p class="fs26" style="color:#aaa;position:absolute;top:-8px">上班时间09:00</p>
+                <div class="WorkTime p-t-4 p-b-4">
+                    <div class="success" layout="column" layout-align="start start">
+                        <div layout="row" layout-align="start center" style="margin-top:14px">
+                            <h3 class="m-r-2">打卡时间9:00</h3>
+                            <p class="Late">迟到</p>
+                            <p class="abnormal">异常定位</p>
+                        </div>
+                        <div class="m-t-3">
+                            <m-icon class="m-r-2" link="icon-4"></m-icon>
+                            <span class="adreess">通协路268号</span>
+                        </div>
+                        <p class="update" @click="confirm2">更新打卡</p>
                     </div>
-                    <div class="m-t-3">
-                        <m-icon class="m-r-2" link="icon-4"></m-icon>
-                        <span class="adreess">通协路268号</span>
-                    </div>
-                    <p class="update">更新打卡</p>
+                    <!-- <div class="ka">
+                        <div class="yuan">
+                            <span class="fs40 fwb" style="color:white">定位中</span>
+                        </div>
+                        <div class="m-t-4 fs24">
+                            <m-icon class="m-r-2 ic" link="icon-gengduoicon"></m-icon>
+                            <span>还未获取到地址位置</span>
+                            <span class="m-l-2" style="color:#768BB7">点击重试</span>
+                        </div>
+                    </div> -->
                 </div>
-                <!-- <div class="ka">
-                    <div class="yuan">
-                        <span class="fs40 fwb" style="color:white">定位中</span>
-                    </div>
-                    <div style="margin-top:20px;font-size:12px">
-                        <m-icon style="margin-right:4px" class="ic" link="icon-gengduoicon"></m-icon>
-                        <span>还未获取到地址位置</span>
-                        <span style="margin-left:5px;color:#768BB7">点击重试</span>
-                    </div>
-                </div> -->
-                <p style="font-size:13px;color:#aaa;position:absolute;bottom:-8px">下班时间18:00</p>
+                <p class="fs26" style="color:#aaa;position:absolute;bottom:-8px">下班时间18:00</p>
                 <span class="yuan2"></span>
-            </div>
-            <div class="ka">
-                <div class="yuan">
-                    <span style="color:#fff;font-size:20px;font-weight:bold;">定位中</span>
-                </div>
-                <div style="margin-top:20px;font-size:12px">
-                    <m-icon style="margin-right:4px" class="ic" link="icon-gengduoicon"></m-icon>
-                    <span>还未获取到地址位置</span>
-                    <span style="margin-left:5px;color:#768BB7" @click="confirm2">点击重试</span>
+                <div class="OffWork">
+                    <div class="success" layout="column" layout-align="start start">
+                        <div layout="row" layout-align="start center" style="margin-top:14px">
+                            <h3 class="m-r-2">打卡时间9:00</h3>
+                            <p class="Late">迟到</p>
+                            <p class="abnormal">异常定位</p>
+                        </div>
+                        <div class="m-t-3">
+                            <m-icon class="m-r-2" link="icon-4"></m-icon>
+                            <span class="adreess">通协路268号</span>
+                        </div>
+                        <p class="update">更新打卡</p>
+                    </div>
+                    <!-- <div class="ka">
+                        <div class="yuan">
+                            <span class="fs40 fwb" style="color:white">定位中</span>
+                        </div>
+                        <div class="m-t-4 fs2">
+                            <m-icon class="m-r-2 ic" link="icon-gengduoicon"></m-icon>
+                            <span>还未获取到地址位置</span>
+                            <span class="m-l-2" style="color:#768BB7">点击重试</span>
+                        </div>
+                    </div> -->
                 </div>
             </div>
             <div class="ban" layout="row" layout-align="start center" @click="confirm">
@@ -58,14 +74,14 @@
             </div>
             <div class="share-box" v-if="isShowShare" @click.stop="isShowShare = false ">
                 <div class="box" @click.stop="" style="z-index:999">
-                    <div style="position:relative;padding:15px 17px 0 20px">
+                    <div class="msg">
                         <m-icon class="ic color-gray" link="icon-close" @click.native="isShowShare = false" ></m-icon>
                         <div style="line-height:30px">
                             <p class="fs30 fwb">发送申请给潘金莲</p>
                             <p style="color:#888" class="fs16">考勤时间:2018.12.14 9:32</p>
                             <p style="color:#888" class="fs16">状态：迟到2分钟</p>
                         </div>
-                        <p class="fwb fs24" style="margin-top:44px;margin-bottom:8px">申请事由</p>
+                        <p class="fwb fs24 m-b-4" style="margin-top:44px;">申请事由</p>
                     </div>
                     <div style="width:100%;height187px;background:rgba(245,245,245,1);padding:20px;position:relative">
                         <textarea ref="text" autofocus style="height:187px;background:rgba(245,245,245,1);font-size:16px" @input.native="alert" cols="30" rows="10" maxlength="300"></textarea>
@@ -77,9 +93,10 @@
                     <div style="height:49px;line-height:49px;text-align:center;color:#781A75" class="fwb">提交申请</div>
                 </div>
             </div>
+
             <div class="share-box" v-if="isShowShare2" @click.stop="isShowShare2 = false ">
                 <div class="box" @click.stop="" style="z-index:999">
-                    <div style="position:relative;padding:15px 17px 0 20px">
+                    <div class="msg">
                         <m-icon class="ic color-gray" link="icon-close" @click.native="isShowShare2 = false" ></m-icon>
                         <div style="line-height:30px">
                             <p class="fs30 fwb">发送申请给潘金莲</p>
@@ -335,11 +352,10 @@ export default {
                 position: relative;
                 padding-left: 10px;
                 margin-left: 5px;
-                .WorkTime{
-                    font-size:13px;
-                    color:#aaa;
-                    position:absolute;
-                    top:-8px
+                position: relative;
+                .OffWork{
+                    position: absolute;
+                    width: 90%;
                 }
                 .yuan1{
                     position: absolute;
@@ -437,6 +453,10 @@ export default {
                 margin: 0 auto;
                 border-radius: 8px;
                 background: @white;
+                .msg{
+                    position:relative;
+                    padding:15px 17px 0 20px
+                }
             }
             .Reason{
                 width: 100%;

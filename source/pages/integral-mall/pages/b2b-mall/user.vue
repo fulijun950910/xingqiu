@@ -8,7 +8,9 @@
                         <p class="p1">{{userInfo.merchantInfo.nickName}}</p>
                         <p class="p2" v-show="userInfo.merchantInfo.authStatus == 1">已认证</p>
                         <p class="p2" v-show="userInfo.merchantInfo.authStatus == 2">未认证</p>
-                        <m-icon class="ic" link="icon-11" @click.native="LinkTo(1)"></m-icon>
+                        <div class="ic" @click="LinkTo(1)">
+                            <m-icon class="w" link="icon-11"></m-icon>
+                        </div>
                     </div>
                     <p style="color:#888888;font-size:13px;margin-top:4px">{{userInfo.merchantInfo.brandName}}</p>
                 </div>
@@ -209,10 +211,16 @@ export default {
                     font-size: 12px;
                 }
                 .ic{
-                    width: 20px;
-                    height: 20px;
+                    width: 25px;
+                    height: 25px;
                     position: absolute;
+                    text-align: center;
+                    line-height: 25px;
                     right: 20px;
+                    .w{
+                        width: 20px;
+                        height: 20px;
+                    }
                 }
             }
         }
