@@ -11,9 +11,9 @@
             </div>
         </div>
         <div class="banner p-l-3">
-            <swiper :options="swiperOption" ref="swiperOption" v-if="bannerList && bannerList.length" @click.native="bannerClick()">
+            <swiper :options="swiperOption" ref="swiperOption" v-if="bannerList && bannerList.length">
                 <swiper-slide v-for="(item, index) in bannerList" :key="index">
-                    <img :src="item.image | nSrc(require('assets/imgs/location.jpg'))" alt="">
+                    <img :src="item.image | nSrc(require('assets/imgs/location.jpg'))" :mwsrc="item.image" alt="">
                 </swiper-slide>
             </swiper>
             <div class="swiper-pagination p-l-3 p-r-3"></div>
@@ -180,6 +180,9 @@ export default {
                 pagination: {
                     el: '.swiper-pagination',
                     clickable: true
+                },
+                on: {
+                    tap: this.bannerClick
                 }
             },
             loading: false,
@@ -409,13 +412,15 @@ export default {
                 };
             };
         },
-        bannerClick() {
-            let item = this.bannerList[this.$refs.swiperOption.swiper.realIndex].url;
-            if (item.indexOf('html') > -1) {
-                window.location.href = item;
-            } else {
-                this.$router.push(item);
-            };
+        bannerClick(evt) {
+            let item = this.bannerList.find(val => val.image === evt.target.getAttribute('mwsrc'));
+            if (item && item.url) {
+                if (item.url.indexOf('html') > -1) {
+                    window.location.href = item.url;
+                } else {
+                    this.$router.push(item.url);
+                };
+            }
         },
         init() {
             this.saveUserInfo();
