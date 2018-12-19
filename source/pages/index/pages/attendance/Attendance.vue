@@ -2,9 +2,9 @@
     <div class="Attendance" v-title="'考勤打卡'">
         <div class="header" layout="row" layout-align="space-between center">
             <div class="time" layout="row" layout-align="center center" >
-                <m-icon class="ic" link="icon-left-bold" @click.native="reducedate"></m-icon>
-                <p id="beginTime">{{time}}</p>
-                <m-icon class="ic" link="icon-right-bold" @click.native="adddate"></m-icon>
+                <m-icon class="ic" link="icon-left-bold" @click.native="changeDate(-1)"></m-icon>
+                <p id="beginTime">{{time | amDateFormat('YYYY.MM.DD')}}</p>
+                <m-icon class="ic" link="icon-right-bold" @click.native="changeDate(1)"></m-icon>
             </div>
             <div class="Statistics" layout="row" layout-align="center center" >
                 <m-icon class="ic" link="icon-dianzan"></m-icon>
@@ -41,9 +41,9 @@
                     </div> -->
                 </div>
                 <p class="fs26" style="color:#aaa;position:absolute;bottom:-8px">下班时间18:00</p>
-                <span class="yuan2"></span>
+                <span class="yuan2" ref="yuan2"></span>
                 <div class="OffWork">
-                    <div class="success" layout="column" layout-align="start start">
+                    <div class="success" v-show="!xian" layout="column" layout-align="start start">
                         <div layout="row" layout-align="start center" style="margin-top:14px">
                             <h3 class="m-r-2">打卡时间9:00</h3>
                             <p class="Late">迟到</p>
@@ -55,7 +55,7 @@
                         </div>
                         <p class="update">更新打卡</p>
                     </div>
-                    <!-- <div class="ka">
+                    <div class="ka" v-show="xian">
                         <div class="yuan">
                             <span class="fs40 fwb" style="color:white">定位中</span>
                         </div>
@@ -64,7 +64,7 @@
                             <span>还未获取到地址位置</span>
                             <span class="m-l-2" style="color:#768BB7">点击重试</span>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
             <div class="ban" layout="row" layout-align="start center" @click="confirm">
@@ -152,132 +152,32 @@ export default {
     },
     data() {
         return {
-            time: this.$moment().startOf('day').format('YYYY.MM.DD'),
+            time: this.$moment().startOf('day'),
             isShowShare: false,
             isShowShare2: false,
-            length: 0
+            length: 0,
+            xian: false
         };
     },
     mounted() {
+        this.confirm();
     },
     methods: {
         confirm() {
-            this.isShowShare = true;
+            if (this.xian) {
+                this.$refs.yuan2.style.background = 'red';
+            }
+            // this.isShowShare = true;
         },
         confirm2() {
             this.isShowShare2 = true;
         },
         alert() {
-            this.length = this.$refs.text.value.length;
         },
         conso() {
         },
-        adddate() {
-            var s = document.getElementById('beginTime').innerHTML;
-            var arr = s.split('.');
-            var year = parseInt(arr[0]);
-            var mouth = parseInt(arr[1]);
-            var date = parseInt(arr[arr.length - 1]);
-            if (date == 28) {
-                switch (mouth) {
-                    case 2:
-                        if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
-                            date = date + 1;
-                        } else {
-                            date = 1;
-                            mouth = mouth + 1;
-                        }
-                }
-            } else if (date == 29) {
-                switch (mouth) {
-                    case 2:
-                        date = 1;
-                        mouth = mouth + 1;
-                }
-            } else if (date == 30) {
-                switch (mouth) {
-                    case 1:
-                    case 3:
-                    case 5:
-                    case 7:
-                    case 8:
-                    case 10:
-                    case 12:
-                        date = date + 1;
-                        break;
-                    case 4:
-                    case 6:
-                    case 9:
-                    case 11:
-                        date = 1;
-                        mouth = mouth + 1;
-                        break;
-                }
-            } else if (date == 31) {
-                switch (mouth) {
-                    case 1:
-                    case 3:
-                    case 5:
-                    case 7:
-                    case 8:
-                    case 10:
-                        date = 1;
-                        mouth = mouth + 1;
-                        break;
-                    case 12:
-                        date = 1;
-                        mouth = 1;
-                        year = year + 1;
-                        break;
-                }
-            } else {
-                date += 1;
-            }
-            document.getElementById('beginTime').innerHTML = year + '.' + mouth + '.' + date;
-        },
-        reducedate() {
-            var s = document.getElementById('beginTime').innerHTML;
-            var arr = s.split('.');
-            var year = parseInt(arr[0]);
-            var mouth = parseInt(arr[1]);
-            var date = parseInt(arr[arr.length - 1]);
-            if (date == 1) {
-                switch (mouth) {
-                    case 1:
-                        date = 31;
-                        mouth = 12;
-                        year = year - 1;
-                        break;
-                    case 2:
-                    case 4:
-                    case 6:
-                    case 8:
-                    case 9:
-                    case 11:
-                        date = 31;
-                        mouth = mouth - 1;
-                        break;
-                    case 3:
-                        if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
-                            date = 29;
-                            mouth = mouth - 1;
-                        } else {
-                            date = 28;
-                            mouth = mouth - 1;
-                        }
-                        break;
-                    case 5:
-                    case 7:
-                    case 10:
-                    case 12:
-                        date = 30;
-                        mouth = mouth - 1;
-                        break;
-                }
-            } else {
-                date = date - 1;
-            }
-            document.getElementById('beginTime').innerHTML = year + '.' + mouth + '.' + date;
+        changeDate(val) {
+            this.time = this.$moment(this.time).add(val, 'd');
         }
     }
 };

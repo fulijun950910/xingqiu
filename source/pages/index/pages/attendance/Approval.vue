@@ -14,33 +14,33 @@
             <div class="list" @click="isShow=true" layout="row" layout-align="space-between start">
                 <div layout="row" layout-align="start start">
                     <img :src="require('assets/imgs/avatar.png')" alt="">
-                    <div class="m-l-3" style="white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
+                    <div class="m-l-3 hang">
                         <p class="fs14">冯子轩</p>
                         <p>09/22缺卡</p>
-                        <p class="w22" style="font-size:13px;color:#888;margin-top:13px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">早上起床晚了早上起床晚了早上上起床晚了早上</p>
+                        <p class="w22 hang extra-light-black m-t-4" style="font-size:13px">早上起床晚了早上起床晚了早上上起床晚了早上</p>
                     </div>
                 </div>
-                <div style="color:#888;font-size:12px;white-space:nowrap;">2018.12.12</div>
+                <div class="fs24 extra-light-black" style="white-space:nowrap;">2018.12.12</div>
             </div>
             <div class="share-box" v-show="isShow" @click="isShow = false">
                 <div class="box" @click.stop="">
-                    <div style="position:relative;padding:15px 17px 0 20px">
+                    <div class="msg">
                         <m-icon class="ic color-gray" link="icon-close" @click.native="isShow = false" ></m-icon>
                         <div layout=row layout-align="start start">
                             <img class="img1 m-r-2" :src="require('assets/imgs/avatar.png')" alt="">
                             <div>
-                                <p style="font-size:16px" class="fwb">冯子轩</p>
+                                <p class="fwb fs32">冯子轩</p>
                                 <p style="font-size:13px;font-weight:500;">店长</p>
                             </div>
                         </div>
-                        <div class="m-t-4" style="background:rgba(245,245,245,1);line-height:26px;padding:8px">
+                        <div class="m-t-4 d1">
                             <div layout=row layout-align="start center"><span class="s1"></span><p>考勤时间:2018.12.14 9:40</p></div>
                             <div layout=row layout-align="start center"><span class="s1"></span><p>状态:迟到十分钟</p></div>
                             <div layout=row layout-align="start center"><span class="s1"></span><p>事由:早上起晚了</p></div>
                         </div>
                     </div>
-                    <div style="padding:10px 40px 100px 40px;margin-top:40px">
-                        <div class="m-t-4" style="border-left:1px solid #ccc;padding:0 30px;position:relative;height:80px">
+                    <div class="Imsg">
+                        <div class="m-t-4 d1">
                             <div>
                                 <img class="img2" :src="require('assets/imgs/avatar.png')" alt="">
                                 <div style="position:absolute;top:-10px">
@@ -59,8 +59,8 @@
                         </div>
                     </div>
                     <div class="bottom" layout="row">
-                        <div class="fs40 fwb" flex=50 style="text-align:center;border-right:1px solid #ccc">拒绝</div>
-                        <div class="fs40 fwb" flex=50 style="color:#A43A8E;text-align:center">同意</div>
+                        <div class="fs40 fwb d1" flex=50>拒绝</div>
+                        <div class="fs40 fwb d2" flex=50>同意</div>
                     </div>
                 </div>
             </div>
@@ -70,14 +70,14 @@
             <div class="list" layout="row" layout-align="space-between start">
                 <div layout="row" layout-align="start start">
                     <img :src="require('assets/imgs/avatar.png')" alt="">
-                    <div class="m-l-3" style="white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
+                    <div class="m-l-3 hang">
                         <p class="fs14">冯子轩</p>
                         <p>09/22缺卡</p>
-                        <p class="w22" style="font-size:13px;color:#888;margin-top:13px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">早上起床晚了早上起床晚了早上上起床晚了早上</p>
+                        <p class="w22 hang extra-light-black m-t-4">早上起床晚了早上起床晚了早上上起床晚了早上</p>
                     </div>
                 </div>
                 <div layout="column" layout-align="center end">
-                    <p style="color:#888;font-size:12px;white-space:nowrap;">2018.12.12</p>
+                    <p class="fs24 extra-light-black" style="white-space:nowrap;">2018.12.12</p>
                     <p class="p2 fwb">审批完成</p>
                 </div>
             </div>
@@ -114,6 +114,11 @@ export default {
 <style lang="less">
 @import '~@/styles/_agile';
 .Approval{
+    .hang {
+        white-space:nowrap;
+        text-overflow:ellipsis;
+        overflow:hidden;
+    }
     .fs14{
         font-size: 14px;
     }
@@ -124,12 +129,6 @@ export default {
     min-height: 100vh;
     background: #F5F5F5;
     padding-top: 60px;
-    .inp{
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        border: 1px solid #cccccc;/*no*/
-    }
     .mint-checklist-title{
         display: none;
     }
@@ -180,6 +179,25 @@ export default {
                 margin: 0 auto;
                 border-radius: 8px;
                 background: @white;
+                .msg{
+                    position:relative;
+                    padding:15px 17px 0 20px;
+                    .d1{
+                        background:rgba(245,245,245,1);
+                        line-height:26px;
+                        padding:8px;
+                    }
+                }
+                .Imsg {
+                    padding:10px 40px 100px 40px;
+                    margin-top:40px;
+                    .d1{
+                        border-left:1px solid #ccc; /*no*/
+                        padding:0 30px;
+                        position:relative;
+                        height:80px
+                    }
+                }
                 .ic{
                     position: absolute;
                     right:17px;
@@ -222,6 +240,14 @@ export default {
                     line-height: 50px;
                     border-top: 1px solid #cccccc; /*no*/
                     margin-top: 42px;
+                    .d1 {
+                        text-align:center;
+                        border-right:1px solid #ccc; /*no*/
+                    }
+                    .d2 {
+                        color:#A43A8E;
+                        text-align:center
+                    }
                 }
             }
 
