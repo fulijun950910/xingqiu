@@ -508,7 +508,8 @@ export default {
                 background:fade(white,10%);
             }
             position:absolute;
-            bottom:0;
+            bottom:env(safe-area-inset-bottom);
+            bottom: constant(safe-area-inset-bottom);
             left:0;
             z-index:5;
             width:100%;
