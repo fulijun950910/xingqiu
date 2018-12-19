@@ -6,11 +6,15 @@
                  layout-align="center center">
                 <div class="cp-item"
                      :class="{'cp-item-s': tabName == 'statistics-all'}"
-                     @click="tabClick('statistics-all')">全部</div>
+                     @click="tabClick('statistics-all')">全部
+                    <div class="cp-item-lien"></div>
+                </div>
                 <div class="cp-line"></div>
                 <div class="cp-item"
                      :class="{'cp-item-s': tabName == 'statistics-my'}"
-                     @click="tabClick('statistics-my')">我的</div>
+                     @click="tabClick('statistics-my')">我的
+                    <div class="cp-item-lien"></div>
+                </div>
             </div>
         </div>
         <router-view></router-view>
@@ -40,7 +44,7 @@ export default {
 <style lang="less">
 @import '~@/styles/_agile';
 .statistics-panel {
-    background: #d6e7fb linear-gradient(91deg, #fafafa00 0%, #faf0ee 100%);
+    background: linear-gradient(91deg, #fafafa00 0%, #faf0ee 100%), linear-gradient(287deg, #ffffff00 0%, #e7f1f9 100%);
     min-height: 100vh;
     .cp-header {
         background-color: white;
@@ -49,15 +53,24 @@ export default {
     .cp-item {
         font-size: 16px;
         width: 60px;
-        border-bottom: 3px solid;
-        border-bottom-style: solid;
         text-align: center;
         line-height: 40px;
         color: @gray;
-        border-bottom-color: transparent;
+        position: relative;
+        .cp-item-lien {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 3px;
+            border-radius: 3px;
+        }
         &-s {
             color: @color-primary;
-            border-bottom-color: @color-primary;
+        }
+        &-s .cp-item-lien {
+            background: linear-gradient(162deg, @color-primary 0%, #7d2072 100%);
+            box-shadow: 0px 1px 4px 0px #a63a905c;
         }
     }
     .cp-line {
