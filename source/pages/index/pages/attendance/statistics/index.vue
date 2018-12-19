@@ -54,9 +54,8 @@ export default {
         right: 0;
         position: fixed;
         background-color: white;
-        padding: 0 16px 20px 16px;
+        padding: 0 16px;
         z-index: 2;
-        height: 60px;
     }
     .cp-item {
         width: 60px;
@@ -75,6 +74,7 @@ export default {
         }
         &-s {
             color: @color-primary;
+            font-weight: bold;
         }
         &-s .cp-item-lien {
             background-color: @color-primary;

@@ -8,14 +8,14 @@
                  layout="row"
                  layout-align="start start"
                  flex-wrap="wrap"
-                 class="p-l-4 p-b-2">
+                 class="p-l-4 p-b-2 cp-chip-panel">
                 <div class="cp-chip"
                      v-for="(item, index) in params.rows"
                      @click="remvoeItem(index)"
                      :key="index">2019-10-20 <m-icon link="icon-close"></m-icon>
                 </div>
             </div>
-            <div class="m-r-4 p-b-3 color-primary"
+            <div class="m-r-4 color-primary cp-query-btn"
                  @click="showQuery">
                 筛选 <m-icon link="icon-weibiaoti34"></m-icon>
             </div>
@@ -112,7 +112,7 @@ export default {
         };
     },
     watch: {
-        'params.rows': () => {
+        'params.rows': function() {
             this.$nextTick(_ => {
                 this.top = this.$refs.queryEl.getBoundingClientRect().height + this.$refs.queryEl.getBoundingClientRect().top + 16 + 'px';
             });
@@ -134,7 +134,9 @@ export default {
         remvoeItem(index) {
             this.params.rows.splice(index, 1);
         },
-        showQuery() {}
+        showQuery() {
+            this.params.rows.push('');
+        }
     }
 };
 </script>
@@ -142,13 +144,17 @@ export default {
 @import '~@/styles/_agile';
 .cp-all-panel {
     .cp-query-cent {
-        top: 60px;
+        top: 40px;
         left: 0;
         right: 0;
         z-index: 1;
         position: fixed;
         background-color: white;
+        padding-top: 12px;
         box-shadow: 0px 3px 8px 0px rgba(49, 77, 83, 0.28);
+        .cp-chip-panel {
+            min-height: 44px;
+        }
         .cp-chip {
             font-size: 12px;
             background: rgba(180, 77, 206, 0.1);
@@ -159,6 +165,10 @@ export default {
             margin-bottom: 4px;
             border-radius: 2px; /*no*/
         }
+        .cp-query-btn {
+            line-height: 26px;
+            padding-bottom: 4px;
+        }
     }
     .cp-line-b {
         border-bottom: 1px solid @light-gray; /*no*/
@@ -166,7 +176,7 @@ export default {
     .cp-cont {
         padding: 16px;
         padding-bottom: 80px;
-        padding-top: 98+16px;
+        padding-top: 96px+16;
     }
     .cp-card {
         border-radius: 4px;
