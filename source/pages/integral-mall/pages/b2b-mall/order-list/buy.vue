@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="order-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
-            <div v-for="(item,index) in orderList" :key="item.id" class="order-item m-t-3 card-style cell-box">
+            <div @click.stop="goDetaill(item)" v-for="(item,index) in orderList" :key="item.id" class="order-item m-t-3 card-style cell-box">
                 <div class="p-t-5 p-b-3 border-bottom" layout="row">
                     <div class="fwb fs28" flex>{{item.merchantName}}</div>
                     <div>
@@ -51,19 +51,19 @@
                     <div class="">￥{{item.needPayAmount | fen2yuan}}</div>
                 </div>
                 <div class="btn-box cell" layout="row" layout-align="end center">
-                    <button @click="goDetaill(item)" class="order-btn btn-default">查看详情</button>
+                    <button @click.stop="goDetaill(item)" class="order-btn btn-default">查看详情</button>
                     <div v-if="item.status == 0" layout="row" layout-align="start center">
-                        <button @click="cancelOrder(item,index)" class="order-btn btn-default">取消订单</button>
-                        <button @click="goDetaill(item)" class="order-btn btn-primary">去付款</button>
+                        <button @click.stop="cancelOrder(item,index)" class="order-btn btn-default">取消订单</button>
+                        <button @click.stop="goDetaill(item)" class="order-btn btn-primary">去付款</button>
                     </div>
                     <div v-else-if="item.status == 1" layout="row" layout-align="start center">
-                        <button @click="refundOrder(item,index)" class="order-btn btn-primary">退款</button>
+                        <button @click.stop="refundOrder(item,index)" class="order-btn btn-primary">退款</button>
                     </div>
                     <div v-else-if="item.status == 6" layout="row" layout-align="start center">
-                        <button @click="subOrder(item,index)" class="order-btn btn-primary">确认收货</button>
+                        <button @click.stop="subOrder(item,index)" class="order-btn btn-primary">确认收货</button>
                     </div>
                     <div v-else-if="item.status == 5" layout="row" layout-align="start center">
-                        <button @click="goOrder(item, index)" class="order-btn btn-primary">再来一单</button>
+                        <button @click.stop="goOrder(item, index)" class="order-btn btn-primary">再来一单</button>
                     </div>
                 </div>
             </div>

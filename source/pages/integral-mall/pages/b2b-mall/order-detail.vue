@@ -96,7 +96,7 @@
                     <div >
                         <span>{{orderData.orderNo}}</span>
                         &emsp;
-                        <span @click="copyUrl(orderData.orderNo)" class="color-primary">复制</span>
+                        <!--<span @click="copyUrl(orderData.orderNo)" class="color-primary">复制</span>-->
                     </div>
                 </div>
                 <div class="p-t-1 p-b-1" layout="row">
@@ -328,6 +328,7 @@ export default {
     min-height: 100vh;
     background: @bg-gray;
     @color-primary: #854399;
+    user-select: auto;
     .color-primary {
         color: @color-primary;
     }
@@ -337,7 +338,7 @@ export default {
         box-sizing: border-box;
     }
     .order-state-style {
-        padding: 0 12px 12px;
+        padding: 0 12px 2px;
         width: 100%;
         height: 100%;
         background-size: 100% 100%;
@@ -374,7 +375,7 @@ export default {
         }
     }
     .first-card{
-        margin-top: -12px;
+        margin-top: -2px;
     }
     .color-5E9CFF {
         color:#5E9CFF
