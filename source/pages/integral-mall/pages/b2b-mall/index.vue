@@ -314,7 +314,7 @@ export default {
 
     }
     .banner2-box{
-        height: 64px;
+        height: 70px;
         img{
             width:100%;
             height:100%;
