@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="money" layout="row">
-                <div class="box" flex style="border-right:1px solid #ccc">
+                <div class="box" flex style="border-right:1px solid #eee">
                     <span class="s1">收入:&nbsp;&nbsp;</span>
                     <span class="s2">{{ userInfo.sellMoney | fen2yuan | wan}}</span>
                     <span class="s3" v-show="this.sellMoney >= 10000">&nbsp;万元</span>
@@ -48,12 +48,12 @@
         </div>
 
         <!-- 订单管理 -->
-        <div @click="goOrderListPublish" class='bg-white border-bottom' layout='row' layout-align='start center'>
+        <div @click="goOrderListPublish" class='bg-white' style="border-bottom:1px solid #eee" layout='row' layout-align='start center'>
             <div flex class='fs28 fwb guanli'>订单管理</div>
             <div class='color-gray fs24 quanbu'>查看全部<m-icon class="fwb" style="margin-left:5px" link='icon-zuojiantou'></m-icon></div>
         </div>
 
-        <div class="nav" style="margin:10px 0px" layout="row" layout-align="start center">
+        <div class="nav" style="margin:15px 0px" layout="row" layout-align="start center">
             <div @click="goOrderListPublish" layout="column" layout-align="center center">
                 <p style="font-size:24px">{{ userInfo.onlineCount }}</p>
                 <span style="font-size:13px;color:#666">我发布的</span>
@@ -272,16 +272,16 @@ export default {
             border-right: 1px solid @light-gray; /*no*/
         }
         .img1 {
-            width: 50%;
-            height: 50%;
+            width: 40%;
+            height: 40%;
         }
         .img2 {
-            width: 50%;
-            height: 50%;
+            width: 40%;
+            height: 40%;
         }
         .img3 {
-            width: 50%;
-            height: 50%;
+            width: 40%;
+            height: 40%;
         }
         span {
             font-size: 13px;

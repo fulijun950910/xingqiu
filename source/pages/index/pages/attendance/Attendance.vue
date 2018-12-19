@@ -41,9 +41,9 @@
                     </div> -->
                 </div>
                 <p class="fs26" style="color:#aaa;position:absolute;bottom:-8px">下班时间18:00</p>
-                <span class="yuan2"></span>
+                <span class="yuan2" ref="yuan2"></span>
                 <div class="OffWork">
-                    <div class="success" layout="column" layout-align="start start">
+                    <div class="success" v-show="!xian" layout="column" layout-align="start start">
                         <div layout="row" layout-align="start center" style="margin-top:14px">
                             <h3 class="m-r-2">打卡时间9:00</h3>
                             <p class="Late">迟到</p>
@@ -55,7 +55,7 @@
                         </div>
                         <p class="update">更新打卡</p>
                     </div>
-                    <!-- <div class="ka">
+                    <div class="ka" v-show="xian">
                         <div class="yuan">
                             <span class="fs40 fwb" style="color:white">定位中</span>
                         </div>
@@ -64,7 +64,7 @@
                             <span>还未获取到地址位置</span>
                             <span class="m-l-2" style="color:#768BB7">点击重试</span>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
             <div class="ban" layout="row" layout-align="start center" @click="confirm">
@@ -155,14 +155,19 @@ export default {
             time: this.$moment().startOf('day').format('YYYY.MM.DD'),
             isShowShare: false,
             isShowShare2: false,
-            length: 0
+            length: 0,
+            xian: false
         };
     },
     mounted() {
+        this.confirm();
     },
     methods: {
         confirm() {
-            this.isShowShare = true;
+            if (this.xian) {
+                this.$refs.yuan2.style.background = 'red';
+            }
+            // this.isShowShare = true;
         },
         confirm2() {
             this.isShowShare2 = true;
