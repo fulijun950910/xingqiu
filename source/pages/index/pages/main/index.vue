@@ -337,7 +337,7 @@ export default {
         },
         checkB2bMall() {
             if (this.$store.getters.isLogin) {
-                if (!this.$knife.getPermission('purchase_mall_setting22')) {
+                if (!this.$knife.getPermission('purchase_mall_setting')) {
                     this.$toast('抱歉，无权限进入');
                     return true;
                 };
