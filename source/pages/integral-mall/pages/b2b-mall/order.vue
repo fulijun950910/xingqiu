@@ -153,8 +153,8 @@ export default {
                 merchantId: this.orderData.merchantId,
                 userId: this.$store.state.party.id,
                 deliveryAddressId: this.address.id,
-                // openId: this.$store.state.user.openId,
-                openId: 'ooIeqs8kgOzo0YrzHnsM5UGedrAQ', // todo
+                openId: this.$store.state.user.openId,
+                // openId: 'ooIeqs8kgOzo0YrzHnsM5UGedrAQ', // todo
                 totalAmount: this.totalAmount,
                 freight: this.freight,
                 supplierOrderItemList: [
