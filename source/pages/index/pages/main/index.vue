@@ -173,6 +173,7 @@ export default {
                 slidesPerView: 1.4,
                 spaceBetween: 10,
                 loop: true,
+                centeredSlides: true,
                 autoplay: {
                     delay: 2000
                 },
