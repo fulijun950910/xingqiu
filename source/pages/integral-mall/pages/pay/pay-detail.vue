@@ -75,7 +75,7 @@
                 <div flex="80">
                     <div class="fs28 extra-light-black">商品总价</div>
                     </div>
-                <div class="color-black">￥{{item.price | fen2yuan}}</div>
+                <div class="color-black">￥{{item.price * payDetail.quantity | fen2yuan}}</div>
             </div>
              <div layout="row" class="m-b-3" v-if="type != 1" layout-align="space-between center">
                 <div flex="80">
