@@ -336,8 +336,8 @@ export default {
             }
         },
         checkB2bMall() {
-            if (this.$store.getters.isPersonLogin) {
-                if (!this.$knife.getPermission('purchase_mall_setting')) {
+            if (this.$store.getters.isLogin) {
+                if (!this.$knife.getPermission('purchase_mall_setting22')) {
                     this.$toast('抱歉，无权限进入');
                     return true;
                 };
@@ -437,6 +437,11 @@ export default {
         bannerClick(evt) {
             let item = this.bannerList.find(val => val.image === evt.target.getAttribute('mwsrc'));
             if (item && item.url) {
+                if (item.id == 9) {
+                    if (this.checkB2bMall()) {
+                        return;
+                    };
+                }
                 if (item.url.indexOf('html') > -1) {
                     window.location.href = item.url;
                 } else {
