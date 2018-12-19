@@ -363,7 +363,7 @@ export default {
                     width: 100px;
                     padding: 2px 0;
                     &:not(:first-child) {
-                        border-left: 1px solid #ccc;
+                        border-left: 1px solid #eee;
                     }
                 }
                 .icon-box{

@@ -271,6 +271,9 @@ export default {
                     break;
                 case 2:
                 // b2b商城
+                    if (this.checkB2bMall()) {
+                        return;
+                    };
                     window.location.href = '/lite/index.html#/b2b';
                     // window.location.href = '/api/b2bPromotionMobile/oauthURI/b2b';
                     break;
@@ -319,6 +322,9 @@ export default {
                     break;
                 case 8:
                 // b2b美店
+                    if (this.checkB2bMall()) {
+                        return;
+                    };
                     window.location.href = '/api/b2bPromotionMobile/oauthURI/b2b_mall_index';
                     break;
             }
@@ -327,6 +333,14 @@ export default {
             if (this.$store.getters.isPersonLogin) {
                 this.$toast('抱歉，个人用户，无权限进入');
                 return true;
+            }
+        },
+        checkB2bMall() {
+            if (this.$store.getters.isPersonLogin) {
+                if (!this.$knife.getPermission('purchase_mall_setting')) {
+                    this.$toast('抱歉，无权限进入');
+                    return true;
+                };
             }
         },
         checkSignIn() {
