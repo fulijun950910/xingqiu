@@ -223,6 +223,10 @@ app.index = {
             location.href = '/lite/index.html';
             return;
         }
+        if (JSON.parse(employeeJson).merchant && JSON.parse(employeeJson).merchant.functionVersion == 7) {
+            location.href = '/service/integral-mall.html#/b2b-mall-index';
+            return;
+        }
         if (!JSON.parse(employeeJson).storeList) {
             var employee = JSON.parse(employeeJson);
             employee.storeList = [];

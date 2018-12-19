@@ -523,6 +523,8 @@ app.userinfo = {
                                                                         url = '/main.html#/index';
                                                                         if (employee.merchant && (employee.merchant.functionVersion == 4 || employee.merchant.functionVersion == 5)) { // 营销版
                                                                             url = '/lite/index.html';
+                                                                        } else if (employee.merchant && employee.merchant.functionVersion == 7) {
+                                                                            url = '/service/integral-mall.html#/b2b-mall-index';
                                                                         }
                                                                     } else if (keyGetValue('type') == 2) {
                                                                         window.history.back();

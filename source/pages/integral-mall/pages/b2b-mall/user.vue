@@ -16,45 +16,44 @@
                 </div>
             </div>
             <div class="money" layout="row">
-                <div class="box" flex style="border-right:1px solid #ccc">
-                    <span class="s1">收入:&nbsp;</span>
+                <div class="box" flex style="border-right:1px solid #eee">
+                    <span class="s1">收入:&nbsp;&nbsp;</span>
                     <span class="s2">{{ userInfo.sellMoney | fen2yuan | wan}}</span>
                     <span class="s3" v-show="this.sellMoney >= 10000">&nbsp;万元</span>
                     <span class="s3" v-show="this.sellMoney < 10000">&nbsp;元</span>
                 </div>
-                <div class="box" flex @click="LinkTo(2)">
-                    <span class="s1">美豆豆:&nbsp;</span>
+                <div class="box" flex>
+                    <span class="s1">美豆豆:&nbsp;&nbsp;</span>
                     <span class="s2">{{userInfo.doudouCounts}}</span>
                     <span class="s3">&nbsp;个</span>
                 </div>
             </div>
         </div>
-        <div class="nav" style="margin-top:20px" layout="row" layout-align="start center">
+        <div class="nav" layout="row" layout-align="start center">
             <div layout="column" layout-align="center center" @click="toast">
-                <img :src="require('assets/imgs/b2b-mall/youli.png')" alt="">
+                <img class="img1" :src="require('assets/imgs/b2b-mall/fanli.png')" alt="">
                 <span>邀请返利</span>
             </div>
-            <div layout="column" layout-align="center center" @click="toast">
-                <img :src="require('assets/imgs/b2b-mall/doudou.png')" alt="">
+            <div layout="column" layout-align="center center" @click="LinkTo(2)">
+                <img class="img2" :src="require('assets/imgs/b2b-mall/doudou.png')" alt="">
                 <span>美豆豆商场</span>
             </div>
             <div layout="column" layout-align="center center" @click="toast2">
-                <img :src="require('assets/imgs/b2b-mall/kefu.png')" alt="">
+                <img class="img3" :src="require('assets/imgs/b2b-mall/kefu.png')" alt="">
                 <span>在线客服</span>
             </div>
         </div>
-        <div style="height:64px;background:#F5F5F5;padding:10px" @click="jump(userInfo.midBanner.url)">
-                <!-- <img style="width:355px;border-radius:4px" :src="require('assets/imgs/b2b-mall/2018120601.jpg')" alt=""> -->
+        <div style="height:84px;background:#F5F5F5;padding:10px" @click="jump(userInfo.midBanner.url)">
                 <img style="width:100%;height:100%;border-radius:4px" :src="userInfo.midBanner.imageId | mSrc2(require('assets/imgs/b2b-mall/2018120601.jpg'))" alt="">
         </div>
 
         <!-- 订单管理 -->
-        <div @click="goOrderListPublish" class='cell cell-box bg-white border-bottom' layout='row' layout-align='start center'>
-            <div flex class='fs32 fwb'>订单管理</div>
-            <div class='color-gray'>查看全部<m-icon style="margin-left:5px" link='icon-zuojiantou'></m-icon></div>
+        <div @click="goOrderListPublish" class='bg-white' style="border-bottom:1px solid #eee" layout='row' layout-align='start center'>
+            <div flex class='fs28 fwb guanli'>订单管理</div>
+            <div class='color-gray fs24 quanbu'>查看全部<m-icon class="fwb" style="margin-left:5px" link='icon-zuojiantou'></m-icon></div>
         </div>
 
-        <div class="nav" style="margin:10px 0px" layout="row" layout-align="start center">
+        <div class="nav" style="margin:15px 0px" layout="row" layout-align="start center">
             <div @click="goOrderListPublish" layout="column" layout-align="center center">
                 <p style="font-size:24px">{{ userInfo.onlineCount }}</p>
                 <span style="font-size:13px;color:#666">我发布的</span>
@@ -186,6 +185,8 @@ export default {
         .userInfo-top{
             margin-left: 16px;
             img{
+                border: 1px solid @white;
+                box-shadow:0px 1px 10px 0px rgba(68,56,71,0.44);
                 width: 49px;
                 height: 49px;
                 border-radius: 50%;
@@ -218,8 +219,10 @@ export default {
                     line-height: 25px;
                     right: 20px;
                     .w{
-                        width: 20px;
-                        height: 20px;
+                        width: 25px;
+                        height: 25px;
+                        color: #aaaaaa;
+                        font-weight: bold
                     }
                 }
             }
@@ -227,8 +230,8 @@ export default {
         .money{
             padding-left: 0;
             .box{
-                height: 49px;
-                line-height: 49px;
+                height: 35px;
+                line-height: 35px;
                 text-align: center;
                 .s1{
                     color:@extra-black;
@@ -249,9 +252,10 @@ export default {
         }
     }
     .userInfo:after {
-        width: 180%;height: 190px;
+        width: 220%;height: 170px;
         position: absolute;
-        left: -35%;top:0;
+        left: -60%;
+        top:0;
         z-index: -1;
         content: '';
         border-radius: 0 0 50% 50%;
@@ -260,22 +264,39 @@ export default {
     }
     .nav{
         margin-bottom: 10px;
+        margin-top: 0;
         div{
-            height: 54px;
             flex:33.33;
         }
         div:not(:last-child) {
             border-right: 1px solid @light-gray; /*no*/
         }
-        img{
-            width: 30px;
-            height: 27px;
-            margin-bottom: 10px;
+        .img1 {
+            width: 40%;
+            height: 40%;
+        }
+        .img2 {
+            width: 40%;
+            height: 40%;
+        }
+        .img3 {
+            width: 40%;
+            height: 40%;
         }
         span {
             font-size: 13px;
             color: @extra-black;
         }
+    }
+    .guanli{
+        margin-top:24px;
+        margin-left: 15px;
+        margin-bottom: 13px;
+    }
+    .quanbu{
+        margin-top: 23px;
+        margin-bottom: 15px;
+        margin-right: 15px;
     }
     .youhui{
         position: relative;

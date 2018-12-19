@@ -4,7 +4,7 @@
         <div class="nav-bar" layout="row" layout-align="center center">
             <div @click="goIndex" :class="{'act': type==1}" flex class="text-center tab-item">
                 <m-icon class="icon" link="icon-dianpucopy"></m-icon>
-                <div>店铺</div>
+                <div>美店</div>
             </div>
             <div @click="goUser" :class="{'act': type==2}" flex class="text-center tab-item">
                 <m-icon class="icon" link="icon-wode"></m-icon>

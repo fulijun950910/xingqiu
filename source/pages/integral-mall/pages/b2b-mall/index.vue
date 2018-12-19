@@ -1,5 +1,5 @@
 <template>
-    <div class='b2b-mall-index'>
+    <div v-title="'美店'" class='b2b-mall-index'>
         <div class="banner1-box">
             <div class="swipe-box">
                 <mt-swipe :auto="4000">
@@ -10,7 +10,7 @@
                 </mt-swipe>
             </div>
         </div>
-        <div class='cell cell-box bg-white border-bottom' layout='row' layout-align='start center'>
+        <div class='p-t-4 p-b-4 cell-box bg-white border-bottom' layout='row' layout-align='start center'>
             <div flex class='fs32 fwb'>经营数据</div>
         </div>
         <div class="bg-white p-t-2 p-b-2 text-center" layout="row">
@@ -28,15 +28,15 @@
             </div>
         </div>
         <!--参与活动-->
-        <div class='m-t-3 cell cell-box bg-white border-bottom' layout='row' layout-align='start center'>
+        <div class='m-t-3 p-t-4 p-b-4 cell-box bg-white border-bottom' layout='row' layout-align='start center'>
             <div flex class='fs32 fwb'>参与活动</div>
         </div>
         <div class="bg-white cell cell-box">
             <div layout="row">
                 <div flex>预售商品销售金额</div>
-                <div>¥{{indexData.currentSellMoney | fen2yuan}}</div>
+                <div class="fs28">¥{{indexData.currentSellMoney | fen2yuan}}</div>
             </div>
-            <div class="m-t-1 extra-light-black fs24">
+            <div class="m-t-1 text-right extra-light-black fs24">
                 <span v-if="toProfit > 0">还差{{toProfit | fen2yuan}}元赚回仪器的钱啦加油！</span>
                 <span v-else>您的收入已经足够您购买仪器啦</span>
             </div>
@@ -47,8 +47,8 @@
         </div>
         <!--商品管理-->
         <div class='m-t-3 bg-white border-bottom' layout='row' layout-align='start center'>
-            <div flex class='fs32 fwb cell cell-box'>商品管理</div>
-            <div @click="goCollect" class='color-gray cell cell-box'><m-icon class="color-primary" link='icon-xingzhuang1'></m-icon> 发现商品</div>
+            <div flex class='fs32 fwb p-t-4 p-b-4 cell-box'>商品管理</div>
+            <div @click="goCollect" class='extra-light-black p-t-4 p-b-4 cell-box'><m-icon class="color-primary" link='icon-xingzhuang1'></m-icon> 发现商品</div>
         </div>
         <div class='mall-list' >
             <div v-for="item in indexData.mallSellList" :key="item.id" class='mall-item bg-white cell-box'>
@@ -57,7 +57,7 @@
                     <div flex></div>
                     <div>
                         <span v-if="item.status == '1'" class="color-gray">草稿</span>
-                        <span v-if="item.status == '2'" class="color-primary">已上架</span>
+                        <span v-if="item.status == '2'" class="color-primary">上架中</span>
                         <span v-if="item.status == '3'" class="color-gray">已下架</span>
                     </div>
                 </div>
@@ -79,13 +79,15 @@
                     <div @click="goOrder(item)" class="btn-item">采购</div>
                     <div @click="showShare(item)" class="btn-item">分享</div>
                     <div @click="showBtnBox(item)" class="btn-item">
-                        <m-icon class="fs36"  link="icon-more"></m-icon>
+                        <div class="btn-item-icon-box" layout="row" layout-align="center center">
+                            <m-icon class="fs48"  link="icon-more"></m-icon>
+                        </div>
                         <div v-if="item.showBtnBox" class="btn-fixed">
                             <div layout="row">
                                 <div @click="disshelvePromotion(item)" v-if="item.status == '2'" class="btn-fixed-item" layout="row" layout-align="center center">
                                     <div>
                                         <div class="icon-box" layout="column" layout-align="center center">
-                                            <m-icon  link="icon-xiajia"></m-icon>
+                                            <m-icon link="icon-xiajia"></m-icon>
                                         </div>
                                         <div class="m-t-1 extra-black">下架</div>
                                     </div>
@@ -93,7 +95,7 @@
                                 <div  @click="goCollectDetail(item)" v-if="item.status == '3'" class="btn-fixed-item" layout="row" layout-align="center center">
                                     <div>
                                         <div class="icon-box" layout="column" layout-align="center center">
-                                            <m-icon  link="icon-fabuicon"></m-icon>
+                                            <m-icon link="icon-fabuicon"></m-icon>
                                         </div>
                                         <div class="m-t-1 extra-black">上架</div>
                                     </div>
@@ -101,7 +103,7 @@
                                 <div @click="goCollectDetail(item)" class="btn-fixed-item" layout="row" layout-align="center center">
                                     <div>
                                         <div class="icon-box" layout="column" layout-align="center center">
-                                            <m-icon  link="icon-bianji1"></m-icon>
+                                            <m-icon class="m-l-1"  link="icon-bianji1"></m-icon>
                                         </div>
                                         <div class="m-t-1 extra-black">编辑</div>
                                     </div>
@@ -339,14 +341,17 @@ export default {
                 padding: 2px 0;
                 background: @white;
                 border-radius:2px;
-                border:1px solid rgba(102,102,102,1);
+                border:1px solid #ccc;
                 text-align:center;
+                .btn-item-icon-box{
+                    max-height:18px;
+                }
             }
             .btn-fixed{
                 position: absolute;
                 bottom: 26px;
                 right:0;
-                padding: 12px;
+                padding: 12px 0;
                 background: #fff;
                 box-shadow:0px 3px 8px 0px rgba(49,77,83,0.28);
                 border-radius: 2px;

@@ -7,7 +7,7 @@
                     <div flex></div>
                     <div>
                         <span v-if="item.status == '1'" class="color-gray">草稿</span>
-                        <span v-if="item.status == '2'" class="color-primary">已上架</span>
+                        <span v-if="item.status == '2'" class="color-primary">上架中</span>
                         <span v-if="item.status == '3'" class="color-gray">已下架</span>
                     </div>
                 </div>
@@ -29,7 +29,9 @@
                     <div @click="goOrder(item)" class="btn-item">采购</div>
                     <div @click="showShare(item)" class="btn-item">分享</div>
                     <div @click="showBtnBox(item)" class="btn-item">
-                        <m-icon class="fs36"  link="icon-more"></m-icon>
+                        <div class="btn-item-icon-box">
+                            <m-icon class="fs36"  link="icon-more"></m-icon>
+                        </div>
                         <div v-if="item.showBtnBox" class="btn-fixed">
                             <div layout="row">
                                 <div @click="disshelvePromotion(item)" v-if="item.status == '2'" class="btn-fixed-item" layout="row" layout-align="center center">
@@ -51,7 +53,7 @@
                                 <div @click="goCollectDetail(item)" class="btn-fixed-item" layout="row" layout-align="center center">
                                     <div>
                                         <div class="icon-box" layout="column" layout-align="center center">
-                                            <m-icon  link="icon-bianji1"></m-icon>
+                                            <m-icon class="m-l-1" link="icon-bianji1"></m-icon>
                                         </div>
                                         <div class="m-t-1 extra-black">编辑</div>
                                     </div>
@@ -238,14 +240,17 @@ export default {
                 padding: 2px 0;
                 background: @white;
                 border-radius:2px;
-                border:1px solid rgba(102,102,102,1);
+                border:1px solid #ccc;
                 text-align:center;
+                .btn-item-icon-box{
+                    max-height:18px;
+                }
             }
             .btn-fixed{
                 position: absolute;
                 bottom: 26px;
                 right:0;
-                padding: 12px;
+                padding: 12px 0;
                 background: #fff;
                 box-shadow:0px 3px 8px 0px rgba(49,77,83,0.28);
                 border-radius: 2px;
