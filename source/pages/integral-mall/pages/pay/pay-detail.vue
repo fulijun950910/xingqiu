@@ -246,6 +246,7 @@ export default {
             this.caculateDiscountMoney();
         },
         clickToVoucher(data, coupon) {
+            debugger;
             this.changeDouAmount();
             this.voucher = {};
             this.voucherDiscountMoney = 0;
@@ -310,14 +311,14 @@ export default {
         changeDouAmount() {
             if (this.payDetail.payDoudouAmount > this.account.doudouBalance) {
                 this.$toast('账户豆豆不足哦~');
-                if (this.payDetail.payDoudouAmount > this.item.price / 10) {
-                    this.payDetail.payDoudouAmount = this.item.price / 10;
+                if (this.payDetail.payDoudouAmount > this.item.price / 10 * this.payDetail.quantity) {
+                    this.payDetail.payDoudouAmount = this.item.price / 10 * this.payDetail.quantity;
                 } else {
                     this.payDetail.payDoudouAmount = this.account.doudouBalance;
                 };
             }
-            if (this.payDetail.payDoudouAmount > this.item.price / 10) {
-                this.payDetail.payDoudouAmount = this.item.price / 10;
+            if (this.payDetail.payDoudouAmount > this.item.price / 10 * this.payDetail.quantity) {
+                this.payDetail.payDoudouAmount = this.item.price / 10 * this.payDetail.quantity;
                 this.$toast('豆豆虽多，不要贪用哦~');
             }
             let tempPayDetail = this.payDetail;
