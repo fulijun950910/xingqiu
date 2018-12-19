@@ -168,7 +168,6 @@ export default {
             this.isShowShare2 = true;
         },
         alert() {
-            this.length = this.$refs.text.value.length;
         },
         conso() {
         },
