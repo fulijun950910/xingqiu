@@ -1,7 +1,21 @@
 <template>
     <div class="cp-all-panel">
-        <div class="cp-query-cent">
-
+        <div class="cp-query-cent"
+             layout="row"
+             layout-align="start start">
+            <div flex
+                 layout="row"
+                 layout-align="start start"
+                 flex-wrap="wrap"
+                 class="p-l-4 p-b-2">
+                <div class="cp-chip"
+                     v-for="item in 1"
+                     :key="item">2019-10-20 <m-icon link="icon-close"></m-icon>
+                </div>
+            </div>
+            <div class="m-r-4 p-b-3 color-primary">
+                筛选 <m-icon link="icon-weibiaoti34"></m-icon>
+            </div>
         </div>
         <div class="cp-cont">
             <div class="cp-card">
@@ -16,13 +30,24 @@
                     <m-icon link="icon-weibiaoti34"></m-icon>
                 </div>
             </div>
-            <div class="cp-arr"></div>
+            <div class="cp-arr">
+                <m-icon link="icon-arrow-down"></m-icon>
+            </div>
             <div class="cp-card">
                 <div class="cp-head no-line fwb">考勤人数占比</div>
                 <v-chart class="cp-charts"
                          :options="chartOptions" />
-                <div class="cp-legend">
-
+                <div class="cp-legend"
+                     layout="row"
+                     layout-align="space-around center">
+                    <div v-for="(item, index) in chartOptions.series[0].data"
+                         :key="index"
+                         class="cp-title"
+                         layout="row"
+                         layout-align="start center">
+                        <div :style="{background: chartOptions.color[index]}"></div>
+                        <div class="extra-light-black">{{item.name}}</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -34,7 +59,7 @@ import ECharts from 'vue-echarts/components/ECharts.vue';
 import 'echarts/lib/chart/pie';
 Vue.component('v-chart', ECharts);
 export default {
-    name: '',
+    name: 'statistics-all',
     mixins: [],
     props: {},
     components: {},
@@ -42,10 +67,6 @@ export default {
     data() {
         return {
             chartOptions: {
-                tooltip: {
-                    trigger: 'item',
-                    formatter: '{a} <br/>{b}: {c} ({d}%)'
-                },
                 series: [
                     {
                         type: 'pie',
@@ -103,12 +124,23 @@ export default {
 .cp-all-panel {
     .cp-query-cent {
         background-color: white;
+        .cp-chip {
+            font-size: 12px;
+            background: rgba(224, 155, 210, 0.07);
+            padding: 4px 8px;
+            color: @color-primary;
+            line-height: 1.5;
+            margin-right: 12px;
+            margin-bottom: 4px;
+            border-radius: 2px; /*no*/
+        }
     }
     .cp-line-b {
         border-bottom: 1px solid @light-gray; /*no*/
     }
     .cp-cont {
         padding: 16px;
+        padding-bottom: 80px;
     }
     .cp-card {
         border-radius: 4px;
@@ -136,10 +168,24 @@ export default {
         height: 300px;
     }
     .cp-arr {
-        width: 38px;
-        height: 38px;
-        margin-top: 12px;
-        margin-bottom: 28px;
+        width: 24px;
+        height: 24px;
+        text-align: center;
+        box-sizing: content-box;
+        line-height: 24px;
+        margin: 20px auto 36px auto;
+        background-color: white;
+        opacity: 0.3;
+        border-radius: 50%;
+    }
+    .cp-title {
+        margin-bottom: 36px;
+        :nth-child(1) {
+            border-radius: 50%;
+            width: 8px;
+            height: 8px;
+            margin-right: 4px;
+        }
     }
 }
 </style>
