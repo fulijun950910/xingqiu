@@ -2,22 +2,26 @@
     <div class="cp-all-panel">
         <div class="cp-query-cent"
              layout="row"
-             layout-align="start start">
+             layout-align="start start"
+             ref="queryEl">
             <div flex
                  layout="row"
                  layout-align="start start"
                  flex-wrap="wrap"
                  class="p-l-4 p-b-2">
                 <div class="cp-chip"
-                     v-for="item in 1"
-                     :key="item">2019-10-20 <m-icon link="icon-close"></m-icon>
+                     v-for="(item, index) in params.rows"
+                     @click="remvoeItem(index)"
+                     :key="index">2019-10-20 <m-icon link="icon-close"></m-icon>
                 </div>
             </div>
-            <div class="m-r-4 p-b-3 color-primary">
+            <div class="m-r-4 p-b-3 color-primary"
+                 @click="showQuery">
                 筛选 <m-icon link="icon-weibiaoti34"></m-icon>
             </div>
         </div>
-        <div class="cp-cont">
+        <div class="cp-cont"
+             :style="{ paddingTop: top }">
             <div class="cp-card">
                 <div class="cp-head fwb">考勤人数 80 人</div>
                 <div v-for="(item, index) in 5"
@@ -66,6 +70,10 @@ export default {
     computed: {},
     data() {
         return {
+            top: '',
+            params: {
+                rows: []
+            },
             chartOptions: {
                 series: [
                     {
@@ -103,6 +111,13 @@ export default {
             }
         };
     },
+    watch: {
+        'params.rows': () => {
+            this.$nextTick(_ => {
+                this.top = this.$refs.queryEl.getBoundingClientRect().height + this.$refs.queryEl.getBoundingClientRect().top + 16 + 'px';
+            });
+        }
+    },
     mounted() {
         this.loadData();
     },
@@ -115,7 +130,11 @@ export default {
                 { value: 310, name: '早退' },
                 { value: 135, name: '打卡异常' }
             ];
-        }
+        },
+        remvoeItem(index) {
+            this.params.rows.splice(index, 1);
+        },
+        showQuery() {}
     }
 };
 </script>
@@ -123,10 +142,16 @@ export default {
 @import '~@/styles/_agile';
 .cp-all-panel {
     .cp-query-cent {
+        top: 60px;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        position: fixed;
         background-color: white;
+        box-shadow: 0px 3px 8px 0px rgba(49, 77, 83, 0.28);
         .cp-chip {
             font-size: 12px;
-            background: rgba(224, 155, 210, 0.07);
+            background: rgba(180, 77, 206, 0.1);
             padding: 4px 8px;
             color: @color-primary;
             line-height: 1.5;
@@ -141,6 +166,7 @@ export default {
     .cp-cont {
         padding: 16px;
         padding-bottom: 80px;
+        padding-top: 98+16px;
     }
     .cp-card {
         border-radius: 4px;
@@ -168,17 +194,33 @@ export default {
         height: 300px;
     }
     .cp-arr {
-        width: 24px;
-        height: 24px;
+        width: 38px;
+        height: 38px;
         text-align: center;
         box-sizing: content-box;
-        line-height: 24px;
-        margin: 20px auto 36px auto;
-        background-color: white;
-        opacity: 0.3;
+        line-height: 38px;
+        margin: 16px auto 32px auto;
+        background: rgba(236, 190, 247, 0.1);
         border-radius: 50%;
+        position: relative;
+        &::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 8px;
+            right: 8px;
+            bottom: 8px;
+            border-radius: 50%;
+            background: rgba(245, 204, 255, 0.3);
+            z-index: 0;
+        }
+        .icon {
+            position: relative;
+            color: #da80f1;
+        }
     }
     .cp-title {
+        margin-top: 20px;
         margin-bottom: 36px;
         :nth-child(1) {
             border-radius: 50%;

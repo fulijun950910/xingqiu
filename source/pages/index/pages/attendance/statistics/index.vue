@@ -17,7 +17,9 @@
                 </div>
             </div>
         </div>
-        <router-view></router-view>
+        <keep-alive>
+            <router-view></router-view>
+        </keep-alive>
     </div>
 </template>
 <script>
@@ -44,33 +46,39 @@ export default {
 <style lang="less">
 @import '~@/styles/_agile';
 .statistics-panel {
-    background: linear-gradient(91deg, #fafafa00 0%, #faf0ee 100%), linear-gradient(287deg, #ffffff00 0%, #e7f1f9 100%);
+    background: @color-bg;
     min-height: 100vh;
     .cp-header {
+        top: 0;
+        left: 0;
+        right: 0;
+        position: fixed;
         background-color: white;
         padding: 0 16px 20px 16px;
+        z-index: 2;
+        height: 60px;
     }
     .cp-item {
-        font-size: 16px;
         width: 60px;
-        text-align: center;
-        line-height: 40px;
         color: @gray;
+        font-size: 16px;
+        line-height: 40px;
+        text-align: center;
         position: relative;
         .cp-item-lien {
-            position: absolute;
             left: 0;
             right: 0;
             bottom: 0;
             height: 3px;
+            position: absolute;
             border-radius: 3px;
         }
         &-s {
             color: @color-primary;
         }
         &-s .cp-item-lien {
-            background: linear-gradient(162deg, @color-primary 0%, #7d2072 100%);
-            box-shadow: 0px 1px 4px 0px #a63a905c;
+            background-color: @color-primary;
+            box-shadow: 0px 2px 7px 0px rgba(164, 58, 142, 0.36);
         }
     }
     .cp-line {

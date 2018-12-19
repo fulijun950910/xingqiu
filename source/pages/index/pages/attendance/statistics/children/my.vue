@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div class="asm-my-panel">
         my
     </div>
 </template>
@@ -19,4 +19,6 @@ export default {
 </script>
 <style lang="less">
 @import '~@/styles/_agile';
+.asm-my-panel {
+}
 </style>
