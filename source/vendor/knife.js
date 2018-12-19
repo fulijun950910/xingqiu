@@ -313,6 +313,27 @@ export default {
         }
         return fmt;
     },
+    getPermission: function(item) {
+        var flag = false;
+        var employee = window.localStorage.getItem('employee');
+        var arr = [];
+        if (employee) {
+            employee = JSON.parse(employee);
+            if (employee.merchantRole && employee.merchantRole.permissionPackage && employee.merchantRole.permissionPackage.permissions) {
+                arr = employee.merchantRole.permissionPackage.permissions;
+            }
+        }
+        if (arr && arr.length > 0) {
+            var len = arr.length;
+            for (var i = 0; i < len; i++) {
+                if (item == arr[i]) {
+                    flag = true;
+                    break;
+                }
+            }
+        }
+        return flag;
+    },
     // 左填充 0
     padLeftZero(str) {
         return ('00' + str).substr(str.length);

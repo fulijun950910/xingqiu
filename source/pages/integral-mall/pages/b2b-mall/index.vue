@@ -192,7 +192,11 @@ export default {
         qrcode
     },
     mounted() {
-        this.init();
+        if (this.$knife.getPermission('purchase_mall_setting')) {
+            this.init();
+        } else {
+            window.history.back();
+        }
     },
     methods: {
         async init() {
