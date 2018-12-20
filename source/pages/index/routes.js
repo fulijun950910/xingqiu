@@ -42,6 +42,10 @@ const memberDetail = resolve => require(['./pages/member/member-detail'], resolv
 const Attendance = resolve => require(['./pages/attendance/Attendance'], resolve);
 const Approval = resolve => require(['./pages/attendance/Approval'], resolve);
 const newMember = resolve => require(['./pages/member/newMember'], resolve);
+const statistics = resolve => require(['./pages/attendance/statistics/index'], resolve);
+const statisticsAll = resolve => require(['./pages/attendance/statistics/children/all'], resolve);
+const statisticsMy = resolve => require(['./pages/attendance/statistics/children/my'], resolve);
+
 const qrconfirm = resolve => require(['./pages/qrconfirm/index'], resolve);
 
 export default [
@@ -275,6 +279,29 @@ export default [
         name: 'newMember',
         component: newMember,
         meta: { auth: true, level: 1 }
+    },
+    {
+        path: '/statistics',
+        component: statistics,
+        meta: { auth: true },
+        children: [
+            {
+                path: '/',
+                redirect: 'all'
+            },
+            {
+                path: 'all',
+                name: 'statistics-all',
+                component: statisticsAll,
+                meta: { auth: true }
+            },
+            {
+                path: 'my',
+                name: 'statistics-my',
+                component: statisticsMy,
+                meta: { auth: true }
+            }
+        ]
     },
     {
         path: '/qrconfirm',
