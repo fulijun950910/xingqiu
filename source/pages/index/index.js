@@ -126,7 +126,8 @@ router.beforeEach(async ({ meta, path }, from, next) => {
         }
     }
     try {
-        window._hmt.push(['_trackPageview', '/service/index.html' + location.hash]);
+        let url = location.href.split('.com')[1];
+        if (url) window._hmt.push(['_trackPageview', url]);
     } catch (e) {}
 });
 
