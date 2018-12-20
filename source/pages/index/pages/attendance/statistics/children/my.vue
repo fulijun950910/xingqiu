@@ -4,11 +4,13 @@
              layout="row"
              layout-align="start center"
              ref="queryEl">
-            <div class="asm-arr-btn">
+            <div class="asm-arr-btn"
+                 @click="changeDate(-1)">
                 <m-icon link="icon-left-bold"></m-icon>
             </div>
-            <strong class="fs32">2018.10</strong>
-            <div class="asm-arr-btn">
+            <strong class="fs32">{{params.date | amDateFormat('YYYY.MM')}}</strong>
+            <div class="asm-arr-btn"
+                 @click="changeDate(1)">
                 <m-icon link="icon-right-bold"></m-icon>
             </div>
             <div flex></div>
@@ -19,7 +21,20 @@
         </div>
         <div class="asm-cont">
             <div class="asm-card">
-                TODO: 日历
+                <div class="asm-week-cont"
+                     layout="row"
+                     flex-wrap="wrap">
+                    <div class="asm-date-item"
+                         v-for="(item, index) in weeks"
+                         :key="index">{{item}}</div>
+                </div>
+                <div class="asm-day-cont"
+                     layout="row"
+                     flex-wrap="wrap">
+                    <div class="asm-date-item"
+                         v-for="(item, index) in days"
+                         :key="index">{{item.label}}</div>
+                </div>
             </div>
             <div class="asm-card">
                 <strong>我的排班</strong>
@@ -58,10 +73,51 @@ export default {
     components: {},
     computed: {},
     data() {
-        return {};
+        return {
+            today: this.$moment().startOf('d'),
+            weeks: [],
+            days: [],
+            params: {
+                date: this.$moment().startOf('M')
+            }
+        };
     },
-    mounted() {},
-    methods: {}
+    mounted() {
+        this.loadWeeks();
+        this.loadDays(this.params.date);
+    },
+    methods: {
+        loadWeeks() {
+            this.weeks = ['一', '二', '三', '四', '五', '六', '日'];
+        },
+        loadDays(date) {
+            let rows = [];
+            let lastDay = date.daysInMonth();
+            let weekday = date.weekday();
+            for (let index = 0; index < lastDay; index++) {
+                let m = this.$moment(date).add(index, 'd');
+                rows.push({
+                    value: m,
+                    label: m.isSame(this.today, 'day') ? '今' : m.format('D')
+                });
+            }
+            for (let index = 0; index < weekday; index++) {
+                rows.unshift('');
+            }
+            let fill = this.$moment(date)
+                .endOf('M')
+                .isoWeekday();
+            fill = 7 - fill;
+            for (let index = 0; index < fill; index++) {
+                rows.push('');
+            }
+            this.days = rows;
+        },
+        changeDate(val) {
+            this.params.date.add(val, 'M');
+            this.loadDays(this.params.date);
+        }
+    }
 };
 </script>
 <style lang="less" scoped>
@@ -137,6 +193,25 @@ export default {
             top: 0;
             height: 6px;
             bottom: auto;
+        }
+    }
+    .asm-week-cont {
+        .asm-date-item {
+            color: @extra-black;
+        }
+    }
+    .asm-date-item {
+        -webkit-flex: 1 1 14.285%;
+        flex: 1 1 14.285%;
+        max-width: 14.285%;
+        max-height: 100%;
+        text-align: center;
+        min-height: 45px;
+        line-height: 45px;
+        &-s {
+            border-radius: 4px;
+            background-color: @color-primary;
+            color: white;
         }
     }
 }
