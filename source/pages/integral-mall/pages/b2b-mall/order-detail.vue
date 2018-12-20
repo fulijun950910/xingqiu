@@ -248,7 +248,7 @@ export default {
         },
         async payOrder() {
             this.$indicator.open();
-            let res = await api_b2bmall.cancelOrder(this.orderData.id);
+            let res = await api_b2bmall.payOrder(this.orderData.id);
             this.$indicator.close();
             this.wxPay(res.data.supplierOrderWxPay);
         },
