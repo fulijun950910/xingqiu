@@ -3,6 +3,7 @@
         <div id="tmpl-index" class="index">
         </div>
     </div>
+
     <!-- 管理员 -->
     <script type="text/html" id="tmpl-index-admin-model">
         <div class="header">
@@ -126,6 +127,7 @@
                 </a>
             </div>
         </div>
+        <div class="swiper-container-box"></div>
         <div class="card-list">
             <a href="javascript:" class="card-box card-box-4" layout="row" layout-align="space-between center">
                 <div>
@@ -368,6 +370,7 @@
                 </a>
             </div>
         </div>
+        <div class="swiper-container-box"></div>
         <div style="height: 8px;"></div>
         <!--     </div> -->
         <!-- 切换门店 -->
@@ -441,4 +444,16 @@
         </div>
         <!--    </div> -->
     </script>
+<script type="text/html" id="swiper-container-box">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <!--% for (var i=0; i <o.length; i++) { %-->
+            <div onclick="app.index.adBannerClick({%=JSON.stringify(o[i]) %})" class="swiper-slide">
+                <img src="{%=app.filePath + o[i].image %}" onerror="this.src='images/404.png'">
+            </div>
+            <!--% } %-->
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</script>
 </script>

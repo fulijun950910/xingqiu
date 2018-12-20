@@ -95,6 +95,14 @@ app.api.index = {
             return result;
         }
     },
+    getAdlistBanner: function(settings) {
+        app.api.ajax({
+            url: '/ads/listBanner/' + settings.data.postion + '/' + settings.data.userId,
+            type: 'get',
+            success: settings.success,
+            error: settings.error
+        });
+    },
     personalNoun: function(settings) {
         app.api.ajax({
             url: '/nounConfig/list/' + settings.data,

@@ -291,10 +291,10 @@ app.index = {
         memberData.permissionsPackge = {
             isShowWechat: app.tools.getPermission('wechat_business_wechat')
         }
-        console.log(memberData);
         var resultTmpl = tmpl(tmplhtml, memberData);
         $('#tmpl-index').html(resultTmpl);
 
+        app.index.locadAdBanner(); // 门店绑定事件
         app.index.initStoreList(); // 门店绑定事件
         app.index.initDate(memberData.dataType); // 日期绑定事件
         app.index.initCystomDate(memberData.dataType); // 自定义日期绑定事件
@@ -346,13 +346,40 @@ app.index = {
         $('.index .storeList').find('.store_name').text(app.tools.sliceStr($('.index .storeList').find('.store_name').text(), 14));
 
     },
+    locadAdBanner: function() {
+        var employee = null;
+        if (localStorage.employee && JSON.parse(localStorage.employee)) {
+            employee = JSON.parse(localStorage.employee);
+        }
+        app.api.index.getAdlistBanner({
+            data: {
+                postion: 20003,
+                userId: employee.party.id
+            },
+            success: function(res) {
+                if (res.success && res.data && res.data.length > 0) {
+                    var tmplhtml = $('#swiper-container-box').html();
+                    var resultTmpl = tmpl(tmplhtml, res.data);
+                    $('.swiper-container-box').html(resultTmpl);
+                    var mySwiper = new Swiper('.swiper-container', {
+                        pagination: '.swiper-pagination',
+                        autoplay: 2000, //可选选项，自动滑动
+                        autoplayDisableOnInteraction: false,
+                    });
+                }
+            }
+        });
+    },
+    adBannerClick(item) {
+        if (item.url) {
+            window.location.href = item.url;
+        }
+    },
     performance: function(result, type) {
         var employee = null;
         if (localStorage.employee && JSON.parse(localStorage.employee)) {
             employee = JSON.parse(localStorage.employee);
         }
-        
-
         var data = {
             'merchantId': employee.merchantId,
             'employeeId': employee.id,
@@ -616,3 +643,4 @@ app.index = {
         });
     }
 };
+
