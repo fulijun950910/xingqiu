@@ -447,9 +447,9 @@ export default {
         .gift-title {
             span {
                 margin: 0 15px;
-                background: linear-gradient(to bottom, #E0C25B, #CA6841);
-                -webkit-background-clip: text;
-                color: transparent;
+                // background: linear-gradient(to bottom, #E0C25B, #CA6841);
+                // -webkit-background-clip: text;
+                color: #f7b038;
             }
             img {
                 width: 15px;
