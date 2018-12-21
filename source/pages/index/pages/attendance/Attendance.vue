@@ -8,7 +8,7 @@
             </div>
             <div class="Statistics" layout="row" layout-align="center center" @click="GetAdreess">
                 <m-icon class="ic" link="icon-dianzan"></m-icon>
-                <p @click="this.GetAdreess()">统计</p>
+                <p @click="this.GetAdreess">统计</p>
             </div>
         </div>
         <span>{{time2}}</span>
@@ -182,6 +182,7 @@ export default {
                     success: function(res) {
                         this.latitude = res.latitude;
                         this.longitude = res.longitude;
+                        this.$toast('this.latitude', 'this.longitude');
                     }
                 });
             });
