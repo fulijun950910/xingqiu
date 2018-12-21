@@ -7,9 +7,7 @@
             <img class="file" ref="file" :src="url" alt="">
             <div class="imgView" ref="imgView">
                 <div class="imgViewBox" ref="imgViewBox">
-                    <svg class="icon exchange-proportion" aria-hidden="true" @click.stop="exchangeProportion">
-                        <use xlink:href="#icon-exchange"></use>
-                    </svg>
+                    <m-icon link="icon-exchange"></m-icon>
                     <img class="file" ref="file2" :src="url" alt="">
                 </div>
             </div>
@@ -510,7 +508,8 @@ export default {
                 background:fade(white,10%);
             }
             position:absolute;
-            bottom:0;
+            bottom:env(safe-area-inset-bottom);
+            bottom: constant(safe-area-inset-bottom);
             left:0;
             z-index:5;
             width:100%;

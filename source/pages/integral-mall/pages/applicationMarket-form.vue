@@ -19,7 +19,7 @@
                 <div class="label fs28 color-black fwb">适用门店</div>
                 <div flex>
                     <div layout="row" :class="{'color-tiffany-blue' : checkStoreSelect(item),'no-border' :index == storeList.length - 1}" layout-align="start center" @click="clickChooseSpecCode(item, 1)" v-for="(item, index) in storeList" :key="index" class="p-t-3 p-b-3 select-li">
-                        <m-icon class="fs36 m-r-2" xlink="#icon-gouicon1"></m-icon>
+                        <m-icon class="fs36 m-r-2" link="icon-gouicon1"></m-icon>
                         <span class="fs24">{{item.name}}</span>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                 <div flex>
                     <div layout="row" :class="{'color-tiffany-blue' : item.specCode == baseParameter.specCode}" layout-align="space-between center" @click="clickChooseSpecCode(item, 3)" v-for="(item, index) in contractTime" :key="index" class="p-t-3 p-b-3 select-li">
                         <span class="fs24">{{item.specName}}(￥{{item.price | fen2yuan}})</span>
-                        <m-icon class="fs32" v-if="item.specCode == baseParameter.specCode" xlink="#icon-check__"></m-icon>
+                        <m-icon class="fs32" v-if="item.specCode == baseParameter.specCode" link="icon-check__"></m-icon>
                     </div>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                     <div flex>
                         <div layout="row" layout-align="space-between center" @click="clickChooseSpecCode(storeType, 2, item)" v-for="(storeType, index) in relationType" :key="index" class="p-t-3 p-b-3 select-li">
                             <span class="fs24">{{storeType.name}}</span>
-                            <m-icon class="fs32 color-tiffany-blue" v-if="storeType.value == item.relationType" xlink="#icon-check__"></m-icon>
+                            <m-icon class="fs32 color-tiffany-blue" v-if="storeType.value == item.relationType" link="icon-check__"></m-icon>
                         </div>
                     </div>
                 </div>
@@ -65,12 +65,12 @@
                     <div class="label fs28 color-black fwb m-b-2">规格</div>
                 <div layout="row" :class="{'color-tiffany-blue' : item.specCode == time.specCode,'border-b' : timeIndex != contractTime.length - 1}" layout-align="space-between center" @click="clickChooseSpecCode(item, 4,time)" v-for="(time, timeIndex) in contractTime" :key="timeIndex" class="p-t-3 p-b-3 select-li">
                     <span class="fs24">{{time.specName}}(￥{{time.price | fen2yuan}})</span>
-                    <m-icon class="fs32" v-if="item.specCode == time.specCode" xlink="#icon-check__"></m-icon>
+                    <m-icon class="fs32" v-if="item.specCode == time.specCode" link="icon-check__"></m-icon>
                 </div>
                 </div>
 
                 <div flex class="text-center m-t-3 m-b-3 del-btn" layout="row" layout-align="center center" @click="removeStore(index)" v-if="addStoreData.length > 1">
-                    <m-icon class="fs28 color-tiffany-blue" xlink="#icon-shanchu1"></m-icon>
+                    <m-icon class="fs28 color-tiffany-blue" link="icon-shanchu1"></m-icon>
                 </div>
             </div>
         </div>
@@ -78,7 +78,7 @@
     <div class="add-tradeItemSpecList p-4 m-b-3" layout="row" v-if="formType == 3" layout-align="center center" @click="add">
         <div layout="row" layout-align="center center">
             增加门店&nbsp;&nbsp;
-            <m-icon class="fs24" xlink="#icon-jia"></m-icon>
+            <m-icon class="fs24" link="icon-jia"></m-icon>
         </div>
         <div layout="row" layout-align="center center" flex-offset="5">
 

@@ -20,7 +20,7 @@
             请选择收货地址
         </div>
         <div flex="20" layout="row" layout-align="end center">
-            <m-icon class="fs40 color-gray" xlink="#icon-zuojiantou"></m-icon>
+            <m-icon class="fs40 color-gray" link="icon-zuojiantou"></m-icon>
         </div>
     </div>
     <div flex>
@@ -52,9 +52,9 @@
             <div layout="row" class="m-b-3" layout-align="space-between start" v-if="type != 1">
                 <div flex="80">
                     <div class="fs28 extra-light-black">美豆豆数量</div>
-                    <div class="fs28 extra-light-black">您共有<span class="color-black">{{account.doudouBalance}}</span>美豆豆，可<span class="color-pink">抵￥{{account.doudouBalance | dou2yuan}}</span><m-icon class="fs30" xlink="#icon-xunwen"></m-icon></div>
+                    <div class="fs28 extra-light-black">您共有<span class="color-black">{{account.doudouBalance}}</span>美豆豆，可<span class="color-pink">抵￥{{account.doudouBalance | dou2yuan}}</span><m-icon class="fs30" link="icon-xunwen"></m-icon></div>
                     </div>
-                <div class="color-black"><input class="input-style p-1 tetx-center" @change="changeDouAmount" pattern="[0-9]*" v-model="payDetail.payDoudouAmount" type="number"></div>
+                <div class="color-black"><input class="input-style p-1 tetx-center" @change="changeDouAmount" pattern="[0-9]*" v-model="payDetail.payDoudouAmount" type="number" @blur="scrollTo0"></div>
             </div>
             <div flex @click="clickToVoucher">
                 <div flex layout="row" layout-align="space-between center">
@@ -65,7 +65,7 @@
                         </div>
                     <div class="fwb fs28" v-if="voucherDiscountMoney && !voucher">优惠{{voucherDiscountMoney | fen2yuan}}</div>
                     <div class="fwb fs28" v-if="!voucherDiscountMoney">{{couponList.length > 0 ? '点击选择优惠券' : '无可用'}}</div>&nbsp;&nbsp;
-                    <m-icon class="fs36" xlink="#icon-gengduoicon"></m-icon>
+                    <m-icon class="fs36" link="icon-gengduoicon"></m-icon>
                     </div>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                 <div flex="80">
                     <div class="fs28 extra-light-black">商品总价</div>
                     </div>
-                <div class="color-black">￥{{item.price | fen2yuan}}</div>
+                <div class="color-black">￥{{item.price * payDetail.quantity | fen2yuan}}</div>
             </div>
              <div layout="row" class="m-b-3" v-if="type != 1" layout-align="space-between center">
                 <div flex="80">
@@ -96,7 +96,7 @@
                 <div class="color-black fs40 color-pink">￥{{payDetail.payMoney | fen2yuan}}</div>
             </div>
             <div flex class="textarea">
-               <textarea class="p-1" v-model="payDetail.remark" placeholder="备注"></textarea>
+               <textarea class="p-1" v-model="payDetail.remark" placeholder="备注" @blur="scrollTo0"></textarea>
             </div>
         </div>
         <div layout="row" layout-align="space-between center" class="p-t-3">
@@ -246,6 +246,7 @@ export default {
             this.caculateDiscountMoney();
         },
         clickToVoucher(data, coupon) {
+            debugger;
             this.changeDouAmount();
             this.voucher = {};
             this.voucherDiscountMoney = 0;
@@ -310,14 +311,14 @@ export default {
         changeDouAmount() {
             if (this.payDetail.payDoudouAmount > this.account.doudouBalance) {
                 this.$toast('账户豆豆不足哦~');
-                if (this.payDetail.payDoudouAmount > this.item.price / 10) {
-                    this.payDetail.payDoudouAmount = this.item.price / 10;
+                if (this.payDetail.payDoudouAmount > this.item.price / 10 * this.payDetail.quantity) {
+                    this.payDetail.payDoudouAmount = this.item.price / 10 * this.payDetail.quantity;
                 } else {
                     this.payDetail.payDoudouAmount = this.account.doudouBalance;
                 };
             }
-            if (this.payDetail.payDoudouAmount > this.item.price / 10) {
-                this.payDetail.payDoudouAmount = this.item.price / 10;
+            if (this.payDetail.payDoudouAmount > this.item.price / 10 * this.payDetail.quantity) {
+                this.payDetail.payDoudouAmount = this.item.price / 10 * this.payDetail.quantity;
                 this.$toast('豆豆虽多，不要贪用哦~');
             }
             let tempPayDetail = this.payDetail;
@@ -472,6 +473,9 @@ export default {
             this.confirm.message = this.payDetail.payDoudouAmount > 0 ? `您已经使用豆豆抵扣${Number(this.payDetail.payDoudouAmount / 10).toFixed(2)}元，是否清空已支付豆豆继续线下支付？` : '确认线下支付？';
             this.confirm.confirm = this.payDetail.payDoudouAmount > 0 ? '保留' : '确定';
             this.confirm.quiet = this.payDetail.payDoudouAmount > 0 ? '清空' : '再考虑下';
+        },
+        scrollTo0() {
+            window.scrollTo(0, 0);
         }
     },
     mounted() {

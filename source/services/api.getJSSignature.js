@@ -119,6 +119,7 @@ export default {
         }
     },
     wxPay(setting) {
+        console.log(setting);
         if (WeixinJSBridge) {   // eslint-disable-line
             WeixinJSBridge.invoke(  // eslint-disable-line
                 'getBrandWCPayRequest', {

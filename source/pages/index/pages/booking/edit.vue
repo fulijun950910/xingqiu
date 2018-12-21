@@ -13,20 +13,20 @@
                 <mt-switch v-model="isMember"></mt-switch>
             </div>
             <div v-if="isMember">
-                <m-cell icon="#icon-xingming1"
+                <m-cell icon="icon-xingming1"
                         title="会员姓名"
                         :subTitle="booking.name"
                         @click.native="popupMemberVisible = true"></m-cell>
-                <m-cell icon="#icon-dianhua1"
+                <m-cell icon="icon-dianhua1"
                         title="会员手机号"
                         :subTitle="booking.phone | mobileHide(showFullMobile)"
                         @click.native="popupMemberVisible = true"></m-cell>
             </div>
             <div v-else>
-                <m-field icon="#icon-xingming1"
+                <m-field icon="icon-xingming1"
                          placeholder="请输入预约人姓名"
                          v-model="customer.name"></m-field>
-                <m-field icon="#icon-dianhua1"
+                <m-field icon="icon-dianhua1"
                          placeholder="请输入预约人手机号"
                          v-model="customer.phone"></m-field>
             </div>
@@ -80,12 +80,12 @@
                      layout-align="space-between center"
                      @click="timeHeadClick(item)">
                     <m-icon class="fs28"
-                            :xlink="item.icon"></m-icon>
+                            :link="item.icon"></m-icon>
                     <div class="be-time-title"
                          flex>{{item.label}}</div>
                     <m-icon class="fs24 be-tt"
                             :class="{rotate180: item.expand}"
-                            xlink="#icon-shangla"></m-icon>
+                            link="icon-shangla"></m-icon>
                 </div>
                 <div layout="row"
                      layout-align="start center"
@@ -151,7 +151,7 @@
                     </div>
                     <m-icon class="fs24 bp-check"
                             v-if="booking.memberId == item.memberId"
-                            xlink="#icon-queding"></m-icon>
+                            link="icon-queding"></m-icon>
                 </div>
                 <m-load-more :loading="!memberQuery.scrollDisabled"></m-load-more>
             </div>
@@ -181,7 +181,7 @@
                     <div flex>{{item.name}}</div>
                     <m-icon class="fs24 bp-check"
                             v-if="booking.storeId == item.id"
-                            xlink="#icon-queding"></m-icon>
+                            link="icon-queding"></m-icon>
                 </div>
             </div>
         </m-popup-right>
@@ -210,7 +210,7 @@
                     <div flex>{{item.name}} {{item.code}}</div>
                     <m-icon class="fs24 bp-check"
                             v-if="booking.employeeId == item.id"
-                            xlink="#icon-queding"></m-icon>
+                            link="icon-queding"></m-icon>
                 </div>
             </div>
         </m-popup-right>
@@ -239,7 +239,7 @@
                     <div flex>{{item.name}}</div>
                     <m-icon class="fs24 bp-check"
                             v-if="booking.roomId == item.id"
-                            xlink="#icon-queding"></m-icon>
+                            link="icon-queding"></m-icon>
                 </div>
             </div>
         </m-popup-right>
@@ -278,6 +278,7 @@ import mTreeSelect from './components/tree-select';
 import mPopupRight from '@/components/popup-right';
 import mLoadMore from '@/components/m-load-more';
 import apiBooking from '@/services/api.booking';
+import mConfirm from '@/components/m-confirm/index';
 Vue.component(Switch.name, Switch);
 Vue.component(Cell.name, Cell);
 Vue.component(Field.name, Field);
@@ -457,9 +458,9 @@ export default {
         initTimes(date) {
             if (!this.times.length) {
                 this.times = [
-                    { label: '上午', expand: false, rows: [], icon: '#icon-shangwu1' },
-                    { label: '下午', expand: false, rows: [], icon: '#icon-xiawu' },
-                    { label: '晚上', expand: false, rows: [], icon: '#icon-wanshang' }
+                    { label: '上午', expand: false, rows: [], icon: 'icon-shangwu1' },
+                    { label: '下午', expand: false, rows: [], icon: 'icon-xiawu' },
+                    { label: '晚上', expand: false, rows: [], icon: 'icon-wanshang' }
                 ];
             } else {
                 this.times.forEach(val => {
@@ -535,19 +536,36 @@ export default {
             // 加载预约数据
             apiBooking.getAppointment({ id: this.$route.params.bookingId }).then(
                 res => {
+                    if (!res.data.employees || res.data.employees.length !== 1) {
+                        // 暂不支持多技师预约编辑
+                        this.$indicator.close();
+                        mConfirm(
+                            {
+                                message: '暂不支持多技师预约编辑',
+                                cancelTitle: ''
+                            },
+                            action => {
+                                if (action === 'confirm') {
+                                    this.$router.go(-1);
+                                }
+                            }
+                        );
+                        return;
+                    }
+                    let emp = res.data.employees[0];
                     this.booking.appointmentId = res.data.id;
                     this.booking.memberType = res.data.memberType;
                     this.booking.memberCount = res.data.memberCount;
-                    this.booking.employeeId = res.data.employeeId;
-                    this.booking.employeeName = res.data.employeeName;
-                    this.booking.roomName = res.data.roomName;
-                    this.booking.startTime = res.data.startTime;
-                    this.booking.endTime = res.data.endTime;
-                    this.booking.items = res.data.itemVos;
                     this.booking.storeId = res.data.storeId;
                     this.booking.merchantId = this.$store.getters.merchantId;
-                    this.booking.roomId = res.data.roomId;
                     this.booking.information = res.data.information;
+                    this.booking.employeeId = emp.employeeId;
+                    this.booking.employeeName = emp.name;
+                    this.booking.roomName = emp.roomName;
+                    this.booking.startTime = emp.startTime;
+                    this.booking.endTime = emp.endTime;
+                    this.booking.items = emp.items;
+                    this.booking.roomId = emp.roomId;
 
                     if (res.data.memberId) {
                         this.booking.memberId = res.data.memberId;
@@ -780,17 +798,19 @@ export default {
                 appointmentId: this.booking.appointmentId,
                 merchantId: this.booking.merchantId,
                 storeId: this.booking.storeId,
-                employeeId: this.empName ? this.booking.employeeId : '',
-                employeeName: this.empName || `未指定${this.$store.getters.nounName('worker')}`,
+                employees: [{
+                    employeeId: this.empName ? this.booking.employeeId : '',
+                    name: this.empName || `未指定${this.$store.getters.nounName('worker')}`,
+                    roomId: this.booking.roomId,
+                    roomName: this.roomName,
+                    items: this.booking.items,
+                    startTime: this.booking.startTime,
+                    endTime: this.$moment(this.booking.startTime)
+                        .add(1, 'h')
+                        .format('YYYY-MM-DD HH:mm:ss')
+                }],
                 information: this.booking.information,
-                items: this.booking.items,
-                memberCount: this.booking.memberCount,
-                roomId: this.booking.roomId,
-                roomName: this.roomName,
-                startTime: this.booking.startTime,
-                endTime: this.$moment(this.booking.startTime)
-                    .add(1, 'h')
-                    .format('YYYY-MM-DD HH:mm:ss')
+                memberCount: this.booking.memberCount
             };
             // 是否会员
             if (this.isMember) {
@@ -803,13 +823,14 @@ export default {
                 params.name = this.customer.name;
                 params.phone = this.customer.phone;
             }
+            let emp = params.employees[0];
             // 结束时间
-            if (params.items.length) {
-                let endTime = this.$moment(params.startTime);
-                params.items.forEach(val => {
+            if (emp.items.length) {
+                let endTime = this.$moment(emp.startTime);
+                emp.items.forEach(val => {
                     endTime.add(val.serviceDuration ? val.serviceDuration : 0, 'm');
                 });
-                params.endTime = endTime.format('YYYY-MM-DD HH:mm:ss');
+                emp.endTime = endTime.format('YYYY-MM-DD HH:mm:ss');
             }
             apiBooking.saveBooking(params).then(
                 res => {

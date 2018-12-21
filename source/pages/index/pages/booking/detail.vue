@@ -21,25 +21,29 @@
                          :class="[`bd-status-${booking.holderStatus}`]">{{booking.holderStatus | getName(BOOKING_STATUS)}}</div>
                 </div>
                 <div class="bd-content">
-                    <div class="fs30">
-                        <span v-for="(item, index) in booking.items"
-                              :key="index">
-                            <span v-if="index">、</span>{{item.name}}
-                        </span>
-                    </div>
-                    <div class="fs30">{{booking.startTime | amDateFormat('HH:mm')}}-{{booking.endTime | amDateFormat('HH:mm')}}</div>
-                    <div class="extra-light-black fs28">
-                        <span>{{booking.employeeName}}</span>
-                        <span v-if="booking.employeeName && booking.roomName">●</span>
-                        <span>{{booking.roomName}}</span>
-                    </div>
-                    <div class="color-gray bd-fs13"
-                         v-if="lastConsumeDetail && lastConsumeDetail.orderDate">上次到店:
-                        <span v-for="(item, index) in lastConsumeDetail.name"
-                              :key="index">
-                            {{item}}
-                        </span>
-                        <span>{{lastConsumeDetail.orderDate | fromnow}}</span>
+                    <div v-for="(emp, index) in booking.employees"
+                         :key="index"
+                         class="p-b-1">
+                        <div class="fs30">
+                            <span v-for="(item, index) in emp.items"
+                                :key="index">
+                                <span v-if="index">、</span>{{item.name}}
+                            </span>
+                        </div>
+                        <div class="fs30">{{emp.startTime | amDateFormat('HH:mm')}}-{{emp.endTime | amDateFormat('HH:mm')}}</div>
+                        <div class="extra-light-black fs28">
+                            <span>{{emp.name}}</span>
+                            <span v-if="emp.name && emp.roomName">●</span>
+                            <span>{{emp.roomName}}</span>
+                        </div>
+                        <div class="color-gray bd-fs13"
+                            v-if="lastConsumeDetail && lastConsumeDetail.orderDate">上次到店:
+                            <span v-for="(item, index) in lastConsumeDetail.name"
+                                :key="index">
+                                {{item}}
+                            </span>
+                            <span>{{lastConsumeDetail.orderDate | fromnow}}</span>
+                        </div>
                     </div>
                 </div>
                 <div class="bd-line"></div>
@@ -65,7 +69,7 @@
                 </div>
                 <div class="bd-close"
                      @click="hidden">
-                    <m-icon xlink="#icon-close"></m-icon>
+                    <m-icon link="icon-close"></m-icon>
                 </div>
             </div>
         </transition>

@@ -1633,7 +1633,7 @@ balanced-match@^1.0.0:
   resolved "http://registry.npm.taobao.org/balanced-match/download/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
 
-base64-arraybuffer@0.1.5:
+base64-arraybuffer@0.1.5, base64-arraybuffer@^0.1.5:
   version "0.1.5"
   resolved "http://registry.npm.taobao.org/base64-arraybuffer/download/base64-arraybuffer-0.1.5.tgz#73926771923b5a19747ad666aa5cd4bf9c6e9ce8"
   integrity sha1-c5JncZI7Whl0etZmqlzUv5xunOg=
@@ -1703,6 +1703,11 @@ binary-extensions@^1.0.0:
   version "1.11.0"
   resolved "http://registry.npm.taobao.org/binary-extensions/download/binary-extensions-1.11.0.tgz#46aa1751fb6a2f93ee5e689bb1087d4b14c6c205"
   integrity sha1-RqoXUftqL5PuXmibsQh9SxTGwgU=
+
+binaryextensions@2:
+  version "2.1.2"
+  resolved "http://registry.npm.taobao.org/binaryextensions/download/binaryextensions-2.1.2.tgz#c83c3d74233ba7674e4f313cb2a2b70f54e94b7c"
+  integrity sha1-yDw9dCM7p2dOTzE8sqK3D1TpS3w=
 
 blob@0.0.4:
   version "0.0.4"
@@ -2722,6 +2727,13 @@ css-declaration-sorter@^3.0.0:
     postcss "^6.0.0"
     timsort "^0.3.0"
 
+css-line-break@1.0.1:
+  version "1.0.1"
+  resolved "http://registry.npm.taobao.org/css-line-break/download/css-line-break-1.0.1.tgz#19f2063a33e95fb2831b86446c0b80c188af450a"
+  integrity sha1-GfIGOjPpX7KDG4ZEbAuAwYivRQo=
+  dependencies:
+    base64-arraybuffer "^0.1.5"
+
 css-loader@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/css-loader/download/css-loader-1.0.0.tgz#9f46aaa5ca41dbe31860e3b62b8e23c42916bf56"
@@ -3199,6 +3211,13 @@ dom-serializer@0:
     domelementtype "~1.1.1"
     entities "~1.1.1"
 
+dom7@^2.1.2:
+  version "2.1.2"
+  resolved "http://registry.npm.taobao.org/dom7/download/dom7-2.1.2.tgz#a914070c0abe8465384997a9c4f34475f67f75bd"
+  integrity sha1-qRQHDAq+hGU4SZepxPNEdfZ/db0=
+  dependencies:
+    ssr-window "^1.0.1"
+
 domain-browser@^1.1.1:
   version "1.2.0"
   resolved "http://registry.npm.taobao.org/domain-browser/download/domain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
@@ -3303,6 +3322,11 @@ echarts@^4.1.0:
   integrity sha1-1YjJX3PBqZKLnHPVt2l1HDGFvNw=
   dependencies:
     zrender "4.0.4"
+
+editions@^1.3.3:
+  version "1.3.4"
+  resolved "http://registry.npm.taobao.org/editions/download/editions-1.3.4.tgz#3662cb592347c3168eb8e498a0ff73271d67f50b"
+  integrity sha1-NmLLWSNHwxaOuOSYoP9zJx1n9Qs=
 
 ee-first@1.1.1:
   version "1.1.1"
@@ -3466,7 +3490,7 @@ escape-html@~1.0.3:
   resolved "http://registry.npm.taobao.org/escape-html/download/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
   integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=
 
-escape-string-regexp@^1.0.0, escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
+escape-string-regexp@^1.0.0, escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.3, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "http://registry.npm.taobao.org/escape-string-regexp/download/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
@@ -4689,6 +4713,15 @@ gulp-match@^1.0.3:
   dependencies:
     minimatch "^3.0.3"
 
+gulp-replace@^1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/gulp-replace/download/gulp-replace-1.0.0.tgz#b32bd61654d97b8d78430a67b3e8ce067b7c9143"
+  integrity sha1-syvWFlTZe414Qwpns+jOBnt8kUM=
+  dependencies:
+    istextorbinary "2.2.1"
+    readable-stream "^2.0.1"
+    replacestream "^4.0.0"
+
 gulp-rev-append@^0.1.8:
   version "0.1.8"
   resolved "http://registry.npm.taobao.org/gulp-rev-append/download/gulp-rev-append-0.1.8.tgz#b2fbd386a1b3e1e3acae06d0aa11410c8c7feea9"
@@ -5016,6 +5049,13 @@ html-webpack-plugin@^3.2.0:
     tapable "^1.0.0"
     toposort "^1.0.0"
     util.promisify "1.0.0"
+
+html2canvas@^1.0.0-alpha.12:
+  version "1.0.0-alpha.12"
+  resolved "http://registry.npm.taobao.org/html2canvas/download/html2canvas-1.0.0-alpha.12.tgz#3b1992e3c9b3f56063c35fd620494f37eba88513"
+  integrity sha1-OxmS48mz9WBjw1/WIElPN+uohRM=
+  dependencies:
+    css-line-break "1.0.1"
 
 htmlparser2@~3.3.0:
   version "3.3.0"
@@ -5732,6 +5772,15 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "http://registry.npm.taobao.org/isstream/download/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
+
+istextorbinary@2.2.1:
+  version "2.2.1"
+  resolved "http://registry.npm.taobao.org/istextorbinary/download/istextorbinary-2.2.1.tgz#a5231a08ef6dd22b268d0895084cf8d58b5bec53"
+  integrity sha1-pSMaCO9t0ismjQiVCEz41Ytb7FM=
+  dependencies:
+    binaryextensions "2"
+    editions "^1.3.3"
+    textextensions "2"
 
 isurl@^1.0.0-alpha5:
   version "1.0.0"
@@ -7200,7 +7249,7 @@ object-assign@^3.0.0:
   resolved "http://registry.npm.taobao.org/object-assign/download/object-assign-3.0.0.tgz#9bedd5ca0897949bca47e7ff408062d549f587f2"
   integrity sha1-m+3VygiXlJvKR+f/QIBi1Un1h/I=
 
-object-assign@^4.0.1, object-assign@^4.1.0:
+object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
   resolved "http://registry.npm.taobao.org/object-assign/download/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
@@ -8669,6 +8718,15 @@ replace-ext@^1.0.0:
   resolved "http://registry.npm.taobao.org/replace-ext/download/replace-ext-1.0.0.tgz#de63128373fcbf7c3ccfa4de5a480c45a67958eb"
   integrity sha1-3mMSg3P8v3w8z6TeWkgMRaZ5WOs=
 
+replacestream@^4.0.0:
+  version "4.0.3"
+  resolved "http://registry.npm.taobao.org/replacestream/download/replacestream-4.0.3.tgz#3ee5798092be364b1cdb1484308492cb3dff2f36"
+  integrity sha1-PuV5gJK+Nksc2xSEMISSyz3/LzY=
+  dependencies:
+    escape-string-regexp "^1.0.3"
+    object-assign "^4.0.1"
+    readable-stream "^2.0.2"
+
 request-promise-core@1.1.1:
   version "1.1.1"
   resolved "http://registry.npm.taobao.org/request-promise-core/download/request-promise-core-1.1.1.tgz#3eee00b2c5aa83239cfb04c5700da36f81cd08b6"
@@ -9368,6 +9426,11 @@ sshpk@^1.7.0:
     jsbn "~0.1.0"
     tweetnacl "~0.14.0"
 
+ssr-window@^1.0.1:
+  version "1.0.1"
+  resolved "http://registry.npm.taobao.org/ssr-window/download/ssr-window-1.0.1.tgz#30752a6a4666e7767f0b7e6aa6fc2fdbd0d9b369"
+  integrity sha1-MHUqakZm53Z/C35qpvwv29DZs2k=
+
 ssri@^5.2.4:
   version "5.3.0"
   resolved "http://registry.npm.taobao.org/ssri/download/ssri-5.3.0.tgz#ba3872c9c6d33a0704a7d71ff045e5ec48999d06"
@@ -9660,10 +9723,13 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-swiper@^3.4.2:
-  version "3.4.2"
-  resolved "http://registry.npm.taobao.org/swiper/download/swiper-3.4.2.tgz#39d6b410b1a39833e1f72d3b72999df5f5e38392"
-  integrity sha1-Oda0ELGjmDPh9y07cpmd9fXjg5I=
+swiper@^4.0.7:
+  version "4.4.5"
+  resolved "http://registry.npm.taobao.org/swiper/download/swiper-4.4.5.tgz#a6146fa0136a3da139560d970ca0151596d3f274"
+  integrity sha1-phRvoBNqPaE5Vg2XDKAVFZbT8nQ=
+  dependencies:
+    dom7 "^2.1.2"
+    ssr-window "^1.0.1"
 
 symbol-observable@1.0.1:
   version "1.0.1"
@@ -9719,6 +9785,11 @@ text-table@~0.2.0:
   version "0.2.0"
   resolved "http://registry.npm.taobao.org/text-table/download/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
+
+textextensions@2:
+  version "2.4.0"
+  resolved "http://registry.npm.taobao.org/textextensions/download/textextensions-2.4.0.tgz#6a143a985464384cc2cff11aea448cd5b018e72b"
+  integrity sha1-ahQ6mFRkOEzCz/Ea6kSM1bAY5ys=
 
 tfunk@^3.0.1:
   version "3.1.0"
@@ -10288,12 +10359,13 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-vue-awesome-swiper@^2.6.7:
-  version "2.6.7"
-  resolved "http://registry.npm.taobao.org/vue-awesome-swiper/download/vue-awesome-swiper-2.6.7.tgz#23b12cf107503305c267df3c7c2903fb39896cd0"
-  integrity sha1-I7Es8QdQMwXCZ988fCkD+zmJbNA=
+vue-awesome-swiper@^3.1.3:
+  version "3.1.3"
+  resolved "http://registry.npm.taobao.org/vue-awesome-swiper/download/vue-awesome-swiper-3.1.3.tgz#05500b501ffb3fec9bf7eb9985bcf4ae8360ed9e"
+  integrity sha1-BVALUB/7P+yb9+uZhbz0roNg7Z4=
   dependencies:
-    swiper "^3.4.2"
+    object-assign "^4.1.1"
+    swiper "^4.0.7"
 
 vue-echarts@^3.1.3:
   version "3.1.3"

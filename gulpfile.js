@@ -11,6 +11,7 @@ var uglify = require('gulp-uglify');
 var gulpIf = require('gulp-if');
 let cleanCSS = require('gulp-clean-css');
 var rev = require('gulp-rev-append');
+var replace = require('gulp-replace');
 var reload = browserSync.reload;
 
 var dist = {
@@ -107,6 +108,7 @@ gulp.task('js', function() {
         .pipe(concat('libs.js'))
         .pipe(gulp.dest(dist.js));
     gulp.src(jsFiles.app)
+        .pipe(gulpIf(!yargs.env || yargs.env == 'test', replace('3c1210a8346d103698ba8ce2129c637b', '5a6f9c439b18d2a39b9e0b2a639a34a0')))
         .pipe(concat('app.js'))
         .pipe(
             gulpIf(

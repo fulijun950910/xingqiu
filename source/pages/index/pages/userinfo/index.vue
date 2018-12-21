@@ -10,70 +10,70 @@
         </div> -->
         <!-- <div @click="goWallet" class="purseBox" layout="row" layout-align="start center">
             <div class="icon-qb" layout="row" layout-align="center center">
-                <m-icon class="fs48 color-white" xlink="#icon-qianbao01"></m-icon>
+                <m-icon class="fs48 color-white" link="icon-qianbao01"></m-icon>
             </div>
             <div flex>我的钱包：{{blanceTotal}}美豆豆</div>
-            <m-icon class="color-gray" xlink="#icon-right-bold"></m-icon>
+            <m-icon class="color-gray" link="icon-right-bold"></m-icon>
         </div> -->
         <div>
             <div @click="goEdit(1)" layout="row" layout-align="space-between center" class="list-item cell cell-box border-bottom">
                 <div>
-                    <!-- <m-icon class="usericon" xlink="#icon-xingming"></m-icon> -->
+                    <!-- <m-icon class="usericon" link="icon-xingming"></m-icon> -->
                     <span>用户名</span>
                 </div>
                 <div >
                     <span class="extra-light-black">{{dataModel.name}}</span>
-                    <m-icon class="color-gray" xlink="#icon-right-bold"></m-icon>
+                    <m-icon class="color-gray" link="icon-right-bold"></m-icon>
                 </div>
             </div>
             <div @click="goEdit(2)" layout="row" layout-align="space-between center" class="list-item cell cell-box border-bottom">
                 <div>
-                    <!-- <m-icon class="usericon" xlink="#icon-xingbie"></m-icon> -->
+                    <!-- <m-icon class="usericon" link="icon-xingbie"></m-icon> -->
                     <span>性别</span>
                 </div>
                 <div >
                     <span class="extra-light-black">{{dataModel.gender | getName(genderList)}}</span>
-                    <m-icon class="color-gray" xlink="#icon-right-bold"></m-icon>
+                    <m-icon class="color-gray" link="icon-right-bold"></m-icon>
                 </div>
             </div>
             <div @click="goEdit(3)" layout="row" layout-align="space-between center" class="list-item cell cell-box border-bottom">
                 <div>
-                    <!-- <m-icon class="usericon" xlink="#icon-shengribirthday16"></m-icon> -->
+                    <!-- <m-icon class="usericon" link="icon-shengribirthday16"></m-icon> -->
                     <span>生日</span>
                 </div>
                 <div >
                     <span class="extra-light-black">{{dataModel.birthday}}</span>
-                    <m-icon class="color-gray" xlink="#icon-right-bold"></m-icon>
+                    <m-icon class="color-gray" link="icon-right-bold"></m-icon>
                 </div>
             </div>
             <!-- <div @click="goEdit(4)" layout="row" layout-align="space-between center" class="list-item cell cell-box border-bottom">
                 <div>
-                    <m-icon class="usericon" xlink="#icon-4"></m-icon>
+                    <m-icon class="usericon" link="icon-4"></m-icon>
                     <span>地址</span>
                 </div>
                 <div >
                     <span class="color-gray">{{dataModel.address | sliceStr(30)}}</span>
-                    <m-icon class="color-gray" xlink="#icon-right-bold"></m-icon>
+                    <m-icon class="color-gray" link="icon-right-bold"></m-icon>
                 </div>
             </div> -->
             <div @click="goEdit(5)" layout="row" layout-align="space-between center" class="list-item cell cell-box border-bottom">
                 <div>
-                    <!-- <m-icon class="usericon" xlink="#icon-qianming"></m-icon> -->
+                    <!-- <m-icon class="usericon" link="icon-qianming"></m-icon> -->
                     <span>签名</span>
                 </div>
                 <div >
                     <span class="extra-light-black">{{dataModel.description | sliceStr(30)}}</span>
-                    <m-icon class="color-gray" xlink="#icon-right-bold"></m-icon>
+                    <m-icon class="color-gray" link="icon-right-bold"></m-icon>
                 </div>
             </div>
             <!-- <div  @click="goEdit(6)" layout="row" layout-align="space-between center" class="list-item cell cell-box border-bottom">
                 <div>
-                    <m-icon class="usericon" xlink="#icon-mima"></m-icon>
+                    <m-icon class="usericon" link="icon-mima"></m-icon>
                     <span>修改密码</span>
                 </div>
                 <div >
                     <span class="color-gray">******</span>
-                    <m-icon class="color-gray" xlink="#icon-right-bold"></m-icon>
+                    <m-icon class="color-gray" link="icon-right-bold"></m-icon>
                 </div>
             </div> -->
         </div>

@@ -521,3 +521,15 @@ Vue.filter('bigNumber', value => {
     }
     return 0;
 });
+
+Vue.filter('wan', value => {
+    if (value) {
+        if (Number(value) >= 10000) {
+            return (Number(value) / 10000).toFixed(2);
+        } else {
+            return value;
+        }
+    } else {
+        return value;
+    }
+});

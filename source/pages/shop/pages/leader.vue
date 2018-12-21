@@ -15,7 +15,7 @@
                <h3>欢迎使用</h3>
             <div class="start" layout="row" layout-align="center center">
                 开始体验
-                <m-icon xlink="#icon-huaban2"></m-icon>
+                <m-icon link="icon-huaban2"></m-icon>
             </div>
            </div>
        </div>

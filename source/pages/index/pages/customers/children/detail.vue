@@ -16,7 +16,7 @@
                     <div>
                         <p class="c-card-title no-wrap">
                             {{dataModel.name || dataModel.nickName || '-'}}<span class="badge-vip ml8 ft-light">
-                                <m-icon xlink="#icon-huangguan" /> {{dataModel.grade}}</span>
+                                <m-icon link="icon-huangguan" /> {{dataModel.grade}}</span>
                         </p>
                         <p class="c-card-subtitle no-wrap ft-light">
                             {{dataModel.mobile | mobile(true)}}

@@ -12,17 +12,17 @@
                  layout-align="center center">
                 <p class="no-wrap">{{sortSlots[currSort].label}}</p>
                 <m-icon flex="20"
-                        xlink="#icon-triangle-down" />
+                        link="icon-triangle-down" />
             </div>
             <div flex
                  class="filter bdr-right"
                  @click.stop="showFilter = true">筛选
-                <m-icon xlink="#icon-filter" />
+                <m-icon link="icon-filter" />
             </div>
             <div flex
                  class="search"
                  @click.stop="showSearch = true">搜索
-                <m-icon xlink="#icon-search" />
+                <m-icon link="icon-search" />
             </div>
         </div>
 
@@ -38,7 +38,7 @@
                :class="{active: (currSort == index)}">
                 <span>{{item.label}}</span>
                 <m-icon v-show="currSort == index"
-                        xlink="#icon-check" />
+                        link="icon-check" />
             </p>
         </mt-popup>
 
@@ -102,11 +102,7 @@
                  layout-align="start stretch"
                  class="search-main">
                 <span flex>
-                    <svg class="icon color-primary"
-                         aria-hidden="true"
-                         flex>
-                        <use xlink:href="#icon-search"></use>
-                    </svg>
+                    <m-icon flex class="icon color-primary" link="icon-search"></m-icon>
                 </span>
                 <input flex="70"
                        type="text"
@@ -115,10 +111,7 @@
                        @input="keywordChange" />
                 <span flex
                       @click="showSearchReset">
-                    <svg class="icon color-black"
-                         aria-hidden="true">
-                        <use xlink:href="#icon-close"></use>
-                    </svg>
+                    <m-icon class="icon color-black" link="icon-close"></m-icon>
                 </span>
             </div>
             <div class="search-list">

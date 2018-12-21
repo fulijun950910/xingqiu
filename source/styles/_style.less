@@ -128,7 +128,15 @@ img {
     float: left;
 }
 
-
+.border-bottom {
+    border-bottom: 1px solid @border-gay;
+}
+.border-top {
+    border-top: 1px solid @border-gay;
+}
+.border-left {
+    border-left: 1px solid @border-gay;
+}
 /* font size
 -------------------------- */
 
@@ -231,6 +239,9 @@ img {
     }
     .p-r-@{count} {
         padding-right: (@count * @l8);
+    }
+    .br@{count} {
+        border-radius: (@count * 2px);
     }
     .loop((@count - 1));
 }
@@ -591,6 +602,11 @@ div.native-image {
     }
 }
 // minit
+.mint-msgbox {
+    .mint-msgbox-btns .mint-msgbox-btn {
+        font-size: 13px;
+    }
+}
 .mint-toast {
     z-index: 2003 !important;
 }
@@ -599,6 +615,9 @@ div.native-image {
 }
 .mint-indicator {
     z-index: 2002 !important;
+    .mint-indicator-mask, .mint-indicator-wrapper {
+        z-index: 2002 !important;
+    }
 }
 .mint-msgbox-wrapper {
     z-index: 2002 !important;

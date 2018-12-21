@@ -30,7 +30,7 @@
              <m-picture :picture="item"></m-picture>
                 </div>
              <div class="delete" @click.stop="deleteImg(index)">
-                 <m-icon class="fs40 extra-black fwb" xlink="#icon-huabanfuben29"></m-icon>
+                 <m-icon class="fs40 extra-black fwb" link="icon-huabanfuben29"></m-icon>
              </div>
              <div class="upload-mask" layout="column" layout-align="center center" v-if="item.base64">
                  <div v-show="!item.id" class="img-btn fs28 bg-tiifini-blue m-b-2" layout="row" @click="upLoadImg(item)" layout-align="center center">
@@ -43,7 +43,7 @@
              </div>
             </div>
             <div class="upload-img m-b-3" flex="45" layout="row" layout-align="center center" @click="chooseImg()" v-if="uploadPics.length < 5">
-                <m-icon xlink="#icon-jia" class="fs40 color-tiffany-blue"></m-icon>
+                <m-icon link="icon-jia" class="fs40 color-tiffany-blue"></m-icon>
             </div>
         </div>
         <div @click="hideConfirm" class="submit-btn integral-btn fs28 color-white" layout="row" layout-align="center center">提交</div>

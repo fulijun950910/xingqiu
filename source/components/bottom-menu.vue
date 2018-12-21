@@ -1,9 +1,7 @@
 <template>
     <div layout="row" layout-align="center center" class="fixed-bottom">
         <a @click="link(index, item)" v-for="(item, index) in clickAble" :key="index" :flex="flex" layout="row" layout-align="center center" class="text-center">
-            <svg class="icon" aria-hidden="true">
-                <use :xlink:href="item.icon"></use>
-            </svg>
+            <m-icon :link="item.icon"></m-icon>
             {{item.name}}
         </a>
     </div>
@@ -20,16 +18,16 @@ export default {
             default() {
                 return [{
                     name: '返回',
-                    icon: '#icon-left-bold'
+                    icon: 'icon-left-bold'
                 }, {
                     name: '门店',
-                    icon: '#icon-fangzi-copy'
+                    icon: 'icon-fangzi-copy'
                 }, {
                     name: '时间',
-                    icon: '#icon-shijian'
+                    icon: 'icon-shijian'
                 }, {
                     name: '状态',
-                    icon: '#icon-caijitongji'
+                    icon: 'icon-caijitongji'
                 }];
             }
         },

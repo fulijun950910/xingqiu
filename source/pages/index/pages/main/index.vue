@@ -11,9 +11,9 @@
             </div>
         </div>
         <div class="banner p-l-3">
-            <swiper :options="swiperOption" ref="swiperOption">
+            <swiper :options="swiperOption" ref="swiperOption" v-if="bannerList && bannerList.length">
                 <swiper-slide v-for="(item, index) in bannerList" :key="index">
-                    <img :src="item.image | nSrc(require('assets/imgs/location.jpg'))" @click="bannerClick(item.url)" alt="">
+                    <img :src="item.image | nSrc(require('assets/imgs/location.jpg'))" :mwsrc="item.image" alt="">
                 </swiper-slide>
             </swiper>
             <div class="swiper-pagination p-l-3 p-r-3"></div>
@@ -51,12 +51,12 @@
                         <div>{{item.views | bigNumber}}热度</div>
                     </div>
                     <div layout="row" @click.stop="showCollect(index)">
-                        <m-icon xlink="#icon-gengduoicon" class="fs34 color-pink"></m-icon>
+                        <m-icon link="icon-gengduoicon" class="fs34 color-pink"></m-icon>
                     </div>
                     <div class="collect" layout="row" layout-align="center center" @click.stop="collectEdite(item, index)" :class="{'like' : item.isFavorite , 'show' : item.collect}">
-                        <m-icon xlink="#icon-arrLeft-fill" class="fs40 sanjiao color-white"></m-icon>
+                        <m-icon link="icon-arrLeft-fill" class="fs40 sanjiao color-white"></m-icon>
                         <div class="extra-light-black fs30">
-                            <m-icon xlink="#icon-huodong" class="fs30"></m-icon>&nbsp;{{item.isFavorite ? '取消' : '收藏'}}
+                            <m-icon link="icon-huodong" class="fs30"></m-icon>&nbsp;{{item.isFavorite ? '取消' : '收藏'}}
                         </div>
                     </div>
                     <div class="collect-mask" v-if="item.collect" @click.stop="showCollect(index)"></div>
@@ -68,11 +68,11 @@
     <new-present :show-mask="isNew" :ads-detail="adsDetail" @hideMask="hideMask"></new-present>
     <div class="main-menu" layout="row" layout-align="start stretch">
         <div flex="50" layout="column" layout-align="center center" class="extra-light-black">
-            <m-icon xlink="#icon-huaban6" class="color-pink fs48"></m-icon>
+            <m-icon link="icon-huaban6" class="color-pink fs48"></m-icon>
             <span class="fs24">首页</span>
         </div>
         <div flex="50" layout="column" layout-align="center center" class="fs28 extra-light-black" @click="linkTo(7)">
-            <m-icon xlink="#icon-huaban1" class="fs48"></m-icon>
+            <m-icon link="icon-huaban1" class="fs48"></m-icon>
             <span class="fs24">我的</span>
         </div>
     </div>
@@ -81,7 +81,7 @@
             <div class="fs40 color-black fwb">星球课题</div>
             <div class="circle-menu" layout="row" layout-align="center center">
                 <div class="circle-icon" layout="row" layout-align="center center" @click="showCircleMenu">
-                    <m-icon class="color-white fs40" xlink="#icon-gengduoliebiaoicon"></m-icon>
+                    <m-icon class="color-white fs40" link="icon-gengduoliebiaoicon"></m-icon>
                 </div>
             </div>
         </div>
@@ -93,7 +93,7 @@
         </div>
             <div class="circle-menu-mask" @click="showCircleMenu" v-if="circleMenu"></div>
     <div class="circle-menu-list" layout="row" layout-align="center center" v-if="circleMenu" :style="circleMenuStyle">
-        <m-icon xlink="#icon-arrLeft-fill" class="color-white"></m-icon>
+        <m-icon link="icon-arrLeft-fill" class="color-white"></m-icon>
         <div flex="20" layout="column" @click="linkTo(item.value)" layout-align="center center" v-for="(item, index) in menu" :key="index" class="menu">
             <img :src="item.src" alt="">
             <span class="extra-light-black fs24 m-t-2">{{item.name}}</span>
@@ -105,7 +105,7 @@
     </div>
 
     <div class="toTop" @click="goTop" v-if="showGoTop" layout="row" layout-align="center center">
-        <m-icon xlink="#icon-zhiding1" class="fs32 color-white"></m-icon>
+        <m-icon link="icon-zhiding1" class="fs32 color-white"></m-icon>
     </div>
 </div>
 </template>
@@ -155,9 +155,9 @@ export default {
                     value: 4
                 },
                 {
-                    name: '异业共赢',
+                    name: '美店',
                     src: require('assets/imgs/index/icon-img5.png'),
-                    value: 5
+                    value: 8
                 }
             ],
             bbsMenu: [],
@@ -170,12 +170,21 @@ export default {
             },
             bannerList: [],
             swiperOption: {
-                slidesPerView: 2,
+                slidesPerView: 1.4,
                 spaceBetween: 10,
-                slidesPerGroup: 1,
                 loop: true,
-                autoplay: 2000,
-                pagination: '.swiper-pagination'
+                centeredSlides: true,
+                autoplay: {
+                    delay: 2000
+                },
+                speed: 300,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true
+                },
+                on: {
+                    tap: this.bannerClick
+                }
             },
             loading: false,
             scrollDisabled: false,
@@ -247,6 +256,7 @@ export default {
             api_party.listBanner('00001', partyId).then(msg => {
                 this.$indicator.close();
                 this.bannerList = msg.data;
+                this.swiperOption.loopedSlides = this.bannerList.length;
             }, msg => {
             });
         },
@@ -260,19 +270,12 @@ export default {
                     window.location.href = '/api/b2bPromotionMobile/oauthURI/rule_entry';
                     break;
                 case 2:
-                // 美博汇
-                    // if (this.$store.state && this.$store.state.party && this.$store.state.party.partyId) {
-                    //     let openId = JSON.parse(localStorage.getItem('employee')).openId;
-                    //     this.$indicator.open();
-                    //     api_party.bandWeichat(this.$store.state.party.id, openId).then(msg => {
-                    //         this.$indicator.close();
-                    //         window.location.href = `http://b2b.mei1.info/app/index.php?i=1&c=entry&eid=41&saasUID=${this.$store.state.party.id}`;
-                    //     }, msg => {
-                    //     });
-                    // } else {
-                    //     location.href = this.$signLocation;
-                    // };
-                    location.href = `${this.$rootPath}shop.html#/leader`;
+                // b2b商城
+                    if (this.checkB2bMall()) {
+                        return;
+                    };
+                    window.location.href = '/lite/index.html#/b2b';
+                    // window.location.href = '/api/b2bPromotionMobile/oauthURI/b2b';
                     break;
                 case 3:
                 // 美问美答
@@ -290,6 +293,13 @@ export default {
                     if (this.checkParty()) {
                         return;
                     };
+                    if (this.$store.state.merchant) {
+                        let fv = this.$store.state.merchant.functionVersion;
+                        if (fv === 7) {
+                            this.$toast('抱歉,您无权限进入');
+                            return;
+                        }
+                    }
                     window.location.href = '/api/b2bPromotionMobile/oauthURI/performance_report';
                     break;
                 case 5:
@@ -310,12 +320,27 @@ export default {
                 // 个人中心
                     window.location.href = '/api/b2bPromotionMobile/oauthURI/star_personal';
                     break;
+                case 8:
+                // b2b美店
+                    if (this.checkB2bMall()) {
+                        return;
+                    };
+                    window.location.href = '/api/b2bPromotionMobile/oauthURI/b2b_mall_index';
+                    break;
             }
         },
         checkParty() {
             if (this.$store.getters.isPersonLogin) {
                 this.$toast('抱歉，个人用户，无权限进入');
                 return true;
+            }
+        },
+        checkB2bMall() {
+            if (this.$store.getters.isLogin) {
+                if (!this.$knife.getPermission('purchase_mall_setting')) {
+                    this.$toast('抱歉，无权限进入');
+                    return true;
+                };
             }
         },
         checkSignIn() {
@@ -409,12 +434,20 @@ export default {
                 };
             };
         },
-        bannerClick(item) {
-            if (item.indexOf('html') > -1) {
-                location.href = item;
-            } else {
-                this.$router.push(item);
-            };
+        bannerClick(evt) {
+            let item = this.bannerList.find(val => val.image === evt.target.getAttribute('mwsrc'));
+            if (item && item.url) {
+                if (item.id == 9) {
+                    if (this.checkB2bMall()) {
+                        return;
+                    };
+                }
+                if (item.url.indexOf('html') > -1) {
+                    window.location.href = item.url;
+                } else {
+                    this.$router.push(item.url);
+                };
+            }
         },
         init() {
             this.saveUserInfo();
@@ -536,31 +569,16 @@ export default {
           }
       }
       .banner {
-          height: 140px;
-          width: 100%;
-          overflow: hidden;
           position: relative;
-          z-index: 2;
-          .swiper-container {
-              position: absolute;
-              left: 12px;
-              top: 0;
-              height: 110px;
-              width: 510px; // width: 600px;
-              .swiper-slide {
-                  overflow: hidden;
-              }
-              img {
-                  height: 100%;
-                  width: auto;
-              }
-              .swiper-slide {
-                  border-radius: 5px;
-                  overflow: hidden;
-              }
-          }
+           height: 140px;
+           .swiper-slide {
+ width: 67%;
+ position: relative;
+               img {
+                   border-radius: 5px;
+               }
+           }
           .swiper-pagination {
-              width: 100%;
               text-align: left;
               position: absolute;
               bottom: 10px;
@@ -717,6 +735,15 @@ export default {
       left: 0;
       right: 0;
       background: white;
+      z-index: 10;
+  }
+
+  .swiper-mask{
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       z-index: 10;
   }
 

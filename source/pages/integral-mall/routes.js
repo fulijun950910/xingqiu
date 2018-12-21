@@ -32,6 +32,19 @@ const baiduMap = resolve => require(['./pages/baidu-map'], resolve);
 const packageDetail = resolve => require(['./pages/detail/package-detail'], resolve);
 const orderDetail = resolve => require(['./pages/detail/order-detail'], resolve);
 const offlinePay = resolve => require(['./pages/pay/offline-pay'], resolve);
+import b2bMallIndex from 'pages/integral-mall/pages/b2b-mall/index';
+import b2bMallOrder from 'pages/integral-mall/pages/b2b-mall/order';
+import b2bMallOrderDetail from 'pages/integral-mall/pages/b2b-mall/order-detail';
+import b2bMallUser from 'pages/integral-mall/pages/b2b-mall/user';
+import b2bMallOrderListIndex from 'pages/integral-mall/pages/b2b-mall/order-list/index';
+import b2bMallOrderListPublish from 'pages/integral-mall/pages/b2b-mall/order-list/publish';
+import b2bMallOrderListBuy from 'pages/integral-mall/pages/b2b-mall/order-list/buy';
+import b2bMallOrderListSell from 'pages/integral-mall/pages/b2b-mall/order-list/sell';
+import b2bMallOrderListSellDetil from 'pages/integral-mall/pages/b2b-mall/order-list/sell-detail';
+import b2bMallInvoiceList from 'pages/integral-mall/pages/b2b-mall/invoice/list';
+import b2bMallInvoiceEdit from 'pages/integral-mall/pages/b2b-mall/invoice/edit';
+import b2bMallUserInfo from 'pages/integral-mall/pages/b2b-mall/userinfo';
+import b2bMallEditUserInfo from 'pages/integral-mall/pages/b2b-mall/editUserInfo';
 
 export default [{
     path: '/',
@@ -70,7 +83,7 @@ export default [{
     name: 'b2b-order-list',
     component: b2bOrderList
 }, {
-    path: '/logistics-list/:orderId',
+    path: '/logistics-list/:orderId/:campanyCode?',
     props: true,
     name: 'logistics-list',
     component: logisticsList
@@ -168,4 +181,87 @@ export default [{
     path: '/offline-pay',
     name: 'offline-pay',
     component: offlinePay
-}];
+},
+{
+    path: '/b2b-mall-index',
+    name: 'b2b-mall-index',
+    props: true,
+    component: b2bMallIndex
+},
+{
+    path: '/b2b-mall-order/:id',
+    name: 'b2b-mall-order',
+    props: true,
+    component: b2bMallOrder
+},
+{
+    path: '/b2b-mall-order-detail/:id',
+    name: 'b2b-mall-order-detail',
+    props: true,
+    component: b2bMallOrderDetail
+},
+{
+    path: '/b2b-mall-order-list',
+    name: 'b2b-mall-order-list',
+    props: true,
+    component: b2bMallOrderListIndex,
+    children: [
+        {
+            path: 'publish',
+            name: 'b2b-mall-order-list-publish',
+            props: true,
+            component: b2bMallOrderListPublish
+        },
+        {
+            path: 'buy',
+            name: 'b2b-mall-order-list-buy',
+            props: true,
+            component: b2bMallOrderListBuy
+        },
+        {
+            path: 'sell',
+            name: 'b2b-mall-order-list-sell',
+            props: true,
+            component: b2bMallOrderListSell
+        },
+        {
+            path: 'sell-detail',
+            name: 'b2b-mall-order-list-sell-detail',
+            props: true,
+            component: b2bMallOrderListSellDetil
+        }
+    ]
+},
+{
+    path: '/b2b-mall-invoice-list',
+    name: 'b2b-mall-invoice-list',
+    props: true,
+    component: b2bMallInvoiceList
+},
+{
+    path: '/b2b-mall-invoice-edit/:id?',
+    name: 'b2b-mall-invoice-edit',
+    props: true,
+    component: b2bMallInvoiceEdit
+},
+{
+    path: '/b2b-mall-user',
+    name: 'b2b-mall-user',
+    props: true,
+    component: b2bMallUser
+},
+{
+    // path: '/b2b-mall-userinfo/:userID?',
+    path: '/b2b-mall-userinfo',
+    name: 'b2b-mall-userinfo',
+    props: true,
+    component: b2bMallUserInfo
+},
+{
+    // path: '/b2b-mall-editUserInfo/:type?',
+    path: '/b2b-mall-editUserInfo',
+    name: 'b2b-mall-editUserInfo',
+    props: true,
+    component: b2bMallEditUserInfo
+}
+];
