@@ -8,7 +8,7 @@
             </div>
             <div class="Statistics" layout="row" layout-align="center center" @click="GetAdreess">
                 <m-icon class="ic" link="icon-dianzan"></m-icon>
-                <p>统计</p>
+                <p @click="this.GetAdreess()">统计</p>
             </div>
         </div>
         <span>{{time2}}</span>
@@ -32,8 +32,8 @@
                     </div> -->
                     <div class="ka">
                         <div class="yuan">
-                            <span class="fs40 fwb" v-show="this.latitude == null" style="color:white" ref='dingwei'>定位中</span>
-                            <span class="fs40 fwb" v-show="this.latitude != null" style="color:white" ref='dingwei'>定位成功</span>
+                            <span class="fs40 fwb" v-show="this.latitude == null" style="color:white">定位中</span>
+                            <span class="fs40 fwb" v-show="this.latitude != null" style="color:white">定位成功</span>
                         </div>
                         <div class="m-t-4 fs24" v-show="this.latitude == null" >
                             <m-icon class="m-r-2 ic" link="icon-gengduoicon"></m-icon>
@@ -72,7 +72,7 @@
                     </div>
                 </div>
             </div>
-            <div class="ban" layout="row" layout-align="start center" @click="confirm">
+            <div class="ban" layout="row" layout-align="start center">
                 <p>A班&nbsp;9:00-18:00</p>
                 <p>B班&nbsp;9:00-18:00</p>
                 <m-icon class="ic" link="icon-pop-left"></m-icon>
@@ -165,7 +165,7 @@ export default {
             isShowShare2: false,
             length: 0,
             xian: false,
-            latitude: 1,
+            latitude: null,
             longitude: null
         };
     },
@@ -173,7 +173,6 @@ export default {
         await apiGetJSSignature.getJSSignature({ url: encodeURIComponent(window.location.href.split('#')[0]) });
         this.GetAdreess();
         this.getTime();
-        console.log(this.$refs.dingwei.innerHTML);
     },
     methods: {
         GetAdreess() {
@@ -183,22 +182,12 @@ export default {
                     success: function(res) {
                         this.latitude = res.latitude;
                         this.longitude = res.longitude;
-                        this.$refs.dingwei.innerHTML = '定位成功';
                     }
                 });
             });
         },
-        confirm() {
-            if (this.xian) {
-                this.$refs.yuan2.style.background = 'red';
-            }
-        },
         confirm2() {
             this.isShowShare2 = true;
-        },
-        alert() {
-        },
-        conso() {
         },
         changeDate(val) {
             this.time = this.$moment(this.time).add(val, 'd');
