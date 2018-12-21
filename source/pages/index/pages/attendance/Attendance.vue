@@ -32,12 +32,16 @@
                     </div> -->
                     <div class="ka">
                         <div class="yuan">
-                            <span class="fs40 fwb" style="color:white" ref="dingwei">定位中</span>
+                            <span class="fs40 fwb" v-show="this.latitude == null" style="color:white" ref='dingwei'>定位中</span>
+                            <span class="fs40 fwb" v-show="this.latitude != null" style="color:white" ref='dingwei'>定位成功</span>
                         </div>
-                        <div class="m-t-4 fs24">
+                        <div class="m-t-4 fs24" v-show="this.latitude == null" >
                             <m-icon class="m-r-2 ic" link="icon-gengduoicon"></m-icon>
                             <span>还未获取到地址位置</span>
                             <span class="m-l-2" style="color:#768BB7">点击重试</span>
+                        </div>
+                        <div class="m-t-4 fs24" v-show="this.latitude != null" >
+                            <span>定位成功</span>
                         </div>
                     </div>
                 </div>
@@ -161,7 +165,7 @@ export default {
             isShowShare2: false,
             length: 0,
             xian: false,
-            latitude: null,
+            latitude: 1,
             longitude: null
         };
     },
