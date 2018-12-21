@@ -2,7 +2,7 @@
     <div v-title="'美店'" class='b2b-mall-index'>
         <div v-if="adBanner.list && adBanner.list.length > 0" class="banner1-box">
             <div class="swipe-box">
-                <mt-swipe :auto="4000">
+                <mt-swipe :auto="4000" :showIndicators="adBanner.centerAdList.length > 1">
                     <mt-swipe-item v-for="item in adBanner.list" :key="item.id">
                         <img @click="adBannerClick(item)" :src="item.image | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                     </mt-swipe-item>
@@ -42,7 +42,7 @@
         </div>
 
         <div v-if="adBanner.centerAdList && adBanner.centerAdList.length > 0" class="m-t-3 banner2-box">
-            <mt-swipe :auto="8000">
+            <mt-swipe :auto="8000" :showIndicators="adBanner.centerAdList.length > 1">
                 <mt-swipe-item v-for="item in adBanner.centerAdList" :key="item.id">
                     <img @click="adBannerClick(item)" :src="item.image | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                 </mt-swipe-item>
