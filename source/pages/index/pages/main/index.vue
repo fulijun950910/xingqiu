@@ -271,9 +271,9 @@ export default {
                     break;
                 case 2:
                 // b2b商城
-                    if (this.checkB2bMall()) {
-                        return;
-                    };
+                    // if (this.checkB2bMall()) {
+                    //     return;
+                    // };
                     window.location.href = '/lite/index.html#/b2b';
                     // window.location.href = '/api/b2bPromotionMobile/oauthURI/b2b';
                     break;
