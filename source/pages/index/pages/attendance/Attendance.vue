@@ -6,7 +6,7 @@
                 <p id="beginTime">{{time | amDateFormat('YYYY.MM.DD')}}</p>
                 <m-icon class="ic" link="icon-right-bold" @click.native="changeDate(1)"></m-icon>
             </div>
-            <div class="Statistics" layout="row" layout-align="center center" >
+            <div class="Statistics" layout="row" layout-align="center center" @click="get">
                 <m-icon class="ic" link="icon-dianzan"></m-icon>
                 <p>统计</p>
             </div>
@@ -143,7 +143,9 @@
 
 <script>
 import Vue from 'vue';
+import apiGetJSSignature from 'services/api.getJSSignature';
 import { Cell } from 'mint-ui';
+import wx from 'weixin-js-sdk';
 Vue.component(Cell.name, Cell);
 
 export default {
@@ -152,7 +154,7 @@ export default {
     },
     data() {
         return {
-            time: this.$moment().startOf('day'),
+            time: this.$moment().startOf('d'),
             isShowShare: false,
             isShowShare2: false,
             length: 0,
@@ -161,13 +163,24 @@ export default {
     },
     mounted() {
         this.confirm();
+        apiGetJSSignature.getJSSignature({ url: encodeURIComponent(window.location.href.split('#')[0]) });
     },
     methods: {
+        get() {
+            wx.getLocation({
+                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success(res) {
+                    alert(res);
+                },
+                cancel(res) {
+                    alert('用户拒绝授权获取地理位置');
+                }
+            });
+        },
         confirm() {
             if (this.xian) {
                 this.$refs.yuan2.style.background = 'red';
             }
-            // this.isShowShare = true;
         },
         confirm2() {
             this.isShowShare2 = true;
