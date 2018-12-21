@@ -437,7 +437,7 @@ export default {
         bannerClick(evt) {
             let item = this.bannerList.find(val => val.image === evt.target.getAttribute('mwsrc'));
             if (item && item.url) {
-                if (item.id == 9) {
+                if (item.code == 'home_banner_005') {
                     if (this.checkB2bMall()) {
                         return;
                     };
