@@ -1,11 +1,10 @@
 <template>
     <div v-title="'美店'" class='b2b-mall-index'>
-        <div class="banner1-box">
+        <div v-if="adBanner.list && adBanner.list.length > 0" class="banner1-box">
             <div class="swipe-box">
                 <mt-swipe :auto="4000">
-                    <mt-swipe-item v-for="item in indexData.topBanner" :key="item.id">
-                        <img :src="item.imageId | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
-                        <!--<img :src="6609984741633299 | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">-->
+                    <mt-swipe-item v-for="item in adBanner.list" :key="item.id">
+                        <img @click="adBannerClick(item)" :src="item.image | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                     </mt-swipe-item>
                 </mt-swipe>
             </div>
@@ -42,8 +41,12 @@
             </div>
         </div>
 
-        <div @click="goBannerUrl" class="m-t-3 banner2-box">
-            <img :src="indexData.midBanner.imageId | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
+        <div v-if="adBanner.centerAdList && adBanner.centerAdList.length > 0" class="m-t-3 banner2-box">
+            <mt-swipe :auto="8000">
+                <mt-swipe-item v-for="item in adBanner.centerAdList" :key="item.id">
+                    <img @click="adBannerClick(item)" :src="item.image | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
+                </mt-swipe-item>
+            </mt-swipe>
         </div>
         <!--商品管理-->
         <div class='m-t-3 bg-white border-bottom' layout='row' layout-align='start center'>
@@ -163,6 +166,7 @@ Vue.component(SwipeItem.name, SwipeItem);
 Vue.use(InfiniteScroll);
 import qrcode from 'components/qrcode';
 import api_b2bmall from 'services/api.b2bmall';
+import api_party from 'services/api.party';
 import navBar from './modules/nav-bar';
 import HtmlCuter from 'plugin/HtmlCuter';
 import mLoadMore from 'components/m-load-more';
@@ -172,6 +176,10 @@ export default {
         return {
             indexData: {
                 midBanner: {}
+            },
+            adBanner: {
+                list: [],
+                centerAdList: {}
             },
             mallPrice: 1000000, // todo
             shareData: {},
@@ -194,6 +202,7 @@ export default {
     mounted() {
         if (this.$knife.getPermission('purchase_mall_setting')) {
             this.init();
+            this.loadAdBanner();
         } else {
             window.history.back();
         }
@@ -224,6 +233,17 @@ export default {
             let res = await api_b2bmall.getPromotionView({ id: item.typeId });
             this.$indicator.close();
             location.href = res.data.promotionInstance.shortLink;
+        },
+        async loadAdBanner() {
+            let res = await api_party.listBanner('20004', this.$store.state.party.id);
+            this.adBanner.list = res.data;
+            res = await api_party.listBanner('20005', this.$store.state.party.id);
+            this.adBanner.centerAdList = res.data;
+        },
+        adBannerClick(item) {
+            if (item.url) {
+                window.location.href = item.url;
+            }
         },
         async disshelvePromotion(item) {
             this.$messageBox.confirm('确认下架？').then(async action => {
@@ -272,9 +292,6 @@ export default {
         },
         goCollectDetail(item) {
             window.location.href = `/lite/index.html#/collect-goods/${item.supplierItemId}/${item.typeId}`;
-        },
-        goBannerUrl() {
-            window.location.href = this.indexData.midBanner.url;
         }
     }
 };
