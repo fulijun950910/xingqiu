@@ -74,5 +74,8 @@ export default {
     },
     memberLastConsume(memberId) {
         return request(`/api/member/detail/${memberId}`, null, 'get', false);
+    },
+    createGeust(data) {
+        return request('/api/guest', data, data.id ? 'put' : 'post');
     }
 };

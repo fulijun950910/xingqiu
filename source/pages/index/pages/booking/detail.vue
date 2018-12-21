@@ -104,7 +104,7 @@ export default {
     methods: {
         loadData() {
             this.lastConsumeDetail = {};
-            if (this.booking && this.booking.memberId) {
+            if (this.booking && this.booking.memberId && this.booking.memberType == 1) {
                 apiBooking.memberLastConsume(this.booking.memberId).then(res => {
                     this.lastConsumeDetail = res.data.lastConsumeDetail || { name: [] };
                 });
