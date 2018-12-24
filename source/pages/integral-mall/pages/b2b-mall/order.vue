@@ -26,7 +26,7 @@
                 <img class="product-img m-r-3" :src="orderData.image | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                 <div flex layout="column">
                     <div flex>
-                        <div>{{orderData.name}}</div>
+                        <div class="fs30 fwb">{{orderData.name}}</div>
                         <!--<div class="fs24 extra-black">规格 大型60cm</div>-->
                     </div>
                     <div class="color-price">￥{{orderData.price | fen2yuan}}</div>
