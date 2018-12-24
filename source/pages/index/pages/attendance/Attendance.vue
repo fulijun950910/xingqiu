@@ -158,11 +158,9 @@ export default {
                 wx.getLocation({
                     type: 'gcj02',
                     success: function(res) {
-                        let latitude = res.latitude;
-                        let longitude = res.longitude;
-                        console.log(latitude, longitude, 1);
-                        document.getElementById('#latitude').html(latitude);
-                        document.getElementById('#longitude').html(latitude);
+                        this.latitude = res.latitude;
+                        this.longitude = res.longitude;
+                        console.log(this.latitude, this.longitude, 1);
                     }
                 });
             });
