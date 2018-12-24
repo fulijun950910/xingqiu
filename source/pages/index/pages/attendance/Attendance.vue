@@ -155,6 +155,7 @@ export default {
     methods: {
         GetAdreess() {
             wx.ready(function() {
+                console.log(this.latitude, this.longitude, 2);
                 wx.getLocation({
                     type: 'gcj02',
                     success: function(res) {
