@@ -22,8 +22,8 @@
                         <div class="ka">
                             <div class="yuan">
                                 <span class="fs40 fwb" style="color:white">{{dingwei}}</span>
-                                <span>{{latitude}}</span>
-                                <span>{{longitude}}</span>
+                                <span id="latitude">{{latitude}}</span>
+                                <span id="longitude">{{longitude}}</span>
                             </div>
                             <div class="m-t-4 fs24">
                                 <m-icon class="m-r-2 ic" link="icon-gengduoicon"></m-icon>
@@ -142,8 +142,8 @@ export default {
             isShowShare2: false,
             length: 0,
             xian: false,
-            latitude: null,
-            longitude: null,
+            latitude: '经度',
+            longitude: '纬度',
             dingwei: 'dingweizhong'
         };
     },
@@ -151,19 +151,18 @@ export default {
         await apiGetJSSignature.getJSSignature({ url: encodeURIComponent(window.location.href.split('#')[0]) });
         this.GetAdreess();
         this.getTime();
+        console.log(this.latitude, this.longitude);
     },
     methods: {
         GetAdreess() {
+            var that = this;
             wx.ready(function() {
                 wx.getLocation({
                     type: 'gcj02',
                     success: function(res) {
-                        this.latitude = res.latitude;
-                        this.longitude = res.longitude;
-                        console.log(res);
-                        if (this.latitude && this.longitude) {
-                            this.dingwei = '定位完成';
-                        }
+                        that.latitude = res.latitude;
+                        that.longitude = res.longitude;
+                        console.log(that.latitude, that.longitude);
                     }
                 });
             });
