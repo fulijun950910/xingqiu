@@ -22,8 +22,8 @@
                         <div class="ka">
                             <div class="yuan">
                                 <span class="fs40 fwb" style="color:white">{{dingwei}}</span>
-                                <span>{{latitude}}</span>
-                                <span>{{longitude}}</span>
+                                <span id="latitude">{{latitude}}</span>
+                                <span id="longitude">{{longitude}}</span>
                             </div>
                             <div class="m-t-4 fs24">
                                 <m-icon class="m-r-2 ic" link="icon-gengduoicon"></m-icon>
@@ -142,8 +142,8 @@ export default {
             isShowShare2: false,
             length: 0,
             xian: false,
-            latitude: null,
-            longitude: null,
+            latitude: '经度',
+            longitude: '纬度',
             dingwei: 'dingweizhong'
         };
     },
@@ -161,6 +161,8 @@ export default {
                         let latitude = res.latitude;
                         let longitude = res.longitude;
                         console.log(latitude, longitude, 1);
+                        document.getElementById('#latitude').html(latitude);
+                        document.getElementById('#longitude').html(latitude);
                     }
                 });
             });
