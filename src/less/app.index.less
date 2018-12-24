@@ -39,13 +39,30 @@
     //     display:inline-block;
     // }
     .header {
-        background: url(../images/bg4.png) no-repeat;//bg2
+        background: url(../images/bg7.jpg) no-repeat;//bg2
         //background: #c12ee6;
         height: 50vw;
         background-size: 100% 100%;
         color: #fff;
         font-family: '微软雅黑';
         position: relative;
+        i {
+            top: auto;
+        }
+        &::before {
+            content: '';
+            position: absolute;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        .wrap {
+            position: relative;
+            z-index: 2;
+        }
         .top-bar {
             height: 10vw;
             line-height: 10vw;
@@ -195,7 +212,23 @@
         flex-wrap: wrap;
         margin-top: 2.5vw;
         border-radius: 5px;
+        position: relative;
         .box-shadow;
+        .info-user-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            :nth-child(1) {
+                width: 100%;
+            }
+            :nth-child(2) {
+                position: absolute;
+                right: -10px;
+                top: -20px;
+                width: 40px;
+            }
+        }
         a {
             color: #333 !important;
             -webkit-tap-highlight-color: transparent;
@@ -333,15 +366,6 @@
                     font-size: .8rem;
                 }
             }
-        }
-        .nh-mask {
-            position: absolute;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 1;
-            background-color: rgba(0, 0, 0, 0.2);
         }
     }
     .normal-info {
