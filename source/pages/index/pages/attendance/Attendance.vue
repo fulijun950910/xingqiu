@@ -159,7 +159,8 @@ export default {
                         this.longitude = res.longitude;
                         console.log(res);
                         if (this.latitude && this.longitude) {
-                            this.$refs.dingwei.innerHTML = '定位成功';
+                            console.log(this.$refs.dingwei);
+                            // this.$refs.dingwei.InnerHTML = '定位成功';
                         }
                     }
                 });
