@@ -155,13 +155,14 @@ export default {
     },
     methods: {
         GetAdreess() {
+            var that = this;
             wx.ready(function() {
                 wx.getLocation({
                     type: 'gcj02',
                     success: function(res) {
-                        this.latitude = res.latitude;
-                        this.longitude = res.longitude;
-                        console.log(this.latitude, this.longitude);
+                        that.latitude = res.latitude;
+                        that.longitude = res.longitude;
+                        console.log(that.latitude, that.longitude);
                     }
                 });
             });
