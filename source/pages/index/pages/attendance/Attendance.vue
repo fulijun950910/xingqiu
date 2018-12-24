@@ -8,67 +8,42 @@
             </div>
             <div class="Statistics" layout="row" layout-align="center center" @click="GetAdreess">
                 <m-icon class="ic" link="icon-dianzan"></m-icon>
-                <p @click="this.GetAdreess">统计</p>
+                <p>统计</p>
             </div>
         </div>
         <span>{{time2}}</span>
         <div class="main">
-            <p class="p-t-4 fs16" style="line-height:19px">今天继续朝着梦想出发吧~</p>
-            <div class="info">
-                <span class="yuan1"></span>
-                <p class="fs26" style="color:#aaa;position:absolute;top:-8px">上班时间09:00</p>
-                <div class="WorkTime p-t-4 p-b-4">
-                    <!-- <div class="success" layout="column" layout-align="start start">
-                        <div layout="row" layout-align="start center" style="margin-top:14px">
-                            <h3 class="m-r-2">打卡时间9:00</h3>
-                            <p class="Late">迟到</p>
-                            <p class="abnormal">异常定位</p>
+            <div class="asm-card">
+                <p class="p-t-4 fs16 m-b-5" style="line-height:19px">今天继续朝着梦想出发吧~</p>
+                <div class="asm-list">
+                    <div v-for="(item, index) in 2"
+                         :key="index">
+                        <p class="m-b-1 color-gray">上班时间09:00</p>
+                        <div class="ka">
+                            <div class="yuan">
+                                <span class="fs40 fwb" style="color:white" ref="dingwei">定位中</span>
+                            </div>
+                            <div class="m-t-4 fs24">
+                                <m-icon class="m-r-2 ic" link="icon-gengduoicon"></m-icon>
+                                <span>还未获取到地址位置</span>
+                                <span class="m-l-2" style="color:#768BB7">点击重试</span>
+                            </div>
                         </div>
-                        <div class="m-t-3">
-                            <m-icon class="m-r-2" link="icon-4"></m-icon>
-                            <span class="adreess">通协路268号</span>
-                        </div>
-                        <p class="update" @click="confirm2">更新打卡</p>
-                    </div> -->
-                    <div class="ka">
-                        <div class="yuan">
-                            <span class="fs40 fwb" v-show="this.latitude == null" style="color:white">定位中</span>
-                            <span class="fs40 fwb" v-show="this.latitude != null" style="color:white">定位成功</span>
-                        </div>
-                        <div class="m-t-4 fs24" v-show="this.latitude == null" >
-                            <m-icon class="m-r-2 ic" link="icon-gengduoicon"></m-icon>
-                            <span>还未获取到地址位置</span>
-                            <span class="m-l-2" style="color:#768BB7">点击重试</span>
-                        </div>
-                        <div class="m-t-4 fs24" v-show="this.latitude != null" >
-                            <span>定位成功</span>
-                        </div>
-                    </div>
-                </div>
-                <p class="fs26" style="color:#aaa;position:absolute;bottom:-8px">下班时间18:00</p>
-                <span class="yuan2" ref="yuan2"></span>
-                <div class="OffWork">
-                    <div class="success" v-show="!xian" layout="column" layout-align="start start">
-                        <div layout="row" layout-align="start center" style="margin-top:14px">
-                            <h3 class="m-r-2">打卡时间9:00</h3>
-                            <p class="Late">迟到</p>
-                            <p class="abnormal">异常定位</p>
-                        </div>
-                        <div class="m-t-3">
-                            <m-icon class="m-r-2" link="icon-4"></m-icon>
-                            <span class="adreess">通协路268号</span>
-                        </div>
-                        <p class="update">更新打卡</p>
-                    </div>
-                    <div class="ka" v-show="xian">
-                        <div class="yuan">
-                            <span class="fs40 fwb" style="color:white">定位中</span>
-                        </div>
-                        <div class="m-t-4 fs2">
-                            <m-icon class="m-r-2 ic" link="icon-gengduoicon"></m-icon>
-                            <span>还未获取到地址位置</span>
-                            <span class="m-l-2" style="color:#768BB7">点击重试</span>
-                        </div>
+                         <div class="card-info">
+                            <p class="m-b-1 color-gray">上班时间09:00</p>
+                            <div class="p-b-5">
+                                <div class="fs32 m-b-2">
+                                    <b>打卡时间08:50</b>
+                                    <span class="Late">迟到</span>
+                                    <span class="abnormal">异常打卡</span>
+                                </div>
+                                <p>
+                                    <m-icon link="icon-4"
+                                            class="m-r-1"></m-icon>
+                                    <span class="color-gray">通协路268号</span>
+                                </p>
+                            </div>
+                         </div>
                     </div>
                 </div>
             </div>
@@ -182,7 +157,10 @@ export default {
                     success: function(res) {
                         this.latitude = res.latitude;
                         this.longitude = res.longitude;
-                        this.$toast('this.latitude', 'this.longitude');
+                        console.log(res);
+                        if (this.latitude && this.longitude) {
+                            this.$refs.dingwei.innerHTML = '定位成功';
+                        }
                     }
                 });
             });
@@ -237,78 +215,67 @@ export default {
             }
         }
         .main {
+            padding-bottom: 20px;
             padding-left: 15px;
             border-radius: 4px;
             position: relative;
-            height: 486px;
             box-shadow: 0px 4px 17px 0px rgba(75,110,150,0.18);
-                            .update {
-                    margin-top:12px;
-                    margin-bottom:40px;
-                    color:rgba(118,139,183,1);
-                }
-                .adreess {
-                    font-size:13px;
-                    color:rgba(170,170,170,1);
-                }
-                .Late{
-                    color: #F76A24;
-                    border: 1px solid #F76A24; /*no*/
-                    padding: 2px 10px;
-                    border-radius: 2px;
-                    font-size: 12px;
-                    margin-right: 8px;
-                }
-                .abnormal{
-                    color: #45B1BF;
-                    font-size: 12px;
-                    border: 1px solid #45B1BF; /*no*/
-                    padding: 2px 10px;
-                    border-radius: 2px;
-                    margin-right: 8px;
-                }
-            .info{
-                border-left: 1px solid #ccc; /*no*/
-                margin-top: 28px;
-                position: relative;
-                padding-left: 10px;
-                margin-left: 5px;
-                position: relative;
-                .OffWork{
-                    position: absolute;
-                    width: 90%;
-                }
-                .yuan1{
-                    position: absolute;
-                    border-radius: 50%;
-                    width: 8px;
-                    height: 8px;
-                    background: #ccc;
-                    left: -4px;
-                    top: -4px;
-                }
-                .yuan2{
-                    position: absolute;
-                    border-radius: 50%;
-                    width: 8px;
-                    height: 8px;
-                    background: #ccc;
-                    left: -4px;
-                    bottom: -4px;
-                }
-                .ka{
-                    margin: 20px auto;
-                    text-align: center;
-                    .yuan{
-                        width: 125px;
-                        height: 125px;
-                        border-radius: 50%;
-                        margin: 0 auto;
-                        background:linear-gradient(270deg,rgba(193,59,147,1) 0%,75%);
-                        text-align: center;
-                        line-height: 125px;
-                    }
-                }
+        .update {
+            margin-top:12px;
+            margin-bottom:40px;
+            color:rgba(118,139,183,1);
+        }
+        .asm-list {
+            min-height: 486px;
+            padding-left: 20px;
+            & > :nth-child(1),
+            & > :nth-child(2) {
+            position: relative;
+            &::before {
+                content: '';
+                position: absolute;
+                left: -20px;
+                top: 6px;
+                width: 8px;
+                height: 8px;
+                background-color: @dark-gray;
+                border-radius: 50%;
+            }
+        }
+        & > :nth-child(1),
+        & > :nth-child(2) {
+            &::after {
+                content: '';
+                position: absolute;
+                left: -20+4px;
+                top: 6px;
+                bottom: 0;
+                width: 1px; /*no*/
+                background-color: @dark-gray;
+            }
+        }
+        & > :nth-child(2)::after {
+            top: 0;
+            height: 6px;
+            bottom: auto;
+        }
+    }
+            .Late{
+                color: #F76A24;
+                border: 1px solid #F76A24; /*no*/
+                padding: 2px 10px;
+                border-radius: 2px;
+                font-size: 12px;
+                margin-right: 8px;
+                margin-left: 8px;
+            }
+            .abnormal{
+                color: #45B1BF;
+                font-size: 12px;
+                border: 1px solid #45B1BF; /*no*/
+                padding: 2px 10px;
+                border-radius: 2px;
+                margin-right: 8px;
             }
             .ka{
                 margin: 20px auto;
@@ -329,8 +296,8 @@ export default {
                 color: #888;
                 height: 40px;
                 width: 100%;
-                left: 0;
-                bottom: 0;
+                left: 0px;
+                bottom: 0px;
                 border-top: 1px solid #eeeeee; /*no*/
                 p {
                     margin-right:20px;
