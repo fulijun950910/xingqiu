@@ -160,10 +160,7 @@ export default {
                     success: function(res) {
                         this.latitude = res.latitude;
                         this.longitude = res.longitude;
-                        console.log(res);
-                        if (this.latitude && this.longitude) {
-                            this.dingwei = '定位完成';
-                        }
+                        console.log(this.latitude, this.longitude);
                     }
                 });
             });
