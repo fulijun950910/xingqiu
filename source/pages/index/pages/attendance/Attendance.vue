@@ -151,17 +151,17 @@ export default {
         await apiGetJSSignature.getJSSignature({ url: encodeURIComponent(window.location.href.split('#')[0]) });
         this.GetAdreess();
         this.getTime();
+        console.log(this.latitude, this.longitude);
     },
     methods: {
         GetAdreess() {
             wx.ready(function() {
-                console.log(this.latitude, this.longitude, 2);
                 wx.getLocation({
                     type: 'gcj02',
                     success: function(res) {
                         this.latitude = res.latitude;
                         this.longitude = res.longitude;
-                        console.log(this.latitude, this.longitude, 1);
+                        console.log(this.latitude, this.longitude);
                     }
                 });
             });
