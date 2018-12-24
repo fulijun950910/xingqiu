@@ -61,11 +61,13 @@
                         <span v-if="item.status == '3'" class="color-gray">已下架</span>
                     </div>
                 </div>
-                <div class="bg-default cell p-l-1 p-r-1" layout="row">
-                    <img class="title-img m-r-2" :src="item.imageId | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
-                    <div class="mall-content" flex layout="column">
+                <div class="bg-default cell cell-box" layout="row">
+                    <div class="title-img m-r-2" layout="row" layout-align="center center">
+                        <img  :src="item.imageId | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
+                    </div>
+                    <div class="mall-content p-t-2 p-b-2" flex layout="column">
                         <div flex>
-                            <div class="no-wrap">{{item.title}}</div>
+                            <div class="fs30 fwb">{{item.title}}</div>
                             <!--<div class="color-gray fs12">规格 大型60cm *1</div>-->
                         </div>
                         <div layout="row">
@@ -326,6 +328,11 @@ export default {
             width:75px;
             height:75px;
             border-radius: 4px;
+            overflow: hidden;
+            img{
+                height: 100%;
+                width: auto;
+            }
         }
         .mall-tag{
             background:#F6F1F7;

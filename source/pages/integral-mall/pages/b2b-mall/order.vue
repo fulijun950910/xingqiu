@@ -23,10 +23,12 @@
                 <!--<div class="color-primary"><m-icon class="" link="icon-xiangqing"></m-icon>&nbsp;在线沟通</div>-->
             </div>
             <div layout="row" class="bg-default br2 cell p-l-2 p-r-2">
-                <img class="product-img m-r-3" :src="orderData.image | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
+                <div class="product-img m-r-3" layout="row" layout-align="center center">
+                    <img :src="orderData.image | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
+                </div>
                 <div flex layout="column">
                     <div flex>
-                        <div>{{orderData.name}}</div>
+                        <div class="fs30 fwb">{{orderData.name}}</div>
                         <!--<div class="fs24 extra-black">规格 大型60cm</div>-->
                     </div>
                     <div class="color-price">￥{{orderData.price | fen2yuan}}</div>
@@ -255,6 +257,11 @@ export default {
             width:60px;
             height: 60px;
             border-radius: 4px;
+            overflow: hidden;
+            img{
+                height: 100%;
+                width: auto;
+            }
         }
     }
     .doudou-box{
