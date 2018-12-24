@@ -21,7 +21,9 @@
                         <p class="m-b-1 color-gray">上班时间09:00</p>
                         <div class="ka">
                             <div class="yuan">
-                                <span class="fs40 fwb" style="color:white" ref="dingwei">定位中</span>
+                                <span class="fs40 fwb" style="color:white">{{dingwei}}</span>
+                                <span>{{latitude}}</span>
+                                <span>{{longitude}}</span>
                             </div>
                             <div class="m-t-4 fs24">
                                 <m-icon class="m-r-2 ic" link="icon-gengduoicon"></m-icon>
@@ -141,7 +143,8 @@ export default {
             length: 0,
             xian: false,
             latitude: null,
-            longitude: null
+            longitude: null,
+            dingwei: 'dingweizhong'
         };
     },
     async mounted() {
@@ -159,8 +162,7 @@ export default {
                         this.longitude = res.longitude;
                         console.log(res);
                         if (this.latitude && this.longitude) {
-                            console.log(this.$refs.dingwei);
-                            // this.$refs.dingwei.InnerHTML = '定位成功';
+                            this.dingwei = '定位完成';
                         }
                     }
                 });
