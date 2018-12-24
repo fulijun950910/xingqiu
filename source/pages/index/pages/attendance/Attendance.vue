@@ -6,18 +6,19 @@
                 <p id="beginTime">{{time | amDateFormat('YYYY.MM.DD')}}</p>
                 <m-icon class="ic" link="icon-right-bold" @click.native="changeDate(1)"></m-icon>
             </div>
-            <div class="Statistics" layout="row" layout-align="center center" @click="get">
+            <div class="Statistics" layout="row" layout-align="center center" @click="GetAdreess">
                 <m-icon class="ic" link="icon-dianzan"></m-icon>
-                <p>统计</p>
+                <p @click="this.GetAdreess">统计</p>
             </div>
         </div>
+        <span>{{time2}}</span>
         <div class="main">
             <p class="p-t-4 fs16" style="line-height:19px">今天继续朝着梦想出发吧~</p>
             <div class="info">
                 <span class="yuan1"></span>
                 <p class="fs26" style="color:#aaa;position:absolute;top:-8px">上班时间09:00</p>
                 <div class="WorkTime p-t-4 p-b-4">
-                    <div class="success" layout="column" layout-align="start start">
+                    <!-- <div class="success" layout="column" layout-align="start start">
                         <div layout="row" layout-align="start center" style="margin-top:14px">
                             <h3 class="m-r-2">打卡时间9:00</h3>
                             <p class="Late">迟到</p>
@@ -28,17 +29,21 @@
                             <span class="adreess">通协路268号</span>
                         </div>
                         <p class="update" @click="confirm2">更新打卡</p>
-                    </div>
-                    <!-- <div class="ka">
+                    </div> -->
+                    <div class="ka">
                         <div class="yuan">
-                            <span class="fs40 fwb" style="color:white">定位中</span>
+                            <span class="fs40 fwb" v-show="this.latitude == null" style="color:white">定位中</span>
+                            <span class="fs40 fwb" v-show="this.latitude != null" style="color:white">定位成功</span>
                         </div>
-                        <div class="m-t-4 fs24">
+                        <div class="m-t-4 fs24" v-show="this.latitude == null" >
                             <m-icon class="m-r-2 ic" link="icon-gengduoicon"></m-icon>
                             <span>还未获取到地址位置</span>
                             <span class="m-l-2" style="color:#768BB7">点击重试</span>
                         </div>
-                    </div> -->
+                        <div class="m-t-4 fs24" v-show="this.latitude != null" >
+                            <span>定位成功</span>
+                        </div>
+                    </div>
                 </div>
                 <p class="fs26" style="color:#aaa;position:absolute;bottom:-8px">下班时间18:00</p>
                 <span class="yuan2" ref="yuan2"></span>
@@ -67,7 +72,7 @@
                     </div>
                 </div>
             </div>
-            <div class="ban" layout="row" layout-align="start center" @click="confirm">
+            <div class="ban" layout="row" layout-align="start center">
                 <p>A班&nbsp;9:00-18:00</p>
                 <p>B班&nbsp;9:00-18:00</p>
                 <m-icon class="ic" link="icon-pop-left"></m-icon>
@@ -130,7 +135,7 @@
             </div>
         </div>
         <div class="Handle" layout="row" layout-align="start center">
-            <router-link tag="li" to="/newMember" layout="row" layout-align="space-between center" style="width:100%;">
+            <router-link tag="li" to="/Approval" layout="row" layout-align="space-between center" style="width:100%;">
                 <div>
                     <p>待处理</p>
                     <span>您有<span style="color:red;margin:0 4px">14</span>条待审批申请</span>
@@ -155,43 +160,46 @@ export default {
     data() {
         return {
             time: this.$moment().startOf('d'),
+            time2: this.$moment().format('HH:mm:ss'),
             isShowShare: false,
             isShowShare2: false,
             length: 0,
-            xian: false
+            xian: false,
+            latitude: null,
+            longitude: null
         };
     },
-    mounted() {
-        this.confirm();
-        apiGetJSSignature.getJSSignature({ url: encodeURIComponent(window.location.href.split('#')[0]) });
+    async mounted() {
+        await apiGetJSSignature.getJSSignature({ url: encodeURIComponent(window.location.href.split('#')[0]) });
+        this.GetAdreess();
+        this.getTime();
     },
     methods: {
-        get() {
-            wx.getLocation({
-                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-                success(res) {
-                    alert(res);
-                },
-                cancel(res) {
-                    alert('用户拒绝授权获取地理位置');
-                }
+        GetAdreess() {
+            wx.ready(function() {
+                wx.getLocation({
+                    type: 'gcj02',
+                    success: function(res) {
+                        this.latitude = res.latitude;
+                        this.longitude = res.longitude;
+                        this.$toast('this.latitude', 'this.longitude');
+                    }
+                });
             });
-        },
-        confirm() {
-            if (this.xian) {
-                this.$refs.yuan2.style.background = 'red';
-            }
         },
         confirm2() {
             this.isShowShare2 = true;
         },
-        alert() {
-        },
-        conso() {
-        },
         changeDate(val) {
             this.time = this.$moment(this.time).add(val, 'd');
+        },
+        showHTML() {
+            this.time2 = this.$moment().format('HH:mm:ss');
+        },
+        getTime() {
+            return setInterval(this.showHTML, 1000);
         }
+
     }
 };
 </script>

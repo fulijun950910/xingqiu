@@ -564,18 +564,20 @@ export default {
                     this.booking.roomName = emp.roomName;
                     this.booking.startTime = emp.startTime;
                     this.booking.endTime = emp.endTime;
-                    this.booking.items = emp.items;
+                    this.booking.items = emp.items || [];
                     this.booking.roomId = emp.roomId;
 
-                    if (res.data.memberId) {
-                        this.booking.memberId = res.data.memberId;
+                    if (res.data.memberType === 1) {
                         this.booking.memberNo = res.data.memberNo;
                         this.booking.name = res.data.name;
                         this.booking.phone = res.data.phone;
+                        this.booking.memberId = res.data.memberId;
                         this.isMember = true;
                     } else {
                         this.customer.name = res.data.name;
                         this.customer.phone = res.data.phone;
+                        this.customer.memberId = res.data.memberId;
+                        this.isMember = false;
                     }
                     this.init();
                     this.$indicator.close();
@@ -771,7 +773,7 @@ export default {
             this.booking.roomId = item.id;
             this.popupRoomVisible = false;
         },
-        saveClick() {
+        async saveClick() {
             // 会员校验
             if (this.isMember && !this.booking.memberId) {
                 this.$toast('请选择会员');
@@ -798,17 +800,19 @@ export default {
                 appointmentId: this.booking.appointmentId,
                 merchantId: this.booking.merchantId,
                 storeId: this.booking.storeId,
-                employees: [{
-                    employeeId: this.empName ? this.booking.employeeId : '',
-                    name: this.empName || `未指定${this.$store.getters.nounName('worker')}`,
-                    roomId: this.booking.roomId,
-                    roomName: this.roomName,
-                    items: this.booking.items,
-                    startTime: this.booking.startTime,
-                    endTime: this.$moment(this.booking.startTime)
-                        .add(1, 'h')
-                        .format('YYYY-MM-DD HH:mm:ss')
-                }],
+                employees: [
+                    {
+                        employeeId: this.empName ? this.booking.employeeId : '',
+                        name: this.empName || `未指定${this.$store.getters.nounName('worker')}`,
+                        roomId: this.booking.roomId,
+                        roomName: this.roomName,
+                        items: this.booking.items,
+                        startTime: this.booking.startTime,
+                        endTime: this.$moment(this.booking.startTime)
+                            .add(1, 'h')
+                            .format('YYYY-MM-DD HH:mm:ss')
+                    }
+                ],
                 information: this.booking.information,
                 memberCount: this.booking.memberCount
             };
@@ -822,6 +826,22 @@ export default {
             } else {
                 params.name = this.customer.name;
                 params.phone = this.customer.phone;
+                // 新建潜在会员
+                try {
+                    let { data } = await apiBooking.createGeust({
+                        id: this.customer.memberId,
+                        gender: 2,
+                        merchantId: this.booking.merchantId,
+                        mobile: this.customer.phone,
+                        name: this.customer.name,
+                        storeId: this.booking.storeId
+                    });
+                    params.memberId = data || this.customer.memberId;
+                    params.memberType = 2;
+                } catch (error) {
+                    params.memberId = -1;
+                    params.memberType = 3;
+                }
             }
             let emp = params.employees[0];
             // 结束时间
@@ -837,7 +857,7 @@ export default {
                     // 保存查询条件状态
                     this.$store.commit('bookingSetParams', {
                         storeId: params.storeId,
-                        date: this.$moment(params.startTime)
+                        date: this.$moment(emp.startTime)
                             .startOf('d')
                             .format('YYYY-MM-DD HH:mm:ss'),
                         tabIndex: 1
