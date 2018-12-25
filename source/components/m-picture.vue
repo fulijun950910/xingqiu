@@ -3,7 +3,7 @@
     <div class="ava"  layout="column" layout-align="center center">
         <m-icon link="icon-image"></m-icon>
         <img class="img-content" :src="picture | fileSrc" v-show="picture.base64 || picture.id" alt="">
-        <image-slice v-model="picture"  @click="submitPicture" :hasSlice="false" :immediatelyUpload="false" :proportion.sync="propor"></image-slice>
+        <image-slice v-model="picture"  @click="submitPicture" :hasSlice="false" :immediatelyUpload="true" :proportion.sync="propor"></image-slice>
     </div>
 </template>
 
