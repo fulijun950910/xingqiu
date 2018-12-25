@@ -11,6 +11,7 @@
   },
   "license": "ISC",
   "dependencies": {
+    "exif-js": "^2.3.0",
     "fastclick": "^1.0.6",
     "html2canvas": "^1.0.0-alpha.12",
     "jquery": "^2.2.2",

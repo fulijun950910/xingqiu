@@ -34,8 +34,10 @@
 * */
 import { Indicator } from 'mint-ui';
 import sumitBtn from 'components/fixed-submit-btn';
+import exif from 'exif-js';
+
 export default {
-    name: '',
+    name: 'image-slice',
     data() {
         return {
             state: 1, // 截图状态
@@ -53,7 +55,8 @@ export default {
             viewBox: { width: 0, height: 0, left: 0, top: 0 }, // 截取区
             rotate: 0, // 旋转角度 0 1 2 3
             point1: null, // 触控点1
-            point2: null // 触控点2
+            point2: null, // 触控点2
+            orientation: 0
         };
     },
     props: {
@@ -111,12 +114,27 @@ export default {
             if (!file) return;
             let url = URL.createObjectURL(file);
             this.currentValue.origin = file;
-
+            let _this = this;
+            exif.getData(file, function() {
+                exif.getAllTags(this);
+                _this.orientation = exif.getTag(this, 'Orientation');
+                if (_this.orientation == 6) {
+                    _this.rotate = 1;
+                } else if (_this.orientation == 8) {
+                    _this.rotate = 3;
+                }
+            });
             this.img.onload = () => {
                 this.filRealitySize = {
-                    width: this.img.width,
-                    height: this.img.height
+                    height: this.img.height,
+                    width: this.img.width
                 };
+                if (this.orientation == 6 || this.orientation == 8) {
+                    this.filRealitySize = {
+                        height: this.filRealitySize.width,
+                        width: this.filRealitySize.height
+                    };
+                }
                 if (!this.hasSlice) {
                     this.$emit('update:proportion', {
                         w: this.filRealitySize.width,
@@ -157,6 +175,13 @@ export default {
                 imgWidth = this.config.size;
             }
             let imgHeight = imgWidth * (this.filRealitySize.height / this.filRealitySize.width);
+            if (this.orientation == 6 || this.orientation == 8) {
+                imgWidth = this.filRealitySize.height;
+                if (imgWidth > this.config.size) {
+                    imgWidth = this.config.size;
+                }
+                imgHeight = imgWidth * (this.filRealitySize.width / this.filRealitySize.height);
+            }
             // 解决兼容 ios
             let canvas = document.createElement('canvas');
             let ctx = canvas.getContext('2d');
