@@ -237,7 +237,7 @@
                      flex>重置</div>
                 <div class="btp-r"
                      v-show="popupType == 1"
-                     @click="popupFilterVisible = false; loadData()"
+                     @click="saveFilter"
                      flex>确定</div>
             </div>
         </m-popup-right>
@@ -418,6 +418,7 @@ export default {
                 .format('YYYY-MM-DD HH:mm:ss');
         },
         initTimes() {
+            this.times = [];
             let startTime = this.$moment(this.startTime);
             let endTime = this.$moment(this.endTime);
             if (startTime.minutes()) {
@@ -630,6 +631,12 @@ export default {
         resetFilter() {
             this.$store.commit('bookingSetParams', { employeeId: '' });
             this.initStatus();
+            this.loadData();
+        },
+        saveFilter() {
+            this.popupFilterVisible = false;
+            this.initAppoinmentTime();
+            this.initTimes();
             this.loadData();
         },
         listFormat(list) {
