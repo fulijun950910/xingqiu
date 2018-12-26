@@ -45,6 +45,9 @@ import b2bMallInvoiceList from 'pages/integral-mall/pages/b2b-mall/invoice/list'
 import b2bMallInvoiceEdit from 'pages/integral-mall/pages/b2b-mall/invoice/edit';
 import b2bMallUserInfo from 'pages/integral-mall/pages/b2b-mall/userinfo';
 import b2bMallEditUserInfo from 'pages/integral-mall/pages/b2b-mall/editUserInfo';
+import b2bMallIncomeData from 'pages/integral-mall/pages/b2b-mall/income-data';
+import b2bMallTicketIndex from 'pages/integral-mall/pages/b2b-mall/ticket-index';
+import b2bMallSettingsAccount from 'pages/integral-mall/pages/b2b-mall/settings-account';
 
 export default [{
     path: '/',
@@ -243,6 +246,24 @@ export default [{
     name: 'b2b-mall-invoice-edit',
     props: true,
     component: b2bMallInvoiceEdit
+},
+{
+    path: '/b2b-mall-income-data',
+    name: 'b2b-mall-income-data',
+    props: true,
+    component: b2bMallIncomeData
+},
+{
+    path: '/b2b-mall-ticket-index',
+    name: 'b2b-mall-ticket-index',
+    props: true,
+    component: b2bMallTicketIndex
+},
+{
+    path: '/b2b-mall-settings-account',
+    name: 'b2b-mall-settings-account',
+    props: true,
+    component: b2bMallSettingsAccount
 },
 {
     path: '/b2b-mall-user',

@@ -13,11 +13,11 @@
             <div flex class='fs32 fwb'>经营数据</div>
         </div>
         <div class="bg-white p-t-2 p-b-2 text-center" layout="row">
-            <div class="p-t-1 p-b-1" flex="33">
+            <div @click="goIncomeData" class="p-t-1 p-b-1" flex="33">
                 <div class="fwb fs40">{{indexData.yesterdayIncome|fen2yuan}}</div>
                 <div class="extra-light-black">昨日收入</div>
             </div>
-            <div class="p-t-1 p-b-1 border-left" flex="33">
+            <div @click="goTicketIndex" class="p-t-1 p-b-1 border-left" flex="33">
                 <div class="fwb fs40">{{indexData.unVerifyTicketCount}}</div>
                 <div class="extra-light-black">待验券</div>
             </div>
@@ -288,6 +288,17 @@ export default {
             } else {
                 item.showBtnBox = true;
             }
+        },
+        goIncomeData() {
+            this.$router.push({
+                name: 'b2b-mall-income-data'
+            });
+        },
+        goTicketIndex() {
+            this.$store.state.b2bMallData.verifyTicketNum = this.indexData.unVerifyTicketCount;
+            this.$router.push({
+                name: 'b2b-mall-ticket-index'
+            });
         },
         goCollect() {
             window.location.href = '/lite/index.html#/b2b';
