@@ -214,6 +214,7 @@ export default {
             });
         },
         goOrder(item) {
+            this._trackEvent('b2b', '采购');
             this.$router.push({
                 name: 'b2b-mall-order',
                 params: {
