@@ -57,12 +57,11 @@ const router = new VueRouter({
 // };
 router.beforeEach(({ meta, path }, from, next) => {
     // if (routerCheckPath(path) || store.getters.isLogin) {
-    //      // 百度统计
+    // 百度统计
     try {
-        let url = location.href.split('.com')[1];
-        if (url) window._hmt.push(['_trackPageview', url]);
-    } catch (e) {
-    };
+        let url = location.href.replace('https://assistant.mei1.info', '').replace('https://wxbus.mei1.com', '');
+        if (url && url.indexOf('/') === 0) window._hmt.push(['_trackPageview', url]);
+    } catch (e) {};
     //     next();
     // } else {
     //     if (process.env.NODE_ENV === 'development') {
@@ -76,7 +75,18 @@ router.beforeEach(({ meta, path }, from, next) => {
         next();
     }
 });
-
+// 全局统计事件
+Vue.mixin({
+    methods: {
+        _trackEvent(category, action, opt_label, opt_value) {
+            try {
+                window._hmt.push(['_trackEvent', category, action, opt_label, opt_value]);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+});
 new Vue({
     router,
     store,
