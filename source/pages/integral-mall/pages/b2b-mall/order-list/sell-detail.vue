@@ -1,30 +1,11 @@
 <template>
     <div class="b2b-mall-order-list-sell-detail">
-        <div class="cell cell-box">
-            <div class="total-box">
-                <div class="plain1" layout="row" layout-align="space-between center">
-                    <img class="title-img" :src="promotionData.imageId | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
-                    <div>
-                        <span>购买人数</span>
-                        <span>&nbsp;</span>
-                        <span class="fs48">{{promotionData.sellCount}}</span>
-                    </div>
-                    <div>
-                        <span>销售额</span>
-                        <span>&nbsp;</span>
-                        <span>￥</span>
-                        <span class="fs48">{{promotionData.sellMoney | fen2yuan | bigNumber}}</span>
-                    </div>
-                </div>
-                <div @click="back" class="text-center extra-light-black"><m-icon link='icon-huabanfuben17'></m-icon>返回</div>
-            </div>
-        </div>
         <div class="cell cell-box m-t-4 fs28 extra-light-black" layout="row">
             <div flex>{{query.total}}条订单</div>
             <div @click="showQuery" class="p-l-2">筛选<m-icon link='icon-xia'></m-icon></div>
         </div>
         <div class="order-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
-            <div v-for="(item, key) in promotionList" :key="key" class="list-item bg-white cell-box">
+            <div v-for="(item, key) in orderList" :key="key" class="list-item bg-white cell-box">
                 <div class="border-bottom cell" layout="row">
                     <img class="title-img m-r-2" :src="item.avatarId | mSrc2(require('assets/imgs/nullimg.jpg'))" alt="">
                     <div flex>
@@ -46,25 +27,16 @@
         </div>
         <!--筛选条件-->
         <popup-right v-model="showView">
-            <div class="query-box">
-                <div class="query-content">
+            <div v-if="showViewType == 1" class="query-box">
+                <div class="p-l-4 p-r-4">
                     <div class="m-b-3">
                         <div class="title p-t-4 p-b-4 fs32 fwb">验券状态</div>
                         <div >
-                            <div @click="searchData.ticketStatus = item.value" v-for="(item, key) in ticketStatuList" :key="key" class="query-item" :class="{'act': searchData.ticketStatus==item.value}">{{item.name}}</div>
+                            <div @click="changeSearchData('ticketStatus', item.value)" v-for="(item, key) in ticketStatuList" :key="key" class="query-item" :class="{'act': searchData.ticketStatus==item.value}">{{item.name}}</div>
                         </div>
                     </div>
                 </div>
-                <!--<div class="query-content">-->
-                    <!--<div class="m-b-3">-->
-                        <!--<div class="title p-t-4 p-b-4 fs32 fwb">购买金额</div>-->
-                        <!--<div >-->
-                            <!--<div class="query-item">￥122</div>-->
-                            <!--<div class="query-item act">￥122</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <div class="query-content">
+                <div class="p-l-4 p-r-4">
                     <div class="m-b-3">
                         <div class="title p-t-4 p-b-4 fs32 fwb">时间周期</div>
                         <div class="date-input" layout="row" layout-align="center center">
@@ -74,10 +46,46 @@
                         </div>
                     </div>
                 </div>
+                <div class="p-l-4 p-r-4">
+                    <div class="">
+                        <div class="title p-t-4 p-b-4 fs32 fwb">活动名称</div>
+                    </div>
+                </div>
+                <div @click="changePopupType(2)" class="bg-default cell p-l-4 p-r-4 extra-black" layout="row" layout-align="start center">
+                    <div flex>
+                        <span v-if="searchData.purchaseMallItemId">{{searchData.purchaseMallItemId|getName(promotionList, 'title', 'purchaseMallItemId')}}</span>
+                        <span v-else>查询具体活动名称</span>
+                    </div>
+                    <div flex="10" class="text-right">
+                        <div @click.stop="searchData.purchaseMallItemId = null" v-if="searchData.purchaseMallItemId">
+                            <m-icon link="icon-huabanfuben29"></m-icon>
+                        </div>
+                        <div v-else>
+                            <m-icon link="icon-xiangyouicon"></m-icon>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="btn-box-padding"></div>
                 <div class="btn-box" layout="row">
-                    <button @click="showView = false;" flex class="btn-back">取消</button>
+                    <button @click="resetQueryData" flex class="btn-back">重置</button>
                     <button @click="search" flex class="btn-submit">确定</button>
+                </div>
+            </div>
+            <div v-else-if="showViewType == 2">
+                <div class="popup-search-box" layout="row">
+                    <div class="p-2" @click="changePopupType(1)">
+                        <m-icon link="icon-left-bold"></m-icon>
+                    </div>
+                    <div flex class="p-2">
+                        <input type="text" v-model="searchText" @keydown.enter="searchPromotion" class="text-center" placeholder="查询具体活动/产品名称">
+                    </div>
+                    <div class="p-2" @click="searchPromotion">搜索</div>
+                </div>
+                <div>
+                    <div @click="searchData.purchaseMallItemId = item.purchaseMallItemId;changePopupType(1)" v-for="(item, index) in promotionList" :key="index" class="border-bottom cell cell-box">
+                        {{item.title}}
+                    </div>
                 </div>
             </div>
         </popup-right>
@@ -99,10 +107,12 @@ export default {
     data() {
         return {
             showView: false,
-            promotionData: {},
+            showViewType: 1,
+            orderList: [],
+            promotionListTemp: [],
             promotionList: [],
+            searchText: '',
             ticketStatuList: [
-                { name: '全部', value: null },
                 { name: '未使用', value: 1 },
                 { name: '已使用', value: 4 }
             ],
@@ -118,7 +128,8 @@ export default {
             searchData: {
                 ticketStatus: null,
                 startTime: null,
-                endTime: null
+                endTime: null,
+                purchaseMallItemId: null
             }
         };
     },
@@ -127,13 +138,8 @@ export default {
         mLoadMore
     },
     mounted() {
-        if (this.$store.state.b2bMallData.selectSellOrder && this.$store.state.b2bMallData.selectSellOrder.id) {
-            this.promotionData = this.$store.state.b2bMallData.selectSellOrder;
-            this.query.purchaseMallItemId = this.promotionData.purchaseMallItemId;
-            this.loadData();
-        } else {
-            this.back();
-        }
+        this.loadData();
+        this.queryPromotion();
     },
     methods: {
         search() {
@@ -145,8 +151,27 @@ export default {
                 this.query.endTime = this.$moment(this.searchData.endTime).endOf('day').format('YYYY-MM-DD HH:mm:ss');
             }
             this.query.ticketStatus = this.searchData.ticketStatus;
+            this.query.purchaseMallItemId = this.searchData.purchaseMallItemId;
             this.showView = false;
             this.loadData();
+        },
+        changeSearchData(key, value) {
+            if (this.searchData[key] == value) {
+                this.searchData[key] = null;
+            } else {
+                this.searchData[key] = value;
+            }
+        },
+        changePopupType(type) {
+            this.showViewType = type;
+        },
+        resetQueryData() {
+            this.searchData = {
+                ticketStatus: null,
+                startTime: null,
+                endTime: null,
+                purchaseMallItemId: null
+            };
         },
         loadMore() {
             if (this.isLoadOver) {
@@ -167,20 +192,40 @@ export default {
             } else {
                 this.isLoadOver = true;
             }
-            this.promotionList = this.promotionList.concat(res.data.rows);
+            this.orderList = this.orderList.concat(res.data.rows);
             this.loading = false;
             this.query.total = res.data.total;
             this.query.page++;
         },
         resetQuery() {
             this.query.page = 1;
-            this.promotionList = [];
+            this.orderList = [];
+        },
+        async queryPromotion() {
+            let data = {
+                merchantId: this.$store.state.party.merchantId
+            };
+            this.$indicator.open();
+            let res = await api_b2bmall.getPurchaseMallSell(data);
+            this.$indicator.close();
+            this.promotionListTemp = res.data;
+            this.searchPromotion();
+        },
+        searchPromotion() {
+            if (this.searchText) {
+                this.promotionList = this.promotionListTemp.filter(item => {
+                    return item.title.indexOf(this.searchText) !== -1;
+                });
+            } else {
+                this.promotionList = this.$knife.deepCopy(this.promotionListTemp);
+            }
         },
         back() {
             this.$router.back();
         },
         showQuery() {
             this.showView = true;
+            this.showViewType = 1;
         }
     },
     filters: {
@@ -249,30 +294,27 @@ export default {
         }
     }
     .query-box{
-        .query-content{
-            padding: 20px;
-            .query-item{
-                padding: 8px;
-                text-align: center;
-                background: @bg-gray;
-                border: 1px solid @bg-gray;
-                color: @extra-black;
-                border-radius: 2px;
-                margin-bottom: 8px;
-                &.act{
-                    border-color: @color-primary;
-                    background: @white;
-                    color: @color-primary;
-                }
+        .query-item{
+            padding: 8px;
+            text-align: center;
+            background: @bg-gray;
+            border: 1px solid @bg-gray;
+            color: @extra-black;
+            border-radius: 2px;
+            margin-bottom: 8px;
+            &.act{
+                border-color: @color-primary;
+                background: @white;
+                color: @color-primary;
             }
-            .date-input{
-                input {
-                    height:34px;
-                    border-radius: 2px;
-                    background: @bg-gray;
-                    color: @color-primary;
-                    border:1px solid #E3E3E3;
-                }
+        }
+        .date-input{
+            input {
+                height:34px;
+                border-radius: 2px;
+                background: @bg-gray;
+                color: @color-primary;
+                border:1px solid #E3E3E3;
             }
         }
         .btn-box-padding{
@@ -295,6 +337,16 @@ export default {
                 color: @white;
                 background: @color-primary;
             }
+        }
+    }
+    .popup-search-box {
+        height: 49px;
+        line-height: 49px - 16px;
+        border: 1px solid @border-gay;
+        input {
+            height: 100%;
+            width: 100%;
+            background-color: @bg-gray;
         }
     }
 }

@@ -150,16 +150,16 @@ Vue.filter('qSrc', function(value, q, def) {
 /**
  * 获取列表name
  */
-Vue.filter('getName', function(value, arr) {
+Vue.filter('getName', function(value, arr, key = 'name', val = 'value') {
     if (value === undefined || value === null || !arr || arr.length < 1) {
         return;
-    };
+    }
     let obj;
-    obj = arr.find((val) => {
-        return val.value == value;
+    obj = arr.find((item) => {
+        return item[val] === value;
     });
-    if (obj && obj.name) {
-        return obj.name;
+    if (obj && obj[key]) {
+        return obj[key];
     }
 });
 /**

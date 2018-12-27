@@ -38,7 +38,7 @@ export default {
         },
         goSell() {
             this.$router.replace({
-                name: 'b2b-mall-order-list-sell'
+                name: 'b2b-mall-order-list-sell-detail'
             });
         },
         goBuy() {
@@ -50,7 +50,7 @@ export default {
             let newVal = this.$route.name;
             if (newVal == 'b2b-mall-order-list-publish') {
                 this.index = 1;
-            } else if (newVal == 'b2b-mall-order-list-sell') {
+            } else if (newVal == 'b2b-mall-order-list-sell-detail') {
                 this.index = 2;
             } else if (newVal == 'b2b-mall-order-list-buy') {
                 this.index = 3;
