@@ -202,6 +202,7 @@ export default {
             });
         },
         goSuccess(id) {
+            this._trackEvent('b2b', '提交订单');
             this.$router.push(`/b2b-mall-order-detail/${id}`);
         },
         goSelectAddress() {
