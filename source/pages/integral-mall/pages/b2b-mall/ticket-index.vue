@@ -34,6 +34,12 @@ export default {
         }
     },
     methods: {
+        gonVerityTicket() {
+            window.location.href = '/lite/index.html#/couponVerify/';
+        },
+        back() {
+            this.$router.back();
+        }
     }
 };
 </script>
