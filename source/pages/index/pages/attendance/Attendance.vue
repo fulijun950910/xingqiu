@@ -8,10 +8,9 @@
             </div>
             <div class="Statistics" layout="row" layout-align="center center" @click="GetAdreess">
                 <m-icon class="ic" link="icon-dianzan"></m-icon>
-                <p>统计</p>
+                <p @click="get">统计</p>
             </div>
         </div>
-        <span>{{time2}}</span>
         <div class="main">
             <div class="asm-card">
                 <p class="p-t-4 fs16 m-b-5" style="line-height:19px">今天继续朝着梦想出发吧~</p>
@@ -21,9 +20,10 @@
                         <p class="m-b-1 color-gray">上班时间09:00</p>
                         <div class="ka">
                             <div class="yuan">
-                                <span class="fs40 fwb" style="color:white">{{dingwei}}</span>
-                                <span id="latitude">{{latitude}}</span>
-                                <span id="longitude">{{longitude}}</span>
+                                <span layout="column">
+                                    <span class="fs40 fwb s1">{{dingwei}}</span>
+                                    <span class="s2">{{time2}}</span>
+                                </span>
                             </div>
                             <div class="m-t-4 fs24">
                                 <m-icon class="m-r-2 ic" link="icon-gengduoicon"></m-icon>
@@ -49,12 +49,12 @@
                     </div>
                 </div>
             </div>
-            <div class="ban" layout="row" layout-align="start center">
+            <div class="ban" layout="row" layout-align="start center" @click="this.confirm3">
                 <p>A班&nbsp;9:00-18:00</p>
                 <p>B班&nbsp;9:00-18:00</p>
                 <m-icon class="ic" link="icon-pop-left"></m-icon>
             </div>
-            <div class="share-box" v-if="isShowShare" @click.stop="isShowShare = false ">
+            <!-- <div class="share-box" v-if="isShowShare" @click.stop="isShowShare = false ">
                 <div class="box" @click.stop="" style="z-index:999">
                     <div class="msg">
                         <m-icon class="ic color-gray" link="icon-close" @click.native="isShowShare = false" ></m-icon>
@@ -109,7 +109,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
+
+            <audit-box :value="this.currentValue" :changedata="gai"></audit-box>
         </div>
         <div class="Handle" layout="row" layout-align="start center">
             <router-link tag="li" to="/Approval" layout="row" layout-align="space-between center" style="width:100%;">
@@ -128,30 +130,30 @@ import Vue from 'vue';
 import apiGetJSSignature from 'services/api.getJSSignature';
 import { Cell } from 'mint-ui';
 import wx from 'weixin-js-sdk';
+import apiGetAttendance from 'services/api.attendance';
+import auditBox from 'components/audit-box';
+Vue.component('audit-box', auditBox);
 Vue.component(Cell.name, Cell);
-
 export default {
     name: 'Attendance',
-    components: {
-    },
     data() {
         return {
             time: this.$moment().startOf('d'),
             time2: this.$moment().format('HH:mm:ss'),
             isShowShare: false,
             isShowShare2: false,
+            isShowShare3: false,
             length: 0,
+            currentValue: false,
             xian: false,
-            latitude: '经度',
-            longitude: '纬度',
-            dingwei: 'dingweizhong'
+            dingwei: '定位成功'
         };
     },
     async mounted() {
         await apiGetJSSignature.getJSSignature({ url: encodeURIComponent(window.location.href.split('#')[0]) });
         this.GetAdreess();
         this.getTime();
-        console.log(this.latitude, this.longitude);
+        // this.getcount();
     },
     methods: {
         GetAdreess() {
@@ -167,8 +169,14 @@ export default {
                 });
             });
         },
-        confirm2() {
-            this.isShowShare2 = true;
+        // confirm1() {
+        //     this.isShowShare = true;
+        // },
+        // confirm2() {
+        //     this.isShowShare2 = true;
+        // },
+        confirm3() {
+            this.isShowShare3 = true;
         },
         changeDate(val) {
             this.time = this.$moment(this.time).add(val, 'd');
@@ -178,8 +186,23 @@ export default {
         },
         getTime() {
             return setInterval(this.showHTML, 1000);
+        },
+        getcount() {
+            this.$indicator.open();
+            apiGetAttendance.getcount().then(res => {
+                this.$indicator.close();
+                console.log(res.data);
+            },
+            erro => {
+                console.log('error');
+            });
+        },
+        get() {
+            this.currentValue = true;
+        },
+        gai(res) {
+            this.currentValue = res;
         }
-
     }
 };
 </script>
@@ -289,7 +312,13 @@ export default {
                     margin: 0 auto;
                     background: @color-primary;
                     text-align: center;
-                    line-height: 125px;
+                    .s1 {
+                        margin-top: 30%;
+                        color: @white;
+                    }
+                    .s2 {
+                        color:rgba(255,255,255,0.6);
+                    }
                 }
             }
             .ban{
